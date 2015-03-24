@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  | CI Routes
  |-----------------------------------------------------------
  */
-$route['default_controller'] = 'welcome';
+//  The default controller class is Main
+$route['default_controller'] = 'main';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
