@@ -11,9 +11,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 /*-----------------------------------------------------------
  | Developers Routes
- | @author:
+ | @author: Jayson Martinez
  |-----------------------------------------------------------
  */
+    $route['home'] = 'main/home';
 
 
 

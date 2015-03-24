@@ -7,7 +7,7 @@
         <div class="container-fluid">
           <div class="navbar-header">
             <div>
-              <img class="img-logo" src="./assets/images/LC Logo.jpg">
+              <img class="img-logo" src="<?php echo base_url('assets/images/LC Logo.jpg'); ?>">
                 <h2 class="hd-title">
                     <a class="title" href="">LEYTE COLLEGES Information System</a>
                 </h2>
