@@ -25,7 +25,7 @@
 
           <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav top-sign navbar-right">
-              <li class="logout"><a href="index.php?page=logout">Logout</a></li>
+              <li class="logout"><a href="<?php echo base_url('logout'); ?>">Logout</a></li>
             </ul> 
 
               <p class="navbar-text top-sign2 navbar-right">SY: 2014-2015 &nbsp;&nbsp;&nbsp;&nbsp; Term: First Semester</p>
@@ -40,8 +40,9 @@
         </div>
             <div class="collapse navbar-collapse panel menu-hide" id="bs-example-navbar-collapse-1">
               <div class="visible-xs">
-                <?php 
-          		    menu();
+                <?php
+                    //Gonna fix this !!!!
+          		    //menu();
                 ?>
               </div>
             </div>
@@ -81,8 +82,44 @@
              elseif ($_SESSION['uname'] == 'hr' ) {
                 $office = "HUMAN RESOURCE'S Menu";
              }*/
-            ?><div class="panel-heading"><h2><?php //echo $office; ?></h2></div><?php
-           	menu();
+            ?><div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
+          <?php
+              // Just remove the menu function CI
+              // will send a error regarding with the variable $this
+
+              $this->load->view('templates/registrar_menu');
+
+
+              /*if ($_SESSION['uname'] == 'registrar' ) {
+               $this->load->view('templates/registrar_menu');
+             }
+             elseif ($_SESSION['uname'] == 'dean' ) {
+                 $this->load->view('templates/dean_menu');
+             }
+             elseif ($_SESSION['uname'] == 'cashier' ) {
+                 $this->load->view('templates/cashier_menu');
+             }
+             elseif ($_SESSION['uname'] == 'edp' ) {
+                 $this->load->view('templates/edp_menu');
+             }
+             elseif ($_SESSION['uname'] == 'faculty' ) {
+                 $this->load->view('templates/faculty_menu');
+             }
+             elseif ($_SESSION['uname'] == 'comptroller' ) {
+                 $this->load->view('templates/controller_menu');
+             }
+             elseif ($_SESSION['uname'] == 'instructor' ) {
+                 $this->load->view('templates/instructor_menu');
+             }
+             elseif ($_SESSION['uname'] == 'audit' ) {
+                 $this->load->view('templates/audit_menu');
+             }
+             elseif ($_SESSION['uname'] == 'student' ) {
+                 $this->load->view('templates/student_menu');
+             }
+             elseif ($_SESSION['uname'] == 'hr' ) {
+                 $this->load->view('templates/hr_menu');
+             }*/
           ?>
       </div>
     </div>
@@ -127,40 +164,3 @@
         </div>
       </div>
     </div>
-
-<?php 
-
-  function menu(){
-     /*if ($_SESSION['uname'] == 'registrar' ) {
-       include 'view/templates/registrar_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'dean' ) {
-       include 'view/templates/dean_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'cashier' ) {
-       include 'view/templates/cashier_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'edp' ) {
-       include 'view/templates/edp_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'faculty' ) {
-       include 'view/templates/faculty_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'comptroller' ) {
-       include 'view/templates/controller_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'instructor' ) {
-       include 'view/templates/instructor_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'audit' ) {
-       include 'view/templates/audit_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'student' ) {
-       include 'view/templates/student_menu.php'; 
-     }
-     elseif ($_SESSION['uname'] == 'hr' ) {
-       include 'view/templates/hr_menu.php'; 
-     }*/
-  }
-
- ?>

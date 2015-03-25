@@ -30,27 +30,20 @@ class Main extends CI_Controller{
         }
 
     }
-    /*function validate()
+
+    function home()
     {
-         Load the model/query for this function
-        $this->load->model(array('User_account'));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+        $this->load->view('home');
+        $this->load->view('templates/footer');
+    }
 
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
+    function logout()
+    {
+        // Unset some SESSION variable
 
-        Just for now just redirect it
+        redirect(base_url());
+    }
 
-        $data['username'] = $username;
-        if($username == 'edp' && $password == 'edp')
-        {
-            $data['id']=6;
-        }
-        elseif($username == '' && $password == '')
-        {
-            $data['id']=12121;
-        }
-        $row = $this->User_account->getEmpInfo(1);
-        print_r($row);
-        //$this->load->view('home',$data);
-    }*/
 }

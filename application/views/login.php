@@ -22,13 +22,14 @@
                 <div class="form-group">
                 <label for="username" class="col-sm-3 control-label">Username</label>
                 <div class="col-sm-9">
-                  <input id="username" type="text" class="form-control" name="username" placeholder="Username" value="" autofocus>
+                  <input id="username" type="text" class="form-control" name="username"
+                         required placeholder="Username" value="" autofocus>
                 </div>
               </div>
               <div class="form-group">
                 <label for="password" class="col-sm-3 control-label">Password</label>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="password" 
+                  <input type="password" class="form-control" name="password" required
                   id="password" placeholder="Password">
                 </div>
               </div>
