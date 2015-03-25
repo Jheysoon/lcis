@@ -33,8 +33,9 @@
 						<th>Units</th>
 						<th>GWA</th>
 						<th>Program</th>
+                        <th>Action</th>
 					</tr> 
-					</tr>
+					<tr>
 						<td>2011-00111</td>
 						<td>MILAGROS APACIBLE</td>
 						<td>BACHELOR OF SECONDARY EDUCATION</td>

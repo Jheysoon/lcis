@@ -38,6 +38,13 @@ class Main extends CI_Controller{
         $this->load->view('home');
         $this->load->view('templates/footer');
     }
+    function account()
+    {
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+        $this->load->view('account_settings');
+        $this->load->view('templates/footer');
+    }
 
     function logout()
     {

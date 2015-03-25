@@ -11,10 +11,10 @@
     </div>
 
     <!-- ============================ javascript library =============================== -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/docs.min.js"></script>
-    <script src="js/validation.js"></script>
+    <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/bootstrap.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/docs.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/validation.js'); ?>"></script>
     <!-- =============================================================================== -->
   </body>
 </html>

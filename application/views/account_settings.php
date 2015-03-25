@@ -9,7 +9,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 label-control add-label" for="uname">Username</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" name="uname" placeholder="username" required value="<?php echo $_SESSION['uname'];?>">
+							<input type="text" class="form-control" name="uname" placeholder="username" required value="<?php //echo $_SESSION['uname'];?>">
 						</div>
 					</div>
 		              <div class="form-group">

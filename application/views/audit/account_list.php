@@ -43,70 +43,70 @@
 							<td>0000001.020.001.001</td>
 							<td>CASH ON HAND</td>
 							<td>CASHIER WINDOW 1</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.020.002.001</td>
 							<td>CASH ON HAND</td>
 							<td>CASHIER WINDOW 2</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.601.000.001</td>
 							<td>MATRICULATION REVENUE</td>
 							<td>MATRICULATION COLLEGE OF CRIMINOLOGY</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.621.000.001</td>
 							<td>TUITION REVENUE</td>
 							<td>TUITION COLLEGE OF CRIMINOLOGY</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.631.000.001</td>
 							<td>ENROLMENT FEES</td>
 							<td>LIBRARY</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.632.000.001</td>
 							<td>ENROLMENT FEES</td>
 							<td>ATHLETICS</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.633.000.001</td>
 							<td>ENROLMENT FEES</td>
 							<td>DENTAL AND MEDICAL</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.634.000.001</td>
 							<td>ENROLMENT FEES</td>
 							<td>TEST SUPPLIES</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.634.000.001</td>
 							<td>ENROLMENT FEES</td>
 							<td>GUIDANCE AND COUNSELING</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>
 							<td>0000001.651.000.001</td>
 							<td>OTHER FEES</td>
 							<td>TRANSCRIPT OF RECORDS</td>
-						<td><a class="a-table label label-success" href="index.php?page=viewCashierAccountMovement">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
+						<td><a class="a-table label label-success" href="<?php echo base_url('adt_viewCashierAccountMovement'); ?>">Acct Movement <span class="glyphicon glyphicon-search"></span></a>
 						</td>
 
 						<tr>

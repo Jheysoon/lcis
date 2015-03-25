@@ -77,33 +77,43 @@ class Registrar extends CI_Controller {
     function listCourse()
     {
         $this->head();
+        $this->load->view('registrar/course_list');
+        $this->load->view('templates/footer');
     }
     function listScholasticPeriod()
     {
         $this->head();
+        $this->load->view('registrar/scholasticperiod_list');
+        $this->load->view('templates/footer');
     }
     function listCollegiateCalendar()
     {
         $this->head();
+        $this->load->view('registrar/collegiatecalendar_list');
+        $this->load->view('templates/footer');
     }
     function listHoliday()
     {
         $this->head();
+        $this->load->view('registrar/holiday_list');
+        $this->load->view('templates/footer');
     }
     function listNonCreditedSubject()
     {
         $this->head();
+        $this->load->view('registrar/noncreditedsubject_list');
+        $this->load->view('templates/footer');
     }
     function listSubjectGrouping()
     {
         $this->head();
+        $this->load->view('registrar/subjectgrouping_list');
+        $this->load->view('templates/footer');
     }
     function listServices()
     {
         $this->head();
-    }
-    function account()
-    {
-        $this->head();
+        $this->load->view('registrar/services_list');
+        $this->load->view('templates/footer');
     }
 }

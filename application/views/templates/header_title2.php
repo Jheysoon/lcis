@@ -87,7 +87,7 @@
               // Just remove the menu function CI
               // will send a error regarding with the variable $this
 
-              $this->load->view('templates/registrar_menu');
+              $this->load->view('templates/cashier_menu');
 
 
               /*if ($_SESSION['uname'] == 'registrar' ) {

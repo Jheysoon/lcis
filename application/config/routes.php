@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
     $route['home'] = 'main/home';
     $route['logout'] = 'main/logout';
+    $route['account'] = 'main/account';
 
     // Registrar Routes
     $route['registrar_addNewStudent']       = 'registrar/addNewStudent';
@@ -35,7 +36,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['registrar_listNonCreditedSubject'] = 'registrar/listNonCreditedSubject';
     $route['registrar_listSubjectGrouping'] = 'registrar/listSubjectGrouping';
     $route['registrar_listServices']        = 'registrar/listServices';
-    $route['registrar_account']             = 'registrar/account';
+
+    // Audit Routes
+    $route['adt_viewtStudentBilling']       = 'audit/viewtStudentBilling';
+    $route['adt_listAllAccount']            = 'audit/listAllAccount';
+    $route['adt_viewCashierAccountMovement'] = 'audit/viewCashierAccountMovement';
+
+    // Cashier Routes
+    $route['cshr_OpenCashWindow']           = 'cashier/OpenCashWindow';
+    $route['cshr_addEnrolPayment']          = 'cashier/addEnrolPayment';
+    $route['cshr_addExamPayment']           = 'cashier/addExamPayment';
+    $route['cshr_listServiceRequested']     = 'cashier/listServiceRequested';
+    $route['cshr_viewCashierMovement']      = 'cashier/viewCashierMovement';
+    $route['cshr_addCashOut']               = 'cashier/addCashOut';
 
 
 
