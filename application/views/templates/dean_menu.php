@@ -31,36 +31,75 @@
  -->
 
                
-                <li class="list-group-item"><a class="menu" href="index.php?page=listSubjectSectioning">              
-                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Subject Sectioning</a></li>
-                 <li class="list-group-item"><a class="menu" href="index.php?page=deanClassAllocation">              
-                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Class Allocation</a></li>
-                 <li class="list-group-item"><a class="menu" href="index.php?page=adddelete_Section">              
-                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Add New / Dissolve Section</a></li>
-                <li class="list-group-item"><a class="menu" href="index.php?page=deanPreEnrolment">
-                  <span class="glyphicon glyphicon-comment"></span>&nbsp; &nbsp; Pre-Enrolment Evaluation</a></li>
-                <li class="list-group-item"><a class="menu" href="index.php?page=updateStudentLoad">
-                  <span class="glyphicon glyphicon-comment"></span>&nbsp; &nbsp; Add/Change Student Load</a></li>
-                <li class="list-group-item"><a class="menu" href="index.php?page=listGradingList">
-                  <span class="glyphicon glyphicon-file"></span>&nbsp; &nbsp; Grade Sheet</a></a></li>              
-                <li class="list-group-item"><a class="menu" href="index.php?page=listINCsubject">
-                  <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Fulfillment of Incomplete Grade</a></li>
-                <li class="list-group-item"><a class="menu" href="index.php?page=listAttest">
-                  <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Attest Grade Sheet</a></li>
-                <li class="list-group-item"><a class="menu" href="index.php?page=listCompletedINC">
-                  <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Attest Fulfillment of Incomplete Grade</a></li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_listSubjectSectioning'); ?>">
+                        <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Subject Sectioning
+                    </a>
+                </li>
+                 <li class="list-group-item">
+                     <a class="menu" href="<?php echo base_url('dn_ClassAllocation'); ?>">
+                         <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Class Allocation
+                     </a>
+                 </li>
+                 <li class="list-group-item">
+                     <a class="menu" href="<?php echo base_url('dn_adddelete_Section'); ?>">
+                         <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; Add New / Dissolve Section
+                     </a>
+                 </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_PreEnrolment'); ?>">
+                        <span class="glyphicon glyphicon-comment"></span>&nbsp; &nbsp; Pre-Enrolment Evaluation
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_updateStudentLoad'); ?>">
+                        <span class="glyphicon glyphicon-comment"></span>&nbsp; &nbsp; Add/Change Student Load
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_listGradingList'); ?>">
+                        <span class="glyphicon glyphicon-file"></span>&nbsp; &nbsp; Grade Sheet
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_listINCsubject'); ?>">
+                        <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Fulfillment of Incomplete Grade
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_listAttest'); ?>">
+                        <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Attest Grade Sheet
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('dn_listCompletedINC'); ?>">
+                        <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Attest Fulfillment of Incomplete Grade
+                    </a>
+                </li>
                 <li class="list-group-item"><a class="menu">
                   <span class="glyphicon glyphicon-file"></span>&nbsp; &nbsp; System Parameters</a>
                     <ul class="sub-menu">
-                    <li class="li-sub-menu"><a class="menu" href="index.php?page=listCourse">
-                      <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Course</a></li>
-                    <li class="li-sub-menu"><a class="menu" href="index.php?page=listSubject">
-                      <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Subjects</a></li>
-                    <li class="li-sub-menu"><a class="menu" href="index.php?page=listCurriculum">
-                      <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Curriculum</a></li>
+                        <li class="li-sub-menu">
+                            <a class="menu" href="<?php echo base_url('dn_listCourse'); ?>">
+                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Course
+                            </a>
+                        </li>
+                        <li class="li-sub-menu">
+                            <a class="menu" href="<?php echo base_url('dn_listSubject'); ?>">
+                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Subjects
+                            </a>
+                        </li>
+                        <li class="li-sub-menu">
+                            <a class="menu" href="<?php echo base_url('dn_listCurriculum'); ?>">
+                                <span class="glyphicon glyphicon-chevron-right"></span>&nbsp; &nbsp; Curriculum
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
-                <li class="list-group-item"><a class="menu" href="index.php?page=account">
-                  <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Account Settings</a></li>
+                <li class="list-group-item">
+                    <a class="menu" href="<?php echo base_url('account'); ?>">
+                        <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Account Settings
+                    </a>
+                </li>
 

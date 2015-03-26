@@ -2,170 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="089a8e75-2305-4855-83b6-3265038fca38" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\css\bootstrap-theme.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\css\bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\css\styles.css" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\fonts\glyphicons-halflings-regular.eot" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\fonts\glyphicons-halflings-regular.svg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\fonts\glyphicons-halflings-regular.ttf" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\fonts\glyphicons-halflings-regular.woff" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\LC Logo.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\bg.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\menu.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img002.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img003.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img004.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img005.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img008.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\profile\img009.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\sample.jpg" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\images\sample.jpg.lmk" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\index.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\js\bootstrap.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\js\bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\js\docs.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\js\javascript_functions.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\js\jquery.min.js" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\lcis.sql" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\models\database.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\models\queries.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\account_settings.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\audit\account_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\audit\view_assesment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\audit\view_cashieraccountmovement.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\audit\view_studentaccountmovement.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\audit\view_studentbilling.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\add_cashout.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\add_enrolpayment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\add_exampayment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\add_servicepayment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\list_servicerequested.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\open_cashwindow.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\view_cashiermovement.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\view_paymentenrolment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\cashier\view_paymentexam.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\account_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\accountcategory_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\assesment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\edit_academicscholar.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\edit_account.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\edit_accountcategory.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\edit_fees.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\edit_rates.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\fees_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\inquiry.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\list_discount.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\rates_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\scholarship_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\studentList.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_academicgwa.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_accountingset.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_accountingsetenrolment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_accountingsetexam.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_accountmovement.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_accountmovementx.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_cashieraccountmovementcomptroller.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\controller\view_tuitionassessment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\add_curriculum.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\adddelete_section.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\attest_gradesheet.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\attest_incgrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\attest_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\completedinc_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\copy_curriculum.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\curriculum_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_attestGrades.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_classAllocation.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_evaluationsummary.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_preEnroll.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_studentGrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\dean_teachingLoad.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\edit_curriculum.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\edit_studentgrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\edit_subject.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\generate_subjectsection.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\grading_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\incsubject_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\list_subjectsectioning.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\subject_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\update_StudentLoad.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\update_incgrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\view_attestedgradesheet.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\view_attestedincgrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\view_opengradesheet.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\view_openincgrading.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\dean\view_updatedsummary.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\calculate_subjectsection.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\classRooms.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\edit_classroom.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\edit_user.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\edpSched.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\edpScheduling.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\list_classroom.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\list_users.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\edp\view_subjectsection.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\home.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\login.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\add_permanentrecord.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\ched_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\ched_list_old.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\college_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\collegiatecalendar_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\course_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\crossenrollee_registration.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_ched.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_course.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_holiday.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_noncreditedsubject.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_school.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_servicerequest.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\edit_servicesrates.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\holiday_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\newstudent_registration.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\noncreditedsubject_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\oldstudent_registration.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\requestedservices_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\scholasticperiod_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\school_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\services_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\student_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\student_record.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\subjectgrouping_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\systemvalue_list.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\transferee_PRecord.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\registrar\transferee_registration.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\edit_selfevaluation.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_collegiatecalendar.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_evaluationsummary.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_grades.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_holiday.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_selfassesment.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_studentrecord.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\pages\student\view_studyload.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\audit_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\cashier_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\controller_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\dean_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\edp_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\faculty_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\footer.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\header.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\header_title1.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\header_title2.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\hr_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\instructor_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\registrar_menu.php" afterPath="" />
-      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\LCIS\view\templates\student_menu.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Main.php" afterPath="$PROJECT_DIR$/application/controllers/Main.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/controllers/Registrar.php" afterPath="$PROJECT_DIR$/application/controllers/Registrar.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/audit/account_list.php" afterPath="$PROJECT_DIR$/application/views/audit/account_list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/audit_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/audit_menu.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/cashier_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/cashier_menu.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/registrar/ched_list.php" afterPath="$PROJECT_DIR$/application/views/registrar/ched_list.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/footer.php" afterPath="$PROJECT_DIR$/application/views/templates/footer.php" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\controllers\Welcome.php" afterPath="" />
+      <change type="DELETED" beforePath="C:\xampp\htdocs\prodject\application\views\welcome_message.php" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/dean_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/dean_menu.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/edp_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/edp_menu.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/faculty_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/faculty_menu.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/header_title2.php" afterPath="$PROJECT_DIR$/application/views/templates/header_title2.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/registrar_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/registrar_menu.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/config/routes.php" afterPath="$PROJECT_DIR$/application/config/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/views/templates/student_menu.php" afterPath="$PROJECT_DIR$/application/views/templates/student_menu.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="prodject.iws" />
@@ -194,20 +39,8 @@
       <file leaf-file-name="Main.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Main.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.121212" vertical-offset="718" max-vertical-offset="1586">
-              <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
-              <folding>
-                <element signature="e#6#159#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/config/routes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.727273" vertical-offset="979" max-vertical-offset="1976">
-              <caret line="50" column="65" selection-start-line="50" selection-start-column="55" selection-end-line="50" selection-end-column="65" />
+            <state vertical-scroll-proportion="-3.1515152" vertical-offset="78" max-vertical-offset="1430">
+              <caret line="13" column="47" selection-start-line="13" selection-start-column="47" selection-end-line="13" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -216,18 +49,48 @@
       <file leaf-file-name="cashier_menu.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/templates/cashier_menu.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.939394" vertical-offset="650" max-vertical-offset="1326">
-              <caret line="30" column="78" selection-start-line="30" selection-start-column="63" selection-end-line="30" selection-end-column="78" />
+            <state vertical-scroll-proportion="-3.1515152" vertical-offset="650" max-vertical-offset="1326">
+              <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cashier.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Cashier.php">
+      <file leaf-file-name="edp_menu.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/views/templates/edp_menu.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31791908" vertical-offset="43" max-vertical-offset="1352">
-              <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+            <state vertical-scroll-proportion="-4.7272725" vertical-offset="286" max-vertical-offset="858">
+              <caret line="17" column="82" selection-start-line="17" selection-start-column="63" selection-end-line="17" selection-end-column="82" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/config/routes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.2424242" vertical-offset="1883" max-vertical-offset="2756">
+              <caret line="74" column="21" selection-start-line="74" selection-start-column="21" selection-end-line="80" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Student.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controllers/Student.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.060606" vertical-offset="781" max-vertical-offset="1404">
+              <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="faculty_menu.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/views/templates/faculty_menu.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.07509881" vertical-offset="716" max-vertical-offset="1378">
+              <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -236,18 +99,28 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../LCIS/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.7272725" vertical-offset="0" max-vertical-offset="20124">
-              <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+            <state vertical-scroll-proportion="-3.403226" vertical-offset="15987" max-vertical-offset="20124">
+              <caret line="623" column="63" selection-start-line="623" selection-start-column="40" selection-end-line="623" selection-end-column="63" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="audit_menu.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/templates/audit_menu.php">
+      <file leaf-file-name="Audit.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controllers/Audit.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5151515" vertical-offset="0" max-vertical-offset="598">
-              <caret line="7" column="81" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="81" />
+            <state vertical-scroll-proportion="-14.181818" vertical-offset="0" max-vertical-offset="910">
+              <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Edp.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/controllers/Edp.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.848485" vertical-offset="573" max-vertical-offset="1144">
+              <caret line="38" column="30" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -256,22 +129,12 @@
       <file leaf-file-name="header_title2.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/templates/header_title2.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.5151515" vertical-offset="2099" max-vertical-offset="4472">
-              <caret line="89" column="50" selection-start-line="89" selection-start-column="50" selection-end-line="89" selection-end-column="50" />
+            <state vertical-scroll-proportion="-4.939394" vertical-offset="2177" max-vertical-offset="4498">
+              <caret line="90" column="50" selection-start-line="90" selection-start-column="50" selection-end-line="90" selection-end-column="50" />
               <folding>
                 <element signature="e#9#128#0#PHP" expanded="true" />
                 <element signature="e#2370#3515#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Audit.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Audit.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5757575" vertical-offset="317" max-vertical-offset="910">
-              <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -282,11 +145,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/application/config/routes.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://D:/php/upload/index.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/views/login.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/models/User_account.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/controllers/Registrar.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/views/home.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/application/views/templates/cashier_menu.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/views/templates/header_title2.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/controllers/Main.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/application/views/templates/header.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
@@ -306,10 +171,8 @@
         <option value="$PROJECT_DIR$/application/views/templates/header_title1.php" />
         <option value="$PROJECT_DIR$/application/views/templates/header.php" />
         <option value="$PROJECT_DIR$/application/views/LCIS/view/templates/header_title2.php" />
-        <option value="$PROJECT_DIR$/application/views/login.php" />
         <option value="$PROJECT_DIR$/application/libraries/Menu.php" />
         <option value="$PROJECT_DIR$/application/views/home.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/registrar_menu.php" />
         <option value="$PROJECT_DIR$/application/views/account_settings.php" />
         <option value="$PROJECT_DIR$/application/controllers/Registrar.php" />
         <option value="$PROJECT_DIR$/application/controllers/Main.php" />
@@ -317,11 +180,21 @@
         <option value="$PROJECT_DIR$/application/views/registrar/ched_list.php" />
         <option value="$PROJECT_DIR$/application/views/templates/audit_menu.php" />
         <option value="$PROJECT_DIR$/application/views/audit/account_list.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/header_title2.php" />
         <option value="$PROJECT_DIR$/application/controllers/Audit.php" />
         <option value="$PROJECT_DIR$/application/views/templates/cashier_menu.php" />
-        <option value="$PROJECT_DIR$/application/config/routes.php" />
         <option value="$PROJECT_DIR$/application/controllers/Cashier.php" />
+        <option value="$PROJECT_DIR$/application/views/templates/dean_menu.php" />
+        <option value="$PROJECT_DIR$/application/views/templates/registrar_menu.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Dean.php" />
+        <option value="$PROJECT_DIR$/application/views/templates/edp_menu.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Edp.php" />
+        <option value="$PROJECT_DIR$/application/views/login.php" />
+        <option value="$PROJECT_DIR$/assets/css/styles.css" />
+        <option value="$PROJECT_DIR$/application/views/templates/header_title2.php" />
+        <option value="$PROJECT_DIR$/application/views/templates/student_menu.php" />
+        <option value="$PROJECT_DIR$/application/config/routes.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Student.php" />
+        <option value="$PROJECT_DIR$/application/views/templates/faculty_menu.php" />
       </list>
     </option>
   </component>
@@ -380,6 +253,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -466,6 +340,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="edp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prodject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prodject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prodject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prodject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="libraries" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -488,32 +402,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="prodject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="prodject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
         <option name="show-excluded-files" value="false" />
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="vcs.Subversion" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.SQL" />
     <property name="options.splitter.main.proportions" value="0.285" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -564,15 +459,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="37" width="1351" height="688" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="CSS Styles" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32931036" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20149812" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19850187" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -608,10 +504,22 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/controllers/Welcome.php">
+    <entry file="file://$PROJECT_DIR$/application/views/templates/header_title2.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4472">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9#128#0#PHP" expanded="true" />
+            <element signature="e#2370#3515#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Audit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="317" max-vertical-offset="910">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -622,24 +530,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Welcome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="12096">
           <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Welcome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="744">
-          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -657,13 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Welcome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="735" max-vertical-offset="6312">
@@ -675,13 +562,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/welcome_message.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33463797" vertical-offset="0" max-vertical-offset="1786">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -737,13 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Welcome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="192" max-vertical-offset="744">
-          <caret line="8" column="32" selection-start-line="8" selection-start-column="32" selection-end-line="8" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/config/autoload.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="37.090908" vertical-offset="1224" max-vertical-offset="3504">
@@ -758,28 +631,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.939394" vertical-offset="508" max-vertical-offset="2912">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/User_account.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15028901" vertical-offset="0" max-vertical-offset="598">
-          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
-          <folding>
-            <element signature="n#User_account#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Registrar.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="22.030304" vertical-offset="909" max-vertical-offset="3068">
           <caret line="13" column="46" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -787,7 +642,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.1818181" vertical-offset="871" max-vertical-offset="2288">
           <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -795,15 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="1534">
           <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/registrar_menu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.090909" vertical-offset="1033" max-vertical-offset="4186">
-          <caret line="50" column="44" selection-start-line="50" selection-start-column="44" selection-end-line="50" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -811,15 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7930">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/edp_menu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="539">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -827,15 +663,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.8636363" vertical-offset="7" max-vertical-offset="1638">
           <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/templates/audit_menu.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5151515" vertical-offset="0" max-vertical-offset="598">
+        <state vertical-scroll-proportion="0.0" vertical-offset="182" max-vertical-offset="598">
           <caret line="7" column="81" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="81" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -843,7 +677,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39130434" vertical-offset="1232" max-vertical-offset="3848">
           <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -851,7 +684,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.6482213" vertical-offset="0" max-vertical-offset="2366">
           <caret line="71" column="21" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -859,7 +691,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5652174" vertical-offset="0" max-vertical-offset="598">
           <caret line="11" column="57" selection-start-line="11" selection-start-column="57" selection-end-line="11" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -867,7 +698,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49802372" vertical-offset="138" max-vertical-offset="858">
           <caret line="15" column="72" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -875,7 +705,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.40118578" vertical-offset="83" max-vertical-offset="650">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -883,32 +712,140 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1521739" vertical-offset="963" max-vertical-offset="5096">
           <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Cashier.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="208" max-vertical-offset="1352">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/User_account.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.60115606" vertical-offset="0" max-vertical-offset="598">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../LCIS/view/templates/dean_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3715415" vertical-offset="1216" max-vertical-offset="1872">
+          <caret line="54" column="91" selection-start-line="54" selection-start-column="81" selection-end-line="54" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/templates/registrar_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.909091" vertical-offset="2632" max-vertical-offset="4186">
+          <caret line="110" column="21" selection-start-line="110" selection-start-column="21" selection-end-line="110" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/templates/dean_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.6969695" vertical-offset="2074" max-vertical-offset="2886">
+          <caret line="87" column="79" selection-start-line="87" selection-start-column="74" selection-end-line="87" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Audit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.181818" vertical-offset="0" max-vertical-offset="910">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/Dean.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.4848485" vertical-offset="1892" max-vertical-offset="2444">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/templates/edp_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.7272725" vertical-offset="286" max-vertical-offset="858">
+          <caret line="17" column="82" selection-start-line="17" selection-start-column="63" selection-end-line="17" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea.workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="552">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.048237476" vertical-offset="0" max-vertical-offset="12974">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1482">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4710145" vertical-offset="0" max-vertical-offset="552">
+          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.181818" vertical-offset="642" max-vertical-offset="2912">
+          <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/templates/cashier_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.1515152" vertical-offset="650" max-vertical-offset="1326">
+          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.121212" vertical-offset="718" max-vertical-offset="1586">
-          <caret line="43" column="53" selection-start-line="43" selection-start-column="53" selection-end-line="43" selection-end-column="53" />
-          <folding>
-            <element signature="e#6#159#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-3.1515152" vertical-offset="78" max-vertical-offset="1430">
+          <caret line="13" column="47" selection-start-line="13" selection-start-column="47" selection-end-line="13" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Audit.php">
+    <entry file="file://$PROJECT_DIR$/application/controllers/Edp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5757575" vertical-offset="317" max-vertical-offset="910">
-          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+        <state vertical-scroll-proportion="-7.848485" vertical-offset="573" max-vertical-offset="1144">
+          <caret line="38" column="30" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/templates/header_title2.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.5151515" vertical-offset="2099" max-vertical-offset="4472">
-          <caret line="89" column="50" selection-start-line="89" selection-start-column="50" selection-end-line="89" selection-end-column="50" />
+        <state vertical-scroll-proportion="-4.939394" vertical-offset="2177" max-vertical-offset="4498">
+          <caret line="90" column="50" selection-start-line="90" selection-start-column="50" selection-end-line="90" selection-end-column="50" />
           <folding>
             <element signature="e#9#128#0#PHP" expanded="true" />
             <element signature="e#2370#3515#0#PHP" expanded="true" />
@@ -916,34 +853,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/cashier_menu.php">
+    <entry file="file://$PROJECT_DIR$/application/views/templates/student_menu.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.939394" vertical-offset="650" max-vertical-offset="1326">
-          <caret line="30" column="78" selection-start-line="30" selection-start-column="63" selection-end-line="30" selection-end-column="78" />
+        <state vertical-scroll-proportion="-3.939394" vertical-offset="546" max-vertical-offset="1092">
+          <caret line="26" column="91" selection-start-line="26" selection-start-column="63" selection-end-line="26" selection-end-column="91" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/config/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.727273" vertical-offset="979" max-vertical-offset="1976">
-          <caret line="50" column="65" selection-start-line="50" selection-start-column="55" selection-end-line="50" selection-end-column="65" />
+        <state vertical-scroll-proportion="-1.2424242" vertical-offset="1883" max-vertical-offset="2756">
+          <caret line="74" column="21" selection-start-line="74" selection-start-column="21" selection-end-line="80" selection-end-column="79" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../LCIS/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.7272725" vertical-offset="0" max-vertical-offset="20124">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+        <state vertical-scroll-proportion="-3.403226" vertical-offset="15987" max-vertical-offset="20124">
+          <caret line="623" column="63" selection-start-line="623" selection-start-column="40" selection-end-line="623" selection-end-column="63" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Cashier.php">
+    <entry file="file://$PROJECT_DIR$/application/controllers/Student.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31791908" vertical-offset="43" max-vertical-offset="1352">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+        <state vertical-scroll-proportion="-7.060606" vertical-offset="781" max-vertical-offset="1404">
+          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/templates/faculty_menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07509881" vertical-offset="716" max-vertical-offset="1378">
+          <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
           <folding />
         </state>
       </provider>
