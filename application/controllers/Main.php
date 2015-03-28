@@ -3,7 +3,7 @@
 | -------------------------------------
 | @file  : Main.php
 | @date  : 3/24/2015
-| @author: Jayson Martinez
+| @author: 
 | -------------------------------------
 */
 
@@ -30,22 +30,30 @@ class Main extends CI_Controller{
         }
 
     }
-
-    function home()
+    private function head()
     {
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
+    }
+    function home()
+    {
+        $this->head();
         $this->load->view('home');
         $this->load->view('templates/footer');
     }
     function account()
     {
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        $this->head();
         $this->load->view('account_settings');
         $this->load->view('templates/footer');
     }
-
+    function menu($page)
+    {
+        $this->head();
+        $page = str_replace('_', '/', $page);
+        $this->load->view($page);
+        $this->load->view('templates/footer');
+    }
     function logout()
     {
         // Unset some SESSION variable
