@@ -3,16 +3,15 @@
 | -------------------------------------
 | @file  : Main.php
 | @date  : 3/24/2015
-| @author: 
+| @author:
 | -------------------------------------
 */
 
 class Main extends CI_Controller{
-
     function index()
     {
         $this->load->library('form_validation');
-
+        $this->load->helper('form');
         //set the rules for the login validation
 
         $this->form_validation->set_rules('username','Username','required',

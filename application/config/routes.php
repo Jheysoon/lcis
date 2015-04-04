@@ -14,9 +14,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  | @author: Jayson Martinez
  |-----------------------------------------------------------
  */
-    $route['home'] = 'main/home';
-    $route['logout'] = 'main/logout';
-    $route['account'] = 'main/account';
+    $route['home']          = 'main/home';
+    $route['logout']        = 'main/logout';
+    $route['account']       = 'main/account';
+    $route['menu/(:any)']   = 'main/menu/$1';
 
     // Registrar & Dean Shared Routes
     $route['listCollege']                   = 'registrar/listCollege';

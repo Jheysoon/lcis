@@ -7,38 +7,55 @@
       <div class="col-md-12 header">
           <div class="jumbotron col-md-8">
             <div class="col-md-offset-4 col-md-3">
-              <img class="login-pic" src="./assets/images/LC Logo.jpg">
+              <img class="login-pic" src="<?php echo base_url('assets/images/LC Logo.jpg'); ?>">
             </div>
           </div>
 
           <div class = "col-md-4">
-            <form class="form-horizontal login" method="post" action="." role="form">
+              <?php
+                  $attrib = array('class'=>'form-horizontal login','role'=>'form');
+                  echo form_open('',$attrib);
+              ?>
+            <!--<form class="form-horizontal login" method="post" action="." role="form">-->
                 <h2 class="sign">
                     <b>Sign in</b>
                 </h2>
-                <br>
+                <br/>
                 <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
-                <input type="hidden" name="page" value="validate">
+                <!--<input type="hidden" name="page" value="validate">-->
                 <div class="form-group">
-                <label for="username" class="col-sm-3 control-label">Username</label>
+                <!--<label for="username" class="col-sm-3 control-label">Username</label>-->
+                    <?php echo form_label('Username','username',['class'=>'col-sm-3 control-label']); ?>
                 <div class="col-sm-9">
-                  <input id="username" type="text" class="form-control" name="username"
-                         required placeholder="Username" value="" autofocus>
+                  <!--<input id="username" type="text" class="form-control" name="username"
+                         required placeholder="Username" value="" autofocus>-->
+                    <?php
+                        $attrib = array('name'=>'username','id'=>'username','placeholder'=>'Username',
+                            'class'=>'form-control');
+                        echo form_input($attrib,'','required autofocus');
+                    ?>
                 </div>
               </div>
               <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">Password</label>
+                <!--<label for="password" class="col-sm-3 control-label">Password</label>-->
+                  <?php echo form_label('Password','password',['class'=>'col-sm-3 control-label']); ?>
                 <div class="col-sm-9">
-                  <input type="password" class="form-control" name="password" required
-                  id="password" placeholder="Password">
+                  <!--<input type="password" class="form-control" name="password" required
+                  id="password" placeholder="Password">-->
+                    <?php
+                        $attrib = array('class'=>'form-control','name'=>'password','placeholder'=>'Password');
+                        echo form_password($attrib,'','required');
+                    ?>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                  <button type="submit" class="btn btn-success">Sign in</button>
+                  <!--<button type="submit" class="btn btn-success">Sign in</button>-->
+                    <?php echo form_submit(['class'=>'btn btn-success'],'Sign in'); ?>
                 </div>
               </div>
-            </form>
+            <!--</form>-->
+              <?php echo form_close(); ?>
           </div>
           <br>
       </div>

@@ -3,11 +3,11 @@
 		<div class="panel p-body">
 		<div class="panel-heading search">
 			<div class="col-md-6">						
-			<?php if ($page == "updateOldStudents"): ?>
+			<?php //if ($page == "updateOldStudents"): ?>
 				<h4>Student Information Management: List of Students</h4>						
-			<?php else: ?>		
+			<?php //else: ?>
 				<h4>Permanent Records: List of Students</h4>							
-			<?php endif ?>
+			<?php //endif ?>
 			
 			</div>
 			<div class="col-md-6">
@@ -40,7 +40,8 @@
 								<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>
 							</select>	
 						</th>
-						<th><select class="form-control" name='Year Level' required>
+						<th>
+                            <select class="form-control" name='Year Level' required>
 								<option> THIRD YEAR</option>	
 								<option> ALL</option>
 								<option> FIRST YEAR</option>	
@@ -55,131 +56,131 @@
 						<td>FRANCISCO, JAIME</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01551</td>
 						<td>ACEDERA, RYAN JOENALDO</td>
 						<td>BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-00861</td>
 						<td>ALARCON, ROEL</td>
 						<td>BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-02541</td>
 						<td>AQUINO, DEXTER</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01698</td>
 						<td>ARELLANO, MARK</td>
 						<td>BACHELOR OF LAWS</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01635</td>
 						<td>AZUCENA, RAUL</td>
 						<td>BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01343</td>
 						<td>BANTAYAN, ALLEN</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01886</td>
 						<td>BAGRO, REYNADLDO</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01662</td>
 						<td>BAJENTING, RAIMAR</td>
 						<td>BACHELOR OF ELEMENTARY EDUCATION</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-00969</td>
 						<td>BAUTISTA, LESTER</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					<tr>
 						<td>2012-00454</td>
 						<td>BAYLON, EUGENE</td>
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 					<tr>
 						<td>2012-01445</td>
 						<td>BERNABE, MARY JANE</td>
 						<td>BACHELOR OF LAWS (Ll.b.)</td>
 						<td>THIRD YEAR</td>
-						<?php if ($page == "updateOldStudents"): ?>
+						<?php //if ($page == "updateOldStudents"): ?>
 							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php else: ?>
+						<?php //else: ?>
 							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php endif ?>
+						<?php //endif ?>
 					</tr>
 				</table>
 			</div>
