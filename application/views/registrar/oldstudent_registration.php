@@ -9,8 +9,10 @@
 			</div>
 			</div>
 			<div class="panel-body">
-					<form class="form-horizontal add-user" method="post" action="index.php" role="form">
-					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
+                <!-- Form for old student registration -->
+					<form class="form-horizontal add-user" enctype="multipart/form-data" method="post" action="" role="form">
+
+					<br/><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
 
@@ -27,17 +29,19 @@
 							<input class="form-control" type="text" name="middlename" placeholder="middlename" required value="ALBA">
 						
 						</div>
+
 						<div class = "col-sm-3">
-							<img class="profile-main2" src="images/profile/img008.jpg">
+							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg'); ?>">
 							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
 						</div>
+
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
 					</div>		
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
-							<select class="form-control" name='course' required>
-								
+
+                            <select class="form-control" name='course' required>
 								<option> BACHELOR OF SCIENCE IN CRIMINOLOGY</option>
 								<option> BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</option>
 								<option> BACHELOR OF SECONDARY EDUCATION</option>
@@ -83,7 +87,8 @@
 								<option> FEMALE</option>
 							</select>	
 						</div>
-					</div>	
+					</div>
+
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">Marital Status <small class="optional">(optional)</small></label>
@@ -109,6 +114,7 @@
 							</select>	
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="nationality">Nationality <small class="required">(required)</small></label>
@@ -126,14 +132,14 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required value="11 APRIL 1993">	
+							<input class="form-control" type="date" name="dob" required value="4/11/1993">
 						</div>
 					</div>	
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Place of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required value="TACLOBAN CITY, LEYTE">	
+							<input class="form-control" type="text" name="pob" required value="TACLOBAN CITY, LEYTE">
 						</div>
 					</div>
 
@@ -182,18 +188,21 @@
 							</select>	
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="scn">Contact No. <small class="optional">(optional)</small></label>
 							<input class="form-control" type="tel" maxlength="13" name="scn" placeholder="Contact No." required value="+63 9167319465">
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="scn">Email Address <small class="optional">(optional)</small></label>
 							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="franciscoja@yahoo.com">
 						</div>
 					</div>
+
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
@@ -201,18 +210,21 @@
 							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="ELMER FRANCISCO">
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
 							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="OPERATOR">
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
 							<input class="form-control" type="tel" maxlength="13" name="mother" placeholder="guardian" required value="CLAIRE FRANCISCO">
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
@@ -270,7 +282,7 @@
 						<div class="col-sm-8 col-sm-offset-1">
 						  <div class="col-sm-6 col-md-4">
 						    <div class="thumbnail scan">
-						      <img src="../images/sample.jpg" alt="...">
+                                <img src="<?php echo base_url(); ?>assets/images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>HS Card (Form 138-A)</h5>
 						        <p><a href="#" class="btn btn-primary btn-sm" role="button">View</a> 
@@ -280,7 +292,7 @@
 						  </div>
 						  <div class="col-sm-6 col-md-4">
 						    <div class="thumbnail scan">
-						      <img src="../images/sample.jpg" alt="...">
+                                <img src="<?php echo base_url(); ?>assets/images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>Certificate of Good Moral Character</h5>
 						        <p><a href="#" class="btn btn-primary btn-sm" role="button">View</a> 
@@ -290,7 +302,7 @@
 						  </div>
 						  <div class="col-sm-6 col-md-4">
 						    <div class="thumbnail scan">
-						      <img src="../images/sample.jpg" alt="...">
+						      <img src="<?php echo base_url(); ?>assets/images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>Certificate of Live Birth</h5>
 						        <p><a href="#" class="btn btn-primary btn-sm" role="button">View</a> 
@@ -301,18 +313,20 @@
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
-					<div class="form-group">
+                    <div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="uname">Username <small class="required">(required)</small></label>
 							<input type="text" class="form-control" name="uname" placeholder="username" required value="francija">
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="pass">Password <small class="required">(required)</small></label>
 							<input type="password" id="password" class="form-control" name="pass" placeholder="password" value = "xxxxxxxxxxx" required>
 						</div>
 					</div>
+
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="rpass">Repeat Password <small class="required">(required)</small></label>

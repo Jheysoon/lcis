@@ -39,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['rgstr_listNonCreditedSubject']  = 'registrar/listNonCreditedSubject';
     $route['rgstr_listSubjectGrouping']     = 'registrar/listSubjectGrouping';
     $route['rgstr_listServices']            = 'registrar/listServices';
+    $route['rgstr_oldstudent']              = 'registrar/oldstudent_reg';
 
     // Audit Routes
     $route['adt_viewtStudentBilling']       = 'audit/viewtStudentBilling';

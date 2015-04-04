@@ -88,7 +88,7 @@
               // will send a error regarding with the variable $this
               // it can also be a view file to be fixed
 
-              $this->load->view('templates/student_menu');
+              $this->load->view('templates/registrar_menu');
 
 
               /*if ($_SESSION['uname'] == 'registrar' ) {
