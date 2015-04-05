@@ -68,8 +68,8 @@
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="major">Year Level <small class="required">(required)</small></label>
-							<select class="form-control" name='major' required>
+							<label class="label-control add-label" for="yearlevel">Year Level <small class="required">(required)</small></label>
+							<select class="form-control" name='yearlevel' required>
 								<option> Third Year</option>
 								<option> First Year</option>
 								<option> Second Year</option>
@@ -81,8 +81,8 @@
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="course">Gender <small class="required">(required)</small></label>
-							<select class="form-control" name='course' required>
+							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
+							<select class="form-control" name='gender' required>
 								<option> MALE</option>
 								<option> FEMALE</option>
 							</select>	
@@ -91,8 +91,8 @@
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="major">Marital Status <small class="optional">(optional)</small></label>
-							<select class="form-control" name='major' required>
+							<label class="label-control add-label" for="marital_status">Marital Status <small class="optional">(optional)</small></label>
+							<select class="form-control" name='marital_status' required>
 								<option> SINGLE</option>
 								<option> MARRIED</option>
 								<option> SEPARATED</option>
@@ -138,7 +138,7 @@
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="dob">Place of Birth <small class="required">(required)</small></label>
+							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
 							<input class="form-control" type="text" name="pob" required value="TACLOBAN CITY, LEYTE">
 						</div>
 					</div>
@@ -192,14 +192,14 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="scn">Contact No. <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="scn" placeholder="Contact No." required value="+63 9167319465">
+							<input class="form-control" type="tel" maxlength="13" name="scn" placeholder="Contact No." value="+63 9167319465">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="franciscoja@yahoo.com">
+							<label class="label-control add-label" for="email_add">Email Address <small class="optional">(optional)</small></label>
+							<input class="form-control" type="email" name="email_add" placeholder="Email Address" required value="franciscoja@yahoo.com">
 						</div>
 					</div>
 
@@ -207,57 +207,57 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="ELMER FRANCISCO">
+							<input class="form-control" type="text"  name="father" placeholder="father" required value="ELMER FRANCISCO">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="OPERATOR">
+							<label class="label-control add-label" for="f_occupation">Occupation <small class="optional">(optional)</small></label>
+							<input class="form-control" type="text" name="f_occupation" placeholder="occupation" required value="OPERATOR">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="mother" placeholder="guardian" required value="CLAIRE FRANCISCO">
+							<input class="form-control" type="text" name="mother" placeholder="mother" required value="CLAIRE FRANCISCO">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="TEACHER">
+							<label class="label-control add-label" for="m_occupation">Occupation <small class="optional">(optional)</small></label>
+							<input class="form-control" type="text" name="m_occupation" placeholder="occupation" required value="TEACHER">
 						</div>
 					</div>
 
 					<br><h3 class="col-sm-offset-1">Educational Background</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Elementary <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="TACLOBAN CITY ELEMENTARY SCHOOL">
+							<label class="label-control add-label" for="elem_educ">Elementary <small class="optional">(optional)</small></label>
+							<input class="form-control" type="text" name="elem_educ" placeholder="Elementary education" required value="TACLOBAN CITY ELEMENTARY SCHOOL">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Date Graduated <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="23 March 2008">
+							<label class="label-control add-label" for="elem_date_grad">Date Graduated <small class="optional">(optional)</small></label>
+							<input class="form-control" type="date" name="elem_date_grad" placeholder="Date Graduated" required value="23 March 2008">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">High School <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="TACLOBAN CITY NATIONAL HIGH SCHOOL">
+							<label class="label-control add-label" for="high_educ">High School <small class="optional">(optional)</small></label>
+							<input class="form-control" type="text" name="high_educ" placeholder="High school" required value="TACLOBAN CITY NATIONAL HIGH SCHOOL">
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Date Graduated <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="23 April 2012">
+							<label class="label-control add-label" for="high_date_grad">Date Graduated <small class="optional">(optional)</small></label>
+							<input class="form-control" type="text" name="high_date_grad" placeholder="Date graduated" required value="23 April 2012">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Credentials</h3><hr><br>
