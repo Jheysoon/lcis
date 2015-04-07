@@ -18,14 +18,16 @@
 							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="2014-01268">
 
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="lastname" placeholder="lastname" required value="LAUDICO">
+							<input class="form-control" type="text" name="lastname" placeholder="Lastname" required>
 						
-							<label class="label-control add-label2" for="lastname">First Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="firstname" placeholder="firstname" required value="MICHAEL">
+							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
+							<input class="form-control" type="text" name="firstname" placeholder="First Name" required>
 						
-							<label class="label-control add-label2" for="lastname">Middle Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="middlename" placeholder="middlename" required value="REYES">
+							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
+							<input class="form-control" type="text" name="middlename" placeholder="Middle Name" required>
 						
+
+
 						</div>
 						<div class = "col-sm-3">
 							<img class="profile-main2" src="images/profile/img002.jpg">
@@ -51,7 +53,7 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
-							<select class="form-control" name='major' required>
+							<select class="form-control" name='major'>
 								<option> </option>
 								<option> </option>
 								<option> </option>
@@ -64,8 +66,8 @@
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="major">Year Level <small class="required">(required)</small></label>
-							<select class="form-control" name='major' required>
+							<label class="label-control add-label" for="yearlevel">Year Level <small class="required">(required)</small></label>
+							<select class="form-control" name='yearlevel' required>
 								<option> First Year</option>
 								<option> Second Year</option>
 								<option> Third Year</option>
@@ -77,17 +79,17 @@
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="course">Gender <small class="required">(required)</small></label>
-							<select class="form-control" name='course' required>
-								<option> MALE</option>
-								<option> FEMALE</option>
+							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
+							<select class="form-control" name='gender' required>
+								<option value="1"> MALE</option>
+								<option value="0"> FEMALE</option>
 							</select>	
 						</div>
 					</div>	
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="major">Marital Status <small class="optional">(optional)</small></label>
-							<select class="form-control" name='major' required>
+							<label class="label-control add-label" for="maritalstatus">Marital Status <small class="optional">(optional)</small></label>
+							<select class="form-control" name='maritalstatus'>
 								<option> SINGLE</option>
 								<option> MARRIED</option>
 								<option> SEPARATED</option>
@@ -95,7 +97,7 @@
 							</select>	
 						</div>
 					</div>
-
+					<!--Reference table -->
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="religion">Religion <small class="required">(required)</small></label>
@@ -109,6 +111,7 @@
 							</select>	
 						</div>
 					</div>
+					<!-- Reference table -->
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="nationality">Nationality <small class="required">(required)</small></label>
@@ -116,7 +119,6 @@
 								
 								<option> FILIPINO</option>
 								<option> Others</option>
-					
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
@@ -126,25 +128,25 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required value="21 AUGUST 1997">	
+							<input class="form-control" type="date" name="dob" required>	
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="dob">Place of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required value="TAFT, EASTERN SAMAR">	
+							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
+							<input class="form-control" type="date" name="pob" required>	
 						</div>
 					</div>		
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="add">Mailing Address <small class="required">(required)</small></label>
-							<textarea class="form-control" name="add" placeholder="address" required>11 RIZL ST.</textarea>	
+							<label class="label-control add-label" for="mailadd">Mailing Address <small class="required">(required)</small></label>
+							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." required></textarea>	
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="town-city">Town/City <small class="required">(required)</small></label>
-							<select class="form-control" name='town-city' required>
+							<label class="label-control add-label" for="town_city">Town/City <small class="required">(required)</small></label>
+							<select class="form-control" name='town_city' required>
 								
 								<option> TACLOBAN CITY</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
@@ -168,8 +170,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="code">Zip Code <small class="required">(required)</small></label>
-							<select class="form-control" name='code' required>
+							<label class="label-control add-label" for="zcode">Zip Code <small class="required">(required)</small></label>
+							<select class="form-control" name='zcode' required>
 								<option> 6500</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
@@ -180,39 +182,39 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Contact No. <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="scn" placeholder="Contact No." required value="+63 9165727238">
+							<label class="label-control add-label" for="contact">Contact No. <small class="optional">(optional)</small></label>
+							<input class="form-control" type="tel" maxlength="13" name="contact" placeholder="Contact No.">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="scn">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="scn" placeholder="Contact No." required value="michaellaudico@yahoo.com">
+							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
+							<input class="form-control" type="email" maxlength="13" name="emailadd" placeholder="Email Address">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="GODOFREDO LAUDICO">
+							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="Father's Name" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="DENTIST">
+							<label class="label-control add-label" for="foccupation">Occupation <small class="optional">(optional)</small></label>
+							<input class="form-control" type="tel" maxlength="13" name="occupation" placeholder="Father's Guardian">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="mother" placeholder="guardian" required value="LOURDES LAUDICO">
+							<input class="form-control" type="tel" maxlength="13" name="mother" placeholder="Mother's Name" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="guardian" required value="BUSINESSWOMAN">
+							<label class="label-control add-label" for="moccupation">Occupation <small class="optional">(optional)</small></label>
+							<input class="form-control" type="tel" maxlength="13" name="moccupation" placeholder="Mother's Occupation">
 						</div>
 					</div>
 
@@ -220,7 +222,7 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="scholar">Scholarship <small class="optional">(optional)</small></label>
-							<select class="form-control" name='scholar' required>
+							<select class="form-control" name='scholar'>
 								<option> NONE</option>
 								<option> CHED StuFAP</option>
 								<option> ACADEMIC SCHOLARSHIP</option>
@@ -270,20 +272,20 @@
 					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="uname">Username <small class="required">(required)</small></label>
-							<input type="text" class="form-control" name="uname" placeholder="username" required value="laudicmi">
+							<label class="label-control add-label" for="username">Username <small class="required">(required)</small></label>
+							<input type="text" class="form-control" name="username" placeholder="Username" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="pass">Password <small class="required">(required)</small></label>
-							<input type="password" id="password" class="form-control" name="pass" placeholder="password" value = "xxxxxxxxxxx" required>
+							<label class="label-control add-label" for="password">Password <small class="required">(required)</small></label>
+							<input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="rpass">Repeat Password <small class="required">(required)</small></label>
-							<input type="password" class="form-control" name="rpass" placeholder="repeat password" value = "xxxxxxxxxxx" required>
+							<input type="password" class="form-control" name="rpass" placeholder="Repeat Password" required>
 						</div>
 					</div>
 		              <div class="form-group">
