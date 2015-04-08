@@ -1,10 +1,24 @@
 	<div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
-		<div class="panel-heading">
-				<h4>Student's Permanent Record</h4>
+		<div class="panel-heading search">
+            <div class="col-md-6">
+                <h4>Student's Permanent Record</h4>
+            </div>
+
+
 		</div>
 		<div class="panel-body">
+
+            <!--  search form  -->
+            <form class="navbar-form navbar-right" action="" method="post" role="search">
+                <div class="form-group">
+                    <input type="text" id="student_search" name="search" autofocus class="form-control" placeholder="Student ID">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </form>
 
 			<img class="profile-main pull-left" src="images/sample.jpg">
 			<div class=" pull-left">
@@ -50,16 +64,16 @@
 					</tr>
 
 					<tr>
-						<td class="tbl-header" colspan="2"><strong>School Year: 2012-2013</strong></th>
-						<td class="tbl-header" colspan="3"><strong>Term: First Semester </strong></th>
+						<td class="tbl-header" colspan="2"><strong>School Year: 2012-2013</strong></td>
+						<td class="tbl-header" colspan="3"><strong>Term: First Semester </strong></td>
 					</tr>
 
 					<tr>
 						<td><strong>Code</strong></td>
 						<td><strong>Subject</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Final Grades</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Re-Exam</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Credit</strong></td>
+						<td class="tblNum"><strong>Final Grades</strong></td>
+						<td class="tblNum"><strong>Re-Exam</strong></td>
+						<td class="tblNum"><strong>Credit</strong></td>
 					</tr>
 					<tr>
 						<td> ENG 101 </td>

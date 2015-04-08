@@ -155,6 +155,15 @@ class Registrar extends CI_Controller
     {
         $this->head();
         $this->load->view('registrar/buildstudRecord');
-        $this->load->view('templates/footer');
+        $this->load->view('templates/permanent_record_footer');
+    }
+    function search_by_id()
+    {
+        $data = array();
+        for($q=0;$q<10;$q++)
+        {
+            $data[] = array('value'=>'2011-0000'.$q.' (name)');
+        }
+        echo json_encode($data);
     }
 }
