@@ -14,6 +14,7 @@
 <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.js'); ?>"></script>
 <script src="/assets/js/typeahead.bundle.js"></script>
+<script src="/assets/js/handlebars-v3.0.1.js"></script>
 <script>
     $(document).ready(function(){
 
@@ -32,6 +33,10 @@
             {
                 name: 'student_list',
                 displayKey: 'value',
+                templates:{
+                    suggestion: Handlebars.compile('<p style="padding: 0;"><strong>{{value}}</strong></p>' +
+                    '<span>(Name)</span>')
+                },
                 source: student_list.ttAdapter()
             }
         );

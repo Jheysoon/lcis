@@ -162,7 +162,7 @@ class Registrar extends CI_Controller
         $data = array();
         for($q=0;$q<10;$q++)
         {
-            $data[] = array('value'=>'2011-0000'.$q.' (name)');
+            $data[] = array('value'=>'2011-0000'.$q);
         }
         echo json_encode($data);
     }
