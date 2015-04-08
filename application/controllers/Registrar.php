@@ -166,4 +166,13 @@ class Registrar extends CI_Controller
         }
         echo json_encode($data);
     }
+    function edit_grades($code, $subject, $grade)
+    {
+        $data['code']=$code;
+        $data['subject']=$subject;
+        $data['grade']=$grade;
+        $this->head();
+        $this->load->view('registrar/edit_gades', $data);
+        $this->load->view('templates/footer');
+    }
 }
