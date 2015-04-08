@@ -9,7 +9,7 @@
 					<form class="form-horizontal" method="post" role="form">
 						<label for="code">Code</label>
 						<input type="text" name="code" class="form-control" value="<?php echo $code; ?>" disabled>
-						<label for="subject">Subject</label>
+				 		<label for="subject">Subject</label>
 						<input type="text" name="subject" class="form-control" value="<?php echo $subject; ?>" disabled>
 						<label for="old">Old Grade</label>
 						<input type="text" name="old" class="form-control" value="<?php echo $grade; ?>"disabled>
