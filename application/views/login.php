@@ -24,8 +24,8 @@
                 <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
                 <!--<input type="hidden" name="page" value="validate">-->
                 <div class="form-group">
-                <!--<label for="username" class="col-sm-3 control-label">Username</label>-->
-                    <?php echo form_label('Username','username',['class'=>'col-sm-3 control-label']); ?>
+                <!--<label for="username" class="col-sm-3 control-label">Userssname</label>-->
+                    <?php echo form_label('Username','username',array('class'=>'col-sm-3 control-label')); ?>
                 <div class="col-sm-9">
                   <!--<input id="username" type="text" class="form-control" name="username"
                          required placeholder="Username" value="" autofocus>-->
@@ -38,7 +38,7 @@
               </div>
               <div class="form-group">
                 <!--<label for="password" class="col-sm-3 control-label">Password</label>-->
-                  <?php echo form_label('Password','password',['class'=>'col-sm-3 control-label']); ?>
+                  <?php echo form_label('Password','password',array('class'=>'col-sm-3 control-label')); ?>
                 <div class="col-sm-9">
                   <!--<input type="password" class="form-control" name="password" required
                   id="password" placeholder="Password">-->
@@ -51,7 +51,7 @@
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                   <!--<button type="submit" class="btn btn-success">Sign in</button>-->
-                    <?php echo form_submit(['class'=>'btn btn-success'],'Sign in'); ?>
+                    <?php echo form_submit(array('class'=>'btn btn-success'),'Sign in'); ?>
                 </div>
               </div>
             <!--</form>-->
