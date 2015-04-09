@@ -7,11 +7,12 @@
 | -------------------------------------
 */
 
-class User_account extends CI_Model {
+class User_account extends CI_Model
+{
 
     function getEmpInfo($id)
     {
-        $this->db->where('eid',$id);
+        $this->db->where('eid', $id);
         $q = $this->db->get('user_accounts');
         return $q->row_array();
     }
