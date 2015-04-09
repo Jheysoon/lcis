@@ -53,16 +53,16 @@
       <div class="collapse navbar-collapse">
           <div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
           <?php
-                $option_header = $this->option->getOptionHeader();
+                $option_header = $this->useroption->getOptionHeader();
                 foreach($option_header as $option_h)
                 {
                     ?>
           <li class="list-group-item">
               <a class="menu">
-                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; <?php echo $this->option->getHeaderName($option_h['header']); ?>
+                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; <?php echo $this->option_header->getHeaderName($option_h['header']); ?>
               </a>
               <?php
-                $menu = $this->option->getUserMenu($option_h['header']);
+                $menu = $this->useroption->getUserMenu($option_h['header']);
 
               foreach ($menu as $option)
               {

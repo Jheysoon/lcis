@@ -96,6 +96,8 @@ class Main extends CI_Controller
     function menu($page)
     {
         $this->load->model('option');
+        $this->load->model('home/option_header');
+        $this->load->model('home/useroption');
 
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
