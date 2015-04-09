@@ -152,4 +152,10 @@
                 <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Account Settings
               </a>
           </li>
+            <li class="list-group-item">
+              <a class="menu" href="<?php echo base_url('registrar/buildperrecord'); ?>">
+                <span class="glyphicon glyphicon-cog"></span>&nbsp; &nbsp; Build Permanent Record
+              </a>
+          </li>
+
 

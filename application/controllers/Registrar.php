@@ -141,4 +141,38 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/oldstudent_registration');
         $this->load->view('templates/footer');
     }
+    function insert_stud()
+    {
+        $data = "x";
+        $this->load->model("registrar/tbl_party");
+        $this->tbl_party->insert_students($data);
+        // $data = array(
+
+        //     );
+        // $thi
+    }
+     function buildperrecord()
+    {
+        $this->head();
+        $this->load->view('registrar/buildstudRecord');
+        $this->load->view('templates/permanent_record_footer');
+    }
+    function search_by_id()
+    {
+        $data = array();
+        for($q=0;$q<10;$q++)
+        {
+            $data[] = array('value'=>'2011-0000'.$q);
+        }
+        echo json_encode($data);
+    }
+    function edit_grades($code, $subject, $grade)
+    {
+        $data['code']=$code;
+        $data['subject']=$subject;
+        $data['grade']=$grade;
+        $this->head();
+        $this->load->view('registrar/edit_gades', $data);
+        $this->load->view('templates/footer');
+    }
 }
