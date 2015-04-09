@@ -157,10 +157,13 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/buildstudRecord');
         $this->load->view('templates/footer');
     }
-    function edit_grades()
+    function edit_grades($code, $subject, $grade)
     {
+        $data['code']=$code;
+        $data['subject']=$subject;
+        $data['grade']=$grade;
         $this->head();
-        $this->load->view('registrar/edit_gades');
+        $this->load->view('registrar/edit_gades', $data);
         $this->load->view('templates/footer');
     }
 }

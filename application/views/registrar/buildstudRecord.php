@@ -57,10 +57,10 @@
 					<tr>
 						<td><strong>Code</strong></td>
 						<td><strong>Subject</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Final Grades</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Re-Exam</strong></td>
-						<td class="tblNum" class="tblNum"><strong>Credit</strong></td>
-						<td class="tblNum" class="tblNum" colspan="2"><strong>Action</strong></td>
+						<td class="tblNum"><strong>Final Grades</strong></td>
+						<td class="tblNum"><strong>Re-Exam</strong></td>
+						<td class="tblNum"><strong>Credit</strong></td>
+						<td class="tblNum" colspan="2"><strong>Action</strong></td>
 					</tr>
 					<tr>
 						<td> ENG 101 </td>
@@ -68,7 +68,7 @@
 						<td class="tblNum"> 2.1 </td>
 						<td> &nbsp; </td>
 						<td class="tblNum"> 3.0 </td>
-						<td><a href="<?php echo base_url('registrar/edit_grades')  ?>" class="btn btn-link">Edit</a></td>
+						<td><a href="<?php echo base_url('registrar/edit_grades/Eng 101/Communication/2.1')  ?>" class="btn btn-link">Edit</a></td>
 						<td><a href="#" class="btn btn-link">Delete</a></td>
 					</tr>
 
