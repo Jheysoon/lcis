@@ -34,7 +34,7 @@
                 name: 'student_list',
                 displayKey: 'value',
                 templates:{
-                    suggestion: Handlebars.compile('<p style="padding: 0;"><strong>{{value}}</strong></p>' +
+                    suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
                     '<span>(Name)</span>')
                 },
                 source: student_list.ttAdapter()

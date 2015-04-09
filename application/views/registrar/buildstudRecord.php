@@ -20,7 +20,7 @@
                 </button>
             </form>
 
-			<img class="profile-main pull-left" src="images/sample.jpg">
+			<img class="profile-main pull-left" src="<?php echo base_url('assets/images/sample.jpg'); ?>">
 			<div class=" pull-left">
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Student ID 		: </strong>
