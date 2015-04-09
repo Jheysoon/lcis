@@ -9,7 +9,7 @@
 			</div>
 			</div>
 			<div class="panel-body">
-					<form class="form-horizontal add-user" method="post" action="index.php" role="form">
+					<form class="form-horizontal add-user" method="post" action="<?php echo base_url("registrar/insert_stud") ?>" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">

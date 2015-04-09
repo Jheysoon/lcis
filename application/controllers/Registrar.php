@@ -141,4 +141,20 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/oldstudent_registration');
         $this->load->view('templates/footer');
     }
+    function insert_stud()
+    {
+        $data = "x";
+        $this->load->model("registrar/tbl_party");
+        $this->tbl_party->insert_students($data);
+        // $data = array(
+
+        //     );
+        // $thi
+    }
+     function buildperrecord()
+    {
+        $this->head();
+        $this->load->view('registrar/buildstudRecord');
+        $this->load->view('templates/footer');
+    }
 }
