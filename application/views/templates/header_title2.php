@@ -51,38 +51,7 @@
     <div class="row">
     <div class="col-md-3 side-bar-menu">
       <div class="collapse navbar-collapse">
-          <?php
-             /*if ($_SESSION['uname'] == 'registrar' ) {
-                $office = "REGISTRAR'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'dean' ) {
-                $office = "DEAN'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'edp' ) {
-                $office = "EDP'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'cashier' ) {
-                $office = "CASHIER'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'instructor' ) {
-                $office = "INSTRUCTOR'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'faculty' ) {
-                $office = "TEACHER'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'comptroller' ) {
-                $office = 'ACCOUNTING Menu';
-             }
-             elseif ($_SESSION['uname'] == 'audit' ) {
-                $office = "AUDIT'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'student' ) {
-                $office = "STUDENT'S Menu";
-             }
-             elseif ($_SESSION['uname'] == 'hr' ) {
-                $office = "HUMAN RESOURCE'S Menu";
-             }*/
-            ?><div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
+          <div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
           <?php
                 $option_header = $this->option->getOptionHeader();
                 foreach($option_header as $option_h)
