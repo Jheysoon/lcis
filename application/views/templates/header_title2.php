@@ -84,20 +84,35 @@
              }*/
             ?><div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
           <?php
-                $menu= $this->option->getUserMenu($this->session->userdata('uid'));
-                foreach($menu as $option)
+                $option_header = $this->option->getOptionHeader();
+                foreach($option_header as $option_h)
                 {
-                    $menu_option = $this->option->getOption($option['optionid']);
-                    $str =str_replace('/','-',$menu_option['link']);
                     ?>
-                    <li class="list-group-item">
-                        <a class="menu" href="<?php echo base_url('menu/'.$str); ?>">
-                            <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; <?php echo $menu_option['desc']; ?>
-                        </a>
-                    </li>
-          <?php
+          <li class="list-group-item">
+              <a class="menu">
+                  <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; <?php echo $this->option->getHeaderName($option_h['header']); ?>
+              </a>
+              <?php
+                $menu = $this->option->getUserMenu($option_h['header']);
+
+              foreach ($menu as $option)
+              {
+                  $menu_option = $this->option->getOption($option['optionid']);
+                  $str = str_replace('/', '-', $menu_option['link']);
+                  ?>
+                  <ul class="sub-menu">
+                      <li class="li-sub-menu">
+                          <a class="menu" href="<?php echo base_url('menu/' . $str); ?>">
+                              <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;
+                              &nbsp; <?php echo $menu_option['desc']; ?>
+                          </a>
+                      </li>
+                  </ul>
+              <?php
                 }
+              }
           ?>
+          </li>
       </div>
     </div>
 
