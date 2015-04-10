@@ -25,7 +25,7 @@
 
           <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav top-sign navbar-right">
-              <li class="logout"><a href="<?php echo base_url('logout'); ?>">Logout</a></li>
+              <li class="logout"><a href="<?php echo base_url('index.php/logout'); ?>">Logout</a></li>
             </ul> 
 
               <p class="navbar-text top-sign2 navbar-right">SY: 2014-2015 &nbsp;&nbsp;&nbsp;&nbsp; Term: First Semester</p>
@@ -84,43 +84,19 @@
              }*/
             ?><div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
           <?php
-              // Just remove the menu function CI
-              // will send a error regarding with the variable $this
-              // it can also be a view file to be fixed
-
-              $this->load->view('templates/registrar_menu');
-
-
-              /*if ($_SESSION['uname'] == 'registrar' ) {
-               $this->load->view('templates/registrar_menu');
-             }
-             elseif ($_SESSION['uname'] == 'dean' ) {
-                 $this->load->view('templates/dean_menu');
-             }
-             elseif ($_SESSION['uname'] == 'cashier' ) {
-                 $this->load->view('templates/cashier_menu');
-             }
-             elseif ($_SESSION['uname'] == 'edp' ) {
-                 $this->load->view('templates/edp_menu');
-             }
-             elseif ($_SESSION['uname'] == 'faculty' ) {
-                 $this->load->view('templates/faculty_menu');
-             }
-             elseif ($_SESSION['uname'] == 'comptroller' ) {
-                 $this->load->view('templates/controller_menu');
-             }
-             elseif ($_SESSION['uname'] == 'instructor' ) {
-                 $this->load->view('templates/instructor_menu');
-             }
-             elseif ($_SESSION['uname'] == 'audit' ) {
-                 $this->load->view('templates/audit_menu');
-             }
-             elseif ($_SESSION['uname'] == 'student' ) {
-                 $this->load->view('templates/student_menu');
-             }
-             elseif ($_SESSION['uname'] == 'hr' ) {
-                 $this->load->view('templates/hr_menu');
-             }*/
+                $menu= $this->option->getUserMenu($this->session->userdata('uid'));
+                foreach($menu as $option)
+                {
+                    $menu_option = $this->option->getOption($option['optionid']);
+                    $str =str_replace('/','-',$menu_option['link']);
+                    ?>
+                    <li class="list-group-item">
+                        <a class="menu" href="<?php echo base_url('menu/'.$str); ?>">
+                            <span class="glyphicon glyphicon-th-list"></span>&nbsp; &nbsp; <?php echo $menu_option['desc']; ?>
+                        </a>
+                    </li>
+          <?php
+                }
           ?>
       </div>
     </div>

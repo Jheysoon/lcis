@@ -14,7 +14,7 @@
           <div class = "col-md-4">
               <?php
                   $attrib = array('class'=>'form-horizontal login','role'=>'form');
-                  echo form_open('',$attrib);
+                  echo form_open('index.php',$attrib);
               ?>
                 <h2 class="sign">
                     <b>Sign in</b>

@@ -57,7 +57,7 @@ class Main extends CI_Controller
                 // set the session uid value
                 $this->session->set_userdata('uid',$this->useraccess->getUserId($username,$password));
 
-                redirect(base_url());
+                redirect(base_url('index.php'));
             }
             else
             {
@@ -65,14 +65,18 @@ class Main extends CI_Controller
                 $this->session->set_flashdata('message','
                     <div class="alert alert-danger text-center">Authentication Failed</div>
                 ');
-                redirect(base_url());
+                redirect(base_url('index.php'));
             }
         }
     }
 
     function home()
     {
-        $this->head();
+        $this->load->model('option');
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
         $this->load->view('home');
         $this->load->view('templates/footer');
     }
@@ -91,7 +95,11 @@ class Main extends CI_Controller
     }
     function menu($page)
     {
-        $this->head();
+        $this->load->model('option');
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
         $page = str_replace('-', '/', $page);
 
         if(file_exists('./application/views/'.$page.'.php'))
