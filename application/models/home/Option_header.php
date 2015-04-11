@@ -12,7 +12,7 @@ class Option_header extends CI_Model
     function getHeaderName($id)
     {
         $this->db->where('id', $id);
-        $q = $this->db->get('option_header');
+        $q = $this->db->get('tbl_option_header');
         $q = $q->row_array();
         echo $q['name'];
     }
