@@ -72,7 +72,7 @@ class Main extends CI_Controller
 
     function home()
     {
-        $this->load->model('option');
+        $this->load->model('home/option');
 
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
