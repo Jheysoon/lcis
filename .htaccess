@@ -6,6 +6,17 @@
 #ExpiresByType image/jpg "access plus 2 weeks"
 #ExpiresByType image/x-icon "access plus 2 weeks"
 #</IfModule>
-RewriteEngine on
-RewriteCond $1 !^(index\.php|assets)
-RewriteRule ^(.*)$ /index.php/$1 [L]
+<IfModule mod_rewrite.c>
+
+	RewriteEngine on
+
+	# cut the url if the index.php is exists make it more cleaner url
+	# e.g. lcis.dev.com/index.php => lcis.dev.com
+
+	RewriteCond %{ENV:REDIRECT_STATUS} ^$
+	RewriteRule ^index\.php(/(.*)|$) %{ENV:BASE}/$2 [R=301,L]
+
+	RewriteCond $1 !^(index\.php|assets)
+	RewriteRule ^(.*)$ /index.php/$1 [L]
+
+</IfModule>
