@@ -11,6 +11,9 @@ class Main extends CI_Controller
 {
     function index()
     {
+        $this->load->library('encryption');
+        //$password = $this->encryption->encrypt('registrar');
+        //$this->db->query("UPDATE tbl_useraccess SET password='$password' WHERE partyid=3");
         // if the session is set
         if($this->session->has_userdata('uid'))
         {
@@ -45,9 +48,11 @@ class Main extends CI_Controller
         {
 
             $this->load->model('useraccess');
+            $this->load->library('encryption');
 
             $username = trim($this->input->post('username'));
             $password = trim($this->input->post('password'));
+
 
             // check if the user exists
             $count = $this->useraccess->chkLogin($username,$password);
@@ -57,7 +62,7 @@ class Main extends CI_Controller
                 // set the session uid value
                 $this->session->set_userdata('uid',$this->useraccess->getUserId($username,$password));
 
-                redirect(base_url('index.php'));
+                redirect(base_url());
             }
             else
             {
@@ -65,7 +70,7 @@ class Main extends CI_Controller
                 $this->session->set_flashdata('message','
                     <div class="alert alert-danger text-center">Authentication Failed</div>
                 ');
-                redirect(base_url('index.php'));
+                redirect(base_url());
             }
         }
     }
@@ -80,7 +85,7 @@ class Main extends CI_Controller
         $this->load->view('templates/header_title2');
 
         $this->load->view('home');
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer',array('orig_page'=>''));
     }
 
     private function head()
@@ -104,18 +109,44 @@ class Main extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
 
+        $data['orig_page'] = $page;
+
         $page = str_replace('-', '/', $page);
 
         if(file_exists('./application/views/'.$page.'.php'))
         {
-            $this->load->view($page);
-            $this->load->view('templates/footer');
+            $load_model = explode('/',$page);
+
+            if($load_model[0]=='registrar')
+            {
+                $this->registrar();
+            }
+
+            $this->load->view($page,$data);
+            $this->load->view('templates/footer',$data);
         }
         else
         {
-
+            show_error();
         }
 
+    }
+
+    function registrar()
+    {
+        $this->load->model('registrar/party');
+    }
+
+    function createUsername($fname,$lname)
+    {
+        if(strlen($lname)>=6)
+        {
+            $username='';
+            for($i=0;$i<6;$i++)
+            {
+                $username .= $lname[$i];
+            }
+        }
     }
     function logout()
     {
