@@ -16,6 +16,9 @@
     <script src="<?php echo base_url('assets/js/docs.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/validation.js'); ?>"></script>
     <!-- =============================================================================== -->
+
+    <script src="/assets/js/home.js"></script>
+
         <?php
             if($orig_page == 'registrar-buildstudRecord')
             {

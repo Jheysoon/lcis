@@ -17,6 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['home']          = 'main/home';
     $route['logout']        = 'main/logout';
     $route['account']       = 'main/account';
+    $route['menu/(:any)']   = 'main/menu/$1';
     $route['menu/(:any)/(:any)']   = 'main/menu/$1/$2';
 
     // Registrar & Dean Shared Routes

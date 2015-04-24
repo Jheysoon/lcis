@@ -30,158 +30,51 @@
 						<th>Student Id</th>
 						<th>Student Name</th>
 						<th><select class="form-control" name='course' required>
-								<option> ALL</option>
-								<option> BACHELOR OF SECONDARY EDUCATION</option>	
+								<!--<option> ALL</option>
+								<option> BACHELOR OF SECONDARY EDUCATION</option>-->
 								<option> BACHELOR OF SCIENCE IN CRIMINOLOGY</option>
-								<option> BACHELOR OF ELEMENTARY EDUCATION</option>
+								<!--<option> BACHELOR OF ELEMENTARY EDUCATION</option>
 								<option> BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</option>
 								<option> BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</option>
 								<OPTION> BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</OPTION>
-								<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>
+								<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>-->
 							</select>	
 						</th>
-						<th>
+						<!--<th>
                             <select class="form-control" name='Year Level' required>
 								<option> THIRD YEAR</option>	
 								<option> ALL</option>
 								<option> FIRST YEAR</option>	
 								<option> SECOND YEAR</option>	
 								<option> FOURTH YEAR</option>	
-							</select>	
-						</th>
-						<th>Action</th>
-					</tr> 
-					<tr>
-						<td>2012-01011</td>
-						<td>FRANCISCO, JAIME</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
+							</select>
+						</th>-->
+						<th colspan="2">Action</th>
 					</tr>
-					<tr>
-						<td>2012-01551</td>
-						<td>ACEDERA, RYAN JOENALDO</td>
-						<td>BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-00861</td>
-						<td>ALARCON, ROEL</td>
-						<td>BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-02541</td>
-						<td>AQUINO, DEXTER</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01698</td>
-						<td>ARELLANO, MARK</td>
-						<td>BACHELOR OF LAWS</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01635</td>
-						<td>AZUCENA, RAUL</td>
-						<td>BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01343</td>
-						<td>BANTAYAN, ALLEN</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01886</td>
-						<td>BAGRO, REYNADLDO</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01662</td>
-						<td>BAJENTING, RAIMAR</td>
-						<td>BACHELOR OF ELEMENTARY EDUCATION</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="index.php?page=editStudent">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="index.php?page=studentRecord">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-00969</td>
-						<td>BAUTISTA, LESTER</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					<tr>
-						<td>2012-00454</td>
-						<td>BAYLON, EUGENE</td>
-						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
-					<tr>
-						<td>2012-01445</td>
-						<td>BERNABE, MARY JANE</td>
-						<td>BACHELOR OF LAWS (Ll.b.)</td>
-						<td>THIRD YEAR</td>
-						<?php //if ($page == "updateOldStudents"): ?>
-							<td><a class="a-table label label-info" href="">Edit<span class="glyphicon glyphicon-pencil"></span></a></td>
-						<?php //else: ?>
-							<td><a class="a-table label label-info" href="">View Records <span class="glyphicon glyphicon-file"></span></a></td>
-						<?php //endif ?>
-					</tr>
+
+                    <?php
+                        // fetch the first 15 records in tbl_enrollment
+                        $result = $this->enrollment->get_first_15();
+
+                        foreach($result as $info)
+                        {
+                            extract($info);
+                            $stud_info = $this->party->getStudInfo($student);
+                                $course = $this->course->getCourse($coursemajor);
+
+                                ?>
+                                <tr>
+                                    <td><?php echo $stud_info['legacyid']; ?></td>
+                                    <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
+                                    <td><?php echo $course; ?></td>
+                                    <!--<td></td>-->
+                                    <td><a class="a-table label label-info" href="/rgstr_build/<?php echo $stud_info['legacyid'];?>">View
+                                            Records <span class="glyphicon glyphicon-file"></span></a></td>
+                                </tr>
+                            <?php
+                            //}
+                        }
+                    ?>
 				</table>
 			</div>
 		</div>

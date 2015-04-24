@@ -57,6 +57,7 @@ class Main extends CI_Controller
             {
                 // set the session uid value
                 $this->session->set_userdata('uid',$this->useraccess->getUserId($username,$password));
+                $this->session->set_userdata(array('sy'=>'2014-2015','sem'=>'1st Semester','cur_id'=>'46'));
 
                 redirect(base_url());
             }
@@ -132,6 +133,9 @@ class Main extends CI_Controller
     function registrar()
     {
         $this->load->model('registrar/party');
+        $this->load->model('registrar/registration');
+        $this->load->model('registrar/course');
+        $this->load->model('registrar/enrollment');
     }
 
     function createUsername($fname,$lname)
@@ -145,10 +149,38 @@ class Main extends CI_Controller
             }
         }
     }
+
+    function setSy_session()
+    {
+        $sy = $this->input->post('sy');
+        $sem = $this->input->post('sem');
+
+        if(is_numeric($sy) AND is_numeric($sem) AND $sy > 0 AND $sem > 0 AND $sem < 4 )
+        {
+            $this->load->model('home/academicterm');
+            $val = $this->academicterm->getSY_id($sy,$sem);
+
+            if($val['term'] == '1')
+                $sem = '1st Semester';
+            elseif($val['term'] == '2')
+                $sem = '2nd Semester';
+            else
+                $sem = 'Summer';
+
+            $this->session->set_userdata(array('sy'=>$val['systart'].'-'.$val['syend'],'sem'=>$sem,'cur_id'=>$val['id']));
+            echo 'ok';
+        }
+        else
+        {
+            echo 'invalid';
+        }
+    }
+
     function logout()
     {
         // Unset some SESSION variable
         $this->session->unset_userdata('uid');
+        $this->session->unset_userdata(array('sy','sem','cur_id'));
 
         redirect(base_url());
     }

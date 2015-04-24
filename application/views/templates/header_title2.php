@@ -28,7 +28,7 @@
               <li class="logout"><a href="<?php echo base_url('index.php/logout'); ?>">Logout</a></li>
             </ul> 
 
-              <p class="navbar-text top-sign2 navbar-right">SY: 2014-2015 &nbsp;&nbsp;&nbsp;&nbsp; Term: First Semester</p>
+              <p class="navbar-text top-sign2 navbar-right">SY: <?php echo $this->session->userdata('sy'); ?>&nbsp;&nbsp;&nbsp;&nbsp; Term: <?php echo $this->session->userdata('sem'); ?></p>
             	<p class="navbar-text top-sign2 navbar-right">Signed in as &nbsp;
 	            	<a href="index.php?page=home" class="navbar-link"><?php //echo $_SESSION['uname']; ?></a>
 	            </p>
@@ -64,7 +64,6 @@
                   &nbsp; <?php echo $this->option_header->getHeaderName($option_h['header']); ?>
               </a>
               <?php
-
               $menu = $this->useroption->getUserMenu($option_h['header']);
 
               foreach ($menu as $option)
@@ -84,6 +83,12 @@
               }
               }
           ?>
+          </li>
+          <li class="list-group-item">
+              <a class="menu" style="cursor: pointer;" id="change_sy_sem">
+                  <span class="glyphicon glyphicon-cog"></span>&nbsp;
+                    Change School Year & Sem
+              </a>
           </li>
       </div>
     </div>
@@ -128,3 +133,58 @@
         </div>
       </div>
     </div>
+        <!-- changing semester modal -->
+        <div class="modal fade" id="modal_sy_sem">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <form action="sy_sem" id="form_sy_sem">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title">School Year & Sem Settings</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <div class="col-sm-6">
+                                    <input type="number" name="from_sy" max="2015" min="1999" class="form-control" placeholder="To" value="2014">
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <input type="text" name="to_sy" readonly value="2015" class="form-control" placeholder="From">
+                                </div>
+
+                                <div class="form-group center-block" style="width: 150px;">
+                                    <label style="margin: 5px -10px;">Semester</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="semester" value="1" checked>
+                                                First Semester
+                                            </label>
+                                        </div>
+
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="semester" value="2">
+                                                Second Semester
+                                            </label>
+                                        </div>
+
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="semester" value="3">
+                                                Summer
+                                            </label>
+                                        </div>
+                                </div>
+                            </p>
+                            <span class="clearfix"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
