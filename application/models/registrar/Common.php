@@ -18,12 +18,12 @@
 		function get_school($partyid){
 			$result = $this->db->query("SELECT school, firstname as sch
 				FROM tbl_enrolment, tbl_party where student = '$partyid' 
-				AND tbl_party.id = tbl_enrolment.school GROUP BY school");
+				AND tbl_party.id = tbl_enrolment.school   GROUP BY school");
 				return $result->result_array();
 		}
 		function select_schoolyear($partyid, $school){
 			$result = $this->db->query("SELECT academicterm FROM tbl_enrolment
-			 where student = '$partyid' AND  school = '$school' ORDER by academicterm");
+			 where student = '$partyid' AND  school = '$school' GROUP BY academicterm ORDER by academicterm");
 			return $result->result_array();
 		}
 		function select_academicterm($academicterm){
