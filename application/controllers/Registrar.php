@@ -182,4 +182,14 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/edit_gades', $data);
         $this->load->view('templates/footer');
     }
+    function buildup(){
+        $this->load->model('home/option');
+        $this->load->model('home/option_header');
+        $this->load->model('home/useroption');
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+        $this->load->model('registrar/common');
+        $this->load->view('registrar/buildstudRecord');
+
+    }
 }

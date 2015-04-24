@@ -83,6 +83,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['stdnt_viewHoliday']             = 'student/viewHoliday';
     $route['stdnt_viewCollegiateCalendar']  = 'student/viewCollegiateCalendar';
 
+    $route['rgstr_buildup']                    = 'registrar/buildup';
+
+
 
 
 /*-----------------------------------------------------------

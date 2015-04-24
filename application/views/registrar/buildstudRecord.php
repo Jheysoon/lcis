@@ -1,11 +1,15 @@
 <?php
     if(empty($param))
     {
-        echo 'without param';
+      //  echo 'without param';
+    	$result = $this->common->select_student('2001-02258-1');
+    	extract($result);
     }
     else
     {
-        echo 'with param';
+    	$result = $this->common->select_student('2001-02258-1');
+    	extract($result);
+        //echo 'with param';
     }
 ?>
 
@@ -35,16 +39,16 @@
 			<div class=" pull-left">
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Student ID 		: </strong>
-					<strong class="strong">2012-01011</strong>
+					<strong class="strong"><?php echo $legacyid; ?></strong>
 				</div>
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Name 			: </strong>
-					<strong class="strong">JAIME FRANCISCO</strong>
+					<strong class="strong"><?php echo $firstname . " " . $middlename . " " . $lastname; ?></strong>
 				</div>
 
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Course 			: </strong>
-					<strong class="strong">Bachelor of Science in Criminology</strong>
+					<strong class="strong"><?php echo $coursemajor . "|" . $partyid . "|" . $course . "|" . $description; ?></strong>
 				</div>
 
 				<div class="col-md-12 pad-bottom-10">
@@ -68,26 +72,50 @@
 		<div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
 		<div class="table-responsive">
-				<table class="table table-bordered">
-                    <tr>
-                        <td class = "tbl-header-main" colspan="2" width="60%"><strong>SCHOOL: Leyte Normal University</strong></th>
-                        <td class = "tbl-header-main" colspan="5"><strong>COURSE     : Bachelor of Elementary Education</strong></th>
-                    </tr>
+		
+				
+				 
 
-                    <tr>
-                        <td class="tbl-header" colspan="2"><strong>School Year: 2012-2013</strong></th>
-                        <td class="tbl-header" colspan="5"><strong>Term: First Semester </strong></th>
-                    </tr>
+		
+					<table class="table table-bordered">
+					<!-- Select First Party ID in the Table tbl_party where legacyid is equal to the of the parameter -->
+						<?php 
+							$result = $this->common->get_school($partyid);
+							foreach ($result as $key => $val):  
+								extract($val);
+							$get_terms = $this->common->select_schoolyear($partyid, $school);
+								
+						?>
+										<tr>
+							                <td class = "tbl-header-main" colspan="2" width="60%"><strong>SCHOOL: <?php echo $sch; ?></strong></th>
+							                <td class = "tbl-header-main" colspan="5"><strong>COURSE     : Bachelor of Elementary Education</strong></th>
+							            </tr>
 
-                    <tr>
-                        <td><strong>Code</strong></td>
-                        <td><strong>Subject</strong></td>
-                        <td class="tblNum"><strong>Final Grades</strong></td>
-                        <td class="tblNum"><strong>Re-Exam</strong></td>
-                        <td class="tblNum"><strong>Credit</strong></td>
-                        <td colspan="2">Action</td>
-                    </tr>
-					<tr>
+									<?php 
+										foreach ($get_terms as $key => $terms): 
+										extract($terms);
+										$sy = $this->common->select_academicterm($academicterm);
+										extract($sy);
+									?>
+										 <tr>
+					                        <td class="tbl-header" colspan="2"><strong>School Year: <?php echo $systart . " - " . $syend; ?></strong></th>
+					                        <td class="tbl-header" colspan="5"><strong>Term: <?php echo $description; ?> </strong></th>
+					                    </tr>
+
+					                    <tr>
+					                        <td><strong>Code</strong></td>
+					                        <td><strong>Subject</strong></td>
+					                        <td class="tblNum"><strong>Final Grades</strong></td>
+					                        <td class="tblNum"><strong>Re-Exam</strong></td>
+					                        <td class="tblNum"><strong>Credit</strong></td>
+					                        <td colspan="2">Action</td>
+					                    </tr>
+									<?php endforeach ?>
+			                <?php 
+			                 	endforeach 
+			                ?>
+				   </table>
+					<!-- <tr>
 						<td> ENG 101 </td>
 						<td> COMMUNICATION ARTS </td>
 						<td class="tblNum"> 2.1 </td>
@@ -135,8 +163,8 @@
 						<td class="tblNum"> 3 </td>
 						<td><a href="#" class="btn btn-link">Edit</a></td>
 						<td><a href="#" class="btn btn-link">Delete</a></td>
-					</tr>			
-				</table>
+					</tr>			 -->
+				
 			</div>
 			</div>
 		</div>
