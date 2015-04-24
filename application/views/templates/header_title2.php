@@ -57,8 +57,7 @@
           $option_header = $this->useroption->getOptionHeader();
           foreach($option_header as $option_h)
           {
-
-          ?>
+              ?>
           <li class="list-group-item">
               <a class="menu">
                   <span class="glyphicon glyphicon-th-list"></span>&nbsp;

@@ -157,12 +157,19 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/buildstudRecord');
         $this->load->view('templates/permanent_record_footer');
     }
-    function search_by_id()
+    function search_by_id($id)
     {
+        // clean the url since the request is a get method
+        $id = urldecode($id);
+
         $data = array();
-        for($q=0;$q<10;$q++)
+
+        $this->load->model('registrar/party');
+        $results_id = $this->party->searchId($id);
+
+        foreach($results_id as $r)
         {
-            $data[] = array('value'=>'2011-0000'.$q);
+            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname']);
         }
         echo json_encode($data);
     }

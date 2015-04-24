@@ -14,7 +14,7 @@
           <div class = "col-md-4">
               <?php
                   $attrib = array('class'=>'form-horizontal login','role'=>'form');
-                  echo form_open('index.php',$attrib);
+                  echo form_open('',$attrib);
               ?>
                 <h2 class="sign">
                     <b>Sign in</b>
@@ -114,4 +114,4 @@
         </div>
       </div>
     <!-- =============================================================================== -->
-    <?php $this->load->view('templates/footer'); ?>
+    <?php $this->load->view('templates/footer',array('orig_page'=>'')); ?>
