@@ -1,16 +1,7 @@
 <?php
-    if(empty($param))
-    {
-      //  echo 'without param';
-    	$result = $this->common->select_student('2001-02258-1');
-    	extract($result);
-    }
-    else
-    {
-    	$result = $this->common->select_student('2001-02258-1');
-    	extract($result);
-        //echo 'with param';
-    }
+
+    $result = $this->common->select_student($id);
+    extract($result);
 ?>
 
 <div class="col-md-3"></div>
