@@ -96,7 +96,7 @@ class Main extends CI_Controller
         $this->load->view('account_settings');
         $this->load->view('templates/footer');
     }
-    function menu($page)
+    function menu($page,$param = '')
     {
         $this->load->model('home/option');
         $this->load->model('home/option_header');
@@ -113,6 +113,7 @@ class Main extends CI_Controller
         {
             $load_model = explode('/',$page);
 
+            $data['param'] = $param;
             if($load_model[0]=='registrar')
             {
                 $this->registrar();

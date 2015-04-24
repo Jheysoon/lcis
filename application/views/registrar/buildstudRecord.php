@@ -1,4 +1,15 @@
-	<div class="col-md-3"></div>
+<?php
+    if(empty($param))
+    {
+        echo 'without param';
+    }
+    else
+    {
+        echo 'with param';
+    }
+?>
+
+<div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 		<div class="panel-heading search">
