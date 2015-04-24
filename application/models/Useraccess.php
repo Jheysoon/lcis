@@ -6,7 +6,6 @@
 
 class Useraccess extends CI_Model
 {
-
     function chkLogin($username, $password)
     {
         $sql = "SELECT * FROM tbl_useraccess
@@ -19,16 +18,17 @@ class Useraccess extends CI_Model
 
             foreach ($q as $info)
             {
+                    // verify if the password in hash
                 if(password_verify($password,$info['password']) && $info['username'] == $username)
                 {
-                    return 1;
+                    return 'ok';
                     break;
                 }
             }
         }
         else
         {
-            return 0;
+            return 'not';
         }
     }
 

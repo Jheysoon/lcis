@@ -11,9 +11,6 @@ class Main extends CI_Controller
 {
     function index()
     {
-        $this->load->library('encryption');
-        //$password = $this->encryption->encrypt('registrar');
-        //$this->db->query("UPDATE tbl_useraccess SET password='$password' WHERE partyid=3");
         // if the session is set
         if($this->session->has_userdata('uid'))
         {
@@ -48,16 +45,15 @@ class Main extends CI_Controller
         {
 
             $this->load->model('useraccess');
-            $this->load->library('encryption');
 
-            $username = trim($this->input->post('username'));
-            $password = trim($this->input->post('password'));
+            $username = stripslashes($this->input->post('username'));
+            $password = stripslashes($this->input->post('password'));
 
 
             // check if the user exists
             $count = $this->useraccess->chkLogin($username,$password);
 
-            if($count > 0)
+            if($count == 'ok')
             {
                 // set the session uid value
                 $this->session->set_userdata('uid',$this->useraccess->getUserId($username,$password));
