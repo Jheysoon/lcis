@@ -131,6 +131,7 @@ class Main extends CI_Controller
 
     function registrar()
     {
+        $this->load->model('registrar/common');
         $this->load->model('registrar/party');
     }
 
