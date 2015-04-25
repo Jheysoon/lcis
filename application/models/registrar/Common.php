@@ -31,8 +31,18 @@
 				FROM tbl_academicterm, tbl_term WHERE tbl_academicterm.id = '$academicterm' 
 				AND tbl_term.id = tbl_academicterm.term");
 			return $result->row_array();
-		}	
-	
+		}
+		function select_enrolmentid($academicterm, $partyid){
+			$result = $this->db->query("SELECT id as enrolmentid FROM tbl_enrolment WHERE student = '$partyid' 
+				AND academicterm = '$academicterm'");
+			return $result->result_array();
+		}
+		function get_all_grades($enrolmentid)	{
+			$result = $this->db->query("SELECT classallocation, semgrade, enrolment, subject, code, descriptivetitle, `value` FROM `tbl_studentgrade`, tbl_classallocation, tbl_subject, tbl_grade
+ 			WHERE enrolment = '$enrolmentid' AND tbl_classallocation.id = classallocation AND tbl_subject.id = subject AND tbl_grade.id = semgrade");
+			return $result->result_array();
+		}
+
 
 	}
 
