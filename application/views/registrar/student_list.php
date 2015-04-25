@@ -25,6 +25,38 @@
 		</div>
 		<div class="panel-body">
 		<div class="table-responsive">
+            <?php
+                $config['base_url'] = base_url().'index.php/menu/registrar-student_list';
+                $config['total_rows'] = $this->enrollment->getRows();
+                $config['per_page'] = 15;
+                $config['num_links'] = 5;
+                $config['first_link'] = 'Previous';
+                $config['last_link'] = 'Next';
+                $config['first_tag_open'] = '<li>';
+                $config['first_tag_close'] = '</li>';
+                $config['last_tag_open'] = '<li>';
+                $config['last_tag_close'] = '</li>';
+                $config['num_tag_open'] = '<li>';
+                $config['num_tag_close'] = '</li>';
+                $config['cur_tag_open'] = '<li class="active"><a href="#">';
+                $config['cur_tag_close'] = '</a></li>';
+                $config['next_tag_open'] = '<li>';
+                $config['next_tag_open'] = '</li>';
+                $config['prev_link'] = FALSE;
+                $config['next_link'] = FALSE;
+                //$config['next_link'] = '<li><a href="#">&gt;</a></li>';
+                if(empty($param))
+                {
+                    $param = 0;
+                }
+                $this->pagination->initialize($config);
+            ?>
+            <ul class="pagination">
+
+            <?php
+                echo $this->pagination->create_links();
+            ?>
+            </ul>
 				<table class="table table-striped table-bordered table-hover">
 					<tr>
 						<th>Student Id</th>
@@ -53,8 +85,8 @@
 					</tr>
 
                     <?php
-                        // fetch the first 15 records in tbl_enrollment
-                        $result = $this->enrollment->get_first_15();
+                        // fetch the records in tbl_enrollment
+                        $result = $this->enrollment->getStud($param);
 
                         foreach($result as $info)
                         {
@@ -76,6 +108,11 @@
                         }
                     ?>
 				</table>
+                <ul class="pagination">
+                    <?php
+                        echo $this->pagination->create_links();
+                    ?>
+                </ul>
 			</div>
 		</div>
 		</div>

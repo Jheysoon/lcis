@@ -137,6 +137,7 @@ class Main extends CI_Controller
         $this->load->model('registrar/registration');
         $this->load->model('registrar/course');
         $this->load->model('registrar/enrollment');
+        $this->load->library('pagination');
     }
 
     function createUsername($fname,$lname)

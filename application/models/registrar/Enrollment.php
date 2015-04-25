@@ -7,11 +7,18 @@
 class Enrollment extends CI_Model
 {
 
-    function get_first_15()
+    function getStud($limit)
     {
         $q = $this->db->query("SELECT * FROM tbl_enrolment
                                 WHERE coursemajor=5
-                                GROUP BY student LIMIT 15");
+                                GROUP BY student LIMIT $limit,15");
         return $q->result_array();
+    }
+    function getRows()
+    {
+        return $this->db->query("SELECT * FROM tbl_enrolment
+                                    WHERE coursemajor=5
+                                    GROUP BY student")
+            ->num_rows();
     }
 }
