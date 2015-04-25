@@ -15,17 +15,7 @@
 
 		</div>
 		<div class="panel-body">
-
-            <!--  search form  -->
-            <form class="navbar-form navbar-right" action="<?php echo base_url(''); ?>" method="post" role="search">
-                <div class="form-group">
-                    <input type="text" id="student_search" name="search" autofocus class="form-control" placeholder="Student ID">
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </form>
-
+       
 			<img class="profile-main pull-left" src="<?php echo base_url('assets/images/sample.jpg'); ?>">
 			<div class=" pull-left">
 				<div class="col-md-12 pad-bottom-10">
@@ -39,18 +29,18 @@
 
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Course 			: </strong>
-					<strong class="strong"><?php echo $coursemajor . "|" . $partyid . "|" . $course . "|" . $description; ?></strong>
+					<strong class="strong"><?php echo $description; ?></strong>
 				</div>
 
-				<div class="col-md-12 pad-bottom-10">
+				<!-- <div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Year Level 		: </strong>
 					<strong class="strong">Third Year</strong>
 				</div>
-				
+				 -->
 			</div>
 
 
-				<div class="col-md-12 pad-bottom-10">
+				<!-- <div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Elementary 	: </strong>
 					<strong class="strong">TACLOBAN ELEMENTARY School 	23 March 2008</strong>
 				</div>
@@ -58,7 +48,7 @@
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">High School :</strong>
 					<strong class="strong">TACLOBAN NATIONAL HIGH SCHOOL 	23 April 2012</strong>
-				</div>
+				</div> -->
 
 		<div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
