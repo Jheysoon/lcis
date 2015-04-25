@@ -11,18 +11,21 @@
 			
 			</div>
 			<div class="col-md-6">
-				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
-			        <div class="form-group">
-			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Student Id">
-			        </div>
-			        <button type="submit" class="btn btn-primary">
-			        <span class="glyphicon glyphicon-search"></span>
-			        </button>
 
-			     </form>
+
 			</div>
 		</div>
+            <?php echo $this->session->flashdata('message'); ?>
+            <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+                <div class="form-group">
+                    <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+
+            </form>
 		<div class="panel-body">
 		<div class="table-responsive">
             <?php

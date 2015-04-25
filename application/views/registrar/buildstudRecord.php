@@ -29,7 +29,31 @@
 
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Course 			: </strong>
-					<strong class="strong"><?php echo $description; ?></strong>
+                        <select name="" id="">
+                            <?php
+                                $course = $this->course->getAllCourse();
+
+                                foreach($course as $c)
+                                {
+                                    if($c['description'] == $description)
+                                    {
+                                    ?>
+                                        <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
+                                    <?php
+                                        }
+                                        else
+                                        {
+                                        ?>
+                                            <option value="<?php echo $c['id']; ?>"><?php echo $c['description']; ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                            <?php
+                                }
+                            echo $description;
+
+                            ?>
+                        </select>
 				</div>
 
 				<!-- <div class="col-md-12 pad-bottom-10">

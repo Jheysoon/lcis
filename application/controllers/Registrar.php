@@ -183,6 +183,7 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
     function buildup($id){
+        $this->load->model('registrar/course');
         $this->load->model('home/option');
         $this->load->model('home/option_header');
         $this->load->model('home/useroption');
@@ -191,6 +192,19 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/common');
         $data['id'] = $id;
         $this->load->view('registrar/buildstudRecord',$data);
-
+    }
+    function search()
+    {
+        $this->load->model('registrar/party');
+        $id = $this->input->post('search');
+        if($id > 0)
+        {
+            redirect('/regstr_build/'.$id);
+        }
+        else
+        {
+            $this->session->set_flashdata('message','<div class="alert alert-danger">Unable to find student id</div>');
+            redirect($this->input->post('cur_url'));
+        }
     }
 }

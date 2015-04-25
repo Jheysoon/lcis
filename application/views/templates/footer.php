@@ -20,7 +20,9 @@
     <script src="/assets/js/home.js"></script>
 
         <?php
-            if($orig_page == 'registrar-buildstudRecord')
+            $str = current_url();
+            $str = explode('/',$str);
+            if(in_array('registrar-student_list',$str))
             {
                 ?>
     <script src="/assets/js/typeahead.bundle.js"></script>
