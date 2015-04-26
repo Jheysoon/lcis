@@ -187,11 +187,14 @@ class Registrar extends CI_Controller
         $this->load->model('home/option');
         $this->load->model('home/option_header');
         $this->load->model('home/useroption');
+        $this->load->model('registrar/grade');
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
         $this->load->model('registrar/common');
+        $this->load->model('registrar/subject');
         $data['id'] = $id;
         $this->load->view('registrar/buildstudRecord',$data);
+        $this->load->view('templates/footer');
     }
     function search()
     {
@@ -199,12 +202,40 @@ class Registrar extends CI_Controller
         $id = $this->input->post('search');
         if($id > 0)
         {
-            redirect('/regstr_build/'.$id);
+            redirect('/rgstr_build/'.$id);
         }
         else
         {
             $this->session->set_flashdata('message','<div class="alert alert-danger">Unable to find student id</div>');
             redirect($this->input->post('cur_url'));
+        }
+    }
+    function save_grade()
+    {
+        $enrolmentid =  $this->input->post('enrolmentid');
+        $subjid = $this->input->post('add_subj');
+        $grade = $this->input->post('sub_grade');
+        $academicid = $this->input->post('academictermid');
+        $schoolid = $this->input->post('schoolid');
+        $this->load->model('registrar/classallocation');
+        $this->load->model('registrar/studentgrade');
+        $this->load->model('registrar/subject');
+        $this->load->model('registrar/grade');
+
+        $id = $this->classallocation->insert_ca_returnId($subjid,$academicid);
+        if(is_numeric($id))
+        {
+            $data['subj'] = $subjid;
+            $data['grade_user'] = $grade;
+            $data['enrolmentid'] = $enrolmentid;
+            $data['academicterm'] = $academicid;
+            $data['schoolid'] = $schoolid;
+            $this->studentgrade->save_grade($id,$grade,$enrolmentid);
+            $this->load->view('registrar/ajax/add_subject',$data);
+        }
+        else
+        {
+            echo 'error';
         }
     }
 }
