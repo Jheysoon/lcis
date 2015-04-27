@@ -43,8 +43,10 @@
 				AND tbl_classallocation.id = classallocation AND tbl_subject.id = subject AND tbl_grade.id = semgrade");
 				return $result->result_array();
 		}
-
-
+		function theflag($partyid){
+			$result = $this->db->query("SELECT flag FROM tbl_confirmflag WHERE partyid = '$partyid'");
+			return $result->row_array();
+		}
 	}
 
 

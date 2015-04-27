@@ -238,4 +238,12 @@ class Registrar extends CI_Controller
             echo 'error';
         }
     }
+    function insert_flag()
+    {
+        $partyid =  $this->input->post('partyid');
+        $data = array('flag' => '1',
+                    'partyid' => $partyid);
+        $this->db->insert('tbl_confirmflag', $data);
+        redirect('/');
+    }
 }
