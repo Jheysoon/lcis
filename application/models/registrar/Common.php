@@ -38,7 +38,7 @@
 		}
 
 		function get_all_grades($enrolmentid){
-			$result = $this->db->query("SELECT classallocation, semgrade, enrolment, subject, code, descriptivetitle, `value` 
+			$result = $this->db->query("SELECT classallocation, semgrade, enrolment, subject, code, descriptivetitle, `value`,units
 				FROM `tbl_studentgrade`, tbl_classallocation, tbl_subject, tbl_grade WHERE enrolment = '$enrolmentid' 
 				AND tbl_classallocation.id = classallocation AND tbl_subject.id = subject AND tbl_grade.id = semgrade");
 				return $result->result_array();
