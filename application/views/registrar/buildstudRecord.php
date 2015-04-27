@@ -80,7 +80,12 @@
             <!--<div class="panel">-->
 
                 <!-- div class table-responsive -->
+
+
                 <div class="table-responsive">
+                    <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
+                    <span class="clearfix"></span>
+                    <br/>
                     <?php
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):

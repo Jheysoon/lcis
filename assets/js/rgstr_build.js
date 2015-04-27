@@ -14,6 +14,28 @@ $(document).ready(function(){
             else
             {
                 $('#tbl'+targerTr).append(data);
+
+                $('.del_sub').on('click', function (e) {
+
+                    if(confirm('Are you sure ?'))
+                    {
+                        val = $(this).attr('href');
+                        $.post('/registrar/delete_record',{value:val},function(){
+
+                        });
+                        $(this).parent().parent().hide('500');
+                    }
+                    e.preventDefault();
+
+                });
+
+                $('select[name="edit_sub_grade"]').on('change', function () {
+                    value = $(this).val();
+                    $.post('/registrar/save_edit_grade',{val:value},function(data){
+
+                    });
+                });
+
             }
             $('#myModal'+targerTr).modal('hide');
         });

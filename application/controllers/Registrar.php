@@ -200,6 +200,7 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
+        $id = $this->party->existsID($id);
         if($id > 0)
         {
             redirect('/rgstr_build/'.$id);
@@ -230,7 +231,7 @@ class Registrar extends CI_Controller
             $data['enrolmentid'] = $enrolmentid;
             $data['academicterm'] = $academicid;
             $data['schoolid'] = $schoolid;
-            $this->studentgrade->save_grade($id,$grade,$enrolmentid);
+            $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
             $this->load->view('registrar/ajax/add_subject',$data);
         }
         else
