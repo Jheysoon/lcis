@@ -44,8 +44,9 @@
 				return $result->result_array();
 		}
 		function theflag($partyid){
-			$result = $this->db->query("SELECT flag FROM tbl_confirmflag WHERE partyid = '$partyid'");
-			return $result->row_array();
+			$this->db->where('partyid',$partyid);
+			$q = $this->db->count_all_results('tbl_confirmflag');
+			return $q;
 		}
 	}
 

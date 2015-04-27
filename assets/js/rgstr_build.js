@@ -4,6 +4,7 @@
 
 $(document).ready(function(){
     var targerTr = '';
+
     $('.frm-add-subj').submit(function(e){
         $.post('/registrar/save_grade',$(this).serialize(),function(data){
             if(data == 'error')
@@ -18,9 +19,17 @@ $(document).ready(function(){
         });
         e.preventDefault();
     });
+
     $('.modal-add-subj-grade').click(function(e){
         targerTr = $(this).attr('href');
         $('#myModal'+targerTr).modal('show');
         e.preventDefault();
+    });
+
+    $('select[name="edit_sub_grade"]').change(function(){
+        value = $(this).val();
+        $.post('/registrar/save_edit_grade',{val:value},function(data){
+            alert(data);
+        });
     });
 });
