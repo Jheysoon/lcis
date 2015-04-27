@@ -185,7 +185,7 @@ class Main extends CI_Controller
     {
         // Unset some SESSION variable
         $this->session->unset_userdata('uid');
-        $this->session->unset_userdata(array('sy','sem','cur_id'));
+        $this->session->unset_userdata(array('sy','sem','cur_id','position'));
 
         redirect(base_url());
     }
