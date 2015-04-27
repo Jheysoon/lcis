@@ -130,12 +130,12 @@
                                                         {
                                                             if($ag['value'] == $value){
                                                                 ?>
-                                                                <option value="<?php echo 'en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>" selected><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'par-'.$partyid.'_en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>" selected><?php echo $ag['value']; ?></option>
                                                             <?php
                                                             }
                                                             else{
                                                                 ?>
-                                                                <option value="<?php echo 'en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>"><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'par-'.$partyid.'_en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>"><?php echo $ag['value']; ?></option>
                                                             <?php
                                                             }
                                                         }
@@ -148,6 +148,8 @@
                                         </tr>
 
                                     <?php endforeach ?>
+                                    <!-- add this  -->
+                                <?php endforeach ?>
                                     <tr>
                                         <td colspan="6">
                                             <div class="modal fade" id="myModal<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -199,7 +201,6 @@
                                             <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                         </td>
                                     </tr>
-                                <?php endforeach ?>
                             </table>
                             <br/>
                             <?php endforeach ?>

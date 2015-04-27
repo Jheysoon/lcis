@@ -238,4 +238,15 @@ class Registrar extends CI_Controller
             echo 'error';
         }
     }
+
+    function save_edit_grade()
+    {
+        $val = $this->input->post('val');
+        $cat = explode('_',$val);
+        foreach($cat as $c)
+        {
+            $v = explode('-',$c);
+            print_r($v);
+        }
+    }
 }

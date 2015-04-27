@@ -1,7 +1,7 @@
 <?php
     $sub = $this->subject->findById($subj);
 ?>
-<tr>
+<tr class="success">
 <td><?php echo $sub['code']; ?></td>
 <td><?php echo $sub['descriptivetitle']; ?></td>
 <td>
