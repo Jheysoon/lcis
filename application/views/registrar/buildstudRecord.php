@@ -1,7 +1,8 @@
 <?php
     //1999-00344-1 duplicate subj.
-	//$position = 'Admin-registrar';
-    $position = 'x';
+
+	$position = $this->session->userdata('position');
+
     $result = $this->common->select_student($id);
     extract($result);
 ?>
@@ -29,7 +30,8 @@
 
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Course 			: </strong>
-                        <select class="form-control" name="" id="">
+                        <?php if ($position != 'Admin-registrar'): ?>
+                        	<select class="form-control" name="" id="">
                             <?php
                                 $course = $this->course->getAllCourse();
 
@@ -52,6 +54,10 @@
                                 }
                             ?>
                         </select>
+                    <?php else: ?>
+                    		<?php echo $description; ?>
+                    <?php endif ?>
+                        
 				</div>
 
 				<!-- <div class="col-md-12 pad-bottom-10">
@@ -224,7 +230,6 @@
                                 <?php endforeach ?>
 
                             </table>
-                            <br/>
                         <?php endforeach ?>
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
