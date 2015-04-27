@@ -17,7 +17,7 @@
 		function get_school($partyid){
 			$result = $this->db->query("SELECT school, firstname as sch
 				FROM tbl_enrolment, tbl_party where student = '$partyid' 
-				AND tbl_party.id = tbl_enrolment.school   GROUP BY school");
+				AND tbl_party.id = tbl_enrolment.school GROUP BY school");
 				return $result->result_array();
 		}
 		function select_schoolyear($partyid, $school){
@@ -36,6 +36,7 @@
 				AND academicterm = '$academicterm'");
 				return $result->result_array();
 		}
+
 		function get_all_grades($enrolmentid){
 			$result = $this->db->query("SELECT classallocation, semgrade, enrolment, subject, code, descriptivetitle, `value` 
 				FROM `tbl_studentgrade`, tbl_classallocation, tbl_subject, tbl_grade WHERE enrolment = '$enrolmentid' 

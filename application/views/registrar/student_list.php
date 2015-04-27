@@ -11,18 +11,21 @@
 			
 			</div>
 			<div class="col-md-6">
-				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
-			        <div class="form-group">
-			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Student Id">
-			        </div>
-			        <button type="submit" class="btn btn-primary">
-			        <span class="glyphicon glyphicon-search"></span>
-			        </button>
 
-			     </form>
+
 			</div>
 		</div>
+            <?php echo $this->session->flashdata('message'); ?>
+            <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+                <div class="form-group">
+                    <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+
+            </form>
 		<div class="panel-body">
 		<div class="table-responsive">
             <?php
@@ -30,20 +33,24 @@
                 $config['total_rows'] = $this->enrollment->getRows();
                 $config['per_page'] = 15;
                 $config['num_links'] = 5;
-                $config['first_link'] = 'Previous';
-                $config['last_link'] = 'Next';
+                $config['first_link'] = 'First';
+                $config['last_link'] = 'Last';
                 $config['first_tag_open'] = '<li>';
                 $config['first_tag_close'] = '</li>';
                 $config['last_tag_open'] = '<li>';
                 $config['last_tag_close'] = '</li>';
                 $config['num_tag_open'] = '<li>';
                 $config['num_tag_close'] = '</li>';
-                $config['cur_tag_open'] = '<li class="active"><a href="#">';
+                $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
                 $config['cur_tag_close'] = '</a></li>';
                 $config['next_tag_open'] = '<li>';
                 $config['next_tag_open'] = '</li>';
-                $config['prev_link'] = FALSE;
-                $config['next_link'] = FALSE;
+                $config['prev_tag_open'] = '<li>';
+                $config['prev_tag_close'] = '</li>';
+                $config['next_tag_open'] = '<li>';
+                $config['next_tag_close'] = '</li>';
+                //$config['prev_link'] = 'Prev';
+                //$config['next_link'] = 'Next';
                 //$config['next_link'] = '<li><a href="#">&gt;</a></li>';
                 if(empty($param))
                 {

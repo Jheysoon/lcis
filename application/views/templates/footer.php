@@ -20,12 +20,20 @@
     <script src="/assets/js/home.js"></script>
 
         <?php
-            if($orig_page == 'registrar-buildstudRecord')
+            $str = current_url();
+            $str1 = explode('/',$str);
+            if(in_array('rgstr_build',$str1))
             {
                 ?>
-    <script src="/assets/js/typeahead.bundle.js"></script>
-    <script src="/assets/js/handlebars-v3.0.1.js"></script>
-    <script src="/assets/js/buildup_permanent_record.js"></script>
+                <script src="/assets/js/rgstr_build.js"></script>
+        <?php
+            }
+            if(in_array('registrar-student_list',$str1))
+            {
+                ?>
+            <script src="/assets/js/typeahead.bundle.js"></script>
+            <script src="/assets/js/handlebars-v3.0.1.js"></script>
+            <script src="/assets/js/buildup_permanent_record.js"></script>
         <?php
             }
         ?>

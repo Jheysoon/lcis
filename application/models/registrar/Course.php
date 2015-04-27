@@ -19,4 +19,10 @@ class Course extends CI_Model{
         return $q['description'];
     }
 
+    function getAllCourse()
+    {
+        $q = $this->db->get('tbl_course');
+        return $q->result_array();
+    }
+
 }
