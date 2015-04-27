@@ -1,6 +1,7 @@
 <?php
     //1999-00344-1 duplicate subj.
-	$position = 'Admin-registrar';
+	//$position = 'Admin-registrar';
+    $position = 'x';
     $result = $this->common->select_student($id);
     extract($result);
 ?>
@@ -138,24 +139,23 @@
                                                         {
                                                             if($ag['value'] == $value){
                                                                 ?>
-                                                                <option value="<?php echo 'par-'.$partyid.'_en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>" selected><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected><?php echo $ag['value']; ?></option>
                                                             <?php
                                                             }
                                                             else{
                                                                 ?>
-                                                                <option value="<?php echo 'par-'.$partyid.'_en-'.$enrolmentid.'_sc-'.$school.'_ac-'.$academicterm.'_subj-'.$ag['id']; ?>"><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>"><?php echo $ag['value']; ?></option>
                                                             <?php
                                                             }
                                                         }
                                                     ?>
-                                            <?php endif ?>
-                                               
+                                                    <?php endif ?>
                                                 </select>
                                             </td>
                                             <td> &nbsp; </td>
                                             <td class="tblNum"><?php echo $units; ?></td>
                                             <?php if ($position != 'Admin-registrar'): ?>
-                                            	<td><a href="#" class="btn btn-link">Delete</a></td>
+                                            	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub">Delete</a></td>
                                             <?php endif ?>
                                             
                                         </tr>
@@ -226,7 +226,6 @@
                         if ($getflag < 1): ?>
 	                        	<form action="/registrar/insert_flag" method="POST">
 		                        	<input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-		                        	<!-- DRI NAPADAUN -->
 		                        	<input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Do you sure?')">        
 	                        	</form>
                         <?php endif ?>

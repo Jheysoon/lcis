@@ -29,7 +29,20 @@ $(document).ready(function(){
     $('select[name="edit_sub_grade"]').change(function(){
         value = $(this).val();
         $.post('/registrar/save_edit_grade',{val:value},function(data){
-            alert(data);
+
         });
+    });
+
+    $('.del_sub').click(function(e){
+
+        if(confirm('Are you sure ?'))
+        {
+            val = $(this).attr('href');
+            $.post('/registrar/delete_record',{value:val},function(){
+
+            });
+            $(this).parent().parent().hide('500');
+        }
+        e.preventDefault();
     });
 });
