@@ -258,12 +258,42 @@ class Registrar extends CI_Controller
 }
     function save_edit_grade()
     {
+        $this->load->model('registrar/studentgrade');
         $val = $this->input->post('val');
         $cat = explode('_',$val);
+        $i = 0;
         foreach($cat as $c)
         {
             $v = explode('-',$c);
-            print_r($v);
+            if($i == 0)
+            {
+                $studgrade = $v[1];
+            }
+            elseif($i == 1)
+            {
+                $grade_id = $v[1];
+            }
+            else
+            {
+                $subid = $v[1];
+            }
+            $i++;
         }
+        $this->studentgrade->update_grade($studgrade,$grade_id);
+    }
+
+    function delete_record()
+    {
+        $this->load->model('registrar/studentgrade');
+        $this->load->model('registrar/enrollment');
+
+        $val = $this->input->post('value');
+
+        $cat = explode('-',$val);
+        $enrolid = $cat[0];
+        $studgrade = $cat[1];
+        $this->studentgrade->delete_grade($studgrade);
+        $this->enrollment->update_record($enrolid);
+
     }
 }
