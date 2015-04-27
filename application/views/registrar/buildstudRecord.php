@@ -15,9 +15,7 @@
 
 		</div>
 		<div class="panel-body">
-       
-			<img class="profile-main pull-left" src="<?php echo base_url('assets/images/sample.jpg'); ?>">
-			<div class=" pull-left">
+            <div class="col-md-4">
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Student ID 		: </strong>
 					<strong class="strong"><?php echo $legacyid; ?></strong>
@@ -29,7 +27,7 @@
 
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Course 			: </strong>
-                        <select name="" id="">
+                        <select class="form-control" name="" id="">
                             <?php
                                 $course = $this->course->getAllCourse();
 
@@ -60,19 +58,21 @@
 				</div>
 				 -->
 			</div>
+            <div class="col-md-5">
+                <div class="col-md-12 pad-bottom-10">
+                    <strong class="strong">Elementary   : </strong>
+                    <strong class="strong"><!-- variable --></strong>
+                </div>
 
+                <div class="col-md-12 pad-bottom-10">
+                    <strong class="strong">High School :</strong>
+                    <strong class="strong"><!-- variable --></strong>
+                </div>
+            </div>
 
-				<!-- <div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Elementary 	: </strong>
-					<strong class="strong">TACLOBAN ELEMENTARY School 	23 March 2008</strong>
-				</div>
-
-				<div class="col-md-12 pad-bottom-10">
-					<strong class="strong">High School :</strong>
-					<strong class="strong">TACLOBAN NATIONAL HIGH SCHOOL 	23 April 2012</strong>
-				</div> -->
-
-		<div class="col-md-12"><hr class="hr-middle"></div>
+		<div class="col-md-3 pad-bottom-10"><img class="profile-main pull-right" src="<?php echo base_url('assets/images/sample.jpg'); ?>"></div>
+            
+        <div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
             <!-- div class panel -->
             <!--<div class="panel">-->
@@ -85,10 +85,10 @@
                             extract($val);
                             $get_terms = $this->common->select_schoolyear($partyid, $school);
                     ?>
-                        <table class="table table-bordered">
+                        <table class="table table-bordered no-space">
                             <tr>
-                                <td style="width: 50%;"><strong>SCHOOL: <?php echo $sch; ?></strong></td>
-                                <td><strong>COURSE     : <?php echo $description; ?></strong></td>
+                                <td class="tbl-header-main" style="width: 50%;"><strong>SCHOOL: <?php echo $sch; ?></strong></td>
+                                <td class="tbl-header-main"><strong>COURSE     : <?php echo $description; ?></strong></td>
                             </tr>
                         </table>
                             <?php
@@ -97,10 +97,10 @@
                                 $sy = $this->common->select_academicterm($academicterm);
                                 extract($sy);
                             ?>
-                            <table class="table table-bordered" id="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>">
+                            <table class="table table-bordered no-space" id="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>">
                                 <tr>
-                                    <td style="width: 50%" colspan="2"><strong>School Year: <?php echo $systart . " - " . $syend; ?></strong></td>
-                                    <td colspan="4"><strong>Term: <?php echo $description; ?> </strong></td>
+                                    <td class="tbl-header" style="width: 50%" colspan="2"><strong>School Year: <?php echo $systart . " - " . $syend; ?></strong></td>
+                                    <td class="tbl-header" colspan="4"><strong>Term: <?php echo $description; ?> </strong></td>
                                 </tr>
                                 <tr>
                                     <td>Code</td>
