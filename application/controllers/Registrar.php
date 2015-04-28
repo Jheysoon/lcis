@@ -194,6 +194,7 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/subject');
         $this->load->model('registrar/party');
         $this->load->model('registrar/academicterm');
+        $this->load->model('registrar/log_student');
         $data['id'] = $id;
         $this->load->view('registrar/buildstudRecord',$data);
         $this->load->view('templates/footer');
