@@ -8,21 +8,19 @@
 		{
 			echo $data;
 		}
-
+        
         function searchId($id)
         {
             $status = $this->session->userdata('status');
-            $party_id = $this->db->query("SELECT * FROM tbl_party, log_student 
-                                          WHERE legacyid LIKE '$id%' AND partytype = 3
-                                          AND tbl_party.id = log_student.student
-                                          AND status = '$status' LIMIT 5");
-            return $party_id->result_array();
-        }
-        
-        function searchId2($id)
-        {
-            $party_id = $this->db->query("SELECT * FROM tbl_party, log_student 
-                                          WHERE legacyid LIKE '$id%' LIMIT 5");
+            if($status == 'N'){
+                $party_id = $this->db->query("SELECT * FROM tbl_party
+                                              WHERE legacyid LIKE '$id%' LIMIT 5");
+            }
+            else{
+                $party_id = $this->db->query("SELECT * FROM tbl_party
+                                              WHERE legacyid LIKE '$id%'
+                                              AND status = '$status' LIMIT 5");
+            }
             return $party_id->result_array();
         }
 
@@ -34,7 +32,7 @@
             }else{
                 $this->db->where('id',$id);
                 $this->db->where('status',$this->session->userdata('status'));
-                 $q = $this->db->get('tbl_party, log_student');
+                 $q = $this->db->get('tbl_party');
             }
             return $q->row_array();
         }
