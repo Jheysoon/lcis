@@ -38,8 +38,9 @@
 		}
 		function get_all_grades($enrolmentid){
 			$data = array('enrolment' => $enrolmentid);
-			$result = $this->db->get_where('views_studentgrade,', $data);
+			$result = $this->db->get_where('views_studentgrade', $data);
 			return $result->result_array();
+
 		}
 		function theflag($partyid){
 			$this->db->where('partyid',$partyid);
