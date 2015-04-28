@@ -61,12 +61,24 @@
                 <label>Status Filter</label>
 
                 <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
-                    <option value="N" selected>Not Open</option>
-                    <option value="O">Open</option>
-                    <option value="E">Editing</option>
-                    <option value="S">Submitted</option>
-                    <option value="C">Confirmed</option>
-                    <option value="R">Returned</option>
+                    <option value="N" <?php if ($this->session->userdata('status') == 'N'): ?>
+                        selected
+                    <?php endif ?>>Not Open</option>
+                    <option value="O" <?php if ($this->session->userdata('status') == 'O'): ?>
+                        selected
+                    <?php endif ?>>Open</option>
+                    <option value="E" <?php if ($this->session->userdata('status') == 'E'): ?>
+                        selected
+                    <?php endif ?>>Editing</option>
+                    <option value="S" <?php if ($this->session->userdata('status') == 'S'): ?>
+                        selected
+                    <?php endif ?>>Submitted</option>
+                    <option value="C" <?php if ($this->session->userdata('status') == 'C'): ?>
+                        selected
+                    <?php endif ?>>Confirmed</option>
+                    <option value="R" <?php if ($this->session->userdata('status') == 'R'): ?>
+                        selected
+                    <?php endif ?>>Returned</option>
                 </select>
 
                 <div class="form-group">
