@@ -36,9 +36,10 @@
 				AND academicterm = '$academicterm'");
 				return $result->result_array();
 		}
-
 		function get_all_grades($enrolmentid){
-			$result = $this->db->get_where('view_studentgrade', array('enrolment' => $enrolmentid));
+			$data = array('enrolment' => $enrolmentid);
+
+			$result = $this->db->get_where('views_studentgrade,', $data);
 			return $result->result_array();
 		}
 		function theflag($partyid){
