@@ -28,6 +28,8 @@ $(document).ready(function(){
     );
 });
 
-function changeSession(val){
-    alert(val.value);
-}
+
+    function changeSession(val){
+        document.cookie = "status=" + val.value;
+       alert(document.cookie);
+    }

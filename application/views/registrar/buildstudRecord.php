@@ -299,6 +299,7 @@
 
                             </table>
                         <?php endforeach ?>
+                        <br />
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
                         if ($getflag < 1): ?>
@@ -317,3 +318,8 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    function changeSession(val){
+    alert(val.value);
+}
+</script>

@@ -28,4 +28,19 @@ class Classallocation extends CI_Model{
             return $id;
         }
     }
+    function whereCount($field,$val = '')
+    {
+        if(is_array($field) and $val == '')
+        {
+            foreach($field as $key => $value)
+            {
+                $this->db->where($key,$value);
+            }
+        }
+        else
+        {
+            $this->db->where($field,$val);
+        }
+        return $this->db->count_all_results('tbl_classallocation');
+    }
 }
