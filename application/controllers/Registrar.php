@@ -263,15 +263,11 @@ class Registrar extends CI_Controller
         $data = array('flag' => '1',
                     'partyid' => $partyid);
         $this->load->model('registrar/common');
-
         $result = $this->common->theflag($partyid);
-        if ($result < 1) {
-             $this->db->insert('tbl_confirmflag', $data);
-        }else{
-            
-            $this->db->query("UPDATE tbl_confirmflag SET flag = 1 WHERE partyid = '$partyid'");
-        }
         
+        $data2 = array('status' => $status);
+        $this->db->where('id', $partyid);
+        $this->db->update('tbl_party', $data2);
         redirect('/');
 
 }
