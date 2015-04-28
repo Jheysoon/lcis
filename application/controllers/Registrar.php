@@ -169,7 +169,7 @@ class Registrar extends CI_Controller
 
         foreach($results_id as $r)
         {
-            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname']);
+            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname'],'status'=>'ok');
         }
         echo json_encode($data);
     }

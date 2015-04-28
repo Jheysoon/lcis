@@ -20,10 +20,14 @@ $(document).ready(function(){
             displayKey: 'value',
             templates:{
                 suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                '<span>{{name}}</span>'),
+                '<span>{{name}}</span><span>{{status}}</span>'),
                 empty:['<div class="alert alert-danger">Unable to find student id</div>']
             },
             source: student_list.ttAdapter()
         }
     );
 });
+
+function changeSession(val){
+    alert(val.value);
+}
