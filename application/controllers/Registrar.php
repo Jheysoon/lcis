@@ -346,4 +346,9 @@ class Registrar extends CI_Controller
             echo 'Academic Term Already Exists';
         }
     }
+    function add_session()
+    {
+        $value = $this->input->post('value');
+        $this->session->set_userdata('status',$value);
+    }
 }

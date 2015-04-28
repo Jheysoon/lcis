@@ -60,7 +60,7 @@
                 <label>Status Filter</label>
 
                 <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
-                    <option value="N">Not Open</option>
+                    <option value="N" selected>Not Open</option>
                     <option value="O">Open</option>
                     <option value="E">Editing</option>
                     <option value="S">Submitted</option>
@@ -141,6 +141,3 @@
 		</div>
 	</div>
 </div>
-<?php 
-    echo "<script>alert(".$_COOKIE['status'].")</script>";
- ?>

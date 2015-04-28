@@ -59,7 +59,7 @@ class Main extends CI_Controller
                 $userid = $this->useraccess->getUserId($username,$password);
                 $this->session->set_userdata('uid',$userid);
                 $this->session->set_userdata('position',$this->useraccess->getposition($userid));
-                $this->session->set_userdata(array('sy'=>'2014-2015','sem'=>'1st Semester','cur_id'=>'46'));
+                $this->session->set_userdata(array('sy'=>'2014-2015','sem'=>'1st Semester','cur_id'=>'46','status'=>'N'));
 
                 redirect(base_url());
             }
@@ -185,7 +185,7 @@ class Main extends CI_Controller
     {
         // Unset some SESSION variable
         $this->session->unset_userdata('uid');
-        $this->session->unset_userdata(array('sy','sem','cur_id','position'));
+        $this->session->unset_userdata(array('sy','sem','cur_id','position','status'));
 
         redirect(base_url());
     }
