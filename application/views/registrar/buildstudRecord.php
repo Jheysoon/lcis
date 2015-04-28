@@ -316,7 +316,7 @@
             <!--</div>-->
             <!-- /div class panel -->
             <?php 
-                $this->log_student->insert_not_exists($partyid.'O');
+                $this->log_student->insert_not_exists($partyid,'O');
              ?>
 		</div>
 		</div>

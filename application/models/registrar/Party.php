@@ -32,8 +32,8 @@
                 $this->db->where('id',$id);
                 $q = $this->db->get('tbl_party');
             }else{
-                $this->db->where('id',$id);
-                $this->db->where('status',$this->session->userdata('status'));
+                $this->db->where('tbl_party.id',$id);
+                $this->db->where('tbl_party.status',$this->session->userdata('status'));
                  $q = $this->db->get('tbl_party, log_student');
             }
             return $q->row_array();
