@@ -60,7 +60,7 @@
                 <input type="hidden" id = "thestatus" name = "stats">
                 <label>Status Filter</label>
 
-                <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
+                <select class="form-control" name="status" id = "status">
                     <option value="N" selected>Not Open</option>
                     <option value="O">Open</option>
                     <option value="E">Editing</option>
@@ -80,6 +80,7 @@
             </form>
             </div>
 		<div class="panel-body">
+            <input type="hidden" name="param" value="<?php echo $param; ?>"/>
     		<div id="studlist_wrapper" class="table-responsive">
                 <?php 
                     $this->load->view('registrar/ajax/tbl_studlist',$data);

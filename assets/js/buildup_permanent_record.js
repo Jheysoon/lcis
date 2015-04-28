@@ -28,8 +28,9 @@ $(document).ready(function(){
     );
     $('#status').change(function(){
         val = $(this).val();
-        $.post('/registrar/add_session',{value:val},function(){
-
+        param1 = $('input[name="param"]').val();
+        $.post('/registrar/add_session',{value:val,param:param1},function(data){
+            $('#studlist_wrapper').html(data);
         });
     });
 });

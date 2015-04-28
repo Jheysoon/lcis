@@ -350,5 +350,10 @@ class Registrar extends CI_Controller
     {
         $value = $this->input->post('value');
         $this->session->set_userdata('status',$value);
+        $data['param'] = $this->input->post('param');
+        $this->load->model(
+            array('registrar/enrollment','registrar/party','registrar/course')
+        );
+        $this->load->view('registrar/ajax/tbl_studlist',$data);
     }
 }
