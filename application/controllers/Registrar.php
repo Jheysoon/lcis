@@ -200,6 +200,7 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
+        $flag = $this->input->post('status');
         if($id > 0)
         {
             redirect('/rgstr_build/'.$id);

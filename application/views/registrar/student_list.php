@@ -16,23 +16,12 @@
 			</div>
 		</div>
             <?php echo $this->session->flashdata('message'); ?>
-            <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
-                <div class="form-group">
-                    <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
-                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-
-            </form>
-		<div class="panel-body">
-		<div class="table-responsive">
+            <div class="col-md-6">
             <?php
                 $config['base_url'] = base_url().'index.php/menu/registrar-student_list';
                 $config['total_rows'] = $this->enrollment->getRows();
                 $config['per_page'] = 15;
-                $config['num_links'] = 5;
+                $config['num_links'] = 2;
                 $config['first_link'] = 'First';
                 $config['last_link'] = 'Last';
                 $config['first_tag_open'] = '<li>';
@@ -49,8 +38,8 @@
                 $config['prev_tag_close'] = '</li>';
                 $config['next_tag_open'] = '<li>';
                 $config['next_tag_close'] = '</li>';
-                //$config['prev_link'] = 'Prev';
-                //$config['next_link'] = 'Next';
+                $config['prev_link'] = 'Prev';
+                $config['next_link'] = 'Next';
                 //$config['next_link'] = '<li><a href="#">&gt;</a></li>';
                 if(empty($param))
                 {
@@ -64,6 +53,29 @@
                 echo $this->pagination->create_links();
             ?>
             </ul>
+            </div>
+            <div class="col-md-6"><br/>
+            <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+                <label>Status Filter</label>
+                <select class="form-control" name="status">
+                    <option>Open</option>
+                    <option>Editing</option>
+                    <option>Submitted</option>
+                    <option>Confirmed</option>
+                    <option>Returned</option>
+                </select>
+                <div class="form-group">
+                    <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+
+            </form>
+            </div>
+		<div class="panel-body">
+		<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<tr>
 						<th>Student Id</th>
