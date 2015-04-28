@@ -49,7 +49,7 @@
 		}
 		function theflag($partyid){
 			$this->db->where('id',$partyid);
-			$this->db->where('status', 'N');
+			$this->db->where('status', 'C');
 			$q = $this->db->count_all_results('tbl_party');
 			return $q;
 		}
