@@ -225,21 +225,35 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/subject');
         $this->load->model('registrar/grade');
 
-        $id = $this->classallocation->insert_ca_returnId($subjid,$academicid);
-        if(is_numeric($id))
+
+        $data['subject'] = $subjid;
+        $data['academicterm'] = $academicid;
+        $count = $this->classallocation->whereCount($data);
+        if($count < 1)
         {
-            $data['subj'] = $subjid;
-            $data['grade_user'] = $grade;
-            $data['enrolmentid'] = $enrolmentid;
-            $data['academicterm'] = $academicid;
-            $data['schoolid'] = $schoolid;
-            $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
-            $this->load->view('registrar/ajax/add_subject',$data);
+            $id = $this->classallocation->insert_ca_returnId($subjid,$academicid);
+            if(is_numeric($id))
+            {
+                $db['enrolmentid'] = $enrolmentid;
+
+                $data['subj'] = $subjid;
+                $data['grade_user'] = $grade;
+                $data['enrolmentid'] = $enrolmentid;
+                $data['academicterm'] = $academicid;
+                $data['schoolid'] = $schoolid;
+                $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
+                $this->load->view('registrar/ajax/add_subject',$data);
+            }
+            else
+            {
+                echo 'error';
+            }
         }
         else
         {
-            echo 'error';
+            echo 'Subject Already exists';
         }
+
     }
     function insert_flag()
     {
@@ -315,8 +329,19 @@ class Registrar extends CI_Controller
         $data['academicterm'] = $syid;
         $data['school'] = $sch_id;
         $data['numberofsubject'] = 0;
-        $id = $this->enrollment->insert_return_id($data);
-        $data['id'] = $id;
-        $this->load->view('registrar/ajax/add_academicterm',$data);
+
+        $db['academicterm'] = $syid;
+        $db['student'] = $partyid;
+        $count = $this->enrollment->whereCount($db);
+        if($count < 0)
+        {
+            $id = $this->enrollment->insert_return_id($data);
+            $data['id'] = $id;
+            $this->load->view('registrar/ajax/add_academicterm',$data);
+        }
+        else
+        {
+            echo 'Academic Term Already Exists';
+        }
     }
 }

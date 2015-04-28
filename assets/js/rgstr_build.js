@@ -16,6 +16,10 @@ $(document).ready(function(){
                 {
                     alert('Something went wrong');
                 }
+                else if(data == 'Subject Already exists')
+                {
+                    alert(data);
+                }
                 else
                 {
                     $('#tbl'+targerTr).append(data);
@@ -81,12 +85,19 @@ $(document).ready(function(){
 
     $('#frm_add_academicterm').submit(function(e){
         $.post('/registrar/add_acam',$(this).serialize(),function(data){
-            $('#academic_wrapper').prepend(data);
-            $('.modal-add-subj-grade').on('click',function(e){
-                targerTr = $(this).attr('href');
-                $('#myModal'+targerTr).modal('show');
-                e.preventDefault();
-            });
+            if(data == 'Academic Term Already Exists')
+            {
+                alert(data);
+            }
+            else
+            {
+                $('#academic_wrapper').prepend(data);
+                $('.modal-add-subj-grade').on('click',function(e){
+                    targerTr = $(this).attr('href');
+                    $('#myModal'+targerTr).modal('show');
+                    e.preventDefault();
+                });
+            }
             
             add_subj();
 
