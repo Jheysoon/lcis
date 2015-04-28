@@ -57,7 +57,7 @@
             <div class="col-md-6"><br/>
             <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
                 <label>Status Filter</label>
-                <select class="form-control" name="status" onchange="changeSession(this)">
+                <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
                     <option value="notopen">Not Open</option>
                     <option value="open">Open</option>
                     <option value="editing">Editing</option>
