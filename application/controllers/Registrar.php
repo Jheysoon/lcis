@@ -192,6 +192,8 @@ class Registrar extends CI_Controller
         $this->load->view('templates/header_title2');
         $this->load->model('registrar/common');
         $this->load->model('registrar/subject');
+        $this->load->model('registrar/party');
+        $this->load->model('registrar/academicterm');
         $data['id'] = $id;
         $this->load->view('registrar/buildstudRecord',$data);
         $this->load->view('templates/footer');
@@ -200,6 +202,7 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
+        $id = $this->party->existsID($id);
         if($id > 0)
         {
             redirect('/rgstr_build/'.$id);
@@ -230,7 +233,7 @@ class Registrar extends CI_Controller
             $data['enrolmentid'] = $enrolmentid;
             $data['academicterm'] = $academicid;
             $data['schoolid'] = $schoolid;
-            $this->studentgrade->save_grade($id,$grade,$enrolmentid);
+            $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
             $this->load->view('registrar/ajax/add_subject',$data);
         }
         else
@@ -294,6 +297,26 @@ class Registrar extends CI_Controller
         $studgrade = $cat[1];
         $this->studentgrade->delete_grade($studgrade);
         $this->enrollment->update_record($enrolid);
-
+    }
+    function add_acam()
+    {
+        $partyid = $this->input->post('partyid');
+        $sch_id = $this->input->post('school_id');
+        $cid = $this->input->post('course_id');
+        $syid = $this->input->post('sy_id');
+        $this->load->model('registrar/enrollment');
+        $this->load->model('registrar/party');
+        $this->load->model('registrar/course');
+        $this->load->model('registrar/academicterm');
+        $this->load->model('registrar/subject');
+        $this->load->model('registrar/grade');
+        $data['student'] = $partyid;
+        $data['coursemajor'] = $cid;
+        $data['academicterm'] = $syid;
+        $data['school'] = $sch_id;
+        $data['numberofsubject'] = 0;
+        $id = $this->enrollment->insert_return_id($data);
+        $data['id'] = $id;
+        $this->load->view('registrar/ajax/add_academicterm',$data);
     }
 }

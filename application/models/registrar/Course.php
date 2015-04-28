@@ -19,7 +19,21 @@ class Course extends CI_Model{
         return $q['description'];
     }
 
+    function getMajor($id)
+    {
+        $this->db->where('id',$id);
+        $q = $this->db->get('tbl_major');
+        $q = $q->row_array();
+        return $q['description'];
+    }
+
     function getAllCourse()
+    {
+        $q = $this->db->get('tbl_coursemajor');
+        return $q->result_array();
+    }
+
+    function allCourse()
     {
         $q = $this->db->get('tbl_course');
         return $q->result_array();

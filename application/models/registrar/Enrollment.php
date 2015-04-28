@@ -46,4 +46,19 @@ class Enrollment extends CI_Model
             $this->db->trans_commit();
         }
     }
+    function insert_return_id($data)
+    {
+        $this->db->trans_begin();
+        $this->db->insert('tbl_enrolment',$data);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+        }
+        return $id;
+    }
 }

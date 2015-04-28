@@ -12,12 +12,12 @@
             {
                 if($grade_user == $g['id']){
                     ?>
-                    <option value="<?php echo 'en-'.$enrolmentid.'_sc-'.$schoolid.'_ac-'.$academicterm.'_subj-'.$g['id']; ?>" selected><?php echo $g['value']; ?></option>
+                    <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$g['id'].'_enroll-'.$enrolmentid; ?>" selected><?php echo $g['value']; ?></option>
                     <?php
                 }
                 else{
                     ?>
-                    <option value="<?php echo 'en-'.$enrolmentid.'_sc-'.$schoolid.'_ac-'.$academicterm.'_subj-'.$g['id']; ?>"><?php echo $g['value']; ?></option>
+                    <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$g['id'].'_enroll-'.$enrolmentid; ?>"><?php echo $g['value']; ?></option>
                     <?php
                 }
             }
@@ -26,5 +26,5 @@
 </td>
 <td> &nbsp; </td>
 <td class="text-right"><?php echo $sub['units']; ?></td>
-<td><a href="#" class="btn btn-link">Delete</a></td>
+    <td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub">Delete</a></td>
 </tr>
