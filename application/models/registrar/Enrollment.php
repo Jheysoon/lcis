@@ -18,9 +18,9 @@ class Enrollment extends CI_Model
         else{
             $q = $this->db->query("SELECT * FROM tbl_enrolment, log_student
                                     WHERE coursemajor=5
-                                    AND  status = '$status'
+                                    AND  log_student.status = '$status'
                                     AND tbl_enrolment.student = log_student.student
-                                    GROUP BY student LIMIT $limit,15");
+                                    GROUP BY tbl_enrolment.student LIMIT $limit,15");
         }
         return $q->result_array();
     }
