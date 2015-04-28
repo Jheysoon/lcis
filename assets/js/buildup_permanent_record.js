@@ -26,10 +26,10 @@ $(document).ready(function(){
             source: student_list.ttAdapter()
         }
     );
+    $('#status').change(function(){
+        val = $(this).val();
+        $.post('/registrar/add_session',{value:val},function(){
+
+        });
+    });
 });
-
-
-    function changeSession(val){
-        document.cookie = "status=" + val.value;
-       alert(document.cookie);
-    }
