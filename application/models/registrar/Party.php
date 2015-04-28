@@ -9,8 +9,9 @@
 			echo $data;
 		}
 
-        function searchId($id, $status)
+        function searchId($id)
         {
+            $status = $this->session->userdata('status');
             $party_id = $this->db->query("SELECT * FROM tbl_party, log_student 
                                           WHERE legacyid LIKE '$id%' AND partytype = 3
                                           AND tbl_party.id = log_student.student
@@ -27,8 +28,14 @@
 
         function getStudInfo($id)
         {
-            $this->db->where('id',$id);
-            $q = $this->db->get('tbl_party');
+            if($this->session->userdata('status') == 'N'){
+                $this->db->where('id',$id);
+                $q = $this->db->get('tbl_party');
+            }else{
+                $this->db->where('id',$id);
+                $this->db->where('status',$this->session->userdata('status'));
+                 $q = $this->db->get('tbl_party, log_student');
+            }
             return $q->row_array();
         }
         function existsID($id)
