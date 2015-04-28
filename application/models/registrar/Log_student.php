@@ -17,5 +17,9 @@ class Log_student extends CI_Model
                         'status' => $status);
         $this->db->insert('log_student', $data);
 
+        $data2 = array('status' => $status);
+        $this->db->where('id', $partyid);
+        $this->db->update('tbl_part', $data2);
+
     }
 }
