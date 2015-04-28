@@ -265,7 +265,7 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/common');
         $result = $this->common->theflag($partyid);
         
-        $data2 = array('status' => $status);
+        $data2 = array('status' => 'S');
         $this->db->where('id', $partyid);
         $this->db->update('tbl_party', $data2);
         redirect('/');

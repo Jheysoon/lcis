@@ -3,7 +3,7 @@
 
 	$position = $this->session->userdata('position');
 
-    $this->log_student->insert_not_exists($id);
+    $this->log_student->insert_not_exists($id,'O');
     
     $result = $this->common->select_student($id);
     extract($result);
