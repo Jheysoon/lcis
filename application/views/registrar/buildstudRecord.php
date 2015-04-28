@@ -318,3 +318,8 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    function changeSession(val){
+    alert(val.value);
+}
+</script>

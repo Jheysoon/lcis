@@ -27,7 +27,3 @@ $(document).ready(function(){
         }
     );
 });
-
-function changeSession(val){
-    alert(val.value);
-}
