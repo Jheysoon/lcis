@@ -27,10 +27,17 @@
             $this->db->where('partytype',3);
             return $this->db->count_all_results('tbl_party');
         }
-
-        /*function get_first_15()
+        function getSchool()
         {
-            $q = $this->db->query("SELECT id,legacyid,firstname,lastname FROM tbl_party WHERE partytype=3 LIMIT 100");
+            $this->db->where('partytype',1);
+            $this->db->or_where('partytype',5);
+            $q = $this->db->get('tbl_party');
             return $q->result_array();
-        }*/
+        }
+        function getSchoolById($id)
+        {
+            $this->db->where('id',$id);
+            $q = $this->db->get('tbl_party');
+            return $q->row_array();
+        }
 	}

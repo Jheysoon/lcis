@@ -192,6 +192,8 @@ class Registrar extends CI_Controller
         $this->load->view('templates/header_title2');
         $this->load->model('registrar/common');
         $this->load->model('registrar/subject');
+        $this->load->model('registrar/party');
+        $this->load->model('registrar/academicterm');
         $data['id'] = $id;
         $this->load->view('registrar/buildstudRecord',$data);
         $this->load->view('templates/footer');
@@ -200,7 +202,7 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
-        $flag = $this->input->post('status');
+        $id = $this->party->existsID($id);
         if($id > 0)
         {
             redirect('/rgstr_build/'.$id);
@@ -231,7 +233,7 @@ class Registrar extends CI_Controller
             $data['enrolmentid'] = $enrolmentid;
             $data['academicterm'] = $academicid;
             $data['schoolid'] = $schoolid;
-            $this->studentgrade->save_grade($id,$grade,$enrolmentid);
+            $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
             $this->load->view('registrar/ajax/add_subject',$data);
         }
         else
@@ -259,12 +261,62 @@ class Registrar extends CI_Controller
 }
     function save_edit_grade()
     {
+        $this->load->model('registrar/studentgrade');
         $val = $this->input->post('val');
         $cat = explode('_',$val);
+        $i = 0;
         foreach($cat as $c)
         {
             $v = explode('-',$c);
-            print_r($v);
+            if($i == 0)
+            {
+                $studgrade = $v[1];
+            }
+            elseif($i == 1)
+            {
+                $grade_id = $v[1];
+            }
+            else
+            {
+                $subid = $v[1];
+            }
+            $i++;
         }
+        $this->studentgrade->update_grade($studgrade,$grade_id);
+    }
+
+    function delete_record()
+    {
+        $this->load->model('registrar/studentgrade');
+        $this->load->model('registrar/enrollment');
+
+        $val = $this->input->post('value');
+
+        $cat = explode('-',$val);
+        $enrolid = $cat[0];
+        $studgrade = $cat[1];
+        $this->studentgrade->delete_grade($studgrade);
+        $this->enrollment->update_record($enrolid);
+    }
+    function add_acam()
+    {
+        $partyid = $this->input->post('partyid');
+        $sch_id = $this->input->post('school_id');
+        $cid = $this->input->post('course_id');
+        $syid = $this->input->post('sy_id');
+        $this->load->model('registrar/enrollment');
+        $this->load->model('registrar/party');
+        $this->load->model('registrar/course');
+        $this->load->model('registrar/academicterm');
+        $this->load->model('registrar/subject');
+        $this->load->model('registrar/grade');
+        $data['student'] = $partyid;
+        $data['coursemajor'] = $cid;
+        $data['academicterm'] = $syid;
+        $data['school'] = $sch_id;
+        $data['numberofsubject'] = 0;
+        $id = $this->enrollment->insert_return_id($data);
+        $data['id'] = $id;
+        $this->load->view('registrar/ajax/add_academicterm',$data);
     }
 }
