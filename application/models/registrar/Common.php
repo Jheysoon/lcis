@@ -36,11 +36,11 @@
 				AND academicterm = '$academicterm'");
 				return $result->result_array();
 		}
-
 		function get_all_grades($enrolmentid){
-            $result = $this->db->query("SELECT classallocation, semgrade, enrolment, subject, code, descriptivetitle, `value`,units, tbl_studentgrade.id as sid FROM `tbl_studentgrade`, tbl_classallocation, tbl_subject, tbl_grade
- 			WHERE enrolment = '$enrolmentid' AND tbl_classallocation.id = classallocation AND tbl_subject.id = subject AND tbl_grade.id = semgrade");
-            return $result->result_array();
+			$data = array('enrolment' => $enrolmentid);
+			$result = $this->db->get_where('views_studentgrade', $data);
+			return $result->result_array();
+
 		}
 		function theflag($partyid){
 			$this->db->where('partyid',$partyid);

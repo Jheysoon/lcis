@@ -5,42 +5,49 @@
 $(document).ready(function(){
     var targerTr = '';
 
-    $('.frm-add-subj').submit(function(e){
-        $.post('/registrar/save_grade',$(this).serialize(),function(data){
-            if(data == 'error')
-            {
-                alert('Something went wrong');
-            }
-            else
-            {
-                $('#tbl'+targerTr).append(data);
+    add_subj();
 
-                $('.del_sub').on('click', function (e) {
 
-                    if(confirm('Are you sure ?'))
-                    {
-                        val = $(this).attr('href');
-                        $.post('/registrar/delete_record',{value:val},function(){
+    function add_subj()
+    {
+        $('.frm-add-subj').submit(function(e){
+            $.post('/registrar/save_grade',$(this).serialize(),function(data){
+                if(data == 'error')
+                {
+                    alert('Something went wrong');
+                }
+                else
+                {
+                    $('#tbl'+targerTr).append(data);
 
-                        });
-                        $(this).parent().parent().hide('500');
-                    }
-                    e.preventDefault();
+                    $('.del_sub').on('click', function (e) {
 
-                });
+                        if(confirm('Are you sure ?'))
+                        {
+                            val = $(this).attr('href');
+                            $.post('/registrar/delete_record',{value:val},function(){
 
-                $('select[name="edit_sub_grade"]').on('change', function () {
-                    value = $(this).val();
-                    $.post('/registrar/save_edit_grade',{val:value},function(data){
+                            });
+                            $(this).parent().parent().hide('500');
+                        }
+                        e.preventDefault();
 
                     });
-                });
 
-            }
-            $('#myModal'+targerTr).modal('hide');
+                    $('select[name="edit_sub_grade"]').on('change', function () {
+                        value = $(this).val();
+                        $.post('/registrar/save_edit_grade',{val:value},function(data){
+
+                        });
+                    });
+
+                }
+                $('#myModal'+targerTr).modal('hide');
+            });
+            e.preventDefault();
         });
-        e.preventDefault();
-    });
+    }
+
 
     $('.modal-add-subj-grade').click(function(e){
         targerTr = $(this).attr('href');
@@ -80,42 +87,9 @@ $(document).ready(function(){
                 $('#myModal'+targerTr).modal('show');
                 e.preventDefault();
             });
-            $('.frm-add-subj').submit(function(e){
-                $.post('/registrar/save_grade',$(this).serialize(),function(data){
-                    if(data == 'error')
-                    {
-                        alert('Something went wrong');
-                    }
-                    else
-                    {
-                        $('#tbl'+targerTr).append(data);
+            
+            add_subj();
 
-                        $('.del_sub').on('click', function (e) {
-
-                            if(confirm('Are you sure ?'))
-                            {
-                                val = $(this).attr('href');
-                                $.post('/registrar/delete_record',{value:val},function(){
-
-                                });
-                                $(this).parent().parent().hide('500');
-                            }
-                            e.preventDefault();
-
-                        });
-
-                        $('select[name="edit_sub_grade"]').on('change', function () {
-                            value = $(this).val();
-                            $.post('/registrar/save_edit_grade',{val:value},function(data){
-
-                            });
-                        });
-
-                    }
-                    $('#myModal'+targerTr).modal('hide');
-                });
-                e.preventDefault();
-            });
             $('#modal_academicterm').modal('hide')
         });
         e.preventDefault();
