@@ -30,9 +30,15 @@
                 $this->db->where('id',$id);
                 $q = $this->db->get('tbl_party');
             }else{
+<<<<<<< HEAD
                 $this->db->where('id',$id);
                 $this->db->where('status',$this->session->userdata('status'));
                  $q = $this->db->get('tbl_party');
+=======
+                $this->db->where('tbl_party.id',$id);
+                $this->db->where('tbl_party.status',$this->session->userdata('status'));
+                 $q = $this->db->get('tbl_party, log_student');
+>>>>>>> 06a229baa45031d25004402b11a148087ac8e801
             }
             return $q->row_array();
         }

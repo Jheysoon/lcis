@@ -3,7 +3,6 @@
 
 	$position = $this->session->userdata('position');
 
-    $this->log_student->insert_not_exists($id);
     
     $result = $this->common->select_student($id);
     extract($result);
@@ -316,12 +315,10 @@
 
             <!--</div>-->
             <!-- /div class panel -->
+            <?php 
+                $this->log_student->insert_not_exists($partyid,'O');
+             ?>
 		</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-    function changeSession(val){
-    alert(val.value);
-}
-</script>
