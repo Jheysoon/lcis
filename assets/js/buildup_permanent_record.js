@@ -27,3 +27,9 @@ $(document).ready(function(){
         }
     );
 });
+
+
+    function changeSession(val){
+        document.cookie = "status=" + val.value;
+       alert(document.cookie);
+    }

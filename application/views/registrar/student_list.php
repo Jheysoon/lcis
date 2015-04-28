@@ -58,14 +58,16 @@
             <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
                 <input type="hidden" id = "thestatus" name = "stats">
                 <label>Status Filter</label>
-                    <select class="form-control" name="status" id = "x" onchange="changeSession(this)">
-                        <option value="notopen">Not Open</option>
-                        <option value="open">Open</option>
-                        <option value="editing">Editing</option>
-                        <option value="submitted">Submitted</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="returned">Returned</option>
-                    </select>
+
+                <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
+                    <option value="N">Not Open</option>
+                    <option value="O">Open</option>
+                    <option value="E">Editing</option>
+                    <option value="S">Submitted</option>
+                    <option value="C">Confirmed</option>
+                    <option value="R">Returned</option>
+                </select>
+
                 <div class="form-group">
                     <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
                     <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
@@ -140,14 +142,5 @@
 	</div>
 </div>
 <?php 
-    echo "<script>alert(".$_COOKIE['name'].")</script>";
+    echo "<script>alert(".$_COOKIE['status'].")</script>";
  ?>
-<script type="text/javascript">
-    
-    function changeSession(val){
-        document.cookie = "name=" + val.value;
-       //  createcookie(val.value);
-       alert(document.cookie);
-
-}   
-</script>

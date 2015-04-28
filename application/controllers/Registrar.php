@@ -163,13 +163,14 @@ class Registrar extends CI_Controller
         $id = urldecode($id);
 
         $data = array();
+        $status = $_COOKIE['name'];
 
         $this->load->model('registrar/party');
-        $results_id = $this->party->searchId($id);
+        $results_id = $this->party->searchId($id, $status);
 
         foreach($results_id as $r)
         {
-            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname'],'status'=>'ok');
+            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname'],'status'=> $status);
         }
         echo json_encode($data);
     }
