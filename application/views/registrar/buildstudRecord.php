@@ -4,7 +4,7 @@
 	$position = $this->session->userdata('position');
 
     $this->log_student->insert_not_exists($id);
-
+    
     $result = $this->common->select_student($id);
     extract($result);
 ?>
@@ -304,7 +304,7 @@
                         <br />
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
-                        if ($getflag < 1): ?>
+                        if ($getflag < 1 AND $position == 'Admin-registrar'): ?>
 	                        	<form action="/registrar/insert_flag" method="POST">
 		                        	<input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
 		                        	<input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Do you sure?')">        

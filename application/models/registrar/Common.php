@@ -48,8 +48,9 @@
 
 		}
 		function theflag($partyid){
-			$this->db->where('partyid',$partyid);
-			$q = $this->db->count_all_results('tbl_confirmflag');
+			$this->db->where('id',$partyid);
+			$this->db->where('status', 'N');
+			$q = $this->db->count_all_results('tbl_party');
 			return $q;
 		}
 	}
