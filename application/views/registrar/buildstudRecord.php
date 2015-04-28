@@ -299,6 +299,7 @@
 
                             </table>
                         <?php endforeach ?>
+                        <br />
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
                         if ($getflag < 1): ?>

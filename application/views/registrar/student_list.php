@@ -58,11 +58,11 @@
             <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
                 <label>Status Filter</label>
                 <select class="form-control" name="status">
-                    <option>Open</option>
-                    <option>Editing</option>
-                    <option>Submitted</option>
-                    <option>Confirmed</option>
-                    <option>Returned</option>
+                    <option value="open">Open</option>
+                    <option value="editing">Editing</option>
+                    <option value="submitted">Submitted</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="returned">Returned</option>
                 </select>
                 <div class="form-group">
                     <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
