@@ -273,6 +273,8 @@ class Registrar extends CI_Controller
     function save_edit_grade()
     {
         $this->load->model('registrar/studentgrade');
+        $this->load->model('registrar/log_student');
+        $this->load->model('registrar/enrollment');
         $val = $this->input->post('val');
         $cat = explode('_',$val);
         $i = 0;
@@ -289,10 +291,12 @@ class Registrar extends CI_Controller
             }
             else
             {
-                $subid = $v[1];
+                $enroll = $v[1];
             }
             $i++;
         }
+        $q = $this->enrollment->getID($enroll);
+        $this->log_student->insert_not_exists($q['student'],'E');
         $this->studentgrade->update_grade($studgrade,$grade_id);
     }
 
@@ -321,6 +325,7 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/academicterm');
         $this->load->model('registrar/subject');
         $this->load->model('registrar/grade');
+        $this->load->model('registrar/log_student');
         $data['student'] = $partyid;
         $data['coursemajor'] = $cid;
         $data['academicterm'] = $syid;
@@ -332,6 +337,7 @@ class Registrar extends CI_Controller
         $count = $this->enrollment->whereCount($db);
         if($count < 0)
         {
+            $this->log_student->insert_not_exists($partyid,'E');
             $id = $this->enrollment->insert_return_id($data);
             $data['id'] = $id;
             $this->load->view('registrar/ajax/add_academicterm',$data);

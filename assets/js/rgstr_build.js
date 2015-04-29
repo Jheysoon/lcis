@@ -62,7 +62,7 @@ $(document).ready(function(){
     $('select[name="edit_sub_grade"]').change(function(){
         value = $(this).val();
         $.post('/registrar/save_edit_grade',{val:value},function(data){
-
+            alert(data);
         });
     });
 
