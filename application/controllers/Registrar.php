@@ -230,10 +230,14 @@ class Registrar extends CI_Controller
         $data['subject'] = $subjid;
         $data['academicterm'] = $academicid;
         //$count = $this->classallocation->whereCount($data);
-        /*$q = $this->db->query("SELECT * FROM tbl_studentgrade WHERE enrolment=$enrolmentid AND
-        classallocation=(SELECT id FROM tbl_classallocation WHERE academicterm=$academicid AND subject=$subjid)")->num_rows();
+
+        // we can prevent user from entering duplicate subj within a academicterm but 
+        // the studentgrade table will be a mess
+        // cause we will not create a new record in tbl_classallocation
+        // just fetch the first record that is found
+        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid)")->num_rows();
         if ($q < 1)
-        {*/
+        {
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
             if (is_numeric($id))
             {
@@ -252,11 +256,11 @@ class Registrar extends CI_Controller
             {
                 echo 'error';
             }
-        /*}
+        }
         else
         {
             echo 'Subject Already exists';
-        }*/
+        }
 
     }
 

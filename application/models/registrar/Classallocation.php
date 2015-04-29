@@ -14,11 +14,13 @@ class Classallocation extends CI_Model{
         $data['subject'] = $subid;
         $data['academicterm'] = $academicterm;
         $this->db->trans_begin();
+        $this->db->limit(1);
         $this->db->where('academicterm',$academicterm);
         $this->db->where('subject',$subid);
         $c = $this->db->get('tbl_classallocation');
         if($c->num_rows()>1)
         {
+            $c = $c->row_array();
             return $c['id'];
         }
         else
