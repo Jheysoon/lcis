@@ -141,22 +141,21 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/oldstudent_registration');
         $this->load->view('templates/footer');
     }
+
     function insert_stud()
     {
         $data = "x";
         $this->load->model("registrar/tbl_party");
         $this->tbl_party->insert_students($data);
-        // $data = array(
-
-        //     );
-        // $thi
     }
-     function buildperrecord()
+
+    function buildperrecord()
     {
         $this->head();
         $this->load->view('registrar/buildstudRecord');
         $this->load->view('templates/permanent_record_footer');
     }
+
     function search_by_id($id)
     {
         // clean the url since the request is a get method
@@ -167,73 +166,73 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/party');
         $results_id = $this->party->searchId($id);
 
-        foreach($results_id as $r)
+        foreach ($results_id as $r)
         {
-            $data[] = array('value'=>$r['legacyid'],'name'=>$r['firstname'].' '.$r['lastname'].' '.$r['status']);
+            $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname'] . ' ' . $r['status']);
         }
         echo json_encode($data);
     }
+
     function edit_grades($code, $subject, $grade)
     {
-        $data['code']=$code;
-        $data['subject']=$subject;
-        $data['grade']=$grade;
+        $data['code'] = $code;
+        $data['subject'] = $subject;
+        $data['grade'] = $grade;
         $this->head();
         $this->load->view('registrar/edit_gades', $data);
         $this->load->view('templates/footer');
     }
-    function buildup($id){
-        $this->load->model('registrar/course');
-        $this->load->model('home/option');
-        $this->load->model('home/option_header');
-        $this->load->model('home/useroption');
-        $this->load->model('registrar/grade');
+
+    function buildup($id)
+    {
+        $this->load->model(array(
+            'registrar/course', 'home/option',
+            'home/option_header', 'home/useroption',
+            'registrar/grade', 'registrar/common',
+            'registrar/subject', 'registrar/party',
+            'registrar/academicterm', 'registrar/log_student'
+        ));
+        $data['id'] = $id;
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
-        $this->load->model('registrar/common');
-        $this->load->model('registrar/subject');
-        $this->load->model('registrar/party');
-        $this->load->model('registrar/academicterm');
-        $this->load->model('registrar/log_student');
-        $data['id'] = $id;
-        $this->load->view('registrar/buildstudRecord',$data);
+        $this->load->view('registrar/buildstudRecord', $data);
         $this->load->view('templates/footer');
     }
+
     function search()
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
         $id = $this->party->existsID($id);
-        if($id > 0)
+        if ($id > 0)
         {
-            redirect('/rgstr_build/'.$id);
+            redirect('/rgstr_build/' . $id);
         }
         else
         {
-            $this->session->set_flashdata('message','<div class="alert alert-danger">Unable to find student id</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Unable to find student id</div>');
             redirect($this->input->post('cur_url'));
         }
     }
+
     function save_grade()
     {
-        $enrolmentid =  $this->input->post('enrolmentid');
+        $enrolmentid = $this->input->post('enrolmentid');
         $subjid = $this->input->post('add_subj');
         $grade = $this->input->post('sub_grade');
         $academicid = $this->input->post('academictermid');
         $schoolid = $this->input->post('schoolid');
-        $this->load->model('registrar/classallocation');
-        $this->load->model('registrar/studentgrade');
-        $this->load->model('registrar/subject');
-        $this->load->model('registrar/grade');
-
-
+        $this->load->model(array(
+            'registrar/classallocation', 'registrar/studentgrade',
+            'registrar/subject', 'registrar/grade'
+        ));
         $data['subject'] = $subjid;
         $data['academicterm'] = $academicid;
         $count = $this->classallocation->whereCount($data);
-        if($count < 1)
+        if ($count < 1)
         {
-            $id = $this->classallocation->insert_ca_returnId($subjid,$academicid);
-            if(is_numeric($id))
+            $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
+            if (is_numeric($id))
             {
                 $db['enrolmentid'] = $enrolmentid;
 
@@ -242,8 +241,8 @@ class Registrar extends CI_Controller
                 $data['enrolmentid'] = $enrolmentid;
                 $data['academicterm'] = $academicid;
                 $data['schoolid'] = $schoolid;
-                $data['sid'] = $this->studentgrade->save_grade_returnId($id,$grade,$enrolmentid);
-                $this->load->view('registrar/ajax/add_subject',$data);
+                $data['sid'] = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
+                $this->load->view('registrar/ajax/add_subject', $data);
             }
             else
             {
@@ -256,36 +255,40 @@ class Registrar extends CI_Controller
         }
 
     }
+
     function insert_flag()
     {
-        $partyid =  $this->input->post('partyid');
+        $partyid = $this->input->post('partyid');
         $data = array('flag' => '1',
-                    'partyid' => $partyid);
+            'partyid' => $partyid);
         $this->load->model('registrar/common');
         $result = $this->common->theflag($partyid);
-        
+
         $data2 = array('status' => 'S');
         $this->db->where('id', $partyid);
         $this->db->update('tbl_party', $data2);
         redirect('/');
 
-}
+    }
+
     function save_edit_grade()
     {
-        $this->load->model('registrar/studentgrade');
-        $this->load->model('registrar/log_student');
-        $this->load->model('registrar/enrollment');
+        $this->load->model(array(
+            'registrar/studentgrade',
+            'registrar/log_student',
+            'registrar/enrollment'
+        ));
         $val = $this->input->post('val');
-        $cat = explode('_',$val);
+        $cat = explode('_', $val);
         $i = 0;
-        foreach($cat as $c)
+        foreach ($cat as $c)
         {
-            $v = explode('-',$c);
-            if($i == 0)
+            $v = explode('-', $c);
+            if ($i == 0)
             {
                 $studgrade = $v[1];
             }
-            elseif($i == 1)
+            elseif ($i == 1)
             {
                 $grade_id = $v[1];
             }
@@ -296,36 +299,38 @@ class Registrar extends CI_Controller
             $i++;
         }
         $q = $this->enrollment->getID($enroll);
-        $this->log_student->insert_not_exists($q['student'],'E');
-        $this->studentgrade->update_grade($studgrade,$grade_id);
+        $this->log_student->insert_not_exists($q['student'], 'E');
+        $this->studentgrade->update_grade($studgrade, $grade_id);
     }
 
     function delete_record()
     {
-        $this->load->model('registrar/studentgrade');
-        $this->load->model('registrar/enrollment');
+        $this->load->model(array(
+            'registrar/studentgrade',
+            'registrar/enrollment'
+        ));
 
         $val = $this->input->post('value');
 
-        $cat = explode('-',$val);
+        $cat = explode('-', $val);
         $enrolid = $cat[0];
         $studgrade = $cat[1];
         $this->studentgrade->delete_grade($studgrade);
         $this->enrollment->update_record($enrolid);
     }
+
     function add_acam()
     {
         $partyid = $this->input->post('partyid');
         $sch_id = $this->input->post('school_id');
         $cid = $this->input->post('course_id');
         $syid = $this->input->post('sy_id');
-        $this->load->model('registrar/enrollment');
-        $this->load->model('registrar/party');
-        $this->load->model('registrar/course');
-        $this->load->model('registrar/academicterm');
-        $this->load->model('registrar/subject');
-        $this->load->model('registrar/grade');
-        $this->load->model('registrar/log_student');
+        $this->load->model(array(
+            'registrar/enrollment', 'registrar/party',
+            'registrar/course', 'registrar/academicterm',
+            'registrar/subject', 'registrar/grade',
+            'registrar/log_student'
+        ));
         $data['student'] = $partyid;
         $data['coursemajor'] = $cid;
         $data['academicterm'] = $syid;
@@ -335,26 +340,29 @@ class Registrar extends CI_Controller
         $db['academicterm'] = $syid;
         $db['student'] = $partyid;
         $count = $this->enrollment->whereCount($db);
-        if($count < 0)
+        if ($count < 0)
         {
-            $this->log_student->insert_not_exists($partyid,'E');
+            $this->log_student->insert_not_exists($partyid, 'E');
             $id = $this->enrollment->insert_return_id($data);
             $data['id'] = $id;
-            $this->load->view('registrar/ajax/add_academicterm',$data);
+            $this->load->view('registrar/ajax/add_academicterm', $data);
         }
         else
         {
             echo 'Academic Term Already Exists';
         }
     }
+
     function add_session()
     {
         $value = $this->input->post('value');
-        $this->session->set_userdata('status',$value);
+        $this->session->set_userdata('status', $value);
         $data['param'] = $this->input->post('param');
-        $this->load->model(
-            array('registrar/enrollment','registrar/party','registrar/course')
-        );
-        $this->load->view('registrar/ajax/tbl_studlist',$data);
+        $this->load->model(array(
+            'registrar/enrollment',
+            'registrar/party',
+            'registrar/course'
+        ));
+        $this->load->view('registrar/ajax/tbl_studlist', $data);
     }
 }
