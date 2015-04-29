@@ -64,9 +64,15 @@
                     <option value="N" <?php if ($this->session->userdata('status') == 'N'): ?>
                         selected
                     <?php endif ?>>Not Open</option>
+
+                    <?php 
+                        $pos = $this->session->userdata('position');
+                        if($pos == 'Clerk'){ ?>
                     <option value="O" <?php if ($this->session->userdata('status') == 'O'): ?>
                         selected
                     <?php endif ?>>Open</option>
+                    <?php } ?>
+
                     <option value="E" <?php if ($this->session->userdata('status') == 'E'): ?>
                         selected
                     <?php endif ?>>Editing</option>

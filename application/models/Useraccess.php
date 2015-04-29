@@ -50,9 +50,8 @@ class Useraccess extends CI_Model
         }
     }
     function getposition($userid){
-        $result = $this->db->query("SELECT position FROM tbl_useraccess WHERE partyId = '$userid'");
-       $x = $result->row_array();
-        extract($x);
-        return $position;
+        $result = $this->db->query("SELECT position FROM tbl_useraccess WHERE partyid = '$userid'");
+        $x = $result->row_array();
+        return $x['position'];
     }
 }

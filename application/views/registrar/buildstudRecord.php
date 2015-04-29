@@ -157,8 +157,10 @@
                     </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
 
+                <?php if($this->session->userdata('position') =='Clerk'){ ?>
                 <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
                 <span class="clearfix"></span>
+                <?php } ?>
                 <br/>
                 <div class="table-responsive" id="academic_wrapper">
                     <?php
@@ -315,8 +317,15 @@
 
             <!--</div>-->
             <!-- /div class panel -->
-            <?php 
-                $this->log_student->insert_not_exists($partyid,'O');
+            <?php
+                if($position != 'Admin-registrar')
+                {
+                    $status = $this->party->getStatus($partyid);
+                    if($status['status'] != 'E')
+                    {
+                        $this->log_student->insert_not_exists($partyid,'O');
+                    }   
+                }
              ?>
 		</div>
 		</div>

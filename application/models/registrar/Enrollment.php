@@ -13,13 +13,23 @@ class Enrollment extends CI_Model
         if($status == 'N')
         {
             $status = '';
-        }
-        $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party
+            $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party
                                 WHERE coursemajor=5
                                 AND  tbl_party.status = '$status'
                                 AND tbl_enrolment.student = tbl_party.id
                                 GROUP BY tbl_enrolment.student LIMIT $limit,15");
-
+        }
+        else
+        {
+            $uid = $this->session->userdata('uid');
+            $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party,log_student
+                                WHERE coursemajor=5
+                                AND  tbl_party.status = '$status'
+                                AND tbl_enrolment.student = tbl_party.id
+                                AND log_student.user = $uid AND 
+                                log_student.student = tbl_party.id
+                                GROUP BY tbl_enrolment.student LIMIT $limit,15");
+        }
         return $q->result_array();
     }
     function getRows()

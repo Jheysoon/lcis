@@ -55,4 +55,10 @@
             $q = $this->db->get('tbl_party');
             return $q->row_array();
         }
+        function getStatus($id)
+        {
+            $this->db->where('id',$id);
+            $q = $this->db->get('tbl_party');
+            return $q->row_array();
+        }
 	}
