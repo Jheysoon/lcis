@@ -60,7 +60,7 @@
                 <input type="hidden" id = "thestatus" name = "stats">
                 <label>Status Filter</label>
 
-                <select class="form-control" name="status" id = "status" onchange="changeSession(this)">
+                <select class="form-control" name="status" id = "status">
                     <option value="N" <?php if ($this->session->userdata('status') == 'N'): ?>
                         selected
                     <?php endif ?>>Not Open</option>
