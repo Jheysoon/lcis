@@ -14,9 +14,19 @@ class Classallocation extends CI_Model{
         $data['subject'] = $subid;
         $data['academicterm'] = $academicterm;
         $this->db->trans_begin();
-        $this->db->insert('tbl_classallocation',$data);
-        $id = $this->db->insert_id();
-
+        $this->db->where('academicterm',$academicterm);
+        $this->db->where('subject',$subid);
+        $c = $this->db->get('tbl_classallocation');
+        if($c->num_rows()>1)
+        {
+            return $c['id'];
+        }
+        else
+        {
+            $this->db->insert('tbl_classallocation',$data);
+            $id = $this->db->insert_id();
+            return $id;
+        }
         if($this->db->trans_status() === FALSE)
         {
             $this->db->trans_rollback();
@@ -25,7 +35,6 @@ class Classallocation extends CI_Model{
         else
         {
             $this->db->trans_commit();
-            return $id;
         }
     }
     function whereCount($field,$val = '')

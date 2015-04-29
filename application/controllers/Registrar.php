@@ -224,23 +224,27 @@ class Registrar extends CI_Controller
         $schoolid = $this->input->post('schoolid');
         $this->load->model(array(
             'registrar/classallocation', 'registrar/studentgrade',
-            'registrar/subject', 'registrar/grade'
+            'registrar/subject', 'registrar/grade',
+            'registrar/log_student','registrar/enrollment'
         ));
         $data['subject'] = $subjid;
         $data['academicterm'] = $academicid;
-        $count = $this->classallocation->whereCount($data);
-        if ($count < 1)
-        {
+        //$count = $this->classallocation->whereCount($data);
+        /*$q = $this->db->query("SELECT * FROM tbl_studentgrade WHERE enrolment=$enrolmentid AND
+        classallocation=(SELECT id FROM tbl_classallocation WHERE academicterm=$academicid AND subject=$subjid)")->num_rows();
+        if ($q < 1)
+        {*/
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
             if (is_numeric($id))
             {
-                $db['enrolmentid'] = $enrolmentid;
 
                 $data['subj'] = $subjid;
                 $data['grade_user'] = $grade;
                 $data['enrolmentid'] = $enrolmentid;
                 $data['academicterm'] = $academicid;
                 $data['schoolid'] = $schoolid;
+                $p = $this->enrollment->getID($enrolmentid);
+                $this->log_student->insert_not_exists($p['student'],'E');
                 $data['sid'] = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
                 $this->load->view('registrar/ajax/add_subject', $data);
             }
@@ -248,26 +252,45 @@ class Registrar extends CI_Controller
             {
                 echo 'error';
             }
-        }
+        /*}
         else
         {
             echo 'Subject Already exists';
-        }
+        }*/
 
     }
 
     function insert_flag()
     {
+        $this->load->model(array(
+            'registrar/common',
+            'registrar/log_student'
+        ));
         $partyid = $this->input->post('partyid');
-        $data = array('flag' => '1',
-            'partyid' => $partyid);
-        $this->load->model('registrar/common');
-        $result = $this->common->theflag($partyid);
+        $tm = $this->input->post('tm');
+        $url = $this->input->post('url');
 
-        $data2 = array('status' => 'S');
-        $this->db->where('id', $partyid);
-        $this->db->update('tbl_party', $data2);
-        redirect('/');
+        $curtm = $this->log_student->getLatestTm($partyid);
+        if($tm == $curtm)
+        {
+            $data = array('flag' => '1',
+                          'partyid' => $partyid);
+
+            $result = $this->common->theflag($partyid);
+
+            $data2 = array('status' => 'S');
+            $this->db->where('id', $partyid);
+            $this->db->update('tbl_party', $data2);
+            redirect('/');
+        }
+        else
+        {
+            $this->session->set_flashdata('message','<div class="alert alert-danger">
+                <h4>A update has been occurred before you submit.
+                    Please review again and then submit</h4>
+            </div>');
+            redirect($url);
+        }
 
     }
 

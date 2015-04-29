@@ -10,6 +10,7 @@
 
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
+
 		<div class="panel p-body">
 		<div class="panel-heading search">
 
@@ -19,6 +20,7 @@
 
 		</div>
 		<div class="panel-body">
+            <?php echo $this->session->flashdata('message'); ?>
             <div class="col-md-4">
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Student ID 		: </strong>
@@ -305,8 +307,12 @@
                         <br />
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
-                        if ($getflag < 1 AND $position == 'Admin-registrar'): ?>
+                        if ($getflag < 1 AND $position == 'Admin-registrar'):
+                            $status = $this->log_student->getLatestTm($partyid);
+                            ?>
 	                        	<form action="/registrar/insert_flag" method="POST">
+                                    <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
+                                    <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
 		                        	<input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
 		                        	<input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Do you sure?')">        
 	                        	</form>
