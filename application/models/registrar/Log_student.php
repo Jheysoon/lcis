@@ -29,4 +29,30 @@ class Log_student extends CI_Model
         $q = $q->row_array();
         return $q['tm'];
     }
+    function ins_stat($partyid,$status)
+    {
+        $this->db->trans_begin();
+
+        $q = $this->db->query("SELECT user FROM log_student WHERE id = (
+            SELECT MAX(id) FROM log_student WHERE student=$partyid
+        )");
+        $q = $q->row_array();
+        $source = $q['user'];
+
+        $data['user'] = $source;
+        $data['status'] = $status;
+        $data['tm'] = time();
+        $data['dte'] = date('Y-m-d');
+        $data['student'] = $partyid;
+        $this->db->insert('log_student',$data);
+
+        if($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+        }
+    }
 }

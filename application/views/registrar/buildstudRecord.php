@@ -310,16 +310,21 @@
                         if ($getflag < 1 AND $position == 'Admin-registrar'):
                             $status = $this->log_student->getLatestTm($partyid);
                             ?>
-	                        	<form action="/registrar/insert_flag" method="POST">
+                            <div class="pull-right">
+                                <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
-		                        	<input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-		                        	<input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Do you sure?')">        
-	                        	</form>
-                                <form action="/registrar/insert_flag" method="POST">
+                                    <input type="hidden" name="flag_status" value="S"/>
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-                                    <input type="submit" class="btn btn-primary pull-right" value="Return to Clerk" onclick="return confirm('Do you sure?')">
+                                    <input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Are you sure?')">
                                 </form>
+                                <span class="clearfix"></span>
+                                <form action="/registrar/insert_flag" method="POST" style="margin-top:5px;">
+                                    <input type="hidden" name="flag_status" value="R"/>
+                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
+                                    <input type="submit" class="btn btn-primary" value="Return to Clerk">
+                                </form>
+                            </div>
                         <?php endif ?>
                         
               	  </div>
