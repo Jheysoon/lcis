@@ -32,7 +32,7 @@
             }else{
                 $this->db->where('tbl_party.id',$id);
                 $this->db->where('tbl_party.status',$this->session->userdata('status'));
-                 $q = $this->db->get('tbl_party, log_student');
+                 $q = $this->db->get('tbl_party');
             }
             return $q->row_array();
         }

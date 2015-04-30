@@ -41,8 +41,13 @@
                     <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
                     <td><?php echo $course; ?></td>
                     <!--<td></td>-->
-                    <td><a class="a-table label label-info" href="/rgstr_build/<?php echo $stud_info['legacyid'];?>">View
-                            Records <span class="glyphicon glyphicon-file"></span></a></td>
+                    <td>
+                        <?php if($stud_info['status'] != 'S'){
+                            ?>
+                        <a class="a-table label label-info" href="/rgstr_build/<?php echo $stud_info['legacyid'];?>">View
+                            Records <span class="glyphicon glyphicon-file"></span></a>
+                        <?php } ?>
+                    </td>
                 </tr>
             <?php
             //}

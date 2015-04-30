@@ -76,9 +76,15 @@
                     <option value="E" <?php if ($this->session->userdata('status') == 'E'): ?>
                         selected
                     <?php endif ?>>Editing</option>
+
+                    <?php
+                    $pos = $this->session->userdata('position');
+                    if($pos != 'Clerk'){ ?>
                     <option value="S" <?php if ($this->session->userdata('status') == 'S'): ?>
                         selected
                     <?php endif ?>>Submitted</option>
+                    <?php } ?>
+
                     <option value="C" <?php if ($this->session->userdata('status') == 'C'): ?>
                         selected
                     <?php endif ?>>Confirmed</option>
