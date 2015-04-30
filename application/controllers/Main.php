@@ -57,9 +57,15 @@ class Main extends CI_Controller
             {
                 // set the session uid value
                 $userid = $this->useraccess->getUserId($username,$password);
-                $this->session->set_userdata('uid',$userid);
-                $this->session->set_userdata('position',$this->useraccess->getposition($userid));
-                $this->session->set_userdata(array('sy'=>'2014-2015','sem'=>'1st Semester','cur_id'=>'46','status'=>'N'));
+                $this->session->set_userdata(array(
+                    'uid'       =>$userid,
+                    'position'  =>$this->useraccess->getposition($userid),
+                    'sy'        =>'2014-2015',
+                    'sem'       =>'1st Semester',
+                    'cur_id'    =>'46',
+                    'status'    =>'N',
+                    'username'  =>$username
+                ));
 
                 redirect(base_url());
             }

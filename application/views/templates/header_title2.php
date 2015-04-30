@@ -29,7 +29,7 @@
             </ul> 
 
               <p class="navbar-text top-sign2 navbar-right">SY: <?php echo $this->session->userdata('sy'); ?>&nbsp;&nbsp;&nbsp;&nbsp; Term: <?php echo $this->session->userdata('sem'); ?></p>
-            	<p class="navbar-text top-sign2 navbar-right">Signed in as &nbsp;
+            	<p class="navbar-text top-sign2 navbar-right">Signed in as <?php echo $this->session->userdata('username'); ?>
 	            	<a href="index.php?page=home" class="navbar-link"><?php //echo $_SESSION['uname']; ?></a>
 	            </p>
             	<p class="navbar-text navbar-right">
@@ -40,10 +40,7 @@
         </div>
             <div class="collapse navbar-collapse panel menu-hide" id="bs-example-navbar-collapse-1">
               <div class="visible-xs">
-                <?php
-                    //Gonna fix this !!!!
-          		    //menu();
-                ?>
+                
               </div>
             </div>
       </nav>
@@ -81,7 +78,7 @@
                   </ul>
               <?php
               }
-              }
+          }
           ?>
           </li>
           <li class="list-group-item">
