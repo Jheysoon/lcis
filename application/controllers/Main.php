@@ -57,13 +57,22 @@ class Main extends CI_Controller
             {
                 // set the session uid value
                 $userid = $this->useraccess->getUserId($username,$password);
+                $position = $this->useraccess->getposition($userid);
+                if($position == 'Admin-registrar')
+                {
+                    $status = 'S';
+                }
+                else
+                {
+                    $status = 'N';
+                }
                 $this->session->set_userdata(array(
                     'uid'       =>$userid,
-                    'position'  =>$this->useraccess->getposition($userid),
+                    'position'  =>$position,
                     'sy'        =>'2014-2015',
                     'sem'       =>'1st Semester',
                     'cur_id'    =>'46',
-                    'status'    =>'N',
+                    'status'    =>$status,
                     'username'  =>$username
                 ));
 

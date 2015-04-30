@@ -275,12 +275,18 @@ class Registrar extends CI_Controller
         $flag_status = $this->input->post('flag_status');
 
         $curtm = $this->log_student->getLatestTm($partyid);
-        if($flag_status == 'S')
+        if($flag_status == 'C')
         {
-             $tm = $this->input->post('tm');
+            $tm = $this->input->post('tm');
             if ($tm == $curtm)
             {
-                $this->add_flag($partyid,$status);
+                $this->add_flag($partyid,$flag_status);
+                $data['user'] = $this->session->userdata('uid');
+                $data['dte'] = date('Y-m-d');
+                $data['student'] = $partyid;
+                $data['status'] = $flag_status;
+                $data['tm'] = time();
+                $this->db->insert('log_student');
             }
             else
             {
@@ -301,7 +307,6 @@ class Registrar extends CI_Controller
     private function add_flag($partyid,$status)
     {
         $this->load->model('registrar/common');
-        $result = $this->common->theflag($partyid);
         $data2 = array('status' => $status);
         $this->db->where('id', $partyid);
         $this->db->update('tbl_party', $data2);

@@ -315,7 +315,7 @@
                                 <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
-                                    <input type="hidden" name="flag_status" value="S"/>
+                                    <input type="hidden" name="flag_status" value="C"/>
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
                                     <input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Are you sure?')">
                                 </form>

@@ -61,29 +61,28 @@
                 <label>Status Filter</label>
 
                 <select class="form-control" name="status" id = "status">
+                    <?php 
+                        $pos = $this->session->userdata('position');
+                        if($pos == 'Clerk'){ ?>
+                        
                     <option value="N" <?php if ($this->session->userdata('status') == 'N'): ?>
                         selected
                     <?php endif ?>>Not Open</option>
 
-                    <?php 
-                        $pos = $this->session->userdata('position');
-                        if($pos == 'Clerk'){ ?>
+                    
                     <option value="O" <?php if ($this->session->userdata('status') == 'O'): ?>
                         selected
                     <?php endif ?>>Open</option>
-                    <?php } ?>
 
                     <option value="E" <?php if ($this->session->userdata('status') == 'E'): ?>
                         selected
                     <?php endif ?>>Editing</option>
+                    <?php } ?>
 
-                    <?php
-                    $pos = $this->session->userdata('position');
-                    if($pos != 'Clerk'){ ?>
                     <option value="S" <?php if ($this->session->userdata('status') == 'S'): ?>
                         selected
                     <?php endif ?>>Submitted</option>
-                    <?php } ?>
+                    
 
                     <option value="C" <?php if ($this->session->userdata('status') == 'C'): ?>
                         selected
