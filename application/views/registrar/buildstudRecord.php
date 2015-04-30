@@ -316,6 +316,10 @@
 		                        	<input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
 		                        	<input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Do you sure?')">        
 	                        	</form>
+                                <form action="/registrar/insert_flag" method="POST">
+                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
+                                    <input type="submit" class="btn btn-primary pull-right" value="Return to Clerk" onclick="return confirm('Do you sure?')">
+                                </form>
                         <?php endif ?>
                         
               	  </div>
