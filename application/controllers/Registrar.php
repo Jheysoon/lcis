@@ -271,13 +271,13 @@ class Registrar extends CI_Controller
             'registrar/log_student'
         ));
         $partyid = $this->input->post('partyid');
-        $tm = $this->input->post('tm');
         $url = $this->input->post('url');
         $flag_status = $this->input->post('flag_status');
 
         $curtm = $this->log_student->getLatestTm($partyid);
         if($flag_status == 'S')
         {
+             $tm = $this->input->post('tm');
             if ($tm == $curtm)
             {
                 $this->add_flag($partyid,$status);

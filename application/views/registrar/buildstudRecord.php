@@ -307,8 +307,9 @@
                         <br />
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
+                             $status = $this->log_student->getLatestTm($partyid);
                         if ($getflag < 1 AND $position == 'Admin-registrar'):
-                            $status = $this->log_student->getLatestTm($partyid);
+                           
                             ?>
                             <div class="pull-right">
                                 <form action="/registrar/insert_flag" method="POST">
@@ -325,6 +326,13 @@
                                     <input type="submit" class="btn btn-primary" value="Return to Clerk">
                                 </form>
                             </div>
+                        <?php else: ?>
+                                  <form action="/registrar/insert_flag" method="POST">
+                                    <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
+                                    <input type="hidden" name="flag_status" value="S"/>
+                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
+                                    <input type="submit" class="btn btn-primary pull-right" value="Submit" onclick="return confirm('Are you sure?')">
+                                </form>
                         <?php endif ?>
                         
               	  </div>
