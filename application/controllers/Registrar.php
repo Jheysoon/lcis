@@ -273,29 +273,39 @@ class Registrar extends CI_Controller
         $partyid = $this->input->post('partyid');
         $tm = $this->input->post('tm');
         $url = $this->input->post('url');
+        $flag_status = $this->input->post('flag_status');
 
         $curtm = $this->log_student->getLatestTm($partyid);
-        if($tm == $curtm)
+        if($flag_status == 'S')
         {
-            $data = array('flag' => '1',
-                          'partyid' => $partyid);
-
-            $result = $this->common->theflag($partyid);
-
-            $data2 = array('status' => 'S');
-            $this->db->where('id', $partyid);
-            $this->db->update('tbl_party', $data2);
-            redirect('/');
-        }
-        else
-        {
-            $this->session->set_flashdata('message','<div class="alert alert-danger">
+            if ($tm == $curtm)
+            {
+                $this->add_flag($partyid,$status);
+            }
+            else
+            {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger">
                 <h4>A update has been occurred before you submit.
                     Please review again and then submit</h4>
             </div>');
-            redirect($url);
+                redirect($url);
+            }
         }
+        else
+        {
+            $this->log_student->ins_stat($partyid, $flag_status);
+            $this->add_flag($partyid, $flag_status);
+        }
+    }
 
+    private function add_flag($partyid,$status)
+    {
+        $this->load->model('registrar/common');
+        $result = $this->common->theflag($partyid);
+        $data2 = array('status' => $status);
+        $this->db->where('id', $partyid);
+        $this->db->update('tbl_party', $data2);
+        redirect('/');
     }
 
     function save_edit_grade()
