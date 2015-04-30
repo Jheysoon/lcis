@@ -55,4 +55,15 @@ class Studentgrade extends CI_Model{
             $this->db->trans_commit();
         }
     }
+    function delete($eid)
+    {
+        $this->db->where('enrolment',$eid);
+        $this->db->delete('tbl_studentgrade');
+    }
+    function all($id)
+    {
+        $this->db->where('id',$id);
+        $q = $this->db->get('tbl_studentgrade');
+        return $q->result_array();
+    }
 }

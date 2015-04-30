@@ -188,7 +188,14 @@
                             <table class="table table-bordered no-space" id="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>">
                                 <tr>
                                     <td class="tbl-header" style="width: 50%" colspan="2"><strong>School Year: <?php echo $systart . " - " . $syend; ?></strong></td>
-                                    <td class="tbl-header" colspan="4"><strong>Term: <?php echo $description; ?> </strong></td>
+                                    <td class="tbl-header" colspan="4">
+                                        <strong>Term: <?php echo $description; ?> </strong>
+                                        <?php 
+                                            // get enrollment id
+                                            $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
+                                         ?>
+                                        <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Code</td>
@@ -241,7 +248,7 @@
                                             <td> &nbsp; </td>
                                             <td class="tblNum"><?php echo $units; ?></td>
                                             <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
-                                            	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub">Delete</a></td>
+                                            	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>
                                             <?php endif ?>
                                             
                                         </tr>

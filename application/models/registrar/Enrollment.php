@@ -109,4 +109,18 @@ class Enrollment extends CI_Model
         $q = $this->db->get('tbl_enrolment');
         return $q->row_array();
     }
+
+    function getEnrollId($acam,$partyid)
+    {
+        $this->db->where('student',$partyid);
+        $this->db->where('academicterm',$acam);
+        $q = $this->db->get('tbl_enrolment');
+        $q = $q->row_array();
+        return $q['id'];
+    }
+    function delete_enroll($eid)
+    {
+        $this->db->where('id',$eid);
+        $this->db->delete('tbl_enrolment');
+    }
 }

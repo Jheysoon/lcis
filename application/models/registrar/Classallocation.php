@@ -54,4 +54,9 @@ class Classallocation extends CI_Model{
         }
         return $this->db->count_all_results('tbl_classallocation');
     }
+    function delete($field, $value)
+    {
+        $this->db->where($field, $value);
+        $this->db->delete('tbl_classallocation');
+    }
 }

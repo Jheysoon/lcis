@@ -10,8 +10,8 @@ $(document).ready(function(){
 
     function add_subj()
     {
-        $('.frm-add-subj').submit(function(e){
-            $.post('/registrar/save_grade',$(this).serialize(),function(data){
+        $('.frm-add-subj').submit(function (e){
+            $.post('/registrar/save_grade',$(this).serialize(),function (data){
                 if(data == 'error')
                 {
                     alert('Something went wrong');
@@ -29,7 +29,7 @@ $(document).ready(function(){
                         if(confirm('Are you sure ?'))
                         {
                             val = $(this).attr('href');
-                            $.post('/registrar/delete_record',{value:val},function(){
+                            $.post('/registrar/delete_record',{value:val},function (){
 
                             });
                             $(this).parent().parent().hide('500');
@@ -61,7 +61,7 @@ $(document).ready(function(){
 
     $('select[name="edit_sub_grade"]').change(function(){
         value = $(this).val();
-        $.post('/registrar/save_edit_grade',{val:value},function(data){
+        $.post('/registrar/save_edit_grade',{val:value},function (data){
             if(data != '')
             {
                 alert(data);
@@ -69,9 +69,28 @@ $(document).ready(function(){
         });
     });
 
-    $('.del_sub').click(function(e){
+    del_acam();
 
-        if(confirm('Are you sure ?'))
+    function del_acam () {
+        $('.delete_acam').click(function (e) {
+            $sy = $(this).attr('params');
+            if(confirm('Are you sure your want to delete \n'+$sy+' Academic Term ?'))
+            {
+                $eid = $(this).attr('href');
+                $.post('/registrar/delete_acam',{eid:$eid},function (data) {
+
+                });
+                $param = $(this).attr('param');
+                $('#' + $param).hide('500');
+            }
+            e.preventDefault();
+        });
+    }
+
+    $('.del_sub').click(function(e){
+        $subj = $(this).attr('param');
+
+        if(confirm('Are you sure you want to delete '+$subj))
         {
             val = $(this).attr('href');
             $.post('/registrar/delete_record',{value:val},function(){
@@ -87,15 +106,15 @@ $(document).ready(function(){
     });
 
     $('#frm_add_academicterm').submit(function(e){
-        $.post('/registrar/add_acam',$(this).serialize(),function(data){
-            if(data != '')
+        $.post('/registrar/add_acam',$(this).serialize(),function (data){
+            if(data == 'Academic Term Already Exists' || data == 'This record is already submitted')
             {
                 alert(data);
             }
             else
             {
                 $('#academic_wrapper').prepend(data);
-                $('.modal-add-subj-grade').on('click',function(e){
+                $('.modal-add-subj-grade').on('click',function (e){
                     targerTr = $(this).attr('href');
                     $('#myModal'+targerTr).modal('show');
                     e.preventDefault();

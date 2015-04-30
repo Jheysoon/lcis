@@ -190,7 +190,8 @@ class Registrar extends CI_Controller
             'home/option_header', 'home/useroption',
             'registrar/grade', 'registrar/common',
             'registrar/subject', 'registrar/party',
-            'registrar/academicterm', 'registrar/log_student'
+            'registrar/academicterm', 'registrar/log_student',
+            'registrar/enrollment'
         ));
         $data['id'] = $id;
         $this->load->view('templates/header');
@@ -341,10 +342,11 @@ class Registrar extends CI_Controller
             $i++;
         }
         $q = $this->enrollment->getID($enroll);
-        $a['student'] = $q['student'];
-        $a['status'] = 'S';
-        $count = $this->log_student->whereCount($a);
-        if($count < 1)
+        $pid = $q['student'];
+
+        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
+            (SELECT max(id) FROM log_student WHERE student=$pid)")->row_array();
+        if($stat['status'] != 'S')
         {
             $this->log_student->insert_not_exists($q['student'], 'E');
             $this->studentgrade->update_grade($studgrade, $grade_id);
@@ -393,13 +395,12 @@ class Registrar extends CI_Controller
         $db['academicterm'] = $syid;
         $db['student'] = $partyid;
 
-        $d['student'] = $partyid;
-        $d['status'] = 'S';
-        $c = $this->log_student->whereCount($d);
-        if($c < 1)
+        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
+            (SELECT max(id) FROM log_student WHERE student=$partyid)")->row_array();
+        if($stat['status'] != 'S')
         {
             $count = $this->enrollment->whereCount($db);
-            if ($count < 0)
+            if ($count < 1)
             {
                 $this->log_student->insert_not_exists($partyid, 'E');
                 $id = $this->enrollment->insert_return_id($data);
@@ -429,5 +430,26 @@ class Registrar extends CI_Controller
             'registrar/course'
         ));
         $this->load->view('registrar/ajax/tbl_studlist', $data);
+    }
+    function delete_acam()
+    {
+        $enrolmentid = $this->input->post('eid');
+        $this->load->model(array(
+            'registrar/enrollment',
+            'registrar/studentgrade',
+            'registrar/classallocation'
+        ));
+        $this->enrollment->delete_enroll($enrolmentid);
+
+        // get the classallocation id from tbl_studentgrade
+        // so we can delete the classallocation's for that academicterm
+        $sg = $this->studentgrade->all($enrolmentid);
+        foreach ($sg as $val) {
+            $this->classallocation->delete('id',$val['classallocation']);
+        }
+
+        // after the classallocation has been deleted
+        // its time to deleted the subjects grade
+        $this->studentgrade->delete($enrolmentid);
     }
 }
