@@ -91,6 +91,8 @@
                 <!-- div class table-responsive -->
 
                 <!-- modal add academicterm -->
+                <?php if ($position != 'Admin-registrar' or $this->session->userdata('status') != 'S'): ?>
+                    
                 <div class="modal fade" id="modal_academicterm">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -158,8 +160,8 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
-
-                <?php if($this->session->userdata('position') =='Clerk'){ ?>
+                <?php endif ?>
+                <?php if($this->session->userdata('position') =='Clerk' AND $this->session->userdata('status') != 'S'){ ?>
                 <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
                 <span class="clearfix"></span>
                 <?php } ?>
@@ -194,7 +196,7 @@
                                     <td>Final Grades</td>
                                     <td>Re-Exam</td>
                                     <td>Credit</td>
-                                    <?php if ($position != 'Admin-registrar'): ?>
+                                    <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
                                     	   <td>Action</td>
                                     <?php endif ?>
                                  
@@ -212,7 +214,7 @@
                                             <td><?php echo $descriptivetitle; ?></td>
                                             <td class="text-right">
                                             <?php                                
-                                            	if ($position == "Admin-registrar"): 
+                                            	if ($position == "Admin-registrar" OR $this->session->userdata('status') == 'S'): 
                                             ?>
                                             		<label><?php echo $value; ?></label>
                                             <?php else: ?>
@@ -238,7 +240,7 @@
                                             </td>
                                             <td> &nbsp; </td>
                                             <td class="tblNum"><?php echo $units; ?></td>
-                                            <?php if ($position != 'Admin-registrar'): ?>
+                                            <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub">Delete</a></td>
                                             <?php endif ?>
                                             
@@ -296,8 +298,10 @@
 	                                                    </div>
 	                                                </div>
 	                                            </div>
-	                                            <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
-	                                        </td>
+                                                <?php if ($this->session->userdata('status') != 'S' AND $position != 'Admin-registrar'): ?>
+                                                                 <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                <?php endif ?>
+	                                           </td>
 	                                    </tr>
  							<?php endif ?>
                                 <?php endforeach ?>
@@ -326,7 +330,7 @@
                                     <input type="submit" class="btn btn-primary" value="Return to Clerk">
                                 </form>
                             </div>
-                        <?php else: ?>
+                        <?php elseif($this->session->userdata('status') != 'S'): ?>
                                   <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="flag_status" value="S"/>
