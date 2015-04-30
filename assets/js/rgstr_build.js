@@ -62,6 +62,10 @@ $(document).ready(function(){
     $('select[name="edit_sub_grade"]').change(function(){
         value = $(this).val();
         $.post('/registrar/save_edit_grade',{val:value},function(data){
+            if(data != '')
+            {
+                alert(data);
+            }
         });
     });
 
@@ -84,7 +88,7 @@ $(document).ready(function(){
 
     $('#frm_add_academicterm').submit(function(e){
         $.post('/registrar/add_acam',$(this).serialize(),function(data){
-            if(data == 'Academic Term Already Exists')
+            if(data != '')
             {
                 alert(data);
             }

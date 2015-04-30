@@ -55,4 +55,19 @@ class Log_student extends CI_Model
             $this->db->trans_commit();
         }
     }
+    function whereCount($field,$val = '')
+    {
+        if(is_array($field) and $val == '')
+        {
+            foreach($field as $key => $value)
+            {
+                $this->db->where($key,$value);
+            }
+        }
+        else
+        {
+            $this->db->where($field,$val);
+        }
+        return $this->db->count_all_results('log_student');
+    }
 }

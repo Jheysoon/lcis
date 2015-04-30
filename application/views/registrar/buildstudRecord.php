@@ -344,7 +344,7 @@
                 if($position != 'Admin-registrar')
                 {
                     $status = $this->party->getStatus($partyid);
-                    if($status['status'] != 'E')
+                    if($status['status'] != 'E' AND $status['status'] != 'S')
                     {
                         $this->log_student->insert_not_exists($partyid,'O');
                     }   

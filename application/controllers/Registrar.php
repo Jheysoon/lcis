@@ -341,8 +341,19 @@ class Registrar extends CI_Controller
             $i++;
         }
         $q = $this->enrollment->getID($enroll);
-        $this->log_student->insert_not_exists($q['student'], 'E');
-        $this->studentgrade->update_grade($studgrade, $grade_id);
+        $a['student'] = $q['student'];
+        $a['status'] = 'S';
+        $count = $this->log_student->whereCount($a);
+        if($count < 1)
+        {
+            $this->log_student->insert_not_exists($q['student'], 'E');
+            $this->studentgrade->update_grade($studgrade, $grade_id);
+        }
+        else
+        {
+            echo 'This record is already submitted';
+        }
+        
     }
 
     function delete_record()
@@ -381,18 +392,30 @@ class Registrar extends CI_Controller
 
         $db['academicterm'] = $syid;
         $db['student'] = $partyid;
-        $count = $this->enrollment->whereCount($db);
-        if ($count < 0)
+
+        $d['student'] = $partyid;
+        $d['status'] = 'S';
+        $c = $this->log_student->whereCount($d);
+        if($c < 1)
         {
-            $this->log_student->insert_not_exists($partyid, 'E');
-            $id = $this->enrollment->insert_return_id($data);
-            $data['id'] = $id;
-            $this->load->view('registrar/ajax/add_academicterm', $data);
+            $count = $this->enrollment->whereCount($db);
+            if ($count < 0)
+            {
+                $this->log_student->insert_not_exists($partyid, 'E');
+                $id = $this->enrollment->insert_return_id($data);
+                $data['id'] = $id;
+                $this->load->view('registrar/ajax/add_academicterm', $data);
+            }
+            else
+            {
+                echo 'Academic Term Already Exists';
+            }
         }
         else
         {
-            echo 'Academic Term Already Exists';
+            echo 'This record is already submitted';
         }
+        
     }
 
     function add_session()
