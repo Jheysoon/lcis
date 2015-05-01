@@ -1,11 +1,12 @@
 <?php
-    //1999-00344-1 duplicate subj.
-
 	$position = $this->session->userdata('position');
-
     
     $result = $this->common->select_student($id);
-    extract($result);
+
+    // check if there is a record found 
+    if(is_array($result))
+    {
+        extract($result);
 ?>
 
 <div class="col-md-3"></div>
@@ -315,7 +316,6 @@
                                             <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>
                                             <?php endif ?>
-                                            
                                         </tr>
                                         <?php endforeach ?>
 
@@ -430,3 +430,16 @@
 		</div>
 	</div>
 </div>
+<?php 
+    }
+    else
+    { 
+        ?>
+    <div class="col-md-3"></div>
+    <div class="col-md-9 body-container">
+        <br/>
+        <div class="alert alert-danger" style="text-align:center;">
+            Unable to find student or the student information is unavailable
+        </div>
+    </div>
+    <?php } ?>
