@@ -445,4 +445,48 @@ class Registrar extends CI_Controller
         // its time to deleted the subjects grade
         $this->studentgrade->delete($enrolmentid);
     }
+    function add_re_exam()
+    {
+        $this->load->model(array(
+            'registrar/studentgrade',
+            'registrar/log_student',
+            'registrar/enrollment'
+        ));
+        
+        $val = $this->input->post('val');
+
+        $cat = explode('_', $val);
+        $i = 0;
+        foreach ($cat as $c)
+        {
+            $v = explode('-', $c);
+            if ($i == 0)
+            {
+                $studgrade = $v[1];
+            }
+            elseif ($i == 1)
+            {
+                $grade_id = $v[1];
+            }
+            else
+            {
+                $enroll = $v[1];
+            }
+            $i++;
+        }
+        $q = $this->enrollment->getID($enroll);
+        $pid = $q['student'];
+
+        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
+            (SELECT max(id) FROM log_student WHERE student=$pid)")->row_array();
+        if($stat['status'] != 'S')
+        {
+            $this->log_student->insert_not_exists($q['student'], 'E');
+            $this->studentgrade->update_reexam_grade($studgrade, $grade_id);
+        }
+        else
+        {
+            echo 'This record is already submitted';
+        }
+    }
 }

@@ -87,11 +87,17 @@ $(document).ready(function(){
         });
     }
 
-    $('input[name=re-exam]').change(function (){
+    $('.rexam').change(function (){
         $val = $(this).val();
         if($val == '1')
         {
             alert("not a valid grade");
+        }
+        else
+        {
+            $.post('/registrar/add_re_exam',{val:$val},function (data){
+                
+            });
         }
     });
 

@@ -275,10 +275,10 @@
                                             <?php 
                                                 if($value == 0.00) 
                                                 {
-                                                    $reexam_grade = $this->studentgrade->get_reexam($sid,$enrolmentid);
+                                                    $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
-                                            <select class="form-control" name="re-exam">
-                                                <?php if($reexam_grade == 0){ ?>
+                                            <select class="form-control rexam" name="re-exam">
+                                                <?php if($reexam_grade == 0.00){ ?>
                                                 <option value="1" selected>
                                                     Select
                                                 </option>
@@ -286,17 +286,27 @@
                                                 <?php
                                                     $all_grade = $this->grade->getAllGrade();
 
-                                                        foreach($all_grade as $ag)
+                                                    foreach($all_grade as $ag)
+                                                    {
+                                                        if($ag['value'] != 0.00)
                                                         {
-                                                            if($ag['value'] != 0.00)
+                                                            if($ag['id'] == $reexam_grade)
                                                             {
-                                                ?>
-                                                    <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                        <?php echo $ag['value']; ?>
-                                                    </option>
-                                                <?php
+                                                    ?>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
+                                                                    <?php echo $ag['value']; ?>
+                                                                </option>
+                                                    <?php
+                                                            }
+                                                            else{
+                                                                ?>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
+                                                                    <?php echo $ag['value']; ?>
+                                                                </option>
+                                                        <?php
                                                             }
                                                         }
+                                                    }
                                                 ?>
                                             </select>
                                             <?php } ?>
