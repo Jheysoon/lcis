@@ -441,13 +441,6 @@ class Registrar extends CI_Controller
         ));
         $this->enrollment->delete_enroll($enrolmentid);
 
-        // get the classallocation id from tbl_studentgrade
-        // so we can delete the classallocation's for that academicterm
-        $sg = $this->studentgrade->all($enrolmentid);
-        foreach ($sg as $val) {
-            $this->classallocation->delete('id',$val['classallocation']);
-        }
-
         // after the classallocation has been deleted
         // its time to deleted the subjects grade
         $this->studentgrade->delete($enrolmentid);
