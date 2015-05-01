@@ -165,10 +165,11 @@ class Registrar extends CI_Controller
 
         $this->load->model('registrar/party');
         $results_id = $this->party->searchId($id);
+        $stat = $this->session->userdata('status');
 
         foreach ($results_id as $r)
         {
-            $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname'] . ' ' . $r['status']);
+            $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname']);
         }
         echo json_encode($data);
     }
@@ -452,7 +453,7 @@ class Registrar extends CI_Controller
             'registrar/log_student',
             'registrar/enrollment'
         ));
-        
+
         $val = $this->input->post('val');
 
         $cat = explode('_', $val);

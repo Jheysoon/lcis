@@ -10,6 +10,7 @@ $(document).ready(function(){
         remote: '/registrar/search_by_id/%QUERY'
     });
     student_list.initialize();
+    //student_list.clearRemoteCache();
     $('#student_search').typeahead(
         {
             hint: true,
