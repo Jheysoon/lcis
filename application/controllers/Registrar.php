@@ -204,8 +204,8 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/party');
         $id = $this->input->post('search');
-        $id = $this->party->existsID($id);
-        if ($id > 0)
+        $id1 = $this->party->existsID($id);
+        if ($id1 > 0)
         {
             redirect('/rgstr_build/' . $id);
         }
