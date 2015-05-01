@@ -14,12 +14,12 @@
             $status = $this->session->userdata('status');
             if($status == 'N'){
                 $party_id = $this->db->query("SELECT * FROM tbl_party
-                                              WHERE (legacyid LIKE '$id%' OR firstname LIKE '%$id%' OR lastname LIKE '%$id%') AND partytype = '3' LIMIT 5 ");
+                                              WHERE (legacyid LIKE '$id%' OR firstname LIKE '%$id%' OR lastname LIKE '%$id%') AND partytype = '3' LIMIT 8");
             }
             else{
                 $party_id = $this->db->query("SELECT * FROM tbl_party
                                               WHERE (legacyid LIKE '$id%' OR firstname LIKE '%$id%' OR lastname LIKE '%$id%')
-                                              AND status = '$status' AND partytype = '3' LIMIT 5");
+                                              AND status = '$status' AND partytype = '3' LIMIT 8");
             }
             return $party_id->result_array();
         }

@@ -87,6 +87,14 @@ $(document).ready(function(){
         });
     }
 
+    $('input[name=re-exam]').change(function (){
+        $val = $(this).val();
+        if($val == '1')
+        {
+            alert("not a valid grade");
+        }
+    });
+
     $('.del_sub').click(function(e){
         $subj = $(this).attr('param');
 

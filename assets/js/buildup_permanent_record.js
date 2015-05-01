@@ -6,6 +6,7 @@ $(document).ready(function(){
     var student_list = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit:8,
         remote: '/registrar/search_by_id/%QUERY'
     });
     student_list.initialize();
@@ -21,7 +22,7 @@ $(document).ready(function(){
             templates:{
                 suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
                 '<span>{{name}}</span>'),
-                empty:['<div class="alert alert-danger">Unable to find student id</div>']
+                empty:['<div class="alert alert-danger">Unable to find student</div>']
             },
             source: student_list.ttAdapter()
         }

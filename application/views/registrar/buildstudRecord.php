@@ -224,28 +224,83 @@
                                             	if ($position == "Admin-registrar" OR $this->session->userdata('status') == 'S'): 
                                             ?>
                                             		<label><?php echo $value; ?></label>
-                                            <?php else: ?>
-                                            	<select class="form-control" name="edit_sub_grade">
+                                            <?php 
+                                                else:
+                                                    $style = '';
+                                                    if($value == 0.00)
+                                                    {
+                                                        $style = 'disabled';
+                                                    }
+                                            ?>
+                                            	<select class="form-control" name="edit_sub_grade" <?php echo $style; ?>>
                                                     <?php
                                                         $all_grade = $this->grade->getAllGrade();
                                                         foreach($all_grade as $ag)
                                                         {
                                                             if($ag['value'] == $value){
                                                                 ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
+                                                                <?php 
+                                                                    if($ag['value']  == 0.00){
+                                                                        echo $ag['description'];
+                                                                    }
+                                                                    else{
+                                                                        echo $ag['value'];
+                                                                    }
+                                                                ?>
+                                                                </option>
                                                             <?php
                                                             }
                                                             else{
                                                                 ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>"><?php echo $ag['value']; ?></option>
+                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
+                                                                <?php 
+                                                                    if($ag['value']  == 0.00){
+                                                                        echo $ag['description'];
+                                                                    }
+                                                                    else{
+                                                                        echo $ag['value'];
+                                                                    }
+                                                                ?>
+                                                                </option>
                                                             <?php
                                                             }
+                                                            
                                                         }
                                                     ?>
                                                     <?php endif ?>
                                                 </select>
                                             </td>
-                                            <td> &nbsp; </td>
+                                            <td>
+                                            <?php 
+                                                if($value == 0.00) 
+                                                {
+                                                    $reexam_grade = $this->studentgrade->get_reexam($sid,$enrolmentid);
+                                            ?>
+                                            <select class="form-control" name="re-exam">
+                                                <?php if($reexam_grade == 0){ ?>
+                                                <option value="1" selected>
+                                                    Select
+                                                </option>
+                                                <?php } ?>
+                                                <?php
+                                                    $all_grade = $this->grade->getAllGrade();
+
+                                                        foreach($all_grade as $ag)
+                                                        {
+                                                            if($ag['value'] != 0.00)
+                                                            {
+                                                ?>
+                                                    <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
+                                                        <?php echo $ag['value']; ?>
+                                                    </option>
+                                                <?php
+                                                            }
+                                                        }
+                                                ?>
+                                            </select>
+                                            <?php } ?>
+                                            </td>
                                             <td class="tblNum"><?php echo $units; ?></td>
                                             <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>

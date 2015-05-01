@@ -66,4 +66,12 @@ class Studentgrade extends CI_Model{
         $q = $this->db->get('tbl_studentgrade');
         return $q->result_array();
     }
+    function get_reexam($cid, $eid)
+    {
+        $this->db->where('classallocation',$cid);
+        $this->db->where('enrolment',$eid);
+        $q = $this->db->get('tbl_studentgrade');
+        $q = $q->row_array();
+        return $q['reexamgrade'];
+    }
 }
