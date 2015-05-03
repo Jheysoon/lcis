@@ -345,8 +345,7 @@ class Registrar extends CI_Controller
         $q = $this->enrollment->getID($enroll);
         $pid = $q['student'];
 
-        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
-            (SELECT max(id) FROM log_student WHERE student=$pid)")->row_array();
+        $stat = $this->log_student->chkStatus($pid);
         if($stat['status'] != 'S')
         {
             $this->log_student->insert_not_exists($q['student'], 'E');
@@ -396,8 +395,7 @@ class Registrar extends CI_Controller
         $db['academicterm'] = $syid;
         $db['student'] = $partyid;
 
-        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
-            (SELECT max(id) FROM log_student WHERE student=$partyid)")->row_array();
+        $stat = $this->log_student->chkStatus($partyid);
         if($stat['status'] != 'S')
         {
             $count = $this->enrollment->whereCount($db);
