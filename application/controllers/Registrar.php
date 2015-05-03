@@ -438,13 +438,27 @@ class Registrar extends CI_Controller
         $this->load->model(array(
             'registrar/enrollment',
             'registrar/studentgrade',
-            'registrar/classallocation'
+            'registrar/classallocation',
+            'registrar/log_student'
         ));
-        $this->enrollment->delete_enroll($enrolmentid);
 
-        // after the classallocation has been deleted
-        // its time to deleted the subjects grade
-        $this->studentgrade->delete($enrolmentid);
+        $p = $this->enrollment->getID($enrolmentid);
+        $pid = $p['student'];
+
+        $stat = $this->log_student->chkStatus($pid);
+        if($stat['status'] != 'S')
+        {
+            $this->log_student->insert_not_exists($p['student'], 'E');
+            $this->enrollment->delete_enroll($enrolmentid);
+
+            // after the classallocation has been deleted
+            // its time to deleted the subjects grade
+            $this->studentgrade->delete($enrolmentid);
+        }
+        else
+        {
+            echo 'This record is already submitted';
+        }
     }
     function add_re_exam()
     {
@@ -478,8 +492,7 @@ class Registrar extends CI_Controller
         $q = $this->enrollment->getID($enroll);
         $pid = $q['student'];
 
-        $stat = $this->db->query("SELECT status FROM log_student WHERE id=
-            (SELECT max(id) FROM log_student WHERE student=$pid)")->row_array();
+        $stat = $this->log_student->chkStatus($pid);
         if($stat['status'] != 'S')
         {
             $this->log_student->insert_not_exists($q['student'], 'E');

@@ -70,4 +70,8 @@ class Log_student extends CI_Model
         }
         return $this->db->count_all_results('log_student');
     }
+    function chkStatus($pid)
+    {
+        return $this->db->query("SELECT status FROM log_student WHERE id=(SELECT max(id) FROM log_student WHERE student=$pid)")->row_array();
+    }
 }

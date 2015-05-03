@@ -439,7 +439,7 @@
     <div class="col-md-9 body-container">
         <br/>
         <div class="alert alert-danger" style="text-align:center;">
-            Unable to find student or the student information is unavailable
+            <h4>Unable to find student or the student information is unavailable</h4>
         </div>
     </div>
     <?php } ?>
