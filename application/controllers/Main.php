@@ -56,9 +56,9 @@ class Main extends CI_Controller
             if($count == 'ok')
             {
                 // set the session uid value
-                $userid = $this->useraccess->getUserId($username,$password);
-                $position = $this->useraccess->getposition($userid);
-                if($position == 'Admin-registrar')
+               echo $userid = $this->useraccess->getUserId($username,$password);
+               echo $position = $this->useraccess->getposition($userid);
+                if($position == 'C')
                 {
                     $status = 'S';
                 }
@@ -68,15 +68,13 @@ class Main extends CI_Controller
                 }
                 $this->session->set_userdata(array(
                     'uid'       =>$userid,
-                    'position'  =>$position,
+                    'datamanagement'  =>$position,
                     'sy'        =>'2014-2015',
                     'sem'       =>'1st Semester',
                     'cur_id'    =>'46',
                     'status'    =>$status,
                     'username'  =>$username
                 ));
-
-                redirect(base_url());
             }
             else
             {
@@ -84,9 +82,8 @@ class Main extends CI_Controller
                 $this->session->set_flashdata('message','
                     <div class="alert alert-danger text-center">Authentication Failed</div>
                 ');
-
-                redirect(base_url());
             }
+               redirect(base_url());
         }
     }
 
@@ -204,7 +201,7 @@ class Main extends CI_Controller
     {
         // Unset some SESSION variable
         $this->session->unset_userdata('uid');
-        $this->session->unset_userdata(array('sy','sem','cur_id','position','status'));
+        $this->session->unset_userdata(array('sy','sem','cur_id','datamanagement','status'));
 
         redirect(base_url());
     }

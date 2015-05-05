@@ -19,7 +19,7 @@ class Enrollment extends CI_Model
                                 AND tbl_enrolment.student = tbl_party.id
                                 GROUP BY tbl_enrolment.student LIMIT $limit,15");
         }
-        elseif($this->session->userdata('position') == 'Admin-registrar')
+        elseif($this->session->userdata('datamanagement') == 'C')
         {
             $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party
                                 WHERE coursemajor=5

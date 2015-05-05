@@ -1,12 +1,22 @@
 <?php
-	$position = $this->session->userdata('position');
+	$position = $this->session->userdata('datamanagement');
     
     $result = $this->common->select_student($id);
+
 
     // check if there is a record found 
     if(is_array($result))
     {
         extract($result);
+          $get_school = $this->common->selectOther($partyid);
+          extract($get_school);
+          $getElementary = $this->common->selectElem($elementary);
+   //     echo $getElementary['elementary'];
+           $getSecondary = $this->common->selectSec($secondary);
+    //    echo $getSecondary['secondary'];
+            $getCollege = $this->common->selectTertiary($primary);
+     //   echo $getCollege['primary'];
+           
 ?>
 
 <div class="col-md-3"></div>
@@ -25,16 +35,24 @@
             <div class="col-md-4">
 				<div class="col-md-12 pad-bottom-10">
 					<strong class="strong">Student ID 		: </strong>
-					<strong class="strong"><?php echo $legacyid; ?></strong>
+					<input type="text" class="form-control" value = "<?php echo $legacyid; ?>" disabled style="background-color:white">
 				</div>
 				<div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Name 			: </strong>
-					<strong class="strong"><?php echo $firstname . " " . $middlename . " " . $lastname; ?></strong>
+					<strong class="strong">First Name</strong>
+					<input type="text" class="form-control" value="<?php echo $firstname ?>">
 				</div>
+                <div class="col-md-12 pad-bottom-10">
+                    <strong class="strong">Middle Name</strong>
+                    <input type="text" class="form-control" value="<?php echo $middlename ?>">
+                </div>
+                <div class="col-md-12 pad-bottom-10">
+                    <strong class="strong">Last Name</strong>
+                    <input type="text" class="form-control" value="<?php echo $lastname ?>">
+                </div>      
 
 				<div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Course 			: </strong>
-                        <?php if ($position != 'Admin-registrar'): ?>
+					<strong class="strong">Course</strong>
+                        <?php if ($position != 'C' or $position != 'B'): ?>
                         	<select class="form-control" name="" id="">
                             <?php
                                 $course = $this->course->allCourse();
@@ -61,7 +79,6 @@
                     <?php else: ?>
                     		<?php echo $description; ?>
                     <?php endif ?>
-                        
 				</div>
 
 				<!-- <div class="col-md-12 pad-bottom-10">
@@ -71,20 +88,94 @@
 				 -->
 			</div>
             <div class="col-md-5">
+              <div class="col-md-12 pad-bottom-10">
+                            <strong class="strong">Date of Birth</strong>
+                            <input  type="date" class="form-control">
+                </div>
+                 <div class="col-md-12 pad-bottom-10">
+                            <strong class="strong">Place of Birth</strong>
+                            <input type="text" class="form-control">
+                </div>
+                <div class="col-md-12 pad-bottom-10">
+                            <strong class="strong">Address : </strong>
+                            <input type="text" class="form-control">
+                </div>
+
                 <div class="col-md-12 pad-bottom-10">
                     <strong class="strong">Elementary   : </strong>
-                    <strong class="strong"><!-- variable --></strong>
+      
+                    <?php if ($position != 'C' or $position != 'B'): ?>
+                        <select class="form-control" name="" id="">
+                            <?php
+                                $elementary = $this->course->getAllSchool('elementary');
+
+                                foreach($elementary as $el)
+                                {
+                                    if($el['registrarname'] == $getElementary['elementary'])
+                                    {
+                                    ?>
+                                        <option value="<?php echo $el['id']; ?>" selected><?php echo $el['registrarname']; ?></option>
+                                    <?php
+                                        }
+                                        else
+                                        {
+                                        ?>
+                                            <option value="<?php echo $el['id']; ?>"><?php echo $el['registrarname']; ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                            <?php
+                                }
+                            ?>
+                    </select>
+                <?php else: ?>
+                    <?php echo $el['registrarname']; ?>
+                <?php endif ?>
                 </div>
 
                 <div class="col-md-12 pad-bottom-10">
                     <strong class="strong">High School :</strong>
-                    <strong class="strong"><!-- variable --></strong>
+                   <?php if ($position != 'C' or $position != 'B'): ?>
+                        <select class="form-control" name="" id="">
+                            <?php
+                                $hs = $this->course->getAllSchool('secondary');
+
+                                foreach($hs as $h)
+                                {
+                                    if($h['registrarname'] == $getSecondary['secondary'])
+                                    {
+                                    ?>
+                                        <option value="<?php echo $el['id']; ?>" selected><?php echo $h['registrarname']; ?></option>
+                                    <?php
+                                        }
+                                        else
+                                        {
+                                        ?>
+                                            <option value="<?php echo $el['id']; ?>"><?php echo $h['registrarname']; ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                            <?php
+                                }
+                            ?>
+                    </select>
+                <?php else: ?>
+                    <?php echo $el['registrarname']; ?>
+                <?php endif ?>
                 </div>
             </div>
-
-		<div class="col-md-3 pad-bottom-10"><img class="profile-main pull-right" src="<?php echo base_url('assets/images/sample.jpg'); ?>"></div>
-            
-        <div class="col-md-12"><hr class="hr-middle"></div>
+            <br />
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+              <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
+               <!--  <img data-src="holder.js/100%x100%" alt="..."> -->
+              </div>
+              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
+              <div>
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+              </div>
+            </div>
+	      <div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
             <!-- div class panel -->
             <!--<div class="panel">-->
@@ -92,7 +183,7 @@
                 <!-- div class table-responsive -->
 
                 <!-- modal add academicterm -->
-                <?php if ($position != 'Admin-registrar' or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
                     
                 <div class="modal fade" id="modal_academicterm">
                     <div class="modal-dialog modal-sm">
@@ -162,7 +253,7 @@
                     </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
                 <?php endif ?>
-                <?php if($this->session->userdata('position') =='Clerk' AND $this->session->userdata('status') != 'S'){ ?>
+                <?php if($this->session->userdata('datamanagement') =='E' AND $this->session->userdata('status') != 'S'){ ?>
                 <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
                 <span class="clearfix"></span>
                 <?php } ?>
@@ -195,7 +286,11 @@
                                             // get enrollment id
                                             $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
                                          ?>
-                                        <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                         <?php if ($position == 'C'): ?>
+                                            <?php elseif($position == 'B'): ?>
+                                            <?php else: ?>
+                                                <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                         <?php endif ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,7 +299,7 @@
                                     <td>Final Grades</td>
                                     <td>Re-Exam</td>
                                     <td>Credit</td>
-                                    <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
+                                    <?php if (($position != 'C' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                                     	   <td>Action</td>
                                     <?php endif ?>
                                  
@@ -222,7 +317,7 @@
                                             <td><?php echo $descriptivetitle; ?></td>
                                             <td class="text-right">
                                             <?php                                
-                                            	if ($position == "Admin-registrar" OR $this->session->userdata('status') == 'S'): 
+                                            	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'): 
                                             ?>
                                             		<label><?php echo $value; ?></label>
                                             <?php 
@@ -313,7 +408,7 @@
                                             <?php } ?>
                                             </td>
                                             <td class="tblNum"><?php echo $units; ?></td>
-                                            <?php if ($position != 'Admin-registrar' AND $this->session->userdata('status') != 'S'): ?>
+                                            <?php if (($position != 'C' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>
                                             <?php endif ?>
                                         </tr>
@@ -321,7 +416,7 @@
 
                                     <?php endforeach ?>
 
-                                    <?php if ($position != 'Admin-registrar'): ?>                               
+                                    <?php if ($position != 'C' or $position != 'B'): ?>                               
 	                                    <tr>
 	                                        <td colspan="6">
 	                                            <div class="modal fade" id="myModal<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -370,7 +465,7 @@
 	                                                    </div>
 	                                                </div>
 	                                            </div>
-                                                <?php if ($this->session->userdata('status') != 'S' AND $position != 'Admin-registrar'): ?>
+                                                <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
                                                                  <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
 	                                           </td>
@@ -384,7 +479,7 @@
                         <?php 
 	                        $getflag = $this->common->theflag($partyid);
                              $status = $this->log_student->getLatestTm($partyid);
-                        if ($getflag < 1 AND $position == 'Admin-registrar'):
+                        if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
                            
                             ?>
                             <div class="pull-right">
@@ -417,7 +512,7 @@
             <!--</div>-->
             <!-- /div class panel -->
             <?php
-                if($position != 'Admin-registrar')
+                if($position != 'C' or $position != 'B')
                 {
                     $status = $this->party->getStatus($partyid);
                     if($status['status'] != 'E' AND $status['status'] != 'S')

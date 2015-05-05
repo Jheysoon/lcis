@@ -10,6 +10,22 @@
 			$result = $this->db->get_where('view_studinfo', $data);
 			return $result->row_array();
 		}
+		function selectOther($partyid){
+			$result = $this->db->query("SELECT * FROM tbl_student WHERE id = '$partyid'");
+			return $result->row_array();
+		}
+		function selectElem($elementary){
+			$result = $this->db->query("SELECT registrarname as elementary FROM tbl_school WHERE id = '$elementary'");
+			return $result->row_array();
+		}
+		function selectSec($secondary){
+			$result = $this->db->query("SELECT registrarname as secondary FROM tbl_school WHERE id = '$secondary'");
+			return $result->row_array();
+		}
+		function selectTertiary($primary){
+			$result = $this->db->query("SELECT registrarname as `primary` FROM tbl_school WHERE id = '$primary'");
+			return $result->row_array();
+		}
 		function get_school($partyid){
 			$result = $this->db->query("SELECT school, firstname as sch
 				FROM tbl_enrolment, tbl_party where student = '$partyid' 

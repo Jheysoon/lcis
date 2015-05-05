@@ -14,7 +14,8 @@
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/docs.min.js'); ?>"></script>
-    <!--<script src="<?php /*echo base_url('assets/js/validation.js'); */?>"></script>-->
+    <script src="<?php echo base_url('assets/js/jasny-bootstrap.min.js'); ?>"></script>
+     <!--<script src="<?php /*echo base_url('assets/js/validation.js'); */?>"></script>-->
     <!-- =============================================================================== -->
 
     <script src="/assets/js/home.js"></script>
@@ -34,6 +35,7 @@
             <script src="/assets/js/typeahead.bundle.js"></script>
             <script src="/assets/js/handlebars-v3.0.1.js"></script>
             <script src="/assets/js/buildup_permanent_record.js"></script>
+
         <?php
             }
         ?>

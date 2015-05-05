@@ -38,5 +38,11 @@ class Course extends CI_Model{
         $q = $this->db->get('tbl_course');
         return $q->result_array();
     }
+    function getAllSchool($degree)
+    {
+      $this->db->where($degree, '1');
+      $q = $this->db->get('tbl_school');
+      return $q->result_array();
+    }
 
 }

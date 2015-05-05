@@ -59,11 +59,10 @@
             <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
                 <input type="hidden" id = "thestatus" name = "stats">
                 <label>Status Filter</label>
-
+                <?php   echo $pos = $this->session->userdata('datamanagement'); ?>
                 <select class="form-control" name="status" id = "status">
                     <?php 
-                        $pos = $this->session->userdata('position');
-                        if($pos == 'Clerk'){ ?>
+                        if($pos == 'E'){ ?>
                         
                     <option value="N" <?php if ($this->session->userdata('status') == 'N'): ?>
                         selected
