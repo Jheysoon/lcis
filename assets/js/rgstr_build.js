@@ -83,7 +83,7 @@ $(document).ready(function(){
                 enrol_id = vv[1];
             }
         }
-        console.log(grade_id);
+        console.log(stud_g);
         if(grade_id == 22)
         {
             $(this).attr('disabled','disabled');

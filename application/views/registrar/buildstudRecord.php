@@ -98,6 +98,8 @@
                                             <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
                         </select>
@@ -150,6 +152,8 @@
                                             <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
 
@@ -182,6 +186,8 @@
                                             <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
                     </select>
@@ -423,6 +429,7 @@
                                                                 </option>
                                                             <?php
                                                             }
+                                                            
                                                         }
                                                     ?>
                                                     <?php endif ?>
@@ -527,7 +534,7 @@
 	                                                </div>
 	                                            </div>
                                                 <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
-                                                    <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                                 <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
 	                                           </td>
 	                                    </tr>
