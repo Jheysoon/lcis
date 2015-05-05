@@ -98,39 +98,14 @@
                                             <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
-<<<<<<< HEAD
-                        </select>
-                    <?php else:  
-                            echo $description; 
-                        endif ?>
-				</div>
-
-				<!-- <div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Year Level 		: </strong>
-					<strong class="strong">Third Year</strong>
-				</div>
-				 -->
-			</div>
-            <div class="col-md-5">
-              <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Date of Birth</strong>
-                            <input  type="date" class="form-control">
-                </div>
-                 <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Place of Birth</strong>
-                            <input type="text" class="form-control">
-                </div>
-                <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Address : </strong>
-                            <input type="text" class="form-control">
-=======
                     </select>
                 <?php else: ?>
                     <?php echo $pr['registrarname']; ?>
                 <?php endif ?>
->>>>>>> 4eda9e262741a49db972d16d55a379fbdc488f44
                 </div>
 
 
@@ -157,19 +132,14 @@
                                             <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
-<<<<<<< HEAD
-                        </select>
-                <?php else: 
-                     echo $el['registrarname']; 
-                     endif ?>
-=======
                     </select>
                 <?php else: ?>
                     <?php echo $el['firstname']; ?>
                 <?php endif ?>
->>>>>>> 4eda9e262741a49db972d16d55a379fbdc488f44
                 </div>
 
                 <div class="col-md-12 pad-bottom-10">
@@ -195,6 +165,8 @@
                                             <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
                                     <?php
                                         }
+                                    ?>
+                            <?php
                                 }
                             ?>
                     </select>
@@ -408,7 +380,7 @@
                                                         $all_grade = $this->grade->getAllGrade();
                                                         foreach($all_grade as $ag)
                                                         {
-                                                            if($ag['id'] == $semgrade){
+                                                            if($ag['value'] == $value){
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
                                                                 <?php 
@@ -436,12 +408,13 @@
                                                                 </option>
                                                             <?php
                                                             }
+                                                            
                                                         }
                                                     ?>
                                                     <?php endif ?>
                                                 </select>
                                             </td>
-                                            <td id="stugrade-<?php echo $sid; ?>">
+                                            <td>
                                             <?php 
                                                 if($value == 0.00) 
                                                 {
@@ -540,7 +513,7 @@
 	                                                </div>
 	                                            </div>
                                                 <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
-                                                    <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                                 <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
 	                                           </td>
 	                                    </tr>

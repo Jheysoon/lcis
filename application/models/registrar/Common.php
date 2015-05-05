@@ -19,6 +19,7 @@
 			return $result->row_array();
 		}
 		function selectSec($secondary){
+			
 			$result = $this->db->query("SELECT firstname as secondary FROM tbl_party WHERE id = '$secondary'");
 			return $result->row_array();
 		}
