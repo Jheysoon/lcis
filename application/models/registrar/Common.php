@@ -15,15 +15,15 @@
 			return $result->row_array();
 		}
 		function selectElem($elementary){
-			$result = $this->db->query("SELECT registrarname as elementary FROM tbl_school WHERE id = '$elementary'");
+			$result = $this->db->query("SELECT firstname as elementary FROM tbl_party WHERE id = '$elementary'");
 			return $result->row_array();
 		}
 		function selectSec($secondary){
-			$result = $this->db->query("SELECT registrarname as secondary FROM tbl_school WHERE id = '$secondary'");
+			$result = $this->db->query("SELECT firstname as secondary FROM tbl_party WHERE id = '$secondary'");
 			return $result->row_array();
 		}
 		function selectTertiary($primary){
-			$result = $this->db->query("SELECT registrarname as `primary` FROM tbl_school WHERE id = '$primary'");
+			$result = $this->db->query("SELECT firstname as `primary` FROM tbl_party WHERE id = '$primary'");
 			return $result->row_array();
 		}
 		function get_school($partyid){
