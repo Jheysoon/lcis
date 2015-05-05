@@ -501,4 +501,34 @@ class Registrar extends CI_Controller
             echo 'This record is already submitted';
         }
     }
+
+    function re_exam()
+    {
+        $this->load->model(array(
+            'registrar/log_student',
+            'registrar/enrollment',
+            'registrar/grade',
+            'registrar/studentgrade'
+        ));
+
+        $enrol_id = $this->input->post('enrol');
+
+        $q = $this->enrollment->getID($enrol_id);
+        $pid = $q['student'];
+
+        $stat = $this->log_student->chkStatus($pid);
+        if($stat['status'] != 'S')
+        {
+            $grade_id = $this->input->post('grad');
+            $data['enrolmentid'] = $enrol_id;
+            $data['sid'] = $this->input->post('stugrade');
+            $this->studentgrade->update_grade($data['sid'],$grade_id);
+            $this->log_student->insert_not_exists($pid, 'E');
+            $this->load->view('registrar/ajax/re_exam',$data);
+        }
+        else
+        {
+            echo 'This record is already submitted';
+        }
+    }
 }

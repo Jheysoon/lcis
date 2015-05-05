@@ -59,7 +59,7 @@
             <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
                 <input type="hidden" id = "thestatus" name = "stats">
                 <label>Status Filter</label>
-                <?php   echo $pos = $this->session->userdata('datamanagement'); ?>
+                <?php $pos = $this->session->userdata('datamanagement'); ?>
                 <select class="form-control" name="status" id = "status">
                     <?php 
                         if($pos == 'E'){ ?>

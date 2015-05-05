@@ -61,12 +61,66 @@ $(document).ready(function(){
 
     $('select[name="edit_sub_grade"]').change(function(){
         value = $(this).val();
-        $.post('/registrar/save_edit_grade',{val:value},function (data){
-            if(data != '')
+        grade_id = '';
+        stud_g = '';
+        enrol_id = '';
+        v = value.split('_');
+        ite = 0;
+        for (x in v)
+        {
+            ite++;
+            vv = v[x].split('-');
+            if(ite == 2)
             {
-                alert(data);
+                grade_id = vv[1];
             }
-        });
+            else if(ite == 1)
+            {
+                stud_g = vv[1];
+            }
+            else
+            {
+                enrol_id = vv[1];
+            }
+        }
+        console.log(grade_id);
+        if(grade_id == 22)
+        {
+            $(this).attr('disabled','disabled');
+            $.post('/registrar/re_exam',{stugrade:stud_g,grad:grade_id,enrol:enrol_id},function (data) {
+                if(data == 'This record is already submitted')
+                {
+                    alert(data);
+                }
+                else
+                {
+                    $('#stugrade-'+stud_g).html(data);
+                    $('.rexam').on('change',function (){
+                        $val = $(this).val();
+                        if($val == '1')
+                        {
+                            alert("not a valid grade");
+                        }
+                        else
+                        {
+                            $.post('/registrar/add_re_exam',{val:$val},function (data){
+                                
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        else
+        {
+            $.post('/registrar/save_edit_grade',{val:value},function (data){
+                if(data != '')
+                {
+                    alert(data);
+                }
+            });
+        }
+        
     });
 
     del_acam();

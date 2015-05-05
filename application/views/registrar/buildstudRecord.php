@@ -71,14 +71,12 @@
                                             <option value="<?php echo $c['id']; ?>"><?php echo $c['description']; ?></option>
                                     <?php
                                         }
-                                    ?>
-                            <?php
                                 }
                             ?>
                         </select>
-                    <?php else: ?>
-                    		<?php echo $description; ?>
-                    <?php endif ?>
+                    <?php else:  
+                            echo $description; 
+                        endif ?>
 				</div>
 
 				<!-- <div class="col-md-12 pad-bottom-10">
@@ -123,14 +121,12 @@
                                             <option value="<?php echo $el['id']; ?>"><?php echo $el['registrarname']; ?></option>
                                     <?php
                                         }
-                                    ?>
-                            <?php
                                 }
                             ?>
-                    </select>
-                <?php else: ?>
-                    <?php echo $el['registrarname']; ?>
-                <?php endif ?>
+                        </select>
+                <?php else: 
+                     echo $el['registrarname']; 
+                     endif ?>
                 </div>
 
                 <div class="col-md-12 pad-bottom-10">
@@ -154,14 +150,12 @@
                                             <option value="<?php echo $el['id']; ?>"><?php echo $h['registrarname']; ?></option>
                                     <?php
                                         }
-                                    ?>
-                            <?php
                                 }
                             ?>
-                    </select>
-                <?php else: ?>
-                    <?php echo $el['registrarname']; ?>
-                <?php endif ?>
+                        </select>
+                <?php else: 
+                    echo $el['registrarname']; 
+                    endif ?>
                 </div>
             </div>
             <br />
@@ -333,7 +327,7 @@
                                                         $all_grade = $this->grade->getAllGrade();
                                                         foreach($all_grade as $ag)
                                                         {
-                                                            if($ag['value'] == $value){
+                                                            if($ag['id'] == $semgrade){
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
                                                                 <?php 
@@ -361,13 +355,12 @@
                                                                 </option>
                                                             <?php
                                                             }
-                                                            
                                                         }
                                                     ?>
                                                     <?php endif ?>
                                                 </select>
                                             </td>
-                                            <td>
+                                            <td id="stugrade-<?php echo $sid; ?>">
                                             <?php 
                                                 if($value == 0.00) 
                                                 {
@@ -466,7 +459,7 @@
 	                                                </div>
 	                                            </div>
                                                 <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
-                                                                 <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                    <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
 	                                           </td>
 	                                    </tr>
