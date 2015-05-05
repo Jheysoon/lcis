@@ -40,8 +40,8 @@ class Course extends CI_Model{
     }
     function getAllSchool($degree)
     {
-      $this->db->where($degree, '1');
-      $q = $this->db->get('tbl_school');
+
+      $q = $this->db->query(" SELECT tbl_party.id as sch_id, tbl_school.id, firstname FROM `tbl_school`, tbl_party WHERE tbl_party.id = tbl_school.id AND `". $degree ."` = '1'");
       return $q->result_array();
     }
 
