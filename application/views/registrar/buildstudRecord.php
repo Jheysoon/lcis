@@ -100,7 +100,6 @@
                                         }
                                 }
                             ?>
-<<<<<<< HEAD
                         </select>
                     <?php else:  
                             echo $description; 
@@ -125,12 +124,6 @@
                 <div class="col-md-12 pad-bottom-10">
                             <strong class="strong">Address : </strong>
                             <input type="text" class="form-control">
-=======
-                    </select>
-                <?php else: ?>
-                    <?php echo $pr['registrarname']; ?>
-                <?php endif ?>
->>>>>>> 4eda9e262741a49db972d16d55a379fbdc488f44
                 </div>
 
 
@@ -159,17 +152,11 @@
                                         }
                                 }
                             ?>
-<<<<<<< HEAD
-                        </select>
-                <?php else: 
-                     echo $el['registrarname']; 
-                     endif ?>
-=======
+
                     </select>
                 <?php else: ?>
                     <?php echo $el['firstname']; ?>
                 <?php endif ?>
->>>>>>> 4eda9e262741a49db972d16d55a379fbdc488f44
                 </div>
 
                 <div class="col-md-12 pad-bottom-10">
