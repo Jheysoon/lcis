@@ -15,16 +15,16 @@
 			return $result->row_array();
 		}
 		function selectElem($elementary){
-			$result = $this->db->query("SELECT firstname as elementary FROM tbl_party WHERE id = '$elementary'");
+			$result = $this->db->query("SELECT firstname as elementary, completionelementary FROM tbl_party, tbl_student WHERE tbl_party.id = '$elementary' AND completionelementary !=  ''");
 			return $result->row_array();
 		}
 		function selectSec($secondary){
 			
-			$result = $this->db->query("SELECT firstname as secondary FROM tbl_party WHERE id = '$secondary'");
+			$result = $this->db->query("SELECT firstname as secondary, completionsecondary FROM tbl_party, tbl_student WHERE tbl_party.id = '$secondary' AND completionelementary !=  ''");
 			return $result->row_array();
 		}
 		function selectTertiary($primary){
-			$result = $this->db->query("SELECT firstname as `primary` FROM tbl_party WHERE id = '$primary'");
+			$result = $this->db->query("SELECT firstname as `primary`, completionprimary FROM tbl_party, tbl_student WHERE tbl_party.id = '$primary' AND completionelementary !=  ''");
 			return $result->row_array();
 		}
 		function get_school($partyid){

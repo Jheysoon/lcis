@@ -1,4 +1,5 @@
 <?php
+    $stud = $id;
 	$position = $this->session->userdata('datamanagement');
     
     $result = $this->common->select_student($id);
@@ -32,217 +33,273 @@
 		</div>
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
-            <div class="col-md-4">
-				<div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Student ID 		: </strong>
-					<input type="text" class="form-control" value = "<?php echo $legacyid; ?>" disabled style="background-color:white">
-				</div>
-				<div class="col-md-12 pad-bottom-10">
-					<strong class="strong">First Name</strong>
-					<input type="text" class="form-control" value="<?php echo $firstname ?>">
-				</div>
-                <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">Middle Name</strong>
-                    <input type="text" class="form-control" value="<?php echo $middlename ?>">
-                </div>
-                <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">Last Name</strong>
-                    <input type="text" class="form-control" value="<?php echo $lastname ?>">
-                </div>      
+            <form action="/registrar/update_studinfo" method="POST">
+                <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
+                <input type="hidden" name="url" value="<?php echo $stud; ?>">
+                <div class="col-md-4">
+    				<div class="col-md-12 pad-bottom-10">
+    					<strong class="strong">Student ID</strong>
+    					<input type="text" class="form-control" value = "<?php echo $legacyid; ?>" disabled style="background-color:white">
+    				</div>
+    				<div class="col-md-12 pad-bottom-10">
+    					<strong class="strong">First Name</strong>
+    					<input type="text" class="form-control" name="firstname" value="<?php echo $firstname ?>">
+    				</div>
+                    <div class="col-md-12 pad-bottom-10">
+                        <strong class="strong">Middle Name</strong>
+                        <input type="text" class="form-control" name="middlename" value="<?php echo $middlename ?>">
+                    </div>
+                    <div class="col-md-12 pad-bottom-10">
+                        <strong class="strong">Last Name</strong>
+                        <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>">
+                    </div>      
 
-                <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Date of Birth</strong>
-                            <input  type="date" class="form-control">
-                </div>
-                 <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Place of Birth</strong>
-                            <input type="text" class="form-control">
-                </div>
+                    <div class="col-md-12 pad-bottom-10">
+                                <strong class="strong">Date of Birth</strong>
+                                <input  type="date" name="dob" class="form-control" value="<?php echo $dob; ?>">
+                    </div>
+                     <div class="col-md-12 pad-bottom-10">
+                                <strong class="strong">Place of Birth</strong>
+                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
+                    </div>
+                          
 
-
-				
-				<!-- <div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Year Level 		: </strong>
-					<strong class="strong">Third Year</strong>
-				</div>
-				 -->
-			</div>
-            <div class="col-md-5">
-              
-                <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Address 1: </strong>
-                            <input type="text" class="form-control"><br />
-                            <input type="text" class="form-control">
-                </div>
-                  <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">Primary   : </strong>
-      
-                    <?php if ($position != 'C' or $position != 'B'): ?>
-                        <select class="form-control" name="" id="">
-
-                            <option>Select</option>
-                            <?php
-                                $prim = $this->course->getAllSchool('primary');
-
-                                foreach($prim as $pr)
-                                {
-                                    if($pr['registrarname'] == $getCollege['primary'])
-                                    {
-                                    ?>
-                                        <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
-                                    <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
-                                    <?php
-                                        }
-                                    ?>
-                            <?php
-                                }
-                            ?>
-                        </select>
-                    <?php else:  
-                            echo $description; 
-                        endif ?>
-				</div>
-
-				<!-- <div class="col-md-12 pad-bottom-10">
-					<strong class="strong">Year Level 		: </strong>
-					<strong class="strong">Third Year</strong>
-				</div>
-				 -->
-			</div>
-            <div class="col-md-5">
-              <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Date of Birth</strong>
-                            <input  type="date" class="form-control">
-                </div>
-                 <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Place of Birth</strong>
-                            <input type="text" class="form-control">
-                </div>
-                <div class="col-md-12 pad-bottom-10">
-                            <strong class="strong">Address : </strong>
-                            <input type="text" class="form-control">
-                </div>
-
-
-                <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">Elementary   : </strong>
-      
-                    <?php if ($position != 'C' or $position != 'B'): ?>
-                        <select class="form-control" name="" id="">
-                           <option>Select</option>
-                            <?php
-                                $elementary = $this->course->getAllSchool('elementary');
-
-                                foreach($elementary as $el)
-                                {
-                                    if($el['registrarname'] == $getElementary['elementary'])
-                                    {
-                                    ?>
-                                        <option value="<?php echo $el['id']; ?>" selected><?php echo $el['firstname']; ?></option>
-                                    <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
-                                    <?php
-                                        }
-                                    ?>
-                            <?php
-                                }
-                            ?>
-
-                    </select>
-                <?php else: ?>
-                    <?php echo $el['firstname']; ?>
-                <?php endif ?>
-                </div>
-
-                <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">High School :</strong>
-                   <?php if ($position != 'C' or $position != 'B'): ?>
-
-                        <select class="form-control" name="" id="">
-                           <option>Select</option>
-                            <?php
-                                $hs = $this->course->getAllSchool('secondary');
-
-                                foreach($hs as $h)
-                                {
-                                    if($h['registrarname'] == $getSecondary['secondary'])
-                                    {
-                                    ?>
-                                        <option value="<?php echo $h['id']; ?>" selected><?php echo $h['firstname']; ?></option>
-                                    <?php
-                                        }
-                                        else
-                                        {
-                                        ?>
-                                            <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
-                                    <?php
-                                        }
-                                    ?>
-                            <?php
-                                }
-                            ?>
-                    </select>
-                <?php else: ?>
-                    <?php echo $h['firstname']; ?>
-                <?php endif ?>
-                </div>
-
-                <div class="col-md-12 pad-bottom-10">
-                    <strong class="strong">Course</strong>
+    				
+    				<!-- <div class="col-md-12 pad-bottom-10">
+    					<strong class="strong">Year Level 		: </strong>
+    					<strong class="strong">Third Year</strong>
+    				</div>
+    				 -->
+    			</div>
+                <div class="col-md-5">
+                  
+                    <div class="col-md-12 pad-bottom-10">
+                                <strong class="strong">Address : </strong>
+                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
+                                <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
+                    </div>
+                      <div class="col-md-9 pad-bottom-10">
+                        <strong class="strong">Primary</strong>
                         <?php if ($position != 'C' or $position != 'B'): ?>
-                            <select class="form-control" name="" id="">
-                            <?php
-                                $course = $this->course->allCourse();
+                            <select class="form-control" name="primary">
 
-                                foreach($course as $c)
-                                {
-                                    if($c['description'] == $description)
+                                <option>Select</option>
+                                <?php
+                                    $prim = $this->course->getAllSchool('primary');
+
+                                    foreach($prim as $pr)
                                     {
-                                    ?>
-                                        <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
-                                    <?php
-                                        }
-                                        else
+                                        if($pr['registrarname'] == $getCollege['primary'])
                                         {
                                         ?>
-                                            <option value="<?php echo $c['id']; ?>"><?php echo $c['description']; ?></option>
-                                    <?php
-                                        }
-                                    ?>
-                            <?php
-                                }
-                            ?>
+                                            <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
+                                        <?php
+                                            }
+                                            else
+                                            {
+                                            ?>
+                                                <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                        <?php else:  
+                                echo $pr['firstname'];; 
+                            endif ?>
+    				</div>
+                    <div class="col-md-3">
+                          <strong class="strong">Year</strong>
+                          <select class="form-control" name="primaryyear">
+                              <option></option>
+                                  <?php
+                                  $x = date('Y');
+                                  $loop = 1950;
+                                   while ($loop < $x) { ?>
+                                   <?php if ($getCollege['completionprimary'] == $x): ?>
+                                       <option selected><?php echo $x; ?></option>
+                                   <?php else: ?>
+                                        <option ><?php echo $x; ?></option>
+                                   <?php endif ?>   
+                                 <?php
+                                  $x--;
+                                 } ?>
+                          </select>
+                     </div>
+    				<!-- <div class="col-md-12 pad-bottom-10">
+    					<strong class="strong">Year Level 		: </strong>
+    					<strong class="strong">Third Year</strong>
+    				</div>
+    				 -->
+
+
+
+
+
+
+                     <!-- Select -->
+    			</div>
+                <div class="col-md-5">
+                 
+                
+                    <div class="col-md-9 pad-bottom-10">
+                        <strong class="strong">Elementary</strong>
+          
+                        <?php if ($position != 'C' or $position != 'B'): ?>
+                            <select class="form-control" name="elementary">
+                               <option>Select</option>
+                                <?php
+                                    $elementary = $this->course->getAllSchool('elementary');
+
+                                    foreach($elementary as $el)
+                                    {
+                                        if($el['firstname'] == $getElementary['elementary'])
+                                        {
+                                        ?>
+                                            <option value="<?php echo $el['id']; ?>" selected><?php echo $el['firstname']; ?></option>
+                                        <?php
+                                            }
+                                            else
+                                            {
+                                            ?>
+                                                <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                <?php
+                                    }
+                                ?>
+
                         </select>
                     <?php else: ?>
-                            <?php echo $description; ?>
+                        <?php echo $el['firstname']; ?>
                     <?php endif ?>
-                </div>  
-                 <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="   Save"/>
+                    </div>
+                     <div class="col-md-3">
+                          <strong class="strong">Year</strong>
+                          <select class="form-control" name = "elementaryyear">
+                              <option></option>
+                                  <?php
+                                  $x = date('Y');
+                                  $loop = 1950;
+                                   while ($loop < $x) { ?>
+                                   <?php if ($getElementary['completionelementary'] == $x): ?>
+                                       <option selected><?php echo $x; ?></option>
+                                   <?php else: ?>
+                                        <option><?php echo $x; ?></option>
+                                   <?php endif ?>
+                                     
+                                 <?php
+                                  $x--;
+                                 } ?>
+                          </select>
+                     </div>
+
+
+
+                    <div class="col-md-9 pad-bottom-10">
+                        <strong class="strong">High School :</strong>
+                       <?php if ($position != 'C' or $position != 'B'): ?>
+
+                            <select class="form-control" name="highschool" id="">
+                               <option>Select</option>
+                                <?php
+                                    $hs = $this->course->getAllSchool('secondary');
+
+                                    foreach($hs as $h)
+                                    {
+                                        if($h['registrarname'] == $getSecondary['secondary'])
+                                        {
+                                        ?>
+                                            <option value="<?php echo $h['id']; ?>" selected><?php echo $h['firstname']; ?></option>
+                                        <?php
+                                            }
+                                            else
+                                            {
+                                            ?>
+                                                <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                <?php
+                                    }
+                                ?>
+                        </select>
+                    <?php else: ?>
+                        <?php echo $h['firstname']; ?>
+                    <?php endif ?>
+                    </div>
+                     <div class="col-md-3">
+                          <strong class="strong">Year</strong>
+                          <select class="form-control" name="highschoolyear">
+                              <option></option>
+                                  <?php
+                                  $x = date('Y');
+                                  $loop = 1950;
+                                   while ($loop < $x) { ?>
+                                   <?php if ($getSecondary['completionsecondary'] == $x): ?>
+                                       <option selected><?php echo $x; ?></option>
+                                       <?php else: ?>
+                                        <option><?php echo $x; ?></option>
+                                   <?php endif ?>
+                                     
+                                 <?php
+                                  $x--;
+                                 } ?>
+                          </select>
+                     </div>
+
+                    <div class="col-md-12 pad-bottom-10">
+                        <strong class="strong">Course</strong>
+                            <?php if ($position != 'C' or $position != 'B'): ?>
+                                <select class="form-control" name="course">
+                                <?php
+                                    $course = $this->course->allCourse();
+
+                                    foreach($course as $c)
+                                    {
+                                        if($c['description'] == $description)
+                                        {
+                                        ?>
+                                            <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
+                                        <?php
+                                            }
+                                            else
+                                            {
+                                            ?>
+                                                <option value="<?php echo $c['id']; ?>"><?php echo $c['description']; ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                <?php
+                                    }
+                                ?>
+                            </select>
+                        <?php else: ?>
+                                <?php echo $description; ?>
+                        <?php endif ?>
+                    </div>  
+                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
+                </div>
+                <br />
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                  <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
+                   <!--  <img data-src="holder.js/100%x100%" alt="..."> -->
+                  </div>
+                  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
+                  <div>
+                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                  </div>
+                </div>
+            </form>
 
 
 
 
-            </div>
-            <br />
-            <div class="fileinput fileinput-new" data-provides="fileinput">
-              <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
-               <!--  <img data-src="holder.js/100%x100%" alt="..."> -->
-              </div>
-              <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
-              <div>
-                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-              </div>
-            </div>
+
 	      <div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
             <!-- div class panel -->
