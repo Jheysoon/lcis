@@ -281,7 +281,7 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
-                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
+                   
                 </div>
                 <br />
                     <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -294,6 +294,10 @@
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                   </div>
                 </div>
+                <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
+                    <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
+                <?php endif ?>
+                  
             </form>
 
 
