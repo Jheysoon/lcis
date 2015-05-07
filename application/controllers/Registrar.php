@@ -564,22 +564,22 @@ class Registrar extends CI_Controller
     $end  = new DateTime(date('Y-m-d'));
     $dDiff = $start->diff($end);
     $dif = $dDiff->format('%Y'); 
-    
-
+    $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+    $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
        if ($dif < 10) {
-          $this->session->set_flashdata('message', '<div class="alert alert-danger">Invalid Date of Birth.</div>');
+          $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
        }elseif ($elementary == '' OR $elementary == 'Select') {
-        $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First Elementary School</div>');
+        $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
        }elseif ($primary == '' OR $primary == 'Select') {
-          $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First Primary School</div>');
+          $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
        }elseif ($highschool == '' OR $highschool == 'Select') {
-        $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First High School</div>');
+        $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
        }elseif ($primaryyear == '' OR $primaryyear > $dat) {
-        $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First Year of Completion in Primary School</div>');
+        $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
        }elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
-        $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First Year of Completion in Elementary School</div>');  
+        $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');  
        }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
-         $this->session->set_flashdata('message', '<div class="alert alert-danger">Please Select First Year of Completion in High School</div>');
+         $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
        }else{
                 $data = array(
                 'firstname' => $firstname,
@@ -608,7 +608,7 @@ class Registrar extends CI_Controller
                 echo $x['id'];
                 $data3 = array('coursemajor' => $x['id']);
                 $this->db->update('tbl_registration', $data3);
-                $this->session->set_flashdata('message', '<div class="alert alert-success">Information Successfuly Saved.</div>');
+               $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
          }
        
           redirect('/rgstr_build/' . $url);
