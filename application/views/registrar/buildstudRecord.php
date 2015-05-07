@@ -44,7 +44,7 @@
     				</div>
     				<div class="col-md-12 pad-bottom-10">
     					<strong class="strong">First Name</strong>
-    					<input type="text" class="form-control" name="firstname" value="<?php echo $firstname ?>">
+    					<input type="text" class="form-control" name="firstname" value="<?php echo $firstname ?>" required>
     				</div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Middle Name</strong>
@@ -52,16 +52,16 @@
                     </div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Last Name</strong>
-                        <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>">
+                        <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>" required>
                     </div>      
 
                     <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Date of Birth</strong>
-                                <input  type="date" name="dob" class="form-control" value="<?php echo $dob; ?>">
+                                <input  type="date" name="dob" class="form-control datepicker" value="<?php echo $dob; ?>">
                     </div>
                      <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Place of Birth</strong>
-                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
+                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>" required>
                     </div>
                           
 
@@ -283,7 +283,7 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
-                      <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position == 'E' or $position == 'B') or $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
                 <?php endif ?>
                    
@@ -387,7 +387,7 @@
                 </div><!-- /.modal -->
                 <?php endif ?>
                 <?php if($this->session->userdata('datamanagement') =='E' AND $this->session->userdata('status') != 'S'){ ?>
-                <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
+                      <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
                 <span class="clearfix"></span>
                 <?php } ?>
                 <br/>
