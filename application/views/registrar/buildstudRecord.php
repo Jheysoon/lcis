@@ -9,13 +9,14 @@
     if(is_array($result))
     {
         extract($result);
+        $p = $partyid;
           $get_school = $this->common->selectOther($partyid);
           extract($get_school);
-          $getElementary = $this->common->selectElem($elementary);
+          $getElementary = $this->common->selectElem($elementary, $p);
    //     echo $getElementary['elementary'];
-           $getSecondary = $this->common->selectSec($secondary);
+           $getSecondary = $this->common->selectSec($secondary, $p);
     //    echo $getSecondary['secondary'];
-            $getCollege = $this->common->selectTertiary($primary);
+            $getCollege = $this->common->selectTertiary($primary, $p);
      //   echo $getCollege['primary'];
            
 ?>
@@ -89,7 +90,7 @@
 
                                     foreach($prim as $pr)
                                     {
-                                        if($pr['registrarname'] == $getCollege['primary'])
+                                        if($pr['firstname'] == $getCollege['primary'])
                                         {
                                         ?>
                                             <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
@@ -118,6 +119,7 @@
                                   $x = date('Y');
                                   $loop = 1950;
                                    while ($loop < $x) { ?>
+
                                    <?php if ($getCollege['completionprimary'] == $x): ?>
                                        <option selected><?php echo $x; ?></option>
                                    <?php else: ?>
@@ -210,7 +212,7 @@
 
                                     foreach($hs as $h)
                                     {
-                                        if($h['registrarname'] == $getSecondary['secondary'])
+                                        if($h['firstname'] == $getSecondary['secondary'])
                                         {
                                         ?>
                                             <option value="<?php echo $h['id']; ?>" selected><?php echo $h['firstname']; ?></option>

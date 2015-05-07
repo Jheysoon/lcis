@@ -14,17 +14,17 @@
 			$result = $this->db->query("SELECT * FROM tbl_student WHERE id = '$partyid'");
 			return $result->row_array();
 		}
-		function selectElem($elementary){
-			$result = $this->db->query("SELECT firstname as elementary, completionelementary FROM tbl_party, tbl_student WHERE tbl_party.id = '$elementary' AND completionelementary !=  ''");
+		function selectElem($elementary, $p){
+			$result = $this->db->query("SELECT firstname as elementary, (SELECT completionelementary FROM tbl_student WHERE `elementary` = '$elementary' AND id = '$p') as completionelementary FROM tbl_party WHERE tbl_party.id = '$elementary'");
 			return $result->row_array();
 		}
-		function selectSec($secondary){
+		function selectSec($secondary, $p){
 			
-			$result = $this->db->query("SELECT firstname as secondary, completionsecondary FROM tbl_party, tbl_student WHERE tbl_party.id = '$secondary' AND completionelementary !=  ''");
+			$result = $this->db->query("SELECT firstname as `secondary`, (SELECT completionsecondary FROM tbl_student WHERE `secondary` = '$secondary' AND id = '$p') as completionsecondary FROM tbl_party WHERE `id` = '$secondary'");
 			return $result->row_array();
 		}
-		function selectTertiary($primary){
-			$result = $this->db->query("SELECT firstname as `primary`, completionprimary FROM tbl_party, tbl_student WHERE tbl_party.id = '$primary' AND completionelementary !=  ''");
+		function selectTertiary($primary, $p){
+			$result = $this->db->query("SELECT firstname as `primary`, (SELECT completionprimary FROM tbl_student WHERE `primary` = '$primary' AND id = '$p') as completionprimary FROM tbl_party WHERE `id` = '$primary'");
 			return $result->row_array();
 		}
 		function get_school($partyid){

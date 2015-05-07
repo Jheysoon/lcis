@@ -604,6 +604,7 @@ class Registrar extends CI_Controller
                 echo $x['id'];
                 $data3 = array('coursemajor' => $x['id']);
                 $this->db->update('tbl_registration', $data3);
+                $this->session->set_flashdata('message', '<div class="alert alert-success">Information Successfuly Saved.</div>');
          }
        
           redirect('/rgstr_build/' . $url);
