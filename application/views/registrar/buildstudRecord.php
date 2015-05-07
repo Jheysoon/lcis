@@ -45,7 +45,7 @@
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
             <form action="/registrar/update_studinfo" method="POST">
-                <input type="hidden" name ="partyid" value="<?php $partyid; ?>">
+                <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
                 <input type="hidden" name="url" value="<?php echo $stud; ?>">
                 <div class="col-md-4">
     				<div class="col-md-12 pad-bottom-10">

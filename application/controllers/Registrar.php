@@ -567,7 +567,6 @@ class Registrar extends CI_Controller
     $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
     $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
        if ($dif < 10) {
-
           $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
        }elseif ($elementary == '' OR $elementary == 'Select') {
         $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
@@ -609,7 +608,7 @@ class Registrar extends CI_Controller
                 echo $x['id'];
                 $data3 = array('coursemajor' => $x['id']);
                 $this->db->update('tbl_registration', $data3);
-                $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+               $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
          }
        
           redirect('/rgstr_build/' . $url);
