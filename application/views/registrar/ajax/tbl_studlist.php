@@ -32,8 +32,8 @@
         foreach($result as $info)
         {
             extract($info);
-            $stud_info = $this->party->getStudInfo($student);
-                $course = $this->course->getCourse($coursemajor);
+            $stud_info = $this->party->getStudInfo($partyid);
+            $course = $this->course->getCourse($coursemajor);
 
                 ?>
                 <tr>

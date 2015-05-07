@@ -61,4 +61,10 @@
             $q = $this->db->get('tbl_party');
             return $q->row_array();
         }
+
+        function getInfo($id)
+        {
+            $q = $this->db->query("SELECT legacyid,id,dateofbirth as dob,firstname,lastname,middlename,placeofbirth as pob,address1,address2 FROM tbl_party WHERE legacyid='$id'");
+            return $q->row_array();
+        }
 	}
