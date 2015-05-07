@@ -384,13 +384,13 @@ class Registrar extends CI_Controller
             'registrar/enrollment', 'registrar/party',
             'registrar/course', 'registrar/academicterm',
             'registrar/subject', 'registrar/grade',
-            'registrar/log_student'
+            'registrar/log_student','registrar/registration'
         ));
         $data['student'] = $partyid;
         $data['coursemajor'] = $cid;
         $data['academicterm'] = $syid;
         $data['school'] = $sch_id;
-        $data['numberofsubject'] = 0;
+        $data['numberofsubject'] = 1;
 
         $db['academicterm'] = $syid;
         $db['student'] = $partyid;
@@ -401,6 +401,10 @@ class Registrar extends CI_Controller
             $count = $this->enrollment->whereCount($db);
             if ($count < 1)
             {
+                $d['student'] = $partyid;
+                $d['coursemajor'] = $cid;
+                $d['academicterm'] = $syid;
+                $this->registration->ins_not_exist($d);
                 $this->log_student->insert_not_exists($partyid, 'E');
                 $id = $this->enrollment->insert_return_id($data);
                 $data['id'] = $id;

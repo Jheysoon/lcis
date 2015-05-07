@@ -10,14 +10,24 @@
     {
         extract($result);
         $p = $partyid;
-          $get_school = $this->common->selectOther($partyid);
-          extract($get_school);
-          $getElementary = $this->common->selectElem($elementary, $p);
-   //     echo $getElementary['elementary'];
-           $getSecondary = $this->common->selectSec($secondary, $p);
-    //    echo $getSecondary['secondary'];
-            $getCollege = $this->common->selectTertiary($primary, $p);
-     //   echo $getCollege['primary'];
+        $get_school = $this->common->selectOther($partyid);
+        extract($get_school);
+        $getElementary = $this->common->selectElem($elementary, $p);
+        $getSecondary = $this->common->selectSec($secondary, $p);
+        $getCollege = $this->common->selectTertiary($primary, $p);
+    }
+    else
+    {
+        $res = $this->party->getInfo($id);
+        extract($res);
+        $p = $id;
+        $partyid = $id;
+        $get_school = $this->common->selectOther($res['id']);
+        extract($get_school);
+        $getElementary = $this->common->selectElem($elementary, $p);
+        $getSecondary = $this->common->selectSec($secondary, $p);
+        $getCollege = $this->common->selectTertiary($primary, $p);
+    }
            
 ?>
 
@@ -35,7 +45,7 @@
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
             <form action="/registrar/update_studinfo" method="POST">
-                <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
+                <input type="hidden" name ="partyid" value="<?php $partyid; ?>">
                 <input type="hidden" name="url" value="<?php echo $stud; ?>">
                 <div class="col-md-4">
     				<div class="col-md-12 pad-bottom-10">
@@ -391,7 +401,11 @@
                 <span class="clearfix"></span>
                 <?php } ?>
                 <br/>
+
+                
+
                 <div class="table-responsive" id="academic_wrapper">
+                <?php if(is_array($result)){ ?>
                     <?php
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):
@@ -618,9 +632,13 @@
                             </table>
                         <?php endforeach ?>
                         <br />
-                        <?php 
+                        <?php } 
+                            if(!is_array($result))
+                            {
+                                $partyid = $id;
+                            }
 	                        $getflag = $this->common->theflag($partyid);
-                             $status = $this->log_student->getLatestTm($partyid);
+                            $status = $this->log_student->getLatestTm($partyid);
                         if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
                            
                             ?>
@@ -654,6 +672,10 @@
             <!--</div>-->
             <!-- /div class panel -->
             <?php
+                if(!is_array($result))
+                {
+                    $partyid = $id;
+                }
                 if($position != 'C' or $position != 'B')
                 {
                     $status = $this->party->getStatus($partyid);
@@ -668,15 +690,15 @@
 	</div>
 </div>
 <?php 
-    }
-    else
-    { 
+    //}
+    //else
+    //{ 
         ?>
-    <div class="col-md-3"></div>
+    <!-- <div class="col-md-3"></div>
     <div class="col-md-9 body-container">
         <br/>
         <div class="alert alert-danger" style="text-align:center;">
             <h4>Unable to find student or the student information is unavailable</h4>
         </div>
-    </div>
-    <?php } ?>
+    </div> -->
+    <?php //} ?>

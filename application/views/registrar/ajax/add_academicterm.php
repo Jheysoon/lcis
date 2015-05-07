@@ -19,13 +19,17 @@
         <td class="tbl-header" colspan="4"><strong>Term:
                 <?php
                     if($sy['term'] == 1)
-                        echo 'FIRST SEMESTER';
+                        echo $description = 'FIRST SEMESTER';
                     elseif($sy['term'] == 2)
-                        echo 'SECOND SEMESTER';
+                        echo $description = 'SECOND SEMESTER';
                     else
-                        echo 'SUMMER CLASS';
+                        echo $description = 'SUMMER CLASS';
 
-                ?> </strong></td>
+                ?> </strong>
+            <a href="<?php echo $id; ?>" params="<?php echo $sy['systart'] . " - " . $sy['syend'].' '.$description; ?>" 
+            param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" 
+            class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+        </td>
     </tr>
     <tr>
         <td>Code</td>
@@ -69,7 +73,14 @@
                                         foreach($g as $gg)
                                         {
                                             ?>
-                                            <option value="<?php echo $gg['id']; ?>"><?php echo $gg['value']; ?></option>
+                                            <option value="<?php echo $gg['id']; ?>">
+                                            <?php
+                                                if($gg['value'] == 0.00)
+                                                    echo $gg['description'];
+                                                else
+                                                    echo $gg['value']; 
+                                            ?>
+                                            </option>
                                         <?php
                                         }
                                     ?>

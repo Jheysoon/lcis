@@ -187,6 +187,20 @@ $(document).ready(function(){
                     $('#myModal'+targerTr).modal('show');
                     e.preventDefault();
                 });
+
+                $('.delete_acam').on('click',function (e) {
+                    $sy = $(this).attr('params');
+                    if(confirm('Are you sure your want to delete \n'+$sy+' Academic Term ?'))
+                    {
+                        $eid = $(this).attr('href');
+                        $.post('/registrar/delete_acam',{eid:$eid},function (data) {
+
+                        });
+                        $param = $(this).attr('param');
+                        $('#' + $param).hide('500');
+                    }
+                    e.preventDefault();
+                });
             }
             
             add_subj();

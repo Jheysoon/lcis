@@ -13,5 +13,16 @@ class Registration extends CI_Model{
         $q = $q->row_array();
         return $q['coursemajor'];
     }
+    function ins_not_exist($data)
+    {
+    	$this->db->where('student',$data['student']);
+    	$this->db->where('coursemajor',$data['coursemajor']);
+    	$q = $this->db->count_all_results('tbl_registration');
+
+    	if($q < 1)
+    	{
+    		$this->db->insert('tbl_registration',$data);
+    	}
+    }
 
 }

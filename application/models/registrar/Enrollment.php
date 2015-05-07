@@ -13,30 +13,20 @@ class Enrollment extends CI_Model
         if($status == 'N')
         {
             $status = '';
-            $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party
-                                WHERE coursemajor=5
-                                AND  tbl_party.status = '$status'
-                                AND tbl_enrolment.student = tbl_party.id
-                                GROUP BY tbl_enrolment.student LIMIT $limit,15");
+            $q = $this->db->query("SELECT * FROM view_filter_stud LIMIT $limit,15");
         }
         elseif($this->session->userdata('datamanagement') == 'C')
         {
-            $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party
-                                WHERE coursemajor=5
-                                AND  tbl_party.status = '$status'
-                                AND tbl_enrolment.student = tbl_party.id
-                                GROUP BY tbl_enrolment.student LIMIT $limit,15");
+            $q = $this->db->query("SELECT * FROM view_filter_stud
+                                WHERE status = '$status' LIMIT $limit,15");
         }
         else
         {
             $uid = $this->session->userdata('uid');
-            $q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_party,log_student
-                                WHERE coursemajor=5
-                                AND  tbl_party.status = '$status'
-                                AND tbl_enrolment.student = tbl_party.id
+            $q = $this->db->query("SELECT * FROM view_filter_stud,log_student
+                                WHERE view_filter_stud.status = '$status'
                                 AND log_student.user = $uid AND 
-                                log_student.student = tbl_party.id
-                                GROUP BY tbl_enrolment.student LIMIT $limit,15");
+                                log_student.student = view_filter_stud.partyid GROUP BY partyid LIMIT $limit,15");
         }
         return $q->result_array();
     }
