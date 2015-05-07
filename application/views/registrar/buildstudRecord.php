@@ -580,7 +580,16 @@
 	                                                                        foreach($g as $gg)
 	                                                                        {
 	                                                                            ?>
-	                                                                            <option value="<?php echo $gg['id']; ?>"><?php echo $gg['value']; ?></option>
+	                                                                            <option value="<?php echo $gg['id']; ?>">
+                                                                                    <?php 
+                                                                                        if($gg['value']  == 0.00){
+                                                                                            echo $gg['description'];
+                                                                                        }
+                                                                                        else{
+                                                                                            echo $gg['value'];
+                                                                                        }
+                                                                                    ?>
+                                                                                </option>
 	                                                                        <?php
 	                                                                        }
 	                                                                    ?>
