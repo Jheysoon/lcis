@@ -281,8 +281,12 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
+                      <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
+                    <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
+                <?php endif ?>
                    
                 </div>
+
                 <br />
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                   <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
@@ -294,9 +298,7 @@
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                   </div>
                 </div>
-                <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
-                    <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
-                <?php endif ?>
+             
                   
             </form>
 
