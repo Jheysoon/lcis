@@ -293,7 +293,7 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
-                <?php if (($position == 'E' or $position == 'B') or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
                 <?php endif ?>
                    
@@ -326,7 +326,7 @@
                 <!-- div class table-responsive -->
 
                 <!-- modal add academicterm -->
-                <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'): ?>
                     
                 <div class="modal fade" id="modal_academicterm">
                     <div class="modal-dialog modal-sm">
@@ -434,10 +434,10 @@
                                             $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
                                          ?>
                                          <?php if ($position == 'C'): ?>
-                                            <?php elseif($position == 'B'): ?>
+                                            <?php elseif($position == 'B' OR $this->session->userdata('status') == 'S'): ?>
                                             <?php else: ?>
-                                                <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
-                                         <?php endif ?>
+                                                    <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                             <?php endif ?>
                                     </td>
                                 </tr>
                                 <tr>
