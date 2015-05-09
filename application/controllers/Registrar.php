@@ -607,6 +607,7 @@ class Registrar extends CI_Controller
                 $x = $coursmaj->row_array();
                 echo $x['id'];
                 $data3 = array('coursemajor' => $x['id']);
+                $this->db->where('student', $partyid);
                 $this->db->update('tbl_registration', $data3);
                $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
          }
