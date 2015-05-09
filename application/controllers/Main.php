@@ -92,7 +92,8 @@ class Main extends CI_Controller
         $this->load->model(array(
             'home/option',
             'home/option_header',
-            'home/useroption'
+            'home/useroption',
+            'home/party'
         ));
 
         $this->load->view('templates/header');
