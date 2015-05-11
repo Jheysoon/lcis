@@ -24,5 +24,10 @@ class Registration extends CI_Model{
     		$this->db->insert('tbl_registration',$data);
     	}
     }
-
+    function getAcam($id)
+    {
+        $this->db->where('student',$id);
+        $q = $this->db->get('tbl_registration');
+        return $q->row_array();
+    }
 }

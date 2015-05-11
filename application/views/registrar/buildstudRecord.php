@@ -71,7 +71,7 @@
                     </div>
                      <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Place of Birth</strong>
-                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>" required>
+                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
                     </div>
                           
 
@@ -85,9 +85,15 @@
                 <div class="col-md-5">
                   
                     <div class="col-md-12 pad-bottom-10">
+<<<<<<< HEAD
                                 <strong class="strong">Address : </strong>
-                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
+                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
                                 <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
+=======
+                        <strong class="strong">Address : </strong>
+                        <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
+                        <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
+>>>>>>> d431632262cc25d81573a9075852799cb07de015
                     </div>
                       <div class="col-md-9 pad-bottom-10">
                         <strong class="strong">Primary</strong>
@@ -212,7 +218,7 @@
 
 
                     <div class="col-md-9 pad-bottom-10">
-                        <strong class="strong">High School :</strong>
+                        <strong class="strong">High School</strong>
                        <?php if ($position != 'C' or $position != 'B'): ?>
 
                             <select class="form-control" name="highschool" id="">
@@ -269,11 +275,11 @@
                                 <select class="form-control" name="course">
                                 <?php
                                     $course = $this->course->allCourse();
-
                                     foreach($course as $c)
                                     {
                                         if($c['description'] == $description)
                                         {
+                                            $course_id = $c['id'];
                                         ?>
                                             <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
                                         <?php
@@ -302,7 +308,8 @@
                 <br />
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                   <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
-                   <!--  <img data-src="holder.js/100%x100%" alt="..."> -->
+<!-- 
+                    <img src="assets/images/sample.jpg" alt="..."> -->
                   </div>
                   <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
                   <div>
@@ -596,13 +603,44 @@
 	                                                                Subject
 	                                                                <select name="add_subj" class="form-control">
 	                                                                    <?php
-	                                                                        $subj = $this->subject->getAllSubj();
-	                                                                        foreach($subj as $sub)
-	                                                                        {
-	                                                                            ?>
-	                                                                            <option value="<?php echo $sub['id']; ?>"><?php echo $sub['code'].' | '.$sub['descriptivetitle']; ?></option>
-	                                                                        <?php
-	                                                                        }
+                                                                            $partyid;
+                                                                            $acams = $this->registration->getAcam($partyid);
+                                                                            $ac = $acams['academicterm'];
+                                                                            $coursemajor = $acams['coursemajor'];
+                                                                            $filter_subj = 0;
+                                                                            if($ac != 0)
+                                                                            {
+                                                                                for ($i=$ac; $i > 0 ; $i--) { 
+                                                                                    $a = $this->curriculum->getCur($i,$coursemajor);
+                                                                                    if($a != 'repeat')
+                                                                                    {
+                                                                                        $filter_subj = $i;
+                                                                                        break;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            if($filter_subj != 0)
+                                                                            {
+    	                                                                        $subj = $this->curriculumdetail->getAllSubj($filter_subj);
+    	                                                                        foreach($subj as $sub)
+    	                                                                        {
+                                                                                    $ssub = $this->subject->findById($sub['subject']);
+
+    	                                                                            ?>
+    	                                                                            <option value="<?php echo $ssub['id']; ?>"><?php echo $ssub['code'].' | '.$ssub['descriptivetitle']; ?></option>
+    	                                                                        <?php
+    	                                                                        }
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                $sub = $this->subject->getAllSubj();
+                                                                                foreach($sub as $ss)
+                                                                                {
+                                                                                    ?>
+                                                                                    <option value="<?php echo $ss['id']; ?>"><?php echo $ss['code'].' | '.$ss['descriptivetitle']; ?></option>
+                                                                                    <?php
+                                                                                }
+                                                                            }
 	                                                                    ?>
 	                                                                </select>
 	                                                                Grade

@@ -192,7 +192,9 @@ class Registrar extends CI_Controller
             'registrar/grade', 'registrar/common',
             'registrar/subject', 'registrar/party',
             'registrar/academicterm', 'registrar/log_student',
-            'registrar/enrollment','registrar/studentgrade'
+            'registrar/enrollment','registrar/studentgrade',
+            'registrar/registration','registrar/curriculum',
+            'registrar/curriculumdetail'
         ));
         $data['id'] = $id;
         $this->load->view('templates/header');
@@ -568,7 +570,12 @@ class Registrar extends CI_Controller
     $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
        if ($dif < 10) {
           $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
-       }elseif ($elementary == '' OR $elementary == 'Select') {
+       }elseif($pob == ''){
+          $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
+       }elseif($address1 == ''){
+        $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
+       }
+       elseif ($elementary == '' OR $elementary == 'Select') {
         $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
        }elseif ($primary == '' OR $primary == 'Select') {
           $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
@@ -581,7 +588,10 @@ class Registrar extends CI_Controller
        }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
          $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
        }else{
-                $data = array(
+                
+               $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+         }
+         $data = array(
                 'firstname' => $firstname,
                 'middlename' => $middlename,
                 'lastname' => $lastname,
@@ -609,9 +619,7 @@ class Registrar extends CI_Controller
                 $data3 = array('coursemajor' => $x['id']);
                 $this->db->where('student', $partyid);
                 $this->db->update('tbl_registration', $data3);
-               $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
-         }
-       
+
           redirect('/rgstr_build/' . $url);
     }
 }
