@@ -85,9 +85,15 @@
                 <div class="col-md-5">
                   
                     <div class="col-md-12 pad-bottom-10">
+<<<<<<< HEAD
                                 <strong class="strong">Address : </strong>
                                 <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
                                 <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
+=======
+                        <strong class="strong">Address : </strong>
+                        <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
+                        <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
+>>>>>>> d431632262cc25d81573a9075852799cb07de015
                     </div>
                       <div class="col-md-9 pad-bottom-10">
                         <strong class="strong">Primary</strong>
@@ -269,11 +275,11 @@
                                 <select class="form-control" name="course">
                                 <?php
                                     $course = $this->course->allCourse();
-
                                     foreach($course as $c)
                                     {
                                         if($c['description'] == $description)
                                         {
+                                            $course_id = $c['id'];
                                         ?>
                                             <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
                                         <?php
@@ -583,13 +589,44 @@
 	                                                                Subject
 	                                                                <select name="add_subj" class="form-control">
 	                                                                    <?php
-	                                                                        $subj = $this->subject->getAllSubj();
-	                                                                        foreach($subj as $sub)
-	                                                                        {
-	                                                                            ?>
-	                                                                            <option value="<?php echo $sub['id']; ?>"><?php echo $sub['code'].' | '.$sub['descriptivetitle']; ?></option>
-	                                                                        <?php
-	                                                                        }
+                                                                            $partyid;
+                                                                            $acams = $this->registration->getAcam($partyid);
+                                                                            $ac = $acams['academicterm'];
+                                                                            $coursemajor = $acams['coursemajor'];
+                                                                            $filter_subj = 0;
+                                                                            if($ac != 0)
+                                                                            {
+                                                                                for ($i=$ac; $i > 0 ; $i--) { 
+                                                                                    $a = $this->curriculum->getCur($i,$coursemajor);
+                                                                                    if($a != 'repeat')
+                                                                                    {
+                                                                                        $filter_subj = $i;
+                                                                                        break;
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            if($filter_subj != 0)
+                                                                            {
+    	                                                                        $subj = $this->curriculumdetail->getAllSubj($filter_subj);
+    	                                                                        foreach($subj as $sub)
+    	                                                                        {
+                                                                                    $ssub = $this->subject->findById($sub['subject']);
+
+    	                                                                            ?>
+    	                                                                            <option value="<?php echo $ssub['id']; ?>"><?php echo $ssub['code'].' | '.$ssub['descriptivetitle']; ?></option>
+    	                                                                        <?php
+    	                                                                        }
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                $sub = $this->subject->getAllSubj();
+                                                                                foreach($sub as $ss)
+                                                                                {
+                                                                                    ?>
+                                                                                    <option value="<?php echo $ss['id']; ?>"><?php echo $ss['code'].' | '.$ss['descriptivetitle']; ?></option>
+                                                                                    <?php
+                                                                                }
+                                                                            }
 	                                                                    ?>
 	                                                                </select>
 	                                                                Grade

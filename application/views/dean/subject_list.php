@@ -1,9 +1,10 @@
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
+
 		<div class="panel-heading search">
 			<div class="col-md-6">						
-			<h4>System Parameter: List of Subjects by Supervising Faculty</h4>						
+				<h4>System Parameter: List of Subjects by Supervising Faculty</h4>						
 			</div>
 			<div class="col-md-6">
 				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
@@ -23,157 +24,58 @@
 
 		<div class="panel-body">
 		<div class="col-md-6 ">	
-		<div class="form-group">
-					<label for="sy">Supervising Faculty</label>
-					<select class="form-control">
-						<option>COLLEGE OF ARTS AND SCIENCES</option>
-						<option>COLLEGE OF EDUCATION</option>
-						<option>COLLEGE OF CRIMINOLOGY</option>
-						<option>COLLEGE OF LAW</option>
-						<option>NATIONAL SERVICE TRAINING PROGRAM</option>
-					</select>
-		</div>
-		</div>
-		</div>
-
-		<div class="panel-body">
-		<div class="table-responsive">
-				<table class="table table-striped table-bordered table-hover">
-					<tr>
-						<th>Subject Code</th>
-						<th>Descriptive Title</th>
-						<th>Units</th>
-					</tr> 
-
-					<tr>
-						<td>ENGL 01</td>
-						<td>ENGLISH ENRICHMENT</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>
-
-					<tr>
-						<td>MATH 1</td>
-						<td>COLLEGE ALGEBRA</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>
-
-					<tr>
-						<td>FIL 1</td>
-						<td>KOMUNIKASYON SA AKADEMIKONG FILIPINO</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>
-
-					<tr>
-						<td>NAT SCI 1</td>
-						<td>BIOLOGICAL SCIENCE</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>	
-
-					<tr>
-						<td>POL SC 01</td>
-						<td>POLITICS AND GOVERNMENT (WITH PHILIPPINE CONSTITUTION)</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>HIST 1</td>
-						<td>PHILIPPINE HISTORY</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>		
-					<tr>
-						<td>ECON 1</td>
-						<td>BASIC ECONOMIC WITH TAR</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>	
-
-					<tr>
-						<td>ENGL 1</td>
-						<td>SENTENCE CONSTRUCTION, PARAGRAPH DEVELOPMENT AND COMPOSITION</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>FIL 2</td>
-						<td>PAGBASA AT PAGSULAT TUNGO SA PANANALIKSIK</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>MATH 2</td>
-						<td>PLANE TRIGONOMETRY</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>NAT SC 2</td>
-						<td>PHYSICAL SCIENCE</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>POL SC 1</td>
-						<td>FUNDAMENTALS OF POLITICAL SCIENCE</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>PSYCH 1</td>
-						<td>GENERAL PSYCHOLOGY</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>HUM 1</td>
-						<td>HUMANITIES</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-					<tr>
-						<td>ENGL 2A</td>
-						<td>COMMUNICATION ARTS (WRITING AND RHETORICS)</td>
-						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-							<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
-						</td>
-					</tr>													
-
-				</table>
-
+			<div class="form-group">
+				<label for="sy">Supervising Faculty</label>
+				<select class="form-control">
+					<option>COLLEGE OF ARTS AND SCIENCES</option>
+					<option>COLLEGE OF EDUCATION</option>
+					<option>COLLEGE OF CRIMINOLOGY</option>
+					<option>COLLEGE OF LAW</option>
+					<option>NATIONAL SERVICE TRAINING PROGRAM</option>
+				</select>
 			</div>
+		</div>
+		</div>
+		<?php 
+			$config['base_url'] = base_url().'index.php/menu/dean-subject_list';
+            $config['total_rows'] = $this->subject->getNumSubject();
+            $config['per_page'] = 15;
+            $config['num_links'] = 2;
+            $config['first_link'] = 'First';
+            $config['last_link'] = 'Last';
+            $config['first_tag_open'] = '<li>';
+            $config['first_tag_close'] = '</li>';
+            $config['last_tag_open'] = '<li>';
+            $config['last_tag_close'] = '</li>';
+            $config['num_tag_open'] = '<li>';
+            $config['num_tag_close'] = '</li>';
+            $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_open'] = '</li>';
+            $config['prev_tag_open'] = '<li>';
+            $config['prev_tag_close'] = '</li>';
+            $config['next_tag_open'] = '<li>';
+            $config['next_tag_close'] = '</li>';
+            $config['prev_link'] = 'Prev';
+            $config['next_link'] = 'Next';
+
+            if(empty($param))
+            {
+                $param = 0;
+            }
+                $this->pagination->initialize($config);
+		 ?>
+		 <ul class="pagination">
+            <?php
+                echo $this->pagination->create_links();
+                $data = array('param' => $param );
+            ?>
+        </ul>
+		<div class="panel-body">
+		<div class="table-responsive" id="subject_wrapper">
+			<?php $this->load->view('dean/ajax/tbl_subject',$data); ?>
+		</div>
 			<button type="submit" class="btn btn-success">Add Subject </button>
 		</div>
 		</div>

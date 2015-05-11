@@ -139,6 +139,10 @@ class Main extends CI_Controller
             {
                 $this->registrar();
             }
+            elseif($load_model[0] == 'dean')
+            {
+                $this->dean();
+            }
 
             $this->load->view($page,$data);
             $this->load->view('templates/footer',$data);
@@ -156,6 +160,15 @@ class Main extends CI_Controller
             'registrar/common','registrar/party',
             'registrar/registration','registrar/course',
             'registrar/enrollment'
+        ));
+        $this->load->library('pagination');
+    }
+
+    function dean()
+    {
+        $this->load->model(array(
+            'dean/subject',
+            'dean/subject'
         ));
         $this->load->library('pagination');
     }
