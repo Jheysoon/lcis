@@ -2,17 +2,7 @@
 	<tr>
 		<th>Student Id</th>
 		<th>Student Name</th>
-		<th><select class="form-control" name='course' required>
-				<!--<option> ALL</option>
-				<option> BACHELOR OF SECONDARY EDUCATION</option>-->
-				<option> BACHELOR OF SCIENCE IN CRIMINOLOGY</option>
-				<!--<option> BACHELOR OF ELEMENTARY EDUCATION</option>
-				<option> BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</option>
-				<option> BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</option>
-				<OPTION> BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</OPTION>
-				<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>-->
-			</select>	
-		</th>
+		<th>Course</th>
 		<!--<th>
             <select class="form-control" name='Year Level' required>
 				<option> THIRD YEAR</option>	

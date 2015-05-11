@@ -470,7 +470,7 @@
                                             <?php 
                                                 else:
                                                     $style = '';
-                                                    if($value == 0.00)
+                                                    if($value == 0.00 AND $remarks != 'NO GRADE')
                                                     {
                                                         $style = 'disabled';
                                                     }
@@ -516,7 +516,7 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php 
-                                                if($value == 0.00) 
+                                                if($value == 0.00 AND $remarks != 'NO GRADE')
                                                 {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
@@ -531,20 +531,34 @@
 
                                                     foreach($all_grade as $ag)
                                                     {
-                                                        if($ag['value'] != 0.00)
+                                                        if($ag['value'] != 0.00 OR ($ag['value'] == 0.00 AND $ag['description'] == 'NO GRADE'))
                                                         {
                                                             if($ag['id'] == $reexam_grade)
                                                             {
                                                     ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
-                                                                    <?php echo $ag['value']; ?>
+                                                                    <?php 
+                                                                      if ($ag['value'] == 0.00) {
+                                                                        echo $ag['description']; 
+                                                                      }
+                                                                      else{
+                                                                        echo $ag['value']; 
+                                                                      }
+                                                                    ?>
                                                                 </option>
                                                     <?php
                                                             }
                                                             else{
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                                    <?php echo $ag['value']; ?>
+                                                                    <?php 
+                                                                      if ($ag['value'] == 0.00) {
+                                                                        echo $ag['description']; 
+                                                                      }
+                                                                      else{
+                                                                        echo $ag['value']; 
+                                                                      }
+                                                                     ?>
                                                                 </option>
                                                         <?php
                                                             }

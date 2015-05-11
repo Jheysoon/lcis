@@ -12,7 +12,7 @@ class Grade extends CI_Model{
     function getAllGrade()
     {
         //$this->db->cache_on();
-        $this->db->limit(43);
+        // $this->db->limit(43);
         $this->db->order_by('description ASC, value ASC');
         $q = $this->db->get('tbl_grade');
         //$this->db->cache_off();
