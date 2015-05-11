@@ -92,8 +92,4 @@ class Dean extends CI_Controller
         $this->load->view('dean/curriculum_list');
         $this->load->view('templates/footer');
     }
-    function add_curriculum($x)
-    {
-        
-    }
 }

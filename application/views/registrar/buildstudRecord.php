@@ -85,15 +85,11 @@
                 <div class="col-md-5">
                   
                     <div class="col-md-12 pad-bottom-10">
-<<<<<<< HEAD
+
                                 <strong class="strong">Address : </strong>
                                 <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
                                 <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
-=======
-                        <strong class="strong">Address : </strong>
-                        <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
-                        <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
->>>>>>> d431632262cc25d81573a9075852799cb07de015
+
                     </div>
                       <div class="col-md-9 pad-bottom-10">
                         <strong class="strong">Primary</strong>
@@ -299,10 +295,15 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
+                     <div class="col-md-12 pad-bottom-10">
+                                <strong class="strong">Date of Registration</strong>
+                                <input  type="date" name="dor" class="form-control datepicker" value="<?php echo $date; ?>">
+                                <input type="hidden" name="dateregistered" value="<?php echo $date; ?>" />
+                    </div>
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
-                    <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
-                <?php endif ?>
-                   
+                    <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
+                    <button class="btn btn-primary pull-right"><a href="/curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" style="text-decoration:none" target="_blank">View Curriculum</a></button>
+                <?php endif ?>   
                 </div>
 
                 <br />
@@ -320,9 +321,6 @@
              
                   
             </form>
-
-
-
 
 
 	      <div class="col-md-12"><hr class="hr-middle"></div>
@@ -477,7 +475,7 @@
                                             <?php 
                                                 else:
                                                     $style = '';
-                                                    if($value == 0.00 AND $remarks != 'NO GRADE')
+                                                    if($value == 0.00)
                                                     {
                                                         $style = 'disabled';
                                                     }
@@ -523,7 +521,7 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php 
-                                                if($value == 0.00 AND $remarks != 'NO GRADE')
+                                                if($value == 0.00)
                                                 {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>

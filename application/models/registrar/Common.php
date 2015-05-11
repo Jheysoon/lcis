@@ -70,4 +70,14 @@
 			$q = $this->db->count_all_results('tbl_party');
 			return $q;
 		}
+		function selectcurr($partyid, $date, $coursemajor){
+
+				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
+				$x = $getAc->row_array();
+				$acad = $x['academicterm'];
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, yearlevel, term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE academicterm = '$acad' AND
+				 tbl_curriculum.id = curriculum AND tbl_subject.id = subject ORDER BY curr, academicterm, yearlevel");
+			return $result->result_array();
+		}
 	}

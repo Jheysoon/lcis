@@ -538,88 +538,93 @@ class Registrar extends CI_Controller
         }
     }
     function update_studinfo(){
-        //update in tbl_party
-        $partyid = $this->input->post('partyid');
-        $firstname = $this->input->post('firstname');
-        $middlename = $this->input->post('middlename');
-        $lastname = $this->input->post('lastname');
-        $dob = $this->input->post('dob');
-        $pob = $this->input->post('pob');
-        $address1 = $this->input->post('address1');
-        $address2 = $this->input->post('address2');
+                //update in tbl_party
+                    $partyid = $this->input->post('partyid');
+                    $firstname = $this->input->post('firstname');
+                    $middlename = $this->input->post('middlename');
+                    $lastname = $this->input->post('lastname');
+                    $dob = $this->input->post('dob');
+                    $pob = $this->input->post('pob');
+                    $address1 = $this->input->post('address1');
+                    $address2 = $this->input->post('address2');
 
-       //update in tbl_student
-        $primary = $this->input->post('primary');
-        $elementary = $this->input->post('elementary');
-        $highschool = $this->input->post('highschool');
-        $primaryyear = $this->input->post('primaryyear');
-        $elementaryyear = $this->input->post('elementaryyear');
-        $highschoolyear = $this->input->post('highschoolyear');
-       //latest registration to be updated
-        $url = $this->input->post('url');
-        $course = $this->input->post('course');
-       $dat = date('Y');
+                   //update in tbl_student
+                    $primary = $this->input->post('primary');
+                    $elementary = $this->input->post('elementary');
+                    $highschool = $this->input->post('highschool');
+                    $primaryyear = $this->input->post('primaryyear');
+                    $elementaryyear = $this->input->post('elementaryyear');
+                    $highschoolyear = $this->input->post('highschoolyear');
+                   //latest registration to be updated
+                    $url = $this->input->post('url');
+                    $course = $this->input->post('course');
+                     $dateregistered = $this->input->post('dateregistered');
+                     echo $dor = $this->input->post('dor');
+                   $dat = date('Y');
 
 
 
-    $start = new DateTime($dob);
-    $end  = new DateTime(date('Y-m-d'));
-    $dDiff = $start->diff($end);
-    $dif = $dDiff->format('%Y'); 
-    $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-    $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-       if ($dif < 10) {
-          $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
-       }elseif($pob == ''){
-          $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
-       }elseif($address1 == ''){
-        $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
-       }
-       elseif ($elementary == '' OR $elementary == 'Select') {
-        $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
-       }elseif ($primary == '' OR $primary == 'Select') {
-          $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
-       }elseif ($highschool == '' OR $highschool == 'Select') {
-        $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
-       }elseif ($primaryyear == '' OR $primaryyear > $dat) {
-        $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
-       }elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
-        $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');  
-       }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
-         $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
-       }else{
-                
-               $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
-         }
-         $data = array(
-                'firstname' => $firstname,
-                'middlename' => $middlename,
-                'lastname' => $lastname,
-                'dateofbirth' => $dob,
-                'placeofbirth' => $pob,
-                'address1' => $address1,
-                'address2' => $address2,
-                );
-                $this->db->where('id', $partyid);
-                $this->db->update('tbl_party', $data);
+                $start = new DateTime($dob);
+                $end  = new DateTime(date('Y-m-d'));
+                $dDiff = $start->diff($end);
+                $dif = $dDiff->format('%Y'); 
+                $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+                $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+                   if ($dif < 10) {
+                      $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
+                   }elseif($pob == ''){
+                      $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
+                   }elseif($address1 == ''){
+                    $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
+                   }
+                   elseif ($elementary == '' OR $elementary == 'Select') {
+                    $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
+                   }elseif ($primary == '' OR $primary == 'Select') {
+                      $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
+                   }elseif ($highschool == '' OR $highschool == 'Select') {
+                    $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
+                   }elseif ($primaryyear == '' OR $primaryyear > $dat) {
+                    $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
+                   }elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
+                    $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');  
+                   }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
+                     $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
+                   }else{
+                            
+                           $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+                     }
+                     $data = array(
+                            'firstname' => $firstname,
+                            'middlename' => $middlename,
+                            'lastname' => $lastname,
+                            'dateofbirth' => $dob,
+                            'placeofbirth' => $pob,
+                            'address1' => $address1,
+                            'address2' => $address2,
+                            );
+                            $this->db->where('id', $partyid);
+                            $this->db->update('tbl_party', $data);
 
-                $data2 = array(
-                    'primary' => $primary,
-                    'elementary' => $elementary,
-                    'secondary' => $highschool,
-                    'completionprimary' => $primaryyear,
-                    'completionelementary' => $elementaryyear,
-                    'completionsecondary' => $highschoolyear
-                    );
-                $this->db->where('id', $partyid);
-                $this->db->update('tbl_student', $data2);
-                $coursmaj = $this->db->query("SELECT course, id FROM tbl_coursemajor WHERE course = '$course'");
-                $x = $coursmaj->row_array();
-                echo $x['id'];
-                $data3 = array('coursemajor' => $x['id']);
-                $this->db->where('student', $partyid);
-                $this->db->update('tbl_registration', $data3);
-
-          redirect('/rgstr_build/' . $url);
-    }
+                            $data2 = array(
+                                'primary' => $primary,
+                                'elementary' => $elementary,
+                                'secondary' => $highschool,
+                                'completionprimary' => $primaryyear,
+                                'completionelementary' => $elementaryyear,
+                                'completionsecondary' => $highschoolyear
+                                );
+                            $this->db->where('id', $partyid);
+                            $this->db->update('tbl_student', $data2);
+                            $coursmaj = $this->db->query("SELECT course, id FROM tbl_coursemajor WHERE course = '$course'");
+                            $x = $coursmaj->row_array();
+                            $x['id'];
+                            $data3 = array('coursemajor' => $x['id'],
+                                            'date' => $dor
+                                            );
+                            $this->db->where('student', $partyid);
+                            $this->db->where('date',$dateregistered);
+                            $this->db->update('tbl_registration', $data3);
+                            redirect('/rgstr_build/' . $url);
+        }
+      
 }
