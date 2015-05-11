@@ -192,7 +192,9 @@ class Registrar extends CI_Controller
             'registrar/grade', 'registrar/common',
             'registrar/subject', 'registrar/party',
             'registrar/academicterm', 'registrar/log_student',
-            'registrar/enrollment','registrar/studentgrade'
+            'registrar/enrollment','registrar/studentgrade',
+            'registrar/registration','registrar/curriculum',
+            'registrar/curriculumdetail'
         ));
         $data['id'] = $id;
         $this->load->view('templates/header');
