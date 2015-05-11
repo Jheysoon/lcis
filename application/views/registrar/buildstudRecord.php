@@ -45,7 +45,7 @@
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
             <form action="/registrar/update_studinfo" method="POST">
-                <input type="hidden" name ="partyid" value="<?php $partyid; ?>">
+                <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
                 <input type="hidden" name="url" value="<?php echo $stud; ?>">
                 <div class="col-md-4">
     				<div class="col-md-12 pad-bottom-10">
@@ -71,7 +71,7 @@
                     </div>
                      <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Place of Birth</strong>
-                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>" required>
+                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
                     </div>
                           
 
@@ -86,7 +86,7 @@
                   
                     <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Address : </strong>
-                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>" required>
+                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
                                 <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
                     </div>
                       <div class="col-md-9 pad-bottom-10">
@@ -212,7 +212,7 @@
 
 
                     <div class="col-md-9 pad-bottom-10">
-                        <strong class="strong">High School :</strong>
+                        <strong class="strong">High School</strong>
                        <?php if ($position != 'C' or $position != 'B'): ?>
 
                             <select class="form-control" name="highschool" id="">
@@ -293,7 +293,7 @@
                                 <?php echo $description; ?>
                         <?php endif ?>
                     </div>  
-                <?php if (($position == 'E' or $position == 'B') or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/>
                 <?php endif ?>
                    
@@ -302,7 +302,8 @@
                 <br />
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                   <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
-                   <!--  <img data-src="holder.js/100%x100%" alt="..."> -->
+<!-- 
+                    <img src="assets/images/sample.jpg" alt="..."> -->
                   </div>
                   <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
                   <div>
@@ -326,7 +327,7 @@
                 <!-- div class table-responsive -->
 
                 <!-- modal add academicterm -->
-                <?php if (($position != 'C' or $position != 'B') or $this->session->userdata('status') != 'S'): ?>
+                <?php if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'): ?>
                     
                 <div class="modal fade" id="modal_academicterm">
                     <div class="modal-dialog modal-sm">
@@ -434,10 +435,10 @@
                                             $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
                                          ?>
                                          <?php if ($position == 'C'): ?>
-                                            <?php elseif($position == 'B'): ?>
+                                            <?php elseif($position == 'B' OR $this->session->userdata('status') == 'S'): ?>
                                             <?php else: ?>
-                                                <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
-                                         <?php endif ?>
+                                                    <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                             <?php endif ?>
                                     </td>
                                 </tr>
                                 <tr>

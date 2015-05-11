@@ -101,7 +101,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*-----------------------------------------------------------
  | Developers Routes
- | @author: greg bilyako
+ | @author: GREG
  |-----------------------------------------------------------
  */
 
+$route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
