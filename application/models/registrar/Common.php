@@ -80,4 +80,11 @@
 				 tbl_curriculum.id = curriculum AND tbl_subject.id = subject ORDER BY curr, academicterm, yearlevel");
 			return $result->result_array();
 		}
+
+		function get_schools(){
+			$result = $this->db->query("SELECT shortname, firstname, registrarname
+				FROM tbl_school, tbl_party where  
+				tbl_party.id = tbl_school.id");
+				return $result->result_array();
+		}
 	}

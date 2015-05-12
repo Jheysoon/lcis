@@ -475,7 +475,7 @@
                                             <?php 
                                                 else:
                                                     $style = '';
-                                                    if($value == 0.00)
+                                                    if($value == 0.00 AND $remarks != 'NO GRADE')
                                                     {
                                                         $style = 'disabled';
                                                     }
@@ -521,7 +521,7 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php 
-                                                if($value == 0.00)
+                                                if($value == 0.00 AND $remarks != 'NO GRADE')
                                                 {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
