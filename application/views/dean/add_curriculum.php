@@ -7,7 +7,7 @@
 			<h4>System Parameter: Add Subject To Curriculum</h4>						
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
 			        <div class="form-group">
 			          <input type="hidden" name="page" value="search">
@@ -21,52 +21,73 @@
 		</div>
 
 		<div class="panel-body">
-			<div class="col-md-6 ">	
-				<label class="lbl-data"> SUPERVISING FACULTY</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="SY 2013 - 2014">										
-			</div>
-
+			<?php 
+				$getAcademictTerm = $this->curriculum->getAc();
+				$getCourse = $this->curriculum->getCourse();
+				$getmajor = $this->curriculum->getm();
+			 ?>
 			<div class="col-md-6 ">	
 				<label class="lbl-data">EFFECTIVE SCHOOLAR YEAR</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="SY 2013 - 2014">										
+				<select class="form-control">
+				<?php 
+				foreach ($getAcademictTerm as $key => $value): 
+				extract($value);
+				?>
+
+					<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+				<?php endforeach ?>
+					
+				</select>										
 			</div>
 
 			<div class="col-md-6 ">	
 				<label class="lbl-data">REMARKS</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
+				<input class="form-control" maxlength="10" type="text" name="remarks" placeholder="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
 			</div>
 
 			<div class="col-md-6 ">	
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" maxlength="10" type="text" readonly  name="sid" placeholder="(e.g. 2014-2015)" required value="BACHELOR IN ELEMENTARY EDUCATION">
+				<select class="form-control">
+				<?php 
+					foreach ($getCourse as $key => $value): 
+						extract($value)
+				?>
+					<option value="<?php echo $coursemajorid; ?>"><?php echo $desc_course; ?></option>
+				<?php endforeach ?>
+					<?php 
+						foreach ($getmajor as $key => $value): 
+						extract($value);
+					?>
+						<option value="<?php echo $coursid; ?>"><?php echo $coursemajors ; ?></option>
+					<?php endforeach ?>
+				</select>
 			</div>
-
-			<div class="col-md-6 ">	
-				<label class="lbl-data">YEAR LEVEL</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST YEAR">										
-			</div>
-
-			<div class="col-md-6 ">	
-				<label class="lbl-data">TERM</label>
-				<input class="form-control" maxlength="10" type="text" readonly  name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST SEMESTER">										
-			</div>
+			</br />
+			<div class="col-md-4">
+			  <button class="btn btn-primary pull-right" style="width:50px">Save</button>
+			 </div>
 		</div>
 
 		<div class="panel-body">		
-		<strong class="strong">LIST OF ALL UNASSIGNED SUBJECTS</strong>
+		<strong class="strong">LIST OF Curriculum</strong>
 		<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
+				<?php 
+						$curr = $this
+
+				 ?>
 					<tr>
 						<th>Subject Code</th>
 						<th>Descriptive Title</th>
 						<th>Units</th>
+						<th>Action</th>
 					</tr> 
 
 					<tr>
 						<td>MATH 1</td>
 						<td>COLLEGE ALGEBRA</td>
 						<td>3</td>
-						<td><a class="a-table label label-info" href="index.php?page=editSubject">Add To Curriculum <span class="glyphicon glyphicon-pencil"></span></a>
+						<td><a class="a-table label label-info" href="/dean/add_curriculum">Add To Curriculum <span class="glyphicon glyphicon-pencil"></span></a>
 						</td>
 					</tr>
 
