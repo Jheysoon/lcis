@@ -302,7 +302,8 @@
                     </div>
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
-                    <button class="btn btn-primary pull-right"><a href="/curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" style="text-decoration:none" target="_blank">View Curriculum</a></button>
+                        <button class="btn btn-primary pull-right"><a href="/curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" style="text-decoration:none" target="_blank">View Curriculum</a></button>
+                    
                 <?php endif ?>   
                 </div>
 
@@ -475,7 +476,7 @@
                                             <?php 
                                                 else:
                                                     $style = '';
-                                                    if($value == 0.00)
+                                                    if($value == 0.00 AND $remarks != 'NO GRADE')
                                                     {
                                                         $style = 'disabled';
                                                     }
@@ -521,7 +522,7 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php 
-                                                if($value == 0.00)
+                                                if($value == 0.00 AND $remarks != 'NO GRADE')
                                                 {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
@@ -584,6 +585,7 @@
 
                                     <?php if ($position != 'C' or $position != 'B'): ?>                               
 	                                    <tr>
+
 	                                        <td colspan="6">
 	                                            <div class="modal fade" id="myModal<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	                                                <div class="modal-dialog modal-sm">
@@ -674,6 +676,7 @@
                                                 <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
                                                                  <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
+
 	                                           </td>
 	                                    </tr>
  							<?php endif ?>

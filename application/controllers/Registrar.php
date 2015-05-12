@@ -538,6 +538,7 @@ class Registrar extends CI_Controller
             echo 'This record is already submitted';
         }
     }
+
     function update_studinfo(){
                 //update in tbl_party
                     $partyid = $this->input->post('partyid');
@@ -626,6 +627,6 @@ class Registrar extends CI_Controller
                             $this->db->where('date',$dateregistered);
                             $this->db->update('tbl_registration', $data3);
                             redirect('/rgstr_build/' . $url);
-        }
+    }
       
 }
