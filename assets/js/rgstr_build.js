@@ -181,6 +181,8 @@ $(document).ready(function(){
             }
             else
             {
+                uri = $('input[name="uri"]').val();
+                location.href='/'+uri;
                 $('#academic_wrapper').prepend(data);
                 $('.modal-add-subj-grade').on('click',function (e){
                     targerTr = $(this).attr('href');

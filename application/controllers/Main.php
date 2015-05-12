@@ -170,7 +170,7 @@ class Main extends CI_Controller
             'dean/subject',
             'dean/subject'
         ));
-        $this->load->library('pagination');
+        //$this->load->library('pagination');
     }
 
     function createUsername($fname,$lname)

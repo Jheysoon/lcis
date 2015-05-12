@@ -65,6 +65,47 @@
                                         <?php
                                         }
                                     ?>
+                                    <?php
+                                    $partyid = $student;
+                                    $acams = $this->registration->getAcam($partyid);
+                                    $ac = $acams['academicterm'];
+                                    $coursemajor = $acams['coursemajor'];
+                                    $filter_subj = 0;
+                                    if($ac != 0)
+                                    {
+                                        for ($i=$ac; $i > 0 ; $i--) { 
+                                            $a = $this->curriculum->getCur($i,$coursemajor);
+                                            if($a != 'repeat')
+                                            {
+                                                $filter_subj = $i;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if($filter_subj != 0)
+                                    {
+                                        $subj = $this->curriculumdetail->getAllSubj($filter_subj);
+                                        foreach($subj as $sub)
+                                        {
+                                            $ssub = $this->subject->findById($sub['subject']);
+
+                                            ?>
+                                            <option value="<?php echo $ssub['id']; ?>"><?php echo $ssub['code'].' | '.$ssub['descriptivetitle']; ?></option>
+                                        <?php
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $sub = $this->subject->getAllSubj();
+                                        foreach($sub as $ss)
+                                        {
+                                            ?>
+                                            <option value="<?php echo $ss['id']; ?>"><?php echo $ss['code'].' | '.$ss['descriptivetitle']; ?></option>
+                                            <?php
+                                        }
+                                    }
+                                ?>
+
                                 </select>
                                 Grade
                                 <select name="sub_grade" class="form-control">

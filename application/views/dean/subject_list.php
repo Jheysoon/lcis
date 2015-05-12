@@ -10,16 +10,13 @@
 				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
 			        <div class="form-group">
 			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Subjecct Id">
+			          <input type="text" name="search" class="form-control" placeholder="Subject Id">
 			        </div>
 			        <button type="submit" class="btn btn-primary">
 			        <span class="glyphicon glyphicon-search"></span>
 			        </button>
-
 			     </form>
 			</div>
-
-
 		</div>
 
 		<div class="panel-body">
@@ -37,7 +34,7 @@
 		</div>
 		</div>
 		<?php 
-			$config['base_url'] = base_url().'index.php/menu/dean-subject_list';
+			/*$config['base_url'] = base_url().'index.php/menu/dean-subject_list';
             $config['total_rows'] = $this->subject->getNumSubject();
             $config['per_page'] = 15;
             $config['num_links'] = 2;
@@ -64,17 +61,17 @@
             {
                 $param = 0;
             }
-                $this->pagination->initialize($config);
+                $this->pagination->initialize($config);*/
 		 ?>
-		 <ul class="pagination">
+		 <!-- <ul class="pagination"> -->
             <?php
-                echo $this->pagination->create_links();
-                $data = array('param' => $param );
+                /*echo $this->pagination->create_links();
+                $data = array('param' => $param );*/
             ?>
-        </ul>
+        <!-- </ul> -->
 		<div class="panel-body">
 		<div class="table-responsive" id="subject_wrapper">
-			<?php $this->load->view('dean/ajax/tbl_subject',$data); ?>
+			<?php $this->load->view('dean/ajax/tbl_subject'); ?>
 		</div>
 			<button type="submit" class="btn btn-success">Add Subject </button>
 		</div>
