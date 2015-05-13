@@ -86,7 +86,7 @@
 				$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad'
 				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
-				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculum.yearlevel, tbl_curriculumdetail.term");
+				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculumdetail.yearlevel, tbl_curriculumdetail.term");
 				return $result->row_array();
 		}
 		function getYearTerm($partyid, $date, $coursemajor){
