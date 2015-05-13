@@ -74,9 +74,9 @@
 				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
 				$x = $getAc->row_array();
 				 $acad = $x['academicterm'];
-				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, yearlevel, term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel, term,  tbl_subject.id as subid, `code`, descriptivetitle 
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$coursemajor') AND
-				 tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND term = '$term' AND yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY curr, academicterm, yearlevel, term");
+				 tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY curr, academicterm, tbl_curriculumdetail.yearlevel, term");
 			return $result->result_array();
 		}
 		function getCurin($partyid, $date, $coursemajor){
