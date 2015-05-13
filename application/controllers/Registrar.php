@@ -730,8 +730,7 @@ class Registrar extends CI_Controller
 
                 ');
 
-
-                redirect('/menu/registrar-sys_param/'.$this->input->post('id'));
+                redirect('/menu/registrar-sys_param/');
             }
             
 
@@ -745,8 +744,12 @@ class Registrar extends CI_Controller
 
             ');
             $_SESSION['data'] = $data;
-
-            redirect('/menu/registrar-sys_param/');
+            if ($this->input->post('id' == 'add')) {
+                redirect('/menu/registrar-sys_param/');
+            }
+            else{
+                redirect('/menu/registrar-sys_param/'.$this->input->post('id'));
+            }
         }
         
     }
