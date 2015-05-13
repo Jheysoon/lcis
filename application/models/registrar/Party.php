@@ -58,7 +58,6 @@
         function existsID($id)
         {
             $this->db->where('legacyid',$id);
-            $this->db->where('partytype',3);
             return $this->db->count_all_results('tbl_party');
         }
         function getSchool()
