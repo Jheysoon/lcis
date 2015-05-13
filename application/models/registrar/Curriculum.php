@@ -62,6 +62,9 @@ class Curriculum extends CI_Model
 			return 'repeat';
 		}
 	}
+	function insertsubj(){
+		echo 1;
+	}
 
 
 }

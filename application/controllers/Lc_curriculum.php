@@ -31,8 +31,7 @@ class Lc_curriculum extends CI_Controller
         $this->load->view('curriculum/curriculum', $data);
 		$this->load->view('templates/footer');
 	}
-    function addsubcur($yearlevel, $coursemajor, $academicterm){
-
+    function addsubcur($yearlevel, $coursemajor, $academicterm, $currid, $major){
         $this->load->model('registrar/common');
         $this->load->model(array(
             'home/option',
@@ -45,6 +44,8 @@ class Lc_curriculum extends CI_Controller
         $data['coursemajor'] = $coursemajor;
         $data['yearlevel'] = $yearlevel;
         $data['academicterm'] = $academicterm;
+        $data['currid'] = $currid;
+        $data['m'] = $major;
 
         $this->load->view('dean/add_subcurr', $data);
         $this->load->view('templates/footer');
@@ -75,5 +76,26 @@ class Lc_curriculum extends CI_Controller
         $this->db->delete('tbl_curriculum', array('id' => $currid));
         $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Deleted.</div>');
         redirect('/menu/dean-add_curriculum');
+    }
+    function insertsubj(){
+        $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+
+         $subid = $this->input->post('subid');
+         $yearlevel = $this->input->post('yearlevel');
+         $term = $this->input->post('term');
+         $currid = $this->input->post('currid');
+        $url = $this->input->post('url');
+        $row = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculumdetail WHERE subject = '$subid' AND yearlevel = '$yearlevel' 
+            AND term = '$term' AND curriculum = '$currid'");
+        $x = $row->row_array();
+        if ($x['totalcount'] == 0) {
+           $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Deleted.</div>');
+        } else {
+      
+        }
+        redirect('/lc_curriculum/addsubcur/' . $url);
+        
+
+      
     }
 }

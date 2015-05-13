@@ -21,17 +21,20 @@
 		</div>
 
 			 
-	<form action="/lc_curriculum/insertcurr" method="POST" />
+	<form action="/lc_curriculum/insertsubj" method="POST" />
 		<div class="panel-body">
 		<div class="col-md-6">
+		<input type="hidden" name="currid" value="<?php echo $currid; ?>" />
+		<input type="hidden" name="url" value="<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid; ?>" />
+
 			<?php 
 				echo $this->session->flashdata('message'); 
 				$getSub = $this->common->getsub();
 			?>
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Subject</label>
-					<select class="form-control" name="acad_id">
-						<option value="">Select Subject</option>
+					<select class="form-control" name="subid">
+						<option value="0">Select Subject</option>
 						<?php 
 							foreach ($getSub as $key => $value): 
 							extract($value);	
@@ -77,7 +80,14 @@
         <?php
         	$acad = $academicterm;
         	$major = $coursemajor;
-            $getcur = $this->common->getC($major, $acad);
+        	$currid  = $currid;
+        	if ($m == 0) {
+        		$getcur = $this->common->getC($major, $acad);
+        	} else {
+        		$getcur = $this->common->getM($major, $acad);
+        	}
+        	
+            
             $getCuYear = $this->common->getHeaderYear($acad, $major);
          ?>
             <th>Course</th>
