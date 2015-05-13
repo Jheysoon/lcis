@@ -75,15 +75,20 @@
 		<div class="table-responsive">
 				<table class="table table-bordered no-space">
         <?php
-            $getcur = $this->common->getC($coursemajor, $academicterm);
+        	$acad = $academicterm;
+        	$major = $coursemajor;
+            $getcur = $this->common->getC($major, $acad);
+            $getCuYear = $this->common->getHeaderYear($acad, $major);
          ?>
             <th>Course</th>
             <th><strong><?php echo $getcur['coursedescription'] ?></strong></td>
             <th>Effectivity</th>
             <th colspan="2"><strong><?php echo $getcur['effectivity'] ?></strong></td> 
-
-                    <tr>  
-                        <td class="tbl-header-main" colspan="5">Year Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : </td>      
+            	 <?php foreach ($getCuYear as $m => $va): 
+                    extract($va)
+            	?>
+                  	 <tr>  
+                            <td class="tbl-header-main" colspan="5">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>     
                     </tr>
                     	<tr>
                             <td class="tbl-header">Code</td>
@@ -91,7 +96,23 @@
                             <td class="tbl-header" colspan="2">Units</th>
                             <td class="tbl-header">Action</th>
                     	</tr>
-                        
+                 <?php 
+
+                  $curr = $this->common->getsubcur($acad, $major,$term, $yearlevel);
+                    foreach ($curr as $key => $val): 
+                    extract($val)
+                ?>
+                            <tr>
+                                <td><?php echo $code ?></td>
+                                <td><?php echo $descriptivetitle; ?></td>
+                                <td colspan="2"><?php echo $units ?></td> 
+                                <td>
+                                	<a class="a-table label label-danger" href="#" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+            <?php endforeach ?>
+            
+              <?php endforeach ?>
             
 			</table>
 
