@@ -6,47 +6,47 @@
         <div class="panel-heading search">
 
 <table class="table table-bordered no-space">
-<?php
-     $getCurinfo = $this->common->getCurin($partyid, $date, $coursemajor);
-    $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);
- ?>
-    <th>Course</th>
-    <th><strong><?php echo $getCurinfo['coursedescription']; ?></strong></td>
-    <th>Effectivity</th>
-    <th><strong><?php echo $getCurinfo['effectivity']; ?></strong></td>
+        <?php
+             $getCurinfo = $this->common->getCurin($partyid, $date, $coursemajor);
+            $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);
+             ?>
+            <th>Course</th>
+            <th><strong><?php echo $getCurinfo['coursedescription']; ?></strong></td>
+            <th>Effectivity</th>
+            <th><strong><?php echo $getCurinfo['effectivity']; ?></strong></td>
 
-    <?php foreach ($getCuYear as $m => $va): 
-            extract($va)
-    ?>
+            <?php foreach ($getCuYear as $m => $va): 
+                    extract($va)
+            ?>
 
-                <tr>  
-                    <td class="tbl-header-main" colspan="4">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>
-                   
-                <!-- <td>Year Level</td> -->
-                </tr>
-            	<tr><!-- 
-            		<th>Curriculum ID</th>
-            		<th>Academicterm</th> --><!-- 
-            		<th>Curriculum</th>
-            		<th>Academicterm</th> -->
-                    <td class="tbl-header">Code</td>
-                    <td class="tbl-header">Descriptive Title</td>
-                    <td class="tbl-header" colspan="2">Units</th>
-                <!-- <td>Year Level</td> -->
-            	</tr>
-                
-        <?php 
+                        <tr>  
+                            <td class="tbl-header-main" colspan="4">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>
+                           
+                        <!-- <td>Year Level</td> -->
+                        </tr>
+                    	<tr><!-- 
+                    		<th>Curriculum ID</th>
+                    		<th>Academicterm</th> --><!-- 
+                    		<th>Curriculum</th>
+                    		<th>Academicterm</th> -->
+                            <td class="tbl-header">Code</td>
+                            <td class="tbl-header">Descriptive Title</td>
+                            <td class="tbl-header" colspan="2">Units</th>
+                        <!-- <td>Year Level</td> -->
+                    	</tr>
+                        
+                <?php 
 
-    $curr = $this->common->selectCurr($partyid, $date, $coursemajor, $term, $yearlevel);
-            foreach ($curr as $key => $val): 
-            extract($val)
-        ?>
-                    <tr>
-                        <td><?php echo $code ?></td>
-                        <td><?php echo $descriptivetitle; ?></td>
-                        <td colspan="2"><?php echo $units ?></td> 
-                    </tr>
-    <?php endforeach ?>
+            $curr = $this->common->selectCurr($partyid, $date, $coursemajor, $term, $yearlevel);
+                    foreach ($curr as $key => $val): 
+                    extract($val)
+                ?>
+                            <tr>
+                                <td><?php echo $code ?></td>
+                                <td><?php echo $descriptivetitle; ?></td>
+                                <td colspan="2"><?php echo $units ?></td> 
+                            </tr>
+            <?php endforeach ?>
     
 <?php endforeach ?>
 </table>

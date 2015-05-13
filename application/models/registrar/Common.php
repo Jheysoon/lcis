@@ -102,12 +102,24 @@
 		}
 
 		function get_schools(){
-			$result = $this->db->query("SELECT shortname, firstname, registrarname
-				FROM tbl_school, tbl_party where  
+			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, firstname, registrarname
+				FROM tbl_school, tbl_party WHERE  
 				tbl_party.id = tbl_school.id");
 				return $result->result_array();
 		}
+
+		function get_school_detail($id){
+			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, firstname, registrarname, primary, seconday, elementary, tertiary
+				FROM tbl_school, tbl_party WHERE  
+				tbl_party.id = tbl_school.id AND tbl_school.id = '$id'");
+				return $result->result_array();
+		}
+
 		function insertcurr(){
 			echo 1;
+		}
+		function getsub(){
+			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail)");
+			return $result->result_array();
 		}
 	}

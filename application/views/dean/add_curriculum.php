@@ -7,7 +7,7 @@
 			<h4>System Parameter: Add Subject To Curriculum</h4>						
 			</div>
 
-			<div class="col-md-4">
+		<!-- 	<div class="col-md-4">
 				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
 			        <div class="form-group">
 			          <input type="hidden" name="page" value="search">
@@ -17,11 +17,11 @@
 			        <span class="glyphicon glyphicon-search"></span>
 			        </button>
 			     </form>
-			</div>
+			</div> -->
 		</div>
 
 			 
-	<form action="/curriculum/insertcurr" method="POST" />
+	<form action="/lc_curriculum/insertcurr" method="POST" />
 		<div class="panel-body">
 		<?php echo $this->session->flashdata('message'); ?>
 			<?php 
@@ -45,7 +45,7 @@
 
 			<div class="col-md-6 ">	
 				<label class="lbl-data">REMARKS</label>
-				<input class="form-control" maxlength="10" type="text" name="remarks" placeholder="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
+				<input class="form-control" type="text" name="remarks" placeholder="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
 			</div>
 
 			<div class="col-md-6 ">	
@@ -93,7 +93,9 @@
 							<td><?php echo $coursename; ?></td>
 							<td><?php echo $curriculumdesc ?></td>
 							<td><?php echo $sy; ?></td>
-							<td><a class="a-table label label-info" href="/curriculum/addsubcur">Add To Curriculum <span class="glyphicon glyphicon-pencil"></span></a>
+							<td>
+							<a class="a-table label label-info" href="/lc_curriculum/addsubcur">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid	 ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
 							</td>
 						</tr>		
 					<?php endforeach ?>
@@ -105,7 +107,9 @@
 							<td><?php echo $coursename; ?></td>
 							<td><?php echo $curriculumdesc ?></td>
 							<td><?php echo $sy; ?></td>
-							<td><a class="a-table label label-info" href="/curriculum/addsubcur">Add To Curriculum <span class="glyphicon glyphicon-pencil"></span></a>
+							<td>
+							<a class="a-table label label-info" href="/lc_curriculum/addsubcur">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
 							</td>
 						</tr>		
 					<?php endforeach ?>
