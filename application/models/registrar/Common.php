@@ -82,11 +82,11 @@
 		function getCurin($partyid, $date, $coursemajor){
 				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
 				$x = $getAc->row_array();
-				 $acad = $x['academicterm'];
+				$acad = $x['academicterm'];
 				$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad'
 				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
-				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, yearlevel, tbl_curriculumdetail.term");
+				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculum.yearlevel, tbl_curriculumdetail.term");
 				return $result->row_array();
 		}
 		function getYearTerm($partyid, $date, $coursemajor){
@@ -94,10 +94,10 @@
 				$x = $getAc->row_array();
 				 $acad = $x['academicterm'];
 
-			$result = $this->db->query("SELECT coursemajor, academicterm, curriculum, yearlevel, tbl_curriculumdetail.term as term,  tbl_subject.id as subid, course, tbl_course.description as coursedescription,syend,systart
+			$result = $this->db->query("SELECT coursemajor, academicterm, curriculum, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term as term,  tbl_subject.id as subid, course, tbl_course.description as coursedescription,syend,systart
 										FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$coursemajor')
 										 AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
-										tbl_curriculum.id = curriculum GROUP BY term, yearlevel ORDER BY academicterm, yearlevel, term");
+										tbl_curriculum.id = curriculum GROUP BY term, tbl_curriculumdetail.yearlevel ORDER BY academicterm, tbl_curriculumdetail.yearlevel, term");
 			return $result->result_array();
 		}
 
@@ -121,5 +121,12 @@
 		function getsub(){
 			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail)");
 			return $result->result_array();
+		}
+		function getC($coursemajor, $acad){
+			$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
+				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad'
+				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
+				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculum.yearlevel, tbl_curriculumdetail.term");
+			return $result->row_array();
 		}
 	}

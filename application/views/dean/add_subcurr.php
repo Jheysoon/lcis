@@ -43,16 +43,21 @@
 
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Term</label>
-					<input class="form-control" type="text" name="remarks" placeholder="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
+					<select class="form-control" name = "term">	
+						<option value="0">Select Term</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>				
 				</div>
 
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Year Level</label>
-					<select class="form-control" name = "coursemajor">
+					<select class="form-control" name = "yearlevel">
+					<option value="0">Select Year Level</option>
 					<?php
 					$x = 1;
 					 while ($x <= $yearlevel) { ?>
-						<option><?php echo $x ?></option>
+						<option value="<?php echo $x; ?>"><?php echo $x ?></option>
 					<?php $x += 1;	} ?>
 						
 					</select>
@@ -70,16 +75,15 @@
 		<div class="table-responsive">
 				<table class="table table-bordered no-space">
         <?php
-             /*$getCurinfo = $this->common->getCurin($partyid, $date, $coursemajor);
-            $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);*/
-             ?>
+            $getcur = $this->common->getC($coursemajor, $academicterm);
+         ?>
             <th>Course</th>
-            <th><strong>D</strong></td>
+            <th><strong><?php echo $getcur['coursedescription'] ?></strong></td>
             <th>Effectivity</th>
-            <th colspan="2"><strong></strong></td> 
+            <th colspan="2"><strong><?php echo $getcur['effectivity'] ?></strong></td> 
 
                     <tr>  
-                        <td class="tbl-header-main" colspan="5">Year Level : ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : </td>      
+                        <td class="tbl-header-main" colspan="5">Year Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : </td>      
                     </tr>
                     	<tr>
                             <td class="tbl-header">Code</td>
