@@ -8,7 +8,7 @@
 <table class="table table-bordered no-space">
         <?php
              $getCurinfo = $this->common->getCurin($partyid, $date, $coursemajor);
-            $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);
+             $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);
              ?>
             <th>Course</th>
             <th><strong><?php echo $getCurinfo['coursedescription']; ?></strong></td>

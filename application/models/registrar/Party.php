@@ -14,14 +14,33 @@
             $status = $this->session->userdata('status');
             if($status == 'N'){
                 $party_id = $this->db->query("SELECT * FROM tbl_party
-                                              WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%' ) AND partytype = '3' LIMIT 8");
+                                              WHERE legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%'");
             }
             else{
                 $party_id = $this->db->query("SELECT * FROM tbl_party
                                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%')
-                                              AND status = '$status' AND partytype = '3' LIMIT 8");
+                                              AND status = '$status'");
             }
-            return $party_id->result_array();
+            $p = $party_id->result_array();
+            $ite = 0;
+            $data = array();
+            foreach ($p as $party) {
+                $this->db->where('id',$party['id']);
+                $q = $this->db->count_all_results('tbl_student');
+                if($q > 0)
+                {
+                    $data[]= array('firstname'=>$party['firstname'],
+                                'lastname'=>$party['lastname'],
+                                'middlename'=>$party['middlename'],
+                                'legacyid'=>$party['legacyid']);
+                    $ite++;
+                }
+                if($ite == 8)
+                {
+                    break;
+                }
+            }
+            return $data;
         }
 
         function getStudInfo($id)
@@ -39,7 +58,6 @@
         function existsID($id)
         {
             $this->db->where('legacyid',$id);
-            $this->db->where('partytype',3);
             return $this->db->count_all_results('tbl_party');
         }
         function getSchool()

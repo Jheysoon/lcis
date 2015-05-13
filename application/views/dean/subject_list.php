@@ -6,11 +6,32 @@
 			<div class="col-md-6">						
 				<h4>System Parameter: List of Subjects by Supervising Faculty</h4>						
 			</div>
+			
+		</div>
+		<div class="row">
+		<?php echo $this->session->flashdata('message'); ?>
 			<div class="col-md-6">
-				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
+				<div class="form-group" style="padding:5px;">
+					<label for="sy">Supervising Faculty</label>
+					<select class="form-control" id="filter_sub">
+						<option value="0">All</option>
+						<?php 
+							$col = $this->college->all();
+							foreach($col as $college)
+							{
+						?>
+						<option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
+						<?php
+							}
+						 ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<form class="navbar-form navbar-right" action="/dean/search" method="post" role="search">
 			        <div class="form-group">
-			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Subject Id">
+			        <input type="hidden" name="url" value="<?php echo current_url(); ?>">
+			        	<input type="text" name="search" id="subject_search" class="form-control" placeholder="Search for Subject">
 			        </div>
 			        <button type="submit" class="btn btn-primary">
 			        <span class="glyphicon glyphicon-search"></span>
@@ -18,20 +39,8 @@
 			     </form>
 			</div>
 		</div>
-
+		
 		<div class="panel-body">
-		<div class="col-md-6 ">	
-			<div class="form-group">
-				<label for="sy">Supervising Faculty</label>
-				<select class="form-control">
-					<option>COLLEGE OF ARTS AND SCIENCES</option>
-					<option>COLLEGE OF EDUCATION</option>
-					<option>COLLEGE OF CRIMINOLOGY</option>
-					<option>COLLEGE OF LAW</option>
-					<option>NATIONAL SERVICE TRAINING PROGRAM</option>
-				</select>
-			</div>
-		</div>
 		</div>
 		<?php 
 			/*$config['base_url'] = base_url().'index.php/menu/dean-subject_list';
@@ -68,12 +77,16 @@
                 /*echo $this->pagination->create_links();
                 $data = array('param' => $param );*/
             ?>
-        <!-- </ul> -->
+
 		<div class="panel-body">
-		<div class="table-responsive" id="subject_wrapper">
-			<?php $this->load->view('dean/ajax/tbl_subject'); ?>
-		</div>
-			<button type="submit" class="btn btn-success">Add Subject </button>
+			<a href="/dean/edit_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
+			<br/>
+			<div class="table-responsive" id="subject_wrapper">
+				<?php 
+					$data['college'] = 0;
+					$this->load->view('dean/ajax/tbl_subject',$data); 
+				?>
+			</div>
 		</div>
 		</div>
 	</div>

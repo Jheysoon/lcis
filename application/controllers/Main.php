@@ -166,10 +166,10 @@ class Main extends CI_Controller
 
     function dean()
     {
-        $this->load->model('registrar/curriculum');
         $this->load->model(array(
             'dean/subject',
-            'dean/subject'
+            'registrar/curriculum',
+            'dean/college'
         ));
         //$this->load->library('pagination');
     }

@@ -31,7 +31,7 @@ class Lc_curriculum extends CI_Controller
         $this->load->view('curriculum/curriculum', $data);
 		$this->load->view('templates/footer');
 	}
-    function addsubcur(){
+    function addsubcur($yearlevel, $coursemajor, $academicterm){
 
         $this->load->model('registrar/common');
         $this->load->model(array(
@@ -39,10 +39,14 @@ class Lc_curriculum extends CI_Controller
             'home/option_header',
             'home/useroption'
         ));
-
         $this->load->view('templates/header_title2');
         $this->load->view('templates/header');
-        $this->load->view('dean/add_subcurr');
+
+        $data['coursemajor'] = $coursemajor;
+        $data['yearlevel'] = $yearlevel;
+        $data['academicterm'] = $academicterm;
+
+        $this->load->view('dean/add_subcurr', $data);
         $this->load->view('templates/footer');
 
     }

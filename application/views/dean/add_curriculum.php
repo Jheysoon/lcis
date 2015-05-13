@@ -94,7 +94,7 @@
 							<td><?php echo $curriculumdesc ?></td>
 							<td><?php echo $sy; ?></td>
 							<td>
-							<a class="a-table label label-info" href="/lc_curriculum/addsubcur">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="a-table label label-info" href="/lc_curriculum/addsubcur/<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm; ?>">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
 							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid	 ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
 							</td>
 						</tr>		
@@ -108,7 +108,7 @@
 							<td><?php echo $curriculumdesc ?></td>
 							<td><?php echo $sy; ?></td>
 							<td>
-							<a class="a-table label label-info" href="/lc_curriculum/addsubcur">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="a-table label label-info" href="/lc_curriculum/addsubcur/<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm;?>">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
 							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
 							</td>
 						</tr>		

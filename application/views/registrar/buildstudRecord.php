@@ -302,7 +302,7 @@
                     </div>
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
-                        <button class="btn btn-primary pull-right"><a href="/curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" style="text-decoration:none" target="_blank">View Curriculum</a></button>
+                        <button class="btn btn-primary pull-right"><a href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" style="text-decoration:none" target="_blank">View Curriculum</a></button>
                     
                 <?php endif ?>   
                 </div>

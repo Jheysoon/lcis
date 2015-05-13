@@ -6,9 +6,12 @@ class Subject extends CI_Model
 	{
 		return $this->db->get('tbl_subject')->num_rows();
 	}
-	function subjectWhere()
+	function subjectWhere($owner)
 	{
-		$q = $this->db->query("SELECT * FROM tbl_subject ORDER BY code");
+		if($owner == 0)
+			$q = $this->db->query("SELECT * FROM tbl_subject ORDER BY code");
+		else
+			$q = $this->db->query("SELECT * FROM tbl_subject WHERE owner = $owner ORDER BY code");
 		return $q->result_array();
 	}
 	function find($id)
@@ -21,5 +24,28 @@ class Subject extends CI_Model
 	{
 		$this->db->where('id',$id);
 		$this->db->update("tbl_subject",$data);
+	}
+	function whereCode($code)
+	{
+		$this->db->where('code',$code);
+		return $this->db->count_all_results('tbl_subject');
+	}
+	function insert($data)
+	{
+		$this->db->insert('tbl_subject',$data);
+	}
+	function search($sid)
+	{
+		$q = $this->db->query("SELECT code,descriptivetitle 
+			FROM tbl_subject WHERE code 
+			LiKE '%$sid%' OR descriptivetitle 
+			LIKE '%$sid%' LIMIT 6");
+		return $q->result_array();
+	}
+	function count($code)
+	{
+		$this->db->where('code',$code);
+		$q = $this->db->get('tbl_subject');
+		return $q->row_array();
 	}
 }
