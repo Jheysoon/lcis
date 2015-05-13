@@ -107,4 +107,7 @@
 				tbl_party.id = tbl_school.id");
 				return $result->result_array();
 		}
+		function insertcurr(){
+			echo 1;
+		}
 	}

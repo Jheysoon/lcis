@@ -6,16 +6,17 @@
 		<th>Action</th>
 	</tr> 
 	<?php 
-		$subj = $this->subject->subjectWhere($param);
+		$subj = $this->subject->subjectWhere();
 		foreach($subj as $sub)
 		{
 	?>
 	<tr>
 		<td><?php echo $sub['code']; ?></td>
-		<td>ENGLISH ENRICHMENT</td>
-		<td>3</td>
-		<td><a class="a-table label label-info" href="index.php?page=editSubject">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-			<a class="a-table label label-danger" href="index.php?page=deleteSchool">Delete <span class="glyphicon glyphicon-trash"></span></a>
+		<td><?php echo $sub['descriptivetitle']; ?></td>
+		<td><?php echo $sub['units']; ?></td>
+		<td>
+			<a class="a-table label label-info" href="/edit_subject/<?php echo $sub['id']; ?>">Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span></a>
+			<a class="a-table label label-danger delete_subject" data-subjectname="<?php echo $sub['code'].' '.$sub['descriptivetitle']; ?>" data-param="<?php echo $sub['id']; ?>" href="/delete_subject/<?php echo $sub['id']; ?>">Delete <span class="glyphicon glyphicon-trash"></span></a>
 		</td>
 	</tr>
 	<?php

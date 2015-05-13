@@ -30,7 +30,7 @@
     }
            
 ?>
-
+<input type="hidden" name="uri" value="<?php echo uri_string(); ?>">
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 

@@ -83,8 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['stdnt_viewHoliday']             = 'student/viewHoliday';
     $route['stdnt_viewCollegiateCalendar']  = 'student/viewCollegiateCalendar';
 
-    $route['rgstr_build/(:any)']     = 'registrar/buildup/$1';
+    $route['rgstr_build/(:any)']            = 'registrar/buildup/$1';
     $route['rgstr_build/(:any)/(:any)']     = 'registrar/buildup/$1';
+
+    $route['edit_subject/(:num)']           = 'dean/edit_subject/$1';
 
 
 
@@ -105,3 +107,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
+$route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';

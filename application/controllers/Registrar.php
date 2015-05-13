@@ -386,7 +386,8 @@ class Registrar extends CI_Controller
             'registrar/enrollment', 'registrar/party',
             'registrar/course', 'registrar/academicterm',
             'registrar/subject', 'registrar/grade',
-            'registrar/log_student','registrar/registration'
+            'registrar/log_student','registrar/registration',
+            'registrar/curriculum','registrar/curriculumdetail'
         ));
         $data['student'] = $partyid;
         $data['coursemajor'] = $cid;

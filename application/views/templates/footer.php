@@ -38,6 +38,12 @@
 
         <?php
             }
+            if(uri_string() == 'menu/dean-subject_list')
+            {
+                ?>
+                <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
+        <?php
+            }
         ?>
   </body>
 </html>
