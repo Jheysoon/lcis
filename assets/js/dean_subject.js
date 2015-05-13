@@ -12,4 +12,30 @@ $(document).ready(function(){
 		
 		e.preventDefault();
 	});
+
+	var subject_list = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit:6,
+        remote: '/dean/search_subject/%QUERY'
+    });
+    subject_list.initialize();
+    //student_list.clearRemoteCache();
+    $('#subject_search').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'subject_list',
+            displayKey: 'value',
+            templates:{
+                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
+                '<span>{{name}}</span>'),
+                empty:['<div class="alert alert-danger">Unable to find subject</div>']
+            },
+            source: subject_list.ttAdapter()
+        }
+    );
 });

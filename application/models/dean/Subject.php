@@ -22,4 +22,27 @@ class Subject extends CI_Model
 		$this->db->where('id',$id);
 		$this->db->update("tbl_subject",$data);
 	}
+	function whereCode($code)
+	{
+		$this->db->where('code',$code);
+		return $this->db->count_all_results('tbl_subject');
+	}
+	function insert($data)
+	{
+		$this->db->insert('tbl_subject',$data);
+	}
+	function search($sid)
+	{
+		$q = $this->db->query("SELECT code,descriptivetitle 
+			FROM tbl_subject WHERE code 
+			LiKE '%$sid%' OR descriptivetitle 
+			LIKE '%$sid%' LIMIT 8");
+		return $q->result_array();
+	}
+	function count($code)
+	{
+		$this->db->where('code',$code);
+		$q = $this->db->get('tbl_subject');
+		return $q->row_array();
+	}
 }
