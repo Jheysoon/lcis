@@ -49,7 +49,12 @@
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Year Level</label>
 					<select class="form-control" name = "coursemajor">
-						<option>Select Year Level</option>
+					<?php
+					$x = 1;
+					 while ($x <= $yearlevel) { ?>
+						<option><?php echo $x ?></option>
+					<?php $x += 1;	} ?>
+						
 					</select>
 				</div>
 			
