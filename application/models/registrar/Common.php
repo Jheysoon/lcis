@@ -91,12 +91,14 @@
 		function getCurin($partyid, $date, $coursemajor){
 				$this->load->model('registrar/curriculum');
 				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
+				$ac = 0;
 				$x = $getAc->row_array();
 				$acad = $x['academicterm'];
 					for ($i=$acad; $i > 0 ; $i--) { 
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
+                            	echo $i;
                                 $ac = $i;
                                 break;
                             }
@@ -113,6 +115,7 @@
 					$this->load->model('registrar/curriculum');
 				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
 				$x = $getAc->row_array();
+				$ac = 0;
 				 $acad = $x['academicterm'];
 				 for ($i=$acad; $i > 0 ; $i--) { 
                             $a = $this->curriculum->getMatch($i,$coursemajor);
