@@ -41,12 +41,8 @@ class Lc_curriculum extends CI_Controller
         ));
 
         $this->load->view('templates/header_title2');
-      //  $data['partyid'] = $partyid;
-       // $data['date'] = $date;
-       // $data['coursemajor'] = $coursemajor;
-
         $this->load->view('templates/header');
-       // $this->load->view('curriculum/curriculum', $data);
+        $this->load->view('dean/add_subcurr');
         $this->load->view('templates/footer');
 
     }
