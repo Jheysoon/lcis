@@ -103,6 +103,8 @@
 								<td><?php echo $res['registrarname']; ?></td>
 								<td>
 									<a class="a-table label label-info" href="/menu/registrar-sys_param/<?php echo $res['sch_id']; ?>">Update <span class="glyphicon glyphicon-pencil"></span></a>
+									&nbsp;&nbsp;
+									<a class="a-table label label-danger" href="">Delete <span class="glyphicon glyphicon-trash"></span></a>
 								</td>
 							</tr>
 					 <?php	}
