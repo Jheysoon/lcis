@@ -3,7 +3,6 @@
 		$sch   = '';
 		$name  = '';
 		$add   = '';
-		$name  = '';
 		$short = '';
 		$lvl1  = '';
 		$lvl2  = '';
@@ -26,10 +25,24 @@
 			<div class="panel-body">
 				<?php echo $this->session->flashdata('message'); ?>
 				<form class="form" method="post" role="form" action="/registrar/add_school">
-				<?php if ($param != ''): ?>
+				<?php if (empty($param)): ?>
 					<input type="hidden" name="action" value='add'>
 				<?php else: ?>
+					<?php 
+						$res = $this->common->get_school_detail($param);
+						$sch   = $res['firstname'];
+						$name  = $res['registrarname'];
+						$add   = $res['address1'];
+						$short = $res['shortname'];
+						$lvl1  = $res['primary'];
+						$lvl2  = $res['elementary'];
+						$lvl3  = $res['secondary'];
+						$lvl4  = $res['tertiary'];
+						
+					 ?>
 					<input type="hidden" name="action" value='update'>
+					<input type="hidden" name="id" value='<?php echo $param; ?>'>
+					<input type="hidden" name="sname" value='<?php echo $sch; ?>'>
 				<?php endif ?>
 					<div class="form-group col-md-6">
 						<label for="school">School Name</label>
@@ -65,9 +78,11 @@
 						  </label>
 						</div>
 						<?php if (empty($param)): ?>
-						<button class="btn btn-primary pull-right" type="submit">Save</button>
+							<a class="btn btn-default pull-right" href="/menu/registrar-sys_param">Clear</a>
+							<button style="margin-right: 10px;" class="btn btn-primary pull-right" type="submit">Save</button>
 						<?php else: ?>
-						<button class="btn btn-primary pull-right" type="submit">Update</button>
+							<a class="btn btn-default pull-right" href="/menu/registrar-sys_param">Cancel</a>
+							<button style="margin-right: 10px;" class="btn btn-primary pull-right" type="submit">Update</button>
 						<?php endif ?>
 					</div>
 						

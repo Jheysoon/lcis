@@ -109,10 +109,10 @@
 		}
 
 		function get_school_detail($id){
-			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, firstname, registrarname, primary, seconday, elementary, tertiary
+			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, address1, firstname, registrarname, `primary`, secondary, elementary, tertiary
 				FROM tbl_school, tbl_party WHERE  
 				tbl_party.id = tbl_school.id AND tbl_school.id = '$id'");
-				return $result->result_array();
+				return $result->row_array();
 		}
 
 		function insertcurr(){

@@ -651,11 +651,26 @@ class Registrar extends CI_Controller
             'lvl4'  =>$lvl4
         );
 
-        $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
-                          WHERE firstname = '$sch' AND tbl_party.id = tbl_school.id");
-        $query = $query->row_array();
+        if($this->input->post('action') == 'add'){
+            $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
+                              WHERE firstname = '$sch' AND tbl_party.id = tbl_school.id");
+            $query = $query->row_array();
+            $query = $query['ctr'];
+        }
+        else{
+            $sname   = strtoupper($this->input->post('sname'));
+            if ($sname == $sch) {
+                $query = 0;
+            }
+            else{
+                $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
+                                 WHERE firstname = '$sch' AND firstname = '$sch' AND tbl_party.id = tbl_school.id");
+                $query = $query->row_array();
+                $query = $query['ctr'];
+            }
+        }
         
-        if ($query['ctr'] == 0) {
+        if ($query == 0) {
 
             $data1 = array(
                 'firstname' => $sch, 
@@ -663,8 +678,15 @@ class Registrar extends CI_Controller
                 'shortname' => $short
             );
 
-            $this->db->insert('tbl_party', $data1);
-            $id = $this->db->insert_id();
+
+            if($this->input->post('action') == 'add'){
+                $this->db->insert('tbl_party', $data1);
+                $id = $this->db->insert_id();
+            }
+            else{
+                $this->db->where('id', $this->input->post('id'));
+                $this->db->update('tbl_party', $data1);
+            }
 
             $data2 = array(
                 'id'            => $id, 
@@ -675,15 +697,43 @@ class Registrar extends CI_Controller
                 'tertiary'      => $lvl4
             );
 
-            $this->db->insert('tbl_school', $data2); 
+            if($this->input->post('action') == 'add'){
 
-            $this->session->set_flashdata('message', '
-                <div class="alert alert-success alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <strong>Success! </strong> School successfully added!.
-                </div>
+                $this->db->insert('tbl_school', $data2); 
 
-            ');
+                $this->session->set_flashdata('message', '
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>Success! </strong> School successfully added!.
+                    </div>
+
+                ');
+                redirect('/menu/registrar-sys_param/');
+            }
+            else{
+
+                $data3 = array(
+                    'registrarname' => $name, 
+                    'primary'       => $lvl1,
+                    'elementary'    => $lvl2,
+                    'secondary'     => $lvl3,
+                    'tertiary'      => $lvl4
+                );
+                $this->db->where('id', $this->input->post('id'));
+                $this->db->update('tbl_school', $data3); 
+
+                $this->session->set_flashdata('message', '
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>Success! </strong> School successfully updated!.
+                    </div>
+
+                ');
+
+
+                redirect('/menu/registrar-sys_param/'.$this->input->post('id'));
+            }
+            
 
         }
         else{
@@ -695,9 +745,9 @@ class Registrar extends CI_Controller
 
             ');
             $_SESSION['data'] = $data;
-        }
 
-        redirect('/menu/registrar-sys_param/');
+            redirect('/menu/registrar-sys_param/');
+        }
         
     }
       
