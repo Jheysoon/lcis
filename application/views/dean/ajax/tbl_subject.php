@@ -6,7 +6,7 @@
 		<th>Action</th>
 	</tr> 
 	<?php 
-		$subj = $this->subject->subjectWhere();
+		$subj = $this->subject->subjectWhere($college);
 		foreach($subj as $sub)
 		{
 	?>

@@ -13,7 +13,7 @@
 			<div class="col-md-6">
 				<div class="form-group" style="padding:5px;">
 					<label for="sy">Supervising Faculty</label>
-					<select class="form-control">
+					<select class="form-control" id="filter_sub">
 						<option value="0">All</option>
 						<?php 
 							$col = $this->college->all();
@@ -77,15 +77,15 @@
                 /*echo $this->pagination->create_links();
                 $data = array('param' => $param );*/
             ?>
-        <!-- </ul> -->
-
-		<!-- Modal -->
 
 		<div class="panel-body">
 			<a href="/dean/edit_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
 			<br/>
 			<div class="table-responsive" id="subject_wrapper">
-				<?php $this->load->view('dean/ajax/tbl_subject'); ?>
+				<?php 
+					$data['college'] = 0;
+					$this->load->view('dean/ajax/tbl_subject',$data); 
+				?>
 			</div>
 		</div>
 		</div>

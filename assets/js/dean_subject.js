@@ -38,4 +38,11 @@ $(document).ready(function(){
             source: subject_list.ttAdapter()
         }
     );
+
+    $('#filter_sub').change(function(){
+    	val = $(this).val();
+    	$.post('/dean/load_sub',{value:val},function (data){
+    		$('#subject_wrapper').html(data);
+    	});
+    });
 });
