@@ -228,4 +228,11 @@ class Dean extends CI_Controller
             redirect($url);
         }
     }
+    function load_sub()
+    {
+        $sid = $this->input->post('value');
+        $this->load->model('dean/subject');
+        $data['college'] = $sid;
+        $this->load->view('dean/ajax/tbl_subject',$data);
+    }
 }
