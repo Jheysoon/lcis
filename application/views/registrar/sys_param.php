@@ -26,6 +26,11 @@
 			<div class="panel-body">
 				<?php echo $this->session->flashdata('message'); ?>
 				<form class="form" method="post" role="form" action="/registrar/add_school">
+				<?php if ($param != ''): ?>
+					<input type="hidden" name="action" value='add'>
+				<?php else: ?>
+					<input type="hidden" name="action" value='update'>
+				<?php endif ?>
 					<div class="form-group col-md-6">
 						<label for="school">School Name</label>
 						<input class="form-control" type="text" name="school" required placeholder="School Name" value="<?php echo $sch; ?>">
@@ -59,7 +64,11 @@
 						    Tertiary &nbsp;&nbsp;&nbsp;&nbsp;
 						  </label>
 						</div>
+						<?php if (empty($param)): ?>
 						<button class="btn btn-primary pull-right" type="submit">Save</button>
+						<?php else: ?>
+						<button class="btn btn-primary pull-right" type="submit">Update</button>
+						<?php endif ?>
 					</div>
 						
 				</form>
@@ -78,7 +87,7 @@
 								<td><?php echo $res['shortname']; ?></td>
 								<td><?php echo $res['registrarname']; ?></td>
 								<td>
-									<a class="a-table label label-info" href="">Update <span class="glyphicon glyphicon-pencil"></span></a>
+									<a class="a-table label label-info" href="/menu/registrar-sys_param/<?php echo $res['sch_id']; ?>">Update <span class="glyphicon glyphicon-pencil"></span></a>
 								</td>
 							</tr>
 					 <?php	}
