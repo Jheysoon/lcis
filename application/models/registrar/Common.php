@@ -118,4 +118,8 @@
 		function insertcurr(){
 			echo 1;
 		}
+		function getsub(){
+			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail)");
+			return $result->result_array();
+		}
 	}

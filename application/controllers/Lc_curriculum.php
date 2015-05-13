@@ -33,7 +33,7 @@ class Lc_curriculum extends CI_Controller
 	}
     function addsubcur(){
 
-        $this->load->model('registrar/curriculum');
+        $this->load->model('registrar/common');
         $this->load->model(array(
             'home/option',
             'home/option_header',
