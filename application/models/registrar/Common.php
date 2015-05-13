@@ -102,7 +102,7 @@
 		}
 
 		function get_schools(){
-			$result = $this->db->query("SELECT shortname, firstname, registrarname
+			$result = $this->db->query("SELECT tbl_party.id, shortname, firstname, registrarname, primary, seconday, elementary, tertiary
 				FROM tbl_school, tbl_party where  
 				tbl_party.id = tbl_school.id");
 				return $result->result_array();

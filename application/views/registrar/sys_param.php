@@ -1,9 +1,19 @@
 <?php 
-	$sch   = '';
-	$name  = '';
-	$add   = '';
-	$name  = '';
-	$short = '';
+	if(!isset($_SESSION['data'])){
+		$sch   = '';
+		$name  = '';
+		$add   = '';
+		$name  = '';
+		$short = '';
+		$lvl1  = '';
+		$lvl2  = '';
+		$lvl3  = '';
+		$lvl4  = '';
+	}
+	else{
+		extract($_SESSION['data']);
+		unset($_SESSION['data']);
+	}
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -14,7 +24,8 @@
 		</div>
 
 			<div class="panel-body">
-				<form class="form" method="post" role="form" action="">
+				<?php echo $this->session->flashdata('message'); ?>
+				<form class="form" method="post" role="form" action="/registrar/add_school">
 					<div class="form-group col-md-6">
 						<label for="school">School Name</label>
 						<input class="form-control" type="text" name="school" required placeholder="School Name" value="<?php echo $sch; ?>">
@@ -32,19 +43,19 @@
 						<br/><label>School Level/s</label>
 						<div class="checkbox">
 						  <label>
-						    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="">
+						    <input type="checkbox" id="blankCheckbox" name='lvl1' value="1" <?php if($lvl1 == 1){echo "checked";} ?>>
 						    Primary &nbsp;&nbsp;&nbsp;&nbsp;
 						  </label>
 						  <label>
-						    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="">
+						    <input type="checkbox" id="blankCheckbox" name='lvl2' value="1" <?php if($lvl2 == 1){echo "checked";} ?>>
 						    Elementary &nbsp;&nbsp;&nbsp;&nbsp;
 						  </label>
 						  <label>
-						    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="">
+						    <input type="checkbox" id="blankCheckbox" name='lvl3' value="1" <?php if($lvl3 == 1){echo "checked";} ?>>
 						    Secondary &nbsp;&nbsp;&nbsp;&nbsp;
 						  </label>
 						  <label>
-						    <input type="checkbox" id="blankCheckbox" value="option1" aria-label="">
+						    <input type="checkbox" id="blankCheckbox" name='lvl4' value="1" <?php if($lvl4 == 1){echo "checked";} ?>>
 						    Tertiary &nbsp;&nbsp;&nbsp;&nbsp;
 						  </label>
 						</div>

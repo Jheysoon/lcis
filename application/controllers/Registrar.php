@@ -627,5 +627,77 @@ class Registrar extends CI_Controller
                             $this->db->update('tbl_registration', $data3);
                             redirect('/rgstr_build/' . $url);
     }
+
+    function add_school(){
+
+        $sch    = strtoupper($this->input->post('school'));
+        $add    = strtoupper($this->input->post('address'));
+        $short  = strtoupper($this->input->post('short'));
+        $name   = strtoupper($this->input->post('name'));
+        $lvl1   = strtoupper($this->input->post('lvl1'));
+        $lvl2   = strtoupper($this->input->post('lvl2'));
+        $lvl3   = strtoupper($this->input->post('lvl3'));
+        $lvl4   = strtoupper($this->input->post('lvl4'));
+
+        $data = array(
+            'sch'   => $sch, 
+            'add'   =>$add, 
+            'short' =>$short, 
+            'name'  =>$name, 
+            'lvl1'  =>$lvl1, 
+            'lvl2'  =>$lvl2, 
+            'lvl3'  =>$lvl3, 
+            'lvl4'  =>$lvl4
+        );
+
+        $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
+                          WHERE firstname = '$sch' AND tbl_party.id = tbl_school.id");
+        $query = $query->row_array();
+        
+        if ($query['ctr'] == 0) {
+
+            $data1 = array(
+                'firstname' => $sch, 
+                'address1'  => $add,  
+                'shortname' => $short
+            );
+
+            $this->db->insert('tbl_party', $data1);
+            $id = $this->db->insert_id();
+
+            $data2 = array(
+                'id'            => $id, 
+                'registrarname' => $name, 
+                'primary'       => $lvl1,
+                'elementary'    => $lvl2,
+                'secondary'     => $lvl3,
+                'tertiary'      => $lvl4
+            );
+
+            $this->db->insert('tbl_school', $data2); 
+
+            $this->session->set_flashdata('message', '
+                <div class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Success! </strong> School successfully added!.
+                </div>
+
+            ');
+
+        }
+        else{
+            $this->session->set_flashdata('message', '
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Stop! </strong> School name already exist.
+                </div>
+
+            ');
+            $_SESSION['data'] = $data;
+        }
+
+        redirect('/menu/registrar-sys_param/');
+        
+    }
       
 }
