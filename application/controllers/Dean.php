@@ -105,6 +105,7 @@ class Dean extends CI_Controller
         ));
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
+
         if($sid != 0)
         {
             $sub = $this->subject->find($sid);
@@ -141,7 +142,7 @@ class Dean extends CI_Controller
 
         $data['code']               = strtoupper($this->input->post('code'));
         $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-        $data['shortname']          = $this->input->post('shortname');
+        $data['shortname']          = trim($this->input->post('shortname'));
         $data['units']              = $this->input->post('units');
         $data['hours']              = $this->input->post('hours');
         $data['bookletcharge']      = $this->input->post('booklet');
@@ -160,29 +161,45 @@ class Dean extends CI_Controller
             $this->session->set_flashdata('message',
                 '<div class="alert alert-success">
                     Subject Successfully Updated
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true" style="color:#000;">&times;</span>
+                    </button>
                 </div>');
             redirect(base_url('dean/edit_subject/'.$id));
         }
         else
         {
-            $count = $this->subject->whereCode($data['code']);
-            if($count < 1)
+            // removes spaces in shortname field
+            $data['shortname'] = str_replace(' ', '', $data['shortname']);
+
+            if(!empty($data['shortname']))
             {
-                $this->subject->insert($data);
-                $this->session->set_flashdata('message',
-                '<div class="alert alert-success" style="padding:20px;">
-                    Subject Successfully Inserted
-                </div>');
-                redirect(base_url('menu/dean-subject_list'));
-            }
-            else
-            {
-                $this->session->set_flashdata('message',
-                    '<div class="alert alert-danger">
-                    Subject Code Already Exists
+                $count = $this->subject->whereCode($data['code']);
+                if($count < 1)
+                {
+                    $this->subject->insert($data);
+                    $this->session->set_flashdata('message',
+                    '<div class="alert alert-success" style="padding:20px;">
+                        Subject Successfully Inserted
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>');
-                redirect(base_url('dean/edit_subject'));
+                    redirect(base_url('menu/dean-subject_list'));
+                }
+                else
+                {
+                    $this->session->set_flashdata('message',
+                        '<div class="alert alert-danger">
+                        Subject Code Already Exists
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>');
+                    redirect(base_url('dean/edit_subject'));
+                }
             }
+            
             
         }
             
