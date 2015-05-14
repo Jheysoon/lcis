@@ -620,7 +620,7 @@ class Registrar extends CI_Controller
                             $coursmaj = $this->db->query("SELECT course, id FROM tbl_coursemajor WHERE course = '$course'");
                             $x = $coursmaj->row_array();
                             $x['id'];
-                            $data3 = array('coursemajor' => $x['id'],
+                            $data3 = array('coursemajor' => $course,
                                             'date' => $dor
                                             );
                             $this->db->where('student', $partyid);
