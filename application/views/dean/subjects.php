@@ -30,7 +30,7 @@
 
               <div class="form-group col-md-7">
                 <label for="shortname">Short Name</label>
-                <input type="text" class="form-control" required value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname">
+                <input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname">
               </div>
 
               <div class="form-group col-md-5">
@@ -82,16 +82,16 @@
                         
                     ?>
                          <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
-                  <?php
+                    <?php
+                            }
                         }
-                    }
-                   ?>
+                    ?>
                 </select>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="group">Group</label>
-                <select class="form-control" name="group">s
+                <select class="form-control" name="group">
                   <?php 
                         $gr = $this->group->all();
                         foreach($gr as $g)
