@@ -22,14 +22,24 @@
 
 			 
 	<form action="/lc_curriculum/insertsubj" method="POST" />
+	<?php 
+		$url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m; 
+	?>
 		<div class="panel-body">
 		<div class="col-md-6">
 		<input type="hidden" name="currid" value="<?php echo $currid; ?>" />
-		<input type="hidden" name="url" value="<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid; ?>" />
+		<input type="hidden" name="url" value="<?php echo $url; ?>" />
 
 			<?php 
 				echo $this->session->flashdata('message'); 
 				$getSub = $this->common->getsub();
+				if (isset($_SESSION['params'])) {
+					extract($_SESSION['params']);
+				}else{
+					$year = '';
+					$ter = '';
+					$sub = '';
+				}
 			?>
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Subject</label>
@@ -39,7 +49,12 @@
 							foreach ($getSub as $key => $value): 
 							extract($value);	
 						?>
+						<?php if ($id == $sub): ?>
+							<option value="<?php echo $id; ?>" selected><?php echo $code ." - " . $descriptivetitle?></option>
+						<?php else: ?>
 							<option value="<?php echo $id; ?>"><?php echo $code ." - " . $descriptivetitle?></option>
+						<?php endif ?>
+							
 						<?php endforeach ?>
 					</select>										
 				</div>
@@ -47,9 +62,15 @@
 				<div class="col-md-12 ">	
 					<label class="lbl-data">Term</label>
 					<select class="form-control" name = "term">	
-						<option value="0">Select Term</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
+					<option value="0" selected>Select Term</option>
+						<?php for ($i=1; $i < 3; $i++) { ?>
+						<?php if ($ter == $i): ?>
+							<option value="<?php echo $i; ?>" selected><?php echo $i ?></option>
+						<?php else: ?>
+							<option value="<?php echo $i; ?>"><?php echo $i ?></option>
+						<?php endif ?>
+								
+						<?php } ?>
 					</select>				
 				</div>
 
@@ -60,7 +81,12 @@
 					<?php
 					$x = 1;
 					 while ($x <= $yearlevel) { ?>
-						<option value="<?php echo $x; ?>"><?php echo $x ?></option>
+					 <?php if ($x == $year): ?>
+					 	<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
+					 <?php else: ?>
+					 	<option value="<?php echo $x; ?>"><?php echo $x ?></option>
+					 <?php endif ?>
+						
 					<?php $x += 1;	} ?>
 						
 					</select>
@@ -117,7 +143,7 @@
                                 <td><?php echo $descriptivetitle; ?></td>
                                 <td colspan="2"><?php echo $units ?></td> 
                                 <td>
-                                	<a class="a-table label label-danger" href="#" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
+                                	<a class="a-table label label-danger" href="/lc_curriculum/deletesub/<?php echo $detailid . '/' . $url; ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                             </tr>
             <?php endforeach ?>

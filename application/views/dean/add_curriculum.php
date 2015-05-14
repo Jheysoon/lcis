@@ -28,16 +28,31 @@
 				$getAcademictTerm = $this->curriculum->getAc();
 				$getCourse = $this->curriculum->getCourse();
 				$getmajor = $this->curriculum->getm();
+				if (isset($_SESSION['curr'])) {
+					extract($_SESSION['curr']);
+					unset($_SESSION['curr']);
+				}else{
+					$ac = '';
+		            $cou = '';
+		            $rem = '';
+		            $lev = '';
+				}
+				
 			 ?>
 			<div class="col-md-6 ">	
 				<label class="lbl-data">EFFECTIVE SCHOOLAR YEAR</label>
 				<select class="form-control" name="acad_id">
+				<option value="0">Select Effectivity</option>
 				<?php 
 				foreach ($getAcademictTerm as $key => $value): 
 				extract($value);
 				?>
-
-					<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+					<?php if ($ac == $accad_id): ?>
+						<option value="<?php echo $accad_id; ?>" selected><?php echo $sy; ?></option>
+					<?php else: ?>
+						<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+					<?php endif ?>
+					
 				<?php endforeach ?>
 					
 				</select>										
@@ -45,26 +60,51 @@
 
 			<div class="col-md-6 ">	
 				<label class="lbl-data">REMARKS</label>
-				<input class="form-control" type="text" name="remarks" placeholder="PER CMO#52 SERIES 2010/ADDENDUM TO CMO 45 SERIES 2010">										
+				<input class="form-control" type="text" name="remarks" value="<?php echo $rem ?>">										
 			</div>
-
 			<div class="col-md-6 ">	
 				<label class="lbl-data">COURSE</label>
 				<select class="form-control" name = "coursemajor">
+				<option value="0">Select Course</option>
 				<?php 
 					foreach ($getCourse as $key => $value): 
 						extract($value)
 				?>
+				<?php if ($cou == $coursemajorid): ?>
+					<option value="<?php echo $coursemajorid; ?>" selected><?php echo $desc_course; ?></option>
+				<?php else: ?>
 					<option value="<?php echo $coursemajorid; ?>"><?php echo $desc_course; ?></option>
+				<?php endif ?>
+					
 				<?php endforeach ?>
 					<?php 
 						foreach ($getmajor as $key => $value): 
 						extract($value);
 					?>
+					<?php if ($coursid == $cou): ?>
+						<option value="<?php echo $coursid; ?>" selected><?php echo $coursemajors ; ?></option>
+					<?php else: ?>
 						<option value="<?php echo $coursid; ?>"><?php echo $coursemajors ; ?></option>
+					<?php endif ?>
+						
 					<?php endforeach ?>
 				</select>
 			</div>
+			<div class="col-md-6 ">	
+				<label class="lbl-data">Year Level</label>
+				<select class="form-control" name="yearlevel">	
+						<option value="0">Select Year Level</option>
+						<?php for ($i=1; $i < 6 ; $i++) { ?>
+						<?php if ($i == $lev): ?>
+								<option value="<?php echo $i; ?>" selected><?php echo $i; ?></option>
+							<?php else: ?>
+								<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+						<?php endif ?>
+						
+						<?php } ?>
+				</select>									
+			</div>
+			
 			</br />
 			<div class="col-md-4">
 			  <button type="submit" class="btn btn-primary pull-right" style="width:50px">Save</button>
