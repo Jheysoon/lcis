@@ -24,13 +24,37 @@ class Curriculum extends CI_Model
 		return $result->result_array();
 	}
 	function getCourse(){
-		$result = $this->db->query("SELECT tbl_coursemajor.id as coursemajorid, course, major, tbl_course.description as desc_course FROM tbl_coursemajor, tbl_course 
-								WHERE tbl_course.id = course AND major = 0");
+			$uid = $this->session->userdata('uid');
+			$getCollege = $this->db->query("SELECT tbl_college.id as id, tbl_college.description as descr  
+			FROM tbl_college, tbl_office, tbl_administration WHERE tbl_administration.id = '$uid' AND 
+			tbl_administration.office = tbl_office.id AND tbl_office.college = tbl_college.id");
+			$c = $getCollege->row_array();
+			echo $cid = $c['id'];
+
+		$result = $this->db->query("SELECT tbl_coursemajor.id as coursemajorid, course, major, tbl_course.description as desc_course FROM tbl_coursemajor, tbl_course, tbl_college 
+								WHERE tbl_course.id = course AND major = 0 AND tbl_college.id =  '$cid' AND tbl_course.college =  '$cid'");
 		return $result->result_array();
 	}
 	function getm(){
+			$uid = $this->session->userdata('uid');
+			$getCollege = $this->db->query("SELECT tbl_college.id as id, tbl_college.description as descr  
+			FROM tbl_college, tbl_office, tbl_administration WHERE tbl_administration.id = '$uid' AND 
+			tbl_administration.office = tbl_office.id AND tbl_office.college = tbl_college.id");
+			$c = $getCollege->row_array();
+			$cid = $c['id'];
+
+
+
+			$uids = $this->session->userdata('uid');
+			$getColleges = $this->db->query("SELECT tbl_college.id as id, tbl_college.description as descr  
+			FROM tbl_college, tbl_academic WHERE tbl_academic.id = '$uids' AND 
+			tbl_academic.college = tbl_college.id");
+			$cx = $getColleges->row_array();
+			$cids = $cx['id'];
+
+
 		$result = $this->db->query("SELECT tbl_coursemajor.id as coursid, CONCAT(tbl_course.description,' (', tbl_major.description, ')') as coursemajors 
-			FROM tbl_coursemajor, tbl_course, tbl_major WHERE tbl_course.id = course AND major = tbl_major.id");
+			FROM tbl_coursemajor, tbl_course, tbl_major, tbl_college WHERE tbl_course.id = course AND major = tbl_major.id AND tbl_college.id =  '$cids' AND tbl_course.college =  '$cids'");
 		return $result->result_array();
 	}
 	function getAllcurr(){
