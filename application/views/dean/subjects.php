@@ -30,7 +30,7 @@
 
               <div class="form-group col-md-7">
                 <label for="shortname">Short Name</label>
-                <input type="text" class="form-control" required value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname">
+                <input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname">
               </div>
 
               <div class="form-group col-md-5">
@@ -54,7 +54,8 @@
               <div class="form-group col-md-12">
                 <label for="major">Major Subject</label>
                 <select class="form-control" name="major">
-                  <option value="0">Select Major </option>
+                  <option value="0">Major Subject</option>
+                  <option value="1">Not Major Subject</option>
                 </select>
               </div>
 
@@ -82,16 +83,16 @@
                         
                     ?>
                          <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
-                  <?php
+                    <?php
+                            }
                         }
-                    }
-                   ?>
+                    ?>
                 </select>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="group">Group</label>
-                <select class="form-control" name="group">s
+                <select class="form-control" name="group">
                   <?php 
                         $gr = $this->group->all();
                         foreach($gr as $g)
@@ -106,6 +107,7 @@
 
               <div class="form-group col-md-4">
                 <label for="title">Non Academic</label>
+                <?php if($academic == 0) { ?>
                 <div class="radio">
                   <label>
                     <input type="radio" name="academic" value="1">
@@ -118,10 +120,25 @@
                     No
                   </label>
                 </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="academic" value="1" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="academic" value="0">
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-4">
                 <label for="title">GE Subject</label>
+                <?php if($ge == 0){ ?>
                 <div class="radio">
                   <label>
                     <input type="radio" name="ge" value="1">
@@ -134,10 +151,25 @@
                     No
                   </label>
                 </div>
+                <?php }else{ ?>
+                    <div class="radio">
+                  <label>
+                    <input type="radio" name="ge" value="1" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="ge" value="0">
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-4">
                 <label for="title">Computer Subject</label>
+                <?php if($comp == 0){ ?>
                 <div class="radio">
                   <label>
                     <input type="radio" name="comp" value="1">
@@ -150,6 +182,20 @@
                     No
                   </label>
                 </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="comp" value="1" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="comp" value="0">
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
             </div>

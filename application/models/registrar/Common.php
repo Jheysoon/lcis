@@ -98,7 +98,7 @@
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
-                            	echo $i;
+                            	$i;
                                 $ac = $i;
                                 break;
                             }
@@ -160,9 +160,6 @@
 				return $result->row_array();
 
 
-
-
-
 			/*$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad'
 				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
@@ -177,7 +174,7 @@
 			return $result->result_array();
 		}
 		function getsubcur($acad, $major,$term, $yearlevel){
-				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$major') AND
 				tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY curr, academicterm, tbl_curriculumdetail.yearlevel, term");
 				return $result->result_array();

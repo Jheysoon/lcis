@@ -105,6 +105,7 @@ class Dean extends CI_Controller
         ));
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
+
         if($sid != 0)
         {
             $sub = $this->subject->find($sid);
@@ -118,6 +119,9 @@ class Dean extends CI_Controller
             $data['bookletcharge']      = $bookletcharge;
             $data['sid']                = $sid;
             $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
         }
         else
         {
@@ -130,6 +134,9 @@ class Dean extends CI_Controller
             $data['bookletcharge']      = '';
             $data['sid']                = 0;
             $data['owner']              = 0;
+            $data['comp']               = 0;
+            $data['ge']                 = 0;
+            $data['academic']           = 0;
         }
 
         $this->load->view('dean/subjects',$data);
@@ -141,49 +148,120 @@ class Dean extends CI_Controller
 
         $data['code']               = strtoupper($this->input->post('code'));
         $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-        $data['shortname']          = $this->input->post('shortname');
+        $data['shortname']          = trim($this->input->post('shortname'));
         $data['units']              = $this->input->post('units');
         $data['hours']              = $this->input->post('hours');
         $data['bookletcharge']      = $this->input->post('booklet');
         $data['majorsubject']       = $this->input->post('major');
         $data['group']              = $this->input->post('group');
         $data['owner']              = $this->input->post('owner');
+        $data['nonacademic']        = $this->input->post('academic');
+        $data['gesubject']          = $this->input->post('ge');
+        $data['computersubject']    = $this->input->post('comp');
         $id                         = $this->input->post('sid');
 
-     
         $this->load->model(array(
         'dean/subject'
         ));
+
         if($id != 0)
         {
-            $this->subject->update($id,$data);
-            $this->session->set_flashdata('message',
-                '<div class="alert alert-success">
-                    Subject Successfully Updated
-                </div>');
-            redirect(base_url('dean/edit_subject/'.$id));
+            if($data['owner'] != 0)
+            {
+                if(!empty($data['shortname']))
+                {
+                    $this->subject->update($id,$data);
+                    $this->session->set_flashdata('message',
+                        '<div class="alert alert-success">
+                            Subject Successfully Updated
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true" style="color:#000;">&times;</span>
+                            </button>
+                        </div>');
+                    redirect(base_url('dean/edit_subject/'.$id));
+                }
+                else
+                {
+                    $this->session->set_flashdata('message',
+                            '<div class="alert alert-danger">
+                            Shortname is required
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
+                    redirect(base_url('dean/edit_subject/'.$id));
+                }
+            }
+            else
+            {
+                $this->session->set_flashdata('message',
+                            '<div class="alert alert-danger">
+                            Please select a college
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
+                    redirect(base_url('dean/edit_subject/'.$id));
+            } 
         }
         else
         {
-            $count = $this->subject->whereCode($data['code']);
-            if($count < 1)
+
+            if($data['owner'] != 0)
             {
-                $this->subject->insert($data);
-                $this->session->set_flashdata('message',
-                '<div class="alert alert-success" style="padding:20px;">
-                    Subject Successfully Inserted
-                </div>');
-                redirect(base_url('menu/dean-subject_list'));
+                // removes spaces in shortname field
+                $data['shortname'] = str_replace(' ', '', $data['shortname']);
+
+                if(!empty($data['shortname']))
+                {
+                    $count = $this->subject->whereCode($data['code']);
+                    if($count < 1)
+                    {
+                        $this->subject->insert($data);
+                        $this->session->set_flashdata('message',
+                        '<div class="alert alert-success" style="padding:20px;">
+                            Subject Successfully Inserted
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>');
+                        redirect(base_url('menu/dean-subject_list'));
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('message',
+                            '<div class="alert alert-danger">
+                            Subject Code Already Exists
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
+                        redirect(base_url('dean/edit_subject'));
+                    }
+                }
+                else
+                {
+                    $this->session->set_flashdata('message',
+                            '<div class="alert alert-danger">
+                            Shortname is required
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>');
+                        redirect(base_url('dean/edit_subject'));
+                }
             }
             else
             {
                 $this->session->set_flashdata('message',
                     '<div class="alert alert-danger">
-                    Subject Code Already Exists
+                    Please select a college
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                     </div>');
                 redirect(base_url('dean/edit_subject'));
             }
-            
         }
             
     }

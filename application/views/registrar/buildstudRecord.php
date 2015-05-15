@@ -267,23 +267,48 @@
 
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Course</strong>
+                        <?php   $specific = $this->course->specifics($partyid);
+                                   echo  $specific['courseid']; ?>
                             <?php if ($position != 'C' or $position != 'B'): ?>
                                 <select class="form-control" name="course">
                                 <?php
                                     $course = $this->course->allCourse();
+                                  
                                     foreach($course as $c)
                                     {
-                                        if($c['description'] == $description)
+                                        if($c['courseid'] == $specific['courseid'])
                                         {
-                                            $course_id = $c['id'];
+                                            $course_id = $c['courseid'];
                                         ?>
-                                            <option value="<?php echo $c['id']; ?>" selected><?php echo $c['description']; ?></option>
+                                            <option value="<?php echo $c['courseid']; ?>" selected><?php echo $c['description']; ?></option>
                                         <?php
-                                            }
+                                           }
                                             else
                                             {
                                             ?>
-                                                <option value="<?php echo $c['id']; ?>"><?php echo $c['description']; ?></option>
+                                                <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                <?php
+                                    }
+                                ?>
+                                 <?php
+                                    $course = $this->course->allcoursm();
+                                  
+                                    foreach($course as $c)
+                                    {
+                                        if($c['courseid'] == $specific['courseid'])
+                                        {
+                                            $course_id = $c['courseid'];
+                                        ?>
+                                            <option value="<?php echo $c['courseid']; ?>" selected><?php echo $c['description']; ?></option>
+                                        <?php
+                                           }
+                                            else
+                                            {
+                                            ?>
+                                                <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
                                         <?php
                                             }
                                         ?>
