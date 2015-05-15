@@ -98,7 +98,7 @@
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
-                            	echo $i;
+                            	$i;
                                 $ac = $i;
                                 break;
                             }

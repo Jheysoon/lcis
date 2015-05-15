@@ -39,7 +39,7 @@ class Curriculum extends CI_Model
 			FROM tbl_college, tbl_office, tbl_administration WHERE tbl_administration.id = '$uid' AND 
 			tbl_administration.office = tbl_office.id AND tbl_office.college = tbl_college.id");
 			$c = $getCollege->row_array();
-			echo $cid = $c['id'];
+			$cid = $c['id'];
 
 
 		$result = $this->db->query("SELECT tbl_curriculum.id as curricid, tbl_curriculum.description as curriculumdesc,`coursemajor`,`academicterm`, course, major, tbl_course.description as coursename, CONCAT(systart, '-', syend) as sy, yearlevel  
@@ -53,7 +53,7 @@ class Curriculum extends CI_Model
 			FROM tbl_college, tbl_office, tbl_administration WHERE tbl_administration.id = '$uid' AND 
 			tbl_administration.office = tbl_office.id AND tbl_office.college = tbl_college.id");
 			$c = $getCollege->row_array();
-			echo $cid = $c['id'];
+			$cid = $c['id'];
 
 
 		$result = $this->db->query("SELECT tbl_curriculum.id as curricid, tbl_curriculum.description as curriculumdesc,`coursemajor`,`academicterm`, course, major, CONCAT(tbl_course.description, ' (', tbl_major.description, ')') as coursename, CONCAT(systart, '-', syend) as sy, yearlevel  

@@ -68,7 +68,7 @@ class Lc_curriculum extends CI_Controller
             $this->session->set_flashdata('message', $alerts . 'Please Select Year Level.</div>');
         }else{
             if ($x['totalcount'] == 0) {
-            echo 1;
+ 
             $data = array('description' => $remarks, 
                 'coursemajor' => $coursemajor, 
                 'academicterm' => $accad_id,
