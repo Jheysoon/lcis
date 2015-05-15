@@ -753,5 +753,32 @@ class Registrar extends CI_Controller
         }
         
     }
+
+    function delete_school($id){
+        $this->load->model('registrar/common');
+        $query = $this->common->check_school($id);
+
+        if($query == 0){
+                $this->common->delete_school($id);
+
+                $this->session->set_flashdata('message', '
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>Success! </strong> School successfully deleted!.
+                    </div>
+
+                ');
+        }
+        else{
+                $this->session->set_flashdata('message', '
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      Unable to delete school still in use !.
+                    </div>
+
+                ');
+        }
+        redirect('/menu/registrar-sys_param/');
+    }
       
 }

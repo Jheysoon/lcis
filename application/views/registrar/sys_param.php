@@ -104,7 +104,7 @@
 								<td>
 									<a class="a-table label label-info" href="/menu/registrar-sys_param/<?php echo $res['sch_id']; ?>">Update <span class="glyphicon glyphicon-pencil"></span></a>
 									&nbsp;&nbsp;
-									<a class="a-table label label-danger" href="">Delete <span class="glyphicon glyphicon-trash"></span></a>
+									<a class="a-table label label-danger" onclick="return confirm('Are you sure you want to delete selected school?')" href="/registrar/delete_school/<?php echo $res['sch_id']; ?>">Delete <span class="glyphicon glyphicon-trash"></span></a>
 								</td>
 							</tr>
 					 <?php	}

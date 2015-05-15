@@ -97,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  |-----------------------------------------------------------
  */
 
-
+    $route['registrar/(:num)'] = 'registrar/delete_school/$1';
 
 
 /*-----------------------------------------------------------

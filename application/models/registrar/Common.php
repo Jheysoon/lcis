@@ -190,4 +190,29 @@
 				return $result->row_array();
 
 		}
+
+		function check_school($id){
+	        $query = $this->db->query("SELECT * FROM tbl_school, tbl_student 
+	                          WHERE (
+	        				  	tbl_student.primary = '$id' OR
+	        				  	tbl_student.secondary = '$id' OR
+	        				  	tbl_student.elementary = '$id'
+	                          ) 
+	        				  AND (
+	                          	tbl_school.id = tbl_student.primary
+	                          	OR tbl_school.id = tbl_student.secondary
+	                          	OR tbl_school.id = tbl_student.elementary
+	        				  )");
+	        return $query->num_rows();
+		}
+
+		function delete_school($id){
+
+	        $this->db->where('id', $id);
+	        $this->db->delete('tbl_school');
+
+	        $this->db->where('id', $id);
+	        $this->db->delete('tbl_party');
+
+		}
 	}
