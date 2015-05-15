@@ -119,6 +119,9 @@ class Dean extends CI_Controller
             $data['bookletcharge']      = $bookletcharge;
             $data['sid']                = $sid;
             $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
         }
         else
         {
@@ -131,6 +134,9 @@ class Dean extends CI_Controller
             $data['bookletcharge']      = '';
             $data['sid']                = 0;
             $data['owner']              = 0;
+            $data['comp']               = 0;
+            $data['ge']                 = 0;
+            $data['academic']           = 0;
         }
 
         $this->load->view('dean/subjects',$data);
@@ -149,23 +155,41 @@ class Dean extends CI_Controller
         $data['majorsubject']       = $this->input->post('major');
         $data['group']              = $this->input->post('group');
         $data['owner']              = $this->input->post('owner');
+        $data['nonacademic']        = $this->input->post('academic');
+        $data['gesubject']          = $this->input->post('ge');
+        $data['computersubject']    = $this->input->post('comp');
         $id                         = $this->input->post('sid');
 
-     
         $this->load->model(array(
         'dean/subject'
         ));
+
         if($id != 0)
         {
-            $this->subject->update($id,$data);
-            $this->session->set_flashdata('message',
-                '<div class="alert alert-success">
-                    Subject Successfully Updated
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true" style="color:#000;">&times;</span>
-                    </button>
-                </div>');
-            redirect(base_url('dean/edit_subject/'.$id));
+            if(!empty($data['shortname']))
+            {
+                $this->subject->update($id,$data);
+                $this->session->set_flashdata('message',
+                    '<div class="alert alert-success">
+                        Subject Successfully Updated
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true" style="color:#000;">&times;</span>
+                        </button>
+                    </div>');
+                redirect(base_url('dean/edit_subject/'.$id));
+            }
+            else
+            {
+                $this->session->set_flashdata('message',
+                        '<div class="alert alert-danger">
+                        Shortname is required
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>');
+                redirect(base_url('dean/edit_subject/'.$id));
+            }
+            
         }
         else
         {
@@ -198,6 +222,17 @@ class Dean extends CI_Controller
                         </div>');
                     redirect(base_url('dean/edit_subject'));
                 }
+            }
+            else
+            {
+                $this->session->set_flashdata('message',
+                        '<div class="alert alert-danger">
+                        Shortname is required
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>');
+                    redirect(base_url('dean/edit_subject'));
             }
             
             
