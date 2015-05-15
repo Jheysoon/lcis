@@ -169,7 +169,8 @@ class Main extends CI_Controller
         $this->load->model(array(
             'dean/subject',
             'registrar/curriculum',
-            'dean/college'
+            'dean/college',
+            'dean/common_dean'
         ));
         //$this->load->library('pagination');
     }
