@@ -20,9 +20,9 @@
 			</div> -->
 		</div>
 
-			 
+		
+	<div class="panel-body">	 
 	<form action="/lc_curriculum/insertcurr" method="POST" />
-		<div class="panel-body">
 		<?php echo $this->session->flashdata('message'); ?>
 			<?php 
 				$getAcademictTerm = $this->curriculum->getAc();
@@ -62,6 +62,7 @@
 				<label class="lbl-data">REMARKS</label>
 				<input class="form-control" type="text" name="remarks" value="<?php echo $rem ?>">										
 			</div>
+
 			<div class="col-md-6 ">	
 				<label class="lbl-data">COURSE</label>
 				<select class="form-control" name = "coursemajor">
@@ -90,6 +91,7 @@
 					<?php endforeach ?>
 				</select>
 			</div>
+
 			<div class="col-md-6 ">	
 				<label class="lbl-data">Year Level</label>
 				<select class="form-control" name="yearlevel">	
@@ -104,14 +106,12 @@
 						<?php } ?>
 				</select>									
 			</div>
-			
-			</br />
-			<div class="col-md-4">
-			  <button type="submit" class="btn btn-primary pull-right" style="width:50px">Save</button>
-			 </div>
-		</div>
-	</form>
-		<div class="panel-body">		
+			<div class="col-md-12">
+				<br/>
+			  <button type="submit" class="btn btn-primary pull-right">Save</button>
+			</div>
+	</form>		
+		
 		<strong class="strong">LIST OF Curriculum</strong>
 		<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
