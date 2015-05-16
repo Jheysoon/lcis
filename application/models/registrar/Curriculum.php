@@ -42,14 +42,15 @@ class Curriculum extends CI_Model
 	}
 	function getCourse(){
 		$cid = $this->getcid();
+		$cids = $this->getcids();
 		$result = $this->db->query("SELECT tbl_coursemajor.id as coursemajorid, course, major, tbl_course.description as desc_course FROM tbl_coursemajor, tbl_course, tbl_college 
-								WHERE tbl_course.id = course AND major = 0 AND tbl_college.id =  '$cid' AND tbl_course.college =  '$cid'");
+								WHERE tbl_course.id = course AND major = '' AND ((tbl_college.id =  '$cid' AND tbl_course.college =  '$cid') OR (tbl_college.id =  '$cids' AND tbl_course.college =  '$cids')) GROUP BY desc_course, coursemajorid");
 		return $result->result_array();
 	}
 	function getm(){
-		$cids = $this->getcids();
+		echo $cids = $this->getcids();
 		$result = $this->db->query("SELECT tbl_coursemajor.id as coursid, CONCAT(tbl_course.description,' (', tbl_major.description, ')') as coursemajors 
-			FROM tbl_coursemajor, tbl_course, tbl_major, tbl_college WHERE tbl_course.id = course AND major = tbl_major.id AND tbl_college.id =  '$cids' AND tbl_course.college =  '$cids'");
+			FROM tbl_coursemajor, tbl_course, tbl_major, tbl_college WHERE tbl_course.id = course AND major = tbl_major.id  AND tbl_college.id =  '$cids' AND tbl_course.college =  '$cids'");
 		return $result->result_array();
 	}
 	function getAllcurr(){
