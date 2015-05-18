@@ -35,12 +35,49 @@
 
               <div class="form-group col-md-5">
                 <label for="units">Units</label>
-                <input type="number" minlength="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units">
+                <input type="number" min="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="hours">Hours</label>
-                <input type="number" minlength="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours">
+                <input type="number" min="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours">
+              </div>
+
+              
+
+            </div>
+
+            <div class="col-md-6">
+
+              <div class="form-group col-md-6">
+                <label for="title">Major</label>
+                <?php if($academic == 0) { ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="1">
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="0" checked>
+                    No
+                  </label>
+                </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="1" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="0">
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-6">
@@ -74,41 +111,24 @@
                 <?php } ?>
               </div>
 
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group col-md-12">
-                <label for="major">Major Subject</label>
-                <select class="form-control" name="major">
-                  <option value="0">Major Subject</option>
-                  <option value="1">Not Major Subject</option>
-                </select>
-              </div>
-
               <div class="form-group col-md-12">
                 <label for="major">College</label>
-                <select class="form-control" name="owner">
+                <select class="form-control" name="owner">s
                     <?php 
-                        if($owner == 0)
-                        {
-                    ?>
-                        <option value="0">Select College</option>
-                    <?php 
-                        } 
                         $col = $this->college->all();
                         foreach($col as $college)
                         {
                             if($owner == $college['id'])
                             {
                     ?>
-                        <option value="<?php echo $college['id']; ?>" selected><?php echo $college['description']; ?></option>
+                    <option value="<?php echo $college['id']; ?>" selected><?php echo $college['description']; ?></option>
                     <?php
                             }
                             else
                             {
                         
                     ?>
-                         <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
+                    <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
                     <?php
                             }
                         }

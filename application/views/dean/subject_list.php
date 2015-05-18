@@ -89,7 +89,7 @@
 						}
 					}
 			 ?>
-			<a href="/dean/edit_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
+			<a href="/dean/add_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
 			<br/>
 			
 			<div class="table-responsive" id="subject_wrapper">

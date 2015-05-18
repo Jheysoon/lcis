@@ -87,6 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['rgstr_build/(:any)/(:any)']     = 'registrar/buildup/$1';
 
     $route['edit_subject/(:num)']           = 'dean/edit_subject/$1';
+    $route['add_subject']                   = 'dean/add_subject';
 
 
 
