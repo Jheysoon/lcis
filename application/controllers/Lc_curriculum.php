@@ -106,9 +106,7 @@ class Lc_curriculum extends CI_Controller
          $term = $this->input->post('term');
          $currid = $this->input->post('currid');
         $url = $this->input->post('url');
-        $row = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculumdetail WHERE subject = '$subid' AND yearlevel = '$yearlevel' 
-            AND term = '$term' AND curriculum = '$currid'");
-        $x = $row->row_array();
+      
         /*if ($x['totalcount'] == 0) {
            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
         } else*/
@@ -125,13 +123,22 @@ class Lc_curriculum extends CI_Controller
         }elseif($term == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Term.</div>');
         }else{
-            $data2 = array('curriculum' => $currid,
+              $row = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculumdetail WHERE subject = '$subid' AND yearlevel = '$yearlevel' 
+                AND term = '$term' AND curriculum = '$currid'");
+                 $x = $row->row_array();
+                 if ($x['totalcount'] == 0) {
+                      $data2 = array('curriculum' => $currid,
                 'subject' => $subid,
                 'yearlevel' => $yearlevel,
                 'term' => $term);
-            $this->db->insert('tbl_curriculumdetail', $data2);
-            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
-           unset($_SESSION['params']);
+                    $this->db->insert('tbl_curriculumdetail', $data2);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
+                   unset($_SESSION['params']);
+                 
+                 }else{
+                       $this->session->set_flashdata('message', $alerts .'Subject Already Exist.</div>');
+                 }
+          
         }       
         redirect('/lc_curriculum/addsubcur/' . $url);      
     }
@@ -142,5 +149,53 @@ class Lc_curriculum extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Deleted.</div>');
             $url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m;
             redirect('/lc_curriculum/addsubcur/' . $url);
+    }
+    function copycurr(){
+         $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+         $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+       
+        echo $coursedesc = $this->input->post('currdesc');
+        echo $yearlevel = $this->input->post('yearlevel');
+        echo $coursemajor = $this->input->post('coursemajor');
+        echo $accad_id = $this->input->post('acad_id');
+        echo $currcid = $this->input->post('curricid');
+
+
+        $check = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculum WHERE coursemajor = '$coursemajor' AND academicterm = '$accad_id' AND yearlevel = '$yearlevel'");
+        $x = $check->row_array();
+
+        if ($x['totalcount'] == 0) {
+            $data = array('description' => $coursedesc,
+                'yearlevel' => $yearlevel,
+                'coursemajor' => $coursemajor,
+                'academicterm' => $accad_id);
+            $this->db->insert('tbl_curriculum', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Added.</div>');
+
+        }else{
+              $this->session->set_flashdata('message', $alerts .'Academic Term Already Exist.</div>');
+        }
+        
+        $checks = $this->db->query("SELECT id as curriculumid FROM tbl_curriculum WHERE coursemajor = '$coursemajor' AND academicterm = '$accad_id' AND yearlevel = '$yearlevel'");
+        $x = $checks->row_array();
+        $curriculumid = $x['curriculumid'];
+
+        $x = $this->db->query("SELECT subject, yearlevel, term FROM tbl_curriculumdetail WHERE curriculum = '$currcid'");
+        $xy = $x->result_array();
+ 
+        foreach ($xy as $key => $value) {
+            extract($value);
+            $data = array(
+                'curriculum' => $curriculumid,
+                'subject' => $subject,
+                'yearlevel' => $yearlevel,
+                'term' => $term,
+                );
+            $this->db->insert('tbl_curriculumdetail', $data);
+        }
+       redirect('/menu/dean-add_curriculum');
+
+
+
     }
 }

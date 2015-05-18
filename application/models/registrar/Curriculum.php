@@ -48,7 +48,7 @@ class Curriculum extends CI_Model
 		return $result->result_array();
 	}
 	function getm(){
-		echo $cids = $this->getcids();
+		$cids = $this->getcids();
 		$result = $this->db->query("SELECT tbl_coursemajor.id as coursid, CONCAT(tbl_course.description,' (', tbl_major.description, ')') as coursemajors 
 			FROM tbl_coursemajor, tbl_course, tbl_major, tbl_college WHERE tbl_course.id = course AND major = tbl_major.id  AND tbl_college.id =  '$cids' AND tbl_course.college =  '$cids'");
 		return $result->result_array();

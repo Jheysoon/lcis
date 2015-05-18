@@ -35,6 +35,7 @@
 				$getSub = $this->common->getsub();
 				if (isset($_SESSION['params'])) {
 					extract($_SESSION['params']);
+					unset($_SESSION['params']);
 				}else{
 					$year = '';
 					$ter = '';

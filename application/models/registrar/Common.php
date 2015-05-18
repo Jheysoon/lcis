@@ -150,7 +150,7 @@
 			echo 1;
 		}
 		function getsub(){
-			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail)");
+			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject");
 			return $result->result_array();
 		}
 		function getC($coursemajor, $acad){
@@ -176,7 +176,7 @@
 		function getsubcur($acad, $major,$term, $yearlevel){
 				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$major') AND
-				tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY curr, academicterm, tbl_curriculumdetail.yearlevel, term");
+				tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY CHAR_LENGTH(code) < 4 DESC, `units` DESC");
 				return $result->result_array();
 		}
 		function getM($coursemajor, $acad){
