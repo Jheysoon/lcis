@@ -180,8 +180,8 @@
 				      					<input type="hidden" value="<?php echo $coursemajor; ?>" name="coursemajor">
 				      					<input type="hidden" value="<?php echo $academicterm; ?>" name="academicterm">
 				      					<input type="hidden" value="<?php echo $curricid; ?>" name="curricid">
-										<label class="lbl-data">EFFECTIVE SCHOOLAR YEAR</label>
-										<select class="form-control" name="acad_id">
+										<label class="lbl-data">FROM</label>
+										<select class="form-control">
 										<option value="0">Select Effectivity</option>
 										<?php 
 										foreach ($getAcademictTerm as $key => $value): 
@@ -193,7 +193,19 @@
 												<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
 											<?php endif ?>
 										<?php endforeach ?>
-										</select>										
+										</select>	
+										<br />
+										<label class="lbl-data">TO</label>		
+										<select class="form-control" name="acad_id">
+											<option value="0">Select Effectivity</option>
+											<?php 
+											foreach ($getAcademictTerm as $key => $value): 
+											extract($value);
+											?>
+													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+
+											<?php endforeach ?>
+										</select>								
 									</div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -221,8 +233,8 @@
 				      					<input type="hidden" value="<?php echo $coursemajor; ?>" name="coursemajor">
 				      					<input type="hidden" value="<?php echo $academicterm; ?>" name="academicterm">
 				      					<input type="hidden" value="<?php echo $curricid; ?>" name="curricid">
-										<label class="lbl-data">EFFECTIVE SCHOOLAR YEAR</label>
-										<select class="form-control" name="acad_id">
+										<label class="lbl-data">FROM</label>
+										<select class="form-control">
 											<option value="0">Select Effectivity</option>
 											<?php 
 											foreach ($getAcademictTerm as $key => $value): 
@@ -234,7 +246,18 @@
 													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
 												<?php endif ?>
 											<?php endforeach ?>
-										</select>		
+										</select>	
+										<br />
+											<label class="lbl-data">TO</label>
+										<select class="form-control" name="acad_id">
+											<option value="0">Select Effectivity</option>
+											<?php 
+											foreach ($getAcademictTerm as $key => $value): 
+											extract($value);
+											?>
+													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+											<?php endforeach ?>
+										</select>	
 				     	</div>
 				               <div class="modal-footer">
 				             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
