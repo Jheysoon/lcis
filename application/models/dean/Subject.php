@@ -8,10 +8,11 @@ class Subject extends CI_Model
 	}
 	function subjectWhere($owner)
 	{
-		if($owner == 0)
+		/*if($owner == 0)
 			$q = $this->db->query("SELECT * FROM tbl_subject WHERE owner = 0 ORDER BY code");
 		else
-			$q = $this->db->query("SELECT * FROM tbl_subject WHERE owner = $owner OR owner = 0 ORDER BY code");
+			$q = $this->db->query("SELECT * FROM tbl_subject WHERE owner = $owner OR owner = 0 ORDER BY code");*/
+		$q = $this->db->query("SELECT * FROM tbl_subject ORDER BY code");
 		return $q->result_array();
 	}
 	function find($id)

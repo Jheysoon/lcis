@@ -30,8 +30,12 @@
 		 ?>
 		 </td>
 		<td>
+		<?php if($col == 0 OR $col == $college){ ?>
 			<a class="a-table label label-info" href="/edit_subject/<?php echo $sub['id']; ?>">Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span></a>
 			<a class="a-table label label-danger delete_subject" data-subjectname="<?php echo $sub['code'].' '.$sub['descriptivetitle']; ?>" data-param="<?php echo $sub['id']; ?>" href="/delete_subject/<?php echo $sub['id']; ?>">Delete <span class="glyphicon glyphicon-trash"></span></a>
+		<?php }else{ ?>
+		<a href="/edit_subject/<?php echo $sub['id']; ?>/view" class="btn btn-info btn-xs btn-block">View</a>
+		<?php } ?>
 		</td>
 	</tr>
 	<?php

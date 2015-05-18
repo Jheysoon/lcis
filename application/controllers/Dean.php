@@ -93,7 +93,7 @@ class Dean extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    function edit_subject($sid)
+    function edit_subject($sid,$param = '')
     {
         $this->load->model(array(
             'home/option',
@@ -121,6 +121,7 @@ class Dean extends CI_Controller
         $data['ge']                 = $gesubject;
         $data['academic']           = $nonacademic;
         $data['error']              = '';
+        $data['param']              = $param;
 
         $this->load->view('dean/subjects',$data);
         $this->load->view('templates/footer');
