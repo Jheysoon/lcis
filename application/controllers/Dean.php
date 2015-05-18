@@ -273,11 +273,37 @@ class Dean extends CI_Controller
     }
     function search_subject($sid)
     {
-
         $sid = urldecode($sid);
-        $this->load->model('dean/subject');
+        $this->load->model(array(
+            'dean/subject',
+            'dean/common_dean'
+        ));
 
-        $s = $this->subject->search($sid);
+        $col = $this->common_dean->countAcam($this->session->userdata('uid'));
+        if($col > 0)
+        {
+            
+            $owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+            $college = $owner['college'];
+        }
+        else
+        {
+            $c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+            if($c > 0)
+            {
+                $owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+                $o = $owner['office'];
+                $of = $this->common_dean->getOffice($this->session->userdata('uid'));
+                $college = $of['college'];
+            }
+            else
+            {
+                $college = 0;
+            }
+        }
+        
+
+        $s = $this->subject->search($sid,$college);
         $data = array();
 
         foreach ($s as $r)
