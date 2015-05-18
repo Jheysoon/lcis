@@ -80,7 +80,7 @@
 						{
 							$owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
 							$o = $owner['office'];
-							$of = $this->common_dean->getOffice($this->session->userdata('uid'));
+							$of = $this->common_dean->getOffice($o);
 							$data['college'] = $of['college'];
 						}
 						else
