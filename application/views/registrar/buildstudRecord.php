@@ -160,7 +160,7 @@
                                     $elementary = $this->course->getAllSchool('elementary');
                                     foreach($elementary as $el)
                                     {
-                                        if($el['firstname'] == $getElementary['elementary'])
+                                        if($el['firstname'] == $getElementary['elementary'] or $el['id'] == $elementaryss)
                                         {
                                         ?>
                                             <option value="<?php echo $el['id']; ?>" selected><?php echo $el['firstname']; ?></option>
@@ -189,7 +189,7 @@
                                   $x = date('Y');
                                   $loop = 1950;
                                    while ($loop < $x) { ?>
-                                   <?php if ($getElementary['completionelementary'] == $x): ?>
+                                   <?php if ($getElementary['completionelementary'] == $x or $x == $completionelementary): ?>
                                        <option selected><?php echo $x; ?></option>
                                    <?php else: ?>
                                         <option><?php echo $x; ?></option>
@@ -209,7 +209,7 @@
                                     $hs = $this->course->getAllSchool('secondary');
                                     foreach($hs as $h)
                                     {
-                                        if($h['firstname'] == $getSecondary['secondary'])
+                                        if($h['firstname'] == $getSecondary['secondary'] or $h['id'] == $secondary)
                                         {
                                         ?>
                                             <option value="<?php echo $h['id']; ?>" selected><?php echo $h['firstname']; ?></option>
@@ -238,7 +238,7 @@
                                   $x = date('Y');
                                   $loop = 1950;
                                    while ($loop < $x) { ?>
-                                   <?php if ($getSecondary['completionsecondary'] == $x): ?>
+                                   <?php if ($getSecondary['completionsecondary'] == $x or $x == $completionsecondary): ?>
                                        <option selected><?php echo $x; ?></option>
                                        <?php else: ?>
                                         <option><?php echo $x; ?></option>
