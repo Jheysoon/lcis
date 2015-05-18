@@ -44,6 +44,13 @@
 		</div>
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
+            <?php 
+                if (isset($_SESSION['infos'])) {
+                    print_r(extract($_SESSION['infos']));
+                   unset($_SESSION['infos']);
+                }
+
+             ?>
             <form action="/registrar/update_studinfo" method="POST">
                 <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
                 <input type="hidden" name="url" value="<?php echo $stud; ?>">
@@ -102,7 +109,7 @@
 
                                     foreach($prim as $pr)
                                     {
-                                        if($pr['firstname'] == $getCollege['primary'])
+                                        if($pr['firstname'] == $getCollege['primary'] or $pr['id'] == $primary)
                                         {
                                         ?>
                                             <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
@@ -132,7 +139,7 @@
                                   $loop = 1950;
                                    while ($loop < $x) { ?>
 
-                                   <?php if ($getCollege['completionprimary'] == $x): ?>
+                                   <?php if ($getCollege['completionprimary'] == $x or $x == $completionprimary): ?>
                                        <option selected><?php echo $x; ?></option>
                                    <?php else: ?>
                                         <option ><?php echo $x; ?></option>
@@ -142,31 +149,15 @@
                                  } ?>
                           </select>
                      </div>
-    				<!-- <div class="col-md-12 pad-bottom-10">
-    					<strong class="strong">Year Level 		: </strong>
-    					<strong class="strong">Third Year</strong>
-    				</div>
-    				 -->
-
-
-
-
-
-
-                     <!-- Select -->
     			</div>
                 <div class="col-md-5">
-                 
-                
                     <div class="col-md-9 pad-bottom-10">
-                        <strong class="strong">Elementary</strong>
-          
+                        <strong class="strong">Elementary</strong>      
                         <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="elementary">
                                <option>Select</option>
                                 <?php
                                     $elementary = $this->course->getAllSchool('elementary');
-
                                     foreach($elementary as $el)
                                     {
                                         if($el['firstname'] == $getElementary['elementary'])
@@ -185,7 +176,6 @@
                                 <?php
                                     }
                                 ?>
-
                         </select>
                     <?php else: ?>
                         <?php echo $el['firstname']; ?>
@@ -210,18 +200,13 @@
                                  } ?>
                           </select>
                      </div>
-
-
-
                     <div class="col-md-9 pad-bottom-10">
                         <strong class="strong">High School</strong>
                        <?php if ($position != 'C' or $position != 'B'): ?>
-
                             <select class="form-control" name="highschool" id="">
                                <option>Select</option>
                                 <?php
                                     $hs = $this->course->getAllSchool('secondary');
-
                                     foreach($hs as $h)
                                     {
                                         if($h['firstname'] == $getSecondary['secondary'])
@@ -264,7 +249,6 @@
                                  } ?>
                           </select>
                      </div>
-
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Course</strong>
                         <?php   $specific = $this->course->specifics($partyid);
@@ -272,8 +256,7 @@
                             <?php if ($position != 'C' or $position != 'B'): ?>
                                 <select class="form-control" name="course">
                                 <?php
-                                    $course = $this->course->allCourse();
-                                  
+                                    $course = $this->course->allCourse();                                  
                                     foreach($course as $c)
                                     {
                                         if($c['courseid'] == $specific['courseid'])
@@ -294,8 +277,7 @@
                                     }
                                 ?>
                                  <?php
-                                    $course = $this->course->allcoursm();
-                                  
+                                    $course = $this->course->allcoursm();                                  
                                     foreach($course as $c)
                                     {
                                         if($c['courseid'] == $specific['courseid'])

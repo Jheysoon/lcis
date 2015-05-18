@@ -147,7 +147,7 @@
 		}
 
 		function insertcurr(){
-			echo 1;
+		
 		}
 		function getsub(){
 			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject");
@@ -174,7 +174,7 @@
 			return $result->result_array();
 		}
 		function getsubcur($acad, $major,$term, $yearlevel){
-				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.subject as sid, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$major') AND
 				tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY CHAR_LENGTH(code) < 4 DESC, `units` DESC");
 				return $result->result_array();

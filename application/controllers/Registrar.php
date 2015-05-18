@@ -594,8 +594,7 @@ class Registrar extends CI_Controller
                    }else{
                             
                            $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
-                     }
-                     $data = array(
+                            $data = array(
                             'firstname' => $firstname,
                             'middlename' => $middlename,
                             'lastname' => $lastname,
@@ -626,7 +625,26 @@ class Registrar extends CI_Controller
                             $this->db->where('student', $partyid);
                             $this->db->where('date',$dateregistered);
                             $this->db->update('tbl_registration', $data3);
-                            redirect('/rgstr_build/' . $url);
+                      
+                     }
+                             $x = array(
+                            'firstname' => $firstname,
+                            'middlename' => $middlename,
+                            'lastname' => $lastname,
+                            'dob' => $dob,
+                            'pob' => $pob,
+                            'address1' => $address1,
+                            'address2' => $address2,
+                            'primary' => $primary,
+                            'elementary' => $elementary,
+                            'secondary' => $highschool,
+                            'completionprimary' => $primaryyear,
+                            'completionelementary' => $elementaryyear,
+                            'completionsecondary' => $highschoolyear
+                        );
+                           $_SESSION['infos'] = $x;
+                          // print_r($_SESSION['infos']);
+                           redirect('/rgstr_build/' . $url);
     }
 
     function add_school(){

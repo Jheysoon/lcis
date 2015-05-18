@@ -145,6 +145,8 @@
                                 <td colspan="2"><?php echo $units ?></td> 
                                 <td>
                                 	<a class="a-table label label-danger" href="/lc_curriculum/deletesub/<?php echo $detailid . '/' . $url; ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
+									<a class="a-table label label-info" href="/dean/ident_subj/<?php echo $sid; ?>" target="_blank">Edit/View<span class="glyphicon glyphicon-pen"></span></a>
+									<a class="a-table label label-info" href="/menu/dean-subject_list" target="_blank">Add<span class="glyphicon glyphicon-pen"></span></a>
                                 </td>
                             </tr>
             <?php endforeach ?>
