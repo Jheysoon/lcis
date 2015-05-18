@@ -34,12 +34,12 @@ class Subject extends CI_Model
 	{
 		$this->db->insert('tbl_subject',$data);
 	}
-	function search($sid)
+	function search($sid,$owner)
 	{
 		$q = $this->db->query("SELECT code,descriptivetitle 
-			FROM tbl_subject WHERE code 
-			LiKE '%$sid%' OR descriptivetitle 
-			LIKE '%$sid%' LIMIT 6");
+			FROM tbl_subject WHERE (code 
+			LIKE '%$sid%' OR descriptivetitle 
+			LIKE '%$sid%') AND owner = $owner OR owner = 0 LIMIT 6");
 		return $q->result_array();
 	}
 	function count($code)
