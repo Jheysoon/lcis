@@ -119,6 +119,7 @@
 
               <div class="form-group col-md-12">
                 <label for="major">College</label>
+                <?php if($param != 'view'){ ?>
                 <select class="form-control" name="owner" <?php echo $style; ?>>
                     <?php 
                         $col = $this->college->all();
@@ -140,10 +141,14 @@
                         }
                     ?>
                 </select>
+                <?php }else{ ?>
+                    <input type="text" disabled class="form-control" value="Not yet assigned">
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="group">Group</label>
+                <?php if($param != 'view'){ ?>
                 <select class="form-control" name="group" <?php echo $style; ?>>
                   <?php 
                         $gr = $this->group->all();
@@ -155,6 +160,9 @@
                         }
                    ?>
                 </select>
+                <?php }else{ ?>
+                    <input type="text" disabled class="form-control" value="Not yet assigned">
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-4">
