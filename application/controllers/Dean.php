@@ -334,4 +334,42 @@ class Dean extends CI_Controller
         $data['college'] = $sid;
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
+    function ident_subj($id)
+    {
+        $this->load->model(array(
+            'dean/subject','dean/common_dean'
+        ));
+
+        $col = $this->common_dean->countAcam($this->session->userdata('uid'));
+        if($col > 0)
+        {
+            
+            $owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+            $college = $owner['college'];
+        }
+        else
+        {
+            $c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+            if($c > 0)
+            {
+                $owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+                $o = $owner['office'];
+                $of = $this->common_dean->getOffice($this->session->userdata('uid'));
+                $college = $of['college'];
+            }
+            else
+            {
+                $college = 0;
+            }
+        }
+        $s = $this->subject->find($id);
+        if($college == 0 OR $s['owner'] == 0)
+        {
+            redirect(base_url('edit_subject/'.$id.'/view'));
+        }
+        elseif($s['owner'] == $college)
+        {
+            redirect(base_url('edit_subject/'.$id));
+        }
+    }
 }
