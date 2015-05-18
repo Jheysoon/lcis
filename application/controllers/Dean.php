@@ -359,7 +359,6 @@ class Dean extends CI_Controller
             }
             else
             {
-                echo '24d';
                 $college = 0;
             }
         }

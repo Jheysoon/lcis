@@ -32,7 +32,7 @@
 
 			<?php 
 				echo $this->session->flashdata('message'); 
-				$getSub = $this->common->getsub();
+				$getSub = $this->common->getsub($currid);
 				if (isset($_SESSION['params'])) {
 					extract($_SESSION['params']);
 					unset($_SESSION['params']);
