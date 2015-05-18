@@ -45,7 +45,33 @@
 
               <div class="form-group col-md-6">
                 <label for="booklet">Booklet Charge</label>
-                <input type="number" minlength="1" required value="<?php echo $bookletcharge; ?>" class="form-control" name="booklet" placeholder="Booklet Charge">
+                <?php if($bookletcharge == 0) { ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="1">
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="0" checked>
+                    No
+                  </label>
+                </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="1" checked>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="0">
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
             </div>
