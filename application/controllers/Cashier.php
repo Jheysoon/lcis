@@ -11,6 +11,12 @@ class Cashier extends CI_Controller {
 
     private function head()
     {
+         $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
     }
@@ -48,6 +54,12 @@ class Cashier extends CI_Controller {
     {
         $this->head();
         $this->load->view('cashier/add_cashout');
+        $this->load->view('templates/footer');
+    }
+    function addservicpayment(){
+        $this->head();
+        $this->load->view('cashier/add_servicepayment');
+        
         $this->load->view('templates/footer');
     }
 }
