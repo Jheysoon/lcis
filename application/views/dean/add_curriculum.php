@@ -136,6 +136,9 @@
 							<td>
 							<a class="a-table label label-info" href="/lc_curriculum/addsubcur/<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $curricid; ?>/0">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
 							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid	 ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
+							<a type="button" class="a-table label label-info" data-toggle="modal" data-target="#<?php echo $curricid; ?>">
+							  Copy Curriculum
+							</a>
 							</td>
 						</tr>		
 					<?php endforeach ?>
@@ -150,13 +153,121 @@
 							<td>
 							<a class="a-table label label-info" href="/lc_curriculum/addsubcur/<?php echo $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $curricid;?>/1">Viw Curriculum<span class="glyphicon glyphicon-pencil"></span></a>
 							<a class="a-table label label-danger" href="/lc_curriculum/deletecur/<?php echo $curricid ?>" onclick="return confirm('Are you sure?')">Delete<span class="glyphicon glyphicon-trash"></span></a>
+			
+							<a type="button" class="a-table label label-info" data-toggle="modal" data-target="#<?php echo $curricid ?>">
+							  Copy Curriculum
+							</a>
 							</td>
 						</tr>		
 					<?php endforeach ?>
-																
-
 				</table>
+					
+				<?php foreach ($getAllcur as $key => $value): 
+					extract($value);
+				?>
 
+				<div class="modal fade" id="<?php echo $curricid ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <form action="/lc_curriculum/copycurr" method="POST">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel" style="color:black"></h4>
+				      </div>
+				      <div class="modal-body">
+				      					<input type="hidden" value="<?php echo $curriculumdesc; ?>" name="currdesc">
+				      					<input type="hidden" value="<?php echo $yearlevel; ?>" name="yearlevel">
+				      					<input type="hidden" value="<?php echo $coursemajor; ?>" name="coursemajor">
+				      					<input type="hidden" value="<?php echo $academicterm; ?>" name="academicterm">
+				      					<input type="hidden" value="<?php echo $curricid; ?>" name="curricid">
+										<label class="lbl-data">FROM</label>
+										<select class="form-control">
+										<option value="0">Select Effectivity</option>
+										<?php 
+										foreach ($getAcademictTerm as $key => $value): 
+										extract($value);
+										?>
+											<?php if ($academicterm == $accad_id): ?>
+												<option value="<?php echo $accad_id; ?>" selected><?php echo $sy; ?></option>
+											<?php else: ?>
+												<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+											<?php endif ?>
+										<?php endforeach ?>
+										</select>	
+										<br />
+										<label class="lbl-data">TO</label>		
+										<select class="form-control" name="acad_id">
+											<option value="0">Select Effectivity</option>
+											<?php 
+											foreach ($getAcademictTerm as $key => $value): 
+											extract($value);
+											?>
+													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+
+											<?php endforeach ?>
+										</select>								
+									</div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <input type="submit" class="btn btn-primary" value="Copy">
+				      </div>
+				    </div>
+				  </div>
+				  </form>
+				</div>
+				<?php endforeach ?>
+				<?php foreach ($getAllcur2 as $key => $value): 
+					extract($value);
+				?>
+				<div class="modal fade" id="<?php echo $curricid ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<form action="/lc_curriculum/copycurr" method="POST">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel" style="color:black"></h4>
+				      </div>
+				      	<div class="modal-body">
+				      					<input type="hidden" value="<?php echo $curriculumdesc; ?>" name="currdesc">
+				      					<input type="hidden" value="<?php echo $yearlevel; ?>" name="yearlevel">
+				      					<input type="hidden" value="<?php echo $coursemajor; ?>" name="coursemajor">
+				      					<input type="hidden" value="<?php echo $academicterm; ?>" name="academicterm">
+				      					<input type="hidden" value="<?php echo $curricid; ?>" name="curricid">
+										<label class="lbl-data">FROM</label>
+										<select class="form-control">
+											<option value="0">Select Effectivity</option>
+											<?php 
+											foreach ($getAcademictTerm as $key => $value): 
+											extract($value);
+											?>
+												<?php if ($academicterm == $accad_id): ?>
+													<option value="<?php echo $accad_id; ?>" selected><?php echo $sy; ?></option>
+												<?php else: ?>
+													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+												<?php endif ?>
+											<?php endforeach ?>
+										</select>	
+										<br />
+											<label class="lbl-data">TO</label>
+										<select class="form-control" name="acad_id">
+											<option value="0">Select Effectivity</option>
+											<?php 
+											foreach ($getAcademictTerm as $key => $value): 
+											extract($value);
+											?>
+													<option value="<?php echo $accad_id; ?>"><?php echo $sy; ?></option>
+											<?php endforeach ?>
+										</select>	
+				     	</div>
+				               <div class="modal-footer">
+				             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				           <input type="submit" class="btn btn-primary" value="Copy">
+				         </div>
+				       </div>
+				  	 </div>
+					</div>
+				</form>
+				<?php endforeach ?>
 			</div>
 		</div>
 		</div>

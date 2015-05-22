@@ -42,4 +42,49 @@ class Edp extends CI_Controller
         $this->load->view('edp/classRooms');
         $this->load->view('templates/footer');
     }
+
+    function add_room()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        //rules
+        $this->form_validation->set_rules('room','Classroom','trim|required|max_length[10]');
+        $this->form_validation->set_rules('mincapacity','Minimum Capacity','trim|required|integer');
+        $this->form_validation->set_rules('maxcapacity','Maximun Capacity','trim|required|integer');
+
+        if($this->form_validation->run() === FALSE)
+        {
+            $data['error'] = '';
+            $this->load->view('edp/edit_classroom',$data);
+        }
+        else
+        {
+            $min = $this->input->post('mincapacity');
+            $max = $this->input->post('maxcapacity');
+            if($min > $max OR $min == $max)
+            {
+                $data['error'] = 'error';
+                $this->load->view('edp/edit_classroom',$data);
+            }
+            else
+            {
+                $data['legacycode']     = $this->input->post('room');
+                $data['mincapacity']    = $this->input->post('mincapacity');
+                $data['maxcapacity']    = $this->input->post('maxcapacity');
+                $data['location']       = $this->input->post('location');
+                $data['status']         = $this->input->post('status');
+            }
+        }
+        $this->load->view('templates/footer',array('orig_page'=>''));
+    }
 }

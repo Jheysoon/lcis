@@ -20,79 +20,136 @@
 
               <div class="form-group col-md-12">
                 <label for="subname">Code</label>
-                <input type="text" class="form-control" required value="<?php echo $code; ?>" name="code" placeholder="Code">
+                <?php 
+                    $style = '';
+                    if($param == 'view'){ 
+                        $style = 'disabled';
+                    }
+                ?>
+                <input type="text" class="form-control" required value="<?php echo $code; ?>" name="code" placeholder="Code" <?php echo $style; ?>>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="title">Descriptive Title</label>
-                <input type="text" class="form-control" required name="title" value="<?php echo $descriptivetitle; ?>" placeholder="Descriptive Title">
+                <input type="text" class="form-control" required name="title" value="<?php echo $descriptivetitle; ?>" placeholder="Descriptive Title" <?php echo $style; ?>>
               </div>
 
               <div class="form-group col-md-7">
                 <label for="shortname">Short Name</label>
-                <input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname">
+                <input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname" <?php echo $style; ?>>
               </div>
 
               <div class="form-group col-md-5">
                 <label for="units">Units</label>
-                <input type="number" minlength="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units">
+                <input type="number" min="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units" <?php echo $style; ?>>
               </div>
 
               <div class="form-group col-md-6">
                 <label for="hours">Hours</label>
-                <input type="number" minlength="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours">
+                <input type="number" min="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours" <?php echo $style; ?>>
               </div>
 
-              <div class="form-group col-md-6">
-                <label for="booklet">Booklet Charge</label>
-                <input type="number" minlength="1" required value="<?php echo $bookletcharge; ?>" class="form-control" name="booklet" placeholder="Booklet Charge">
-              </div>
+              
 
             </div>
 
             <div class="col-md-6">
-              <div class="form-group col-md-12">
-                <label for="major">Major Subject</label>
-                <select class="form-control" name="major">
-                  <option value="0">Major Subject</option>
-                  <option value="1">Not Major Subject</option>
-                </select>
+
+              <div class="form-group col-md-6">
+                <label for="title">Major</label>
+                <?php if($academic == 0) { ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="1" <?php echo $style; ?>>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="0" checked <?php echo $style; ?>>
+                    No
+                  </label>
+                </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="1" checked <?php echo $style; ?>>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="major" value="0" <?php echo $style; ?>>
+                    No
+                  </label>
+                </div>
+                <?php } ?>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="booklet">Booklet Charge</label>
+                <?php if($bookletcharge == 0) { ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="1" <?php echo $style; ?>>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="0" checked <?php echo $style; ?>>
+                    No
+                  </label>
+                </div>
+                <?php }else{ ?>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="1" checked <?php echo $style; ?>>
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="booklet" value="0" <?php echo $style; ?>>
+                    No
+                  </label>
+                </div>
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="major">College</label>
-                <select class="form-control" name="owner">
+                <?php if($param != 'view'){ ?>
+                <select class="form-control" name="owner" <?php echo $style; ?>>
                     <?php 
-                        if($owner == 0)
-                        {
-                    ?>
-                        <option value="0">Select College</option>
-                    <?php 
-                        } 
                         $col = $this->college->all();
                         foreach($col as $college)
                         {
                             if($owner == $college['id'])
                             {
                     ?>
-                        <option value="<?php echo $college['id']; ?>" selected><?php echo $college['description']; ?></option>
+                    <option value="<?php echo $college['id']; ?>" selected><?php echo $college['description']; ?></option>
                     <?php
                             }
                             else
                             {
                         
                     ?>
-                         <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
+                    <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
                     <?php
                             }
                         }
                     ?>
                 </select>
+                <?php }else{ ?>
+                    <input type="text" disabled class="form-control" value="Not yet assigned">
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-12">
                 <label for="group">Group</label>
-                <select class="form-control" name="group">
+                <?php if($param != 'view'){ ?>
+                <select class="form-control" name="group" <?php echo $style; ?>>
                   <?php 
                         $gr = $this->group->all();
                         foreach($gr as $g)
@@ -103,6 +160,9 @@
                         }
                    ?>
                 </select>
+                <?php }else{ ?>
+                    <input type="text" disabled class="form-control" value="Not yet assigned">
+                <?php } ?>
               </div>
 
               <div class="form-group col-md-4">
@@ -110,26 +170,26 @@
                 <?php if($academic == 0) { ?>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="academic" value="1">
+                    <input type="radio" name="academic" value="1" <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="academic" value="0" checked>
+                    <input type="radio" name="academic" value="0" checked <?php echo $style; ?>>
                     No
                   </label>
                 </div>
                 <?php }else{ ?>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="academic" value="1" checked>
+                    <input type="radio" name="academic" value="1" checked <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="academic" value="0">
+                    <input type="radio" name="academic" value="0" <?php echo $style; ?>>
                     No
                   </label>
                 </div>
@@ -141,26 +201,26 @@
                 <?php if($ge == 0){ ?>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="ge" value="1">
+                    <input type="radio" name="ge" value="1" <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="ge" value="0" checked>
+                    <input type="radio" name="ge" value="0" checked <?php echo $style; ?>>
                     No
                   </label>
                 </div>
                 <?php }else{ ?>
                     <div class="radio">
                   <label>
-                    <input type="radio" name="ge" value="1" checked>
+                    <input type="radio" name="ge" value="1" checked <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="ge" value="0">
+                    <input type="radio" name="ge" value="0" <?php echo $style; ?>>
                     No
                   </label>
                 </div>
@@ -172,26 +232,26 @@
                 <?php if($comp == 0){ ?>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="comp" value="1">
+                    <input type="radio" name="comp" value="1" <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="comp" value="0" checked>
+                    <input type="radio" name="comp" value="0" checked <?php echo $style; ?>>
                     No
                   </label>
                 </div>
                 <?php }else{ ?>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="comp" value="1" checked>
+                    <input type="radio" name="comp" value="1" checked <?php echo $style; ?>>
                     Yes
                   </label>
                 </div>
                 <div class="radio">
                   <label>
-                    <input type="radio" name="comp" value="0">
+                    <input type="radio" name="comp" value="0" <?php echo $style; ?>>
                     No
                   </label>
                 </div>
@@ -202,7 +262,9 @@
             <div class="col-md-12">
               <hr/>
               <div class="col-md-12">
+              <?php if($param != 'view'){ ?>
                 <button class="btn btn-primary pull-right" type="submit">Save</button>
+                <?php } ?>
               </div>
             </div>
 

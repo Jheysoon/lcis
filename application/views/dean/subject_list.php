@@ -11,21 +11,6 @@
 		<div class="row">
 		<?php echo $this->session->flashdata('message'); ?>
 			<div class="col-md-6">
-				<div class="form-group" style="padding:5px;">
-					<label for="sy">Supervising Faculty</label>
-					<select class="form-control" id="filter_sub">
-						<option value="0">All</option>
-						<?php 
-							$col = $this->college->all();
-							foreach($col as $college)
-							{
-						?>
-						<option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
-						<?php
-							}
-						 ?>
-					</select>
-				</div>
 			</div>
 			<div class="col-md-6">
 				<form class="navbar-form navbar-right" action="/dean/search" method="post" role="search">
@@ -79,11 +64,37 @@
             ?>
 
 		<div class="panel-body">
-			<a href="/dean/edit_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
+		<?php 
+
+					$col = $this->common_dean->countAcam($this->session->userdata('uid'));
+					if($col > 0)
+					{
+						
+						$owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+						$data['college'] = $owner['college'];
+					}
+					else
+					{
+						$c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+						if($c > 0)
+						{
+							$owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+							$o = $owner['office'];
+							$of = $this->common_dean->getOffice($o);
+							$data['college'] = $of['college'];
+						}
+						else
+						{
+							$data['college'] = 0;
+						}
+					}
+			 ?>
+			<a href="/dean/add_subject" class="btn btn-success pull-right" style="margin-bottom:10px;">Add Subject</a>
 			<br/>
+			
 			<div class="table-responsive" id="subject_wrapper">
 				<?php 
-					$data['college'] = 0;
+					
 					$this->load->view('dean/ajax/tbl_subject',$data); 
 				?>
 			</div>

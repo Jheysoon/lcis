@@ -31,8 +31,28 @@ class Dean extends CI_Controller
 
     function ClassAllocation()
     {
-        $this->head();
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
         $this->load->view('dean/dean_classAllocation');
+        $this->load->view('templates/footer');
+    }
+    function qwe()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
+        $this->load->view('edp/edpScheduling');
         $this->load->view('templates/footer');
     }
 
@@ -99,7 +119,7 @@ class Dean extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    function edit_subject($sid = 0)
+    function edit_subject($sid,$param = '')
     {
         $this->load->model(array(
             'home/option',
@@ -112,41 +132,81 @@ class Dean extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
 
-        if($sid != 0)
-        {
-            $sub = $this->subject->find($sid);
-            extract($sub);
-            $data['code']               = $code;
-            $data['descriptivetitle']   = $descriptivetitle;
-            $data['units']              = $units;
-            $data['shortname']          = $shortname;
-            $data['majorsubject']       = $majorsubject;
-            $data['hours']              = $hours;
-            $data['bookletcharge']      = $bookletcharge;
-            $data['sid']                = $sid;
-            $data['owner']              = $owner;
-            $data['comp']               = $computersubject;
-            $data['ge']                 = $gesubject;
-            $data['academic']           = $nonacademic;
-        }
-        else
-        {
-            $data['code']               = '';
-            $data['descriptivetitle']   = '';
-            $data['units']              = '';
-            $data['shortname']          = '';
-            $data['majorsubject']       = '';
-            $data['hours']              = '';
-            $data['bookletcharge']      = '';
-            $data['sid']                = 0;
-            $data['owner']              = 0;
-            $data['comp']               = 0;
-            $data['ge']                 = 0;
-            $data['academic']           = 0;
-        }
+        $sub = $this->subject->find($sid);
+        extract($sub);
+        $data['code']               = $code;
+        $data['descriptivetitle']   = $descriptivetitle;
+        $data['units']              = $units;
+        $data['shortname']          = $shortname;
+        $data['majorsubject']       = $majorsubject;
+        $data['hours']              = $hours;
+        $data['bookletcharge']      = $bookletcharge;
+        $data['sid']                = $sid;
+        $data['owner']              = $owner;
+        $data['comp']               = $computersubject;
+        $data['ge']                 = $gesubject;
+        $data['academic']           = $nonacademic;
+        $data['error']              = '';
+        $data['param']              = $param;
 
         $this->load->view('dean/subjects',$data);
         $this->load->view('templates/footer');
+    }
+
+    function add_subject()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+            'dean/subject',
+            'dean/group','dean/college'
+        ));
+
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        // rules
+        $this->form_validation->set_rules('code','Subject Code','trim|required|is_unique[tbl_subject.code]',
+            array('is_unique'=>'Subject Code already exists'));
+        $this->form_validation->set_rules('title','Descriptive Title','trim|required');
+        $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
+        $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
+
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('templates/header');
+            $this->load->view('templates/header_title2');
+            $this->load->view('dean/add_subject');
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $data['code']               = strtoupper($this->input->post('code'));
+            $data['descriptivetitle']   = strtoupper($this->input->post('title'));
+            $data['shortname']          = trim($this->input->post('shortname'));
+            $data['units']              = $this->input->post('units');
+            $data['hours']              = $this->input->post('hours');
+            $data['bookletcharge']      = $this->input->post('booklet');
+            $data['majorsubject']       = $this->input->post('major');
+            $data['group']              = $this->input->post('group');
+            $data['owner']              = $this->input->post('owner');
+            $data['nonacademic']        = $this->input->post('academic');
+            $data['gesubject']          = $this->input->post('ge');
+            $data['computersubject']    = $this->input->post('comp');
+
+            // check if the subject code already exists
+
+            $this->subject->insert($data);
+            $this->session->set_flashdata('message',
+            '<div class="alert alert-success" style="margin:20px;">
+                Subject Successfully Inserted
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>');
+            redirect(base_url('menu/dean-subject_list'));
+        } 
     }
 
     function save_subject()
@@ -167,109 +227,63 @@ class Dean extends CI_Controller
         $id                         = $this->input->post('sid');
 
         $this->load->model(array(
-        'dean/subject'
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+            'dean/subject',
+            'dean/group','dean/college'
         ));
 
-        if($id != 0)
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('title','Descriptive Title','trim|required');
+        $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
+        $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
+
+        $q = $this->subject->whereCode($data['code']);
+        if($this->form_validation->run() === FALSE)
         {
-            if($data['owner'] != 0)
+            $this->load->view('templates/header');
+            $this->load->view('templates/header_title2');
+            $this->load->view('dean/ed_subj');
+            $this->load->view('templates/footer');
+        }
+        elseif($q > 0)
+        {
+            $q = $this->subject->count($data['code']);
+            if($q['id'] == $id)
             {
-                if(!empty($data['shortname']))
-                {
-                    $this->subject->update($id,$data);
-                    $this->session->set_flashdata('message',
-                        '<div class="alert alert-success">
-                            Subject Successfully Updated
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true" style="color:#000;">&times;</span>
-                            </button>
-                        </div>');
-                    redirect(base_url('dean/edit_subject/'.$id));
-                }
-                else
-                {
-                    $this->session->set_flashdata('message',
-                            '<div class="alert alert-danger">
-                            Shortname is required
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>');
-                    redirect(base_url('dean/edit_subject/'.$id));
-                }
+                $this->subject->update($id,$data);
+                $this->session->set_flashdata('message','<div class="alert alert-success">
+                        Subject Successfully Updated
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true" style="color:#000;">&times;</span>
+                        </button>
+                    </div>');
+                redirect(base_url('dean/edit_subject/'.$id));
             }
             else
             {
-                $this->session->set_flashdata('message',
-                            '<div class="alert alert-danger">
-                            Please select a college
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>');
-                    redirect(base_url('dean/edit_subject/'.$id));
-            } 
+                $d['error'] = '<div class="alert alert-danger">Subject Code Already Exists</div>';
+                $this->load->view('templates/header');
+                $this->load->view('templates/header_title2');
+                $this->load->view('dean/ed_subj',$d);
+                $this->load->view('templates/footer');
+            }
         }
         else
         {
-
-            if($data['owner'] != 0)
-            {
-                // removes spaces in shortname field
-                $data['shortname'] = str_replace(' ', '', $data['shortname']);
-
-                if(!empty($data['shortname']))
-                {
-                    $count = $this->subject->whereCode($data['code']);
-                    if($count < 1)
-                    {
-                        $this->subject->insert($data);
-                        $this->session->set_flashdata('message',
-                        '<div class="alert alert-success" style="padding:20px;">
-                            Subject Successfully Inserted
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>');
-                        redirect(base_url('menu/dean-subject_list'));
-                    }
-                    else
-                    {
-                        $this->session->set_flashdata('message',
-                            '<div class="alert alert-danger">
-                            Subject Code Already Exists
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>');
-                        redirect(base_url('dean/edit_subject'));
-                    }
-                }
-                else
-                {
-                    $this->session->set_flashdata('message',
-                            '<div class="alert alert-danger">
-                            Shortname is required
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>');
-                        redirect(base_url('dean/edit_subject'));
-                }
-            }
-            else
-            {
-                $this->session->set_flashdata('message',
-                    '<div class="alert alert-danger">
-                    Please select a college
+            $this->subject->update($id,$data);
+            $this->session->set_flashdata('message','<div class="alert alert-success">
+                    Subject Successfully Updated
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
+                      <span aria-hidden="true" style="color:#000;">&times;</span>
                     </button>
-                    </div>');
-                redirect(base_url('dean/edit_subject'));
-            }
+                </div>');
+            redirect(base_url('dean/edit_subject/'.$id));
         }
-            
+
     }
     function delete_subject()
     {
@@ -279,11 +293,37 @@ class Dean extends CI_Controller
     }
     function search_subject($sid)
     {
-
         $sid = urldecode($sid);
-        $this->load->model('dean/subject');
+        $this->load->model(array(
+            'dean/subject',
+            'dean/common_dean'
+        ));
 
-        $s = $this->subject->search($sid);
+        $col = $this->common_dean->countAcam($this->session->userdata('uid'));
+        if($col > 0)
+        {
+            
+            $owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+            $college = $owner['college'];
+        }
+        else
+        {
+            $c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+            if($c > 0)
+            {
+                $owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+                $o = $owner['office'];
+                $of = $this->common_dean->getOffice($this->session->userdata('uid'));
+                $college = $of['college'];
+            }
+            else
+            {
+                $college = 0;
+            }
+        }
+        
+
+        $s = $this->subject->search($sid,$college);
         $data = array();
 
         foreach ($s as $r)
@@ -324,5 +364,44 @@ class Dean extends CI_Controller
         $this->head();
         $this->load->view('dean/dean_preEnroll');
         $this->load->view('templates/footer');
+    }
+
+    function ident_subj($id)
+    {
+        $this->load->model(array(
+            'dean/subject','dean/common_dean'
+        ));
+
+        $col = $this->common_dean->countAcam($this->session->userdata('uid'));
+        if($col > 0)
+        {
+            $owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+            $college = $owner['college'];
+        }
+        else
+        {
+
+            $c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+            if($c > 0)
+            {
+                $owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+                $o = $owner['office'];
+                $of = $this->common_dean->getOffice($o);
+                $college = $of['college'];
+            }
+            else
+            {
+                $college = 0;
+            }
+        }
+        $s = $this->subject->find($id);
+        if($college == 0 OR $s['owner'] == 0)
+        {
+           redirect(base_url('edit_subject/'.$id.'/view'));
+        }
+        elseif($s['owner'] == $college)
+        {
+            redirect(base_url('edit_subject/'.$id));
+        }
     }
 }
