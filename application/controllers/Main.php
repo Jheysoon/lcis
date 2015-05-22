@@ -49,15 +49,14 @@ class Main extends CI_Controller
             $username = stripslashes($this->input->post('username'));
             $password = stripslashes($this->input->post('password'));
 
-
             // check if the user exists
             $count = $this->useraccess->chkLogin($username,$password);
 
             if($count == 'ok')
             {
                 // set the session uid value
-               echo $userid = $this->useraccess->getUserId($username,$password);
-               echo $position = $this->useraccess->getposition($userid);
+                $userid     = $this->useraccess->getUserId($username,$password);
+                $position   = $this->useraccess->getposition($userid);
                 if($position == 'C')
                 {
                     $status = 'S';
@@ -67,13 +66,13 @@ class Main extends CI_Controller
                     $status = 'N';
                 }
                 $this->session->set_userdata(array(
-                    'uid'       =>$userid,
-                    'datamanagement'  =>$position,
-                    'sy'        =>'2014-2015',
-                    'sem'       =>'1st Semester',
-                    'cur_id'    =>'46',
-                    'status'    =>$status,
-                    'username'  =>$username
+                    'uid'               =>$userid,
+                    'datamanagement'    =>$position,
+                    'sy'                =>'2014-2015',
+                    'sem'               =>'1st Semester',
+                    'cur_id'            =>'46',
+                    'status'            =>$status,
+                    'username'          =>$username
                 ));
             }
             else
@@ -83,7 +82,7 @@ class Main extends CI_Controller
                     <div class="alert alert-danger text-center">Authentication Failed</div>
                 ');
             }
-               redirect(base_url());
+            redirect(base_url());
         }
     }
 
@@ -117,11 +116,18 @@ class Main extends CI_Controller
     }
     function menu($page,$param = '')
     {
+        // redirect if the session has expired
+        if(!$this->session->has_userdata('uid'))
+        {
+            redirect(base_url());
+        }
+
         $this->load->model(array(
             'home/option',
             'home/option_header',
             'home/useroption'
         ));
+
 
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
@@ -132,6 +138,9 @@ class Main extends CI_Controller
 
         if(file_exists('./application/views/'.$page.'.php'))
         {
+
+            //@todo double check if the user really has the access
+
             $load_model = explode('/',$page);
 
             $data['param'] = $param;
@@ -142,6 +151,10 @@ class Main extends CI_Controller
             elseif($load_model[0] == 'dean')
             {
                 $this->dean();
+            }
+            elseif($load_model[0] == 'edp')
+            {
+                $this->edp();
             }
 
             $this->load->view($page,$data);
@@ -170,9 +183,25 @@ class Main extends CI_Controller
             'dean/subject',
             'registrar/curriculum',
             'dean/college',
-            'dean/common_dean'
+            'dean/common_dean',
+            'registrar/common',
+            'registrar/party',
+            'registrar/registration',
+            'registrar/course',
+            'dean/student',
+            'registrar/enrollment'
         ));
-        //$this->load->library('pagination');
+        $this->load->library('pagination');
+    }
+
+    function edp()
+    {
+        $this->load->model(array(
+            'edp/out_studentcount',
+            'registrar/course',
+            'registrar/curriculum',
+            'registrar/academicterm'
+        ));
     }
 
     function createUsername($fname,$lname)
@@ -189,8 +218,8 @@ class Main extends CI_Controller
 
     function setSy_session()
     {
-        $sy = $this->input->post('sy');
-        $sem = $this->input->post('sem');
+        $sy     = $this->input->post('sy');
+        $sem    = $this->input->post('sem');
 
         if(is_numeric($sy) AND is_numeric($sem) AND $sy > 0 AND $sem > 0 AND $sem < 4 )
         {

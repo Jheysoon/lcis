@@ -12,6 +12,12 @@ class Dean extends CI_Controller
 
     private function head()
     {
+
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+        ));
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
     }
@@ -25,8 +31,28 @@ class Dean extends CI_Controller
 
     function ClassAllocation()
     {
-        $this->head();
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
         $this->load->view('dean/dean_classAllocation');
+        $this->load->view('templates/footer');
+    }
+    function qwe()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
+        $this->load->view('edp/edpScheduling');
         $this->load->view('templates/footer');
     }
 
@@ -170,7 +196,6 @@ class Dean extends CI_Controller
             $data['computersubject']    = $this->input->post('comp');
 
             // check if the subject code already exists
-            //$count = $this->subject->whereCode($data['code']);
 
             $this->subject->insert($data);
             $this->session->set_flashdata('message',
@@ -334,34 +359,17 @@ class Dean extends CI_Controller
         $data['college'] = $sid;
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
+
+    function evaluation($id){
+        $this->head();
+        $this->load->view('dean/dean_preEnroll');
+        $this->load->view('templates/footer');
+    }
+
     function ident_subj($id)
     {
-        $this->load->model(array(
-            'dean/subject','dean/common_dean'
-        ));
-
-        $col = $this->common_dean->countAcam($this->session->userdata('uid'));
-        if($col > 0)
-        {
-            $owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
-            $college = $owner['college'];
-        }
-        else
-        {
-
-            $c = $this->common_dean->countAdmin($this->session->userdata('uid'));
-            if($c > 0)
-            {
-                $owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
-                $o = $owner['office'];
-                $of = $this->common_dean->getOffice($o);
-                $college = $of['college'];
-            }
-            else
-            {
-                $college = 0;
-            }
-        }
+        $college = $this->api->getUserCollege();
+        
         $s = $this->subject->find($id);
         if($college == 0 OR $s['owner'] == 0)
         {

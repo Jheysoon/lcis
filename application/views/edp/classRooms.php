@@ -20,6 +20,8 @@
 		</div>
 		<div class="col-md-12">
 		<div class="panel-body">
+		<a href="/add_room" class="btn btn-success btn-sm pull-right">Add Room</a>
+		<span class="clearfix"></span>
 		<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<tr>

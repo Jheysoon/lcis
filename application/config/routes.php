@@ -90,16 +90,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['add_subject']                   = 'dean/add_subject';
     $route['edit_subject/(:num)/(:any)']    = 'dean/edit_subject/$1/$2';
 
+    $route['add_room']                      = 'edp/add_room';
+
 
 
 
 /*-----------------------------------------------------------
  | Developers Routes
- | @author: vladz gwapo
+ | @author: vladz
  |-----------------------------------------------------------
  */
 
     $route['registrar/(:num)'] = 'registrar/delete_school/$1';
+    $route['dean_evaluation/(:num)'] = 'dean/evaluation/$1';
 
 
 /*-----------------------------------------------------------

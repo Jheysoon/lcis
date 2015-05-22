@@ -33,7 +33,6 @@ class Enrollment extends CI_Model
     function getRows()
     {
         return $this->db->query("SELECT * FROM tbl_enrolment
-                                    WHERE coursemajor=5
                                     GROUP BY student")
             ->num_rows();
     }
