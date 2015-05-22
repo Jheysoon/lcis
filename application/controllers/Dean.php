@@ -25,8 +25,28 @@ class Dean extends CI_Controller
 
     function ClassAllocation()
     {
-        $this->head();
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
         $this->load->view('dean/dean_classAllocation');
+        $this->load->view('templates/footer');
+    }
+    function qwe()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+
+        $this->load->view('edp/edpScheduling');
         $this->load->view('templates/footer');
     }
 
@@ -170,7 +190,6 @@ class Dean extends CI_Controller
             $data['computersubject']    = $this->input->post('comp');
 
             // check if the subject code already exists
-            //$count = $this->subject->whereCode($data['code']);
 
             $this->subject->insert($data);
             $this->session->set_flashdata('message',
