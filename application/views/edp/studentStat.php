@@ -45,6 +45,7 @@
 									}
 
 									//@todo this loop is for the latest curriculum
+									$c_count = 0;
 									for($i = $current_academicterm;$i > 0;$i--)
 									{
 										$cur = $this->curriculum->getCur($i,$c['id']);
@@ -52,7 +53,11 @@
 										{
 											break;
 										}
+										$c_count++;
 									}
+									$c_count = (int) ($c_count / 3);
+									echo $c_count.' ';
+									// another loop
 									if($cur != 'repeat')
 									{
 										$cc = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum=$cur GROUP BY yearlevel")->result_array();
@@ -100,11 +105,11 @@
 						</table>
 						</div>
 		            </div>
-		            <div class="form-group">
-		                <div class="col-sm-offset-1 col-sm-6">
-		                  <button type="submit" class="btn btn-success">Save</button>
-		              	</div>
-		            </div>
+		            <!-- <div class="form-group">
+		                <div class="col-sm-offset-1 col-sm-6"> -->
+		                  <button type="submit" class="btn btn-success pull-right">Save</button>
+		              	<!-- </div>
+		            </div> -->
 
 				</form>
 			</div>
