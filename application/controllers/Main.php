@@ -183,7 +183,13 @@ class Main extends CI_Controller
             'dean/subject',
             'registrar/curriculum',
             'dean/college',
-            'dean/common_dean'
+            'dean/common_dean',
+            'registrar/common',
+            'registrar/party',
+            'registrar/registration',
+            'registrar/course',
+            'dean/student',
+            'registrar/enrollment'
         ));
         $this->load->library('pagination');
     }
