@@ -169,9 +169,15 @@ class Main extends CI_Controller
         $this->load->model(array(
             'dean/subject',
             'registrar/curriculum',
-            'dean/college'
+            'dean/college',
+            'registrar/common',
+            'registrar/party',
+            'registrar/registration',
+            'registrar/course',
+            'dean/student',
+            'registrar/enrollment'
         ));
-        //$this->load->library('pagination');
+        $this->load->library('pagination');
     }
 
     function createUsername($fname,$lname)
