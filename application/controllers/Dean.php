@@ -12,6 +12,12 @@ class Dean extends CI_Controller
 
     private function head()
     {
+
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+        ));
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
     }
@@ -353,6 +359,13 @@ class Dean extends CI_Controller
         $data['college'] = $sid;
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
+
+    function evaluation($id){
+        $this->head();
+        $this->load->view('dean/dean_preEnroll');
+        $this->load->view('templates/footer');
+    }
+
     function ident_subj($id)
     {
         $college = $this->api->getUserCollege();
