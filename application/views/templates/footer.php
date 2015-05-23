@@ -51,9 +51,19 @@
                 ?>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        $.post('/edp/load_stat',{},function (data){
-                            $('#stat_wrapper').html(data);
-                        });
+                        val = $('input[name=chkAcam]').val();
+                        if(val < 1)
+                        {
+                            $.post('/edp/load_stat',{},function (data){
+                                $('#stat_wrapper').html(data);
+                            });
+                        }
+                        else
+                        {
+                            $('#stat_wrapper').html('<div class="alert alert-info">
+                                    Already have a student statistics
+                                </div>');
+                        }
                     });
                 </script>
         <?php
