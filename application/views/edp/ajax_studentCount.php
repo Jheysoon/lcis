@@ -80,6 +80,9 @@
 									}
 								}
 								echo $cc_count;
+						?>
+							<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
+						<?php
 							}
 							elseif($term == 3)
 							{
@@ -96,6 +99,9 @@
 									}
 								}
 								echo $cc_count;
+							?>
+							<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
+						<?php
 							}
 							else
 							{
@@ -112,10 +118,13 @@
 									}
 								}
 								echo $cc_count;
+							?>
+								<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
+							<?php
 							}
 						?>
-						<input type="hidden" name="count[]" value="<?php echo $c_count; ?>">
 					</td>
+					
 				</tr>
 				<?php
 				}

@@ -60,9 +60,7 @@
                         }
                         else
                         {
-                            $('#stat_wrapper').html('<div class="alert alert-info">
-                                    Already have a student statistics
-                                </div>');
+                            $('#stat_wrapper').html('<div class="alert alert-info">Already have a student statistics</div>');
                         }
                     });
                 </script>

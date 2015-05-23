@@ -110,16 +110,16 @@ class Edp extends CI_Controller
 
         foreach($coursemajor as $key => $value)
         {
+            $data = array();
             $data['coursemajor']    = $value;
             $data['yearlevel']      = $year_level[$key];
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
-
             $this->out_studentcount->insert($data);
         }
-        $this->session->set_flashdata('message','<div class="alert alert-success>
+        $this->session->set_flashdata('message','<div class="alert alert-success">
             Successfully Created
-        </div>"');
+        </div>');
         redirect(base_url());
     }
 }
