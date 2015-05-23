@@ -87,4 +87,39 @@ class Edp extends CI_Controller
         }
         $this->load->view('templates/footer',array('orig_page'=>''));
     }
+
+    function load_stat()
+    {
+        $this->load->model(array(
+            'edp/out_studentcount',
+            'registrar/course',
+            'registrar/curriculum',
+            'registrar/academicterm'
+        ));
+        $this->load->view('edp/ajax_studentCount');
+    }
+
+    function studentcount()
+    {
+        $acam           = $this->input->post('acam');
+        $coursemajor    = $this->input->post('coursemajor');
+        $year_level     = $this->input->post('year_level');
+        $count          = $this->input->post('count');
+
+        $this->load->model('edp/out_studentcount');
+
+        foreach($coursemajor as $key => $value)
+        {
+            $data['coursemajor']    = $value;
+            $data['yearlevel']      = $year_level[$key];
+            $data['studentcount']   = $count[$key];
+            $data['academicterm']   = $acam;
+
+            $this->out_studentcount->insert($data);
+        }
+        $this->session->set_flashdata('message','<div class="alert alert-success>
+            Successfully Created
+        </div>"');
+        redirect(base_url());
+    }
 }

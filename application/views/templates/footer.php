@@ -46,6 +46,18 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
+            if(uri_string() == 'menu/edp-studentStat')
+            {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $.post('/edp/load_stat',{},function (data){
+                            $('#stat_wrapper').html(data);
+                        });
+                    });
+                </script>
+        <?php
+            }
         ?>
   </body>
 </html>
