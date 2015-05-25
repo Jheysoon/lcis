@@ -4,10 +4,16 @@ class Api
 {
 	protected $CI;
 
+	//initialize the $CI variable
 	function __construct()
 	{
 		$this->CI =& get_instance(); 
 	}
+
+	/*	getCourse by id
+	*	@param id int
+	*	@return int course id
+	*/
 	function getCourse($id)
 	{
 		$this->CI->load->model('registrar/course');
@@ -25,7 +31,7 @@ class Api
         if($col > 0)
         {
             $owner = $this->CI->common_dean->getColAcam($this->CI->session->userdata('uid'));
-            return $college = $owner['college'];
+            return $owner['college'];
         }
         else
         {
@@ -35,11 +41,11 @@ class Api
                 $owner = $this->CI->common_dean->getColAdmin($this->CI->session->userdata('uid'));
                 $o = $owner['office'];
                 $of = $this->CI->common_dean->getOffice($o);
-                return $college = $of['college'];
+                return $of['college'];
             }
             else
             {
-                return $college = 0;
+                return 0;
             }
         }
 	}

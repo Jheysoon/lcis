@@ -155,6 +155,8 @@ class Main extends CI_Controller
             elseif($load_model[0] == 'edp')
             {
                 $this->edp();
+            }elseif ($load_model[0] == 'billing') {
+                $this->dean();
             }
 
             $this->load->view($page,$data);
@@ -189,7 +191,8 @@ class Main extends CI_Controller
             'registrar/registration',
             'registrar/course',
             'dean/student',
-            'registrar/enrollment'
+            'registrar/enrollment',
+            'edp/out_studentcount'
         ));
         $this->load->library('pagination');
     }

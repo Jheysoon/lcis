@@ -62,7 +62,7 @@
 						<td>BACHELOR IN SECONDARY EDUCATION</td>
 						<td>PRINTING OF TRANSCRIPT OF RECORDS</td>
 						<td>OPEN</td>
-						<td><a class="a-table label label-info" href="index.php?page=addServicePayment">Receive Payment <span class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="a-table label label-info" href="/cashier/listServiceRequested">Receive Payment <span class="glyphicon glyphicon-pencil"></span></a></td>
 					</tr>
 					<tr>
 						<td>2011-000151</td>
@@ -70,7 +70,7 @@
 						<td>BACHELOR OF SCIENCE IN CRIMINOLOGY</td>
 						<td>INC PROCESSING</td>
 						<td>OPEN</td>
-						<td><a class="a-table label label-info" href="index.php?page=addServicePayment">Receive Payment <span class="glyphicon glyphicon-pencil"></span></a></td>
+						<td><a class="a-table label label-info" href="/cashier/addservicpayment">Receive Payment <span class="glyphicon glyphicon-pencil"></span></a></td>
 					</tr>
 					<tr>
 						<td>2014-002478</td>
