@@ -69,7 +69,14 @@
 															echo $o['studentcount'];
 														 ?>
 													</td>
-													<td>Section</td>
+													<td>
+													<?php 
+														if($o['studentcount'] != 0 AND $o['studentcount'] > 30)
+														{
+															echo (int) ($o['studentcount']/30);
+														}
+												 	?>
+												 </td>
 												</tr>
 												<?php
 												}
@@ -103,7 +110,14 @@
 														echo $o['studentcount'];
 													 ?>
 												</td>
-												<td>Section</td>
+												<td>
+												<?php 
+													if($o['studentcount'] != 0 AND $o['studentcount'] > 30)
+													{
+														echo (int) ($o['studentcount']/30);
+													}
+												 ?>
+												 </td>
 											</tr>
 											<?php
 											}
