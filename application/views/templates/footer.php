@@ -46,6 +46,26 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
+            if(uri_string() == 'menu/edp-studentStat')
+            {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        val = $('input[name=chkAcam]').val();
+                        if(val < 1)
+                        {
+                            $.post('/edp/load_stat',{},function (data){
+                                $('#stat_wrapper').html(data);
+                            });
+                        }
+                        else
+                        {
+                            $('#stat_wrapper').html('<div class="alert alert-info">Already have a student statistics</div>');
+                        }
+                    });
+                </script>
+        <?php
+            }
         ?>
   </body>
 </html>

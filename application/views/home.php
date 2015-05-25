@@ -8,6 +8,7 @@
     </div>
 	<div class="col-md-9">
 		<div class="panel p-body">
+			<?php echo $this->session->flashdata('message'); ?>
 			<div class="panel-heading"><h4>Personal Information</h4></div>
 			<div class="panel-body">
 				<div class="col-md-12 pic-con">
