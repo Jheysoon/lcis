@@ -113,3 +113,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
 $route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
+$route['billing/(:any)']            = 'billing/calculate/$1';
+$route['billing/(:any)/(:any)']     = 'billing/calculate/$1';
