@@ -1,3 +1,6 @@
+<?php 
+    $col = $this->api->getUserCollege();
+ ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
@@ -8,7 +11,7 @@
             <div class="col-md-6">
             <?php
                 $config['base_url'] = base_url().'index.php/menu/dean-studentlist';
-                $config['total_rows'] = $this->student->getRows();
+                $config['total_rows'] = $this->student->getRows($col);
                 $config['per_page'] = 15;
                 $config['num_links'] = 2;
                 $config['first_link'] = 'First';
@@ -40,16 +43,17 @@
 
             <?php
                 echo $this->pagination->create_links();
-                $data = array('param' => $param );
+                $data = array('param' => $param, 'col' => $col );
             ?>
             </ul>
             </div>
             <div class="col-md-6">
-            <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+            <form class="navbar-form navbar-right" action="/dean/searchStud" method="post" role="search">
 
                 <div class="form-group">
                     <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
-                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                    <input type="hidden" name="col" value="<?php echo $col; ?>"/>
+                    <input type="text" name="search" id="studentlist" class="form-control" autocomplete="off" placeholder="Student Id">
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <span class="glyphicon glyphicon-search"></span>

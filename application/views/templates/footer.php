@@ -47,5 +47,16 @@
         <?php
             }
         ?>
+
+        <?php
+            if(uri_string() == 'menu/dean-studentlist')
+            {
+                ?>
+                <script src="/assets/js/typeahead.bundle.js"></script>
+                <script src="/assets/js/handlebars-v3.0.1.js"></script>
+                <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
+        <?php
+            }
+        ?>
   </body>
 </html>

@@ -1,35 +1,44 @@
+<?php 	
+	$res = $this->student->getStudInfo($id);
+	extract($res);
+	if ($major != 0) {
+		$r  = $this->student->getMajor($major);
+		$description = $description." ( ".$r['des']." )";
+	}
+ ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 		
 		<div class="panel-heading search">
 			<h4>Pre Enrollment Evaluation</h4>
+			<?php echo 	$major; ?>
 		</div>
 
 
 		<div class="panel-body">
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT ID</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="2014-01268">							
+				<input class="form-control" type="text" readonly value="<?php echo $id; ?>">							
 			</div>
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT NAME</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="MICHAEL R. LAUDICO">							
+				<input class="form-control" type="text" readonly value="<?php echo $res['lastname'].", ".$res['firstname'] ?>">							
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">SCHOOL YEAR</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="2014 - 2015">							
+				<input class="form-control" type="text" readonly value="2014 - 2015">							
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">TERM</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST SEMESTER">							
+				<input class="form-control" type="text" readonly value="FIRST SEMESTER">							
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="BACHELOR OF SCIENCE IN CRIMINOLOGY">							
+				<input class="form-control" type="text" readonly value="<?php echo $description; ?>">							
 			</div>
 
 			<div class="col-md-6 ">
