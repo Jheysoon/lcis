@@ -202,14 +202,10 @@
 	        				  )");
 	        return $query->num_rows();
 		}
-
 		function delete_school($id){
-
 	        $this->db->where('id', $id);
 	        $this->db->delete('tbl_school');
-
 	        $this->db->where('id', $id);
 	        $this->db->delete('tbl_party');
-
 		}
 	}
