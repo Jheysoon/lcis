@@ -9,7 +9,7 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<div class="col-sm-12">
-						<a href="#" class="btn btn-primary btn pull-right">Add</a>
+						<a href="/non_exist" class="btn btn-primary btn pull-right">Add Non - Existing Subject</a>
 						<span class="clearfix"></span>
 						<br/>
 						<table class="table">
@@ -22,13 +22,10 @@
 								<td>Section</td>
 								<td>Action</td>
 							</tr>
-							<?php 
-								/*
-									tbl_classallocation wrai pa field na coursemajor
-								*/
+							<?php
 								// get the system value
 								$systemVal = $this->api->systemValue();
-								$stud_num = $systemVal['noofstu'];
+								$stud_num = $systemVal['numberofstudent'];
 
 								$cur_acam = $systemVal['currentacademicterm'];
 								
@@ -51,8 +48,10 @@
 									}
 									$cmajor = $cc['coursemajor'];
 									$cur_range1 = $cur_acam - 12;
+
 									$cours_m = $this->api->getCourse($cmajor);
 									$cours_major = $this->api->getMajor($cmajor);
+
 									if($cours_major->num_rows() > 0)
 									{
 										$c1 = $cours_major->row_array();
@@ -79,6 +78,9 @@
 
 												if($ss > 0)
 												{
+													$count_alloc = $this->classallocation->chkClassAlloc($c_detail['subject'],$systemVal['nextacademicterm'],$cmajor);
+													if($count_alloc < 1)
+													{
 												?>
 												<tr>
 													<td>
@@ -107,18 +109,22 @@
 														}
 												 	?>
 												 	</td>
-												 	<form class="addClassAllocation" action="/dean/addClassAlloc">
+
+												 	<form class="addClassAllocation">
 													<td>
-														<input type="hidden" name="url" value="<?php echo current_url(); ?>">
+														<input type="hidden" name="is_ajax" value="1">
 														<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
-												 		<input type="number" min="1" class="form-control input-sm" name="sections">
+														<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
+												 		<input type="number" min="1" class="form-control input-sm" name="sections" required>
 												 	</td>
 												 	<td>
-												 		<input type="submit" class="btn btn-primary btn-xs" value="Add">
+												 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
 												 	</td>
 												 	</form>
+												 	
 												</tr>
 												<?php
+													}
 												}
 										
 											}
@@ -134,6 +140,9 @@
 
 											if($ss > 0)
 											{
+												$count_alloc = $this->classallocation->chkClassAlloc($c_detail['subject'],$systemVal['nextacademicterm'],$cmajor);
+												if($count_alloc < 1)
+												{
 											?>
 											<tr>
 												<td>
@@ -162,18 +171,21 @@
 													}
 												 ?>
 												 </td>
-												<form class="addClassAllocation" action="/dean/addClassAlloc">
+												<form class="addClassAllocation">
 												<td>
-													<input type="hidden" name="url" value="<?php echo current_url(); ?>">
+													<input type="hidden" name="is_ajax" value="1">
+													<input type="hidden" name="studentcount" value="<?php echo $o['studentcount']; ?>">
 													<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
-											 		<input type="number" min="1" class="form-control input-sm" name="sections">
+													<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
+											 		<input type="number" min="1" class="form-control input-sm" name="sections" required>
 											 	</td>
 											 	<td>
-											 		<input type="submit" class="btn btn-primary btn-xs" value="Add">
+											 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
 											 	</td>
 											 	</form>
 											</tr>
 											<?php
+												}
 											}
 									
 										}

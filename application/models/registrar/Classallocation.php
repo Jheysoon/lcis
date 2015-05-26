@@ -59,4 +59,12 @@ class Classallocation extends CI_Model{
         $this->db->where($field, $value);
         $this->db->delete('tbl_classallocation');
     }
+
+    function chkClassAlloc($subject,$acam,$course)
+    {
+        $this->db->where('subject',$subject);
+        $this->db->where('academicterm',$acam);
+        $this->db->where('coursemajor',$course);
+        return $this->db->count_all_results('tbl_classallocation');
+    }
 }

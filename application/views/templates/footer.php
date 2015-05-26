@@ -66,6 +66,22 @@
                 </script>
         <?php
             }
+            if(uri_string() == 'menu/dean-manage_section')
+            {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('.addClassAllocation').submit(function (e){
+                            $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
+                                
+                            });
+                            $(this).parent().hide('1000');
+                            e.preventDefault();
+                        });
+                    });
+                </script>
+        <?php
+            }
         ?>
 
         <?php

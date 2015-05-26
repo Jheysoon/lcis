@@ -193,7 +193,8 @@ class Main extends CI_Controller
             'registrar/course',
             'dean/student',
             'registrar/enrollment',
-            'edp/out_studentcount'
+            'edp/out_studentcount',
+            'registrar/classallocation'
         ));
         $this->load->library('pagination');
     }

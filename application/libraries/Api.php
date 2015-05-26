@@ -83,4 +83,16 @@ class Api
 			return 'error';
 		}
 	}
+
+	function userMenu()
+	{
+		$this->CI->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption'
+        ));
+        
+        $this->CI->load->view('templates/header');
+        $this->CI->load->view('templates/header_title2');
+	}
 }
