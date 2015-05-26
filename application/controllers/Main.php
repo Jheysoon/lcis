@@ -156,6 +156,8 @@ class Main extends CI_Controller
             elseif($load_model[0] == 'edp')
             {
                 $this->edp();
+            }elseif ($load_model[0] == 'billing') {
+                $this->dean();
             }
 
             $this->load->view($page,$data);

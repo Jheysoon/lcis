@@ -16,23 +16,24 @@
 	</tr>
 
     <?php
-        // fetch the records in tbl_enrollment
-        $result = $this->enrollment->getStud($param);
+        $result = $this->student->getStud($param, $col);
 
         foreach($result as $info)
         {
             extract($info);
-            $stud_info = $this->party->getStudInfo($partyid);
-            $course = $this->course->getCourse($coursemajor);
+            if ($major != 0) {
+                $major = $this->student->getMajor($major);
+                extract($major);
+                $description = $description." (".$des.")";
+            }
 
                 ?>
                 <tr>
-                    <td><?php echo $stud_info['legacyid']; ?></td>
-                    <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
-                    <td><?php echo $course; ?></td>
-                    <!--<td></td>-->
+                    <td><?php echo $legacyid; ?></td>
+                    <td><?php echo $lastname . ' , ' . $firstname ?></td>
+                    <td><?php echo $description; ?></td>
                          <td>
-                            <a class="a-table label label-danger" href="/dean_evaluation/<?php echo $partyid;?>">Evaluate
+                            <a class="a-table label label-danger" href="/dean_evaluation/<?php echo $legacyid;?>">Evaluate
                              <span class="glyphicon glyphicon-file"></span></a>
                         </td>
                        

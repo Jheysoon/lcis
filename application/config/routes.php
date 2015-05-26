@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
     $route['registrar/(:num)'] = 'registrar/delete_school/$1';
-    $route['dean_evaluation/(:num)'] = 'dean/evaluation/$1';
+    $route['dean_evaluation/(:any)'] = 'dean/evaluation/$1';
 
 
 /*-----------------------------------------------------------
@@ -113,3 +113,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
 $route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
+$route['billing/(:any)']            = 'billing/calculate/$1';
+$route['billing/(:any)/(:any)']     = 'billing/calculate/$1';

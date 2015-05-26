@@ -17,6 +17,7 @@ class Dean extends CI_Controller
             'home/option',
             'home/option_header',
             'home/useroption',
+            'dean/student'
         ));
         $this->load->view('templates/header');
         $this->load->view('templates/header_title2');
@@ -340,7 +341,8 @@ class Dean extends CI_Controller
 
     function evaluation($id){
         $this->head();
-        $this->load->view('dean/dean_preEnroll');
+        $data['id'] = $id;
+        $this->load->view('dean/dean_preEnroll', $data);
         $this->load->view('templates/footer');
     }
 
@@ -357,5 +359,40 @@ class Dean extends CI_Controller
         {
             redirect(base_url('edit_subject/'.$id));
         }
+    }
+
+    function searchStud()
+    {
+        $this->load->model('dean/student');
+        $id = $this->input->post('search');
+        $col = $this->input->post('col');
+        $id1 = $this->student->existsID($id, $col);
+        if ($id1 > 0)
+        {
+            redirect('/dean_evaluation/' . $id);
+        }
+        else
+        {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger">Unable to find student id</div>');
+            redirect($this->input->post('cur_url'));
+        }
+    }
+
+    function search_student_det($sid)
+    {
+        $sid = urldecode($sid);
+        $this->load->model(array(
+            'dean/student'
+        ));
+        $college = $this->api->getUserCollege();        
+
+        $s = $this->student->getStudent($sid,$college);
+        $data = array();
+
+        foreach ($s as $r)
+        {
+            $data[] = array('value' => $r['legacyid'], 'name' => $r['lastname'].' '.$r['firstname']);
+        }
+        echo json_encode($data);
     }
 }
