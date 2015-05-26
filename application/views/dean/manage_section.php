@@ -9,20 +9,36 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<div class="col-sm-12">
+						<a href="#" class="btn btn-primary btn pull-right">Add</a>
+						<span class="clearfix"></span>
+						<br/>
 						<table class="table">
 							<tr>
 								<td>Subject</td>
-								<td>Course</td>
 								<td>Year Level</td>
-								<td>Count</td>
+								<td>Course</td>
+								<td>No. of Student</td>
+								<td>Apprx. Section</td>
 								<td>Section</td>
+								<td>Action</td>
 							</tr>
 							<?php 
-								$cur_acam = 40;
+								/*
+									tbl_classallocation wrai pa field na coursemajor
+								*/
+								// get the system value
+								$systemVal = $this->api->systemValue();
+								$stud_num = $systemVal['noofstu'];
+
+								$cur_acam = $systemVal['currentacademicterm'];
+								
 								$owner = $this->api->getUserCollege();
 								$acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $cur_acam")->row_array();
 								$term = $acam['term'];
 								$course = $this->out_studentcount->getGroup();
+
+								
+
 								foreach($course as $cc)
 								{
 									for($i = $cur_acam;$i > 0;$i--)
@@ -36,6 +52,16 @@
 									$cmajor = $cc['coursemajor'];
 									$cur_range1 = $cur_acam - 12;
 									$cours_m = $this->api->getCourse($cmajor);
+									$cours_major = $this->api->getMajor($cmajor);
+									if($cours_major->num_rows() > 0)
+									{
+										$c1 = $cours_major->row_array();
+										$cours_major1 = '('.$c1['description'].')';
+									}
+									else
+									{
+										$cours_major1 = '';
+									}
 
 									//find if there are many active curriculum
 									$cur_range = $this->db->query("SELECT * FROM tbl_curriculum WHERE academicterm between $cur_range1 and $cur_acam and coursemajor = $cmajor")->num_rows();
@@ -62,7 +88,7 @@
 													?>
 													</td>
 													<td><?php echo $y = $c_detail['yearlevel']; ?></td>
-													<td><?php echo $cours_m; ?></td>
+													<td><?php echo $cours_m.' '.$cours_major1; ?></td>
 													<td>
 														<?php 
 															$o = $this->db->query("SELECT * FROM out_studentcount Where coursemajor = $cmajor and yearlevel = $y")->row_array();
@@ -71,12 +97,26 @@
 													</td>
 													<td>
 													<?php 
-														if($o['studentcount'] != 0 AND $o['studentcount'] > 30)
+														if($o['studentcount'] != 0 AND $o['studentcount'] > $stud_num)
 														{
-															echo (int) ($o['studentcount']/30);
+															echo (int) ($o['studentcount'] / $stud_num);
+														}
+														else
+														{
+															echo 0;
 														}
 												 	?>
-												 </td>
+												 	</td>
+												 	<form class="addClassAllocation" action="/dean/addClassAlloc">
+													<td>
+														<input type="hidden" name="url" value="<?php echo current_url(); ?>">
+														<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
+												 		<input type="number" min="1" class="form-control input-sm" name="sections">
+												 	</td>
+												 	<td>
+												 		<input type="submit" class="btn btn-primary btn-xs" value="Add">
+												 	</td>
+												 	</form>
 												</tr>
 												<?php
 												}
@@ -112,12 +152,26 @@
 												</td>
 												<td>
 												<?php 
-													if($o['studentcount'] != 0 AND $o['studentcount'] > 30)
+													if($o['studentcount'] != 0 AND $o['studentcount'] > $stud_num)
 													{
-														echo (int) ($o['studentcount']/30);
+														echo (int) ($o['studentcount'] / $stud_num);
+													}
+													else
+													{
+														echo 0;
 													}
 												 ?>
 												 </td>
+												<form class="addClassAllocation" action="/dean/addClassAlloc">
+												<td>
+													<input type="hidden" name="url" value="<?php echo current_url(); ?>">
+													<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
+											 		<input type="number" min="1" class="form-control input-sm" name="sections">
+											 	</td>
+											 	<td>
+											 		<input type="submit" class="btn btn-primary btn-xs" value="Add">
+											 	</td>
+											 	</form>
 											</tr>
 											<?php
 											}

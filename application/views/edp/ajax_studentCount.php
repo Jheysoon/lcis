@@ -1,14 +1,26 @@
 <form class="form-horizontal add-user" method="post" action="/edp/studentcount" role="form">
 <?php 
-	$current_academicterm = 40;
+	$curr = $this->api->systemValue();
+	$current_academicterm = $curr['currentacademicterm'];
 	$t = $this->academicterm->findById($current_academicterm);
 	$term = $t['term'];
+
 	// not applicable for summer
 	if($term != 2)
 	{
  ?>
 <input type="hidden" name="acam" value="<?php echo $current_academicterm; ?>">
 <table class="table">
+	<caption>
+		<strong>
+		Preparation Statistics for Academicterm SY:
+		<?php 
+			$nxt = $this->api->systemValue();
+			$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+			echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
+		 ?>
+		 </strong>
+	</caption>
 	<tr>
 		<td>Course</td>
 		<td>Year Level</td>
@@ -30,7 +42,6 @@
 				$major = '('.$this->course->getMajor($c['major']).')';
 			}
 
-			//@todo this loop is for the latest curriculum
 			$c_count = 0;
 			for($i = $current_academicterm;$i > 0;$i--)
 			{
@@ -46,12 +57,7 @@
 			// another loop
 			if($cur != 'repeat')
 			{
-				/*$r = $current_academicterm - 12;
-				$r = $this->db->query("SELECT * FROM tbl_curriculum WHERE academicterm BETWEEN ($r AND $current_academicterm) AND coursemajor = $cid")->num_rows();
-				echo $r.' - '.$cid;*/
-
-
-				$cc = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum=$cur GROUP BY yearlevel")->result_array();
+				$cc = $this->curriculumdetail->getAllYear($cur);
 				foreach($cc as $cc1)
 				{
 					$year_l = $cc1['yearlevel'];
@@ -63,21 +69,75 @@
 					<td><?php echo $year_l; ?></td>
 					<td>
 						<?php 
-							$r = $current_academicterm - 12;
+							//$r = $current_academicterm - 12;
 							if($year_l != 1)
 							{
 								$cc_count = 0;
-								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm GROUP BY student")->result_array();
+								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
 								foreach($e as $ee)
 								{
 									
 									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id GROUP BY academicterm")->num_rows();
+									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
+									
+									if(($s == 1 OR $s == 2) AND $year_l == 1)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									{
+										$cc_count++;
+									}
+									
+									/*$ss = $s / 2;
 									$s = (int) ($s/2);
-									if($s == $year_l)
+
+									if(($ss == .5 AND $year_l == 1) OR ($year_l == 1 AND $s == 1))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 1.5 AND $year_l == 2) OR ($year_l == 2 AND $s == 2))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 2.5 AND $year_l == 3) OR ($year_l == 3 AND $s == 3))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 3.5 AND $year_l == 4) OR ($year_l == 4 AND $s == 4))
+									{
+										$cc_count++;
+									}*/
+									/*if($s == $year_l)
+									{
+										$cc_count += 1;
+									}*/
+
+									/*$s = $s / 2;
+									if(($s == .5 AND $year_l == 1) OR $year_l == $s)
 									{
 										$cc_count += 1;
 									}
+									elseif(($s == 1.5 AND $year_l == 2) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 2.5 AND $year_l == 3) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 3.5 AND $year_l == 4) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}*/
 								}
 								echo $cc_count;
 						?>
@@ -87,16 +147,72 @@
 							elseif($term == 3)
 							{
 								$cc_count = 0;
-								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm-1 GROUP BY student")->result_array();
+								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm-1 AND school = 1 GROUP BY student")->result_array();
 								foreach($e as $ee)
 								{
 									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id GROUP BY academicterm")->num_rows();
+									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
+									
+
+									if(($s == 1 OR $s == 2) AND $year_l == 1)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									{
+										$cc_count++;
+									}
+
+									/*$ss = $s / 2;
 									$s = (int) ($s/2);
+
+									if(($ss == .5 AND $year_l == 1) OR ($year_l == 1 AND $s == 1))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 1.5 AND $year_l == 2) OR ($year_l == 2 AND $s == 2))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 2.5 AND $year_l == 3) OR ($year_l == 3 AND $s == 3))
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 3.5 AND $year_l == 4) OR ($year_l == 4 AND $s == 4))
+									{
+										$cc_count++;
+									}*/
+
+									/*$s = (int) ($s/2);
 									if($s == $year_l)
 									{
 										$cc_count += 1;
+									}*/
+									/*$s = $s / 2;
+									if(($s == .5 AND $year_l == 1) OR $year_l == $s)
+									{
+										$cc_count += 1;
 									}
+									elseif(($s == 1.5 AND $year_l == 2) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 2.5 AND $year_l == 3) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 3.5 AND $year_l == 4) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}*/
 								}
 								echo $cc_count;
 							?>
@@ -106,16 +222,77 @@
 							else
 							{
 								$cc_count = 0;
-								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm GROUP BY student")->result_array();
+								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
 								foreach($e as $ee)
 								{
 									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id GROUP BY academicterm")->num_rows();
+									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
+									/*$ss = $s / 2;
+									$s = (int) ($s/2);*/
+									/*if($s == $year_l)
+									{
+										$cc_count += 1;
+									}*/
+									// 3
+									if(($s == 1 OR $s == 2) AND $year_l == 1)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
+									{
+										$cc_count++;
+									}
+									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									{
+										$cc_count++;
+									}
+									/*$ss = $s / 2;
 									$s = (int) ($s/2);
-									if($s == $year_l)
+
+									if(($ss == .5 OR $s == 1) AND $year_l == 1)
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 1.5 OR $s == 2) AND $year_l == 2)
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 2.5  OR $s == 3) AND $year_l == 3)
+									{
+										$cc_count++;
+									}
+									elseif(($ss == 3.5 OR $s == 4) AND $year_l == 4)
+									{
+										$cc_count++;
+									}*/
+
+									/*
+										if($s == $year_l)
+										{
+											$cc_count += 1;
+										}
+									*/
+									/*$s = $s / 2;
+									if(($s == .5 AND $year_l == 1) OR $year_l == $s)
 									{
 										$cc_count += 1;
 									}
+									elseif(($s == 1.5 AND $year_l == 2) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 2.5 AND $year_l == 3) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}
+									elseif(($s == 3.5 AND $year_l == 4) OR $year_l == $s)
+									{
+										$cc_count += 1;
+									}*/
 								}
 								echo $cc_count;
 							?>
