@@ -117,6 +117,7 @@ class Main extends CI_Controller
     function menu($page,$param = '')
     {
         // redirect if the session has expired
+        //@todo verify if the user has really the right to that menu
         if(!$this->session->has_userdata('uid'))
         {
             redirect(base_url());
@@ -192,7 +193,8 @@ class Main extends CI_Controller
             'registrar/course',
             'dean/student',
             'registrar/enrollment',
-            'edp/out_studentcount'
+            'edp/out_studentcount',
+            'registrar/classallocation'
         ));
         $this->load->library('pagination');
     }

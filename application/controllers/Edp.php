@@ -94,7 +94,8 @@ class Edp extends CI_Controller
             'edp/out_studentcount',
             'registrar/course',
             'registrar/curriculum',
-            'registrar/academicterm'
+            'registrar/academicterm',
+            'registrar/curriculumdetail'
         ));
         $this->load->view('edp/ajax_studentCount');
     }
@@ -107,6 +108,9 @@ class Edp extends CI_Controller
         $count          = $this->input->post('count');
 
         $this->load->model('edp/out_studentcount');
+
+        //truncate table before inserting
+        $this->db->query("TRUNCATE out_studentcount");
 
         foreach($coursemajor as $key => $value)
         {
