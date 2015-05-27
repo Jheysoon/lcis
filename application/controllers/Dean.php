@@ -462,4 +462,3 @@ class Dean extends CI_Controller
             }
         }
     }
-}
