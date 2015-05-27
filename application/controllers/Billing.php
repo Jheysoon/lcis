@@ -12,9 +12,6 @@ class Billing extends CI_Controller
 			        $this->load->view('templates/header');
 			        $this->load->view('templates/header_title2');
 			    }
-			    function calculate(){
-			    	$this->load->model('/');	
-			    }
 	}
 
 

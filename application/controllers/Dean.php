@@ -395,4 +395,8 @@ class Dean extends CI_Controller
         }
         echo json_encode($data);
     }
+    function calculatebill($enid){
+        $this->load->model('dean/student');
+        $calculate = $this->student->getCalculation($enid);
+    }
 }
