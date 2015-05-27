@@ -18,7 +18,7 @@
 								<td>Year Level</td>
 								<td>Course</td>
 								<td>No. of Student</td>
-								<td>Apprx. Section</td>
+								<td>Apprx. Section <br/>(30 students)</td>
 								<td>Section</td>
 								<td>Action</td>
 							</tr>
