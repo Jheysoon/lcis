@@ -98,76 +98,76 @@
 			    ";
 			foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
 					extract($val);
-					
-		 							 if ($accounttype == 23){
-		 							 	$m = $this->getEn($enid);
-		 							 	foreach ($m as $key => $value) {
-		 							 		extract($value);
-				 							 			$x = $this->getSubs($classallocation);
-							 							 		if($x['computersubject'] == 1) {
-							 							 				echo "	
-																				<tr>
-																			     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-																				 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-																				 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-													 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-													 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-													 							 $computer = $rate;
-													 							 break;
-		 							 							}
-												}
-		 							 }elseif($accounttype == 24){
-						 							 	$m = $this->getEn($enid);
-						 							 	foreach ($m as $key => $ms) {
-						 							 		extract($ms);
-								 							 			$xl = $this->getSubs($classallocation);
-											 							 		
-											 							 		if($xl['bookletcharge'] == 1) {
-											 							 				echo "	
-																								<tr>
-																							     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-																								 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-																								 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-																	 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-																	 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-																	 							 $booklet = $rate;
-																	 							  break;
-						 							 							}
-						 							 					}
+				
+	 							 if ($accounttype == 23){
+	 							 	$m = $this->getEn($enid);
+	 							 	foreach ($m as $key => $value) {
+						 				extract($value);
+ 							 			$x = $this->getSubs($classallocation);
+			 							 		if($x['computersubject'] == 1) {
+			 							 				echo "	
+																<tr>
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 $computer = $rate;
+									 							 break;
+						 							}
+											}
+	 							 }elseif($accounttype == 24){
+	 							 	$m = $this->getEn($enid);
+	 							 	foreach ($m as $key => $ms) {
+	 							 		extract($ms);
+ 							 			$xl = $this->getSubs($classallocation);
+			 							 		
+			 							 		if($xl['bookletcharge'] == 1) {
+			 							 				echo "	
+																<tr>
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 $booklet = $rate;
+									 							  break;
+						 							}
+							 					}
 
-		 							 }	elseif ($accounttype == 19) {
+	 							 }	elseif ($accounttype == 19) {
 		 							 	if ($coursemajor == 5) {
-		 							 			echo "	
-													<tr>
-												     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-													 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-													 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-						 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-						 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-						 							 $netenrol += $rate;
+	 							 			echo "	
+												<tr>
+											     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+												 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+												 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+					 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+					 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+					 							 $netenrol += $rate;
 		 							 	}
-		 							 }else{
-		 							 	echo "	
-										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-			 							 if ($accounttype == 6) {
-			 							 		echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
-			 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";	
-			 							 		$tuition = $rate * $totalunit;		
+	 							 }else{
+	 							 	echo "	
+									<tr>
+								     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+									 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+		 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+		 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+		 							 if ($accounttype == 6) {
+		 							 		echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
+		 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";	
+		 							 		$tuition = $rate * $totalunit;		
 
-			 							 }elseif ($accounttype == 7 ) {
-			 							 		echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
-				 							 	echo  "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
-				 							 	$mat = $rate * $totalunit;
-			 							 }else{
-			 							 	$netenrol += $rate;
-			 							 }
-		 							 }		 							
-	 						echo "</tr>";				
+		 							 }elseif ($accounttype == 7 ) {
+		 							 		echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
+			 							 	echo  "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
+			 							 	$mat = $rate * $totalunit;
+		 							 }else{
+		 							 	$netenrol += $rate;
+		 							 }
+	 							 }		 							
+ 						echo "</tr>";				
 			}
 			echo "</table>";
 			echo $computer . "<br />";
