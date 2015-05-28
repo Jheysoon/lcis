@@ -65,12 +65,13 @@
 	        return $q->row_array();
 	    }
 
-		function calculatebill($enid){
+		/*function calculatebill($enid){
 			$getEnrolment = $this->db->query("SELECT * FROM tbl_studentgade WHERE enrolment = '$enid'");
 			$g = $getEnrolment->result_array();
 			foreach ($g as $key => $value) {
 				extract($value);
-			}
+			}*/
+		//}
 		function getCalculation($enid){
 			$computer = 0;
 			$booklet = 0;
@@ -103,7 +104,7 @@
 		 							 	foreach ($m as $key => $value) {
 		 							 		extract($value);
 				 							 			$x = $this->getSubs($classallocation);
-							 							 		if($x['computersubject'] == 0) {
+							 							 		if($x['computersubject'] == 1) {
 							 							 				echo "	
 																				<tr>
 																			     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
@@ -121,7 +122,7 @@
 						 							 		extract($ms);
 								 							 			$xl = $this->getSubs($classallocation);
 											 							 		
-											 							 		if($xl['bookletcharge'] == 0) {
+											 							 		if($xl['bookletcharge'] == 1) {
 											 							 				echo "	
 																								<tr>
 																							     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
@@ -168,7 +169,6 @@
 		 							 }		 							
 	 						echo "</tr>";				
 			}
-		}
 			echo "</table>";
 			echo $computer . "<br />";
 			echo $totalbook = $booklet * $numberofsubject * 4 . "<br />";

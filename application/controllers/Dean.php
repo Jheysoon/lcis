@@ -397,9 +397,8 @@ class Dean extends CI_Controller
     }
     function calculatebill($enid){
         $this->load->model('dean/student');
-        $calculate = $this->student->getCalculation($enid);
+        $this->student->getCalculation($enid);
     }
-}
     function addClassAlloc()
     {
         $data['coursemajor']    = $this->input->post('course_major');
@@ -462,3 +461,4 @@ class Dean extends CI_Controller
             }
         }
     }
+}
