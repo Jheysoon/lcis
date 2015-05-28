@@ -175,12 +175,12 @@
 			echo $netenrol + $mat + $tuition + $totalbook + $computer;
 		}
 		function getEn($enid){
-			return $this->db->query("SELECT * FROM tbl_studentgrade WHERE enrolment = '$enid'")->result_array();
+			$this->db->where('enrolment', $enid);
+			return $this->db->get('tbl_studentgrade')->result_array();
 		}
 		function getSubs($classallocation){
 			return $xl = $this->db->query("SELECT * FROM `tbl_subject` WHERE tbl_subject.id = (SELECT subject FROM tbl_classallocation WHERE tbl_classallocation.id = '$classallocation')")->row_array();
 		}
-
 		function getAcTerm($id){
 			$this->db->where("id", $id);
 			$q = $this->db->get("tbl_academicterm");
