@@ -51,17 +51,33 @@
                 ?>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        val = $('input[name=chkAcam]').val();
+                        /*val = $('input[name=chkAcam]').val();
                         if(val < 1)
-                        {
+                        {*/
                             $.post('/edp/load_stat',{},function (data){
                                 $('#stat_wrapper').html(data);
                             });
-                        }
+                        /*}
                         else
                         {
                             $('#stat_wrapper').html('<div class="alert alert-info">Already have a student statistics</div>');
-                        }
+                        }*/
+                    });
+                </script>
+        <?php
+            }
+            if(uri_string() == 'menu/dean-manage_section')
+            {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('.addClassAllocation').submit(function (e){
+                            $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
+                                
+                            });
+                            $(this).parent().hide('1000');
+                            e.preventDefault();
+                        });
                     });
                 </script>
         <?php

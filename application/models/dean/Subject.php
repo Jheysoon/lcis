@@ -62,4 +62,14 @@ class Subject extends CI_Model
 		$this->db->where('id',$sid);
 		return $q = $this->db->get('tbl_subject')->row_array();
 	}
+	function all()
+	{
+		return $this->db->get('tbl_subject')->result_array();
+	}
+	function subjectOwner($owner)
+	{
+		$this->db->where('owner',$owner);
+		//$this->db->or_where('owner',0);
+		return $this->db->get('tbl_subject')->result_array();
+	}
 }

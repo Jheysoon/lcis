@@ -5,7 +5,9 @@
 		$r  = $this->student->getMajor($major);
 		$description = $description." ( ".$r['des']." )";
 	}
-	$sy = $this->student->getAcTerm(40);
+	$sys = $this->api->systemValue();
+	$term = $sys['phaseterm'];
+	$sy = $this->student->getAcTerm($term);
 
 	$yr = $this->student->getYearLevel($id);
 	if ($yr == 0) {
@@ -386,10 +388,9 @@
 							<td>9:00 am – 12:00 nn</td>
 							<td></td>
 						</tr>
-
 					</table>
 					<div class="form-group">
-						<a class="btn btn-info" href="index.php?page=saveEvaluationSummary">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a>
+						<a class="btn btn-info" href="/dean/calculatebill/50">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a>
 					</div>
 				</form>
 			</div>

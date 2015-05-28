@@ -395,4 +395,70 @@ class Dean extends CI_Controller
         }
         echo json_encode($data);
     }
+    function calculatebill($enid){
+        $this->load->model('dean/student');
+        $calculate = $this->student->getCalculation($enid);
+    }
 }
+    function addClassAlloc()
+    {
+        $data['coursemajor']    = $this->input->post('course_major');
+        $nxt                    = $this->api->systemValue();
+        $data['academicterm']   = $nxt['nextacademicterm'];
+        $data['subject']        = $this->input->post('subject');
+        $section                = $this->input->post('sections');
+        for($i = 1;$i <= $section;$i++)
+        {
+            $this->db->insert('tbl_classallocation',$data);
+        }
+        $is_ajax = $this->input->post('is_ajax');
+        if($is_ajax != 0)
+        {
+            $data['studentcount'] = $this->input->post('studentcount');
+        }
+        $this->db->insert('out_section',$data);
+        if($is_ajax == 0)
+        {
+            redirect(base_url('non_exist'));
+        }
+    }
+
+    function addSubjAlloc()
+    {
+        $this->api->userMenu();
+
+        $this->load->model(array(
+            'dean/subject',
+            'registrar/course',
+            'registrar/classallocation'
+        ));
+
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+        $systemVal = $this->api->systemValue();
+
+        $this->form_validation->set_rules('sections','Section','required|integer');
+        $data['error'] = '';
+
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('dean/add_non_subject',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $subject    = $this->input->post('subject');
+            $cmajor     = $this->input->post('course_major');
+            $q          = $this->classallocation->chkClassAlloc($subject,$systemVal['nextacademicterm'],$cmajor);
+            if($q > 0)
+            {
+                $data['error'] = '<div class="alert alert-danger">You have already assigned this subject with this course</div>';
+                $this->load->view('dean/add_non_subject',$data);
+                $this->load->view('templates/footer');
+            }
+            else
+            {
+                $this->addClassAlloc();
+            }
+        }
+    }
