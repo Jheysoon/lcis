@@ -55,7 +55,7 @@
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
-	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as description
+	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as description, tbl_coursemajor.id as cid
 	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
 	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
 	        						 AND tbl_coursemajor.course = tbl_course.id 
@@ -64,6 +64,13 @@
 	        						 ");
 	        return $q->row_array();
 	    }
+
+		function calculatebill($enid){
+			$getEnrolment = $this->db->query("SELECT * FROM tbl_studentgade WHERE enrolment = '$enid'");
+			$g = $getEnrolment->result_array();
+			foreach ($g as $key => $value) {
+				extract($value);
+			}
 		function getCalculation($enid){
 			$computer = 0;
 			$booklet = 0;
@@ -161,6 +168,7 @@
 		 							 }		 							
 	 						echo "</tr>";				
 			}
+		}
 			echo "</table>";
 			echo $computer . "<br />";
 			echo $totalbook = $booklet * $numberofsubject * 4 . "<br />";
@@ -172,4 +180,28 @@
 		function getSubs($classallocation){
 			return $xl = $this->db->query("SELECT * FROM `tbl_subject` WHERE tbl_subject.id = (SELECT subject FROM tbl_classallocation WHERE tbl_classallocation.id = '$classallocation')")->row_array();
 		}
+
+		function getAcTerm($id){
+			$this->db->where("id", $id);
+			$q = $this->db->get("tbl_academicterm");
+			return $q->row_array();
+		}
+
+		function getYearLevel($id){
+			$q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_academicterm, tbl_party
+								   WHERE tbl_enrolment.student = tbl_party.id 
+								   AND tbl_enrolment.academicterm = tbl_academicterm.id
+								   AND tbl_academicterm.term != 3
+								   AND tbl_party.legacyid = '$id'");
+			return $q->num_rows();
+		}
+
+		function getAllCur($cid){
+			$this->db->where("coursemajor", $cid);
+			$this->db->select("id");
+			$q = $this->db->get("tbl_curriculum");
+			return $q->result_array();
+		}
 	}
+
+	
