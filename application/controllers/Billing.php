@@ -12,6 +12,10 @@ class Billing extends CI_Controller
 			        $this->load->view('templates/header');
 			        $this->load->view('templates/header_title2');
 			    }
+			    function view_bill(){
+			    		$this->head();
+			    		$this->load->view('audit/view_assesment');
+			    }
 	}
 
 
