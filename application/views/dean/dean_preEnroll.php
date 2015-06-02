@@ -5,6 +5,23 @@
 		$r  = $this->student->getMajor($major);
 		$description = $description." ( ".$r['des']." )";
 	}
+	$sys = $this->api->systemValue();
+	$term = $sys['phaseterm'];
+	$sy = $this->student->getAcTerm($term);
+
+	$yr = $this->student->getYearLevel($id);
+	if ($yr == 0) {
+		$yr = 'FIRST';
+	}
+	else if ($yr == 1 || $yr == 2) {
+		$yr = 'SECOND';
+	}
+	else if ($yr == 3 || $yr == 4) {
+		$yr = 'THIRD';
+	}
+	else{
+		$yr = 'FOURTH';
+	}
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -12,7 +29,6 @@
 		
 		<div class="panel-heading search">
 			<h4>Pre Enrollment Evaluation</h4>
-			<?php echo 	$major; ?>
 		</div>
 
 
@@ -26,14 +42,19 @@
 				<input class="form-control" type="text" readonly value="<?php echo $res['lastname'].", ".$res['firstname'] ?>">							
 			</div>
 
-			<div class="col-md-6 ">
+			<div class="col-md-3 ">
 				<label class="lbl-data">SCHOOL YEAR</label>
-				<input class="form-control" type="text" readonly value="2014 - 2015">							
+				<input class="form-control" type="text" readonly value="<?php echo $sy['systart'].'-'.$sy['syend']; ?>">							
+			</div>
+
+			<div class="col-md-3 ">
+				<label class="lbl-data">TERM</label>
+				<input class="form-control" type="text" readonly value="<?php echo $sy['term']; ?>">							
 			</div>
 
 			<div class="col-md-6 ">
-				<label class="lbl-data">TERM</label>
-				<input class="form-control" type="text" readonly value="FIRST SEMESTER">							
+				<label class="lbl-data">YEAR LEVEL</label>
+				<input class="form-control" type="text" readonly value="<?php echo $yr.' YEAR'; ?>">							
 			</div>
 
 			<div class="col-md-6 ">
@@ -42,8 +63,16 @@
 			</div>
 
 			<div class="col-md-6 ">
-				<label class="lbl-data">YEAR LEVEL</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST YEAR">							
+				<label class="lbl-data">CURRICULUM</label>
+				<select class="form-control">
+					<option></option>
+					<?php 
+						$cur = $this->student->getAllCur($cid);
+						foreach ($cur as $key) {
+							echo "<option>".$key['id']."<option/>";
+						}
+					 ?>
+				</select>							
 			</div>
 			<div class="col-md-12">
 				&nbsp;
@@ -359,10 +388,9 @@
 							<td>9:00 am – 12:00 nn</td>
 							<td></td>
 						</tr>
-
 					</table>
 					<div class="form-group">
-						<a class="btn btn-info" href="index.php?page=saveEvaluationSummary">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a>
+						<a class="btn btn-info" href="/dean/calculatebill/50">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a>
 					</div>
 				</form>
 			</div>
