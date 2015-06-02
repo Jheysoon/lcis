@@ -218,7 +218,6 @@ class Registrar extends CI_Controller
             redirect($this->input->post('cur_url'));
         }
     }
-
     function save_grade()
     {
         $enrolmentid = $this->input->post('enrolmentid');

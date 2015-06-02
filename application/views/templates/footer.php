@@ -94,5 +94,45 @@
         <?php
             }
         ?>
+        <?php 
+                if (uri_string() == 'menu/scholarship-scholarshiplist') { ?>
+                       <script src="/assets/js/typeahead.bundle.js"></script>
+                        <script src="/assets/js/handlebars-v3.0.1.js"></script>
+                        <script type="text/javascript">
+                           /**
+ * Created by Jayson Martinez on 4/24/2015.
+ */
+$(document).ready(function(){
+
+    var student_list = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit:8,
+        remote: '/registrar/search_by_id/%QUERY'
+    });
+    student_list.initialize();
+    //student_list.clearRemoteCache();
+    $('#student_search').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'student_list',
+            displayKey: 'value',
+            templates:{
+                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
+                '<span>{{name}}</span>'),
+                empty:['<div class="alert alert-danger">Unable to find student</div>']
+            },
+            source: student_list.ttAdapter()
+        }
+    );
+  
+});
+                        </script>
+               <?php }
+         ?>
   </body>
 </html>

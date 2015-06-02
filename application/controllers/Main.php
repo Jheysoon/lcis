@@ -158,6 +158,8 @@ class Main extends CI_Controller
                 $this->edp();
             }elseif ($load_model[0] == 'billing') {
                 $this->dean();
+            }elseif($load_model[0] == 'scholarship'){
+                $this->scholarship();
             }
 
             $this->load->view($page,$data);
@@ -208,7 +210,9 @@ class Main extends CI_Controller
             'registrar/academicterm'
         ));
     }
-
+    function scholarship(){
+             $this->dean();
+    }
     function createUsername($fname,$lname)
     {
         if(strlen($lname)>=6)

@@ -215,7 +215,6 @@
 											 							 break;
 								 							}
 													}
-
 		 							 }else{
 		 							 	echo "	
 										<tr>
@@ -255,7 +254,7 @@
 
 			echo "Discount|" . $netfull = $tuition * $discount . "<br />";
 			echo "Discounted Tuition|" . $discounted = $tuition - $netfull . "<br />";*/
-			$discount = 0.1;
+			$discount = 10/100;
 			$netfull = $tuition * $discount;
 			$install = $tuition / 5;
 			$totalbook = $booklet * $numberofsubject * 4; 
@@ -328,9 +327,12 @@
 							<td style='border: 1px solid; padding: 5px;'>".$installment."</td>
 						</tr>";
 			echo "</table>";
-
-
-			$data = array(
+			$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+			if ($q['counted'] == 0){
+					$this->db->query("INSERT INTO tbl_bill SET requestedby = '0'");
+					$billid = $this->db->insert_id();
+					$data = array(
+					'id' => $billid,
 					'enrolment' => $enid,
 					'tuition' => $tuition,
 					'matriculation' => $mat,
@@ -344,21 +346,42 @@
 					'discount' => $discount,
 					'installment' => $installment,
 					'fullpaydiscount' => $fullpaydiscount,
-					'netfullpayment' => $netfullpayment,
+					'netfullpayment' =>$netfullpayment,
 					'netenrolment' => $netenrolment,
 					'netprelim' => $netprelim,
-					'netmidterm' => $netprelim,
+					'netmidterm' =>$netprelim,
 					'netsemi' => $netprelim,
 					'netfinal' => $netprelim
 				);
-			$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
-			if ($q['counted'] == 0) {
 					$this->db->insert('tbl_billclass', $data);
 			}else{
+				$data = array(
+					'enrolment' => $enid,
+					'tuition' => $tuition,
+					'matriculation' => $mat,
+					'laboratory' => $laboratory,
+					'miscellaneous' => $miscellaneous,
+					'leytetime' => $leytetymes,
+					'nstp' => $nstp,
+					'internet' => $internetfee,
+					'computer' => $computer,
+					'booklet' => $booklet,
+					'discount' => $discount,
+					'installment' => $installment,
+					'fullpaydiscount' => $fullpaydiscount,
+					'netfullpayment' =>$netfullpayment,
+					'netenrolment' => $netenrolment,
+					'netprelim' => $netprelim,
+					'netmidterm' =>$netprelim,
+					'netsemi' => $netprelim,
+					'netfinal' => $netprelim
+				);
 				$this->db->where('enrolment', $enid);
 				$this->db->update('tbl_billclass', $data);
 			}
-		
+		}
+		function rounded($val){
+			return $x = round($val, 0, PHP_ROUND_HALF_UP);
 		}
 		function getEn($enid){
 			$this->db->where('enrolment', $enid);
@@ -381,7 +404,6 @@
 								   AND tbl_party.legacyid = '$id'");
 			return $q->num_rows();
 		}
-
 		function getAllCur($cid){
 			$this->db->where("coursemajor", $cid);
 			$this->db->select("id");
