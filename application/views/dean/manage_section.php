@@ -6,6 +6,7 @@
 					<h4>Manage Section</h4>
 				</div>
 			</div>
+			<?php $systemVal = $this->api->systemValue(); ?>
 			<div class="panel-body">
 				<div class="form-group">
 					<div class="col-sm-12">
@@ -18,13 +19,13 @@
 								<td>Year Level</td>
 								<td>Course</td>
 								<td>No. of Student</td>
-								<td>Apprx. Section <br/>(30 students)</td>
+								<td>Apprx. Section <br/>(<?php echo $systemVal['numberofstudent']; ?> students)</td>
 								<td>Section</td>
 								<td>Action</td>
 							</tr>
 							<?php
 								// get the system value
-								$systemVal = $this->api->systemValue();
+								
 								$stud_num = $systemVal['numberofstudent'];
 
 								$cur_acam = $systemVal['currentacademicterm'];
@@ -33,8 +34,6 @@
 								$acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $cur_acam")->row_array();
 								$term = $acam['term'];
 								$course = $this->out_studentcount->getGroup();
-
-								
 
 								foreach($course as $cc)
 								{
@@ -78,9 +77,7 @@
 
 												if($ss > 0)
 												{
-													$count_alloc = $this->classallocation->chkClassAlloc($c_detail['subject'],$systemVal['nextacademicterm'],$cmajor);
-													if($count_alloc < 1)
-													{
+
 												?>
 												<tr>
 													<td>
@@ -114,8 +111,14 @@
 													<td>
 														<input type="hidden" name="is_ajax" value="1">
 														<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
+														<input type="hidden" name="studentcount" value="<?php echo $o['studentcount']; ?>">
+														<input type="hidden" name="yearlevel" value="<?php echo $y; ?>">
 														<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
-												 		<input type="number" min="1" class="form-control input-sm" name="sections" required>
+														<?php 
+															$sec = $this->out_section->count($systemVal['nextacademicterm'],$cmajor,$t['id'],$y);
+														 ?>
+														<input type="hidden" name="out_section_id" value="<?php echo $sec['id']; ?>">
+												 		<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $sec['section']; ?>" required>
 												 	</td>
 												 	<td>
 												 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
@@ -124,9 +127,7 @@
 												 	
 												</tr>
 												<?php
-													}
 												}
-										
 											}
 										}
 									}
@@ -140,9 +141,7 @@
 
 											if($ss > 0)
 											{
-												$count_alloc = $this->classallocation->chkClassAlloc($c_detail['subject'],$systemVal['nextacademicterm'],$cmajor);
-												if($count_alloc < 1)
-												{
+
 											?>
 											<tr>
 												<td>
@@ -176,8 +175,13 @@
 													<input type="hidden" name="is_ajax" value="1">
 													<input type="hidden" name="studentcount" value="<?php echo $o['studentcount']; ?>">
 													<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
+													<input type="hidden" name="yearlevel" value="<?php echo $y; ?>">
 													<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
-											 		<input type="number" min="1" class="form-control input-sm" name="sections" required>
+											 		<?php 
+														$sec = $this->out_section->count($systemVal['nextacademicterm'],$cmajor,$t['id'],$y);
+													 ?>
+													<input type="hidden" name="out_section_id" value="<?php echo $sec['id']; ?>">
+											 		<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $sec['section']; ?>" required>
 											 	</td>
 											 	<td>
 											 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
@@ -185,9 +189,7 @@
 											 	</form>
 											</tr>
 											<?php
-												}
 											}
-									
 										}
 									}
 									//else

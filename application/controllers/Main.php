@@ -196,7 +196,8 @@ class Main extends CI_Controller
             'dean/student',
             'registrar/enrollment',
             'edp/out_studentcount',
-            'registrar/classallocation'
+            'registrar/classallocation',
+            'dean/out_section'
         ));
         $this->load->library('pagination');
     }
@@ -207,7 +208,8 @@ class Main extends CI_Controller
             'edp/out_studentcount',
             'registrar/course',
             'registrar/curriculum',
-            'registrar/academicterm'
+            'registrar/academicterm',
+            'edp/classroom'
         ));
     }
     function scholarship(){

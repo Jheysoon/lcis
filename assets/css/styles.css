@@ -529,3 +529,9 @@ td.tbl-header-main{
 	margin-bottom: 0;
 	padding: 0;
 }
+.colspan
+{
+	text-align:center;
+	color:#fff;
+	vertical-align:middle !important;
+}

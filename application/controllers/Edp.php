@@ -126,4 +126,33 @@ class Edp extends CI_Controller
         </div>');
         redirect(base_url());
     }
+
+    function view_sched($roomId)
+    {
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation'
+        ));
+        
+        $data['roomId']     = $roomId;
+        $room               = $this->classroom->find($roomId);
+        $data['room_name']  = $room['legacycode'];
+        $data['location']   = $room['location'];
+        $this->api->userMenu();
+
+
+        $this->load->view('edp/view_room_sched',$data);
+    }
+
+    function add_sched($sid)
+    {
+        $this->api->userMenu();
+        $data['roomId'] = $sid;
+
+        $this->load->model(array(
+            'edp/edp_classallocation'
+        ));
+        $this->load->view('edp/select_subj',$data);
+        $this->load->view('templates/footer');
+    }
 }
