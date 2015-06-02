@@ -67,16 +67,32 @@
 	        return $q->row_array();
 	    }
 
-		function calculatebill($enid){
+		/*function calculatebill($enid){
 			$getEnrolment = $this->db->query("SELECT * FROM tbl_studentgade WHERE enrolment = '$enid'");
 			$g = $getEnrolment->result_array();
 			foreach ($g as $key => $value) {
 				extract($value);
+<<<<<<< HEAD
 			}
 		}
+=======
+			}*/
+		//}
+>>>>>>> 5ae86e98f5731dfe599939451eadf09a60ddf3bd
 		function getCalculation($enid){
 			$computer = 0;
 			$booklet = 0;
+			$netenrol = 0;
+			$tuition = 0;
+			$mat = 0;
+			$totalbook = 0;
+			$totaltuition = 0;
+			$laboratory = 0;
+			$miscellaneous = 0;
+			$internetfee = 0;
+			$discount = 0;
+			$nstp = 0;
+			$leytetymes = 0;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
 			$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
@@ -96,53 +112,117 @@
 			    ";
 			foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
 					extract($val);
-					
-		 							 if ($accounttype == 23){
-		 							 	$m = $this->getEn($enid);
-		 							 	foreach ($m as $key => $value) {
-		 							 		extract($value);
-				 							 			$x = $this->getSubs($classallocation);
-							 							 		if($x['computersubject'] == 1) {
-							 							 				echo "	
-																				<tr>
-																			     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-																				 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-																				 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-													 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-													 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-													 							 $computer = $rate;
-													 							 break;
-		 							 							}
-												}
-		 							 }elseif($accounttype == 24){
-						 							 	$m = $this->getEn($enid);
-						 							 	foreach ($m as $key => $ms) {
-						 							 		extract($ms);
-								 							 			$xl = $this->getSubs($classallocation);
-											 							 		
-											 							 		if($xl['bookletcharge'] == 1) {
-											 							 				echo "	
-																								<tr>
-																							     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-																								 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-																								 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-																	 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-																	 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-																	 							 $booklet = $rate;
-																	 							  break;
-						 							 							}
-						 							 					}
+				
+	 							 if ($accounttype == 23){
+	 							 	$m = $this->getEn($enid);
+	 							 	foreach ($m as $key => $value) {
+						 				extract($value);
+ 							 			$x = $this->getSubs($classallocation);
+			 							 		if($x['computersubject'] == 1) {
+			 							 				echo "	
+																<tr>
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 $computer = $rate;
+									 							 break;
+						 							}
+											}
+	 							 }elseif($accounttype == 24){
+	 							 	$m = $this->getEn($enid);
+	 							 	foreach ($m as $key => $ms) {
+	 							 		extract($ms);
+ 							 			$xl = $this->getSubs($classallocation);
+			 							 		
+			 							 		if($xl['bookletcharge'] == 1) {
+			 							 				echo "	
+																<tr>
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 $booklet = $rate;
+									 							  break;
+						 							}
+							 					}
 
-		 							 }	elseif ($accounttype == 19) {
+	 							 }	elseif ($accounttype == 19) {
 		 							 	if ($coursemajor == 5) {
-		 							 			echo "	
-													<tr>
-												     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
-													 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
-													 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
-						 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-						 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+	 							 			echo "	
+												<tr>
+											     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+												 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+												 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+					 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+					 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+					 							 $laboratory = $rate;
 		 							 	}
+	 							 }else{
+	 							 	 if($accounttype == 6) {
+	 							 	 	echo "	
+										<tr>
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
+
+		 							 		/*echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
+		 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";	*/
+		 							 		$mat = $rate * $totalunit;		
+
+		 							 }elseif ($accounttype == 7 ) {
+		 							 		echo "	
+										<tr>
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
+			 							 	$tuition = $rate * $totalunit;
+		 							 }elseif($accounttype == 20){
+		 							 		echo "	
+										<tr>
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+		 							 			$leytetymes = $rate;
+		 							 }elseif($accounttype == 22){
+		 							 		echo "	
+										<tr>
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+		 							 		$internetfee = $rate;
+		 							 }elseif($accounttype == 21){
+		 							 	$m = $this->getEn($enid);
+			 							 	foreach ($m as $key => $value) {
+								 				extract($value);
+		 							 			$x = $this->getSubs($classallocation);
+					 							 		if($x['computersubject'] == 1) {
+					 							 				echo "	
+																		<tr>
+																	     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																		 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
+																		 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
+											 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
+											 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+											 							 $nstp = $rate;
+											 							 break;
+								 							}
+													}
+
 		 							 }else{
 		 							 	echo "	
 										<tr>
@@ -151,32 +231,149 @@
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
-
+		 							 	$miscellaneous += $rate;
 		 							 }
-
-		 						
-		 							if($accounttype == 6) { 	
-			 								echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
-		 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";			
-		 							 	}	
-		 							 elseif ($accounttype == 7) {
-			 								echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
-			 							 	echo  "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
-		 							 }
-		 							
-	 						echo "</tr>";				
+	 							 }		 							
+ 						echo "</tr>";				
 			}
 			echo "</table>";
-			echo $computer . "<br />";
-			echo $booklet * $numberofsubject * 4;
+		//	echo $computer . "<br />";
+		//	echo $totalbook = $booklet * $numberofsubject * 4 . "<br />";
+		//	echo $netenrol + $tuition + $mat + $totalbook + $computer + $laboratory;
+			//$dis = $this->db->query("SELECT percent FROM `tbl_discount`, tbl_billdiscount WHERE student = '$student' AND tbl_discount.id = discount")->row_array();
+			// $where = "tbl_discount.id = tbl_billdiscount.discount";
+			// $this->db->where('student', $student);
+			// $this->db->where($where);
+			// $this->db->select('percent');
+			// $dis = $this->db->get('tbl_discount, tbl_billdiscount')->row_array();
+			//$discount = $dis['percent']/100;
+/*
+			$discount = 0.1;
+			echo "Discount |".  $discount  . "<br />";
+			echo "Computer |" . $computer . "<br />";
+			echo "Booklet |" . $booklet . "<br />";
+			echo "Laboratory |" . $laboratory . "<br />";
+			echo "Matriculation |" . $mat . "<br />";
+			echo "Leyte Times |" . $leytetymes . "<br />";
+			echo "Internet Fee |" . $internetfee . "<br />";
+			echo "NSTP |" . $nstp . "<br />";
+			echo "Miscellaneous |" . $miscellaneous . "<br />";
+			echo "Tuition|" . $tuition . "<br />";
+
+			echo "Discount|" . $netfull = $tuition * $discount . "<br />";
+			echo "Discounted Tuition|" . $discounted = $tuition - $netfull . "<br />";*/
+			$discount = 0.1;
+			$netfull = $tuition * $discount;
+			$install = $tuition / 5;
+			$totalbook = $booklet * $numberofsubject * 4; 
+			$fullpaydiscount = $tuition * $discount;
+			$discounted = $tuition - $fullpaydiscount;
+			$computerdevided = $computer / 5; 
+			$int = $internetfee / 4;
+			$bookfee = $numberofsubject * $booklet;
+			$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+			$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
+			$netprelim = $install + $computerdevided + $int + $bookfee;
+			$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+			echo "<table>
+					<th style='border: 1px solid; padding: 5px;'>Description</th>
+					<th style='border: 1px solid; padding: 5px;'>Total</th>";
+					echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Discount</td>
+							<td style='border: 1px solid; padding: 5px;'>".$discount."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Computer</td>
+							<td style='border: 1px solid; padding: 5px;'>".$computer."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Booklet</td>
+							<td style='border: 1px solid; padding: 5px;'>".$booklet."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Laboratory</td>
+							<td style='border: 1px solid; padding: 5px;'>".$laboratory."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Matriculation</td>
+							<td style='border: 1px solid; padding: 5px;'>".$mat."</td>
+						</tr>";
+							echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Leyte Times</td>
+							<td style='border: 1px solid; padding: 5px;'>".$leytetymes."</td>
+						</tr>";
+							echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Internet Fee</td>
+							<td style='border: 1px solid; padding: 5px;'>".$internetfee."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>NSTP</td>
+							<td style='border: 1px solid; padding: 5px;'>".$nstp."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Miscellaneous</td>
+							<td style='border: 1px solid; padding: 5px;'>".$miscellaneous."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Tuition</td>
+							<td style='border: 1px solid; padding: 5px;'>".$tuition."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Discount</td>
+							<td style='border: 1px solid; padding: 5px;'>".$tuition * $discount."</td>
+						</tr>";
+						echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Discounted</td>
+							<td style='border: 1px solid; padding: 5px;'>".($tuition - $netfull)."</td>
+						</tr>";
+							echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Total</td>
+							<td style='border: 1px solid; padding: 5px;'>".$netfullpayment."</td>
+						</tr>";
+							echo "<tr>
+							<td style='border: 1px solid; padding: 5px;'>Installment</td>
+							<td style='border: 1px solid; padding: 5px;'>".$installment."</td>
+						</tr>";
+			echo "</table>";
+
+
+			$data = array(
+					'enrolment' => $enid,
+					'tuition' => $tuition,
+					'matriculation' => $mat,
+					'laboratory' => $laboratory,
+					'miscellaneous' => $miscellaneous,
+					'leytetime' => $leytetymes,
+					'nstp' => $nstp,
+					'internet' => $internetfee,
+					'computer' => $computer,
+					'booklet' => $booklet,
+					'discount' => $discount,
+					'installment' => $installment,
+					'fullpaydiscount' => $fullpaydiscount,
+					'netfullpayment' => $netfullpayment,
+					'netenrolment' => $netenrolment,
+					'netprelim' => $netprelim,
+					'netmidterm' => $netprelim,
+					'netsemi' => $netprelim,
+					'netfinal' => $netprelim
+				);
+			$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+			if ($q['counted'] == 0) {
+					$this->db->insert('tbl_billclass', $data);
+			}else{
+				$this->db->where('enrolment', $enid);
+				$this->db->update('tbl_billclass', $data);
+			}
+		
 		}
 		function getEn($enid){
-			return $this->db->query("SELECT * FROM tbl_studentgrade WHERE enrolment = '$enid'")->result_array();
+			$this->db->where('enrolment', $enid);
+			return $this->db->get('tbl_studentgrade')->result_array();
 		}
 		function getSubs($classallocation){
 			return $xl = $this->db->query("SELECT * FROM `tbl_subject` WHERE tbl_subject.id = (SELECT subject FROM tbl_classallocation WHERE tbl_classallocation.id = '$classallocation')")->row_array();
 		}
-
 		function getAcTerm($id){
 			$this->db->where("id", $id);
 			$q = $this->db->get("tbl_academicterm");
@@ -248,4 +445,3 @@
 			return $q->row_array();
 		}
 	}
-	

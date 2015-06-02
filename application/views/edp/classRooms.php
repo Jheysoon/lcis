@@ -3,7 +3,13 @@
 		<div class="panel p-body">
 		<div class="panel-heading search">
 			<div class="col-md-6">		
-				<h4>Class Allocation</h4>		
+				<h4>Class Allocation For The SY:
+				<?php 
+					$systemVal 	= $this->api->systemValue();
+					$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+					echo $acam['systart'].' - '.$acam['syend'].' Term:'.$acam['term']; 
+				 ?>
+				</h4>		
 			</div>
 			<div class="col-md-6">
 				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
@@ -14,7 +20,6 @@
 			        <button type="submit" class="btn btn-warning">
 			        <span class="glyphicon glyphicon-search"></span>
 			        </button>
-
 			     </form>
 			</div>
 		</div>
@@ -22,133 +27,37 @@
 		<div class="panel-body">
 		<a href="/add_room" class="btn btn-success btn-sm pull-right">Add Room</a>
 		<span class="clearfix"></span>
+		<br/>
 		<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<tr>
 						<th>Room No.</th>
 						<th>Campus</th>
-						<th>Capacity</th>
-						<th>Floor</th>
-						<th>Wing</th>
-						<th>Dimension</th>
-						<th>Action</th>
-					</tr> 
+						<th>Min. Capacity</th>
+						<th>Max. Capacity</th>
+						<th>Status</th>
+						<th style="width:35%;">Action</th>
+					</tr>
+					<?php 
+						$r = $this->classroom->all();
+						foreach($r as $room)
+						{
+					?>
 					<tr>
-						<td>PT001</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Left</td>
-						<td>10X10</td>
+						<td><?php echo $room['legacycode']; ?></td>
+						<td><?php echo $room['location']; ?></td>
+						<td><?php echo $room['mincapacity']; ?></td>
+						<td><?php echo $room['maxcapacity']; ?></td>
+						<td><?php echo $room['status']; ?></td>
 						<td>
-							<a class="a-table label label-info" href="index.php?page=edpScheduling">Add Schedule</a>
-							<a class="a-table label label-danger" href="index.php?page=edpViewSchedule">View Schedule</a>
-						</td>
-					</tr> 
-					<tr>
-						<td>PT002</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Left</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr> 
-					<tr>
-						<td>PT003</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
+							<a class="btn btn-info btn-xs" href="/add_sched/<?php echo $room['id']; ?>">Add Schedule</a>
+							<a class="btn btn-success btn-xs" href="/view_sched/<?php echo $room['id']; ?>">View Schedule</a>
+							<a class="btn btn-warning btn-xs" href="/edp/delete_room/<?php echo $room['id']; ?>">Edit Schedule</a>
 						</td>
 					</tr>
-						<td>PT004</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr>
-						<td>PT005</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr>
-					<tr>
-						<td>PT006</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Left</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="index.php?page=edpScheduling">Add Schedule</a>
-							<a class="a-table label label-danger" href="index.php?page=edpViewSchedule">View Schedule</a>
-						</td>
-					</tr> 
-					<tr>
-						<td>PT007</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Left</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr> 
-					<tr>
-						<td>PT008</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr>
-						<td>PT009</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr>
-						<td>PT010</td>
-						<td>LC Paterno</td>
-						<td>40</td>
-						<td>1st</td>
-						<td>Right</td>
-						<td>10X10</td>
-						<td>
-							<a class="a-table label label-info" href="">Add Schedule</a>
-							<a class="a-table label label-danger" href="">View Schedule</a>
-						</td>
-					</tr>
+					<?php
+						}
+					 ?>
 				</table>
 			</div>
 			</div>

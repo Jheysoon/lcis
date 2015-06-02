@@ -46,6 +46,13 @@
 	            				}
 	            			 ?>
 	            		</select>
+	            		<label>Year Level</label>
+	            		<select class="form-control" name="yearlevel">
+	            			<option value="1">1</option>
+	            			<option value="2">2</option>
+	            			<option value="3">3</option>
+	            			<option value="4">4</option>
+	            		</select>
 	            		<label>No. of Section</label>
 	            		<input type="number" min="1" class="form-control" name="sections">
 	            		<input type="hidden" name="is_ajax" value="0">
