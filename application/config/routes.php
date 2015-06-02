@@ -120,3 +120,7 @@ $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
 $route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
 $route['billing/(:any)']            = 'billing/calculate/$1';
 $route['billing/(:any)/(:any)']     = 'billing/calculate/$1';
+$route['scholarship/(:any)/(:any)'] = 'scholarship/viewscholarship/$1';
+$route['scholarship/(:any)'] = 'scholarship/viewscholarship/$1';
+$route['payments/(:any)/(:any)'] = 'billing/view_bill/$1';
+$route['payments/(:any)'] = 'billing/view_bill/$1';
