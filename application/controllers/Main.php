@@ -123,15 +123,7 @@ class Main extends CI_Controller
             redirect(base_url());
         }
 
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-
-
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        $this->api->userMenu();
 
         $data['orig_page'] = $page;
 
@@ -165,7 +157,7 @@ class Main extends CI_Controller
         }
         else
         {
-            show_error();
+            show_error('cannot find file');
         }
 
     }
@@ -195,7 +187,9 @@ class Main extends CI_Controller
             'registrar/enrollment',
             'edp/out_studentcount',
             'registrar/classallocation',
-            'dean/out_section'
+            'dean/out_section',
+            'edp/edp_classallocation',
+            'registrar/academicterm'
         ));
         $this->load->library('pagination');
     }

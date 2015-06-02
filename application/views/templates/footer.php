@@ -93,6 +93,21 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
+            if(in_array('add_day_period', $str1))
+            {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('select[name=days_count]').change(function(){
+                            cid = $(this).val();
+                            $.post('/dean/ajax_day_period',{cid:cid},function (data){
+                                $('#table_day').html(data);
+                            });
+                        });
+                    });
+                </script>
+        <?php
+            }
         ?>
   </body>
 </html>
