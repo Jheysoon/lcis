@@ -398,21 +398,33 @@ class Dean extends CI_Controller
 
     function addClassAlloc()
     {
+        $this->load->model('dean/out_section');
+
         $data['coursemajor']    = $this->input->post('course_major');
         $nxt                    = $this->api->systemValue();
         $data['academicterm']   = $nxt['nextacademicterm'];
         $data['subject']        = $this->input->post('subject');
-        $section                = $this->input->post('sections');
-        for($i = 1;$i <= $section;$i++)
-        {
-            $this->db->insert('tbl_classallocation',$data);
-        }
+        $data['section']        = $this->input->post('sections');
+        $data['yearlevel']      = $this->input->post('yearlevel');
+
         $is_ajax = $this->input->post('is_ajax');
         if($is_ajax != 0)
         {
             $data['studentcount'] = $this->input->post('studentcount');
         }
-        $this->db->insert('out_section',$data);
+
+        //$c = $this->out_section->whereCount($data['academicterm'],$data['coursemajor'],$data['subject'],$data['yearlevel']);
+        $id = $this->input->post('out_section_id');
+        if($id == NULL)
+        {
+            $this->db->insert('out_section',$data);
+        }
+        else
+        {
+            $this->db->where('id',$id);
+            $this->db->update('out_section',$data);
+        }
+
         if($is_ajax == 0)
         {
             redirect(base_url('non_exist'));

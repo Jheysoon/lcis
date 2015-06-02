@@ -75,7 +75,7 @@
                             $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
                                 
                             });
-                            $(this).parent().hide('1000');
+                            //$(this).parent().hide('1000');
                             e.preventDefault();
                         });
                     });

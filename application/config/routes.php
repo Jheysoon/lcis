@@ -69,11 +69,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['dn_listSubject']                = 'dean/listSubject';
     $route['dn_listCurriculum']             = 'dean/listCurriculum';
 
+    $route['non_exist']                     = 'dean/addSubjAlloc';
+
     // EDP Routes
     $route['edp_ListUsers']                 = 'edp/ListUsers';
     $route['edp_ClassroomList']             = 'edp/ClassroomList';
     $route['edp_CalculateSubjectSection']   = 'edp/CalculateSubjectSection';
     $route['edp_ClassAllocation']           = 'edp/ClassAllocation';
+
+    $route['add_room']                      = 'edp/add_room';
+    $route['add_sched/(:num)']                     = 'edp/add_sched/$1';
+    $route['view_sched/(:num)']             = 'edp/view_sched/$1';
 
     // Student Routes
     $route['stdnt_editSelfEvaluation']      = 'student/editSelfEvaluation';
@@ -89,9 +95,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['edit_subject/(:num)']           = 'dean/edit_subject/$1';
     $route['add_subject']                   = 'dean/add_subject';
     $route['edit_subject/(:num)/(:any)']    = 'dean/edit_subject/$1/$2';
-
-    $route['add_room']                      = 'edp/add_room';
-    $route['non_exist']                     = 'dean/addSubjAlloc';
 
 
 

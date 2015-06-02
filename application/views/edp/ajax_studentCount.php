@@ -92,7 +92,7 @@
 									{
 										$cc_count++;
 									}
-									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
 									{
 										$cc_count++;
 									}
@@ -166,7 +166,7 @@
 									{
 										$cc_count++;
 									}
-									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
 									{
 										$cc_count++;
 									}
@@ -246,7 +246,7 @@
 									{
 										$cc_count++;
 									}
-									elseif(($s == 7 OR $s == 8) AND $year_l ==4)
+									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
 									{
 										$cc_count++;
 									}
