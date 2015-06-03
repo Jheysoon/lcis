@@ -55,7 +55,9 @@
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
-	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as description, tbl_coursemajor.id as cid
+	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as 
+	        					 description, tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum, 
+	        					 tbl_registration.date as dte, tbl_party.id as pid
 	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
 	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
 	        						 AND tbl_coursemajor.course = tbl_course.id 
@@ -70,6 +72,8 @@
 			$g = $getEnrolment->result_array();
 			foreach ($g as $key => $value) {
 				extract($value);
+			}
+		}
 			}*/
 		//}
 		function getCalculation($enid){
@@ -405,11 +409,58 @@
 			return $q->num_rows();
 		}
 		function getAllCur($cid){
-			$this->db->where("coursemajor", $cid);
-			$this->db->select("id");
-			$q = $this->db->get("tbl_curriculum");
+			$where = 'tbl_curriculum.academicterm = tbl_academicterm.id AND coursemajor ='.$cid;
+			$this->db->order_by('systart', 'DESC');
+			$this->db->where($where);
+			$this->db->select("`tbl_curriculum.id`, `systart`, `syend`");
+			$q = $this->db->get("tbl_curriculum, tbl_academicterm");
 			return $q->result_array();
 		}
-	}
 
-	
+		function getClassAloc($academicterm, $student, $coursemajor){
+
+
+			$q = $this->db->query("SELECT * FROM tbl_classallocation
+								   WHERE academicterm = '$academicterm'
+								   AND coursemajor = '$coursemajor'
+								   AND subject NOT IN(SELECT subject FROM 
+								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment 
+								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id 
+								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment 
+								   	AND tbl_classallocation.id != '$academicterm'
+								   	AND tbl_enrolment.id = '$student')
+									GROUP BY subject
+								   ");
+			return $q->result_array();
+		}
+
+		function getSubDetail($subject){
+			$this->db->where('id', $subject);
+			$q = $this->db->get('tbl_subject');
+			return $q->row_array();
+		}
+
+		function getSched($id, $sub){
+			$where = 'academicterm='.$id.' AND subject='.$sub;
+			$this->db->where($where);
+			$q = $this->db->get('tbl_classallocation');
+			return $q->result_array();
+		}
+
+		function getDP($id){
+			$q = $this->db->query("SELECT * FROM tbl_day, tbl_period, tbl_dayperiods
+								   WHERE tbl_dayperiods.day = tbl_day.id 
+								   AND tbl_dayperiods.period = tbl_period.id 
+								   AND tbl_dayperiods.id = $id
+								  ");
+			return $q->row_array();
+		}
+
+		function getRoom($id){
+			$q = $this->db->query("SELECT legacycode, tbl_location.description as loc FROM tbl_classroom, tbl_location
+								   WHERE tbl_classroom.location = tbl_location.id
+								   AND tbl_classroom.id = $id
+								  ");
+			return $q->row_array();
+		}
+	}

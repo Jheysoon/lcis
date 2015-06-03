@@ -434,6 +434,21 @@ class Dean extends CI_Controller
         }
     }
 
+
+    function saveEvaluation(){
+        $this->load->model('dean/student');
+        
+        $ctr = $this->input->post('count');
+
+        while ( $ctr != 0) {
+            if ($this->input->post('rad-'.$ctr) !== NULL) {
+                echo $this->input->post('rad-'.$ctr)."<br/>";
+            }
+            $ctr--;
+        }
+
+    }
+
     function addSubjAlloc()
     {
         $this->api->userMenu();

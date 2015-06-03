@@ -26,3 +26,40 @@ $(document).ready(function(){
         e.preventDefault();
     });
 });
+
+
+
+    function clickRow(cl, id, un){
+
+        var ch;
+
+        var counter = $('input[name=counter]').val()
+
+        if ($('#rad-' + id).is(":checked")) {
+            ch = 0;
+        }
+        else{
+            ch = 1;
+        }
+
+        if(ch == 0){
+            $('#rad-' + id)[0].checked = false;
+            counter = Number(counter) - Number(un);
+        }
+        else{
+            $('#rad-' + id)[0].checked = true;
+            counter = Number(counter) + Number(un);
+            // $('#tabletest').bind('click', function(e) {
+            //     $(e.target).closest('tr').children('td,th').css('background-color','yellow');
+            // });
+        }
+
+        if(counter > 24){
+            alert('sobra na');
+        }
+        else{
+            $('input[name=counter]').val(counter);
+        }
+
+       
+    }
