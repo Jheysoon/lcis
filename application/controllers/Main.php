@@ -203,7 +203,9 @@ class Main extends CI_Controller
             'registrar/course',
             'registrar/curriculum',
             'registrar/academicterm',
-            'edp/classroom'
+            'edp/classroom',
+            'edp/edp_classallocation',
+            'dean/subject'
         ));
     }
     function scholarship(){
