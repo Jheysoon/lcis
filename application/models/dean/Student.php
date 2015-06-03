@@ -72,13 +72,10 @@
 			$g = $getEnrolment->result_array();
 			foreach ($g as $key => $value) {
 				extract($value);
-<<<<<<< HEAD
 			}
 		}
-=======
 			}*/
 		//}
->>>>>>> 5ae86e98f5731dfe599939451eadf09a60ddf3bd
 		function getCalculation($enid){
 			$computer = 0;
 			$booklet = 0;

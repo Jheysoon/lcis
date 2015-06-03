@@ -3,7 +3,13 @@
 	$res = $this->student->getClassAloc($term, $student, $coursemajor);
  ?>
 <div class="table-responsive" id="evaluation">
-				<form class="form" role="form">
+				<form class="form" action="/dean/saveEvaluation" method="post" role="form">
+						<tr>
+							<td colspan="5">
+								<input style="width: 70px;" class="pull-right form-control" name="counter" readonly type="number" value ='0'>
+								<label class="pull-right">Total Units &nbsp;&nbsp;&nbsp;</label>
+							</td>
+						</tr><br/><br/>
 					<table class="table table-bordered table-hover" id = "tabletest">
 						<tr>
 							<th width="25"></th>
@@ -39,9 +45,15 @@
 
 									$dp = $this->student->getDP($aloc['dayperiod']);
 								?>
-									<tr onclick="clickRow(<?php echo $ctr.','.$ctr2; ?>)">
+									<tr onclick="clickRow(<?php echo $ctr.','.$ctr2.','.$sub['units']; ?>)">
 										<td  id = 'r-<?php echo "$ctr"; ?>' >
-										    <input class="rad-<?php echo $ctr; ?>" type="checkbox" name = "rad-<?php echo $ctr2; ?>" id = "rad-<?php echo $ctr2; ?>">
+										    <input 
+										    	class="rad-<?php echo $ctr; ?>" 
+										    	type="radio" 
+										    	name = "rad-<?php echo $ctr; ?>" 
+										    	id = "rad-<?php echo $ctr2; ?>"
+										    	value = "<?php echo $aloc['id']; ?>"
+										    >
 										</td>
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $shortname; ?></td>
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $t1.'-'.$t2; ?></td>
@@ -54,8 +66,10 @@
 						 ?>
 
 					</table>
+					<input type='hidden' name='count' value = '<?php echo $ctr; ?>'>
 					<div class="form-group">
-						<a class="btn btn-info" href="/dean/calculatebill/50">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a>
+						<!-- <a class="btn btn-info" href="/dean/calculatebill/50">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a> -->
+						<button type="submit" class="btn btn-info">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></button>
 					</div>
 				</form>
 			</div>

@@ -29,9 +29,11 @@ $(document).ready(function(){
 
 
 
-    function clickRow(cl, id){
+    function clickRow(cl, id, un){
 
         var ch;
+
+        var counter = $('input[name=counter]').val()
 
         if ($('#rad-' + id).is(":checked")) {
             ch = 0;
@@ -40,25 +42,24 @@ $(document).ready(function(){
             ch = 1;
         }
 
-        $('.rad-' + cl).each(function( i ) {
-            $('.rad-' + cl)[i].checked = false;
-        });
-
-
         if(ch == 0){
             $('#rad-' + id)[0].checked = false;
-            $('#tabletest').bind('click', function(e) {
-                $(e.target).closest('tr').children('td,th').css('background-color','#fff');
-            });
+            counter = Number(counter) - Number(un);
         }
         else{
             $('#rad-' + id)[0].checked = true;
-            $('#tabletest').bind('click', function(e) {
-                $(e.target).closest('tr').children('td,th').css('background-color','yellow');
-            });
+            counter = Number(counter) + Number(un);
+            // $('#tabletest').bind('click', function(e) {
+            //     $(e.target).closest('tr').children('td,th').css('background-color','yellow');
+            // });
         }
 
-
+        if(counter > 24){
+            alert('sobra na');
+        }
+        else{
+            $('input[name=counter]').val(counter);
+        }
 
        
     }
