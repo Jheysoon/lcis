@@ -69,7 +69,7 @@
 						<th class="tblNum"></th>
 					</tr>
 					<tr>
-						<td>1/5 TUITION</td>
+						<td>1/5 TUITION <?php echo $param . "" . $x; ?></td>
 						<td class="tblNum">1,930.24</td>
 					</tr>
 					<tr>
@@ -99,15 +99,15 @@
 						<th class="tblNum td-total">3,835.23</th>
 					</tr>
 
-					<tr>
+				<!-- 	<tr>
 						<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
 						<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="1,000.00"></strong></td>
 					</tr>
-					</table>
+			 -->		</table>
 			</div>
-			<button class="btn btn-success pull-right">Confirm Override</button>
+			<!-- <button class="btn btn-success pull-right">Confirm Override</button>
 			<td><a class="btn btn-info pull-left" href="index.php?page=viewStudentAccountMovement">View Account <span class="glyphicon glyphicon-search"></span></a>
-			</div>
+		 -->	</div>
 
 
 		</div>

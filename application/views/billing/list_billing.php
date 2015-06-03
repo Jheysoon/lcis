@@ -91,7 +91,7 @@
                                     <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
                                     <td><?php echo $course; ?></td>
                                     <td>
-                                        <a class="a-table label label-info" href="/payments/view_bill">View Bills<span class="glyphicon glyphicon-file"></span></a>
+                                        <a class="a-table label label-info" href="/billing/view_bill/<?php echo $partyid ?>/<?php echo $stud_info['legacyid']; ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
                                     </td>
                                 </tr>
                             <?php

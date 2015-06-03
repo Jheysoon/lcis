@@ -16,6 +16,12 @@ class Billing extends CI_Controller
 			    		$this->head();
 			    		$this->load->view('audit/view_assesment');
 			    }
+			    function view_studentbilling($param, $x){
+			    	$this->head();
+			    	$data['param'] = $param;
+			    	$data['x'] = $x;	
+			    	$this->load->view('audit/view_studentbilling', $data);
+			    }
 	}
 
 
