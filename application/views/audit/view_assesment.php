@@ -199,8 +199,8 @@
 			</div>
 
 			<div class="col-md-12">
-				<button><a class="pull-right" href="/billing/view_studentbilling/parameterini/x">Installment</a></button>
-				<button><a class="pull-right">Fullpayment</a></button>
+				<a class="pull-right btn btn-primary" href="/billing/view_studentbilling/parameterini/x" style="margin-left:5px;">Installment</a>
+				<a class="pull-right btn btn-primary">Fullpayment</a>
 				<br /><br />	<br />	<br />								
 			</div>
 			</div>
