@@ -6,6 +6,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="col-md-12">
+				<?php echo $this->session->flashdata('message'); ?>
 					<?php 
 						$cl = $this->edp_classallocation->find($cid);
 					 ?>
@@ -52,6 +53,7 @@
 					 </div>
 					 <div class="col-md-12">
 					 	<form action="/dean/ass_subj" method="post">
+					 		<input type="hidden" name="url" value="<?php echo current_url(); ?>">
 					 		<input type="hidden" name="class_id" value="<?php echo $cid; ?>">
 						 	<table class="table" id="table_day">
 						 		<tr>

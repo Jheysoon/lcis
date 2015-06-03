@@ -542,9 +542,28 @@ class Dean extends CI_Controller
         $start_time = $this->input->post('start_time');
         $end_time   = $this->input->post('end_time');
         $cid        = $this->input->post('class_id');
+        $url        = $this->input->post('url');
+
+        $index = count($day);
 
         foreach($day as $key => $value)
         {
+            if($index < 3)
+            {
+                if($day[0] == $day[1]){
+                    $this->session->set_flashdata('message','<div class="alert alert-danger">Subject days must be unique</div>');
+                    redirect($url);
+                }
+            }
+            elseif($index < 4)
+            {
+                if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
+                {
+                    $this->session->set_flashdata('message','<div class="alert alert-danger">Subject days must be unique</div>');
+                    redirect($url);
+                }
+            }
+
             $data['classallocation']    = $cid;
             $data['day']                = $value;
 

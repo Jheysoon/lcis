@@ -36,7 +36,7 @@
 						<th>Min. Capacity</th>
 						<th>Max. Capacity</th>
 						<th>Status</th>
-						<th style="width:35%;">Action</th>
+						<th style="width:25%;">Action</th>
 					</tr>
 					<?php 
 						$r = $this->classroom->all();
@@ -50,7 +50,6 @@
 						<td><?php echo $room['maxcapacity']; ?></td>
 						<td><?php echo $room['status']; ?></td>
 						<td>
-							<a class="btn btn-info btn-xs" href="/add_sched/<?php echo $room['id']; ?>">Add Schedule</a>
 							<a class="btn btn-success btn-xs" href="/view_sched/<?php echo $room['id']; ?>">View Schedule</a>
 							<a class="btn btn-warning btn-xs" href="/edp/delete_room/<?php echo $room['id']; ?>">Edit Schedule</a>
 						</td>
