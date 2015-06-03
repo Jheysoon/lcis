@@ -488,4 +488,99 @@ class Dean extends CI_Controller
             }
         }
     }
+
+    function add_day_period($cid)
+    {
+        $this->api->userMenu();
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+        $data['cid'] = $cid;
+        $this->load->view('dean/assigned_subj',$data);
+        $this->load->view('templates/footer');
+    }
+
+    function ajax_day_period()
+    {
+        $cid = $this->input->post('cid');
+        $template = '';
+        $template .= '<tr>
+                <th>Day</th>
+                <th>Start Period</th>
+                <th>End Period</th>
+            </tr>';
+        for($i=1;$i <= $cid; $i++)
+        {
+            
+            $template .= '<tr>
+                <td>
+                    <select class="form-control" name="day[]">';
+                        $d = $this->db->get('tbl_day')->result_array();
+                        foreach($d as $day){
+                            $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
+                        }
+                   
+                    $template .= '</select>
+                </td>
+                <td>
+                    <select class="form-control" name="start_time[]">';
+                
+                        $t = $this->db->get('tbl_time')->result_array();
+                        foreach($t as $time){
+                    
+                        $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
+                      } 
+                     $template .= '</select>
+                </td>
+                <td>
+                    <select class="form-control" name="end_time[]">';
+                        foreach($t as $time)
+                        {
+                            if($time['id'] != 1){
+                     
+                            $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
+                     
+                            } 
+                        }
+                       
+                    $template .='</select>
+                </td>
+            </tr>';
+        }
+        echo $template;
+    }
+
+    function ass_subj()
+    {
+        $day        = $this->input->post('day');
+        $start_time = $this->input->post('start_time');
+        $end_time   = $this->input->post('end_time');
+        $cid        = $this->input->post('class_id');
+
+        foreach($day as $key => $value)
+        {
+            $data['classallocation']    = $cid;
+            $data['day']                = $value;
+
+            $this->db->where('from_time',   $start_time[$key]);
+            $this->db->where('to_time',    $end_time[$key]);
+            $c = $this->db->get('tbl_period');
+            if($c->num_rows() > 0)
+            {
+                $cc = $c->row_array();
+                $data['period'] = $cc['id'];
+            }
+            else
+            {
+                $db['from_time']    = $start_time[$key];
+                $db['to_time']     = $end_time[$key];
+                $this->db->insert('tbl_period',$db);
+                $data['period']     = $this->db->insert_id();
+            }           
+            $this->db->insert('tbl_dayperiod',$data);
+        }
+        $this->session->set_flashdata('message','<div class="alert alert-success">Successfully added</div>');
+        redirect('/menu/dean-add_day_period');
+    }
 }

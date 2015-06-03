@@ -14,6 +14,16 @@
 						<span class="clearfix"></span>
 						<br/>
 						<table class="table">
+							<caption>
+								<strong>
+								Preparation for Academicterm SY:
+								<?php 
+									$nxt = $this->api->systemValue();
+									$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
+								 ?>
+								 </strong>
+							</caption>
 							<tr>
 								<td>Subject</td>
 								<td>Year Level</td>

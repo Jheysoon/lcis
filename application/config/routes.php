@@ -70,6 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['dn_listCurriculum']             = 'dean/listCurriculum';
 
     $route['non_exist']                     = 'dean/addSubjAlloc';
+    $route['add_day_period/(:num)']         = 'dean/add_day_period/$1';
 
     // EDP Routes
     $route['edp_ListUsers']                 = 'edp/ListUsers';
@@ -117,5 +118,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
 $route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
-$route['billing/(:any)']            = 'billing/calculate/$1';
-$route['billing/(:any)/(:any)']     = 'billing/calculate/$1';
+$route['scholarship/(:any)/(:any)'] = 'scholarship/viewscholarship/$1';
+$route['scholarship/(:any)'] = 'scholarship/viewscholarship/$1';/*
+$route['payments/(:any)/(:any)/(:any)'] = 'billing/view_bill/$1';
+$route['payments/(:any)'] = 'billing/view_bill/$1';/**//*
+$route['viewbilling/(:any)/(:any)'] = 'billing/view_studentbilling/$1/$2';
+$route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';*/

@@ -6,19 +6,16 @@
 			<?php //if ($page == "updateOldStudents"): ?>
 				<h4>Student Information Management: List of Students</h4>						
 			<?php //else: ?>
-				<h4>Permanent Records: List of Students</h4>							
+				<h4>Permanent Records: List of Students</h4>					
 			<?php //endif ?>
-			
 			</div>
 			<div class="col-md-6">
-
-
 			</div>
 		</div>
             <?php echo $this->session->flashdata('message'); ?>
             <div class="col-md-6">
             <?php
-                $config['base_url'] = base_url().'index.php/menu/registrar-student_list';
+                $config['base_url'] = base_url().'index.php/menu/scholarship-scholarshiplist';
                 $config['total_rows'] = $this->enrollment->getRows();
                 $config['per_page'] = 15;
                 $config['num_links'] = 2;
@@ -48,7 +45,6 @@
                 $this->pagination->initialize($config);
             ?>
             <ul class="pagination">
-
             <?php
                 echo $this->pagination->create_links();
                 $data = array('param' => $param );
@@ -56,50 +52,49 @@
             </ul>
             </div>
             <div class="col-md-6"><br/>
-                <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
-                    <input type="hidden" id = "thestatus" name = "stats">
-                
-                    <div class="form-group">
-                        <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
-                        <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </form>
+            <form class="navbar-form navbar-right" action="/scholarship/search" method="post" role="search">
+                <input type="hidden" id = "thestatus" name = "stats">
+                <label>Status Filter</label>
+                <div class="form-group">
+                    <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+                    <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </form>
             </div>
 		<div class="panel-body">
             <input type="hidden" name="param" value="<?php echo $param; ?>"/>
     		<div id="studlist_wrapper" class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
-                    <tr>
-                        <th>Student Id</th>
-                        <th>Student Name</th>
-                        <th>Course</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    <?php
-                      $result = $this->enrollment->getStud($param);
-                      foreach($result as $info)
-                        {
-                            extract($info);
-                            $stud_info = $this->party->getStudInfo($partyid);
-                            $course = $this->course->getCourse($coursemajor);
-                                ?>
-                                <tr>
-                                    <td><?php echo $stud_info['legacyid']; ?></td>
-                                    <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
-                                    <td><?php echo $course; ?></td>
-                                    <td>
-                                        <a class="a-table label label-info" href="/billing/view_bill/<?php echo $partyid ?>/<?php echo $stud_info['legacyid']; ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <th>Student Id</th>
+                                <th>Student Name</th>
+                                <th>Course</th>
+                                <th colspan="2">Action</th>
+                            </tr>
                             <?php
-                        }
-                    ?>
-                </table>
-            </div>
-                    
+                                $result = $this->enrollment->getStud($param);
+                                foreach($result as $info)
+                                {
+                                    extract($info);
+                                    $stud_info = $this->party->getStudInfo($partyid);
+                                    $course = $this->course->getCourse($coursemajor);
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $stud_info['legacyid']; ?></td>
+                                            <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
+                                            <td><?php echo $course; ?></td>
+                                                 <td>
+                                                    <a class="a-table label label-info" href="/scholarship/<?php echo $partyid; ?>">View Scholarship<span class="glyphicon glyphicon-file"></span></a>
+                                                </td>
+                                        </tr>
+                                    <?php
+                                }
+                            ?>
+                        </table>
+    		</div>
             <ul class="pagination">
                 <?php
                     echo $this->pagination->create_links();

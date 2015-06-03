@@ -39,7 +39,7 @@
 						}
 
 						//get all the days
-						$day1 = $this->db->get('tbl_day1')->result_array();
+						$day1 = $this->db->get('tbl_day')->result_array();
 						$day = array();
 
 						foreach($day1 as $d)

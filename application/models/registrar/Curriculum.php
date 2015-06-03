@@ -32,6 +32,7 @@ class Curriculum extends CI_Model
 			return $cid = $c['id'];
 
 	}
+	
 	function getcids(){
 			$uids = $this->session->userdata('uid');
 			$getColleges = $this->db->query("SELECT tbl_college.id as id, tbl_college.description as descr  

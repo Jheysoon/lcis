@@ -54,7 +54,7 @@ class Subject extends CI_Model
 	{
 		$this->db->where('owner',$owner);
 		$this->db->where('id',$sid);
-		return $q = $this->db->get('tbl_subject')->num_rows();
+		return $q = $this->db->count_all_results('tbl_subject');
 	}
 	function getCode_owner($owner,$sid)
 	{
