@@ -42,8 +42,6 @@
 
 
 									$cl = $this->student->getRoom($aloc['classroom']);
-
-									$dp = $this->student->getDP($aloc['dayperiod']);
 								?>
 									<tr onclick="clickRow(<?php echo $ctr.','.$ctr2.','.$sub['units']; ?>)">
 										<td  id = 'r-<?php echo "$ctr"; ?>' >

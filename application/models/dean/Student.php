@@ -463,4 +463,11 @@
 								  ");
 			return $q->row_array();
 		}
+
+		function getSpecificAllocation($id){
+			$this->db->where('id', $id);
+			$this->db->select('dayperiod');
+			$q = $this->db->get('tbl_classallocation');
+			return $q->row_array();
+		}
 	}
