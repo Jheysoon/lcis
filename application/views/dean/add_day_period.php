@@ -46,15 +46,7 @@
 									</td>
 									<td>
 										<?php 
-											$c = $this->api->getCourse($subj['coursemajor']);
-											$m = $this->api->getMajor($subj['coursemajor']);
-											$ms = '';
-											if($m->num_rows() > 0)
-											{
-												$mm = $m->row_array();
-												$ms = '('.$mm['description'].')';
-											}
-											echo $c.' '.$ms;
+											echo $this->api->getCourseMajor($subj['coursemajor']);
 										 ?>
 									</td>
 									<td><a href="/add_day_period/<?php echo $subj['id']; ?>" class="btn btn-primary btn-xs">Add Day/Period</a></td>

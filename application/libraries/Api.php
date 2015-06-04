@@ -14,6 +14,7 @@ class Api
 	*	@param id int
 	*	@return int course id
 	*/
+	/* ***** to be removed ********** */
 	function getCourse($id)
 	{
 		$this->CI->load->model('registrar/course');
@@ -23,6 +24,21 @@ class Api
 	function getMajor($id)
 	{
 		return $this->CI->db->query("SELECT * FROM tbl_major WHERE id = (SELECT major FROM tbl_coursemajor WHERE id = $id)");
+	}
+	#######################
+
+	function getCourseMajor($id)
+	{
+		$this->CI->load->model('registrar/course');
+		$m = '';
+		$course = $this->CI->course->getCourse($id);
+		$major 	= $this->CI->db->query("SELECT * FROM tbl_major WHERE id = (SELECT major FROM tbl_coursemajor WHERE id = $id)");
+		if($major->num_rows() > 0)
+		{
+			$mm = $major->row_array();
+			$m = '('.$mm['description'].')';
+		}
+		return $course.' '.$m;
 	}
 
 	function getUserCollege()
