@@ -13,7 +13,7 @@ class Edp_classallocation extends CI_Model
 	function getDayPeriod($cid)
 	{
 		$this->db->where('classallocation',$cid);
-		return $this->db->get('tbl_dayperiod1')->result_array();
+		return $this->db->get('tbl_dayperiod')->result_array();
 	}
 	function getAlloc($acam)
 	{
@@ -36,16 +36,17 @@ class Edp_classallocation extends CI_Model
 
 	function getDayShort($cid)
 	{
-		$d = '';
+		$d = array();
+		$this->db->order_by('day ASC');
 		$this->db->where('classallocation',$cid);
 		$s = $this->db->get('tbl_dayperiod')->result_array();
 		foreach($s as $ss)
 		{
 			$this->db->where('id',$ss['day']);
 			$a = $this->db->get('tbl_day')->row_array();
-			$d .= $a['shortname'].' ';
+			$d[] = $a['shortname'];
 		}
-		return $d;
+		return implode(' / ', $d);
 	}
 
 	function chkDayPeriod($cid)
@@ -56,8 +57,8 @@ class Edp_classallocation extends CI_Model
 
 	function getPeriod($cid)
 	{
-		$t = '';
 		$array = array();
+		$this->db->order_by('day ASC');
 		$this->db->where('classallocation',$cid);
 		$d = $this->db->get('tbl_dayperiod')->result_array();
 		foreach($d as $dd1)
@@ -69,7 +70,35 @@ class Edp_classallocation extends CI_Model
 			$en = $end['time'];
 			$array[] = $st.'-'.$en;
 		}
-		
 		return implode(' / ', $array);
+	}
+
+	function getPeriodId($pid)
+	{
+		$this->db->where('id',$pid);
+		return $this->db->get('tbl_period')->row_array();
+	}
+
+	function roomUsed($rid)
+	{
+		$systemVal 	= $this->api->systemValue();
+		$nxt 		= $systemVal['nextacademicterm'];
+		$this->db->where('academicterm',$nxt);
+		$this->db->where('classroom',$rid);
+		return $this->db->count_all_results('tbl_classallocation');
+	}
+	function getClid($rid)
+	{
+		$systemVal 	= $this->api->systemValue();
+		$nxt 		= $systemVal['nextacademicterm'];
+		$this->db->where('academicterm',$nxt);
+		$this->db->where('classroom',$rid);
+		return  $this->db->get('tbl_classallocation')->result_array();
+	}
+	function getDays($cid)
+	{
+		$this->db->where('classallocation',$cid);
+		$this->db->select('day');
+		return $this->db->get('tbl_dayperiod')->result_array();
 	}
 }
