@@ -437,14 +437,53 @@ class Dean extends CI_Controller
 
     function saveEvaluation(){
         $this->load->model('dean/student');
-        
         $ctr = $this->input->post('count');
+        $ctr2 = 1;
 
         while ( $ctr != 0) {
             if ($this->input->post('rad-'.$ctr) !== NULL) {
-                echo $this->input->post('rad-'.$ctr)."<br/>";
+                $names['var'.$ctr2] = $this->input->post('rad-'.$ctr);
+                $ctr2++;
             }
             $ctr--;
+        }
+        extract($names);
+        $ctr2 = $ctr2-1;
+        $i = $ctr2;
+        while ($ctr2 != 0) {
+            $ii = $i;
+            $dp = $this->student->getSpecificAllocation(${'var'.$ctr2});
+            $sched = $this->student->getDP($dp['dayperiod']);
+            extract($sched);
+            $date1 = new DateTime($from);
+            $t1 = $date1->format('h:i');
+            $date2 = new DateTime($to);
+            $t2 = $date2->format('h:i');
+            // echo ${'var'.$ctr2}.", ".$dp['dayperiod'].", ".$shortname.", ".$t1.", ".$t2."<br/>";
+            if ($ii != $ctr2) {
+                while($ii != 0){
+                    if ($ii != $ctr2) {
+                        $dp2 = $this->student->getSpecificAllocation(${'var'.$ii});
+                        $sched2 = $this->student->getDP($dp2['dayperiod']);
+                        extract($sched2);
+                        $date1 = new DateTime($from);
+                        $t3 = $date1->format('h:i');
+                        $date2 = new DateTime($to);
+                        $t4 = $date2->format('h:i');
+                        // call method fot checking conflicts
+                        $res = $this->api->intersectCheck($t1, $t3, $t2, $t4);
+                        if ($res) {
+                            $conf = '';
+                        }
+                        else{
+                            $conf = 'conflict';
+                        }
+                        echo $t1."-".$t2."&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;". $t3."-".$t4." - ".$conf."<br/>";
+                    }
+                    $ii--;
+                }
+            }
+            $ctr2--;   
         }
 
     }
