@@ -132,9 +132,8 @@ class Api
     }
 
     function getYearLevel($id){
-    	$this->load->model('dean/student');
-
-		$yr = $this->student->getYearLevel($id);
+    	$this->CI->load->model('dean/student');
+		$yr = $this->CI->student->getYearLevel($id);
 		if ($yr == 0) {
 			$yr = 0;
 		}
