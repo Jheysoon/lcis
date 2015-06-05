@@ -12,15 +12,15 @@ class Billing extends CI_Controller
 			        $this->load->view('templates/header');
 			        $this->load->view('templates/header_title2');
 			    }
-			    function view_bill(){
+			    function view_bill($legacyid){
 			    		$this->head();
-			    		$this->load->view('audit/view_assesment');
+			    		$this->load->model('cashier/assesment');
+			    		$data['legacyid'] = $legacyid;
+			    		$this->load->view('audit/view_assesment', $data);
 			    }
-			    function view_studentbilling($param, $x){
+			    function view_studentbilling(){
 			    	$this->head();
-			    	$data['param'] = $param;
-			    	$data['x'] = $x;	
-			    	$this->load->view('audit/view_studentbilling', $data);
+			    	$this->load->view('audit/view_studentbilling');
 			    }
 	}
 
