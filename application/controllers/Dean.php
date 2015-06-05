@@ -438,6 +438,7 @@ class Dean extends CI_Controller
 
     function saveEvaluation(){
         $this->load->model('dean/student');
+        $this->load->model('edp/edp_classallocation');
         $ctr = $this->input->post('count');
         $ctr2 = 1;
 
@@ -454,9 +455,8 @@ class Dean extends CI_Controller
         $i = $ctr2;
         while ($ctr2 != 0) {
             $ii = $i;
-            $dp = $this->student->getSpecificAllocation(${'var'.$ctr2});
-            $sched = $this->student->getDP($dp['dayperiod']);
-            extract($sched);
+            $dp = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
+            // $sched = $this->student->getDP($dp['dayperiod']);
             $date1 = new DateTime($from);
             $t1 = $date1->format('h:i');
             $date2 = new DateTime($to);

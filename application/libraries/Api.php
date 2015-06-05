@@ -130,4 +130,28 @@ class Api
                 return FALSE;
             endif;
     }
+
+    function getYearLevel($id){
+    	$this->load->model('dean/student');
+
+		$yr = $this->student->getYearLevel($id);
+		if ($yr == 0) {
+			$yr = 0;
+		}
+		else if ($yr == 1 || $yr == 2) {
+			$yr = 1;
+		}
+		else if ($yr == 3 || $yr == 4) {
+			$yr = 2;
+		}
+		else if ($yr > 4) {
+			$yr = 3;
+		}
+		else{
+			$yr = 4;
+		}
+
+		return $yr;
+
+    }
 }

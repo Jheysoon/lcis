@@ -405,7 +405,7 @@
 								   WHERE tbl_enrolment.student = tbl_party.id 
 								   AND tbl_enrolment.academicterm = tbl_academicterm.id
 								   AND tbl_academicterm.term != 3
-								   AND tbl_party.legacyid = '$id'");
+								   AND tbl_party.id = '$id'");
 			return $q->num_rows();
 		}
 		function getAllCur($cid){
