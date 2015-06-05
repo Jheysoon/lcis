@@ -144,7 +144,7 @@ class Api
 		else if ($yr == 3 || $yr == 4) {
 			$yr = 2;
 		}
-		else if ($yr > 4) {
+		else if ($yr == 5 || $yr == 6) {
 			$yr = 3;
 		}
 		else{
