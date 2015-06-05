@@ -112,4 +112,10 @@ class Enrollment extends CI_Model
         $this->db->where('id',$eid);
         $this->db->delete('tbl_enrolment');
     }
+    function getStudents(){
+       // $result = $this->db->query("SELECT coursemajor, firstname, lastname, legacyid FROM view_filter_stud WHERE partyid = (SELECT student FROM tbl_enrolment WHERE academicterm = '26')");
+        $result = $this->db->query("SELECT view_filter_stud.coursemajor, firstname, lastname, legacyid, partyid FROM view_filter_stud, tbl_enrolment WHERE partyid = student AND academicterm = '45'");
+        return $result->result_array();
+    }
+
 }

@@ -69,7 +69,7 @@
 						<th class="tblNum"></th>
 					</tr>
 					<tr>
-						<td>1/5 TUITION <?php echo $param . "" . $x; ?></td>
+						<td>1/5 TUITION</td>
 						<td class="tblNum">1,930.24</td>
 					</tr>
 					<tr>
