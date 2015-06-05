@@ -63,10 +63,9 @@ class Edp_classallocation extends CI_Model
 		$d = $this->db->get('tbl_dayperiod')->result_array();
 		foreach($d as $dd1)
 		{
-			$dd = $this->db->get_where('tbl_period',array('id'=>$dd1['period']))->row_array();
-			$start = $this->db->get_where('tbl_time',array('id'=>$dd['from_time']))->row_array();
+			$start = $this->db->get_where('tbl_time',array('id'=>$dd1['from_time']))->row_array();
 			$st = $start['time'];
-			$end = $this->db->get_where('tbl_time',array('id'=>$dd['to_time']))->row_array();
+			$end = $this->db->get_where('tbl_time',array('id'=>$dd1['to_time']))->row_array();
 			$en = $end['time'];
 			$array[] = $st.'-'.$en;
 		}
@@ -95,10 +94,29 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('classroom',$rid);
 		return  $this->db->get('tbl_classallocation')->result_array();
 	}
-	function getDays($cid)
+	function getDP($cid)
 	{
 		$this->db->where('classallocation',$cid);
-		$this->db->select('day');
+		$this->db->select('day,from_time,to_time');
 		return $this->db->get('tbl_dayperiod')->result_array();
+	}
+	function getPer($cid)
+	{
+		$this->db->where('classallocation',$cid);
+		$q = $this->db->get('tbl_dayperiod')->result_array();
+		$ar = array();
+		foreach($q as $qq)
+		{
+			$this->db->where('id',$qq['period']);
+			$w 		= $this->db->get('tbl_period')->row_array();
+			$this->db->where('id',$w['from_time']);
+			$st 	= $this->db->get('tbl_period')->row_array();
+			$start 	= $st['time'];
+			$this->db->where('id',$w['to_time']);
+			$en 	= $this->db->get('tbl_period')->row_array();
+			$end 	= $en['time'];
+			$ar[]	= $start.'-'.$end;
+		}
+		return implode(',', $ar);
 	}
 }
