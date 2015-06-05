@@ -160,7 +160,10 @@
 					</tr>
 					<tr>
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
-						<th class="tblNum">12,195.95</th>
+						<th class="tblNum"><?php
+						setlocale(LC_MONETARY, 'en_US');
+						 echo number_format('11232195.95', 2, '.', ',');
+						  ?></th>
 					</tr>
 				</table>
 			</div>
