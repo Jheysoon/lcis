@@ -623,22 +623,9 @@ class Dean extends CI_Controller
 
             $data['classallocation']    = $cid;
             $data['day']                = $value;
-
-            $this->db->where('from_time',   $start_time[$key]);
-            $this->db->where('to_time',    $end_time[$key]);
-            $c = $this->db->get('tbl_period');
-            if($c->num_rows() > 0)
-            {
-                $cc = $c->row_array();
-                $data['period'] = $cc['id'];
-            }
-            else
-            {
-                $db['from_time']    = $start_time[$key];
-                $db['to_time']     = $end_time[$key];
-                $this->db->insert('tbl_period',$db);
-                $data['period']     = $this->db->insert_id();
-            }           
+            $data['from_time']          = $start_time[$key];
+            $data['to_time']            = $end_time[$key];
+                     
             $this->db->insert('tbl_dayperiod',$data);
         }
         $this->session->set_flashdata('message','<div class="alert alert-success">Successfully added</div>');
