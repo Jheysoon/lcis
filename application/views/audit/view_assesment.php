@@ -12,6 +12,7 @@
 				$acadinfo = $this->assesment->getAcadinfo($id);
 				extract($acadinfo);
 				$getcoursemajor = $this->api->getCourseMajor($coursemajor);
+				$getyear = $this->api->getYearLevel($student);
 		 ?>
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT ID</label>
@@ -48,7 +49,18 @@
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">YEAR LEVEL</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST YEAR">							
+				<?php 
+					if ($getyear == 1) {
+						$yearlevel = 'First Year';
+					}elseif ($getyear == 2) {
+						$yearlevel = 'Second Year';
+					}elseif ($getyear == 3) {
+						$yearlevel = 'Third Year';
+					}elseif ($getyear == 4) {
+						$yearlevel = 'Fourth Year';
+					}
+				 ?>
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevels; ?>">							
 			<br />
 			</div>
 		
@@ -67,78 +79,12 @@
 						<th class="tblNum">Amount</th> -->
 					</tr>
 					<tr>
+						<td><?php echo $enrolid; ?></td>
+					</tr>
+					<tr>
 						<td>ENGL 01</td>
 						<td colspan="2">ENRICHMENT ENGLISH</td>
 						<td class="tblNum">3</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>FIL 1</td>
-						<td colspan="2">SINING NG PAKIKIPAGTALASTASAN</td>
-						<td class="tblNum">3</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>MATH 1</td>
-						<td colspan="2">COLLEGE ALGEBRA</td>
-						<td class="tblNum">3</td>
-					<!-- 	 -->
-					</tr>
-					<tr>
-						<td>LIT 1</td>
-						<td colspan="2">PHILIPPINE LITERATURE</td>
-						<td class="tblNum">3</td>
-						<!-- -->
-					</tr>
-					<tr>
-						<td>ECON 1</td>
-						<td colspan="2">PRINCIPLES OF ECONOMICS WITH LRT</td>
-						<td class="tblNum">3</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>B MACH</td>
-						<td colspan="2">KEYBOARDING</td>
-						<td class="tblNum">3</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>PSYCH 1</td>
-						<td colspan="2">GENERAL PSYCHOLOGY</td>
-						<td class="tblNum">3</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>CRIM 1</td>
-						<td colspan="2">INTRODUCTION TO CRIMINOLOGY & PSYCH OF CRIM</td>
-						<td class="tblNum">4</td>
-					<!-- 	 -->
-					</tr>
-					<tr>
-						<td>D TAC 1</td>
-						<td colspan="2">FUNDAMENTALS OF MARTIAL ARTS</td>
-						<td class="tblNum">(2)</td>
-						<!--  -->
-					</tr>
-					<tr>
-						<td>GUID 1</td>
-						<td colspan="2">SELF-DEVELOPMENT CONCEPT</td>
-						<td class="tblNum">3</td>
-					<!-- 	<td class="tblNum" colspan="3"></td>
-						<td class="tblNum"></td> -->
-					</tr>
-					<tr>
-						<td>NSTP 1</td>
-						<td colspan="2">NATIONAL SERVICE TRAINING PROGRAM</td>
-						<td class="tblNum">(3)</td>
-						<!-- <td class="tblNum" colspan="3"></td>
-						<td class="tblNum"></td> -->
-					</tr>
-					<tr>
-						<th class="tblNum">TOTAL SUBJECTS</th>
-						<th>10</th>
-						<th class="tblNum">TOTAL UNITS</th>
-						<th class="tblNum">29</th>
 						<!--  -->
 					</tr>
 				</table>
