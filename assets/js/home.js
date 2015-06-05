@@ -35,23 +35,14 @@ $(document).ready(function(){
 
         var counter = $('input[name=counter]').val()
 
-        if ($('#rad-' + id).is(":checked")) {
-            ch = 0;
-        }
-        else{
-            ch = 1;
-        }
+        // counter = Number(counter) + Number(un);
 
-        if(ch == 0){
+        if ($('input[name=rad-' + cl + ']').is(':checked')) {
             $('#rad-' + id)[0].checked = false;
-            counter = Number(counter) - Number(un);
+            // counter = Number($('input[name=counter]').val()) + Number(un);
         }
         else{
             $('#rad-' + id)[0].checked = true;
-            counter = Number(counter) + Number(un);
-            // $('#tabletest').bind('click', function(e) {
-            //     $(e.target).closest('tr').children('td,th').css('background-color','yellow');
-            // });
         }
 
         if(counter > 24){

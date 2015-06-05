@@ -155,4 +155,16 @@ class Edp extends CI_Controller
         $this->load->view('edp/select_subj',$data);
         $this->load->view('templates/footer');
     }
+
+    function assign_room($cid)
+    {
+        $this->api->userMenu();
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation'
+        ));
+        $data['cid'] = $cid;
+        $this->load->view('edp/assign_subj_room',$data);
+        $this->load->view('templates/footer');
+    }
 }
