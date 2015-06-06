@@ -112,7 +112,10 @@ class Api
         $this->CI->load->view('templates/header_title2');
 	}
 
+	// 1:00-3:00 / 2:00-5:00
 
+	//$from = 1:00,	$from_compare 	= 2:00
+	//$to 	= 3:00,	$to_compare 	= 5:00
     function intersectCheck($from, $from_compare, $to, $to_compare){
         $from = strtotime($from);
         $from_compare = strtotime($from_compare);
@@ -123,11 +126,11 @@ class Api
             $overlap = $intersect / 3600;
             if ( $overlap <= 0 ):
                 // There are no time conflicts
-                return TRUE;
+                return FALSE;
                 else:
                 // There is a time conflict
                 // echo '<p>There is a time conflict where the times overlap by ' , $overlap , ' hours.</p>';
-                return FALSE;
+                return TRUE;
             endif;
     }
 }

@@ -551,7 +551,6 @@ class Dean extends CI_Controller
             </tr>';
         for($i=1;$i <= $cid; $i++)
         {
-            
             $template .= '<tr>
                 <td>
                     <select class="form-control" name="day[]">';
@@ -559,15 +558,12 @@ class Dean extends CI_Controller
                         foreach($d as $day){
                             $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
                         }
-                   
                     $template .= '</select>
                 </td>
                 <td>
                     <select class="form-control" name="start_time[]">';
-                
                         $t = $this->db->get('tbl_time')->result_array();
                         foreach($t as $time){
-                    
                         $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
                       } 
                      $template .= '</select>
@@ -579,10 +575,8 @@ class Dean extends CI_Controller
                             if($time['id'] != 1){
                      
                             $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                     
                             } 
                         }
-                       
                     $template .='</select>
                 </td>
             </tr>';
@@ -618,11 +612,17 @@ class Dean extends CI_Controller
                 }
             }
 
+            $this->db->where('classallocation',$cid);
+            $dd = $this->db->count_all_results('tbl_dayperiod');
+            if($dd > 0)
+            {
+                $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+            }
             $data['classallocation']    = $cid;
             $data['day']                = $value;
             $data['from_time']          = $start_time[$key];
             $data['to_time']            = $end_time[$key];
-                     
+
             $this->db->insert('tbl_dayperiod',$data);
         }
         $this->session->set_flashdata('message','<div class="alert alert-success">Successfully added</div>');

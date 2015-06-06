@@ -20,6 +20,7 @@
 					<th style="text-align:center;">Day</th>
 					<th style="text-align:center;">Period</th>
 					<th style="text-align:center;">Action</th>
+					<th style="text-align:center;">Status</th>
 				</tr>
 				<?php 
 					$r = $this->edp_classallocation->getEmptyRoom();
@@ -46,9 +47,25 @@
 					<td style="text-align:center;">
 						<?php echo $this->edp_classallocation->getPeriod($room['id']); ?>
 					</td>
-					<td><a href="/assign_room/<?php echo $room['id']; ?>" class="btn btn-primary btn-xs">Assign Room</a></td>
+					
+					<td>
+					<?php 
+						$style = '';
+						if(!empty($room['status']))
+						{
+							$style = 'disabled';
+						}
+					?>
+					<a href="/assign_room/<?php echo $room['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Assign Room</a></td>
+					<td>
+						<?php 
+							if($room['status'] == 'O')
+							{
+								echo 'Room Assigned';
+							}
+						 ?>
+					</td>
 				</tr>
-
 				<?php
 						}
 					}

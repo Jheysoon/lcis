@@ -72,10 +72,17 @@ class Edp_classallocation extends CI_Model
 		return implode(' / ', $array);
 	}
 
+	###### getPeriodId to be removed
 	function getPeriodId($pid)
 	{
 		$this->db->where('id',$pid);
 		return $this->db->get('tbl_period')->row_array();
+	}
+
+	function getTime($tid)
+	{
+		$this->db->where('id',$tid);
+		return $this->db->get('tbl_time')->row_array();
 	}
 
 	function roomUsed($rid)
@@ -119,4 +126,32 @@ class Edp_classallocation extends CI_Model
 		}
 		return implode(',', $ar);
 	}
+
+	function findDay($id)
+	{
+		$this->db->where('id',$id);
+		return $this->db->get('tbl_day')->row_array();
+	}
+
+	function getPeriodRange($from,$to)
+	{
+		$this->db->where('id',$from);
+		$f 	= $this->db->get('tbl_time')->row_array();
+		$ff = $f['time'];
+		$this->db->where('id',$to);
+		$t 	= $this->db->get('tbl_time')->row_array();
+		$tt = $t['time'];
+		return $ff.' - '.$tt;
+	}
+	function getAllRoom()
+	{
+		return $this->db->get('tbl_classroom')->result_array();
+	}
+	function updateClassroom($room,$dpId)
+	{
+		$data['classroom']  = $room;
+        $this->db->where('id',$dpId);
+        $this->db->update('tbl_dayperiod',$data);
+	}
+	
 }
