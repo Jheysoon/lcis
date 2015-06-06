@@ -45,14 +45,7 @@ class Edp extends CI_Controller
 
     function add_room()
     {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        $this->api->userMenu();
 
         $this->load->library('form_validation');
         $this->load->helper('form');

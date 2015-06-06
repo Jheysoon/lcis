@@ -187,8 +187,7 @@ class Registrar extends CI_Controller
     function buildup($id)
     {
         $this->load->model(array(
-            'registrar/course', 'home/option',
-            'home/option_header', 'home/useroption',
+            'registrar/course', 'home/useroption',
             'registrar/grade', 'registrar/common',
             'registrar/subject', 'registrar/party',
             'registrar/academicterm', 'registrar/log_student',
@@ -196,9 +195,10 @@ class Registrar extends CI_Controller
             'registrar/registration','registrar/curriculum',
             'registrar/curriculumdetail'
         ));
+
+        $this->api->userMenu();
+
         $data['id'] = $id;
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
         $this->load->view('registrar/buildstudRecord', $data);
         $this->load->view('templates/footer');
     }
@@ -330,17 +330,11 @@ class Registrar extends CI_Controller
         {
             $v = explode('-', $c);
             if ($i == 0)
-            {
                 $studgrade = $v[1];
-            }
             elseif ($i == 1)
-            {
                 $grade_id = $v[1];
-            }
             else
-            {
                 $enroll = $v[1];
-            }
             $i++;
         }
         $q = $this->enrollment->getID($enroll);
@@ -480,17 +474,11 @@ class Registrar extends CI_Controller
         {
             $v = explode('-', $c);
             if ($i == 0)
-            {
                 $studgrade = $v[1];
-            }
             elseif ($i == 1)
-            {
                 $grade_id = $v[1];
-            }
             else
-            {
                 $enroll = $v[1];
-            }
             $i++;
         }
         $q = $this->enrollment->getID($enroll);
@@ -503,9 +491,7 @@ class Registrar extends CI_Controller
             $this->studentgrade->update_reexam_grade($studgrade, $grade_id);
         }
         else
-        {
             echo 'This record is already submitted';
-        }
     }
 
     function re_exam()
