@@ -601,8 +601,9 @@ class Dean extends CI_Controller
         {
             if($index < 3)
             {
-                if($day[0] == $day[1]){
-                    $this->session->set_flashdata('message','<div class="alert alert-danger">Subject days must be unique</div>');
+                if($day[0] == $day[1])
+                {
+                    $this->api->set_session_message('danger','Subject days must be unique');
                     redirect($url);
                 }
             }
@@ -621,14 +622,21 @@ class Dean extends CI_Controller
             {
                 $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
             }
-            $data['classallocation']    = $cid;
-            $data['day']                = $value;
-            $data['from_time']          = $start_time[$key];
-            $data['to_time']            = $end_time[$key];
-
-            $this->db->insert('tbl_dayperiod',$data);
+            if($start_time[$key] != 11 AND $end_time[$key] != 12)
+            {
+                $data['classallocation']    = $cid;
+                $data['day']                = $value;
+                $data['from_time']          = $start_time[$key];
+                $data['to_time']            = $end_time[$key];
+                $this->db->insert('tbl_dayperiod',$data);
+            }
+            else
+            {
+                $this->api->set_session_message('danger','Time Period must not 12:00 am - 1:00 pm');
+                redirect('/menu/dean-add_day_period');
+            }
         }
-        $this->session->set_flashdata('message','<div class="alert alert-success">Successfully added</div>');
+        $this->api->set_session_message('success','Successfully added');
         redirect('/menu/dean-add_day_period');
     }
 }

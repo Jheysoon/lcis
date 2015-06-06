@@ -95,9 +95,7 @@ class Api
 				return 'error';
 		}
 		else
-		{
 			return 'error';
-		}
 	}
 
 	function userMenu()
@@ -155,5 +153,10 @@ class Api
 
 		return $yr;
 
+    }
+
+    function set_session_message($type = 'success',$message,$name = 'message')
+    {
+    	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
 }
