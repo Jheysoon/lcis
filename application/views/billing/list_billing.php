@@ -18,8 +18,8 @@
             <?php echo $this->session->flashdata('message'); ?>
             <div class="col-md-6">
             <?php
-                $config['base_url'] = base_url().'index.php/menu/registrar-student_list';
-                $config['total_rows'] = $this->enrollment->getRows();
+                $config['base_url'] = base_url().'index.php/menu/billing-list_billing';
+                $config['total_rows'] = $this->enrollment->enrolled();
                 $config['per_page'] = 15;
                 $config['num_links'] = 2;
                 $config['first_link'] = 'First';
@@ -56,7 +56,7 @@
             </ul>
             </div>
             <div class="col-md-6"><br/>
-                <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+                <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
                     <input type="hidden" id = "thestatus" name = "stats">
                 
                     <div class="form-group">
@@ -79,7 +79,7 @@
                         <th colspan="2">Action</th>
                     </tr>
                     <?php
-                      $result = $this->enrollment->getStud($param);
+                      $result = $this->enrollment->getStudents();
                       foreach($result as $info)
                         {
                             extract($info);
@@ -91,7 +91,7 @@
                                     <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
                                     <td><?php echo $course; ?></td>
                                     <td>
-                                        <a class="a-table label label-info" href="/billing/view_bill/<?php echo $partyid ?>/<?php echo $stud_info['legacyid']; ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
+                                        <a class="a-table label label-info" href="/billing/view_bill/<?php echo $stud_info['legacyid'] ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
                                     </td>
                                 </tr>
                             <?php

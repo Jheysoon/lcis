@@ -342,6 +342,7 @@ class Dean extends CI_Controller
     function evaluation($id){
         $this->head();
         $data['id'] = $id;
+        $this->load->model('edp/edp_classallocation');
         $this->load->view('dean/dean_preEnroll', $data);
         $this->load->view('templates/footer');
     }
@@ -437,6 +438,7 @@ class Dean extends CI_Controller
 
     function saveEvaluation(){
         $this->load->model('dean/student');
+        $this->load->model('edp/edp_classallocation');
         $ctr = $this->input->post('count');
         $ctr2 = 1;
 
@@ -447,14 +449,14 @@ class Dean extends CI_Controller
             }
             $ctr--;
         }
+
         extract($names);
         $ctr2 = $ctr2-1;
         $i = $ctr2;
         while ($ctr2 != 0) {
             $ii = $i;
-            $dp = $this->student->getSpecificAllocation(${'var'.$ctr2});
-            $sched = $this->student->getDP($dp['dayperiod']);
-            extract($sched);
+            $dp = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
+            // $sched = $this->student->getDP($dp['dayperiod']);
             $date1 = new DateTime($from);
             $t1 = $date1->format('h:i');
             $date2 = new DateTime($to);
@@ -477,6 +479,7 @@ class Dean extends CI_Controller
                         }
                         else{
                             $conf = 'conflict';
+                            $this->session->flashdata("");
                         }
                         echo $t1."-".$t2."&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;". $t3."-".$t4." - ".$conf."<br/>";
                     }

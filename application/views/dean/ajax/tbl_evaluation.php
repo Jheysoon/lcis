@@ -33,13 +33,9 @@
 
 								$sched = $this->student->getSched($term, $aloccation['subject']);
 								foreach ($sched as $aloc) { 
-									$dp = $this->student->getDP($aloc['dayperiod']);
-									extract($dp);
-									$date1 = new DateTime($from);
-									$t1 = $date1->format('h:i');
-									$date2 = new DateTime($to);
-									$t2 = $date2->format('h:i');
-
+									$p = $this->edp_classallocation->getPeriod($aloc['id']);
+									$d = $this->edp_classallocation->getDayShort($aloc['id']);
+									
 
 									$cl = $this->student->getRoom($aloc['classroom']);
 								?>
@@ -53,8 +49,10 @@
 										    	value = "<?php echo $aloc['id']; ?>"
 										    >
 										</td>
-										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $shortname; ?></td>
-										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $t1.'-'.$t2; ?></td>
+										<td><?php echo $d; ?></td>
+										<td><?php echo $p; ?></td>
+										<!-- <td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $shortname; ?></td> -->
+										<!-- <td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $t1.'-'.$t2; ?></td> -->
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $cl['legacycode']; ?></td>
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $cl['loc']; ?></td>
 									</tr>

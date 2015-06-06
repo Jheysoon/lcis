@@ -405,7 +405,7 @@
 								   WHERE tbl_enrolment.student = tbl_party.id 
 								   AND tbl_enrolment.academicterm = tbl_academicterm.id
 								   AND tbl_academicterm.term != 3
-								   AND tbl_party.legacyid = '$id'");
+								   AND tbl_party.id = '$id'");
 			return $q->num_rows();
 		}
 		function getAllCur($cid){
@@ -447,14 +447,14 @@
 			return $q->result_array();
 		}
 
-		function getDP($id){
-			$q = $this->db->query("SELECT * FROM tbl_day, tbl_period, tbl_dayperiods
-								   WHERE tbl_dayperiods.day = tbl_day.id 
-								   AND tbl_dayperiods.period = tbl_period.id 
-								   AND tbl_dayperiods.id = $id
-								  ");
-			return $q->row_array();
-		}
+		// function getDP($id){
+		// 	$q = $this->db->query("SELECT * FROM tbl_day, tbl_period, tbl_dayperiods
+		// 						   WHERE tbl_dayperiods.day = tbl_day.id 
+		// 						   AND tbl_dayperiods.period = tbl_period.id 
+		// 						   AND tbl_dayperiods.id = $id
+		// 						  ");
+		// 	return $q->row_array();
+		// }
 
 		function getRoom($id){
 			$q = $this->db->query("SELECT legacycode, tbl_location.description as loc FROM tbl_classroom, tbl_location

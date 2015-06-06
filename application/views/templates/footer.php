@@ -101,7 +101,7 @@
             }
         ?>
         <?php 
-                if (uri_string() == 'menu/scholarship-scholarshiplist') { ?>
+                if (uri_string() == 'menu/scholarship-scholarshiplist' OR in_array('billing-list_billing', $str1)) { ?>
                        <script src="/assets/js/typeahead.bundle.js"></script>
                         <script src="/assets/js/handlebars-v3.0.1.js"></script>
                         <script type="text/javascript">
