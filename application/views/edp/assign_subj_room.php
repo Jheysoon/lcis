@@ -25,11 +25,6 @@
 						
 						<?php 
 							$cl 		= $this->edp_classallocation->find($cid);
-							/*$day 		= array();
-							$start_time	= array();
-							$end_time	= array();
-							$isDay		= FALSE;
-							$isTime		= FALSE;*/
 							$conflict	= FALSE;
 
 							$r = $this->edp_classallocation->getAllRoom();
@@ -86,14 +81,14 @@
 												if($conflict == FALSE)
 												{
 													?>
-													<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode']; ?></option>
+													<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode'].' | '.$room['location']; ?></option>
 													<?php
 												}
 											}
 											else
 											{
 									?>
-											<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode']; ?></option>
+											<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode'].' | '.$room['location']; ?></option>
 									<?php
 											}
 										}

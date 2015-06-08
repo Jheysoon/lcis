@@ -47,64 +47,171 @@
 							$day[] = $d['id'];
 						}
 
-						// sample data room id
-						$room_id = 1;
+						$class = $this->edp_classallocation->allocByRoom();
 
-						$class = $this->edp_classallocation->allocByRoom($room_id);
-
-						$monday = array();
-						$tuesday = array();
-						$wednesday = array();
-						$thursday = array();
-						$friday = array();
-						$saturday = array();
-						$sunday = array();
+						$monday 	= array();
+						$tuesday 	= array();
+						$wednesday 	= array();
+						$thursday 	= array();
+						$friday 	= array();
+						$saturday 	= array();
+						$sunday 	= array();
 
 						foreach($class as $cl)
 						{
-							$d = $this->edp_classallocation->getDayPeriod($cl['id']);
-							foreach($d as $day)
+							$dd = $this->edp_classallocation->getDayPeriod($cl['id'],$roomId);
+							foreach ($dd as $per) 
 							{
-								if($day['day'] == 1)
+								if($per['day'] == 1)
 								{
-									
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$monday[$i] = array('day'=>'Monday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$monday[$i] = array('day'=>'Monday');
+										}
+									}
 								}
-								elseif ($day['day'] == 2) {
-									# code...
+								elseif($per['day'] == 2)
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$tuesday[$i] = array('day'=>'Tuesday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$monday[$i] = array('day'=>'Tuesday');
+										}
+									}
 								}
-								elseif ($day['day'] == 3) {
-									# code...
+								elseif ($per['day'] == 3) 
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$wednesday[$i] = array('day'=>'Wednesday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$wednesday[$i] = array('day'=>'Wednesday');
+										}
+									}
 								}
-								elseif ($day['day'] == 4) {
-									# code...
+								elseif ($per['day'] == 4) 
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$thursday[$i] = array('day'=>'Thursday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$thursday[$i] = array('day'=>'Thursday');
+										}
+									}
 								}
-								elseif ($day['day'] == 5) {
-									# code...
+								elseif ($per['day'] == 5) 
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$friday[$i] = array('day'=>'Friday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$friday[$i] = array('day'=>'Friday');
+										}
+									}
 								}
-								elseif ($day['day'] == 6) {
-									# code...
+								elseif ($per['day'] == 6) 
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$saturday[$i] = array('day'=>'Saturday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$saturday[$i] = array('day'=>'Saturday');
+										}
+									}
 								}
-								elseif ($day['day'] == 7) {
-									# code...
+								elseif ($per['day'] == 7) 
+								{
+									$from 	= $per['from_time'];
+									$to 	= $per['to_time'];
+									$span 	= $to-$from;
+									$tt 	= $to - 1;
+									$s 		= $this->subject->find($cl['subject']);
+									$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+									for($i = $from;$i <= $tt;$i++)
+									{
+										if($i == $from)
+										{
+											$sunday[$i] = array('day'=>'Sunday','rowspan' => $span,'subject' => $s['code'],'course' => $cc);
+										}
+										else
+										{
+											$sunday[$i] = array('day'=>'Sunday');
+										}
+									}
 								}
 							}
 						}
 
-						
-						$monday[5] = array('day'=>'Monday');
-						$monday[6] = array('day'=>'Monday');
-						$monday[7] = array('day'=>'Monday');
 						$table_day['1'] = $monday;
-						$table_day['1'][5]['rowspan'] = 3;
-
-						
-						$tuesday[6] = array('day'=>'Monday');
-						$tuesday[7] = array('day'=>'Monday');
-						$tuesday[8] = array('day'=>'Monday');
-						$tuesday[9] = array('day'=>'Monday');
-						$tuesday[10] = array('day'=>'Monday');
-						$table_day['2'] = $tuesday;
-						$table_day['2'][6]['rowspan'] = 5;
+						$table_day['2']	= $tuesday;
+						$table_day['3'] = $wednesday;
+						$table_day['4'] = $thursday;
+						$table_day['5'] = $friday;
+						$table_day['6'] = $saturday;
+						$table_day['7'] = $sunday;
 
 						for($i = 0;$i < 25;$i++)
 						{
@@ -123,7 +230,11 @@
 										{
 										?>
 										<td rowspan="<?php echo $table_day[$d][$i+1]['rowspan']; ?>" class="colspan" style="background-color:#3c763d;">
-											<span>Subject</span>
+											<span>
+												<?php echo $table_day[$d][$i+1]['subject']; ?>
+												<br/>
+												<?php echo $table_day[$d][$i+1]['course']; ?>
+											</span>
 										</td>
 										<?php
 										}

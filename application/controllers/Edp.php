@@ -124,7 +124,8 @@ class Edp extends CI_Controller
     {
         $this->load->model(array(
             'edp/classroom',
-            'edp/edp_classallocation'
+            'edp/edp_classallocation',
+            'dean/subject'
         ));
         
         $data['roomId']     = $roomId;
