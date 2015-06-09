@@ -76,7 +76,7 @@
         ?>
 
         <?php
-            if(uri_string() == 'menu/dean-studentlist')
+            if(in_array('dean-studentlist', $str1))
             {
                 ?>
                 <script src="/assets/js/typeahead.bundle.js"></script>
