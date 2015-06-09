@@ -491,7 +491,7 @@
 				'registration' => $registration,
 				'academicterm' => $academicterm,
 				'totalunit' => $units,
-				'status' = > $status
+				'status' => $status
 			);
 
 			$this->db->insert_string('tbl_enrolment', $data);

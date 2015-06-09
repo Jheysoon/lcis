@@ -18,8 +18,8 @@
             <?php echo $this->session->flashdata('message'); ?>
             <div class="col-md-6">
             <?php
-                $config['base_url'] = base_url().'index.php/menu/registrar-student_list';
-                $config['total_rows'] = $this->enrollment->getRows();
+                $config['base_url'] = base_url().'index.php/menu/billing-list_billing';
+                $config['total_rows'] = $this->enrollment->enrolled();
                 $config['per_page'] = 15;
                 $config['num_links'] = 2;
                 $config['first_link'] = 'First';
@@ -56,7 +56,7 @@
             </ul>
             </div>
             <div class="col-md-6"><br/>
-                <form class="navbar-form navbar-right" action="/registrar/search" method="post" role="search">
+                <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
                     <input type="hidden" id = "thestatus" name = "stats">
                 
                     <div class="form-group">

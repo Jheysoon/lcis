@@ -17,10 +17,14 @@ class Billing extends CI_Controller
 			    		$this->load->model('cashier/assesment');
 			    		$data['legacyid'] = $legacyid;
 			    		$this->load->view('audit/view_assesment', $data);
+
 			    }
 			    function view_studentbilling(){
 			    	$this->head();
 			    	$this->load->view('audit/view_studentbilling');
+			    }
+			    function search(){
+			    	redirect('/billing/view_bill/'.$this->input->post('search'));
 			    }
 	}
 

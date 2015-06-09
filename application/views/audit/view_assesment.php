@@ -6,7 +6,9 @@
 		</div>
 
 		<div class="panel-body">
-		<?php 
+		<?php
+			echo $legacyid;
+		 
 				$info = $this->assesment->getstudinfo($legacyid);
 				extract($info);
 				$acadinfo = $this->assesment->getAcadinfo($id);
@@ -58,9 +60,11 @@
 						$yearlevel = 'Third Year';
 					}elseif ($getyear == 4) {
 						$yearlevel = 'Fourth Year';
+					}else{
+						$yearlevel = 'Not Defined';
 					}
 				 ?>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevels; ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>">							
 			<br />
 			</div>
 		
@@ -156,7 +160,10 @@
 					</tr>
 					<tr>
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
-						<th class="tblNum">12,195.95</th>
+						<th class="tblNum"><?php
+						setlocale(LC_MONETARY, 'en_US');
+						 echo number_format('11232195.95', 2, '.', ',');
+						  ?></th>
 					</tr>
 				</table>
 			</div>

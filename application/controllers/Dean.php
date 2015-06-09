@@ -10,6 +10,8 @@
 class Dean extends CI_Controller
 {
     public $message1;
+    public $error;
+
     private function head()
     {
 
@@ -596,6 +598,28 @@ class Dean extends CI_Controller
             'edp/edp_classallocation',
             'dean/subject'
         ));
+
+        $this->load->helper('form');
+
+        if($this->input->post('days_count'))
+        {
+            $ret = $this->ass_subj();
+            if($ret == TRUE)
+            {
+                redirect('/menu/dean-add_day_period');
+            }
+        }
+
+        if($this->input->post('days_count') == NULL)
+        {
+            $data['num'] = 0;
+        }
+        else
+        {
+            $data['num'] = $this->input->post('days_count') - 1;
+        }
+
+        $data['error'] = $this->error;
         $data['cid'] = $cid;
         $this->load->view('dean/assigned_subj',$data);
         $this->load->view('templates/footer');
@@ -612,7 +636,6 @@ class Dean extends CI_Controller
             </tr>';
         for($i=1;$i <= $cid; $i++)
         {
-            
             $template .= '<tr>
                 <td>
                     <select class="form-control" name="day[]">';
@@ -620,15 +643,12 @@ class Dean extends CI_Controller
                         foreach($d as $day){
                             $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
                         }
-                   
                     $template .= '</select>
                 </td>
                 <td>
                     <select class="form-control" name="start_time[]">';
-                
                         $t = $this->db->get('tbl_time')->result_array();
                         foreach($t as $time){
-                    
                         $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
                       } 
                      $template .= '</select>
@@ -640,10 +660,8 @@ class Dean extends CI_Controller
                             if($time['id'] != 1){
                      
                             $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                     
                             } 
                         }
-                       
                     $template .='</select>
                 </td>
             </tr>';
@@ -661,32 +679,55 @@ class Dean extends CI_Controller
 
         $index = count($day);
 
+        $this->db->where('classallocation',$cid);
+        $dd = $this->db->count_all_results('tbl_dayperiod');
+        if($dd > 0)
+        {
+            $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+        }
+
         foreach($day as $key => $value)
         {
             if($index < 3)
             {
-                if($day[0] == $day[1]){
-                    $this->session->set_flashdata('message','<div class="alert alert-danger">Subject days must be unique</div>');
-                    redirect($url);
+                if($day[0] == $day[1])
+                {
+                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    return FALSE;
                 }
             }
             elseif($index < 4)
             {
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
                 {
-                    $this->session->set_flashdata('message','<div class="alert alert-danger">Subject days must be unique</div>');
-                    redirect($url);
+                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    return FALSE;
                 }
             }
 
-            $data['classallocation']    = $cid;
-            $data['day']                = $value;
-            $data['from_time']          = $start_time[$key];
-            $data['to_time']            = $end_time[$key];
-                     
-            $this->db->insert('tbl_dayperiod',$data);
+            if($start_time[$key] != 11 AND $end_time[$key] != 12)
+            {
+                if($end_time[$key] > $start_time[$key])
+                {
+                    $data['classallocation']    = $cid;
+                    $data['day']                = $value;
+                    $data['from_time']          = $start_time[$key];
+                    $data['to_time']            = $end_time[$key];
+                    $this->db->insert('tbl_dayperiod',$data);
+                }
+                else
+                {
+                    $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
+                    return FALSE;
+                }
+            }
+            else
+            {
+                $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
+                return FALSE;
+            }
         }
-        $this->session->set_flashdata('message','<div class="alert alert-success">Successfully added</div>');
-        redirect('/menu/dean-add_day_period');
+        $this->api->set_session_message('success','Successfully added');
+        return TRUE;
     }
 }

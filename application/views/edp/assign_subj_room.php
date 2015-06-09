@@ -11,63 +11,97 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-					<div class="col-md-4">
-					
-					</div>
-					<div class="col-md-4">
-						<select class="form-control">
+					<form action="/edp/add_room_class" method="post">
+						<input type="hidden" name="cid" value="<?php echo $cid; ?>">
+						<table class="table">
+							<tr>
+								<th>Subject</th>
+								<th>Course</th>
+								<th>Day</th>
+								<th>Period</th>
+								<th>Room</th>
+							</tr>
+							
+						
 						<?php 
 							$cl 		= $this->edp_classallocation->find($cid);
-							$classroom 	= $cl['classroom'];
-							$day 		= array();
-							$start_time	= array();
-							$end_time	= array();
-							$isDay		= FALSE;
-							$isTime		= FALSE;
+							$conflict	= FALSE;
+
+							$r = $this->edp_classallocation->getAllRoom();
+
+							// get day/period of the subject suggested by dean
 							$dayPeriod	= $this->edp_classallocation->getDayPeriod($cid);
+
 							foreach($dayPeriod as $dp)
 							{
-								$day[]			= $dp['day'];
-								$time 			= $this->edp_classallocation->getPeriodId($dp['period']);
-								$start_time[] 	= $time['from_time'];
-								$end_time[]		= $time['to_time'];
-							}
-							$r 			= $this->classroom->all();
-							foreach($r as $room)
-							{
-								$cc = $this->edp_classallocation->roomUsed($room['id']);
-								if($cc > 0)
-								{
-									$clid = $this->edp_classallocation->getClid($room['id']);
-									foreach($clid as $cl1)
-									{
-										$dd = $this->edp_classallocation->getDays($cl1['id']);
-										foreach($dd as $dd1)
+						?>
+							<tr>
+								<input type="hidden" name="dayperiodId[]" value="<?php echo $dp['id']; ?>">
+								<input type="hidden" name="day[]" value="<?php echo $dp['day']; ?>">
+								<input type="hidden" name="from_time[]" value="<?php echo $dp['from_time']; ?>">
+								<input type="hidden" name="to_time[]" value="<?php echo $dp['to_time']; ?>">
+								<td>
+									<?php 
+										$s = $this->subject->find($cl['subject']);
+										echo $s['code'];
+									 ?>
+								</td>
+								<td><?php echo $this->api->getCourseMajor($cl['coursemajor']); ?></td>
+								<td>
+								<?php 
+									$d = $this->edp_classallocation->findDay($dp['day']);
+									echo $d['shortname'];
+								?>
+								</td>
+								<td>
+								<?php 
+									echo  $this->edp_classallocation->getPeriodRange($dp['from_time'],$dp['to_time']);
+								 ?>
+								</td>
+								<td>
+									<select class="form-control" name="room[]">
+									<?php 
+										foreach($r as $room)
 										{
-											if(in_array($dd1['day'], $day))
-												$isDay = TRUE;
-										}
-										if($isDay == FALSE)
-										{
-											?>
-											<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode']; ?></option>
-									<?php
-										}
-									}
-								}
-								else
-								{
+											$q = $this->db->get_where('tbl_dayperiod',array('classroom' => $room['id'],'day' => $dp['day']));
+											if($q->num_rows() > 0)
+											{
+												foreach($q->result_array() as $qq)
+												{
+													$st 	= $this->db->get_where('tbl_time',array('id' => $qq['from_time']))->row_array();
+													$dp12 	= $this->db->get_where('tbl_time',array('id'=> $dp['from_time']))->row_array();
+													$dp22 	= $this->db->get_where('tbl_time',array('id'=> $dp['to_time']))->row_array();
+													$en 	= $this->db->get_where('tbl_time',array('id' => $qq['to_time']))->row_array();
+													$con 	= $this->api->intersectCheck($dp12['time'],$st['time'],$dp22['time'],$en['time']);
+													if($con == TRUE)
+													{
+														$conflict = TRUE;
+													}
+												}
+												if($conflict == FALSE)
+												{
+													?>
+													<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode'].' | '.$room['location']; ?></option>
+													<?php
+												}
+											}
+											else
+											{
 									?>
-									<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode']; ?></option>
+											<option value="<?php echo $room['id']; ?>"><?php echo $room['legacycode'].' | '.$room['location']; ?></option>
+									<?php
+											}
+										}
+									 ?>
+									</select>
+								</td>
+							</tr>
 						<?php
-								}
 							}
-						 ?>
-						</select>
-					</div>
-					<div class="col-md-4">
-					
-					</div>
+						?>
+						</table>
+						<input type="submit" value="Assign Room" class="btn btn-primary btn-sm pull-right" style="margin-top:5px;">
+					</form>
 				</div>
 			</div>
 		</div>
