@@ -123,35 +123,36 @@ class Api
             $overlap = $intersect / 3600;
             if ( $overlap <= 0 ):
                 // There are no time conflicts
-                return TRUE;
+                return FALSE;
                 else:
                 // There is a time conflict
                 // echo '<p>There is a time conflict where the times overlap by ' , $overlap , ' hours.</p>';
-                return FALSE;
+                return TRUE;
             endif;
     }
 
     function getYearLevel($id){
-    	$this->load->model('dean/student');
+    	$this->CI->load->model('dean/student');
 
-		$yr = $this->student->getYearLevel($id);
+		$yr = $this->CI->student->getYearLevel($id);
+		$year['count'] = $yr;
 		if ($yr == 0) {
-			$yr = 0;
+			$level = 0;
 		}
 		else if ($yr == 1 || $yr == 2) {
-			$yr = 1;
+			$level = 1;
 		}
 		else if ($yr == 3 || $yr == 4) {
-			$yr = 2;
+			$level = 2;
 		}
 		else if ($yr == 5 || $yr == 6) {
-			$yr = 3;
+			$level = 3;
 		}
 		else{
-			$yr = 4;
+			$level = 4;
 		}
-
-		return $yr;
+		$year['level'] = $level;
+		return $year;
 
     }
 }

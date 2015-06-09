@@ -401,20 +401,18 @@
 		}
 
 		function getYearLevel($id){
-			$q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_academicterm, tbl_party
-								   WHERE tbl_enrolment.student = tbl_party.id 
-								   AND tbl_enrolment.academicterm = tbl_academicterm.id
+			$q = $this->db->query("SELECT * FROM tbl_enrolment, tbl_academicterm
+								   WHERE tbl_enrolment.academicterm = tbl_academicterm.id
 								   AND tbl_academicterm.term != 3
-								   AND tbl_party.id = '$id'");
+								   AND tbl_enrolment.student = '$id'");
 			return $q->num_rows();
 		}
-		function getAllCur($cid){
-			$where = 'tbl_curriculum.academicterm = tbl_academicterm.id AND coursemajor ='.$cid;
-			$this->db->order_by('systart', 'DESC');
+		function getAllCur($curriculum){
+			$where = 'tbl_curriculum.academicterm = tbl_academicterm.id AND tbl_curriculum.id = '.$curriculum;
 			$this->db->where($where);
-			$this->db->select("`tbl_curriculum.id`, `systart`, `syend`");
+			$this->db->select("`systart`, `syend`");
 			$q = $this->db->get("tbl_curriculum, tbl_academicterm");
-			return $q->result_array();
+			return $q->row_array();
 		}
 
 		function getClassAloc($academicterm, $student, $coursemajor){
@@ -468,6 +466,52 @@
 			$this->db->where('id', $id);
 			$this->db->select('dayperiod');
 			$q = $this->db->get('tbl_classallocation');
+			return $q->row_array();
+		}
+
+		function getRegID($student){
+			$q = $this->db->query("SELECT id FROM tbl_registration
+								   WHERE student = '$student' ORDER BY id DESC LIMIT 1
+								  ");
+			extract($q->row_array());
+			return $id;
+		}
+
+		function getUnits($id){
+			$q = $this->db->query("SELECT units, nonacademic FROM tbl_subject
+								   WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = '$id')
+								  ");
+			return $q->row_array();
+		}
+
+		function addEnrolment($student, $coursemajor, $registration, $academicterm, $units, $status){
+			$data = array(
+				'student' => $student, 
+				'coursemajor' => $coursemajor,
+				'registration' => $registration,
+				'academicterm' => $academicterm,
+				'totalunit' => $units,
+				'status' = > $status
+			);
+
+			$this->db->insert_string('tbl_enrolment', $data);
+			return $this->db->insert_id();
+		}
+
+		function addInitialGrade($alloc, $enrolment){
+			$data = array(
+				'classallocation' => $alloc, 
+				'enrolment' => $enrolment
+			);
+
+			$this->db->insert_string('tbl_studentgrade', $data);
+		}
+
+		function getUnit($cur, $level, $term){
+			$q = $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail, `tbl_subject` 
+						WHERE curriculum = '$cur' AND yearlevel = '$level' AND term = '$term' AND
+						tbl_curriculumdetail.subject = tbl_subject.id AND nonacademic = 0
+			");
 			return $q->row_array();
 		}
 	}

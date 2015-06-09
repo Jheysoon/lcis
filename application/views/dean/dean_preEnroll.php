@@ -8,20 +8,34 @@
 	$sys = $this->api->systemValue();
 	$term = $sys['phaseterm'];
 	$sy = $this->student->getAcTerm($term);
+	$yl = $this->api->getYearLevel($pid);
+	extract($yl);
+	if ($level < 4 and $count != 0) {
+		if ($count%2 != 1) {
+			$level = $level + 1;
+		}
+	}
 
-	$yr = $this->student->getYearLevel($id);
-	if ($yr == 0) {
-		$yr = 'FIRST';
+	if ($level == 1 || $level == 0) {
+		$level = 'FIRST';
+		$lvl = 1;
 	}
-	else if ($yr == 1 || $yr == 2) {
-		$yr = 'SECOND';
+	else if($level == 2){
+		$level = 'SECOND';
+		$lvl = 2;
 	}
-	else if ($yr == 3 || $yr == 4) {
-		$yr = 'THIRD';
+	else if($level == 3){
+		$level = 'THIRD';
+		$lvl = 3;
 	}
 	else{
-		$yr = 'FOURTH';
+		$level = 'FOURTH';
+		$lvl = 4;
 	}
+
+	$un = $this->student->getUnit($curriculum, $lvl, $sy['term']);
+	$cur = $this->student->getAllCur($curriculum);
+
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -30,9 +44,15 @@
 		<div class="panel-heading search">
 			<h4>Pre Enrollment Evaluation</h4>
 		</div>
-
-
 		<div class="panel-body">
+		
+			<div class="col-md-12">
+				<?php 
+					echo $message;
+					$cur = extract($cur);
+					$cur = $systart."-".$syend;
+				 ?>
+			</div>
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT ID</label>
 				<input class="form-control" type="text" readonly value="<?php echo $id; ?>">							
@@ -54,7 +74,7 @@
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">YEAR LEVEL</label>
-				<input class="form-control" type="text" readonly value="<?php echo $yr.' YEAR'; ?>">							
+				<input class="form-control" type="text" readonly value="<?php echo $level.' YEAR'; ?>">							
 			</div>
 
 			<div class="col-md-6 ">
@@ -63,6 +83,11 @@
 			</div>
 
 			<div class="col-md-4 ">
+				<label class="lbl-data">CURRICULUM</label>
+				<input class="form-control" type="text" readonly value="<?php echo $cur; ?>">							
+			</div>
+
+			<!-- <div class="col-md-4 ">
 				<label class="lbl-data">CURRICULUM</label>
 				<select class="form-control">
 					<option></option>
@@ -76,22 +101,23 @@
 							?>
 							value=<?php echo $key['id'] ?>
 							>
-							<?php echo $key['systart']."-".$key['syend'] ?>
+							<?php echo $key['systart']."-".$key['syend']; ?>
 							</option>;
 					<?php	}
 					 ?>
 				</select>							
-			</div>
+			</div> -->
 			<div class="col-md-2">
 						<br/><br/>
                         <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $pid; ?>/<?php echo $dte; ?>/<?php echo $cid; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
 			</div>
 			<div class="col-md-12">&nbsp;</div>
-
 		<div class="col-md-12" id="tbl-eval">		
 			<?php 
 				$data['term'] = $term;
+				$data['id'] = $id;
 				$data['student'] = $pid;
+				$data['units'] = $un['unit'];
 				$data['coursemajor'] = $cid;
 				$this->load->view('dean/ajax/tbl_evaluation', $data); 
 			?>
