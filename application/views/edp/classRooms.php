@@ -7,7 +7,7 @@
 				<?php 
 					$systemVal 	= $this->api->systemValue();
 					$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
-					echo $acam['systart'].' - '.$acam['syend'].' Term:'.$acam['term']; 
+					echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']); 
 				 ?>
 				</h4>		
 			</div>
