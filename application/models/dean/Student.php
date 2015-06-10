@@ -233,31 +233,6 @@
  						echo "</tr>";				
 			}
 			echo "</table>";
-		//	echo $computer . "<br />";
-		//	echo $totalbook = $booklet * $numberofsubject * 4 . "<br />";
-		//	echo $netenrol + $tuition + $mat + $totalbook + $computer + $laboratory;
-			//$dis = $this->db->query("SELECT percent FROM `tbl_discount`, tbl_billdiscount WHERE student = '$student' AND tbl_discount.id = discount")->row_array();
-			// $where = "tbl_discount.id = tbl_billdiscount.discount";
-			// $this->db->where('student', $student);
-			// $this->db->where($where);
-			// $this->db->select('percent');
-			// $dis = $this->db->get('tbl_discount, tbl_billdiscount')->row_array();
-			//$discount = $dis['percent']/100;
-/*
-			$discount = 0.1;
-			echo "Discount |".  $discount  . "<br />";
-			echo "Computer |" . $computer . "<br />";
-			echo "Booklet |" . $booklet . "<br />";
-			echo "Laboratory |" . $laboratory . "<br />";
-			echo "Matriculation |" . $mat . "<br />";
-			echo "Leyte Times |" . $leytetymes . "<br />";
-			echo "Internet Fee |" . $internetfee . "<br />";
-			echo "NSTP |" . $nstp . "<br />";
-			echo "Miscellaneous |" . $miscellaneous . "<br />";
-			echo "Tuition|" . $tuition . "<br />";
-
-			echo "Discount|" . $netfull = $tuition * $discount . "<br />";
-			echo "Discounted Tuition|" . $discounted = $tuition - $netfull . "<br />";*/
 			$discount = 10/100;
 			$netfull = $tuition * $discount;
 			$install = $tuition / 5;
