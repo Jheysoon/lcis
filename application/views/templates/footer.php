@@ -51,17 +51,9 @@
                 ?>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        /*val = $('input[name=chkAcam]').val();
-                        if(val < 1)
-                        {*/
-                            $.post('/edp/load_stat',{},function (data){
-                                $('#stat_wrapper').html(data);
-                            });
-                        /*}
-                        else
-                        {
-                            $('#stat_wrapper').html('<div class="alert alert-info">Already have a student statistics</div>');
-                        }*/
+                        $.post('/edp/load_stat',{},function (data){
+                            $('#stat_wrapper').html(data);
+                        });
                     });
                 </script>
         <?php
@@ -75,7 +67,6 @@
                             $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
                                 
                             });
-                            //$(this).parent().hide('1000');
                             e.preventDefault();
                         });
                     });
@@ -85,7 +76,7 @@
         ?>
 
         <?php
-            if(uri_string() == 'menu/dean-studentlist')
+            if(in_array('dean-studentlist', $str1))
             {
                 ?>
                 <script src="/assets/js/typeahead.bundle.js"></script>

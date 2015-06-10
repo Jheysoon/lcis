@@ -52,8 +52,17 @@ class Subject extends CI_Model
 
 	function whereCode_owner($owner,$sid)
 	{
-		$this->db->where('owner',$owner);
-		$this->db->where('id',$sid);
+		if($owner == 1)
+		{
+			$this->db->where('id',$sid);
+			$this->db->where('owner',$owner);
+			$this->db->or_where('gesubject','1');
+		}
+		else
+		{
+			$this->db->where('id',$sid);
+			$this->db->where('owner',$owner);
+		}
 		return $q = $this->db->count_all_results('tbl_subject');
 	}
 	function getCode_owner($owner,$sid)
@@ -68,8 +77,15 @@ class Subject extends CI_Model
 	}
 	function subjectOwner($owner)
 	{
-		$this->db->where('owner',$owner);
-		//$this->db->or_where('owner',0);
+		if($owner == 1)
+		{
+			$this->db->where('gesubject','1');
+			$this->db->or_where('owner',$owner);
+		}
+		else
+		{
+			$this->db->where('owner',$owner);
+		}
 		return $this->db->get('tbl_subject')->result_array();
 	}
 }

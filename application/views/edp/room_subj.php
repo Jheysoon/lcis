@@ -20,13 +20,19 @@
 					<th style="text-align:center;">Day</th>
 					<th style="text-align:center;">Period</th>
 					<th style="text-align:center;">Action</th>
+					<th style="text-align:center;">Status</th>
 				</tr>
 				<?php 
 					$r = $this->edp_classallocation->getEmptyRoom();
 					foreach($r as $room)
 					{
-						if($this->edp_classallocation->chkDayPeriod($room['id']) > 0)
+						$this->db->where('classallocation',$room['id']);
+						$this->db->where('classroom',0);
+						$rr = $this->db->count_all_results('tbl_dayperiod');
+						if($rr > 0)
 						{
+							if($this->edp_classallocation->chkDayPeriod($room['id']) > 0)
+							{
 						?>
 				<tr>
 					<td>
@@ -46,10 +52,27 @@
 					<td style="text-align:center;">
 						<?php echo $this->edp_classallocation->getPeriod($room['id']); ?>
 					</td>
-					<td><a href="/assign_room/<?php echo $room['id']; ?>" class="btn btn-primary btn-xs">Assign Room</a></td>
+					
+					<td>
+					<?php 
+						$style = '';
+						if(!empty($room['status']))
+						{
+							$style = 'disabled';
+						}
+					?>
+					<a href="/assign_room/<?php echo $room['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Assign Room</a></td>
+					<td>
+						<?php 
+							if($room['status'] == 'O')
+							{
+								echo 'Room Assigned';
+							}
+						 ?>
+					</td>
 				</tr>
-
 				<?php
+							}
 						}
 					}
 				 ?>

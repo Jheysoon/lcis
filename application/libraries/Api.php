@@ -95,9 +95,7 @@ class Api
 				return 'error';
 		}
 		else
-		{
 			return 'error';
-		}
 	}
 
 	function userMenu()
@@ -112,7 +110,10 @@ class Api
         $this->CI->load->view('templates/header_title2');
 	}
 
+	// 1:00-3:00 / 2:00-5:00
 
+	//$from = 1:00,	$from_compare 	= 2:00
+	//$to 	= 3:00,	$to_compare 	= 5:00
     function intersectCheck($from, $from_compare, $to, $to_compare){
         $from = strtotime($from);
         $from_compare = strtotime($from_compare);
@@ -123,34 +124,41 @@ class Api
             $overlap = $intersect / 3600;
             if ( $overlap <= 0 ):
                 // There are no time conflicts
-                return TRUE;
+                return FALSE;
                 else:
                 // There is a time conflict
                 // echo '<p>There is a time conflict where the times overlap by ' , $overlap , ' hours.</p>';
-                return FALSE;
+                return TRUE;
             endif;
     }
 
     function getYearLevel($id){
     	$this->CI->load->model('dean/student');
+
 		$yr = $this->CI->student->getYearLevel($id);
+		$year['count'] = $yr;
 		if ($yr == 0) {
-			$yr = 0;
+			$level = 0;
 		}
 		else if ($yr == 1 || $yr == 2) {
-			$yr = 1;
+			$level = 1;
 		}
 		else if ($yr == 3 || $yr == 4) {
-			$yr = 2;
+			$level = 2;
 		}
 		else if ($yr == 5 || $yr == 6) {
-			$yr = 3;
+			$level = 3;
 		}
 		else{
-			$yr = 4;
+			$level = 4;
 		}
+		$year['level'] = $level;
+		return $year;
 
-		return $yr;
+    }
 
+    function set_session_message($type = 'success',$message,$name = 'message')
+    {
+    	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
 }

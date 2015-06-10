@@ -7,13 +7,24 @@ class Edp_classallocation extends CI_Model
 		$systemVal = $this->api->systemValue();
 		$nxt = $systemVal['nextacademicterm'];
 		$this->db->where('academicterm',$nxt);
-		$this->db->where('classroom',$rid);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
-	function getDayPeriod($cid)
+	function getDayPeriod($cid,$rid)
+	{
+		$this->db->where('classallocation',$cid);
+		$this->db->where('classroom',$rid);
+		return $this->db->get('tbl_dayperiod')->result_array();
+	}
+	function getDayPeriod1($cid)
 	{
 		$this->db->where('classallocation',$cid);
 		return $this->db->get('tbl_dayperiod')->result_array();
+	}
+	function countDayPer($cid,$rid)
+	{
+		$this->db->where('classallocation',$cid);
+		$this->db->where('classroom',$rid);
+		return $this->db->count_all_results('tbl_dayperiod');
 	}
 	function getAlloc($acam)
 	{
@@ -30,7 +41,6 @@ class Edp_classallocation extends CI_Model
 	{
 		$systemVal = $this->api->systemValue();
 		$this->db->where('academicterm',$systemVal['nextacademicterm']);
-		$this->db->where('classroom',NULL);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
 
@@ -72,10 +82,17 @@ class Edp_classallocation extends CI_Model
 		return implode(' / ', $array);
 	}
 
+	###### getPeriodId to be removed
 	function getPeriodId($pid)
 	{
 		$this->db->where('id',$pid);
 		return $this->db->get('tbl_period')->row_array();
+	}
+
+	function getTime($tid)
+	{
+		$this->db->where('id',$tid);
+		return $this->db->get('tbl_time')->row_array();
 	}
 
 	function roomUsed($rid)
@@ -119,4 +136,37 @@ class Edp_classallocation extends CI_Model
 		}
 		return implode(',', $ar);
 	}
+
+	function findDay($id)
+	{
+		$this->db->where('id',$id);
+		return $this->db->get('tbl_day')->row_array();
+	}
+
+	function getPeriodRange($from,$to)
+	{
+		$this->db->where('id',$from);
+		$f 	= $this->db->get('tbl_time')->row_array();
+		$ff = $f['time'];
+		$this->db->where('id',$to);
+		$t 	= $this->db->get('tbl_time')->row_array();
+		$tt = $t['time'];
+		return $ff.' - '.$tt;
+	}
+	function getAllRoom()
+	{
+		return $this->db->get('tbl_classroom')->result_array();
+	}
+	function updateClassroom($room,$dpId)
+	{
+		$data['classroom']  = $room;
+        $this->db->where('id',$dpId);
+        $this->db->update('tbl_dayperiod',$data);
+	}
+	function getCourseShort($cid)
+	{
+		$q = $this->db->query("SELECT shortname FROM tbl_course WHERE id = (SELECT course FROM tbl_coursemajor WHERE id = $cid)")->row_array();
+		return $q['shortname'];
+	}
+	
 }

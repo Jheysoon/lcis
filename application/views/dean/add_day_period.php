@@ -7,13 +7,13 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div class="col-md-12 col-bg">
+					
 					</div>
 				</div>
 				<div class="col-md-12">
-				<?php echo $this->session->flashdata('message'); ?>
-					
-				
 					<?php 
+						echo $this->session->flashdata('message'); 
+					
 						$systemVal 	= $this->api->systemValue();
 						$this->db->where('academicterm',$systemVal['nextacademicterm']);
 						$cc = $this->db->count_all_results('tbl_classallocation');
@@ -21,6 +21,13 @@
 						{
 							?>
 					<table class="table">
+						<caption>
+						<?php 
+							$systemVal 	= $this->api->systemValue();
+							$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']); 
+						 ?>
+						 </caption>
 						<tr>
 							<th>Subject</th>
 							<th>Course</th>
@@ -49,8 +56,24 @@
 											echo $this->api->getCourseMajor($subj['coursemajor']);
 										 ?>
 									</td>
-									<td><a href="/add_day_period/<?php echo $subj['id']; ?>" class="btn btn-primary btn-xs">Add Day/Period</a></td>
-									<td>Checking</td>
+									<td>
+									<?php 
+										$style = '';
+										if(!empty($subj['status']))
+											$style = 'disabled'
+									 ?>
+										<a href="/add_day_period/<?php echo $subj['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a></td>
+									<td>
+										<?php 
+										if(empty($subj['status']))
+											echo 'Checking';
+										else{
+											if($subj['status'] == 'O')
+												echo 'OK';
+										}
+											
+										 ?>
+									</td>
 								</tr>
 							<?php
 								}

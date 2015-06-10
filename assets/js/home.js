@@ -36,6 +36,10 @@ $(document).ready(function(){
         var counter = $('input[name=counter]').val()
 
         // counter = Number(counter) + Number(un);
+        if ($('#radinput[name=rad-' + cl + ']').is(':checked')) {
+            $('#rad-' + id)[0].checked = false;
+            // counter = Number($('input[name=counter]').val()) + Number(un);
+        }
 
         if ($('input[name=rad-' + cl + ']').is(':checked')) {
             $('#rad-' + id)[0].checked = false;
@@ -45,12 +49,12 @@ $(document).ready(function(){
             $('#rad-' + id)[0].checked = true;
         }
 
-        if(counter > 24){
-            alert('sobra na');
-        }
-        else{
-            $('input[name=counter]').val(counter);
-        }
+        // if(counter > 24){
+        //     alert('sobra na');
+        // }
+        // else{
+        //     $('input[name=counter]').val(counter);
+        // }
 
        
     }
