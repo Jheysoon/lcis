@@ -11,6 +11,7 @@ class Dean extends CI_Controller
 {
     public $message1;
     public $error;
+    public $sample;
 
     private function head()
     {
@@ -354,6 +355,7 @@ class Dean extends CI_Controller
             }
         }
         $data['message'] = $this->message1;
+        $data['sample'] = $this->sample;
         $this->load->view('dean/dean_preEnroll', $data);
         $this->load->view('templates/footer');
     }
@@ -515,12 +517,13 @@ class Dean extends CI_Controller
             return false;
         }
         else if ($message == '') {
-            $student = $this->input->post('student');
-            $coursemajor = $this->input->post('coursemajor');
-            $registraton = $this->input->post('registration');
-            $academicterm = $this->input->post('academicterm');
+            echo $student = $this->input->post('student');
+            echo $coursemajor = $this->input->post('coursemajor');
+            echo $registration = $this->input->post('registration');
+            echo $academicterm = $this->input->post('academicterm');
 
-            $status = 'EVALUATED';
+            $status = 'E';
+
 
             $enid = $this->student->addEnrolment($student, $coursemajor, $registration, $academicterm, $unit, $status);
 
@@ -528,11 +531,16 @@ class Dean extends CI_Controller
                 $this->student->addInitialGrade($value, $enid);
             }
 
+
+            $this->sample = array($student, $coursemajor, $registration, $academicterm, $unit, $status, $enid);
+
+            $this->calculatebill($enid);
+
             $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <strong>Evaluation successfuly saved</strong><br/>
             </div>';
-            return true;
+            return false;
 
             // $this->session->set_flashdata('message',$message);
         }
@@ -545,7 +553,7 @@ class Dean extends CI_Controller
             return false;
             // $this->session->set_flashdata('message',$message);
         }
-        return true;
+        // return true;
         // redirect('/dean_evaluation/'.$this->input->post('legid'));
         // $this->evaluation($this->input->post('legid'));
 
