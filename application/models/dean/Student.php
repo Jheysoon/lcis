@@ -90,6 +90,7 @@
 			$discount = 0;
 			$nstp = 0;
 			$leytetymes = 0;
+			echo $enid;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
 			$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
@@ -233,31 +234,6 @@
  						echo "</tr>";				
 			}
 			echo "</table>";
-		//	echo $computer . "<br />";
-		//	echo $totalbook = $booklet * $numberofsubject * 4 . "<br />";
-		//	echo $netenrol + $tuition + $mat + $totalbook + $computer + $laboratory;
-			//$dis = $this->db->query("SELECT percent FROM `tbl_discount`, tbl_billdiscount WHERE student = '$student' AND tbl_discount.id = discount")->row_array();
-			// $where = "tbl_discount.id = tbl_billdiscount.discount";
-			// $this->db->where('student', $student);
-			// $this->db->where($where);
-			// $this->db->select('percent');
-			// $dis = $this->db->get('tbl_discount, tbl_billdiscount')->row_array();
-			//$discount = $dis['percent']/100;
-/*
-			$discount = 0.1;
-			echo "Discount |".  $discount  . "<br />";
-			echo "Computer |" . $computer . "<br />";
-			echo "Booklet |" . $booklet . "<br />";
-			echo "Laboratory |" . $laboratory . "<br />";
-			echo "Matriculation |" . $mat . "<br />";
-			echo "Leyte Times |" . $leytetymes . "<br />";
-			echo "Internet Fee |" . $internetfee . "<br />";
-			echo "NSTP |" . $nstp . "<br />";
-			echo "Miscellaneous |" . $miscellaneous . "<br />";
-			echo "Tuition|" . $tuition . "<br />";
-
-			echo "Discount|" . $netfull = $tuition * $discount . "<br />";
-			echo "Discounted Tuition|" . $discounted = $tuition - $netfull . "<br />";*/
 			$discount = 10/100;
 			$netfull = $tuition * $discount;
 			$install = $tuition / 5;
@@ -494,7 +470,7 @@
 				'status' => $status
 			);
 
-			$this->db->insert_string('tbl_enrolment', $data);
+			$this->db->insert('tbl_enrolment', $data);
 			return $this->db->insert_id();
 		}
 
@@ -504,7 +480,7 @@
 				'enrolment' => $enrolment
 			);
 
-			$this->db->insert_string('tbl_studentgrade', $data);
+			$this->db->insert('tbl_studentgrade', $data);
 		}
 
 		function getUnit($cur, $level, $term){
@@ -513,5 +489,18 @@
 						tbl_curriculumdetail.subject = tbl_subject.id AND nonacademic = 0
 			");
 			return $q->row_array();
+		}
+
+		function checkEvaluation($pid, $term){
+			$this->db->where('academicterm', $term);
+			$this->db->where('student', $pid);
+			$res = $this->db->get('tbl_enrolment');
+			return $res->row_array();
+		}
+
+		function getEvaluation($id){
+			$this->db->where('enrolment', $id);
+			$res = $this->db->get('tbl_studentgrade');
+			return $res->result_array();
 		}
 	}

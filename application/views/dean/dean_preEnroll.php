@@ -36,6 +36,14 @@
 	$un = $this->student->getUnit($curriculum, $lvl, $sy['term']);
 	$cur = $this->student->getAllCur($curriculum);
 
+	$eval = $this->student->checkEvaluation($pid, $term);
+	if ($eval) {
+		$Evalue = $this->student->getEvaluation($eval['id']);
+	}
+	else{
+		// echo "waray";
+	}
+
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -45,12 +53,14 @@
 			<h4>Pre Enrollment Evaluation</h4>
 		</div>
 		<div class="panel-body">
-		
 			<div class="col-md-12">
 				<?php 
 					echo $message;
 					$cur = extract($cur);
 					$cur = $systart."-".$syend;
+					// if ($eval) {
+					// 	print_r($Evalue);
+					// }
 				 ?>
 			</div>
 			<div class="col-md-6 ">
