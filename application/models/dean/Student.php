@@ -90,6 +90,7 @@
 			$discount = 0;
 			$nstp = 0;
 			$leytetymes = 0;
+			echo $enid;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
 			$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
@@ -469,7 +470,7 @@
 				'status' => $status
 			);
 
-			$this->db->insert_string('tbl_enrolment', $data);
+			$this->db->insert('tbl_enrolment', $data);
 			return $this->db->insert_id();
 		}
 
@@ -479,7 +480,7 @@
 				'enrolment' => $enrolment
 			);
 
-			$this->db->insert_string('tbl_studentgrade', $data);
+			$this->db->insert('tbl_studentgrade', $data);
 		}
 
 		function getUnit($cur, $level, $term){
@@ -488,5 +489,18 @@
 						tbl_curriculumdetail.subject = tbl_subject.id AND nonacademic = 0
 			");
 			return $q->row_array();
+		}
+
+		function checkEvaluation($pid, $term){
+			$this->db->where('academicterm', $term);
+			$this->db->where('student', $pid);
+			$res = $this->db->get('tbl_enrolment');
+			return $res->row_array();
+		}
+
+		function getEvaluation($id){
+			$this->db->where('enrolment', $id);
+			$res = $this->db->get('tbl_studentgrade');
+			return $res->result_array();
 		}
 	}
