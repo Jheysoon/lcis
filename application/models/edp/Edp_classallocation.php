@@ -2,7 +2,7 @@
 
 class Edp_classallocation extends CI_Model
 {
-	function allocByRoom()
+	function allocByRoom($rid)
 	{
 		$systemVal = $this->api->systemValue();
 		$nxt = $systemVal['nextacademicterm'];
@@ -14,6 +14,17 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('classallocation',$cid);
 		$this->db->where('classroom',$rid);
 		return $this->db->get('tbl_dayperiod')->result_array();
+	}
+	function getDayPeriod1($cid)
+	{
+		$this->db->where('classallocation',$cid);
+		return $this->db->get('tbl_dayperiod')->result_array();
+	}
+	function countDayPer($cid,$rid)
+	{
+		$this->db->where('classallocation',$cid);
+		$this->db->where('classroom',$rid);
+		return $this->db->count_all_results('tbl_dayperiod');
 	}
 	function getAlloc($acam)
 	{
@@ -30,7 +41,6 @@ class Edp_classallocation extends CI_Model
 	{
 		$systemVal = $this->api->systemValue();
 		$this->db->where('academicterm',$systemVal['nextacademicterm']);
-		$this->db->where('classroom',NULL);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
 

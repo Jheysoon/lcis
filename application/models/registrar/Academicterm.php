@@ -20,4 +20,10 @@ class Academicterm extends CI_Model
         $q = $this->db->get('tbl_academicterm');
         return $q->row_array();
     }
+    function getLongName($term)
+    {
+        $this->db->where('id',$term);
+        $q = $this->db->get('tbl_term')->row_array();
+        return $q['description'];
+    }
 }

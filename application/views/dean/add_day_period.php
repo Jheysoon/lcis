@@ -7,6 +7,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div class="col-md-12 col-bg">
+					
 					</div>
 				</div>
 				<div class="col-md-12">
@@ -20,6 +21,13 @@
 						{
 							?>
 					<table class="table">
+						<caption>
+						<?php 
+							$systemVal 	= $this->api->systemValue();
+							$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']); 
+						 ?>
+						 </caption>
 						<tr>
 							<th>Subject</th>
 							<th>Course</th>

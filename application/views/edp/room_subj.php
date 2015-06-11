@@ -26,8 +26,13 @@
 					$r = $this->edp_classallocation->getEmptyRoom();
 					foreach($r as $room)
 					{
-						if($this->edp_classallocation->chkDayPeriod($room['id']) > 0)
+						$this->db->where('classallocation',$room['id']);
+						$this->db->where('classroom',0);
+						$rr = $this->db->count_all_results('tbl_dayperiod');
+						if($rr > 0)
 						{
+							if($this->edp_classallocation->chkDayPeriod($room['id']) > 0)
+							{
 						?>
 				<tr>
 					<td>
@@ -67,6 +72,7 @@
 					</td>
 				</tr>
 				<?php
+							}
 						}
 					}
 				 ?>

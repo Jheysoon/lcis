@@ -30,7 +30,7 @@
 							$r = $this->edp_classallocation->getAllRoom();
 
 							// get day/period of the subject suggested by dean
-							$dayPeriod	= $this->edp_classallocation->getDayPeriod($cid);
+							$dayPeriod	= $this->edp_classallocation->getDayPeriod1($cid);
 
 							foreach($dayPeriod as $dp)
 							{
