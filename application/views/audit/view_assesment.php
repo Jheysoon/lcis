@@ -7,7 +7,6 @@
 
 		<div class="panel-body">
 		<?php
-			echo $legacyid;
 				$info = $this->assesment->getstudinfo($legacyid);
 				extract($info);
 				$acadinfo = $this->assesment->getAcadinfo($id);
@@ -94,13 +93,13 @@
 			</div>
 
 
-		<?php 
-			$inf = $this->assesment->getTuition($enrolid = 50);
-		 ?>
-		 <?php if ($inf > 0): ?>
-		 <?php 
-		 	$tui = $this->assesment->getTotal($enrolid = 50);
-		  ?>
+				<?php 
+					$inf = $this->assesment->getTuition($enrolid);
+				 ?>
+				 <?php if ($inf > 0): ?>
+				 <?php 
+				 	$tui = $this->assesment->getTotal($enrolid);
+				  ?>
 			<div class="col-md-12">
 				<table class="table table-bordered">
 					<label>Full Payment</label>
@@ -242,23 +241,21 @@
 						<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
 						<th class="tblNum td-total"><?php echo $tui['netenrolment']; ?></th>
 					</tr>
-			 		<tr>
-						<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
-						<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="1,000.00"></strong></td>
-					</tr>  
+			 		
 					</table>
 			</div>
+			</div>
+			<div class="col-md-12">
+				<a class="pull-right btn btn-primary" href="/billing/view_studentbilling/installment/<?php echo $legacyid; ?>" style="margin-left:5px;">Installment</a>
+				<a class="pull-right btn btn-primary" href="/billing/view_studentbilling/fullpayment/<?php echo $legacyid; ?>" style="margin-left:5px;">Fullpayment</a>
+				<br /><br />	<br />	<br />								
 			</div>
 					 	<?php else: ?>
 					 <?php endif ?>
 					
 
 		
-			<div class="col-md-12">
-				<a class="pull-right btn btn-primary" href="/billing/view_studentbilling" style="margin-left:5px;">Installment</a>
-				<a class="pull-right btn btn-primary">Fullpayment</a>
-				<br /><br />	<br />	<br />								
-			</div>
+			
 			</div>
 </div>
 		</div>

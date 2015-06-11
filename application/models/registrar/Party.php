@@ -42,6 +42,33 @@
             }
             return $data;
         }
+        function search_pay($id){
+             $party_id = $this->db->query("SELECT *, student FROM tbl_party, tbl_enrolment
+                                              WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname LIKE '%$id%')) AND tbl_party.id = student LIMIT 8")->result_array();
+           /*  $p = $party_id->result_array();
+            $this->db->where('student', $p['id']);
+            $x = $this->db->get('tbl_enrolment');*//*
+           $ite = 0;
+            $data = array();
+            foreach ($p as $party) {
+                $this->db->where('id',$party['id']);
+                $q = $this->db->count_all_results('tbl_student');
+                if($q > 0)
+                {
+                    $data[]= array('firstname'=>$party['firstname'],
+                                'lastname'=>$party['lastname'],
+                                'middlename'=>$party['middlename'],
+                                'legacyid'=>$party['legacyid']);
+                    $ite++;
+                }
+                if($ite == 8)
+                {
+                    break;
+                }
+            }
+             return $data;*/
+             return $party_id;
+       }
 
         function getStudInfo($id)
         {

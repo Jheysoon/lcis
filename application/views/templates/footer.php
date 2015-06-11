@@ -114,7 +114,7 @@ $(document).ready(function(){
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit:8,
-        remote: '/registrar/search_by_id/%QUERY'
+        remote: '/registrar/search_forpayment/%QUERY'
     });
     student_list.initialize();
     //student_list.clearRemoteCache();
