@@ -460,13 +460,16 @@
 			return $q->row_array();
 		}
 
-		function addEnrolment($student, $coursemajor, $registration, $academicterm, $units, $status){
+		function addEnrolment($count, $student, $coursemajor, $registration, $academicterm, $units, $status){
 			$data = array(
 				'student' => $student, 
 				'coursemajor' => $coursemajor,
 				'registration' => $registration,
 				'academicterm' => $academicterm,
 				'totalunit' => $units,
+				'school' => 1,
+				'dte' => date('Y-m-d'),
+				'numberofsubject' => $count,
 				'status' => $status
 			);
 
@@ -481,6 +484,34 @@
 			);
 
 			$this->db->insert('tbl_studentgrade', $data);
+		}
+
+		function updateReserved($id, $count){
+			$data = array(
+				'reserved' => $count
+			);
+			$this->db->where('id', $id);
+			$this->db->update('tbl_classallocation', $data);
+		}
+
+		function getReserved($id){
+			$this->db->where('id', $id);
+			$this->db->select('reserved');
+			return $this->db->get('tbl_classallocation')->row_array();
+		}
+
+		function updateEnrolled($id, $count){
+			$data = array(
+				'enrolled' => $count
+			);
+			$this->db->where('id', $id);
+			$this->db->update('tbl_classallocation', $data);
+		}
+
+		function getEnrolled($id){
+			$this->db->where('id', $id);
+			$this->db->select('enrolled');
+			return $this->db->get('tbl_classallocation')->row_array();
 		}
 
 		function getUnit($cur, $level, $term){
@@ -502,5 +533,10 @@
 			$this->db->where('enrolment', $id);
 			$res = $this->db->get('tbl_studentgrade');
 			return $res->result_array();
+		}
+
+		function deleteEvaluation($id){
+			$this->db->where('enrolment', $id);
+			$this->db->delete('tbl_studentgrade');
 		}
 	}

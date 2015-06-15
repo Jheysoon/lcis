@@ -35,15 +35,8 @@
 
 	$un = $this->student->getUnit($curriculum, $lvl, $sy['term']);
 	$cur = $this->student->getAllCur($curriculum);
-
-	$eval = $this->student->checkEvaluation($pid, $term);
-	if ($eval) {
-		$Evalue = $this->student->getEvaluation($eval['id']);
-	}
-	else{
-		// echo "waray";
-	}
-
+	$cur = extract($cur);
+	$cur = $systart."-".$syend;
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -56,11 +49,6 @@
 			<div class="col-md-12">
 				<?php 
 					echo $message;
-					$cur = extract($cur);
-					$cur = $systart."-".$syend;
-					// if ($eval) {
-					// 	print_r($Evalue);
-					// }
 				 ?>
 			</div>
 			<div class="col-md-6 ">
@@ -96,27 +84,7 @@
 				<label class="lbl-data">CURRICULUM</label>
 				<input class="form-control" type="text" readonly value="<?php echo $cur; ?>">							
 			</div>
-
-			<!-- <div class="col-md-4 ">
-				<label class="lbl-data">CURRICULUM</label>
-				<select class="form-control">
-					<option></option>
-					<?php 
-						$cur = $this->student->getAllCur($cid);
-						foreach ($cur as $key) { ?>
-							<option <?php 
-								if($curriculum == $key['id']){
-									echo "selected";
-								} 
-							?>
-							value=<?php echo $key['id'] ?>
-							>
-							<?php echo $key['systart']."-".$key['syend']; ?>
-							</option>;
-					<?php	}
-					 ?>
-				</select>							
-			</div> -->
+			
 			<div class="col-md-2">
 						<br/><br/>
                         <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $pid; ?>/<?php echo $dte; ?>/<?php echo $cid; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
