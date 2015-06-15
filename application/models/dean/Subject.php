@@ -62,6 +62,7 @@ class Subject extends CI_Model
 		{
 			$this->db->where('id',$sid);
 			$this->db->where('owner',$owner);
+			$this->db->where('gesubject','0');
 		}
 		return $q = $this->db->count_all_results('tbl_subject');
 	}

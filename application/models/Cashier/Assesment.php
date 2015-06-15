@@ -29,4 +29,9 @@
 			$this->db->select('`accounttype`, `rate`');
 			return  $this->db->get('tbl_fee, tbl_feetype')->row_array();
 		}
+		function getPhase($id){
+			$this->db->where('id', $id);
+			return $this->db->get('tbl_phase')->row_array();
+
+		}
 }

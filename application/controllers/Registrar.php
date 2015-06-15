@@ -173,7 +173,19 @@ class Registrar extends CI_Controller
         }
         echo json_encode($data);
     }
+    function search_forpayment($id){
+        $id = urldecode($id);
+        $data = array();
+        $this->load->model('registrar/party');
+        $results_id = $this->party->search_pay($id);
 
+        foreach ($results_id as $r)
+        {
+            $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname']);
+        }
+        echo json_encode($data);
+
+    }
     function edit_grades($code, $subject, $grade)
     {
         $data['code'] = $code;

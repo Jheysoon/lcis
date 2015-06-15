@@ -114,13 +114,16 @@ class Enrollment extends CI_Model
     }
     function getStudents($limit = 0){
        // $result = $this->db->query("SELECT coursemajor, firstname, lastname, legacyid FROM view_filter_stud WHERE partyid = (SELECT student FROM tbl_enrolment WHERE academicterm = '26')");
-        $result = $this->db->query("SELECT view_filter_stud.coursemajor, firstname, lastname, legacyid, partyid FROM view_filter_stud, tbl_enrolment WHERE partyid = student AND academicterm = '45' LIMIT $limit, 15");
+        $term = $this->api->systemValue();
+        $t = $term['phaseterm'];
+        $result = $this->db->query("SELECT view_filter_stud.coursemajor, firstname, lastname, legacyid, partyid FROM view_filter_stud, tbl_enrolment WHERE partyid = student AND academicterm = '$t' LIMIT $limit, 15");
         return $result->result_array();
     }
     function enrolled(){
-             return $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '45'
+          $term = $this->api->systemValue();
+        $t = $term['phaseterm'];
+             return $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$t'
                                     GROUP BY student")
             ->num_rows();
     }
-
 }
