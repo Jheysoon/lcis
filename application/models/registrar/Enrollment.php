@@ -126,5 +126,4 @@ class Enrollment extends CI_Model
                                     GROUP BY student")
             ->num_rows();
     }
-
 }

@@ -200,49 +200,135 @@
 			</div>
 			<div class="col-md-12">
 		<div class="table-responsive">
-			<label>Installment</label>
-				<table class="table table-bordered">
-					<tr>
-						<th>Enrolment</th>
-						<th class="tblNum"></th>
-					</tr>
-					<tr>
-						<td>1/5 TUITION</td>
-						<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
-					</tr>
-					<?php if ($tui['computer'] > 0): ?>
-						<tr>
-							<td>1/5 COMPUTER</td>
-							<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
-						</tr>
-					<?php endif ?>
-					<?php if ($tui['internet'] > 0): ?>
+				<?php 
+				$phase = $this->api->systemValue();
+				if ($phase['phase'] == 1): ?>
+						<label>Installment</label>
+						<table class="table table-bordered">
 							<tr>
-								<td>1/4 INTERNET</td>
-								<td class="tblNum"><?php echo $tui['internet']/4; ?></td>
-							</tr>
-					<?php endif ?>
-				<?php if ($tui['booklet'] > 0): ?>
-					<tr>
-						<td>BOOKLET FEE</td>
-						<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
-					</tr>
-				<?php endif ?>
-					<tr>
-						<td>LESS SCHOLARSHIP DISCOUNT</td>
-						<td class="tblNum">(0.00)</td>
-					</tr>
-					<tr>
-						<td>ADD PREVIOUS BALANCE</td>
-						<td class="tblNum">1,714.99</td>
-					</tr>
+								<th>Enrolment</th>
+								<th class="tblNum">Rate</th>
+								<th>Total</th>
 
-					<tr>
-						<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-						<th class="tblNum td-total"><?php echo $tui['netenrolment']; ?></th>
+							</tr>
+							<tr>
+								<td>MISCELLANEOUS FEE</td>
+								<td class="tblNum"></td>
+								<td class="tblNum"><?php echo $tui['miscellaneous']; ?></td>
+							</tr>
+							<tr>
+						<td>Matriculation</td>
+						<td class="tblNum"><?php 
+							$getRate = $this->assesment->getR($coursemajor, 6);
+							echo $getRate['rate'];
+						 ?></td>
+						<td class="tblNum"><?php echo $tui['matriculation'] ?></td>
 					</tr>
-			 		
-					</table>
+							<tr>
+								<td>1/5 TUITION</td>
+								<td class="tblNum"></td>
+								<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
+							</tr>
+							<?php if ($tui['computer'] > 0): ?>
+								<tr>
+									<td>1/5 COMPUTER</td>
+								<td class="tblNum"></td>
+									<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
+								</tr>
+							<?php endif ?>
+					
+						<?php if ($tui['laboratory'] > 0): ?>
+							<tr>
+								<td>LABORATORY FEE</td>
+								<td class="tblNum"></td>
+								<td class="tblNum"><?php echo $tui['laboratory']; ?></td>
+							</tr>
+						<?php endif ?>
+						<tr>
+							<td>LEYTE TIMES</td>
+								<td class="tblNum"></td>
+							<td class="tblNum"><?php echo $tui['leytetime']; ?></td>
+						</tr>
+						<?php if ($tui['nstp'] > 0): ?>
+							<tr>
+								<td>NSTP</td>
+								<td class="tblNum"></td>
+								<td class="tblNum"><?php echo $tui['nstp']; ?></td>
+							</tr>
+						<?php endif ?>
+							<tr>
+								<td>LESS SCHOLARSHIP DISCOUNT</td>
+
+								<td class="tblNum"></td>
+								<td class="tblNum">(0.00)</td>
+							</tr>
+							<tr>
+								<td>ADD PREVIOUS BALANCE</td>
+								<td class="tblNum"></td>
+								<td class="tblNum">0</td>
+							</tr>
+
+							<tr>
+								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
+								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'], 2, '.', ',') ?></th>
+							</tr>
+					 		<tr>
+								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
+								<td colspan="2"><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="1,000.00"></strong></td>
+							</tr>  
+							</table>
+				<?php else: ?>
+						<label>Installment</label>
+						<table class="table table-bordered">
+							<tr>
+								<th><?php 
+								$x = $this->assesment->getPhase($phase['phase']);
+								echo $x['description'];
+								 ?></th>
+								<th class="tblNum"></th>
+							</tr>
+							<tr>
+								<td>1/5 TUITION</td>
+								<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
+							</tr>
+							<?php if ($tui['computer'] > 0): ?>
+								<tr>
+									<td>1/5 COMPUTER</td>
+									<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
+								</tr>
+							<?php endif ?>
+							<?php if ($tui['internet'] > 0): ?>
+									<tr>
+										<td>1/4 INTERNET</td>
+										<td class="tblNum"><?php echo $tui['internet']/4; ?></td>
+									</tr>
+							<?php endif ?>
+						<?php if ($tui['booklet'] > 0): ?>
+							<tr>
+								<td>BOOKLET FEE</td>
+								<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
+							</tr>
+						<?php endif ?>
+							<tr>
+								<td>LESS SCHOLARSHIP DISCOUNT</td>
+								<td class="tblNum">(0.00)</td>
+							</tr>
+							<tr>
+								<td>ADD PREVIOUS BALANCE</td>
+								<td class="tblNum">0</td>
+							</tr>
+
+							<tr>
+								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
+								<th class="tblNum td-total"><?php echo $tui['netprelim']; ?></th>
+							</tr>
+					 		<tr>
+								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
+								<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
+							</tr>  
+							</table>
+
+				<?php endif ?>
 			</div>
 			</div>
 			<div class="col-md-12">
