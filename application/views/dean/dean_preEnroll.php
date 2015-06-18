@@ -35,8 +35,13 @@
 
 	$un = $this->student->getUnit($curriculum, $lvl, $sy['term']);
 	$cur = $this->student->getAllCur($curriculum);
-	$cur = extract($cur);
-	$cur = $systart."-".$syend;
+	if($cur){
+		$cur = extract($cur);
+		$cur = $systart."-".$syend;
+	}
+	else{
+		$cur = '';
+	}
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">

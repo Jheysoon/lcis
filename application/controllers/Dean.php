@@ -411,7 +411,7 @@ class Dean extends CI_Controller
     }
     function calculatebill($enid){
         $this->load->model('dean/student');
-        $this->student->getCalculation($enid);
+        return $this->student->getCalculation($enid);
     }
     function addClassAlloc()
     {
@@ -535,6 +535,7 @@ class Dean extends CI_Controller
                     }
                     $this->student->deleteEvaluation($eval['id']);
                     $enid = $eval['id'];
+                    $this->student->updateEnrolment($enid, $unit);
                 }
                 else{
                     $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
@@ -546,8 +547,8 @@ class Dean extends CI_Controller
                     $this->student->addInitialGrade($value, $enid);
                     $this->student->updateReserved($value, $res);
                 }
+              
                 $this->calculatebill($enid);
-
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Evaluation successfuly saved</strong><br/>
