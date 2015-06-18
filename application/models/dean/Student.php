@@ -335,7 +335,7 @@
 				);
 					$this->db->insert('tbl_billclass', $data);
 			}else{
-				$data = array(
+					$data = array(
 					'enrolment' => $enid,
 					'tuition' => $tuition,
 					'matriculation' => $mat,

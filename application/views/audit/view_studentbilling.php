@@ -93,7 +93,6 @@
 								<th>Enrolment</th>
 								<th class="tblNum">Rate</th>
 								<th>Total</th>
-
 							</tr>
 							<tr>
 								<td>MISCELLANEOUS FEE</td>
@@ -316,14 +315,18 @@
 					
 					<tr>
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
-						<th class="tblNum"><?php
-						 echo number_format($tui['netfullpayment'], 2, '.', ',');
-						  ?></th>
+						<th class="tblNum"><input type="text" name="netfull" value="<?phps
+						 echo number_format($tui['netfullpayment'], 2, '.', ',')
+						  ?>"></th>
 					</tr>
 
 				</table>
+				<div class="col-md-6 ">
+				<label class="lbl-data">STUDENT NAME</label>
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $firstname . ' ' . $middlename . '. ' . $lastname?>">							
+			</div>
+
 		<?php endif ?>
-		
 			</div>
 		</div>
 	</div>
