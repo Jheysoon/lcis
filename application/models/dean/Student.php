@@ -90,13 +90,12 @@
 			$discount = 0;
 			$nstp = 0;
 			$leytetymes = 0;
-			echo $enid;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
 			$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
 			$this->db->where($where);
 			$this->db->select('`tbl_fee.id`, `description`, `code`, `accounttype`, `rate`');
-			 echo "
+			 /*echo "
 			        <table>
 			                <tr>
 			                	<th style='border: 1px solid; padding: 5px;'>ID</th>
@@ -107,7 +106,7 @@
 			                    <th style='border: 1px solid; padding: 5px;'>Total Units</th>
 			                    <th style='border: 1px solid; padding: 5px;'>Rate * Total Units</th>
 			                </tr>
-			    ";
+			    ";*/
 			foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
 					extract($val);
 				
@@ -117,13 +116,13 @@
 						 				extract($value);
  							 			$x = $this->getSubs($classallocation);
 			 							 		if($x['computersubject'] == 1) {
-			 							 				echo "	
+			 							 				/*echo "	
 																<tr>
 															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 									 							 $computer = $rate;
 									 							 break;
 						 							}
@@ -135,13 +134,13 @@
  							 			$xl = $this->getSubs($classallocation);
 			 							 		
 			 							 		if($xl['bookletcharge'] == 1) {
-			 							 				echo "	
+			 							 				/*echo "	
 																<tr>
 															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+									 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 									 							 $booklet = $rate;
 									 							  break;
 						 							}
@@ -149,18 +148,18 @@
 
 	 							 }	elseif ($accounttype == 19) {
 		 							 	if ($coursemajor == 5) {
-	 							 			echo "	
+	 							 			/*echo "	
 												<tr>
 											     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 												 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 												 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 					 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-					 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+					 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 					 							 $laboratory = $rate;
 		 							 	}
 	 							 }else{
 	 							 	 if($accounttype == 6) {
-	 							 	 	echo "	
+	 							 	 /*	echo "	
 										<tr>
 									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
@@ -168,14 +167,14 @@
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";*/
 
 		 							 		/*echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
 		 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";	*/
 		 							 		$mat = $rate * $totalunit;		
 
 		 							 }elseif ($accounttype == 7 ) {
-		 							 		echo "	
+		 							 	/*	echo "	
 										<tr>
 									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
@@ -183,25 +182,25 @@
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";*/
 			 							 	$tuition = $rate * $totalunit;
 		 							 }elseif($accounttype == 20){
-		 							 		echo "	
+		 							 	/*	echo "	
 										<tr>
 									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 		 							 			$leytetymes = $rate;
 		 							 }elseif($accounttype == 22){
-		 							 		echo "	
+		 							 	/*	echo "	
 										<tr>
 									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 		 							 		$internetfee = $rate;
 		 							 }elseif($accounttype == 21){
 		 							 	$m = $this->getEn($enid);
@@ -209,29 +208,29 @@
 								 				extract($value);
 		 							 			$x = $this->getSubs($classallocation);
 					 							 		if($x['computersubject'] == 1) {
-					 							 				echo "	
+					 							 			/*	echo "	
 																		<tr>
 																	     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 																		 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																		 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 											 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-											 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+											 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 											 							 $nstp = $rate;
 											 							 break;
 								 							}
 													}
 		 							 }else{
-		 							 	echo "	
+		 							 /*	echo "	
 										<tr>
 									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
-			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";
+			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 		 							 	$miscellaneous += $rate;
 		 							 }
 	 							 }		 							
- 						echo "</tr>";				
+ 					/*	echo "</tr>";			*/	
 			}
 			echo "</table>";
 			$discount = 10/100;
@@ -247,7 +246,7 @@
 			$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
 			$netprelim = $install + $computerdevided + $int + $bookfee;
 			$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
-			echo "<table>
+			/*echo "<table>
 					<th style='border: 1px solid; padding: 5px;'>Description</th>
 					<th style='border: 1px solid; padding: 5px;'>Total</th>";
 					echo "<tr>
@@ -306,7 +305,7 @@
 							<td style='border: 1px solid; padding: 5px;'>Installment</td>
 							<td style='border: 1px solid; padding: 5px;'>".$installment."</td>
 						</tr>";
-			echo "</table>";
+			echo "</table>";*/
 			$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
 			if ($q['counted'] == 0){
 					$this->db->query("INSERT INTO tbl_bill SET requestedby = '0'");
@@ -334,8 +333,9 @@
 					'netfinal' => $netprelim
 				);
 					$this->db->insert('tbl_billclass', $data);
+					return 0;
 			}else{
-				$data = array(
+				$datax = array(
 					'enrolment' => $enid,
 					'tuition' => $tuition,
 					'matriculation' => $mat,
@@ -356,8 +356,10 @@
 					'netsemi' => $netprelim,
 					'netfinal' => $netprelim
 				);
+				echo 1;
 				$this->db->where('enrolment', $enid);
-				$this->db->update('tbl_billclass', $data);
+				$this->db->update('tbl_billclass', $datax);
+				return 1;
 			}
 		}
 		function rounded($val){
@@ -460,13 +462,16 @@
 			return $q->row_array();
 		}
 
-		function addEnrolment($student, $coursemajor, $registration, $academicterm, $units, $status){
+		function addEnrolment($count, $student, $coursemajor, $registration, $academicterm, $units, $status){
 			$data = array(
 				'student' => $student, 
 				'coursemajor' => $coursemajor,
 				'registration' => $registration,
 				'academicterm' => $academicterm,
 				'totalunit' => $units,
+				'school' => 1,
+				'dte' => date('Y-m-d'),
+				'numberofsubject' => $count,
 				'status' => $status
 			);
 
@@ -481,6 +486,34 @@
 			);
 
 			$this->db->insert('tbl_studentgrade', $data);
+		}
+
+		function updateReserved($id, $count){
+			$data = array(
+				'reserved' => $count
+			);
+			$this->db->where('id', $id);
+			$this->db->update('tbl_classallocation', $data);
+		}
+
+		function getReserved($id){
+			$this->db->where('id', $id);
+			$this->db->select('reserved');
+			return $this->db->get('tbl_classallocation')->row_array();
+		}
+
+		function updateEnrolled($id, $count){
+			$data = array(
+				'enrolled' => $count
+			);
+			$this->db->where('id', $id);
+			$this->db->update('tbl_classallocation', $data);
+		}
+
+		function getEnrolled($id){
+			$this->db->where('id', $id);
+			$this->db->select('enrolled');
+			return $this->db->get('tbl_classallocation')->row_array();
 		}
 
 		function getUnit($cur, $level, $term){
@@ -502,5 +535,16 @@
 			$this->db->where('enrolment', $id);
 			$res = $this->db->get('tbl_studentgrade');
 			return $res->result_array();
+		}
+
+		function deleteEvaluation($id){
+			$this->db->where('enrolment', $id);
+			$this->db->delete('tbl_studentgrade');
+		}
+
+		function updateEnrolment($id, $unit){
+			$data = array('totalunit' => $unit);
+			$this->db->where('id', $id);
+			$this->db->update('tbl_enrolment', $data);
 		}
 	}

@@ -2,6 +2,16 @@
 	$res = $this->student->getClassAloc($term, $student, $coursemajor);
 	$legid = $id;
 	$registration = $this->student->getRegID($student);
+
+	if ($message == '') {
+		$eval = $this->student->checkEvaluation($student, $term);
+		if ($eval) {
+			$Evalue = $this->student->getEvaluation($eval['id']);
+			foreach ($Evalue as $key => $value) {
+				$select[] = $value['classallocation'];
+			}
+		}
+	}
  ?>
 <div class="table-responsive" id="evaluation">
 				<form class="form" action="/dean/evaluation/<?php echo $legid; ?>" method="post" role="form">
@@ -22,6 +32,8 @@
 							<th>Period</th>
 							<th>Room</th>
 							<th>Location</th>
+							<th>Reserved</th>
+							<th>Enrolled</th>
 						</tr>
 						<?php 
 							$ctr = 1;
@@ -31,7 +43,7 @@
 						?>
 								<tr>
 									<td class="tbl-header" colspan="2"><strong>Code: </strong><?php echo $sub['code']; ?></td>
-									<td class="tbl-header" colspan="2"><strong>Subject: </strong><?php echo $sub['descriptivetitle']; ?></td>
+									<td class="tbl-header" colspan="4"><strong>Subject: </strong><?php echo $sub['descriptivetitle']; ?></td>
 									<td class="tbl-header"><strong>Units: </strong><?php echo $sub['units']; ?></td>
 								</tr>
 						<?php	
@@ -42,7 +54,11 @@
 									$d = $this->edp_classallocation->getDayShort($aloc['id']);
 									
 
-									$cl = $this->student->getRoom($aloc['classroom']);
+									$ss = ''; 
+									// $cl = $this->student->getRoom($aloc['classroom']);
+									$cl = array('loc'=> '','legacycode'=>'');
+									$reserved = $this->student->getReserved($aloc['id']);
+									$enrolled = $this->student->getEnrolled($aloc['id']);
 								?>
 									<tr onclick="clickRow(<?php echo $ctr.','.$ctr2.','.$sub['units']; ?>)">
 										<td  id = 'r-<?php echo "$ctr"; ?>' >
@@ -52,13 +68,22 @@
 										    	name = "rad-<?php echo $ctr; ?>" 
 										    	id = "rad-<?php echo $ctr2; ?>"
 										    	value = "<?php echo $aloc['id']; ?>"
-										    	<?php echo  set_radio('rad-'.$ctr, $aloc['id']); ?>
+										    	<?php 
+										    		if (isset($select)) {
+														if (in_array($aloc['id'], $select)) {
+															echo 'checked';
+														}
+										    		}
+										    		echo  set_radio('rad-'.$ctr, $aloc['id']);
+										    	?>
 										    >
 										</td>
 										<td><?php echo $d; ?></td>
 										<td><?php echo $p; ?></td>
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $cl['legacycode']; ?></td>
 										<td  id = 'r-<?php echo "$ctr"; ?>' ><?php echo $cl['loc']; ?></td>
+										<td style="text-align: center;"><?php echo $reserved['reserved']; ?></td>
+										<td style="text-align: center;"><?php echo $enrolled['enrolled']; ?></td>
 									</tr>
 						<?php	
 								$ctr2++;}$ctr++;
