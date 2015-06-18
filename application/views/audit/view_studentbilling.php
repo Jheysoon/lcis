@@ -23,16 +23,16 @@
 		<div class="panel-body">
 		<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT ID</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $legacyid ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $legacyid ?>" disabled>							
 			</div>
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT NAME</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $firstname . ' ' . $middlename . '. ' . $lastname?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $firstname . ' ' . $middlename . '. ' . $lastname?>" disabled>							
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">SCHOOL YEAR</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $sy; ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $sy; ?>" disabled>							
 			</div>
 
 			<div class="col-md-6 ">
@@ -46,12 +46,12 @@
 							$semester = 'Summer';
 						}
 					 ?>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $semester; ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $semester; ?>" disabled>							
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" required value="<?php echo $getcoursemajor; ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" required value="<?php echo $getcoursemajor; ?>" disabled>							
 			</div>
 
 			<div class="col-md-6 ">
@@ -69,7 +69,7 @@
 						$yearlevel = 'Not Defined';
 					}
 				 ?>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>">							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>" disabled>							
 			<br />
 			</div>
 

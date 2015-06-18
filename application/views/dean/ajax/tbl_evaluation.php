@@ -55,7 +55,8 @@
 									
 
 									$ss = ''; 
-									$cl = $this->student->getRoom($aloc['classroom']);
+									// $cl = $this->student->getRoom($aloc['classroom']);
+									$cl = array('loc'=> '','legacycode'=>'');
 									$reserved = $this->student->getReserved($aloc['id']);
 									$enrolled = $this->student->getEnrolled($aloc['id']);
 								?>
