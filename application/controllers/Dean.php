@@ -467,95 +467,110 @@ class Dean extends CI_Controller
             $ctr--;
         }
 
-        extract($names);
-        $ctr2 = $ctr2-1;
-        $i = $ctr2;
-        while ($ctr2 != 0) {
-            $ii = $i;
-            $p = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
-            $d = $this->edp_classallocation->getDayShort(${'var'.$ctr2});
-            $contains = strrpos($p, '/');
-            if($contains !== false){
-                $period1 = explode(' / ', $p);
-                $day1 = explode(' / ', $d);
-                foreach ($period1 as $count1 => $val1) {
-                    $individual[] = ${'var'.$ctr2}.",".$day1[$count1].",".$val1;
+        if (isset($names)) {
+            extract($names);
+            $ctr2 = $ctr2-1;
+            $i = $ctr2;
+            while ($ctr2 != 0) {
+                $ii = $i;
+                $p = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
+                $d = $this->edp_classallocation->getDayShort(${'var'.$ctr2});
+                $contains = strrpos($p, '/');
+                if($contains !== false){
+                    $period1 = explode(' / ', $p);
+                    $day1 = explode(' / ', $d);
+                    foreach ($period1 as $count1 => $val1) {
+                        $individual[] = ${'var'.$ctr2}.",".$day1[$count1].",".$val1;
+                    }
                 }
-            }
-            else{
-                $individual[] = ${'var'.$ctr2}.",".$d.",".$p;
+                else{
+                    $individual[] = ${'var'.$ctr2}.",".$d.",".$p;
 
+                }
+                $ctr2--;   
             }
-            $ctr2--;   
-        }
-        $compare = $individual;
-        $message = '';
-        foreach ($individual as $key => $value) {
-            $p = explode(",", $value);
-            foreach ($compare as $key2 => $value2) {
-                $p2 = explode(",", $value2);
-                if ($key != $key2) {
-                    if ($p[1] == $p2[1]) {
-                        $t1 = explode("-", $p[2]);
-                        $t2 = explode("-", $p2[2]);
-                        $res = $this->api->intersectCheck($t1[0], $t2[0], $t1[1], $t2[1]);
-                        if($res == TRUE){
-                            $sub1 = $this->student->getSubs($p[0]);
-                            $sub2 = $this->student->getSubs($p2[0]);
-                            $message = $message.$sub1['code']." ".$p[1]." ".$p[2]."  -  ".$sub2['code']." ".$p2[1]." ".$p2[2]."<br/>";
+            $compare = $individual;
+            $message = '';
+            foreach ($individual as $key => $value) {
+                $p = explode(",", $value);
+                foreach ($compare as $key2 => $value2) {
+                    $p2 = explode(",", $value2);
+                    if ($key != $key2) {
+                        if ($p[1] == $p2[1]) {
+                            $t1 = explode("-", $p[2]);
+                            $t2 = explode("-", $p2[2]);
+                            $res = $this->api->intersectCheck($t1[0], $t2[0], $t1[1], $t2[1]);
+                            if($res == TRUE){
+                                $sub1 = $this->student->getSubs($p[0]);
+                                $sub2 = $this->student->getSubs($p2[0]);
+                                $message = $message.$sub1['code']." ".$p[1]." ".$p[2]."  -  ".$sub2['code']." ".$p2[1]." ".$p2[2]."<br/>";
+                            }
                         }
                     }
                 }
             }
-        }
-        if($this->input->post('counter') < $unit){
-            $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>No. of units exceeded!</strong><br/>
-              Total units taken : '.$unit.'
-            </div>';
-            return false;
-        }
-        else if ($message == '') {
-            echo $student = $this->input->post('student');
-            echo $coursemajor = $this->input->post('coursemajor');
-            echo $registration = $this->input->post('registration');
-            echo $academicterm = $this->input->post('academicterm');
-
-            $status = 'E';
-
-
-            $enid = $this->student->addEnrolment($student, $coursemajor, $registration, $academicterm, $unit, $status);
-
-            foreach ($names as $key => $value) {
-                $this->student->addInitialGrade($value, $enid);
+            if($this->input->post('counter') < $unit){
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>No. of units exceeded!</strong><br/>
+                  Total units taken : '.$unit.'
+                </div>';
+                return false;
             }
+            else if ($message == '') {
 
+                $student = $this->input->post('student');
+                $coursemajor = $this->input->post('coursemajor');
+                $registration = $this->input->post('registration');
+                $academicterm = $this->input->post('academicterm');
+                $status = 'E';
 
-            $this->sample = array($student, $coursemajor, $registration, $academicterm, $unit, $status, $enid);
+                $eval = $this->student->checkEvaluation($student, $academicterm);
+                if ($eval) {
+                    $Evalue = $this->student->getEvaluation($eval['id']);
+                    foreach ($Evalue as $key => $value) {
+                        $res = $this->student->getReserved($value['classallocation']);
+                        $res = $res['reserved'] - 1;
+                        $this->student->updateReserved($value['classallocation'], $res);
+                    }
+                    $this->student->deleteEvaluation($eval['id']);
+                    $enid = $eval['id'];
+                }
+                else{
+                    $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
+                }
 
-            $this->calculatebill($enid);
+                foreach ($names as $key => $value) {
+                    $res = $this->student->getReserved($value);
+                    $res = $res['reserved'] + 1;
+                    $this->student->addInitialGrade($value, $enid);
+                    $this->student->updateReserved($value, $res);
+                }
+                $this->calculatebill($enid);
 
-            $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>Evaluation successfuly saved</strong><br/>
-            </div>';
-            return false;
-
-            // $this->session->set_flashdata('message',$message);
+                $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Evaluation successfuly saved</strong><br/>
+                </div>';
+                return false;
+            }
+            else{
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <strong>Conflict/s are found!</strong><br/>
+                  '.$message.'
+                </div>';
+                return false;
+            }
         }
         else{
+
             $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>Conflict/s are found!</strong><br/>
-              '.$message.'
+              No schedule selected.
             </div>';
             return false;
-            // $this->session->set_flashdata('message',$message);
         }
-        // return true;
-        // redirect('/dean_evaluation/'.$this->input->post('legid'));
-        // $this->evaluation($this->input->post('legid'));
 
     }
 
