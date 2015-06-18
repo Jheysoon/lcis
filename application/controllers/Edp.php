@@ -136,6 +136,7 @@ class Edp extends CI_Controller
 
 
         $this->load->view('edp/view_room_sched',$data);
+        $this->load->view('templates/footer');
     }
 
     function add_sched($sid)

@@ -1,5 +1,5 @@
 
-        <div class="row footer">
+        <div class="row footer hidden-print">
           <div class="col-md-12">
             <label class="text-center">
             <a class="foot-link" href="http://www.leytecolleges.edu.ph" target="blank">www.leytecolleges.edu.ph</a> |

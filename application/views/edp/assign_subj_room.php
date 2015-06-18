@@ -26,6 +26,7 @@
 						<?php 
 							$cl 		= $this->edp_classallocation->find($cid);
 							$conflict	= FALSE;
+							$systemVal 	= $this->api->systemValue();
 
 							$r = $this->edp_classallocation->getAllRoom();
 
@@ -63,7 +64,10 @@
 									<?php 
 										foreach($r as $room)
 										{
-											$q = $this->db->get_where('tbl_dayperiod',array('classroom' => $room['id'],'day' => $dp['day']));
+											$dd 	= $dp['day'];
+											$classr = $room['id'];
+											$ss 	= $systemVal['nextacademicterm'];
+											$q 		= $this->db->query("SELECT * FROM tbl_dayperiod,tbl_classallocation WHERE academicterm = $ss AND classallocation = tbl_classallocation.id AND classroom = $classr AND day = $dd");
 											if($q->num_rows() > 0)
 											{
 												foreach($q->result_array() as $qq)

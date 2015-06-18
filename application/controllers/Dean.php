@@ -738,4 +738,20 @@ class Dean extends CI_Controller
         $this->api->set_session_message('success','Successfully added');
         return TRUE;
     }
+
+    function delete_classalloc($id)
+    {
+        $this->db->where('id',$id);
+        $this->db->delete('tbl_classallocation');
+        $this->db->where('classallocation',$id);
+        $this->db->delete('tbl_dayperiod');
+        redirect('/menu/dean-add_day_period');
+    }
+    function add_classalloc()
+    {
+        $data['subject']        = $this->input->post('subj');
+        $data['coursemajor']    = $this->input->post('course_major');
+        $this->db->insert('tbl_classallocation',$data);
+        redirect('/menu/dean-add_day_period');
+    }
 }
