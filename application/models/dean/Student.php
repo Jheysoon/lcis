@@ -356,7 +356,6 @@
 					'netsemi' => $netprelim,
 					'netfinal' => $netprelim
 				);
-				echo 1;
 				$this->db->where('enrolment', $enid);
 				$this->db->update('tbl_billclass', $datax);
 				return 1;
