@@ -1,12 +1,12 @@
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
-		<div class="panel-heading">
+		<div class="panel-heading hidden-print">
 			<h4>Room Schedule</h4>
 		</div>
 		<div class="panel-body">
 		<div class="col-md-12">
-			<div class="col-md-12 col-bg">
+			<div class="col-md-12 col-bg hidden-print">
 				<strong class="strong">Room : </strong>
 				<label class="lbl-data"> <?php echo $room_name; ?></label>
 				<strong class="strong">Location : </strong>
@@ -283,7 +283,7 @@
 									else
 									{
 							?>
-									<td>&nbsp;</td>
+									<td style="height:10px;">&nbsp;</td>
 							<?php
 									}
 								}

@@ -71,6 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $route['non_exist']                     = 'dean/addSubjAlloc';
     $route['add_day_period/(:num)']         = 'dean/add_day_period/$1';
+    $route['delete_classalloc/(:num)']      = 'dean/delete_classalloc/$1';
 
     // EDP Routes
     $route['edp_ListUsers']                 = 'edp/ListUsers';
