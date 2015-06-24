@@ -9,7 +9,7 @@
 	if($term != 2)
 	{
  ?>
-<input type="hidden" name="acam" value="<?php echo $current_academicterm; ?>">
+<input type="hidden" name="acam" value="<?php echo $current_academicterm + 1; ?>">
 <table class="table">
 	<caption>
 		<strong>
@@ -27,164 +27,135 @@
 		<td>Number of Student</td>
 	</tr>
 
-	<?php 
-		$coursemajor = $this->course->getAllCourse();
-		foreach($coursemajor as $c)
+	<?php
+
+		$curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
+		foreach($curs as $cu)
 		{
-			$cid = $c['id'];
-			$course = $this->course->getCourse($cid);
-			if($c['major'] == 0)
+			/*$cid = $cu['id'];
+			$this->db->query("SELECT * FROM tbl_curriculum WHERE coursemajor = (SELECT id FROM tbl_coursemajor WHERE course=$cid)")->result_array();*/
+			for($i=1;$i<=4;$i++)
 			{
-				$major = '';
-			}
-			else
-			{
-				$major = '('.$this->course->getMajor($c['major']).')';
-			}
-
-			$c_count = 0;
-			for($i = $current_academicterm;$i > 0;$i--)
-			{
-				$cur = $this->curriculum->getCur($i,$c['id']);
-				if($cur != 'repeat')
+				$year_l = $i;
+	?>
+	<tr>
+		<input type="hidden" name="coursemajor[]" value="<?php echo $cu['id']; ?>">
+		<input type="hidden" name="year_level[]" value="<?php echo $year_l; ?>">
+		<td><?php echo $cu['description']; ?></td>
+		<td><?php echo $i; ?></td>
+		<td>
+			<?php 
+				$cid = $cu['id'];
+				if($year_l != 1)
 				{
-					break;
-				}
-				$c_count++;
-			}
-
-			
-			// another loop
-			if($cur != 'repeat')
-			{
-				$cc = $this->curriculumdetail->getAllYear($cur);
-				foreach($cc as $cc1)
-				{
-					$year_l = $cc1['yearlevel'];
-					?>
-				<tr>
-					<input type="hidden" name="coursemajor[]" value="<?php echo $cid; ?>">
-					<input type="hidden" name="year_level[]" value="<?php echo $year_l; ?>">
-					<td><?php echo $course.' '.$major; ?></td>
-					<td><?php echo $year_l; ?></td>
-					<td>
-						<?php 
-							//$r = $current_academicterm - 12;
-							if($year_l != 1)
+					$cc_count = 0;
+					
+					if($term == 3)
+					{
+						$e =  $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid and academicterm = $current_academicterm - 1 AND school = 1 GROUP BY student")->result_array();
+					}
+					else
+					{
+						$e =  $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
+					}
+					
+					foreach($e as $ee)
+					{
+						$stu_id = $ee['student'];
+						$s = $this->db->query("SELECT * FROM tbl_enrolment,tbl_academicterm WHERE student = $stu_id AND school = 1 AND tbl_enrolment.academicterm = tbl_academicterm.id AND tbl_academicterm.term != 3 GROUP BY academicterm")->num_rows();
+						
+						if(($s == 1 OR $s == 2) AND $year_l == 1)
+						{
+							if ($term == 3) 
 							{
-								$cc_count = 0;
-								
-								if($term == 3)
+								$ss = $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE student = $stu_id AND academicterm >= $current_academicterm - 2  AND school = 1 GROUP BY academicterm")->num_rows();
+								if($ss > 0)
 								{
-									$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm - 1 AND school = 1 GROUP BY student")->result_array();
-								}
-								else
-								{
-									$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
-								}
-								
-								foreach($e as $ee)
-								{
-									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
-									
-									if(($s == 1 OR $s == 2) AND $year_l == 1)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
-									{
-										$cc_count++;
-									}
-								}
-								echo $cc_count;
-						?>
-							<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
-						<?php
-							/*elseif($term == 3)
-							{
-								$cc_count = 0;
-								$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm-1 AND school = 1 GROUP BY student")->result_array();
-								foreach($e as $ee)
-								{
-									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
-									
-
-									if(($s == 1 OR $s == 2) AND $year_l == 1)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
-									{
-										$cc_count++;
-									}
-								}
-								echo $cc_count;*/
+									$cc_count++;
+								}	
 							}
 							else
 							{
-								$cc_count = 0;
-								if($term == 3)
-								{
-									$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm - 2 AND school = 1 GROUP BY student")->result_array();
-								}
-								else
-								{
-									$e =  $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
-								}
-								
-								foreach($e as $ee)
-								{
-									$stu_id = $ee['student'];
-									$s = $this->db->query("SELECT * FROM tbl_enrolment WHERE coursemajor = $cid AND student = $stu_id AND school = 1 GROUP BY academicterm")->num_rows();
-									
-									if(($s == 1 OR $s == 2) AND $year_l == 1)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 3 OR $s == 4) AND $year_l == 2)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 5 OR $s == 6) AND $year_l == 3)
-									{
-										$cc_count++;
-									}
-									elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
-									{
-										$cc_count++;
-									}
-								}
-								echo $cc_count;
-							?>
-								<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
-							<?php
+								$cc_count++;
 							}
-						?>
-					</td>
-					
-				</tr>
-				<?php
+						}
+						elseif(($s == 3 OR $s == 4) AND $year_l == 2)
+						{
+							$cc_count++;
+						}
+						elseif(($s == 5 OR $s == 6) AND $year_l == 3)
+						{
+							$cc_count++;
+						}
+						elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
+						{
+							$cc_count++;
+						}
+					}
+					echo $cc_count;
+					?>
+					<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
+					<?php
 				}
+				else
+				{
+					$cc_count = 0;
+					if($term == 3)
+					{
+						$e =  $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid and academicterm = $current_academicterm - 2 AND school = 1 GROUP BY student")->result_array();
+					}
+					else
+					{
+						$e =  $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid and academicterm = $current_academicterm AND school = 1 GROUP BY student")->result_array();
+					}
+					
+					foreach($e as $ee)
+					{
+						$stu_id = $ee['student'];
+						$s = $this->db->query("SELECT * FROM tbl_enrolment,tbl_academicterm,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid AND student = $stu_id AND school = 1 AND tbl_enrolment.academicterm = tbl_academicterm.id AND tbl_academicterm.term != 3 GROUP BY academicterm")->num_rows();
+						
+						if(($s == 1 OR $s == 2) AND $year_l == 1)
+						{
+							if ($term == 3) 
+							{
+								$ss = $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor and tbl_coursemajor.course = $cid AND student = $stu_id AND academicterm >= $current_academicterm - 2  AND school = 1 GROUP BY academicterm")->num_rows();
+								if($ss > 0)
+								{
+									$cc_count++;
+								}	
+							}
+							else
+							{
+								$cc_count++;
+							}
+						}
+						elseif(($s == 3 OR $s == 4) AND $year_l == 2)
+						{
+							$cc_count++;
+						}
+						elseif(($s == 5 OR $s == 6) AND $year_l == 3)
+						{
+							$cc_count++;
+						}
+						elseif(($s == 7 OR $s >= 8) AND $year_l ==4)
+						{
+							$cc_count++;
+						}
+					}
+					echo $cc_count;
+					?>
+					<input type="hidden" name="count[]" value="<?php echo $cc_count; ?>">
+					<?php
+				}
+			?>
+		</td>
+	</tr>
+	<?php
+
 			}
 		}
+
+		
 	}
 	else
 	{

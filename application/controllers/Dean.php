@@ -413,6 +413,18 @@ class Dean extends CI_Controller
         $this->load->model('dean/student');
         return $this->student->getCalculation($enid);
     }
+
+    function addClassAlloc1()
+    {
+        //$this->load->model('dean/out_section');
+        $id                 = $this->input->post('out_section_id');
+        $data['section']    = $this->input->post('sections');
+
+        $this->db->where('id',$id);
+        $this->db->update('out_section',$data);
+    }
+
+    // leave it as is.. 
     function addClassAlloc()
     {
         $this->load->model('dean/out_section');
@@ -601,7 +613,7 @@ class Dean extends CI_Controller
         {
             $subject    = $this->input->post('subject');
             $cmajor     = $this->input->post('course_major');
-            $q          = $this->classallocation->chkClassAlloc($subject,$systemVal['nextacademicterm'],$cmajor);
+            $q          = $this->db->query("SELECT * FROM out_section WHERE coursemajor = $cmajor AND subject = $subject")->num_rows();
             if($q > 0)
             {
                 $data['error'] = '<div class="alert alert-danger">You have already assigned this subject with this course</div>';
@@ -610,7 +622,14 @@ class Dean extends CI_Controller
             }
             else
             {
-                $this->addClassAlloc();
+                $db['subject']      = $subject;
+                $db['coursemajor']  = $cmajor;
+                $db['section']      = $this->input->post('sections');
+                $db['academicterm'] = $systemVal['nextacademicterm'];
+                $db['studentcount'] = 0;
+                $db['yearlevel']    = $this->input->post('yearlevel');
+                $this->db->insert('out_section',$db);
+                redirect('/non_exist');
             }
         }
     }

@@ -6,7 +6,6 @@
 					<h4>Manage Section</h4>
 				</div>
 			</div>
-			<?php $systemVal = $this->api->systemValue(); ?>
 			<div class="panel-body">
 				<div class="form-group">
 					<div class="col-sm-12">
@@ -18,198 +17,67 @@
 								<strong>
 								Preparation for Academicterm SY:
 								<?php 
-									$nxt = $this->api->systemValue();
-									$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+									$owner 	= $this->api->getUserCollege();
+									$nxt 	= $this->api->systemValue();
+									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
 									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$this->academicterm->getLongName($nnxt['term']);
 								 ?>
 								 </strong>
 							</caption>
 							<tr>
 								<td>Subject</td>
+								<td>Description</td>
 								<td>Year Level</td>
 								<td>Course</td>
 								<td>No. of Student</td>
-								<td>Apprx. Section <br/>(<?php echo $systemVal['numberofstudent']; ?> students)</td>
+								<td>Apprx. Section <br/>(<?php echo $nxt['numberofstudent']; ?> students)</td>
 								<td>Section</td>
 								<td>Action</td>
 							</tr>
-							<?php
-								// get the system value
-								
-								$stud_num = $systemVal['numberofstudent'];
-
-								$cur_acam = $systemVal['currentacademicterm'];
-								
-								$owner = $this->api->getUserCollege();
-								$acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $cur_acam")->row_array();
-								$term = $acam['term'];
-								$course = $this->out_studentcount->getGroup();
-
-								foreach($course as $cc)
+							<?php 
+								$this->db->order_by('coursemajor ASC, yearlevel ASC');
+								$all_s = $this->db->get('out_section')->result_array();
+								foreach($all_s as $subj)
 								{
-									for($i = $cur_acam;$i > 0;$i--)
+									$ss = $this->subject->whereCode_owner($owner,$subj['subject']);
+									if($ss > 0)
 									{
-										$a = $this->curriculum->getCur($i,$cc['coursemajor']);
-                                        if($a != 'repeat')
-                                        {
-                                            break;
-                                        }
+							?>
+							<tr>
+								<td>
+									<?php 
+										$t = $this->subject->find($subj['subject']);
+										echo $t['code'];
+									 ?>
+								</td>
+								<td><?php echo $t['descriptivetitle']; ?></td>
+								<td><?php echo $subj['yearlevel']; ?></td>
+								<td>
+									<?php 
+										$cc = $this->db->query("SELECT * FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
+										echo $cc['shortname'];
+									 ?>
+								</td>
+								<td><?php echo $subj['studentcount']; ?></td>
+								<td><?php echo $subj['section']; ?></td>
+
+								<form class="addClassAllocation">
+								<td>
+									<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $subj['section']; ?>" required>
+									<input type="hidden" name="out_section_id" value="<?php echo $subj['id']; ?>">
+								</td>
+								<td>
+									<input type="submit" value="Add" class="btn btn-primary btn-sm">
+								</td>
+								</form>
+
+							</tr>
+							<?php
 									}
-									$cmajor = $cc['coursemajor'];
-									$cur_range1 = $cur_acam - 12;
-
-									$cours_m = $this->api->getCourse($cmajor);
-									$cours_major = $this->api->getMajor($cmajor);
-
-									if($cours_major->num_rows() > 0)
-									{
-										$c1 = $cours_major->row_array();
-										$cours_major1 = '('.$c1['description'].')';
-									}
-									else
-									{
-										$cours_major1 = '';
-									}
-
-									//find if there are many active curriculum
-									$cur_range = $this->db->query("SELECT * FROM tbl_curriculum WHERE academicterm between $cur_range1 and $cur_acam and coursemajor = $cmajor")->num_rows();
-
-									if($cur_range > 0)
-									{
-										$cur = $this->db->query("SELECT * FROM tbl_curriculum WHERE academicterm between $cur_range1 and $cur_acam and coursemajor = $cmajor")->result_array();
-										foreach($cur as $cur1)
-										{
-											$cus = $cur1['id'];
-											$cur_detail = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cus AND term = $term")->result_array();
-											foreach($cur_detail as $c_detail)
-											{ 
-												$ss = $this->subject->whereCode_owner($owner,$c_detail['subject']);
-
-												if($ss > 0)
-												{
-
-												?>
-												<tr>
-													<td>
-													<?php 
-														$t = $this->subject->find($c_detail['subject']);
-														echo $t['code'];
-													?>
-													</td>
-													<td><?php echo $y = $c_detail['yearlevel']; ?></td>
-													<td><?php echo $cours_m.' '.$cours_major1; ?></td>
-													<td>
-														<?php 
-															$o = $this->db->query("SELECT * FROM out_studentcount Where coursemajor = $cmajor and yearlevel = $y")->row_array();
-															echo $o['studentcount'];
-														 ?>
-													</td>
-													<td>
-													<?php 
-														if($o['studentcount'] != 0 AND $o['studentcount'] > $stud_num)
-														{
-															echo (int) ($o['studentcount'] / $stud_num);
-														}
-														else
-														{
-															echo 0;
-														}
-												 	?>
-												 	</td>
-
-												 	<form class="addClassAllocation">
-													<td>
-														<input type="hidden" name="is_ajax" value="1">
-														<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
-														<input type="hidden" name="studentcount" value="<?php echo $o['studentcount']; ?>">
-														<input type="hidden" name="yearlevel" value="<?php echo $y; ?>">
-														<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
-														<?php 
-															$sec = $this->out_section->count($systemVal['nextacademicterm'],$cmajor,$t['id'],$y);
-														 ?>
-														<input type="hidden" name="out_section_id" value="<?php echo $sec['id']; ?>">
-												 		<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $sec['section']; ?>" required>
-												 	</td>
-												 	<td>
-												 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
-												 	</td>
-												 	</form>
-												 	
-												</tr>
-												<?php
-												}
-											}
-										}
-									}
-									elseif($a != 'repeat')
-									{
-										$cus = $a;
-										$cur_detail = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cus AND term = $term")->result_array();
-										foreach($cur_detail as $c_detail)
-										{
-											$ss = $this->subject->whereCode_owner($owner,$c_detail['subject']);
-
-											if($ss > 0)
-											{
-
-											?>
-											<tr>
-												<td>
-												<?php 
-													$t = $this->subject->find($c_detail['subject']);
-													echo $t['code'];
-												?>
-												</td>
-												<td><?php echo $y = $c_detail['yearlevel']; ?></td>
-												<td><?php echo $cours_m; ?></td>
-												<td>
-													<?php 
-														$o = $this->db->query("SELECT * FROM out_studentcount Where coursemajor = $cmajor and yearlevel = $y")->row_array();
-														echo $o['studentcount'];
-													 ?>
-												</td>
-												<td>
-												<?php 
-													if($o['studentcount'] != 0 AND $o['studentcount'] > $stud_num)
-													{
-														echo (int) ($o['studentcount'] / $stud_num);
-													}
-													else
-													{
-														echo 0;
-													}
-												 ?>
-												 </td>
-												<form class="addClassAllocation">
-												<td>
-													<input type="hidden" name="is_ajax" value="1">
-													<input type="hidden" name="studentcount" value="<?php echo $o['studentcount']; ?>">
-													<input type="hidden" name="subject" value="<?php echo $t['id']; ?>">
-													<input type="hidden" name="yearlevel" value="<?php echo $y; ?>">
-													<input type="hidden" name="course_major" value="<?php echo $cmajor; ?>">
-											 		<?php 
-														$sec = $this->out_section->count($systemVal['nextacademicterm'],$cmajor,$t['id'],$y);
-													 ?>
-													<input type="hidden" name="out_section_id" value="<?php echo $sec['id']; ?>">
-											 		<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $sec['section']; ?>" required>
-											 	</td>
-											 	<td>
-											 		<input type="submit" class="btn btn-primary btn-sm" value="Add">
-											 	</td>
-											 	</form>
-											</tr>
-											<?php
-											}
-										}
-									}
-									//else
-									//{
-										//set the academicterm to zero
-										//fallback function
-									//}
-									
 								}
+
 							 ?>
+							
 						</table>
 					</div>
 	            </div>

@@ -51,9 +51,14 @@
                 ?>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        $.post('/edp/load_stat',{},function (data){
-                            $('#stat_wrapper').html(data);
+                        $('input[name=btnYes]').click(function (e){
+                            $('#confirmBox').hide();
+                            $('#stat_wrapper').removeClass('hide');
+                            $.post('/edp/load_stat',{},function (data){
+                                $('#stat_wrapper').html(data);
+                            });
                         });
+                        
                     });
                 </script>
         <?php
@@ -64,8 +69,8 @@
                 <script type="text/javascript">
                     $(document).ready(function(){
                         $('.addClassAllocation').submit(function (e){
-                            $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
-                                
+                            $.post('/dean/addClassAlloc1',$(this).serialize(),function(data){
+                                alert('Successfully Updated');
                             });
                             e.preventDefault();
                         });

@@ -93,6 +93,18 @@ class Edp extends CI_Controller
         $this->load->view('edp/ajax_studentCount');
     }
 
+    function load_stat1()
+    {
+        $this->load->model(array(
+            'edp/out_studentcount',
+            'registrar/course',
+            'registrar/curriculum',
+            'registrar/academicterm',
+            'registrar/curriculumdetail'
+        ));
+        $this->load->view('edp/ajax_stu');
+    }
+
     function studentcount()
     {
         $acam           = $this->input->post('acam');
@@ -103,9 +115,9 @@ class Edp extends CI_Controller
         $this->load->model('edp/out_studentcount');
 
         //truncate table before inserting
-        $this->db->query("TRUNCATE out_studentcount");
+        //$this->db->query("TRUNCATE out_studentcount");
 
-        foreach($coursemajor as $key => $value)
+       /* foreach($coursemajor as $key => $value)
         {
             $data = array();
             $data['coursemajor']    = $value;
@@ -113,7 +125,63 @@ class Edp extends CI_Controller
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
             $this->out_studentcount->insert($data);
+        }*/
+        $this->db->query("TRUNCATE out_section");
+
+        $systemVal = $this->api->systemValue();
+        $sy = $systemVal['nextacademicterm'];
+
+        $tt = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
+        $term = $tt['term'];
+
+        $stuC = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
+        foreach($stuC as $studentC)
+        {
+            $coursemajor    = $studentC['coursemajor'];
+            $acam           = $studentC['academicterm'];
+            $cur1           = 0;
+            for($i = $acam;$i > 0;$i--)
+            {
+                $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE 
+                    tbl_coursemajor.id = tbl_curriculum.coursemajor AND 
+                    tbl_coursemajor.course = $coursemajor AND academicterm = $i");
+                if($c->num_rows() > 0)
+                {
+                    $cur = $c->row_array();
+                    $cur1 = $cur['id'];
+                    break;
+                }
+            }
+            if($cur1 != 0)
+            {
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                foreach($c as $cc)
+                {
+                    $y      = $cc['yearlevel'];
+                    $cou    = $cc['studentcount'];
+                    $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
+                    foreach($e as $ee)
+                    {
+                        $d['academicterm']  = $sy;
+                        $d['coursemajor']   = $coursemajor;
+                        $d['subject']       = $ee['subject'];
+                        $d['yearlevel']     = $y;
+                        $d['studentcount']  = $cou;
+                        if($cou == 0 OR $cou < $systemVal['numberofstudent'])
+                        {
+                            $d['section'] = 0;
+                        }
+                        else
+                        {
+
+                            $d['section'] = (int) ($cou / $systemVal['numberofstudent']);
+                        }
+                        $this->db->insert('out_section',$d);
+                    }
+                }
+            }
         }
+
         $this->session->set_flashdata('message','<div class="alert alert-success">
             Successfully Created
         </div>');
