@@ -1,7 +1,4 @@
 <?php 
-	/**
-	* 
-	*/
 	class Assesment extends CI_Model
 	{
 		function getstudinfo($legacyid){
@@ -32,6 +29,24 @@
 		function getPhase($id){
 			$this->db->where('id', $id);
 			return $this->db->get('tbl_phase')->row_array();
-
+		}
+		function balance($id){
+			$m = $this->get_account($id);
+			$aca = $this->api->systemValue();
+			$q = $this->db->query("SELECT SUM(previousbalance) as prev, SUM(amount) as amount FROM tbl_movement WHERE account = '$m' AND academicterm != '". $aca['phaseterm'] . "'")->row_array();
+			extract($q);
+			return  $prev + $amount;
+		}
+		function get_account($i){
+			$this->db->where('party', $i);
+			$this->db->select('id');
+			$x = $this->db->get('tbl_account')->row_array();
+			return $x['id'];
+		}
+		function get_unit($enrolid){
+			$this->db->where('id', $enrolid);
+			$this->db->select('totalunit');
+			$x = $this->db->get('tbl_enrolment')->row_array();
+			return $x['totalunit'];
 		}
 }
