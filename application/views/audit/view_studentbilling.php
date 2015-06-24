@@ -222,8 +222,11 @@
 							</tr>
 
 							<tr>
-								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total"><?php echo $tui['netprelim'] + $get_bal; ?></th>
+								<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
+
+								<th class="tblNum td-total"><?php 
+								echo $mu = $phase['phase'] - 1 . "<br />";
+								echo ($tui['netprelim'] * $mu) + ($get_bal + $tui['enrolment']); ?></th>
 							</tr>
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
@@ -351,7 +354,7 @@
 					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Save</a>
 				<br /><br /><br /><br />								
 			</div>
-		<?php endif ?>
+		<?php endif ?> 
 			</div>
 		</div>
 	</div>

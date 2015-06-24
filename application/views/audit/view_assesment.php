@@ -294,30 +294,31 @@
 							<tr>
 								<th><?php 
 								$x = $this->assesment->getPhase($phase['phase']);
+								$mu = $phase['phase'] - 1;
 								echo $x['description'];
 								 ?></th>
 								<th class="tblNum"></th>
 							</tr>
 							<tr>
 								<td>1/5 TUITION</td>
-								<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
+								<td class="tblNum"><?php echo $tui['tuition']/5 * $mu; ?></td>
 							</tr>
 							<?php if ($tui['computer'] > 0): ?>
 								<tr>
 									<td>1/5 COMPUTER</td>
-									<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
+									<td class="tblNum"><?php echo $tui['computer']/5 * $mu; ?></td>
 								</tr>
 							<?php endif ?>
 							<?php if ($tui['internet'] > 0): ?>
 									<tr>
 										<td>1/4 INTERNET</td>
-										<td class="tblNum"><?php echo $tui['internet']/4; ?></td>
+										<td class="tblNum"><?php echo $tui['internet']/4 * $mu; ?></td>
 									</tr>
 							<?php endif ?>
 						<?php if ($tui['booklet'] > 0): ?>
 							<tr>
 								<td>BOOKLET FEE</td>
-								<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
+								<td class="tblNum"><?php echo $tui['booklet']/5 * $mu;; ?></td>
 							</tr>
 						<?php endif ?>
 							<tr>
@@ -334,15 +335,29 @@
 								 ?>
 								</td>
 							</tr>
-
 							<tr>
-								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total"><?php echo $tui['netprelim'] + $get_bal; ?></th>
+								<td>Amount Recieve</td>
+
+								<td class="tblNum">
+									<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?>
+								</td>
+							</tr> 
+							<tr>
+								<th class="td-total tblNum">NET DUE ON <?php 
+								$x = $this->assesment->getPhase($phase['phase']);
+								echo $x['description']; ?></th>
+								<th class="tblNum td-total"><?php 
+								echo ($tui['netprelim'] * $mu) + ($get_bal + $tui['netenrolment']); ?></th>
 							</tr>
+
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
 								<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
-							</tr>  
+							</tr> 
+							
 							</table>
 
 				<?php endif ?>
@@ -353,6 +368,7 @@
 				<a class="pull-right btn btn-primary" href="/billing/view_studentbilling/fullpayment/<?php echo $legacyid; ?>" style="margin-left:5px;">Fullpayment</a>
 				<br /><br />	<br />	<br />								
 			</div>
+
 					 	<?php else: ?>
 					 <?php endif ?>
 					
