@@ -134,17 +134,20 @@ class Edp extends CI_Controller
         $tt = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
         $term = $tt['term'];
 
+        $acamd = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+
         $stuC = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
         foreach($stuC as $studentC)
         {
             $coursemajor    = $studentC['coursemajor'];
             $acam           = $studentC['academicterm'];
             $cur1           = 0;
-            for($i = $acam;$i > 0;$i--)
+
+            foreach($acamd as $acams)
             {
                 $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE 
                     tbl_coursemajor.id = tbl_curriculum.coursemajor AND 
-                    tbl_coursemajor.course = $coursemajor AND academicterm = $i");
+                    tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
                 if($c->num_rows() > 0)
                 {
                     $cur = $c->row_array();
