@@ -712,6 +712,8 @@ class Dean extends CI_Controller
         echo $template;
     }
 
+
+    // function in adding day period
     function ass_subj()
     {
         $day        = $this->input->post('day');
@@ -720,6 +722,7 @@ class Dean extends CI_Controller
         $cid        = $this->input->post('class_id');
         $url        = $this->input->post('url');
 
+        // count the number of days
         $index = count($day);
 
         $this->db->where('classallocation',$cid);
@@ -733,6 +736,7 @@ class Dean extends CI_Controller
         {
             if($index < 3)
             {
+                //check if the days are just the same
                 if($day[0] == $day[1])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
@@ -741,6 +745,7 @@ class Dean extends CI_Controller
             }
             elseif($index < 4)
             {
+                //check if the days are just the same
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
@@ -748,8 +753,10 @@ class Dean extends CI_Controller
                 }
             }
 
+            // check if the user select the noon break time period
             if($start_time[$key] != 11 AND $end_time[$key] != 12)
             {
+                //end time period must be greater than the start time period
                 if($end_time[$key] > $start_time[$key])
                 {
                     $data['classallocation']    = $cid;
@@ -774,6 +781,7 @@ class Dean extends CI_Controller
         return TRUE;
     }
 
+    // function to delete classallocation
     function delete_classalloc($id)
     {
         $this->db->where('id',$id);
@@ -782,6 +790,8 @@ class Dean extends CI_Controller
         $this->db->delete('tbl_dayperiod');
         redirect('/menu/dean-add_day_period');
     }
+
+     // function to create classallocation
     function add_classalloc()
     {
         $data['subject']        = $this->input->post('subj');

@@ -10,10 +10,6 @@ class Api
 		$this->CI =& get_instance(); 
 	}
 
-	/*	getCourse by id
-	*	@param id int
-	*	@return int course id
-	*/
 	/* ***** to be removed ********** */
 	function getCourse($id)
 	{
@@ -71,6 +67,7 @@ class Api
         }
 	}
 
+	// get the tbl_systemvalue table values
 	function systemValue()
 	{
 		return $this->CI->db->get('tbl_systemvalues')->row_array();
@@ -98,6 +95,8 @@ class Api
 			return 'error';
 	}
 
+
+	// load the user menu
 	function userMenu()
 	{
 		$this->CI->load->model(array(
