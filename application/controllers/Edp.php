@@ -115,9 +115,9 @@ class Edp extends CI_Controller
         $this->load->model('edp/out_studentcount');
 
         //truncate table before inserting
-        //$this->db->query("TRUNCATE out_studentcount");
+        $this->db->query("TRUNCATE out_studentcount");
 
-       /* foreach($coursemajor as $key => $value)
+        foreach($coursemajor as $key => $value)
         {
             $data = array();
             $data['coursemajor']    = $value;
@@ -125,7 +125,7 @@ class Edp extends CI_Controller
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
             $this->out_studentcount->insert($data);
-        }*/
+        }
         $this->db->query("TRUNCATE out_section");
 
         $systemVal = $this->api->systemValue();
