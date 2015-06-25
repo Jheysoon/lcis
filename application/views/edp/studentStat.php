@@ -10,7 +10,13 @@
 				<div class="form-group">
 					<div class="col-sm-12">
 						<div class="alert alert-info center-block" id="confirmBox" style="max-width:400px;">
-							<strong> Do you want to run the student statistics ?</strong>
+							<strong> Do you want to run the student statistics for <br/>
+							<?php 
+								$nxt = $this->api->systemValue();
+								$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+								echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
+						 	?>
+		 				?</strong>
 							<br/>
 							<input type="button" name="btnYes" class="btn btn-primary pull-right" value="Yes">
 							<span class="clearfix">

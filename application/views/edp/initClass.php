@@ -6,10 +6,13 @@
 			<?php 
 				$systemVal = $this->api->systemValue();
 				$sy = $systemVal['nextacademicterm'];
+
+				// delete first all nextacademicterm
 				$this->db->query("DELETE FROM tbl_classallocation WHERE academicterm = $sy");
 				$st = $this->db->get('out_section')->result_array();
 				foreach($st as $s)
 				{
+					// if the section is zero it will not satisfy this condition
 					for($i = 1;$i <= $s['section'];$i++)
 					{
 						$data['academicterm'] = $s['academicterm'];
