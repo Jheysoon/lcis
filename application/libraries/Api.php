@@ -43,19 +43,20 @@ class Api
             'dean/subject',
             'dean/common_dean'
         ));
+        $uid = $this->CI->session->userdata('uid');
 
-        $col = $this->CI->common_dean->countAcam($this->CI->session->userdata('uid'));
+        $col = $this->CI->common_dean->countAcam($uid);
         if($col > 0)
         {
-            $owner = $this->CI->common_dean->getColAcam($this->CI->session->userdata('uid'));
+            $owner = $this->CI->common_dean->getColAcam($uid);
             return $owner['college'];
         }
         else
         {
-            $c = $this->CI->common_dean->countAdmin($this->CI->session->userdata('uid'));
+            $c = $this->CI->common_dean->countAdmin($uid);
             if($c > 0)
             {
-                $owner = $this->CI->common_dean->getColAdmin($this->CI->session->userdata('uid'));
+                $owner = $this->CI->common_dean->getColAdmin($uid);
                 $o = $owner['office'];
                 $of = $this->CI->common_dean->getOffice($o);
                 return $of['college'];
