@@ -71,11 +71,13 @@ class Edp extends CI_Controller
             }
             else
             {
-                $data['legacycode']     = $this->input->post('room');
-                $data['mincapacity']    = $this->input->post('mincapacity');
-                $data['maxcapacity']    = $this->input->post('maxcapacity');
-                $data['location']       = $this->input->post('location');
-                $data['status']         = $this->input->post('status');
+                $dat['legacycode']     = $this->input->post('room');
+                $dat['mincapacity']    = $this->input->post('mincapacity');
+                $dat['maxcapacity']    = $this->input->post('maxcapacity');
+                $dat['location']       = $this->input->post('location');
+                $dat['status']         = $this->input->post('status');
+
+                $this->db->insert('tbl_classroom',$dat);
             }
         }
         $this->load->view('templates/footer',array('orig_page'=>''));
@@ -126,6 +128,7 @@ class Edp extends CI_Controller
             $data['academicterm']   = $acam;
             $this->out_studentcount->insert($data);
         }
+
         $this->db->query("TRUNCATE out_section");
 
         $systemVal = $this->api->systemValue();
@@ -150,12 +153,53 @@ class Edp extends CI_Controller
                     tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
                 if($c->num_rows() > 0)
                 {
-                    $cur = $c->row_array();
-                    $cur1 = $cur['id'];
+                    $cur    = $c->row_array();
+                    $cur1   = $cur['id'];
                     break;
                 }
             }
-            if($cur1 != 0)
+
+
+            //get the curriculum within 4 years
+            $cur_range1 = $acam - 12;
+            $cur_range  = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
+            if($cur_range > 1)
+            {
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                foreach($c as $cc)
+                {
+                    $y      = $cc['yearlevel'];
+                    $cou    = $cc['studentcount'];
+
+                    $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
+                    foreach($cur_range2 as $ra)
+                    {
+                        $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
+                        foreach($e as $ee)
+                        {
+                            $d['academicterm']  = $sy;
+                            $d['coursemajor']   = $coursemajor;
+                            $d['subject']       = $ee['subject'];
+                            $d['yearlevel']     = $y;
+                            $d['studentcount']  = $cou;
+
+                            // if the count is less than the numberofstudent system value set it to 0
+                            if($cou == 0 OR $cou < $systemVal['numberofstudent'])
+                            {
+                                $d['section'] = 0;
+                            }
+                            else
+                            {
+                                // force the result to be an integer
+                                $d['section'] = (int) ($cou / $systemVal['numberofstudent']);
+                            }
+                            $this->db->insert('out_section',$d);
+                        }
+                    }
+                }
+            }
+
+            elseif($cur1 != 0)
             {
                 $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
                 foreach($c as $cc)
@@ -284,5 +328,21 @@ class Edp extends CI_Controller
         $this->db->update('tbl_classallocation',$data);*/
        /* $this->session->set_flashdata('message','<div class="alert alert-success">Successfully Assigned</div>');
         */
+    }
+
+    function preview($roomId)
+    {
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+        $data['roomId']     = $roomId;
+        $room               = $this->classroom->find($roomId);
+        $data['room_name']  = $room['legacycode'];
+        $data['location']   = $room['location'];
+
+
+        $this->load->view('edp/preview',$data);
     }
 }

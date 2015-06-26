@@ -83,6 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['add_sched/(:num)']              = 'edp/add_sched/$1';
     $route['view_sched/(:num)']             = 'edp/view_sched/$1';
     $route['assign_room/(:num)']            = 'edp/assign_room/$1';
+    $route['preview/(:num)']                = 'edp/preview/$1';
 
     // Student Routes
     $route['stdnt_editSelfEvaluation']      = 'student/editSelfEvaluation';

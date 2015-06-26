@@ -88,7 +88,7 @@
 						<?php
 							$user 		= $this->api->getUserCollege();
 							//$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
-							$sub 		= $this->db->query("SELECT * FROM tbl_classallocation,tbl_course where academicterm = {$systemVal['nextacademicterm']} and tbl_classallocation.coursemajor = tbl_course.id and college = $owner")->result_array();
+							$sub 		= $this->db->query("SELECT *,tbl_classallocation.id FROM tbl_classallocation,tbl_course where academicterm = {$systemVal['nextacademicterm']} and tbl_classallocation.coursemajor = tbl_course.id and college = $owner")->result_array();
 
 							foreach($sub as $subj)
 							{

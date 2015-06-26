@@ -6,6 +6,8 @@
 		</div>
 		<div class="panel-body">
 		<div class="col-md-12">
+			<a href="/preview/<?php echo $roomId; ?>" class="btn btn-primary btn-sm pull-right">Print Preview</a>
+			<span class="clearfix"></span>
 			<div class="col-md-12 col-bg hidden-print">
 				<strong class="strong">Room : </strong>
 				<label class="lbl-data"> <?php echo $room_name; ?></label>
@@ -15,7 +17,6 @@
 		</div>
 		<div class="col-md-12">
 			<div>
-			
 				<table class="table table-bordered">
 					<tr>
 						<th>Time \ Day</th>
@@ -254,7 +255,7 @@
 						$table_day['6'] = $saturday;
 						$table_day['7'] = $sunday;
 
-						for($i = 0;$i < 25;$i++)
+						for($i = 0;$i < 26;$i++)
 						{
 							?>
 					<tr>
@@ -283,7 +284,7 @@
 									else
 									{
 							?>
-									<td style="height:10px;">&nbsp;</td>
+									<td style="height:5px;">&nbsp;</td>
 							<?php
 									}
 								}
