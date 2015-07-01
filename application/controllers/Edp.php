@@ -127,6 +127,8 @@ class Edp extends CI_Controller
 
         $this->load->model('edp/out_studentcount');
 
+        $this->db->update('tbl_systemvalues',array('classallocationstatus'=>1));
+
         //truncate table before inserting
         $this->db->query("TRUNCATE out_studentcount");
 

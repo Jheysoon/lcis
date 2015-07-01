@@ -11,7 +11,7 @@
 					<div class="col-sm-12">
 						<?php
 							$nxt = $this->api->systemValue();
-							if($nxt['phase'] == FIN){
+							if($nxt['phase'] == FIN AND $nxt['classallocationstatus'] == 0){
 						?>
 						<div class="alert alert-info center-block" id="confirmBox" style="max-width:400px;">
 							<strong> Do you want to run the student statistics for <br/>

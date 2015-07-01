@@ -6,7 +6,7 @@
 			<?php
 				$systemVal 	= $this->api->systemValue();
 				$sy 		= $systemVal['nextacademicterm'];
-				if($systemVal['phase'] == FIN)
+				if($systemVal['phase'] == FIN AND $systemVal['classallocationstatus'] < 3)
 				{
 					$this->db->where('academicterm',$systemVal['currentacademicterm']);
 					$this->db->where('stage',2);
@@ -35,7 +35,7 @@
 					}
 					else
 					{
-						$this->load->view('edp/dean_activity');
+						$this->load->view('edp/dean_activity',array('stage'=>2));
 					}
 				}
 				else
