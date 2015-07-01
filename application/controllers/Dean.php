@@ -832,6 +832,7 @@ class Dean extends CI_Controller
 
             echo $append;
         }
+    }
     // function to delete classallocation
     function delete_classalloc($id)
     {
@@ -853,12 +854,14 @@ class Dean extends CI_Controller
 
     function add_task_comp()
     {
+        $this->load->helper('date');
         $systemVal = $this->api->systemValue();
         $data['academicterm'] = $systemVal['currentacademicterm'];
         $data['stage'] = '3';
         $data['completedby'] = $this->session->userdata('uid');
         $data['status'] = 'C';
         $data['statusdate'] = '';
-        $this->db->insert('tbl_completion',$data);
+        echo time();
+        //$this->db->insert('tbl_completion',$data);
     }
 }

@@ -1,6 +1,6 @@
 <div class="center-block" style="max-width:600px;">
     <div class="alert alert-danger" style="text-align:center;">
-        You cannot iniatialize the classallocation
+        You cannot initialize the classallocation
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -36,7 +36,7 @@
                     <td style="text-align:center;">
                         <?php
                             if($c > 0)
-                                echo $s['status'];
+                                echo $s['statusdate'];
                             else
                                 echo 'Not Available';
                          ?>
