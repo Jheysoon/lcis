@@ -780,7 +780,12 @@ class Dean extends CI_Controller
         $this->api->set_session_message('success','Successfully added');
         return TRUE;
     }
-    
+
+//------------------------------------------------------------------------
+// searching function for adding subject in evaluation method 
+// (called through ajax @ views/dean/ajax/evaluation.js)
+//------------------------------------------------------------------------
+
     function ajaxEvaluation(){
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
@@ -800,6 +805,11 @@ class Dean extends CI_Controller
         
         $this->load->view('dean/ajax/modal_evaluation', $param);
     }
+
+//-------------------------------------------------------------------------
+// function for adding subject to additional subject table in evaluation
+// (called through ajax @ views/dean/ajax/evaluation.js)
+//-------------------------------------------------------------------------
 
     function appendSubject(){
         $this->load->model('edp/edp_classallocation');
@@ -834,6 +844,8 @@ class Dean extends CI_Controller
 
             echo $append;
         }
+    }
+
     // function to delete classallocation
     function delete_classalloc($id)
     {
