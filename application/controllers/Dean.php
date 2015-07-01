@@ -528,7 +528,7 @@ class Dean extends CI_Controller
             //       Total units taken : '.$unit.'
             //     </div>';
             //     return false;
-            // }else 
+            // }else
             if ($message == '') {
 
                 $student = $this->input->post('student');
@@ -765,14 +765,12 @@ class Dean extends CI_Controller
                     $data['to_time']            = $end_time[$key];
                     $this->db->insert('tbl_dayperiod',$data);
                 }
-                else
-                {
+                else{
                     $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
                     return FALSE;
                 }
             }
-            else
-            {
+            else{
                 $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
                 return FALSE;
             }
@@ -780,7 +778,7 @@ class Dean extends CI_Controller
         $this->api->set_session_message('success','Successfully added');
         return TRUE;
     }
-    
+
     function ajaxEvaluation(){
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
@@ -792,12 +790,12 @@ class Dean extends CI_Controller
         $subject     = $this->input->post('subject');
 
         $param = array(
-            'term' => $term, 
-            'student' => $student, 
+            'term' => $term,
+            'student' => $student,
             'coursemajor' => $coursemajor,
             'subject' => $subject
         );
-        
+
         $this->load->view('dean/ajax/modal_evaluation', $param);
     }
 
