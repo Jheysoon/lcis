@@ -509,15 +509,15 @@ class Dean extends CI_Controller
                     }
                 }
             }
-            if($this->input->post('counter') < $unit){
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <strong>No. of units exceeded!</strong><br/>
-                  Total units taken : '.$unit.'
-                </div>';
-                return false;
-            }
-            else if ($message == '') {
+            // if($this->input->post('counter') < $unit){
+            //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+            //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            //       <strong>No. of units exceeded!</strong><br/>
+            //       Total units taken : '.$unit.'
+            //     </div>';
+            //     return false;
+            // }else 
+            if ($message == '') {
 
                 $student = $this->input->post('student');
                 $coursemajor = $this->input->post('coursemajor');
@@ -753,5 +753,60 @@ class Dean extends CI_Controller
         }
         $this->api->set_session_message('success','Successfully added');
         return TRUE;
+    }
+
+    function ajaxEvaluation(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        $term        = $this->input->post('term');
+        $student     = $this->input->post('student');
+        $coursemajor = $this->input->post('coursemajor');
+        $subject     = $this->input->post('subject');
+
+        $param = array(
+            'term' => $term, 
+            'student' => $student, 
+            'coursemajor' => $coursemajor,
+            'subject' => $subject
+        );
+        
+        $this->load->view('dean/ajax/modal_evaluation', $param);
+    }
+
+    function appendSubject(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        if ($this->input->post('choose')) {
+            $cid = $this->input->post('choose');
+            $sub = $this->student->getSubject($cid);
+
+            $p = $this->edp_classallocation->getPeriod($cid);
+            $d = $this->edp_classallocation->getDayShort($cid);
+
+            $reserved = $this->student->getReserved($cid);
+            $enrolled = $this->student->getEnrolled($cid);
+
+            $append = "
+            <tr>
+                <input type='hidden' name='additional[]' value='".$cid."'>
+                <td>".$sub['code']."</td>
+                <td>".$d."</td>
+                <td>".$p."</td>
+                <td></td>
+                <td></td>
+                <td>".$reserved['reserved']."</td>
+                <td>".$enrolled['enrolled']."</td>
+                <td>
+                    <button type='button' class='btn btn-danger'>Remove</button>
+                </td>
+
+            </tr>";
+
+            echo $append;
+        }
     }
 }

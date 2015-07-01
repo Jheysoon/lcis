@@ -396,7 +396,6 @@
 
 		function getClassAloc($academicterm, $student, $coursemajor){
 
-
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
 								   WHERE academicterm = '$academicterm'
 								   AND coursemajor = '$coursemajor'
@@ -404,12 +403,30 @@
 								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment 
 								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id 
 								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment 
-								   	AND tbl_classallocation.id != '$academicterm'
 								   	AND tbl_enrolment.id = '$student')
 									GROUP BY subject
 								   ");
 			return $q->result_array();
 		}
+
+		function getClassAloc2($academicterm, $student, $coursemajor, $subject){
+
+			$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
+								   WHERE academicterm = '$academicterm'
+								   AND coursemajor != '$coursemajor'
+								   AND subject NOT IN(SELECT subject FROM 
+								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment 
+								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id 
+								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment 
+								   	AND tbl_enrolment.id = '$student')
+									AND tbl_classallocation.subject = tbl_subject.id
+									AND (tbl_subject.code LIKE '%$subject%'
+									OR tbl_subject.descriptivetitle LIKE '%$subject%')
+									GROUP BY subject
+								   ");
+			return $q->result_array();
+		}
+		
 
 		function getSubDetail($subject){
 			$this->db->where('id', $subject);
@@ -422,6 +439,14 @@
 			$this->db->where($where);
 			$q = $this->db->get('tbl_classallocation');
 			return $q->result_array();
+		}
+
+		function getSubject($cid){
+			$where = 'tbl_classallocation.id='.$cid.' AND tbl_classallocation.subject=tbl_subject.id';
+			$this->db->where($where);
+			$this->db->select('code');
+			$q = $this->db->get('tbl_classallocation, tbl_subject');
+			return $q->row_array();
 		}
 
 		// function getDP($id){

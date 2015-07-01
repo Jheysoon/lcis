@@ -7,6 +7,8 @@
 		<div class="panel-heading search">					
 				<h4>Student Information Management: List of Students</h4>
 		</div>
+        
+        <div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
             <div class="col-md-6">
             <?php
@@ -61,19 +63,18 @@
 
             </form>
             </div>
-		<div class="panel-body">
             <input type="hidden" name="param" value="<?php echo $param; ?>"/>
-    		<div id="studlist_wrapper" class="table-responsive">
+    		<div id="studlist_wrapper" class="table-responsive col-md-12">
                 <?php 
                     $this->load->view('dean/ajax/tbl_student',$data);
                  ?>
-    		</div>
-                    
             <ul class="pagination">
                 <?php
                     echo $this->pagination->create_links();
                 ?>
             </ul>
+    		</div>
+                    
 		</div>
 		</div>
 	</div>

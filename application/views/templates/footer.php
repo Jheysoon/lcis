@@ -19,6 +19,7 @@
     <!-- =============================================================================== -->
 
     <script src="/assets/js/home.js"></script>
+    <script src="<?php echo base_url('assets/js/evaluation.js'); ?>"></script>
 
         <?php
             $str = current_url();

@@ -536,3 +536,11 @@ td.tbl-header-main{
 	color:#fff;
 	vertical-align:middle !important;
 }
+
+.main-table-header > th{
+	background: green;
+}
+
+#alert2{
+	display: none;
+}

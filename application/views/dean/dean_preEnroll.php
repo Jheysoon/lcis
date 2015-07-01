@@ -102,6 +102,7 @@
 				$data['student'] = $pid;
 				$data['units'] = $un['unit'];
 				$data['coursemajor'] = $cid;
+				$data['lvl'] = $lvl;
 				$this->load->view('dean/ajax/tbl_evaluation', $data); 
 			?>
 		</div>
