@@ -16,7 +16,7 @@
 							<caption>
 								<strong>
 								Preparation for Academicterm SY:
-								<?php 
+								<?php
 									$owner 	= $this->api->getUserCollege();
 									$nxt 	= $this->api->systemValue();
 									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
@@ -34,7 +34,7 @@
 								<td>Section</td>
 								<td>Action</td>
 							</tr>
-							<?php 
+							<?php
 								$this->db->order_by('coursemajor ASC, yearlevel ASC');
 								$all_s = $this->db->get('out_section')->result_array();
 								foreach($all_s as $subj)
@@ -45,7 +45,7 @@
 							?>
 							<tr>
 								<td>
-									<?php 
+									<?php
 										$t = $this->subject->find($subj['subject']);
 										echo $t['code'];
 									 ?>
@@ -53,7 +53,7 @@
 								<td><?php echo $t['descriptivetitle']; ?></td>
 								<td><?php echo $subj['yearlevel']; ?></td>
 								<td>
-									<?php 
+									<?php
 										$cc = $this->db->query("SELECT * FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
 										echo $cc['shortname'];
 									 ?>
@@ -67,21 +67,18 @@
 									<input type="hidden" name="out_section_id" value="<?php echo $subj['id']; ?>">
 								</td>
 								<td>
-									<input type="submit" value="Add" class="btn btn-primary btn-sm">
+									<input type="submit" value="Update" class="btn btn-primary btn-sm">
 								</td>
 								</form>
-
 							</tr>
 							<?php
 									}
 								}
-
 							 ?>
-							
 						</table>
+						<a href="/dean/add_task_comp" class="btn btn-primary pull-right">Attest all</a>
 					</div>
 	            </div>
 			</div>
 		</div>
 	</div>
-

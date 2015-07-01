@@ -210,7 +210,7 @@ class Dean extends CI_Controller
                 </button>
             </div>');
             redirect(base_url('menu/dean-subject_list'));
-        } 
+        }
     }
 
     function save_subject()
@@ -304,7 +304,7 @@ class Dean extends CI_Controller
         ));
 
         $college = $this->api->getUserCollege();
-        
+
         $s = $this->subject->search($sid,$college);
         $data = array();
 
@@ -363,7 +363,7 @@ class Dean extends CI_Controller
     function ident_subj($id)
     {
         $college = $this->api->getUserCollege();
-        
+
         $s = $this->subject->find($id);
         if($college == 0 OR $s['owner'] == 0)
         {
@@ -398,7 +398,7 @@ class Dean extends CI_Controller
         $this->load->model(array(
             'dean/student'
         ));
-        $college = $this->api->getUserCollege();        
+        $college = $this->api->getUserCollege();
 
         $s = $this->student->getStudent($sid,$college);
         $data = array();
@@ -424,7 +424,7 @@ class Dean extends CI_Controller
         $this->db->update('out_section',$data);
     }
 
-    // leave it as is.. 
+    // leave it as is..
     function addClassAlloc()
     {
         $this->load->model('dean/out_section');
@@ -499,7 +499,7 @@ class Dean extends CI_Controller
                     $individual[] = ${'var'.$ctr2}.",".$d.",".$p;
 
                 }
-                $ctr2--;   
+                $ctr2--;
             }
             $compare = $individual;
             $message = '';
@@ -559,7 +559,7 @@ class Dean extends CI_Controller
                     $this->student->addInitialGrade($value, $enid);
                     $this->student->updateReserved($value, $res);
                 }
-              
+
                 $this->calculatebill($enid);
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -693,7 +693,7 @@ class Dean extends CI_Controller
                         $t = $this->db->get('tbl_time')->result_array();
                         foreach($t as $time){
                         $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
-                      } 
+                      }
                      $template .= '</select>
                 </td>
                 <td>
@@ -701,9 +701,9 @@ class Dean extends CI_Controller
                         foreach($t as $time)
                         {
                             if($time['id'] != 1){
-                     
+
                             $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                            } 
+                            }
                         }
                     $template .='</select>
                 </td>
@@ -798,5 +798,16 @@ class Dean extends CI_Controller
         $data['coursemajor']    = $this->input->post('course_major');
         $this->db->insert('tbl_classallocation',$data);
         redirect('/menu/dean-add_day_period');
+    }
+
+    function add_task_comp()
+    {
+        $systemVal = $this->api->systemValue();
+        $data['academicterm'] = $systemVal['currentacademicterm'];
+        $data['stage'] = '3';
+        $data['completedby'] = $this->session->userdata('uid');
+        $data['status'] = 'C';
+        $data['statusdate'] = '';
+        $this->db->insert('tbl_completion',$data);
     }
 }

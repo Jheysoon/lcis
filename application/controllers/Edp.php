@@ -9,6 +9,7 @@
 
 class Edp extends CI_Controller
 {
+    public $numberOfStudents;
     private function head()
     {
         $this->load->view('templates/header');
@@ -85,14 +86,24 @@ class Edp extends CI_Controller
 
     function load_stat()
     {
-        $this->load->model(array(
-            'edp/out_studentcount',
-            'registrar/course',
-            'registrar/curriculum',
-            'registrar/academicterm',
-            'registrar/curriculumdetail'
-        ));
-        $this->load->view('edp/ajax_studentCount');
+        $systemVal = $this->api->systemValue();
+
+        //check if the phase term is FINALS
+        if ($systemVal['phase'] == FIN)
+        {
+            $this->load->model(array(
+                'edp/out_studentcount',
+                'registrar/course',
+                'registrar/curriculum',
+                'registrar/academicterm',
+                'registrar/curriculumdetail'
+            ));
+            $this->load->view('edp/ajax_studentCount');
+        }
+        else
+        {
+            echo 'Not final';
+        }
     }
 
     function load_stat1()
@@ -132,14 +143,15 @@ class Edp extends CI_Controller
         $this->db->query("TRUNCATE out_section");
 
         $systemVal = $this->api->systemValue();
-        $sy = $systemVal['nextacademicterm'];
+        $sy     = $systemVal['nextacademicterm'];
+        $this->numberOfStudents = $systemVal['numberofstudent'];
 
-        $tt = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
-        $term = $tt['term'];
+        $tt     = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
+        $term   = $tt['term'];
 
-        $acamd = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
 
-        $stuC = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
+        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
         foreach($stuC as $studentC)
         {
             $coursemajor    = $studentC['coursemajor'];
@@ -148,8 +160,8 @@ class Edp extends CI_Controller
 
             foreach($acamd as $acams)
             {
-                $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE 
-                    tbl_coursemajor.id = tbl_curriculum.coursemajor AND 
+                $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
+                    tbl_coursemajor.id = tbl_curriculum.coursemajor AND
                     tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
                 if($c->num_rows() > 0)
                 {
@@ -158,7 +170,6 @@ class Edp extends CI_Controller
                     break;
                 }
             }
-
 
             //get the curriculum within 4 years
             $cur_range1 = $acam - 12;
@@ -177,23 +188,7 @@ class Edp extends CI_Controller
                         $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
                         foreach($e as $ee)
                         {
-                            $d['academicterm']  = $sy;
-                            $d['coursemajor']   = $coursemajor;
-                            $d['subject']       = $ee['subject'];
-                            $d['yearlevel']     = $y;
-                            $d['studentcount']  = $cou;
-
-                            // if the count is less than the numberofstudent system value set it to 0
-                            if($cou == 0 OR $cou < $systemVal['numberofstudent'])
-                            {
-                                $d['section'] = 0;
-                            }
-                            else
-                            {
-                                // force the result to be an integer
-                                $d['section'] = (int) ($cou / $systemVal['numberofstudent']);
-                            }
-                            $this->db->insert('out_section',$d);
+                            $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         }
                     }
                 }
@@ -209,21 +204,7 @@ class Edp extends CI_Controller
                     $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
                     foreach($e as $ee)
                     {
-                        $d['academicterm']  = $sy;
-                        $d['coursemajor']   = $coursemajor;
-                        $d['subject']       = $ee['subject'];
-                        $d['yearlevel']     = $y;
-                        $d['studentcount']  = $cou;
-                        if($cou == 0 OR $cou < $systemVal['numberofstudent'])
-                        {
-                            $d['section'] = 0;
-                        }
-                        else
-                        {
-
-                            $d['section'] = (int) ($cou / $systemVal['numberofstudent']);
-                        }
-                        $this->db->insert('out_section',$d);
+                        $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                     }
                 }
             }
@@ -235,6 +216,27 @@ class Edp extends CI_Controller
         redirect(base_url());
     }
 
+    private function insert_section($sy, $course, $subject, $yearlevel, $count)
+    {
+        $d['academicterm']  = $sy;
+        $d['coursemajor']   = $course;
+        $d['subject']       = $$subject;
+        $d['yearlevel']     = $yearlevel;
+        $d['studentcount']  = $count;
+
+        // if the count is less than the numberofstudent system value set it to 0
+        if($cou == 0 OR $cou < $this->numberOfStudents)
+        {
+            $d['section'] = 0;
+        }
+        else
+        {
+            // force the result to be an integer
+            $d['section'] = (int) ($cou / $this->numberOfStudents);
+        }
+        $this->db->insert('out_section',$d);
+    }
+
     function view_sched($roomId)
     {
         $this->load->model(array(
@@ -242,7 +244,7 @@ class Edp extends CI_Controller
             'edp/edp_classallocation',
             'dean/subject'
         ));
-        
+
         $data['roomId']     = $roomId;
         $room               = $this->classroom->find($roomId);
         $data['room_name']  = $room['legacycode'];
@@ -287,7 +289,7 @@ class Edp extends CI_Controller
         $this->load->model(array(
             'edp/edp_classallocation'
         ));
-        
+
         $dayPeriodId    = $this->input->post('dayperiodId');
         $day            = $this->input->post('day');
         $from_time      = $this->input->post('from_time');
