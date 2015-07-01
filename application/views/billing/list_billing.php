@@ -3,74 +3,65 @@
 		<div class="panel p-body">
 		<div class="panel-heading search">
 			<div class="col-md-6">						
-			<?php //if ($page == "updateOldStudents"): ?>
-				<h4>Student Information Management: List of Students</h4>						
-			<?php //else: ?>
-				<h4>Permanent Records: List of Students</h4>							
-			<?php //endif ?>
-			
-			</div>
-			<div class="col-md-6">
-
-
+				<h4>List of Students</h4>		
 			</div>
 		</div>
             <?php echo $this->session->flashdata('message'); ?>
-            <div class="col-md-6">
-            <?php
-                $config['base_url'] = base_url().'index.php/menu/billing-list_billing';
-                $config['total_rows'] = $this->enrollment->enrolled();
-                $config['per_page'] = 15;
-                $config['num_links'] = 2;
-                $config['first_link'] = 'First';
-                $config['last_link'] = 'Last';
-                $config['first_tag_open'] = '<li>';
-                $config['first_tag_close'] = '</li>';
-                $config['last_tag_open'] = '<li>';
-                $config['last_tag_close'] = '</li>';
-                $config['num_tag_open'] = '<li>';
-                $config['num_tag_close'] = '</li>';
-                $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
-                $config['cur_tag_close'] = '</a></li>';
-                $config['next_tag_open'] = '<li>';
-                $config['next_tag_open'] = '</li>';
-                $config['prev_tag_open'] = '<li>';
-                $config['prev_tag_close'] = '</li>';
-                $config['next_tag_open'] = '<li>';
-                $config['next_tag_close'] = '</li>';
-                $config['prev_link'] = 'Prev';
-                $config['next_link'] = 'Next';
-                //$config['next_link'] = '<li><a href="#">&gt;</a></li>';
-                if(empty($param))
-                {
-                    $param = 0;
-                }
-                $this->pagination->initialize($config);
-            ?>
-            <ul class="pagination">
-
-            <?php
-                echo $this->pagination->create_links();
-                $data = array('param' => $param );
-            ?>
-            </ul>
-            </div>
-            <div class="col-md-6"><br/>
-                <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
-                    <input type="hidden" id = "thestatus" name = "stats">
-                
-                    <div class="form-group">
-                        <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
-                        <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </form>
-            </div>
 		<div class="panel-body">
+         <div class="col-md-6">
+                        <?php
+                            $config['base_url'] = base_url().'index.php/menu/billing-list_billing';
+                            $config['total_rows'] = $this->enrollment->enrolled();
+                            $config['per_page'] = 15;
+                            $config['num_links'] = 2;
+                            $config['first_link'] = 'First';
+                            $config['last_link'] = 'Last';
+                            $config['first_tag_open'] = '<li>';
+                            $config['first_tag_close'] = '</li>';
+                            $config['last_tag_open'] = '<li>';
+                            $config['last_tag_close'] = '</li>';
+                            $config['num_tag_open'] = '<li>';
+                            $config['num_tag_close'] = '</li>';
+                            $config['cur_tag_open'] = '<li class="active"><a href="javascript:void(0);">';
+                            $config['cur_tag_close'] = '</a></li>';
+                            $config['next_tag_open'] = '<li>';
+                            $config['next_tag_open'] = '</li>';
+                            $config['prev_tag_open'] = '<li>';
+                            $config['prev_tag_close'] = '</li>';
+                            $config['next_tag_open'] = '<li>';
+                            $config['next_tag_close'] = '</li>';
+                            $config['prev_link'] = 'Prev';
+                            $config['next_link'] = 'Next';
+                            //$config['next_link'] = '<li><a href="#">&gt;</a></li>';
+                            if(empty($param))
+                            {
+                                $param = 0;
+                            }
+                            $this->pagination->initialize($config);
+                        ?>
+                        <ul class="pagination">
+
+                        <?php
+                            echo $this->pagination->create_links();
+                            $data = array('param' => $param );
+                        ?>
+                        </ul>
+                 </div>
+                <div class="col-md-6"><br/>
+                    <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
+                        <input type="hidden" id = "thestatus" name = "stats">
+                    
+                        <div class="form-group">
+                            <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+                            <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </form>
+                </div>
             <input type="hidden" name="param" value="<?php echo $param; ?>"/>
-    		<div id="studlist_wrapper" class="table-responsive">
+    		<div id="studlist_wrapper" class="table-responsive col-md-12">
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>Student Id</th>
@@ -108,4 +99,3 @@
 		</div>
 		</div>
 	</div>
-</div>

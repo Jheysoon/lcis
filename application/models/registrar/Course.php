@@ -58,4 +58,9 @@ class Course extends CI_Model{
       return $q->row_array();
     }
 
+    function getAlCourse()
+    {
+        return $this->db->query("SELECT * FROM tbl_coursemajor")->result_array();
+    }
+
 }

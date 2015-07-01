@@ -9,6 +9,7 @@
 		<?php
 				$info = $this->assesment->getstudinfo($legacyid);
 				extract($info);
+				$student  = $id;
 				$acadinfo = $this->assesment->getAcadinfo($id);
 				extract($acadinfo);
 				$getcoursemajor = $this->api->getCourseMajor($coursemajor);
@@ -126,7 +127,7 @@
 							$getRate = $this->assesment->getR($coursemajor, 6);
 							echo $getRate['rate'];
 						 ?></td>
-						<td class="tblNum">32</td>
+						<td class="tblNum"><?php echo $units ?></td>
 						<td class="tblNum"><?php echo $tui['matriculation'] ?></td>
 					</tr>
 					<tr>
@@ -182,17 +183,25 @@
 							<td class="tblNum"><?php echo $tui['booklet']; ?></td>
 						</tr>
 					<?php endif ?>
-					<tr>
+						<tr>
 							<td>LESS 10% Discount</td>
 							<td class="tblNum"></td>
 							<td class="tblNum"></td>
 							<td class="tblNum"><?php echo "(" .$tui['fullpaydiscount'] .")"; ?></td>
 						</tr>
-					
+					<tr>
+							<td>Previous Balance</td>
+							<td class="tblNum"></td>
+							<td class="tblNum"></td>
+							<td class="tblNum">	<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?></td>
+						</tr>
 					<tr>
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
 						<th class="tblNum"><?php
-						 echo number_format($tui['netfullpayment'], 2, '.', ',');
+						 echo number_format($tui['netfullpayment'] + $get_bal, 2, '.', ',');
 						  ?></th>
 					</tr>
 
@@ -209,7 +218,6 @@
 								<th>Enrolment</th>
 								<th class="tblNum">Rate</th>
 								<th>Total</th>
-
 							</tr>
 							<tr>
 								<td>MISCELLANEOUS FEE</td>
@@ -265,12 +273,15 @@
 							<tr>
 								<td>ADD PREVIOUS BALANCE</td>
 								<td class="tblNum"></td>
-								<td class="tblNum">0</td>
+								<td class="tblNum">	<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?></td>
 							</tr>
 
 							<tr>
 								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'], 2, '.', ',') ?></th>
+								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'] + $get_bal, 2, '.', ',') ?></th>
 							</tr>
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
@@ -315,12 +326,18 @@
 							</tr>
 							<tr>
 								<td>ADD PREVIOUS BALANCE</td>
-								<td class="tblNum">0</td>
+
+								<td class="tblNum">
+									<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?>
+								</td>
 							</tr>
 
 							<tr>
 								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total"><?php echo $tui['netprelim']; ?></th>
+								<th class="tblNum td-total"><?php echo $tui['netprelim'] + $get_bal; ?></th>
 							</tr>
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>

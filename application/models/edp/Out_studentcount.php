@@ -20,6 +20,8 @@ class Out_studentcount extends CI_Model
 
 	function getGroup()
 	{
-		return $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
+		$sy = $this->api->systemValue();
+		$syid = $sy['currentacademicterm'];
+		return $this->db->query("SELECT * FROM out_studentcount  WHERE academicterm = $syid GROUP BY coursemajor")->result_array();
 	}
 }

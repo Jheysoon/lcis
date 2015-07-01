@@ -84,3 +84,12 @@ define('EXIT_USER_INPUT', 7); // invalid user input
 define('EXIT_DATABASE', 8); // database error
 define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+/* phases variables */
+define('ENR', 1);
+define('PRE', 2);
+define('MID', 3);
+define('SEM', 4);
+define('FIN', 5);
+
+define('COLLEGE_COUNT', 6);

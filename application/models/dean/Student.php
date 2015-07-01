@@ -335,7 +335,6 @@
 					$this->db->insert('tbl_billclass', $data);
 					return 0;
 			}else{
-
 				$datax = array(
 					'enrolment' => $enid,
 					'tuition' => $tuition,
@@ -357,7 +356,6 @@
 					'netsemi' => $netprelim,
 					'netfinal' => $netprelim
 				);
-				echo 1;
 				$this->db->where('enrolment', $enid);
 				$this->db->update('tbl_billclass', $datax);
 				return 1;

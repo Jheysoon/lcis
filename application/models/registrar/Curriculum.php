@@ -19,6 +19,33 @@ class Curriculum extends CI_Model
 			return 'repeat';
 		}
 	}
+
+	function getCur2($id,$cid)
+	{
+		/*$this->db->where('academicterm',$id);
+		$this->db->where('coursemajor',$cid);
+		$q = $this->db->count_all_results('tbl_curriculum');*/
+
+		$q = $this->db->query("SELECT * FROM tbl_curriculum WHERE coursemajor = $cid 
+				AND academicterm = $id")->num_rows();
+		if($q > 0)
+		{
+			
+			/*$this->db->where('academicterm',$id);
+			$q = $this->db->get('tbl_curriculum');*/
+
+			$q = $this->db->query("SELECT * FROM tbl_curriculum WHERE coursemajor = $cid 
+				AND academicterm = $id");
+			$q = $q->row_array();
+			return $q['id'];
+		}
+		else
+		{
+			return 'repeat';
+		}
+	}
+
+
 	function getAc(){
 		$result = $this->db->query("SELECT id as accad_id, CONCAT(systart, '-', syend) as sy FROM tbl_academicterm WHERE term = 1");
 		return $result->result_array();

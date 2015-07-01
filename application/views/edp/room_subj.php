@@ -26,6 +26,7 @@
 					$r = $this->edp_classallocation->getEmptyRoom();
 					foreach($r as $room)
 					{
+
 						$this->db->where('classallocation',$room['id']);
 						$this->db->where('classroom',0);
 						$rr = $this->db->count_all_results('tbl_dayperiod');

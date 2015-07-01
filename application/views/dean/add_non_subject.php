@@ -29,17 +29,13 @@
 	            		<label>Course</label>
 	            		<select class="form-control" name="course_major">
 	            			<?php 
-	            				$c = $this->course->getAllCourse();
+	            				$c = $this->db->query("SELECT * FROM tbl_course")->result_array();
 	            				foreach($c as $cc)
 	            				{
 	            					?>
 	            					<option value="<?php echo $cc['id'] ?>" <?php echo set_select('course_major') ?>>
 	            					<?php 
-	            						echo $this->course->getCourse($cc['id']);
-	            						if($cc['major'] != 0)
-	            						{
-	            							echo ' ('.$this->course->getMajor($cc['major']).')';
-	            						}
+	            						echo $cc['description'];
 	            					 ?>
 	            					</option>
 	            			<?php

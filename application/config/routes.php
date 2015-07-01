@@ -71,6 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $route['non_exist']                     = 'dean/addSubjAlloc';
     $route['add_day_period/(:num)']         = 'dean/add_day_period/$1';
+    $route['delete_classalloc/(:num)']      = 'dean/delete_classalloc/$1';
 
     // EDP Routes
     $route['edp_ListUsers']                 = 'edp/ListUsers';
@@ -82,6 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['add_sched/(:num)']              = 'edp/add_sched/$1';
     $route['view_sched/(:num)']             = 'edp/view_sched/$1';
     $route['assign_room/(:num)']            = 'edp/assign_room/$1';
+    $route['preview/(:num)']                = 'edp/preview/$1';
 
     // Student Routes
     $route['stdnt_editSelfEvaluation']      = 'student/editSelfEvaluation';

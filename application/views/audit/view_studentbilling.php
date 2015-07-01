@@ -6,7 +6,7 @@
 				extract($acadinfo);
 				$getcoursemajor = $this->api->getCourseMajor($coursemajor);
 				$getyear = $this->api->getYearLevel($student);
-				$units = 0;
+				//$units = 0;
 		
 	
  ?>
@@ -77,6 +77,9 @@
 		<?php 
 			$inf = $this->assesment->getTuition($enrolid);
 		 	$tui = $this->assesment->getTotal($enrolid);
+		 	$get_units = $this->assesment->get_unit($enrolid);
+		 	$units = $get_units;
+		;
 		 ?>
 	
 
@@ -93,7 +96,6 @@
 								<th>Enrolment</th>
 								<th class="tblNum">Rate</th>
 								<th>Total</th>
-
 							</tr>
 							<tr>
 								<td>MISCELLANEOUS FEE</td>
@@ -111,7 +113,7 @@
 							<tr>
 								<td>1/5 TUITION</td>
 								<td class="tblNum"></td>
-								<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
+								<td class="tblNum"><?php echo number_format($tui['tuition']/5, 2, '.', ','); ?></td>
 							</tr>
 							<?php if ($tui['computer'] > 0): ?>
 								<tr>
@@ -160,12 +162,15 @@
 							<tr>
 								<td>ADD PREVIOUS BALANCE</td>
 								<td class="tblNum"></td>
-								<td class="tblNum">0</td>
+								<td class="tblNum">	<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?></td>
 							</tr>
 
 							<tr>
 								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'], 2, '.', ',') ?></th>
+								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'] + $get_bal, 2, '.', ',') ?></th>
 							</tr>
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
@@ -184,7 +189,7 @@
 							</tr>
 							<tr>
 								<td>1/5 TUITION</td>
-								<td class="tblNum"><?php echo $tui['tuition']/5; ?></td>
+								<td class="tblNum"><?php echo number_format($tui['tuition']/5, 2, '.', ','); ?></td>
 							</tr>
 							<?php if ($tui['computer'] > 0): ?>
 								<tr>
@@ -210,12 +215,15 @@
 							</tr>
 							<tr>
 								<td>ADD PREVIOUS BALANCE</td>
-								<td class="tblNum">0</td>
+								<td class="tblNum">	<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?></td>
 							</tr>
 
 							<tr>
 								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total"><?php echo $tui['netprelim']; ?></th>
+								<th class="tblNum td-total"><?php echo $tui['netprelim'] + $get_bal; ?></th>
 							</tr>
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
@@ -242,7 +250,7 @@
 							echo $getRate['rate']; 
 						?></td>
 						<td class="tblNum"><?php echo $units ?></td>
-						<td class="tblNum"><?php echo $tui['tuition']; ?></td>
+						<td class="tblNum"><?php echo number_format($tui['tuition'],2, '.', ',') ; ?></td>
 					</tr>
 					
 					<tr>
@@ -251,7 +259,7 @@
 							$getRate = $this->assesment->getR($coursemajor, 6);
 							echo $getRate['rate'];
 						 ?></td>
-						<td class="tblNum">32</td>
+						<td class="tblNum"><?php echo $units; ?></td>
 						<td class="tblNum"><?php echo $tui['matriculation'] ?></td>
 					</tr>
 					<tr>
@@ -312,18 +320,38 @@
 							<td class="tblNum"></td>
 							<td class="tblNum"></td>
 							<td class="tblNum"><?php echo "(" .$tui['fullpaydiscount'] .")"; ?></td>
-						</tr>
-					
+					</tr>
+					<tr>
+							<td>Previous Balance</td>
+							<td class="tblNum"></td>
+							<td class="tblNum"></td>
+							<td class="tblNum">	<?php 
+										$get_bal = $this->assesment->balance($student);
+										echo $x = number_format($get_bal, 2, '.', ',');
+								 ?></td>
+					</tr>
 					<tr>
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
 						<th class="tblNum"><?php
-						 echo number_format($tui['netfullpayment'], 2, '.', ',');
-						  ?></th>
+						 echo number_format($tui['netfullpayment'] + $get_bal, 2, '.', ',');
+				
+						 ?> </th>
 					</tr>
 
 				</table>
+				<div class="col-md-3 pull-right">
+							<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px">
+				</div>
+							
+						
+							<br /><br />
+				<br />
+				<div class="col-md-12">
+					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
+					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Save</a>
+				<br /><br /><br /><br />								
+			</div>
 		<?php endif ?>
-		
 			</div>
 		</div>
 	</div>

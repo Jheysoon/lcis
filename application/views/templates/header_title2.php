@@ -46,7 +46,7 @@
       </nav>
     </div>
     <div class="row">
-    <div class="col-md-3 side-bar-menu">
+    <div class="col-md-3 side-bar-menu hidden-print">
       <div class="collapse navbar-collapse">
           <div class="panel-heading"><h2><?php //echo $office; ?></h2></div>
           <?php
@@ -81,7 +81,7 @@
           }
           ?>
           </li>
-          <li class="list-group-item">
+          <li class="list-group-item hidden-print">
               <a class="menu" style="cursor: pointer;" id="change_sy_sem">
                   <span class="glyphicon glyphicon-cog"></span>&nbsp;
                     Change School Year & Sem

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Edp_classallocation extends CI_Model
 {
@@ -168,5 +168,24 @@ class Edp_classallocation extends CI_Model
 		$q = $this->db->query("SELECT shortname FROM tbl_course WHERE id = (SELECT course FROM tbl_coursemajor WHERE id = $cid)")->row_array();
 		return $q['shortname'];
 	}
-	
+	function getAllCollege()
+	{
+		return $this->db->get('tbl_college')->result_array();
+	}
+	function count_complete($partyid,$stage)
+	{
+		$systemVal = $this->api->systemValue();
+		$this->db->where('academicterm',$systemVal['currentacademicterm']);
+		$this->db->where('stage',$stage);
+		$this->db->where('completedby',$partyid);
+		return $this->db->count_all_results('tbl_completion');
+	}
+	function get_status($partyid,$stage)
+	{
+		$systemVal = $this->api->systemValue();
+		$this->db->where('academicterm',$systemVal['currentacademicterm']);
+		$this->db->where('stage',$stage);
+		$this->db->where('completedby',$partyid);
+		return $this->db->get('tbl_completion')->row_array();
+	}
 }

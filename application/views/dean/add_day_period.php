@@ -10,6 +10,56 @@
 					
 					</div>
 				</div>
+
+				<div class="modal fade" id="modal_classalloc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-sm">
+				    <div class="modal-content">
+
+				    <form action="/add_classalloc" method="post">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h5 class="modal-title" id="myModalLabel">ADD <?php $owner = $this->api->getUserCollege(); ?></h5>
+				      </div>
+				      <div class="modal-body">
+				        <select name="subj" class="form-control">
+				        	<?php 
+	            				
+	            				$s = $this->subject->subjectOwner($owner);
+	            				foreach($s as $ss)
+	            				{
+	            					?>
+	            				<option value="<?php echo $ss['id']; ?>"><?php echo $ss['code'].' | '.$ss['descriptivetitle'];?></option>
+	            			<?php
+	            				}
+	            			 ?>
+				        </select>
+				        <br/>
+				        <select class="form-control" name="course_major">
+	            			<?php 
+	            				$c = $this->course->getAllCourse();
+	            				foreach($c as $cc)
+	            				{
+	            					?>
+	            					<option value="<?php echo $cc['id'] ?>">
+	            					<?php 
+	            						echo $this->api->getCourseMajor($cc['id']);
+	            					 ?>
+	            					</option>
+	            			<?php
+	            				}
+	            			 ?>
+	            		</select>
+				      </div>
+				      <div class="modal-footer">
+				      	<button type="button" class="btn btn-primary">Save</button>
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </form>
+
+				    </div>
+				  </div>
+				</div>
+
 				<div class="col-md-12">
 					<?php 
 						echo $this->session->flashdata('message'); 
@@ -20,6 +70,7 @@
 						if($cc > 0)
 						{
 							?>
+							<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
 					<table class="table">
 						<caption>
 						<?php 
@@ -36,13 +87,14 @@
 						</tr>
 						<?php
 							$user 		= $this->api->getUserCollege();
-							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
+							//$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
+							$sub 		= $this->db->query("SELECT *,tbl_classallocation.id FROM tbl_classallocation,tbl_course where academicterm = {$systemVal['nextacademicterm']} and tbl_classallocation.coursemajor = tbl_course.id and college = $owner")->result_array();
 
 							foreach($sub as $subj)
 							{
-								$c = $this->subject->whereCode_owner($user,$subj['subject']);
+								/*$c = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']} AND college = $owner")->num_rows();
 								if($c > 0)
-								{
+								{*/
 							?>
 								<tr>
 									<td>
@@ -53,7 +105,8 @@
 									</td>
 									<td>
 										<?php 
-											echo $this->api->getCourseMajor($subj['coursemajor']);
+											$t = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']}")->row_array();
+											echo $t['description'];
 										 ?>
 									</td>
 									<td>
@@ -62,7 +115,9 @@
 										if(!empty($subj['status']))
 											$style = 'disabled'
 									 ?>
-										<a href="/add_day_period/<?php echo $subj['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a></td>
+										<a href="/add_day_period/<?php echo $subj['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a> |
+										<a href="/delete_classalloc/<?php echo $subj['id']; ?>" class="btn btn-danger btn-xs" onClick="return confirm('Are you sure you want to delete ?');">Delete</a>
+										</td>
 									<td>
 										<?php 
 										if(empty($subj['status']))
@@ -76,7 +131,7 @@
 									</td>
 								</tr>
 							<?php
-								}
+								//}
 							}
 							?>
 						</table>

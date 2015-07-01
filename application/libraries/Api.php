@@ -10,10 +10,6 @@ class Api
 		$this->CI =& get_instance(); 
 	}
 
-	/*	getCourse by id
-	*	@param id int
-	*	@return int course id
-	*/
 	/* ***** to be removed ********** */
 	function getCourse($id)
 	{
@@ -47,19 +43,20 @@ class Api
             'dean/subject',
             'dean/common_dean'
         ));
+        $uid = $this->CI->session->userdata('uid');
 
-        $col = $this->CI->common_dean->countAcam($this->CI->session->userdata('uid'));
+        $col = $this->CI->common_dean->countAcam($uid);
         if($col > 0)
         {
-            $owner = $this->CI->common_dean->getColAcam($this->CI->session->userdata('uid'));
+            $owner = $this->CI->common_dean->getColAcam($uid);
             return $owner['college'];
         }
         else
         {
-            $c = $this->CI->common_dean->countAdmin($this->CI->session->userdata('uid'));
+            $c = $this->CI->common_dean->countAdmin($uid);
             if($c > 0)
             {
-                $owner = $this->CI->common_dean->getColAdmin($this->CI->session->userdata('uid'));
+                $owner = $this->CI->common_dean->getColAdmin($uid);
                 $o = $owner['office'];
                 $of = $this->CI->common_dean->getOffice($o);
                 return $of['college'];
@@ -71,6 +68,7 @@ class Api
         }
 	}
 
+	// get the tbl_systemvalue table values
 	function systemValue()
 	{
 		return $this->CI->db->get('tbl_systemvalues')->row_array();
@@ -98,6 +96,8 @@ class Api
 			return 'error';
 	}
 
+
+	// load the user menu
 	function userMenu()
 	{
 		$this->CI->load->model(array(
