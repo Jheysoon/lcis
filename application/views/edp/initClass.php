@@ -1,7 +1,6 @@
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
-
 			<div class="col-md-12">
 			<?php
 				$systemVal 	= $this->api->systemValue();
@@ -33,13 +32,11 @@
 						</div>
 						<?php
 					}
-					else
-					{
+					else{
 						$this->load->view('edp/dean_activity',array('stage'=>2));
 					}
 				}
-				else
-				{
+				else{
 			?>
 				<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
 					Current Phase term is not FINALS !!!
