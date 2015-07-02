@@ -188,4 +188,14 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('completedby',$partyid);
 		return $this->db->get('tbl_completion')->row_array();
 	}
+
+	function getStudEnrol($cid, $acam)
+	{
+		return $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor
+			WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor
+			AND tbl_coursemajor.course = $cid
+			AND academicterm = $acam
+			AND school = 1
+			GROUP BY student")->result_array();
+	}
 }
