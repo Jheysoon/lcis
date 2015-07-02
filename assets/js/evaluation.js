@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+	removeSubject();
 	$('#searchSubject').submit(function(){
 
 	    $.post( "/dean/ajaxEvaluation", $( "#searchSubject" ).serialize(), function(data){
@@ -28,7 +28,7 @@ $(document).ready(function(){
 		    	$('#tblAddSubject').append(data);
 		    	$('#div_eval').html('');
 		    	$('#addEvalSub').modal('hide');
-
+				removeSubject();
 	    	}
 	    } );
 	});
@@ -37,6 +37,15 @@ $(document).ready(function(){
 	$('#addEvalSub').on('hidden.bs.modal', function (e) {
 		$('#div_eval').html('');
 		$('#inputdata').val('');
-	})
+	});
+
+	function removeSubject(){
+		$('.remove').on('click', function()
+		{
+			if (confirm('Are you sure you want to remove ' + $(this).data('param') + '?')) {
+				$(this).parent().parent().remove();
+			};
+		});
+	}
 
 });

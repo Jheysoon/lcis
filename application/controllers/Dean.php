@@ -3,15 +3,16 @@
 | -------------------------------------
 | @file  : Dean.php
 | @date  : 3/26/2015
-| @author:
+| @author: JOG Developers
 | -------------------------------------
 */
 
 class Dean extends CI_Controller
 {
-    public $message1;
-    public $error;
     public $sample;
+    public $message;
+    public $message1;
+    public $ret;
 
     private function head()
     {
@@ -342,20 +343,34 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
 
+//----------------------------------------------------------------------
+// Function for evaluation process.
+//----------------------------------------------------------------------
+
     function evaluation($id){
         $this->head();
         $data['id'] = $id;
-        $this->load->model('edp/edp_classallocation');
-        $this->load->helper('form');
-        if ($this->input->post('btn')) {
 
+        // Load required models.
+        $this->load->model('edp/edp_classallocation');
+
+        // Load required helper ( form helper for sticky input data ).
+        $this->load->helper('form');
+
+        // Check for form submission.
+        // This section is ignored during start of evaluation process.
+        if ($this->input->post('btn')) {
             $r1 = $this->saveEvaluation();
             if($r1 == true){
                 redirect('/dean_evaluation/'.$this->input->post('legid'));
             }
         }
+
+        //  Prepare data and start loading evaluation UI.
         $data['message'] = $this->message1;
         $data['sample'] = $this->sample;
+        $data['ret'] = $this->ret;
+
         $this->load->view('dean/dean_preEnroll', $data);
         $this->load->view('templates/footer');
     }
@@ -460,6 +475,9 @@ class Dean extends CI_Controller
         }
     }
 
+//-------------------------------------------------------------------------
+// function for saving evaluation
+//-------------------------------------------------------------------------
 
     function saveEvaluation(){
         $this->load->model('dean/student');
@@ -467,6 +485,8 @@ class Dean extends CI_Controller
         $ctr = $this->input->post('count');
         $ctr2 = 1;
         $unit = 0;
+
+        // Putting all selected schedules into schedule array.
 
         while ( $ctr != 0) {
             if ($this->input->post('rad-'.$ctr) !== NULL) {
@@ -479,10 +499,45 @@ class Dean extends CI_Controller
             $ctr--;
         }
 
+        // Check if there is additional subject/s and put it on schedule array.
+
+        if($this->input->post('additional')){
+            $this->ret = $this->input->post('additional');
+            $add = array();
+            foreach ($this->ret as $key => $cid) {
+
+                // Get subject ID for duplicate verification.
+                $sub = $this->student->getSubject($cid);
+
+                // Check if there is any duplicate subject in additional subject table.
+                if (in_array($sub['code'], $add)) {
+                    $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Duplicate subject.</strong><br/>';
+                    return false;
+                }
+                else{
+                    $names['var'.$ctr2] = $cid;
+                    $un = $this->student->getUnits($cid);
+                    extract($un);
+                    $unit = $unit + $units;
+                    $ctr2++;
+                }
+                $add[] = $sub['code'];
+            }
+        }
+
+        // Check if schedule array is set.
+
         if (isset($names)) {
             extract($names);
             $ctr2 = $ctr2-1;
             $i = $ctr2;
+
+            // Separating multi-scheduled class allocations/subjects
+            // into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
+            // and put them in a new array for conflict checking.
+
             while ($ctr2 != 0) {
                 $ii = $i;
                 $p = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
@@ -503,6 +558,8 @@ class Dean extends CI_Controller
             }
             $compare = $individual;
             $message = '';
+
+            //Checking conflicts.
             foreach ($individual as $key => $value) {
                 $p = explode(",", $value);
                 foreach ($compare as $key2 => $value2) {
@@ -521,6 +578,10 @@ class Dean extends CI_Controller
                     }
                 }
             }
+
+            // The following commented codes is for room and location verification
+            // which is not available yet.
+
             // if($this->input->post('counter') < $unit){
             //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
             //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -529,6 +590,8 @@ class Dean extends CI_Controller
             //     </div>';
             //     return false;
             // }else
+
+            // If there are no conflicts proceed to saving.
             if ($message == '') {
 
                 $student = $this->input->post('student');
@@ -537,6 +600,7 @@ class Dean extends CI_Controller
                 $academicterm = $this->input->post('academicterm');
                 $status = 'E';
 
+                // Checking if student is already evaluated.
                 $eval = $this->student->checkEvaluation($student, $academicterm);
                 if ($eval) {
                     $Evalue = $this->student->getEvaluation($eval['id']);
@@ -553,6 +617,7 @@ class Dean extends CI_Controller
                     $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
                 }
 
+                // Adding new records to student grade
                 foreach ($names as $key => $value) {
                     $res = $this->student->getReserved($value);
                     $res = $res['reserved'] + 1;
@@ -560,7 +625,9 @@ class Dean extends CI_Controller
                     $this->student->updateReserved($value, $res);
                 }
 
+                // Call billing method.
                 $this->calculatebill($enid);
+
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Evaluation successfuly saved</strong><br/>
@@ -780,8 +847,9 @@ class Dean extends CI_Controller
     }
 
 //------------------------------------------------------------------------
-// searching function for adding subject in evaluation method
-// (called through ajax @ views/dean/ajax/evaluation.js)
+// Searching function for adding subject in evaluation method
+// (called through ajax @ views/dean/ajax/evaluation.js).
+// A table of searched subjects is displayed after execution.
 //------------------------------------------------------------------------
 
     function ajaxEvaluation(){
@@ -805,7 +873,7 @@ class Dean extends CI_Controller
     }
 
 //-------------------------------------------------------------------------
-// function for adding subject to additional subject table in evaluation
+// Function for adding subject to additional subject table in evaluation
 // (called through ajax @ views/dean/ajax/evaluation.js)
 //-------------------------------------------------------------------------
 
@@ -835,7 +903,8 @@ class Dean extends CI_Controller
                 <td>".$reserved['reserved']."</td>
                 <td>".$enrolled['enrolled']."</td>
                 <td>
-                    <button type='button' class='btn btn-danger'>Remove</button>
+                    <button type='button' class='btn btn-danger remove' data-param='".$sub['code']."'>Remove
+                    <span class='glyphicon glyphicon-trash'></span></button>
                 </td>
 
             </tr>";
