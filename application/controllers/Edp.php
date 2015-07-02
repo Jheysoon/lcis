@@ -96,7 +96,8 @@ class Edp extends CI_Controller
                 'registrar/course',
                 'registrar/curriculum',
                 'registrar/academicterm',
-                'registrar/curriculumdetail'
+                'registrar/curriculumdetail',
+                'edp/edp_classallocation'
             ));
             $this->load->view('edp/ajax_studentCount');
         }

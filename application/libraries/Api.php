@@ -196,8 +196,8 @@ class Api
 			for ($i=1; $i <= 4; $i++)
 			{
 
-				$this->CI->where('curriculum', $cur1);
-				$this->CI->where('yearlevel',  $i);
+				$this->CI->db->where('curriculum', $cur1);
+				$this->CI->db->where('yearlevel',  $i);
 				$cur_detail = $this->CI->db->get('tbl_curriculumdetail')->result_array();
 				foreach ($cur_detail as $detail)
 				{
@@ -206,8 +206,8 @@ class Api
 					$units += $sub['units'];
 				}
 
-				$this->CI->where('student', $partyid);
-				$enrol = $this->CI->get('tbl_enrolment')->result_array();
+				$this->CI->db->where('student', $partyid);
+				$enrol = $this->CI->db->get('tbl_enrolment')->result_array();
 				foreach ($enrol as $val)
 				{
 					$threshold_grade = NOT_FAILED_GRADE;
@@ -218,8 +218,8 @@ class Api
 
 					foreach ($stud as $stud_subj)
 					{
-						$this->CI->where('curriculum', $cur1);
-						$this->CI->where('yearlevel',  $i);
+						$this->CI->db->where('curriculum', $cur1);
+						$this->CI->db->where('yearlevel',  $i);
 						$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail')->result_array();
 						foreach ($cur_detail1 as $detail1)
 						{
@@ -250,5 +250,5 @@ class Api
 
 
 
-	
+
 }

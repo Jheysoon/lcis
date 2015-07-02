@@ -30,6 +30,7 @@
 		$curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
 		foreach($curs as $cu)
 		{
+			$course = $cu['id'];
 			for($i=1;$i<=4;$i++)
 			{
 				$cid 	= $cu['id'];
