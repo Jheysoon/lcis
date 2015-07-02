@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Api
 {
@@ -7,7 +7,7 @@ class Api
 	//initialize the $CI variable
 	function __construct()
 	{
-		$this->CI =& get_instance(); 
+		$this->CI =& get_instance();
 	}
 
 	/* ***** to be removed ********** */
@@ -105,7 +105,7 @@ class Api
             'home/option_header',
             'home/useroption'
         ));
-        
+
         $this->CI->load->view('templates/header');
         $this->CI->load->view('templates/header_title2');
 	}
@@ -161,4 +161,90 @@ class Api
     {
     	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
+
+	//function to determine the year level
+	function yearLevel($partyid, $course)
+	{
+		$systemVal 	= $this->systemValue();
+		$sy     	= $systemVal['nextacademicterm'];
+
+		$this->CI->db->where('id',$sy);
+        $tt     = $this->CI->db->get('tbl_academicterm')->row_array();
+        $term   = $tt['term'];
+
+        $acamd  = $this->CI->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+		$cur1 	= 0;
+		foreach($acamd as $acams)
+		{
+			$c = $this->CI->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
+				tbl_coursemajor.id = tbl_curriculum.coursemajor AND
+				tbl_coursemajor.course = $course AND academicterm = {$acams['id']}");
+			if($c->num_rows() > 0)
+			{
+				$cur    = $c->row_array();
+				$cur1   = $cur['id'];
+				break;
+			}
+		}
+		if($cur1 == 0) {
+			return CUR_NOT_FOUND;
+		}
+		else
+		{
+			$units 			= 0;
+			$student_units 	= 0;
+			for ($i=1; $i <= 4; $i++)
+			{
+
+				$this->CI->where('curriculum', $cur1);
+				$this->CI->where('yearlevel',  $i);
+				$cur_detail = $this->CI->db->get('tbl_curriculumdetail')->result_array();
+				foreach ($cur_detail as $detail)
+				{
+					$this->CI->db->where('id',$detail['subject']);
+					$sub 	= $this->CI->db->get('tbl_subject')->row_array();
+					$units += $sub['units'];
+				}
+
+				$this->CI->where('student', $partyid);
+				$enrol = $this->CI->get('tbl_enrolment')->result_array();
+				foreach ($enrol as $val)
+				{
+					$threshold_grade = NOT_FAILED_GRADE;
+					$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
+						WHERE (semgrade < $threshold_grade
+							OR reexamgrade < $threshold_grade)
+							AND enrolment = {$val['id']}")->result_array();
+
+					foreach ($stud as $stud_subj)
+					{
+						$this->CI->where('curriculum', $cur1);
+						$this->CI->where('yearlevel',  $i);
+						$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail')->result_array();
+						foreach ($cur_detail1 as $detail1)
+						{
+							$stu = $this->CI->db->query("SELECT * FROM tbl_subject
+								WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']} AND subject = {$detail1['subject']})");
+							if($stu->num_rows() > 0)
+							{
+								$stu1 			= $stu->row_array();
+								$student_units += $stu1['units'];
+							}
+						}
+						// $this->CI->db->query("SELECT * FROM tbl_subject
+						// 	WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
+					}
+				}
+
+				// get the range for students units
+				$min_units = $units * (1 - TOLERANCE);
+
+				if($student_units <= $units AND $student_units >= $min_units)
+				{
+					return $i;
+				}
+			}
+		}
+	}
+	// end for yearLevel function
 }

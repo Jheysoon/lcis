@@ -93,3 +93,9 @@ define('SEM', 4);
 define('FIN', 5);
 
 define('COLLEGE_COUNT', 6);
+
+// ERRORS CONSTANT
+define('CUR_NOT_FOUND', 'Curriculum Not Found');
+
+define('NOT_FAILED_GRADE', 21);
+define('TOLERANCE', .30);

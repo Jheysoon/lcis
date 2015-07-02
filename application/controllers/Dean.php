@@ -931,16 +931,23 @@ class Dean extends CI_Controller
         redirect('/menu/dean-add_day_period');
     }
 
-    function add_task_comp()
+    // function to update/insert in tbl_completion
+    function add_task_comp($stage,$status,$id = '')
     {
-        $this->load->helper('date');
-        $systemVal = $this->api->systemValue();
-        $data['academicterm'] = $systemVal['currentacademicterm'];
-        $data['stage'] = '3';
-        $data['completedby'] = $this->session->userdata('uid');
-        $data['status'] = 'C';
-        $data['statusdate'] = '';
-        echo time();
-        //$this->db->insert('tbl_completion',$data);
+        $systemVal              = $this->api->systemValue();
+        $data['academicterm']   = $systemVal['currentacademicterm'];
+        $data['stage']          = $stage;
+        $data['completedby']    = $this->session->userdata('uid');
+        $data['status']         = $status;
+        $data['statusdate']     = date('Y-m-d');
+        if(empty($id))
+        {
+            $this->db->insert('tbl_completion',$data);
+        }
+        else
+        {
+            $this->db->where('id',$id);
+            $this->db->update('tbl_completion',$data);
+        }
     }
 }
