@@ -9,7 +9,7 @@
 	if($term != 2)
 	{
  ?>
-<input type="hidden" name="acam" value="<?php echo $current_academicterm + 1; ?>">
+<input type="hidden" name="acam" value="<?php echo $curr['nextacademicterm']; ?>">
 <table class="table">
 	<caption>
 		<strong>
