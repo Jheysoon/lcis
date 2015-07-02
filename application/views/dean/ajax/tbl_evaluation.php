@@ -1,4 +1,4 @@
-<?php 
+<?php
 	$res = $this->student->getClassAloc($term, $student, $coursemajor);
 	$legid = $id;
 	$registration = $this->student->getRegID($student);
@@ -40,10 +40,10 @@
 							<th width="10">Reserved</th>
 							<th width="10">Enrolled</th>
 						</tr>
-						<?php 
+						<?php
 							$ctr = 1;
 							$ctr2 = 1;
-							foreach ($res as $aloccation) { 
+							foreach ($res as $aloccation) {
 								$sub = $this->student->getSubDetail($aloccation['subject']);
 						?>
 								<tr>
@@ -51,15 +51,15 @@
 									<td class="tbl-header" colspan="4"><strong>Subject: </strong><?php echo $sub['descriptivetitle']; ?></td>
 									<td class="tbl-header"><strong>Units: </strong><?php echo $sub['units']; ?></td>
 								</tr>
-						<?php	
+						<?php
 
 								$sched = $this->student->getSched($term, $aloccation['subject']);
-								foreach ($sched as $aloc) { 
+								foreach ($sched as $aloc) {
 									$p = $this->edp_classallocation->getPeriod($aloc['id']);
 									$d = $this->edp_classallocation->getDayShort($aloc['id']);
-									
 
-									$ss = ''; 
+
+									$ss = '';
 									// $cl = $this->student->getRoom($aloc['classroom']);
 									$cl = array('loc'=> '','legacycode'=>'');
 									$reserved = $this->student->getReserved($aloc['id']);
@@ -67,13 +67,13 @@
 								?>
 									<tr onclick="clickRow(<?php echo $ctr.','.$ctr2.','.$sub['units']; ?>)">
 										<td  id = 'r-<?php echo "$ctr"; ?>' >
-										    <input 
-										    	class="rad-<?php echo $ctr; ?>" 
-										    	type="radio" 
-										    	name = "rad-<?php echo $ctr; ?>" 
+										    <input
+										    	class="rad-<?php echo $ctr; ?>"
+										    	type="radio"
+										    	name = "rad-<?php echo $ctr; ?>"
 										    	id = "rad-<?php echo $ctr2; ?>"
 										    	value = "<?php echo $aloc['id']; ?>"
-										    	<?php 
+										    	<?php
 										    		if (isset($select)) {
 														if (in_array($aloc['id'], $select)) {
 															echo 'checked';
@@ -90,7 +90,7 @@
 										<td style="text-align: center;"><?php echo $reserved['reserved']; ?></td>
 										<td style="text-align: center;"><?php echo $enrolled['enrolled']; ?></td>
 									</tr>
-						<?php	
+						<?php
 								$ctr2++;}$ctr++;
 							}
 						 ?>
@@ -113,6 +113,35 @@
 							<th width="10">Enrolled</th>
 							<th width="100">Action</th>
 						</tr>
+						<?php
+							if ($ret) {
+								foreach ($ret as $key => $cid) {
+						            $sub = $this->student->getSubject($cid);
+
+						            $p = $this->edp_classallocation->getPeriod($cid);
+						            $d = $this->edp_classallocation->getDayShort($cid);
+
+						            $reserved = $this->student->getReserved($cid);
+						            $enrolled = $this->student->getEnrolled($cid);
+								?>
+						            <tr>
+						                <input type='hidden' name='additional[]' value='<?php echo $cid; ?>'>
+						                <td><?php echo $sub['code']; ?></td>
+						                <td><?php echo $d; ?></td>
+						                <td><?php echo $p; ?></td>
+						                <td></td>
+						                <td></td>
+						                <td><?php echo $reserved['reserved']; ?></td>
+						                <td><?php echo $enrolled['enrolled']; ?></td>
+						                <td>
+						                    <button type='button' class='btn btn-danger remove' data-param='<?php echo $sub['code']; ?>'>Remove
+						                    <span class='glyphicon glyphicon-trash'></span></button>
+						                </td>
+
+						            </tr> <?php
+								}
+							}
+						 ?>
 					</table>
 					<input type='hidden' name='count' value = '<?php echo $ctr; ?>'>
 					<input type='hidden' name='legid' value = '<?php echo $legid; ?>'>
@@ -151,18 +180,18 @@
             </div>
 			<form id="modal-table" class="form" role="form" onsubmit="return false">
             	<div id = "div_eval">
-	            <?php 
+	            <?php
 	            	// echo $term;
 	            	$param = array(
-	            		'term' => $term, 
-	            		'student' => $student, 
+	            		'term' => $term,
+	            		'student' => $student,
 	            		'coursemajor' => $coursemajor,
 	            		'subject' => ''
 	            	);
-	            	$this->load->view('dean/ajax/modal_evaluation', $param) 
+	            	$this->load->view('dean/ajax/modal_evaluation', $param)
 	            ?>
             	</div>
-		      		<div class="pull-right">	
+		      		<div class="pull-right">
 		        		<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 		        		<button type="submit" class="btn btn-primary">Save</button>
 		        	</div>
