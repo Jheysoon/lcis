@@ -33,7 +33,7 @@ class Billing extends CI_Controller
 			    function posting(){
 
 			    }
-					function payments(){
-						
+					function payments_posting(){
+
 					}
 	}
