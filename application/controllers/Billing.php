@@ -17,6 +17,8 @@ class Billing extends CI_Controller
 			    		$this->load->model('cashier/assesment');
 			    		$data['legacyid'] = $legacyid;
 			    		$this->load->view('audit/view_assesment', $data);
+			    		$this->load->model('dean/student');
+			    		$this->student->getCalculation(14);
 
 			    }
 			    function view_studentbilling($type, $legacyid){
@@ -29,8 +31,7 @@ class Billing extends CI_Controller
 			    function search(){
 			    	redirect('/billing/view_bill/'.$this->input->post('search'));
 			    }
+			    function posting(){
+			    	echo 'sonit';
+			    }
 	}
-
-
-
-	 

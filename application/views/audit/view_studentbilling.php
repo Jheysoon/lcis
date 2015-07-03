@@ -179,63 +179,73 @@
 							</table>
 				<?php else: ?>
 						<label>Installment</label>
-						<table class="table table-bordered">
-							<tr>
-								<th><?php 
-								$x = $this->assesment->getPhase($phase['phase']);
-								echo $x['description'];
-								 ?></th>
-								<th class="tblNum"></th>
-							</tr>
-							<tr>
-								<td>1/5 TUITION</td>
-								<td class="tblNum"><?php echo number_format($tui['tuition']/5, 2, '.', ','); ?></td>
-							</tr>
-							<?php if ($tui['computer'] > 0): ?>
-								<tr>
-									<td>1/5 COMPUTER</td>
-									<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
-								</tr>
-							<?php endif ?>
-							<?php if ($tui['internet'] > 0): ?>
+						<form action="/billing/posting" method="POST" />
+								<table class="table table-bordered">
 									<tr>
-										<td>1/4 INTERNET</td>
-										<td class="tblNum"><?php echo $tui['internet']/4; ?></td>
+										<th><?php 
+										echo $phase['phase'];
+										$x = $this->assesment->getPhase($phase['phase']);
+										$mu = $phase['phase'] - 1;
+										echo $x['description'];
+										 ?></th>
+										<th class="tblNum"></th>
 									</tr>
-							<?php endif ?>
-						<?php if ($tui['booklet'] > 0): ?>
-							<tr>
-								<td>BOOKLET FEE</td>
-								<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
-							</tr>
-						<?php endif ?>
-							<tr>
-								<td>LESS SCHOLARSHIP DISCOUNT</td>
-								<td class="tblNum">(0.00)</td>
-							</tr>
-							<tr>
-								<td>ADD PREVIOUS BALANCE</td>
-								<td class="tblNum">	<?php 
-										$get_bal = $this->assesment->balance($student);
-										echo $x = number_format($get_bal, 2, '.', ',');
-								 ?></td>
-							</tr>
-
-							<tr>
-								<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
-
-								<th class="tblNum td-total"><?php 
-								echo $mu = $phase['phase'] - 1 . "<br />";
-								echo ($tui['netprelim'] * $mu) + ($get_bal + $tui['enrolment']); ?></th>
-							</tr>
-					 		<tr>
-								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
-								<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
-							</tr>  
-							</table>
-
+									<tr>
+										<td>1/5 TUITION</td>
+										<td class="tblNum"><?php 
+										$tus = $tui['tuition']/5;
+										echo number_format($tus * $mu + $tui['netenrolment'], 2, '.', ','); ?></td>
+									</tr>
+									<?php if ($tui['computer'] > 0): ?>
+										<tr>
+											<td>1/5 COMPUTER</td>
+											<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
+										</tr>
+									<?php endif ?>
+									<?php if ($tui['internet'] > 0): ?>
+											<tr>
+												<td>1/4 INTERNET</td>
+												<td class="tblNum"><?php echo $tui['internet']/4 * $mu; ?></td>
+											</tr>
+									<?php endif ?>
+								<?php if ($tui['booklet'] > 0): ?>
+									<tr>
+										<td>BOOKLET FEE</td>
+										<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
+									</tr>
+								<?php endif ?>
+									<tr>
+										<td>LESS SCHOLARSHIP DISCOUNT</td>
+										<td class="tblNum">(0.00)</td>
+									</tr>
+									<tr>
+										<td>ADD PREVIOUS BALANCE</td>
+										<td class="tblNum">	<?php 
+												$get_bal = $this->assesment->balance($student);
+												echo $l = number_format($get_bal, 2, '.', ',');
+										 ?></td>
+									</tr>
+									<tr>
+										<td>AMOUNT PAID</td>
+										<td class="tblNum">(0.00)</td>
+									</tr>
+									<tr>
+										<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
+										<th class="tblNum td-total"><?php 
+											echo $tui['netprelim'] * $mu + ($get_bal + $tui['netenrolment']); ?></th>
+									</tr>
+							 		<tr>
+										<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
+										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
+									</tr>  
+									<tr>
+										<td class="td-total tblNum">Amount: </td>
+										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
+									</tr>  
+								</table>
+							<button type="submit" class="btn btn-primary pull-right" style="width:100px;height:40px">Submit</button>	
+						</form>
 				<?php endif ?>
-			
 			<?php else: ?>
 					<table class="table table-bordered">
 					<label>Full Payment</label>

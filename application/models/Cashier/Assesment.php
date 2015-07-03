@@ -37,8 +37,8 @@
 			extract($q);
 			return  $prev + $amount;
 		}
-		function get_account($i){
-			$this->db->where('party', $i);
+		function get_account($id){
+			$this->db->where('party', $id);
 			$this->db->select('id');
 			$x = $this->db->get('tbl_account')->row_array();
 			return $x['id'];
@@ -48,5 +48,33 @@
 			$this->db->select('totalunit');
 			$x = $this->db->get('tbl_enrolment')->row_array();
 			return $x['totalunit'];
+		}
+		function getBilling($enrolid){
+			echo $x = $this->get_phase();
+			echo $enrolid;
+			echo $y = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$x' AND id = '$enrolid'")->num_rows();
+			return $y;
+
+		}
+		// Getting the Amount Override.
+		function get_override($student, $enrolid){
+			$x = $this->api->systemValue();
+			$phase = $x['phase'];
+			$xy = $this->get_phase();
+			$array = array('student' => $student, 'phase' => $phase, 'academicterm' => $xy, 'enrolment' => $enrolid);
+			$this->db->where($array);
+			$this->db->select('amount');
+			$y = $this->db->get('tbl_paymentoverride')->row_array();
+			return $y['amount'];
+		}
+		function get_phase(){
+			$x = $this->api->systemValue();
+			$phase = $x['phase'];
+			if ($phase != 1) {
+				$acad = $x['currentacademicterm'];
+			}else{
+				$acad = $x['phaseterm'];
+			}
+			return $acad;
 		}
 }
