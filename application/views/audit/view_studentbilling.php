@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 				$info = $this->assesment->getstudinfo($legacyid);
 				extract($info);
@@ -7,8 +7,8 @@
 				$getcoursemajor = $this->api->getCourseMajor($coursemajor);
 				$getyear = $this->api->getYearLevel($student);
 				//$units = 0;
-		
-	
+
+
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -17,27 +17,25 @@
 			<div class="col-md-12">
 				<h4>STUDENT'S BILLING INFORMATION</h4>
 			</div>
-			
 		</div>
-
 		<div class="panel-body">
 		<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT ID</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $legacyid ?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $legacyid ?>" disabled>
 			</div>
 			<div class="col-md-6 ">
 				<label class="lbl-data">STUDENT NAME</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $firstname . ' ' . $middlename . '. ' . $lastname?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $firstname . ' ' . $middlename . '. ' . $lastname?>" disabled>
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">SCHOOL YEAR</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $sy; ?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $sy; ?>" disabled>
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">TERM</label>
-					<?php 
+					<?php
 						if ($sem == 1) {
 							$semester = 'First Semester';
 						}elseif ($sem == 2) {
@@ -46,17 +44,16 @@
 							$semester = 'Summer';
 						}
 					 ?>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $semester; ?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $semester; ?>" disabled>
 			</div>
-
 			<div class="col-md-6 ">
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" maxlength="10" type="text" name="sid" required value="<?php echo $getcoursemajor; ?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" required value="<?php echo $getcoursemajor; ?>" disabled>
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">YEAR LEVEL</label>
-				<?php 
+				<?php
 					if ($getyear == 1) {
 						$yearlevel = 'First Year';
 					}elseif ($getyear == 2) {
@@ -69,25 +66,24 @@
 						$yearlevel = 'Not Defined';
 					}
 				 ?>
-				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>" disabled>							
+				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>" disabled>
 			<br />
 			</div>
-
 		</div>
-		<?php 
+		<?php
 			$inf = $this->assesment->getTuition($enrolid);
 		 	$tui = $this->assesment->getTotal($enrolid);
 		 	$get_units = $this->assesment->get_unit($enrolid);
 		 	$units = $get_units;
 		;
 		 ?>
-	
+
 
 		<div class="panel-body">
 			<div class="col-md-12">
 		<div class="table-responsive">
 		<?php if ($type == 'installment'): ?>
-				<?php 
+				<?php
 				$phase = $this->api->systemValue();
 				if ($phase['phase'] == 1): ?>
 						<label>Installment</label>
@@ -104,7 +100,7 @@
 							</tr>
 							<tr>
 						<td>Matriculation</td>
-						<td class="tblNum"><?php 
+						<td class="tblNum"><?php
 							$getRate = $this->assesment->getR($coursemajor, 6);
 							echo $getRate['rate'];
 						 ?></td>
@@ -162,7 +158,7 @@
 							<tr>
 								<td>ADD PREVIOUS BALANCE</td>
 								<td class="tblNum"></td>
-								<td class="tblNum">	<?php 
+								<td class="tblNum">	<?php
 										$get_bal = $this->assesment->balance($student);
 										echo $x = number_format($get_bal, 2, '.', ',');
 								 ?></td>
@@ -175,14 +171,14 @@
 					 		<tr>
 								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
 								<td colspan="2"><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="1,000.00"></strong></td>
-							</tr>  
+							</tr>
 							</table>
 				<?php else: ?>
 						<label>Installment</label>
 						<form action="/billing/posting" method="POST" />
 								<table class="table table-bordered">
 									<tr>
-										<th><?php 
+										<th><?php
 										echo $phase['phase'];
 										$x = $this->assesment->getPhase($phase['phase']);
 										$mu = $phase['phase'] - 1;
@@ -192,7 +188,7 @@
 									</tr>
 									<tr>
 										<td>1/5 TUITION</td>
-										<td class="tblNum"><?php 
+										<td class="tblNum"><?php
 										$tus = $tui['tuition']/5;
 										echo number_format($tus * $mu + $tui['netenrolment'], 2, '.', ','); ?></td>
 									</tr>
@@ -220,7 +216,7 @@
 									</tr>
 									<tr>
 										<td>ADD PREVIOUS BALANCE</td>
-										<td class="tblNum">	<?php 
+										<td class="tblNum">	<?php
 												$get_bal = $this->assesment->balance($student);
 												echo $l = number_format($get_bal, 2, '.', ',');
 										 ?></td>
@@ -231,19 +227,19 @@
 									</tr>
 									<tr>
 										<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
-										<th class="tblNum td-total"><?php 
+										<th class="tblNum td-total"><?php
 											echo $tui['netprelim'] * $mu + ($get_bal + $tui['netenrolment']); ?></th>
 									</tr>
 							 		<tr>
 										<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
 										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
-									</tr>  
+									</tr>
 									<tr>
 										<td class="td-total tblNum">Amount: </td>
 										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
-									</tr>  
+									</tr>
 								</table>
-							<button type="submit" class="btn btn-primary pull-right" style="width:100px;height:40px">Submit</button>	
+							<button type="submit" class="btn btn-primary pull-right" style="width:100px;height:40px">Submit</button>
 						</form>
 				<?php endif ?>
 			<?php else: ?>
@@ -258,17 +254,17 @@
 					<tr>
 						<td>Tuition</td>
 						<td class="tblNum">
-						<?php 
+						<?php
 							$getRate = $this->assesment->getR($coursemajor, 7);
-							echo $getRate['rate']; 
+							echo $getRate['rate'];
 						?></td>
 						<td class="tblNum"><?php echo $units ?></td>
 						<td class="tblNum"><?php echo number_format($tui['tuition'],2, '.', ',') ; ?></td>
 					</tr>
-					
+
 					<tr>
 						<td>Matriculation</td>
-						<td class="tblNum"><?php 
+						<td class="tblNum"><?php
 							$getRate = $this->assesment->getR($coursemajor, 6);
 							echo $getRate['rate'];
 						 ?></td>
@@ -289,7 +285,7 @@
 							<td class="tblNum"><?php echo $tui['laboratory']; ?></td>
 						</tr>
 					<?php endif ?>
-					
+
 					<tr>
 						<td>LEYTE TIMES</td>
 						<td class="tblNum"></td>
@@ -338,7 +334,7 @@
 							<td>Previous Balance</td>
 							<td class="tblNum"></td>
 							<td class="tblNum"></td>
-							<td class="tblNum">	<?php 
+							<td class="tblNum">	<?php
 										$get_bal = $this->assesment->balance($student);
 										echo $x = number_format($get_bal, 2, '.', ',');
 								 ?></td>
@@ -347,7 +343,7 @@
 						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
 						<th class="tblNum"><?php
 						 echo number_format($tui['netfullpayment'] + $get_bal, 2, '.', ',');
-				
+
 						 ?> </th>
 					</tr>
 
@@ -355,16 +351,16 @@
 				<div class="col-md-3 pull-right">
 							<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px">
 				</div>
-							
-						
+
+
 							<br /><br />
 				<br />
 				<div class="col-md-12">
 					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
 					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Save</a>
-				<br /><br /><br /><br />								
+				<br /><br /><br /><br />
 			</div>
-		<?php endif ?> 
+		<?php endif ?>
 			</div>
 		</div>
 	</div>

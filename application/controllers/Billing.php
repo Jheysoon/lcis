@@ -1,5 +1,4 @@
 <?php
-
 class Billing extends CI_Controller
 	{
 		  private function head()
@@ -17,15 +16,13 @@ class Billing extends CI_Controller
 			    		$this->load->model('cashier/assesment');
 			    		$data['legacyid'] = $legacyid;
 			    		$this->load->view('audit/view_assesment', $data);
-			    		$this->load->model('dean/student');
-			    		$this->student->getCalculation(14);
 			    }
 			    function view_studentbilling($type, $legacyid){
-			    	$this->head();
-			    	$this->load->model('cashier/assesment');
-			    	$data['legacyid'] = $legacyid;
-			    	$data['type'] = $type;
-			    	$this->load->view('audit/view_studentbilling', $data);
+				    	$this->head();
+				    	$this->load->model('cashier/assesment');
+				    	$data['legacyid'] = $legacyid;
+				    	$data['type'] = $type;
+				    	$this->load->view('audit/view_studentbilling', $data);
 			    }
 			    function search(){
 			    	redirect('/billing/view_bill/'.$this->input->post('search'));
