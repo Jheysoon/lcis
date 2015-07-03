@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 class Billing extends CI_Controller
 	{
@@ -19,7 +19,6 @@ class Billing extends CI_Controller
 			    		$this->load->view('audit/view_assesment', $data);
 			    		$this->load->model('dean/student');
 			    		$this->student->getCalculation(14);
-
 			    }
 			    function view_studentbilling($type, $legacyid){
 			    	$this->head();
@@ -32,6 +31,9 @@ class Billing extends CI_Controller
 			    	redirect('/billing/view_bill/'.$this->input->post('search'));
 			    }
 			    function posting(){
-			    	echo 'sonit';
+
 			    }
+					function payments(){
+						
+					}
 	}

@@ -212,7 +212,6 @@
 		function rounded($val){
 			return $x = round($val, 0, PHP_ROUND_HALF_UP);
 		}
-
 		//Get All Subject based on Enrolment ID.
 		function getEn($enid){
 			$this->db->where('enrolment', $enid);
