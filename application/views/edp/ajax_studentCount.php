@@ -35,6 +35,7 @@
 			{
 				$cid 	= $cu['id'];
 				$year_l = $i;
+				$count 	= 0;
 
 				// if year level is for 2nd, 3rd, 4th year students
 				if ($year_l != 1)
@@ -56,7 +57,6 @@
 					}
 					foreach ($e as $stud)
 					{
-						$count = 0;
 
 						$yearlevel = $this->api->yearLevel($stud['student'], $course);
 
@@ -68,6 +68,8 @@
 								$count++;
 							}
 						}
+						else
+							break;
 					}
 		?>
 					<tr>
@@ -82,7 +84,6 @@
 				}
 				else
 				{
-					$count = 0;
 					if($term == 3)
 					{
 						$acam = $current_academicterm - 2;
@@ -93,7 +94,6 @@
 					}
 					foreach ($e as $stud)
 					{
-						$count = 0;
 
 						$yearlevel = $this->api->yearLevel($stud['student'], $course);
 
@@ -105,6 +105,8 @@
 								$count++;
 							}
 						}
+						else
+							break;
 					}
 			?>
 			<tr>

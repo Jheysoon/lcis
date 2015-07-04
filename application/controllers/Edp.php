@@ -350,4 +350,64 @@ class Edp extends CI_Controller
 
         $this->load->view('edp/preview',$data);
     }
+
+    function tryap()
+    {
+        $systemVal 	= $this->api->systemValue();
+		$sy     	= $systemVal['nextacademicterm'];
+
+        $curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
+        foreach ($curs as $course)
+        {
+            $this->db->where('id',$sy);
+            $tt     = $this->db->get('tbl_academicterm')->row_array();
+            $term   = $tt['term'];
+
+            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+    		$cur1 	= 0;
+    		foreach($acamd as $acams)
+    		{
+    			$c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
+    				tbl_coursemajor.id = tbl_curriculum.coursemajor AND
+    				tbl_coursemajor.course = {$course['id']} AND academicterm = {$acams['id']}");
+    			if($c->num_rows() > 0)
+    			{
+    				$cur    = $c->row_array();
+    				$cur1   = $cur['id'];
+    				break;
+    			}
+    		}
+
+            if($cur1 != 0)
+            {
+                for ($i=1; $i <= 4; $i++)
+                {
+                    if($cur1 == 9)
+                    {
+                        $cur1 = 8;
+                    }
+                    $this->db->where('curriculum',$cur1);
+                    $this->db->where('yearlevel',$i);
+                    $q = $this->db->get('tbl_curriculumdetail')->result_array();
+
+                    $units = 0;
+                    foreach ($q as $qq) {
+                        $this->db->where('id',$qq['subject']);
+                        $r = $this->db->get('tbl_subject')->row_array();
+                        $units += $r['units'];
+                    }
+
+                    echo $data['curriculum'] = $cur1;
+                    echo ' ';
+                    echo $data['yearlevel'] = $i;
+                    echo ' ';
+                    echo $data['totalunits'] = $units;
+                    echo '<br/>';
+                    //$this->db->insert('tbl_year_units',$data);
+                }
+            }
+        }
+
+
+    }
 }
