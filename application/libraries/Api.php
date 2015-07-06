@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Api
 {
@@ -7,13 +7,9 @@ class Api
 	//initialize the $CI variable
 	function __construct()
 	{
-		$this->CI =& get_instance(); 
+		$this->CI =& get_instance();
 	}
 
-	/*	getCourse by id
-	*	@param id int
-	*	@return int course id
-	*/
 	/* ***** to be removed ********** */
 	function getCourse($id)
 	{
@@ -47,19 +43,20 @@ class Api
             'dean/subject',
             'dean/common_dean'
         ));
+        $uid = $this->CI->session->userdata('uid');
 
-        $col = $this->CI->common_dean->countAcam($this->CI->session->userdata('uid'));
+        $col = $this->CI->common_dean->countAcam($uid);
         if($col > 0)
         {
-            $owner = $this->CI->common_dean->getColAcam($this->CI->session->userdata('uid'));
+            $owner = $this->CI->common_dean->getColAcam($uid);
             return $owner['college'];
         }
         else
         {
-            $c = $this->CI->common_dean->countAdmin($this->CI->session->userdata('uid'));
+            $c = $this->CI->common_dean->countAdmin($uid);
             if($c > 0)
             {
-                $owner = $this->CI->common_dean->getColAdmin($this->CI->session->userdata('uid'));
+                $owner = $this->CI->common_dean->getColAdmin($uid);
                 $o = $owner['office'];
                 $of = $this->CI->common_dean->getOffice($o);
                 return $of['college'];
@@ -71,6 +68,7 @@ class Api
         }
 	}
 
+	// get the tbl_systemvalue table values
 	function systemValue()
 	{
 		return $this->CI->db->get('tbl_systemvalues')->row_array();
@@ -98,6 +96,8 @@ class Api
 			return 'error';
 	}
 
+
+	// load the user menu
 	function userMenu()
 	{
 		$this->CI->load->model(array(
@@ -105,7 +105,7 @@ class Api
             'home/option_header',
             'home/useroption'
         ));
-        
+
         $this->CI->load->view('templates/header');
         $this->CI->load->view('templates/header_title2');
 	}
@@ -161,4 +161,116 @@ class Api
     {
     	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
+
+	//function to determine the year level echo $this->api->yearLevel(172,4);
+	function yearLevel($partyid, $course = '')
+	{
+		$systemVal 	= $this->systemValue();
+		$sy     	= $systemVal['nextacademicterm'];
+		$tolerance 	= (int) $systemVal['cutoffpercentage'];
+
+		$cur_id 	= 0;
+		// get its curriculum
+		$cur = $this->CI->db->query("SELECT * FROM tbl_registration
+				WHERE academicterm =
+				(SELECT MAX(academicterm) FROM tbl_registration
+					WHERE student = $partyid)
+				AND student = $partyid")->row_array();
+
+		$cur_id = $cur['curriculum'];
+
+		if($cur_id != 0)
+		{
+			$reg_id 		= $cur['id'];
+
+			$units 			= 0;
+			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
+			$student_units 	= 0;
+
+			for ($i=1; $i <=4 ; $i++)
+			{
+				// get the total units by yearlevel
+				$this->CI->db->where('curriculum',$cur_id);
+				$this->CI->db->where('yearlevel',  $i);
+				$u = $this->CI->db->get('tbl_year_units')->row_array();
+				$units += $u['totalunits'];
+
+				$sum_units[$i - 1] = $units;
+			}
+			// $this->CI->db->where('student', $partyid);
+			// $this->CI->db->where('registration', $reg_id);
+			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
+				WHERE student = $partyid
+				AND registration = $reg_id
+				GROUP BY academicterm")->result_array();
+
+			foreach ($enrol as $val)
+			{
+				// NOT_FAILED_GRADE @ application/config/constants.php
+				$threshold_grade = NOT_FAILED_GRADE;
+				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
+					WHERE (semgrade <= $threshold_grade
+						OR reexamgrade <= $threshold_grade)
+						AND enrolment = {$val['id']}")->result_array();
+
+				foreach ($stud as $stud_subj)
+				{
+
+					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
+						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
+
+					$this->CI->db->where('curriculum', $cur_id);
+					//$this->CI->db->where('yearlevel',  $i);
+					$this->CI->db->where('subject', $stu['id']);
+					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
+
+					if ($cur_detail1->num_rows() > 0)
+					{
+						//$s = $cur_detail1->row_array();
+						$student_units += $stu['units'];
+					}
+				}
+			}
+
+			$min_units = (int) ($units * ($tolerance / 100));
+
+			if($student_units <= $units AND $student_units >= $min_units)
+			{
+				return $i;
+			}
+
+			//return $student_units.' '.$units;
+			for ($q=0; $q <= 3 ; $q++)
+			{
+				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
+				// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
+				if($student_units <= $sum_units[$q])
+				{
+					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
+					{
+						$u = $q + 2;
+						if($u >= 4)
+							return 4;
+						else
+							return $u;
+					}
+					else
+						return $q+1;
+				}
+			}
+			return 'end if function';
+		}
+		else
+		{
+			return CUR_NOT_FOUND;
+		}
+
+		return 'end function';
+		////////////////////////////////////////////////////////////////////////////
+	}
+	// end for yearLevel function
+
+
+
+
 }

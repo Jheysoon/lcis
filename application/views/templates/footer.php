@@ -7,7 +7,7 @@
             All Rights Reserved <?php echo date('Y'); ?>
             </label>
           </div>
-        </div>    
+        </div>
     </div>
 
     <!-- ============================ javascript library =============================== -->
@@ -19,6 +19,7 @@
     <!-- =============================================================================== -->
 
     <script src="/assets/js/home.js"></script>
+    <script src="<?php echo base_url('assets/js/evaluation.js'); ?>"></script>
 
         <?php
             $str = current_url();
@@ -51,8 +52,21 @@
                 ?>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        $.post('/edp/load_stat',{},function (data){
-                            $('#stat_wrapper').html(data);
+                        $('input[name=btnYes]').click(function (e){
+                            $('#confirmBox').hide();
+                            $('#stat_wrapper').removeClass('hide');
+                            $.post('/edp/load_stat',{},function (data){
+                                if(data == 'Not final')
+                                {
+                                    alert('Phase term is not final');
+                                    $('#confirmBox').show();
+                                    $('#stat_wrapper').addClass('hide');
+                                }
+                                else
+                                {
+                                    $('#stat_wrapper').html(data);
+                                }
+                            });
                         });
                     });
                 </script>
@@ -64,8 +78,8 @@
                 <script type="text/javascript">
                     $(document).ready(function(){
                         $('.addClassAllocation').submit(function (e){
-                            $.post('/dean/addClassAlloc',$(this).serialize(),function(data){
-                                
+                            $.post('/dean/addClassAlloc1',$(this).serialize(),function(data){
+                                alert('Successfully Updated');
                             });
                             e.preventDefault();
                         });
@@ -100,7 +114,7 @@
         <?php
             }
         ?>
-        <?php 
+        <?php
                 if (uri_string() == 'menu/scholarship-scholarshiplist' OR in_array('billing-list_billing', $str1)) { ?>
                        <script src="/assets/js/typeahead.bundle.js"></script>
                         <script src="/assets/js/handlebars-v3.0.1.js"></script>
@@ -135,7 +149,7 @@ $(document).ready(function(){
             source: student_list.ttAdapter()
         }
     );
-  
+
 });
                         </script>
                <?php }

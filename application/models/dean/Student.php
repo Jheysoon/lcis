@@ -26,8 +26,8 @@
 	        $q = $this->db->query("SELECT description as des FROM tbl_major WHERE id = '$id'");
 	        return $q->row_array();
 	    }
-      function existsID($id, $col)
-	      {
+        function existsID($id, $col)
+        {
 	        $q = $this->db->query("SELECT * FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
 	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
 	        						 AND tbl_coursemajor.course = tbl_course.id
@@ -53,7 +53,8 @@
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
-	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as
+	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major,
+								 tbl_coursemajor.course as course, tbl_course.description as
 	        					 description, tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
 	        					 tbl_registration.date as dte, tbl_party.id as pid
 	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
@@ -106,6 +107,7 @@
  							 			$xl = $this->getSubs($classallocation);
 			 							 		if($xl['bookletcharge'] == 1) {
 			 							 						 	$booklet = $rate;
+
 									 							  break;
 						 							}
 							 					}
@@ -113,32 +115,44 @@
 		 							 	if ($coursemajor == 5) {
 	 							 					 $laboratory = $rate;
 		 							 	}
-	 							 }else{
-	 							 	 if($accounttype == 6) {
+	 							 }else
+									{
+	 							 	 if($accounttype == 6)
+										{
 	 										 		$mat = $rate * $totalunit;
-
-		 							 }elseif ($accounttype == 7 ) {
+		 							  }
+										elseif ($accounttype == 7 )
+										{
 		 											 	$tuition = $rate * $totalunit;
-		 							 }elseif($accounttype == 20){
+		 							  }
+										elseif($accounttype == 20)
+										{
 		 									 			$leytetymes = $rate;
-		 							 }elseif($accounttype == 22){
+		 							  }
+										elseif($accounttype == 22)
+										{
 		 							 			 		$internetfee = $rate;
-		 							 }elseif($accounttype == 21){
+		 							  }
+										elseif($accounttype == 21)
+										{
 		 							 	$m = $this->getEn($enid);
-			 							 	foreach ($m as $key => $value) {
+			 							 	foreach ($m as $key => $value)
+												{
 								 				extract($value);
 		 							 			$x = $this->getSubs($classallocation);
-					 							 		if($x['computersubject'] == 1) {
+					 							 		if($x['computersubject'] == 1)
+															{
 					 							 						 $nstp = $rate;
 											 							 break;
 								 							}
 													}
-		 							 }else{
-		 										 	$miscellaneous += $rate;
 		 							 }
+										else
+										{
+		 										 	$miscellaneous += $rate;
+		 							  }
 	 							 }
 			}
-			echo "</table>";
 			$discount = 10/100;
 			$netfull = $tuition * $discount;
 			$install = $tuition / 5;
@@ -242,21 +256,52 @@
 			$q = $this->db->get("tbl_curriculum, tbl_academicterm");
 			return $q->row_array();
 		}
+<<<<<<< HEAD
 		//Get Class Allocation
 		function getClassAloc($academicterm, $student, $coursemajor){
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
 								   WHERE academicterm = '$academicterm'
 								   AND coursemajor = '$coursemajor'
+=======
+
+		function getClassAloc($academicterm, $student, $course){
+
+			$q = $this->db->query("SELECT * FROM tbl_classallocation
+								   WHERE academicterm = '$academicterm'
+								   AND coursemajor = '$course'
 								   AND subject NOT IN(SELECT subject FROM
 								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
 								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
 								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
-								   	AND tbl_classallocation.id != '$academicterm'
 								   	AND tbl_enrolment.id = '$student')
 									GROUP BY subject
 								   ");
 			return $q->result_array();
 		}
+
+		function getClassAloc2($academicterm, $student, $course, $subject){
+
+			$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
+								   WHERE academicterm = '$academicterm'
+								   AND coursemajor != '$course'
+>>>>>>> 546228f9797ff169f7a9f1876b5385994abb250a
+								   AND subject NOT IN(SELECT subject FROM
+								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
+								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
+								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
+<<<<<<< HEAD
+								   	AND tbl_classallocation.id != '$academicterm'
+=======
+>>>>>>> 546228f9797ff169f7a9f1876b5385994abb250a
+								   	AND tbl_enrolment.id = '$student')
+									AND tbl_classallocation.subject = tbl_subject.id
+									AND (tbl_subject.code LIKE '%$subject%'
+									OR tbl_subject.descriptivetitle LIKE '%$subject%')
+									GROUP BY subject
+								   ");
+			return $q->result_array();
+		}
+
 
 		function getSubDetail($subject){
 			$this->db->where('id', $subject);
@@ -269,6 +314,14 @@
 			$this->db->where($where);
 			$q = $this->db->get('tbl_classallocation');
 			return $q->result_array();
+		}
+
+		function getSubject($cid){
+			$where = 'tbl_classallocation.id='.$cid.' AND tbl_classallocation.subject=tbl_subject.id';
+			$this->db->where($where);
+			$this->db->select('code');
+			$q = $this->db->get('tbl_classallocation, tbl_subject');
+			return $q->row_array();
 		}
 
 		// function getDP($id){

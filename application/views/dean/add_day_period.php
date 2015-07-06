@@ -18,12 +18,12 @@
 				    <form action="/add_classalloc" method="post">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h5 class="modal-title" id="myModalLabel">ADD</h5>
+				        <h5 class="modal-title" id="myModalLabel">ADD <?php $owner = $this->api->getUserCollege(); ?></h5>
 				      </div>
 				      <div class="modal-body">
 				        <select name="subj" class="form-control">
 				        	<?php 
-	            				$owner = $this->api->getUserCollege();
+	            				
 	            				$s = $this->subject->subjectOwner($owner);
 	            				foreach($s as $ss)
 	            				{
@@ -87,13 +87,14 @@
 						</tr>
 						<?php
 							$user 		= $this->api->getUserCollege();
-							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
+							//$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
+							$sub 		= $this->db->query("SELECT *,tbl_classallocation.id FROM tbl_classallocation,tbl_course where academicterm = {$systemVal['nextacademicterm']} and tbl_classallocation.coursemajor = tbl_course.id and college = $owner")->result_array();
 
 							foreach($sub as $subj)
 							{
-								$c = $this->subject->whereCode_owner($user,$subj['subject']);
+								/*$c = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']} AND college = $owner")->num_rows();
 								if($c > 0)
-								{
+								{*/
 							?>
 								<tr>
 									<td>
@@ -104,7 +105,8 @@
 									</td>
 									<td>
 										<?php 
-											echo $this->api->getCourseMajor($subj['coursemajor']);
+											$t = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']}")->row_array();
+											echo $t['description'];
 										 ?>
 									</td>
 									<td>
@@ -129,7 +131,7 @@
 									</td>
 								</tr>
 							<?php
-								}
+								//}
 							}
 							?>
 						</table>

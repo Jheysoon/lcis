@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Edp_classallocation extends CI_Model
 {
@@ -80,6 +80,38 @@ class Edp_classallocation extends CI_Model
 			$array[] = $st.'-'.$en;
 		}
 		return implode(' / ', $array);
+	}
+
+	function getRoom($cid)
+	{
+		$array = array();
+		$this->db->order_by('day ASC');
+		$this->db->where('classallocation',$cid);
+		$d = $this->db->get('tbl_dayperiod')->result_array();
+		foreach($d as $dd1)
+		{
+			$room  = $this->db->get_where('tbl_classroom',array('id'=>$dd1['classroom']))->row_array();
+			$rname = $room['legacycode'];
+			$lid   = $room['location'];
+			$location = $this->db->get_where('tbl_location',array('id'=>$lid))->row_array();
+			$location = $location['description'];
+			$array1[] = $rname;
+			$array2[] = $location;
+		}
+		$room = implode(' / ', $array1);
+		if ($location) {
+			$location = implode(' / ', $array2);
+		}
+		else{
+			$location = '';
+		}
+
+		$ret = array(
+			'room' => $room,
+			'location' => $location
+		);
+
+		return $ret;
 	}
 
 	###### getPeriodId to be removed
@@ -168,5 +200,34 @@ class Edp_classallocation extends CI_Model
 		$q = $this->db->query("SELECT shortname FROM tbl_course WHERE id = (SELECT course FROM tbl_coursemajor WHERE id = $cid)")->row_array();
 		return $q['shortname'];
 	}
-	
+	function getAllCollege()
+	{
+		return $this->db->get('tbl_college')->result_array();
+	}
+	function count_complete($partyid,$stage)
+	{
+		$systemVal = $this->api->systemValue();
+		$this->db->where('academicterm',$systemVal['currentacademicterm']);
+		$this->db->where('stage',$stage);
+		$this->db->where('completedby',$partyid);
+		return $this->db->count_all_results('tbl_completion');
+	}
+	function get_status($partyid,$stage)
+	{
+		$systemVal = $this->api->systemValue();
+		$this->db->where('academicterm',$systemVal['currentacademicterm']);
+		$this->db->where('stage',$stage);
+		$this->db->where('completedby',$partyid);
+		return $this->db->get('tbl_completion')->row_array();
+	}
+
+	function getStudEnrol($cid, $acam)
+	{
+		return $this->db->query("SELECT * FROM tbl_enrolment,tbl_coursemajor
+			WHERE tbl_coursemajor.id = tbl_enrolment.coursemajor
+			AND tbl_coursemajor.course = $cid
+			AND academicterm = $acam
+			AND school = 1
+			GROUP BY student LIMIT 5")->result_array();
+	}
 }

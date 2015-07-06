@@ -3,15 +3,16 @@
 | -------------------------------------
 | @file  : Dean.php
 | @date  : 3/26/2015
-| @author:
+| @author: JOG Developers
 | -------------------------------------
 */
 
 class Dean extends CI_Controller
 {
-    public $message1;
-    public $error;
     public $sample;
+    public $message;
+    public $message1;
+    public $ret;
 
     private function head()
     {
@@ -210,7 +211,7 @@ class Dean extends CI_Controller
                 </button>
             </div>');
             redirect(base_url('menu/dean-subject_list'));
-        } 
+        }
     }
 
     function save_subject()
@@ -304,7 +305,7 @@ class Dean extends CI_Controller
         ));
 
         $college = $this->api->getUserCollege();
-        
+
         $s = $this->subject->search($sid,$college);
         $data = array();
 
@@ -342,20 +343,34 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
 
+//----------------------------------------------------------------------
+// Function for evaluation process.
+//----------------------------------------------------------------------
+
     function evaluation($id){
         $this->head();
         $data['id'] = $id;
-        $this->load->model('edp/edp_classallocation');
-        $this->load->helper('form');
-        if ($this->input->post('btn')) {
 
+        // Load required models.
+        $this->load->model('edp/edp_classallocation');
+
+        // Load required helper ( form helper for sticky input data ).
+        $this->load->helper('form');
+
+        // Check for form submission.
+        // This section is ignored during start of evaluation process.
+        if ($this->input->post('btn')) {
             $r1 = $this->saveEvaluation();
             if($r1 == true){
                 redirect('/dean_evaluation/'.$this->input->post('legid'));
             }
         }
+
+        //  Prepare data and start loading evaluation UI.
         $data['message'] = $this->message1;
         $data['sample'] = $this->sample;
+        $data['ret'] = $this->ret;
+
         $this->load->view('dean/dean_preEnroll', $data);
         $this->load->view('templates/footer');
     }
@@ -363,7 +378,7 @@ class Dean extends CI_Controller
     function ident_subj($id)
     {
         $college = $this->api->getUserCollege();
-        
+
         $s = $this->subject->find($id);
         if($college == 0 OR $s['owner'] == 0)
         {
@@ -398,7 +413,7 @@ class Dean extends CI_Controller
         $this->load->model(array(
             'dean/student'
         ));
-        $college = $this->api->getUserCollege();        
+        $college = $this->api->getUserCollege();
 
         $s = $this->student->getStudent($sid,$college);
         $data = array();
@@ -413,6 +428,18 @@ class Dean extends CI_Controller
         $this->load->model('dean/student');
         return $this->student->getCalculation($enid);
     }
+
+    function addClassAlloc1()
+    {
+        //$this->load->model('dean/out_section');
+        $id                 = $this->input->post('out_section_id');
+        $data['section']    = $this->input->post('sections');
+
+        $this->db->where('id',$id);
+        $this->db->update('out_section',$data);
+    }
+
+    // leave it as is..
     function addClassAlloc()
     {
         $this->load->model('dean/out_section');
@@ -448,6 +475,9 @@ class Dean extends CI_Controller
         }
     }
 
+//-------------------------------------------------------------------------
+// function for saving evaluation
+//-------------------------------------------------------------------------
 
     function saveEvaluation(){
         $this->load->model('dean/student');
@@ -455,6 +485,8 @@ class Dean extends CI_Controller
         $ctr = $this->input->post('count');
         $ctr2 = 1;
         $unit = 0;
+
+        // Putting all selected schedules into schedule array.
 
         while ( $ctr != 0) {
             if ($this->input->post('rad-'.$ctr) !== NULL) {
@@ -467,10 +499,45 @@ class Dean extends CI_Controller
             $ctr--;
         }
 
+        // Check if there is additional subject/s and put it on schedule array.
+
+        if($this->input->post('additional')){
+            $this->ret = $this->input->post('additional');
+            $add = array();
+            foreach ($this->ret as $key => $cid) {
+
+                // Get subject ID for duplicate verification.
+                $sub = $this->student->getSubject($cid);
+
+                // Check if there is any duplicate subject in additional subject table.
+                if (in_array($sub['code'], $add)) {
+                    $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    Duplicate subject <strong>'.$sub['code'].'</strong> in additional subject table.<br/>';
+                    return false;
+                }
+                else{
+                    $names['var'.$ctr2] = $cid;
+                    $un = $this->student->getUnits($cid);
+                    extract($un);
+                    $unit = $unit + $units;
+                    $ctr2++;
+                }
+                $add[] = $sub['code'];
+            }
+        }
+
+        // Check if schedule array is set.
+
         if (isset($names)) {
             extract($names);
             $ctr2 = $ctr2-1;
             $i = $ctr2;
+
+            // Separating multi-scheduled class allocations/subjects
+            // into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
+            // and put them in a new array for conflict checking.
+
             while ($ctr2 != 0) {
                 $ii = $i;
                 $p = $this->edp_classallocation->getPeriod(${'var'.$ctr2});
@@ -487,15 +554,18 @@ class Dean extends CI_Controller
                     $individual[] = ${'var'.$ctr2}.",".$d.",".$p;
 
                 }
-                $ctr2--;   
+                $ctr2--;
             }
             $compare = $individual;
             $message = '';
+
+            //Checking conflicts.
+            $dup = array();
             foreach ($individual as $key => $value) {
                 $p = explode(",", $value);
                 foreach ($compare as $key2 => $value2) {
                     $p2 = explode(",", $value2);
-                    if ($key != $key2) {
+                    if ($key != $key2 && !in_array($value2, $dup)) {
                         if ($p[1] == $p2[1]) {
                             $t1 = explode("-", $p[2]);
                             $t2 = explode("-", $p2[2]);
@@ -508,16 +578,24 @@ class Dean extends CI_Controller
                         }
                     }
                 }
+
+                // Array that holds checked schedules.
+                // Used to avoid checking schedules that are already checked.
+                $dup[] = $value;
             }
-            if($this->input->post('counter') < $unit){
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <strong>No. of units exceeded!</strong><br/>
-                  Total units taken : '.$unit.'
-                </div>';
-                return false;
-            }
-            else if ($message == '') {
+
+
+            // if($this->input->post('counter') < $unit){
+            //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+            //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            //       <strong>No. of units exceeded!</strong><br/>
+            //       Total units taken : '.$unit.'
+            //     </div>';
+            //     return false;
+            // }else
+
+            // If there are no conflicts proceed to saving.
+            if ($message == '') {
 
                 $student = $this->input->post('student');
                 $coursemajor = $this->input->post('coursemajor');
@@ -525,6 +603,7 @@ class Dean extends CI_Controller
                 $academicterm = $this->input->post('academicterm');
                 $status = 'E';
 
+                // Checking if student is already evaluated.
                 $eval = $this->student->checkEvaluation($student, $academicterm);
                 if ($eval) {
                     $Evalue = $this->student->getEvaluation($eval['id']);
@@ -541,14 +620,17 @@ class Dean extends CI_Controller
                     $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
                 }
 
+                // Adding new records to student grade
                 foreach ($names as $key => $value) {
                     $res = $this->student->getReserved($value);
                     $res = $res['reserved'] + 1;
                     $this->student->addInitialGrade($value, $enid);
                     $this->student->updateReserved($value, $res);
                 }
-              
-                $this->calculatebill($enid);
+
+                // Call billing method.
+                // $this->calculatebill($enid);
+
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Evaluation successfuly saved</strong><br/>
@@ -601,7 +683,7 @@ class Dean extends CI_Controller
         {
             $subject    = $this->input->post('subject');
             $cmajor     = $this->input->post('course_major');
-            $q          = $this->classallocation->chkClassAlloc($subject,$systemVal['nextacademicterm'],$cmajor);
+            $q          = $this->db->query("SELECT * FROM out_section WHERE coursemajor = $cmajor AND subject = $subject")->num_rows();
             if($q > 0)
             {
                 $data['error'] = '<div class="alert alert-danger">You have already assigned this subject with this course</div>';
@@ -610,7 +692,14 @@ class Dean extends CI_Controller
             }
             else
             {
-                $this->addClassAlloc();
+                $db['subject']      = $subject;
+                $db['coursemajor']  = $cmajor;
+                $db['section']      = $this->input->post('sections');
+                $db['academicterm'] = $systemVal['nextacademicterm'];
+                $db['studentcount'] = 0;
+                $db['yearlevel']    = $this->input->post('yearlevel');
+                $this->db->insert('out_section',$db);
+                redirect('/non_exist');
             }
         }
     }
@@ -674,7 +763,7 @@ class Dean extends CI_Controller
                         $t = $this->db->get('tbl_time')->result_array();
                         foreach($t as $time){
                         $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
-                      } 
+                      }
                      $template .= '</select>
                 </td>
                 <td>
@@ -682,9 +771,9 @@ class Dean extends CI_Controller
                         foreach($t as $time)
                         {
                             if($time['id'] != 1){
-                     
+
                             $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                            } 
+                            }
                         }
                     $template .='</select>
                 </td>
@@ -693,6 +782,8 @@ class Dean extends CI_Controller
         echo $template;
     }
 
+
+    // function in adding day period
     function ass_subj()
     {
         $day        = $this->input->post('day');
@@ -701,6 +792,7 @@ class Dean extends CI_Controller
         $cid        = $this->input->post('class_id');
         $url        = $this->input->post('url');
 
+        // count the number of days
         $index = count($day);
 
         $this->db->where('classallocation',$cid);
@@ -714,6 +806,7 @@ class Dean extends CI_Controller
         {
             if($index < 3)
             {
+                //check if the days are just the same
                 if($day[0] == $day[1])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
@@ -722,6 +815,7 @@ class Dean extends CI_Controller
             }
             elseif($index < 4)
             {
+                //check if the days are just the same
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
@@ -729,8 +823,10 @@ class Dean extends CI_Controller
                 }
             }
 
+            // check if the user select the noon break time period
             if($start_time[$key] != 11 AND $end_time[$key] != 12)
             {
+                //end time period must be greater than the start time period
                 if($end_time[$key] > $start_time[$key])
                 {
                     $data['classallocation']    = $cid;
@@ -739,14 +835,12 @@ class Dean extends CI_Controller
                     $data['to_time']            = $end_time[$key];
                     $this->db->insert('tbl_dayperiod',$data);
                 }
-                else
-                {
+                else{
                     $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
                     return FALSE;
                 }
             }
-            else
-            {
+            else{
                 $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
                 return FALSE;
             }
@@ -755,6 +849,72 @@ class Dean extends CI_Controller
         return TRUE;
     }
 
+//------------------------------------------------------------------------
+// Searching function for adding subject in evaluation method
+// (called through ajax @ views/dean/ajax/evaluation.js).
+// A table of searched subjects is displayed after execution.
+//------------------------------------------------------------------------
+
+    function ajaxEvaluation(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        $term        = $this->input->post('term');
+        $student     = $this->input->post('student');
+        $course      = $this->input->post('course');
+        $subject     = $this->input->post('subject');
+
+        $param = array(
+            'term' => $term,
+            'student' => $student,
+            'course' => $course,
+            'subject' => $subject
+        );
+
+        $this->load->view('dean/ajax/modal_evaluation', $param);
+    }
+
+//-------------------------------------------------------------------------
+// Function for adding subject to additional subject table in evaluation
+// (called through ajax @ views/dean/ajax/evaluation.js)
+//-------------------------------------------------------------------------
+
+    function appendSubject(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        if ($this->input->post('choose')) {
+            $cid = $this->input->post('choose');
+            $sub = $this->student->getSubject($cid);
+
+            $p = $this->edp_classallocation->getPeriod($cid);
+            $d = $this->edp_classallocation->getDayShort($cid);
+            $r = $this->edp_classallocation->getRoom($cid);
+
+            $reserved = $this->student->getReserved($cid);
+            $enrolled = $this->student->getEnrolled($cid);
+
+            $append = "
+            <tr>
+                <input type='hidden' name='additional[]' value='".$cid."'>
+                <td>".$sub['code']."</td>
+                <td>".$d."</td>
+                <td>".$p."</td>
+                <td>".$r['room']."</td>
+                <td>".$r['location']."</td>
+                <td>".$reserved['reserved']."</td>
+                <td>".$enrolled['enrolled']."</td>
+                <td>
+                    <a class='a-table label label-danger remove' data-param='".$sub['code']."'>Remove
+                    <span class='glyphicon glyphicon-trash'></span></a>
+                </td>
+            </tr>";
+            echo $append;
+        }
+    }
+    // function to delete classallocation
     function delete_classalloc($id)
     {
         $this->db->where('id',$id);
@@ -763,11 +923,33 @@ class Dean extends CI_Controller
         $this->db->delete('tbl_dayperiod');
         redirect('/menu/dean-add_day_period');
     }
+
+     // function to create classallocation
     function add_classalloc()
     {
         $data['subject']        = $this->input->post('subj');
         $data['coursemajor']    = $this->input->post('course_major');
         $this->db->insert('tbl_classallocation',$data);
         redirect('/menu/dean-add_day_period');
+    }
+
+    // function to update/insert in tbl_completion
+    function add_task_comp($stage,$status,$id = '')
+    {
+        $systemVal              = $this->api->systemValue();
+        $data['academicterm']   = $systemVal['currentacademicterm'];
+        $data['stage']          = $stage;
+        $data['completedby']    = $this->session->userdata('uid');
+        $data['status']         = $status;
+        $data['statusdate']     = date('Y-m-d');
+        if(empty($id))
+        {
+            $this->db->insert('tbl_completion',$data);
+        }
+        else
+        {
+            $this->db->where('id',$id);
+            $this->db->update('tbl_completion',$data);
+        }
     }
 }
