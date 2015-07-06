@@ -181,7 +181,7 @@ class Api
 
 		if($cur_id != 0)
 		{
-			$reg_id 		= $cur['id'];
+			//$reg_id 		= $cur['id'];
 
 			$units 			= 0;
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
@@ -200,22 +200,20 @@ class Api
 			// $this->CI->db->where('student', $partyid);
 			// $this->CI->db->where('registration', $reg_id);
 			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
-				WHERE student = $partyid
-				AND registration = $reg_id
-				GROUP BY academicterm")->result_array();
+				WHERE student = $partyid")->result_array();
 
+			//$ite = '';
 			foreach ($enrol as $val)
 			{
 				// NOT_FAILED_GRADE @ application/config/constants.php
 				$threshold_grade = NOT_FAILED_GRADE;
 				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
 					WHERE (semgrade <= $threshold_grade
-						OR reexamgrade <= $threshold_grade)
+						AND reexamgrade <= $threshold_grade)
 						AND enrolment = {$val['id']}")->result_array();
 
 				foreach ($stud as $stud_subj)
 				{
-
 					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
 						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
 
@@ -224,14 +222,17 @@ class Api
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
+
 					if ($cur_detail1->num_rows() > 0)
 					{
+						//$ite .= $stu['id'].' ';
 						//$s = $cur_detail1->row_array();
 						$student_units += $stu['units'];
 					}
 				}
-			}
 
+			}
+			//return $ite;
 			$min_units = (int) ($units * ($tolerance / 100));
 
 			if($student_units <= $units AND $student_units >= $min_units)
@@ -269,8 +270,5 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-
-
-
 
 }

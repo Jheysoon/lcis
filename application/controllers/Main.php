@@ -65,12 +65,15 @@ class Main extends CI_Controller
                 {
                     $status = 'N';
                 }
+
+                // add the systemvalue table in session
+                $systemVal = $this->api->yearLevel();
                 $this->session->set_userdata(array(
                     'uid'               =>$userid,
                     'datamanagement'    =>$position,
                     'sy'                =>'2014-2015',
                     'sem'               =>'1st Semester',
-                    'cur_id'            =>'46',
+                    'cur_id'            =>$systemVal['currentacademicterm'],
                     'status'            =>$status,
                     'username'          =>$username
                 ));

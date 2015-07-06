@@ -133,14 +133,12 @@ class Edp extends CI_Controller
 
             $e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
         }
+        // if not get the students in enrolled in current academicterm
         else
-        {
-            // if not get the students in enrolled in current academicterm
             $e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
-        }
+
         foreach ($e as $stud)
         {
-
             $yearlevel = $this->api->yearLevel($stud['student'], $course);
 
             // API return curriculum not found if the course does not have a curriculum
@@ -464,8 +462,9 @@ class Edp extends CI_Controller
         }
     }
 
-    function tryap1()
+    function tryap1($id)
     {
-        echo $this->api->yearLevel(172);
+        //22518
+        echo $this->api->yearLevel($id);
     }
 }
