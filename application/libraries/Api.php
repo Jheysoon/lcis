@@ -163,109 +163,110 @@ class Api
     }
 
 	//function to determine the year level echo $this->api->yearLevel(172,4);
-	function yearLevel($partyid, $course)
+	function yearLevel($partyid, $course = '')
 	{
 		$systemVal 	= $this->systemValue();
 		$sy     	= $systemVal['nextacademicterm'];
 		$tolerance 	= (int) $systemVal['cutoffpercentage'];
 
-        $curs = $this->CI->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor
-			WHERE coursemajor = $course
-			AND tbl_coursemajor.id = tbl_curriculum.coursemajor
-			AND tbl_coursemajor.course = $course")->result_array();
+		$cur_id 	= 0;
+		// get its curriculum
+		$cur = $this->CI->db->query("SELECT * FROM tbl_registration
+				WHERE academicterm =
+				(SELECT MAX(academicterm) FROM tbl_registration
+					WHERE student = $partyid)
+				AND student = $partyid")->row_array();
 
-		$cur1 = 0;
-		foreach ($curs as $c)
+		$cur_id = $cur['curriculum'];
+
+		if($cur_id != 0)
 		{
-			$this->CI->db->where('curriculum', $c['id']);
-			$cu = $this->CI->db->get('tbl_year_units');
-			if ($cu->num_rows() > 0) {
-				$c = $cu->row_array();
-				$cur1 = $c['curriculum'];
-				break;
-			}
-		}
-		if($cur1 == 0) {
-			// return a curriculum not found
-			// CUR_NOT_FOUND @ application/config/constants.php
-			return CUR_NOT_FOUND;
-		}
-		else
-		{
+			$reg_id 		= $cur['id'];
+
 			$units 			= 0;
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
 			$student_units 	= 0;
-			for ($i=1; $i <= 4; $i++)
-			{
 
-				$this->CI->db->where('curriculum', $cur1);
+			for ($i=1; $i <=4 ; $i++)
+			{
+				// get the total units by yearlevel
+				$this->CI->db->where('curriculum',$cur_id);
 				$this->CI->db->where('yearlevel',  $i);
 				$u = $this->CI->db->get('tbl_year_units')->row_array();
 				$units += $u['totalunits'];
 
-				//
 				$sum_units[$i - 1] = $units;
-
-				$this->CI->db->where('student', $partyid);
-				$enrol = $this->CI->db->get('tbl_enrolment')->result_array();
-
-				//verify
-				foreach ($enrol as $val)
-				{
-					// NOT_FAILED_GRADE @ application/config/constants.php
-					$threshold_grade = NOT_FAILED_GRADE;
-					$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
-						WHERE (semgrade <= $threshold_grade
-							OR reexamgrade <= $threshold_grade)
-							AND enrolment = {$val['id']}")->result_array();
-
-					// get all the subject of the student
-
-					// improve this algorithm
-					foreach ($stud as $stud_subj)
-					{
-
-						$stu = $this->CI->db->query("SELECT * FROM tbl_subject
-							WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
-
-						$this->CI->db->where('curriculum', $cur1);
-						$this->CI->db->where('yearlevel',  $i);
-						$this->CI->db->where('subject', $stu['id']);
-						$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
-
-						if ($cur_detail1->num_rows() > 0)
-						{
-							$s = $cur_detail1->row_array();
-							$student_units += $stu['units'];
-						}
-					}
-					// end
-				}
-
-				// get the range for students units
-				$min_units = (int) ($units * ($tolerance / 100));
-
-				if($student_units <= $units AND $student_units >= $min_units)
-				{
-					return $i;
-				}
 			}
-		}
+			// $this->CI->db->where('student', $partyid);
+			// $this->CI->db->where('registration', $reg_id);
+			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
+				WHERE student = $partyid
+				AND registration = $reg_id
+				GROUP BY academicterm")->result_array();
 
-		// final computation for student units
-		for ($q=0; $q <= 3 ; $q++)
-		{
-			$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
-			// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
-			if($student_units <= $sum_units[$q])
+			foreach ($enrol as $val)
 			{
-				if($student_units >= $m_units AND $student_units <= $sum_units[$q])
-					return $q+1;
-				else
-					return $q;
+				// NOT_FAILED_GRADE @ application/config/constants.php
+				$threshold_grade = NOT_FAILED_GRADE;
+				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
+					WHERE (semgrade <= $threshold_grade
+						OR reexamgrade <= $threshold_grade)
+						AND enrolment = {$val['id']}")->result_array();
+
+				foreach ($stud as $stud_subj)
+				{
+
+					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
+						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
+
+					$this->CI->db->where('curriculum', $cur_id);
+					//$this->CI->db->where('yearlevel',  $i);
+					$this->CI->db->where('subject', $stu['id']);
+					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
+
+					if ($cur_detail1->num_rows() > 0)
+					{
+						//$s = $cur_detail1->row_array();
+						$student_units += $stu['units'];
+					}
+				}
 			}
+
+			$min_units = (int) ($units * ($tolerance / 100));
+
+			if($student_units <= $units AND $student_units >= $min_units)
+			{
+				return $i;
+			}
+
+			//return $student_units.' '.$units;
+			for ($q=0; $q <= 3 ; $q++)
+			{
+				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
+				// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
+				if($student_units <= $sum_units[$q])
+				{
+					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
+					{
+						$u = $q + 2;
+						if($u >= 4)
+							return 4;
+						else
+							return $u;
+					}
+					else
+						return $q+1;
+				}
+			}
+			return 'end if function';
 		}
-		return 0;
+		else
+		{
+			return CUR_NOT_FOUND;
+		}
+
+		return 'end function';
+		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
 

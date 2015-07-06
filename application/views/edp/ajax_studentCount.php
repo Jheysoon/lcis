@@ -27,102 +27,84 @@
 		<td>Number of Student</td>
 	</tr>
 	<?php
-		$curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
+		$curs = $this->db->get('tbl_course')->result_array();
 		foreach($curs as $cu)
 		{
+			$yearL = array(0 => 0,1 => 0,2 => 0,3 => 0);
 			$course = $cu['id'];
-			for($i=1;$i<=4;$i++)
+
+			$cid 	= $cu['id'];
+			$count 	= 0;
+
+			// check if the term is summer
+			if ($term == 3)
 			{
-				$cid 	= $cu['id'];
-				$year_l = $i;
-				$count 	= 0;
+				// if term is summer . get the students enrolled in last 2nd sem.
+				$acam 	= $current_academicterm - 1;
+				$e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
+			}
+			else
+			{
+				// if not get the students in enrolled in current academicterm
+				$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
+			}
+			foreach ($e as $stud)
+			{
 
-				// if year level is for 2nd, 3rd, 4th year students
-				if ($year_l != 1)
+				$yearlevel = $this->api->yearLevel($stud['student'], $course);
+
+				// API return curriculum not found if the course does not have a curriculum
+				if ($yearlevel != CUR_NOT_FOUND)
 				{
-					//create a function to check if the course have a curriculum
-
-
-					// check if the term is summer
-					if ($term == 3)
+					if($yearlevel > 1)
 					{
-						// if term is summer . get the students enrolled in last 2nd sem.
-						$acam 	= $current_academicterm - 1;
-						$e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
-					}
-					else
-					{
-						// if not get the students in enrolled in current academicterm
-						$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
-					}
-					foreach ($e as $stud)
-					{
-
-						$yearlevel = $this->api->yearLevel($stud['student'], $course);
-
-						// API return curriculum not found if the course does not have a curriculum
-						if ($yearlevel != CUR_NOT_FOUND)
-						{
-							if ($yearlevel == $year_l)
-							{
-								$count++;
-							}
-						}
+						if($yearlevel > 4)
+							$yearL[3] += 1;
 						else
-							break;
+							$yearL[$yearlevel - 1] += 1;
 					}
+				}
+				// else
+				// 	break;
+			}
+
+			if($term == 3)
+			{
+				$acam = $current_academicterm - 2;
+				$e = $this->edp_classallocation->getStudEnrol($cid, $acam);
+			}
+			else {
+				$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
+			}
+			foreach ($e as $stud)
+			{
+
+				$yearlevel = $this->api->yearLevel($stud['student'], $course);
+
+				// API return curriculum not found if the course does not have a curriculum
+				if ($yearlevel != CUR_NOT_FOUND)
+				{
+					if ($yearlevel == 1)
+					{
+						$yearL[0] += 1;
+					}
+				}
+				// else
+				// 	break;
+			}
+
+			for ($i=1; $i <= 4 ; $i++)
+			{
 		?>
-					<tr>
-						<input type="hidden" name="coursemajor[]" value="<?php echo $cu['id']; ?>">
-						<input type="hidden" name="year_level[]" value="<?php echo $year_l; ?>">
-						<td><?php echo $cu['description']; ?></td>
-						<td><?php echo $i; ?></td>
-						<td><?php echo $count; ?></td>
-						<input type="hidden" name="count[]" value="<?php echo $count; ?>">
-					</tr>
+				<tr>
+					<input type="hidden" name="coursemajor[]" value="<?php echo $cu['id']; ?>">
+					<input type="hidden" name="year_level[]" value="<?php echo $i; ?>">
+					<td><?php echo $cu['description']; ?></td>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $yearL[$i - 1]; ?></td>
+					<input type="hidden" name="count[]" value="<?php echo $yearL[$i - 1]; ?>">
+				</tr>
 		<?php
-				}
-				else
-				{
-					if($term == 3)
-					{
-						$acam = $current_academicterm - 2;
-						$e = $this->edp_classallocation->getStudEnrol($cid, $acam);
-					}
-					else {
-						$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
-					}
-					foreach ($e as $stud)
-					{
-
-						$yearlevel = $this->api->yearLevel($stud['student'], $course);
-
-						// API return curriculum not found if the course does not have a curriculum
-						if ($yearlevel != CUR_NOT_FOUND)
-						{
-							if ($yearlevel == $year_l)
-							{
-								$count++;
-							}
-						}
-						else
-							break;
-					}
-			?>
-			<tr>
-				<input type="hidden" name="coursemajor[]" value="<?php echo $cu['id']; ?>">
-				<input type="hidden" name="year_level[]" value="<?php echo $year_l; ?>">
-				<td><?php echo $cu['description']; ?></td>
-				<td><?php echo $i; ?></td>
-				<td><?php echo $count; ?></td>
-				<input type="hidden" name="count[]" value="<?php echo $count; ?>">
-			</tr>
-			<?php
-				}
-			?>
-		</td>
-	</tr>
-	<?php
 			}
 		}
 	}

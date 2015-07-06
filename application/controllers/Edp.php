@@ -10,6 +10,8 @@
 class Edp extends CI_Controller
 {
     public $numberOfStudents;
+    public $yearL = array(0 => 0,1 => 0,2 => 0,3 => 0);
+
     private function head()
     {
         $this->load->view('templates/header');
@@ -92,18 +94,71 @@ class Edp extends CI_Controller
         if ($systemVal['phase'] == FIN)
         {
             $this->load->model(array(
-                'edp/out_studentcount',
-                'registrar/course',
-                'registrar/curriculum',
-                'registrar/academicterm',
-                'registrar/curriculumdetail',
-                'edp/edp_classallocation'
+                'edp/edp_classallocation',
+                'registrar/academicterm'
             ));
+
+            // $curs = $this->db->get('tbl_course')->result_array();
+            // foreach($curs as $cu)
+    		// {
+            //     $this->yearL = array(0 => 0,1 => 0,2 => 0,3 => 0);
+    		// 	$course = $cu['id'];
+            //
+    		// 	$cid 	= $cu['id'];
+    		// 	$year_l = $i;
+    		// 	$count 	= 0;
+            //
+            //     $this->studentc(FALSE);
+            //     $this->studentc();
+            //
+            // }
             $this->load->view('edp/ajax_studentCount');
         }
         else
         {
             echo 'Not final';
+        }
+    }
+
+    function studentc($isFirstYear = TRUE)
+    {
+        // check if the term is summer
+        if ($term == 3)
+        {
+            // if term is summer . get the students enrolled in last 2nd sem.
+            if($isFirstYear)
+                $acam 	= $current_academicterm - 2;
+            else
+                $acam 	= $current_academicterm - 1;
+
+            $e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
+        }
+        else
+        {
+            // if not get the students in enrolled in current academicterm
+            $e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
+        }
+        foreach ($e as $stud)
+        {
+
+            $yearlevel = $this->api->yearLevel($stud['student'], $course);
+
+            // API return curriculum not found if the course does not have a curriculum
+            if ($yearlevel != CUR_NOT_FOUND)
+            {
+                if($isFirstYear)
+                {
+                    if ($yearlevel == 1)
+						$yearL[0] += 1;
+                }
+                else
+                {
+                    if($yearlevel > 1)
+                        $yearL[$yearlevel - 1] += 1;
+                }
+            }
+            // else
+            // 	break;
         }
     }
 
@@ -407,7 +462,10 @@ class Edp extends CI_Controller
                 }
             }
         }
+    }
 
-
+    function tryap1()
+    {
+        echo $this->api->yearLevel(172);
     }
 }
