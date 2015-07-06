@@ -511,9 +511,9 @@ class Dean extends CI_Controller
 
                 // Check if there is any duplicate subject in additional subject table.
                 if (in_array($sub['code'], $add)) {
-                    $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
+                    $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Duplicate subject.</strong><br/>';
+                    Duplicate subject <strong>'.$sub['code'].'</strong> in additional subject table.<br/>';
                     return false;
                 }
                 else{
@@ -560,11 +560,12 @@ class Dean extends CI_Controller
             $message = '';
 
             //Checking conflicts.
+            $dup = array();
             foreach ($individual as $key => $value) {
                 $p = explode(",", $value);
                 foreach ($compare as $key2 => $value2) {
                     $p2 = explode(",", $value2);
-                    if ($key != $key2) {
+                    if ($key != $key2 && !in_array($value2, $dup)) {
                         if ($p[1] == $p2[1]) {
                             $t1 = explode("-", $p[2]);
                             $t2 = explode("-", $p2[2]);
@@ -577,10 +578,12 @@ class Dean extends CI_Controller
                         }
                     }
                 }
+
+                // Array that holds checked schedules.
+                // Used to avoid checking schedules that are already checked.
+                $dup[] = $value;
             }
 
-            // The following commented codes is for room and location verification
-            // which is not available yet.
 
             // if($this->input->post('counter') < $unit){
             //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
@@ -626,7 +629,7 @@ class Dean extends CI_Controller
                 }
 
                 // Call billing method.
-                $this->calculatebill($enid);
+                // $this->calculatebill($enid);
 
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -859,13 +862,13 @@ class Dean extends CI_Controller
 
         $term        = $this->input->post('term');
         $student     = $this->input->post('student');
-        $coursemajor = $this->input->post('coursemajor');
+        $course      = $this->input->post('course');
         $subject     = $this->input->post('subject');
 
         $param = array(
             'term' => $term,
             'student' => $student,
-            'coursemajor' => $coursemajor,
+            'course' => $course,
             'subject' => $subject
         );
 
@@ -888,6 +891,7 @@ class Dean extends CI_Controller
 
             $p = $this->edp_classallocation->getPeriod($cid);
             $d = $this->edp_classallocation->getDayShort($cid);
+            $r = $this->edp_classallocation->getRoom($cid);
 
             $reserved = $this->student->getReserved($cid);
             $enrolled = $this->student->getEnrolled($cid);
@@ -898,17 +902,15 @@ class Dean extends CI_Controller
                 <td>".$sub['code']."</td>
                 <td>".$d."</td>
                 <td>".$p."</td>
-                <td></td>
-                <td></td>
+                <td>".$r['room']."</td>
+                <td>".$r['location']."</td>
                 <td>".$reserved['reserved']."</td>
                 <td>".$enrolled['enrolled']."</td>
                 <td>
-                    <button type='button' class='btn btn-danger remove' data-param='".$sub['code']."'>Remove
-                    <span class='glyphicon glyphicon-trash'></span></button>
+                    <a class='a-table label label-danger remove' data-param='".$sub['code']."'>Remove
+                    <span class='glyphicon glyphicon-trash'></span></a>
                 </td>
-
             </tr>";
-
             echo $append;
         }
     }

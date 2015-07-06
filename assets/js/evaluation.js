@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	removeSubject();
+	
 	$('#searchSubject').submit(function(){
-
 	    $.post( "/dean/ajaxEvaluation", $( "#searchSubject" ).serialize(), function(data){
 	    	data = $.trim(data);
 	    	if (data == "error") {
@@ -21,7 +21,6 @@ $(document).ready(function(){
 	});
 
 	$('#modal-table').submit(function(){
-
 	    $.post( "/dean/appendSubject", $( "#modal-table" ).serialize(), function(data){
 	    	data = $.trim(data);
 	    	if (data != '') {

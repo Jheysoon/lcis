@@ -1,24 +1,24 @@
-<?php 
+<?php
 
 	class Student extends CI_Model
 	{
 		function getRows($col){
         return $this->db->query("SELECT * FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
-        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
-        						 AND tbl_coursemajor.course = tbl_course.id 
-        						 AND tbl_party.id = tbl_registration.student 
-        						 AND tbl_course.college = '$col' 
+        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+        						 AND tbl_coursemajor.course = tbl_course.id
+        						 AND tbl_party.id = tbl_registration.student
+        						 AND tbl_course.college = '$col'
         						 GROUP BY student ORDER BY legacyid DESC")
             ->num_rows();
 		}
 		function getStud($param, $col)
 	    {
-	        $q = $this->db->query("SELECT tbl_party.id as pid, legacyid, lastname, firstname,  tbl_course.description as description, tbl_coursemajor.major as major 
-	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
-	        						 AND tbl_coursemajor.course = tbl_course.id 
-	        						 AND tbl_party.id = tbl_registration.student 
-	        						 AND tbl_course.college = '$col' 
+	        $q = $this->db->query("SELECT tbl_party.id as pid, legacyid, lastname, firstname,  tbl_course.description as description, tbl_coursemajor.major as major
+	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+	        						 AND tbl_coursemajor.course = tbl_course.id
+	        						 AND tbl_party.id = tbl_registration.student
+	        						 AND tbl_course.college = '$col'
 	        						 GROUP BY student  ORDER BY legacyid DESC LIMIT $param, 15");
 	        return $q->result_array();
 	    }
@@ -28,11 +28,11 @@
 	    }
         function existsID($id, $col)
         {
-	        $q = $this->db->query("SELECT * FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
-	        						 AND tbl_coursemajor.course = tbl_course.id 
-	        						 AND tbl_party.id = tbl_registration.student 
-	        						 AND tbl_course.college = '$col' 
+	        $q = $this->db->query("SELECT * FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+	        						 AND tbl_coursemajor.course = tbl_course.id
+	        						 AND tbl_party.id = tbl_registration.student
+	        						 AND tbl_course.college = '$col'
 	        						 AND legacyid = '$id'");
 	        return $q->num_rows();
         }
@@ -40,28 +40,29 @@
 
 		function getStudent($search, $col)
 	    {
-	        $q = $this->db->query("SELECT legacyid, lastname, firstname 
-	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
-	        						 AND tbl_coursemajor.course = tbl_course.id 
-	        						 AND tbl_party.id = tbl_registration.student 
+	        $q = $this->db->query("SELECT legacyid, lastname, firstname
+	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+	        						 AND tbl_coursemajor.course = tbl_course.id
+	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_course.college = '$col'
 	        						 AND(
 	        						 		legacyid LIKE '%$search%'
 	        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'
 	        						 		OR CONCAT(firstname, ' ', lastname) LIKE '%$search%'
-	        						 	) 
+	        						 	)
 	        						 GROUP BY student  ORDER BY legacyid");
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
-	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_course.description as 
-	        					 description, tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum, 
+	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major,
+								 tbl_coursemajor.course as course, tbl_course.description as
+	        					 description, tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
 	        					 tbl_registration.date as dte, tbl_party.id as pid
-	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party 
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id 
-	        						 AND tbl_coursemajor.course = tbl_course.id 
-	        						 AND tbl_party.id = tbl_registration.student 
+	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+	        						 AND tbl_coursemajor.course = tbl_course.id
+	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_party.legacyid = '$id'
 	        						 ");
 	        return $q->row_array();
@@ -109,16 +110,16 @@
 			    ";*/
 			foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
 					extract($val);
-				
+
 	 							 if ($accounttype == 23){
 	 							 	$m = $this->getEn($enid);
 	 							 	foreach ($m as $key => $value) {
 						 				extract($value);
  							 			$x = $this->getSubs($classallocation);
 			 							 		if($x['computersubject'] == 1) {
-			 							 				/*echo "	
+			 							 				/*echo "
 																<tr>
-															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -132,11 +133,11 @@
 	 							 	foreach ($m as $key => $ms) {
 	 							 		extract($ms);
  							 			$xl = $this->getSubs($classallocation);
-			 							 		
+
 			 							 		if($xl['bookletcharge'] == 1) {
-			 							 				/*echo "	
+			 							 				/*echo "
 																<tr>
-															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+															     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 									 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -148,9 +149,9 @@
 
 	 							 }	elseif ($accounttype == 19) {
 		 							 	if ($coursemajor == 5) {
-	 							 			/*echo "	
+	 							 			/*echo "
 												<tr>
-											     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+											     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 												 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 												 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 					 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -159,9 +160,9 @@
 		 							 	}
 	 							 }else{
 	 							 	 if($accounttype == 6) {
-	 							 	 /*	echo "	
+	 							 	 /*	echo "
 										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -171,12 +172,12 @@
 
 		 							 		/*echo  "<td style='border: 1px solid; padding: 5px;'>".$totalunit."</td>";
 		 							 		echo "<td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";	*/
-		 							 		$mat = $rate * $totalunit;		
+		 							 		$mat = $rate * $totalunit;
 
 		 							 }elseif ($accounttype == 7 ) {
-		 							 	/*	echo "	
+		 							 	/*	echo "
 										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -185,18 +186,18 @@
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate * $totalunit."</td>";*/
 			 							 	$tuition = $rate * $totalunit;
 		 							 }elseif($accounttype == 20){
-		 							 	/*	echo "	
+		 							 	/*	echo "
 										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 		 							 			$leytetymes = $rate;
 		 							 }elseif($accounttype == 22){
-		 							 	/*	echo "	
+		 							 	/*	echo "
 										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -208,9 +209,9 @@
 								 				extract($value);
 		 							 			$x = $this->getSubs($classallocation);
 					 							 		if($x['computersubject'] == 1) {
-					 							 			/*	echo "	
+					 							 			/*	echo "
 																		<tr>
-																	     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+																	     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 																		 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 																		 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 											 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
@@ -220,26 +221,26 @@
 								 							}
 													}
 		 							 }else{
-		 							 /*	echo "	
+		 							 /*	echo "
 										<tr>
-									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>	
+									     <td style='border: 1px solid; padding: 5px;'>".$id."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$accounttype."</td>
 										 <td style='border: 1px solid; padding: 5px;'>".$code."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$description."</td>
 			 							 <td style='border: 1px solid; padding: 5px;'>".$rate."</td>";*/
 		 							 	$miscellaneous += $rate;
 		 							 }
-	 							 }		 							
- 					/*	echo "</tr>";			*/	
+	 							 }
+ 					/*	echo "</tr>";			*/
 			}
 			echo "</table>";
 			$discount = 10/100;
 			$netfull = $tuition * $discount;
 			$install = $tuition / 5;
-			$totalbook = $booklet * $numberofsubject * 4; 
+			$totalbook = $booklet * $numberofsubject * 4;
 			$fullpaydiscount = $tuition * $discount;
 			$discounted = $tuition - $fullpaydiscount;
-			$computerdevided = $computer / 5; 
+			$computerdevided = $computer / 5;
 			$int = $internetfee / 4;
 			$bookfee = $numberofsubject * $booklet;
 			$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
@@ -392,30 +393,30 @@
 			return $q->row_array();
 		}
 
-		function getClassAloc($academicterm, $student, $coursemajor){
+		function getClassAloc($academicterm, $student, $course){
 
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
 								   WHERE academicterm = '$academicterm'
-								   AND coursemajor = '$coursemajor'
-								   AND subject NOT IN(SELECT subject FROM 
-								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment 
-								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id 
-								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment 
+								   AND coursemajor = '$course'
+								   AND subject NOT IN(SELECT subject FROM
+								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
+								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
+								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
 								   	AND tbl_enrolment.id = '$student')
 									GROUP BY subject
 								   ");
 			return $q->result_array();
 		}
 
-		function getClassAloc2($academicterm, $student, $coursemajor, $subject){
+		function getClassAloc2($academicterm, $student, $course, $subject){
 
 			$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
 								   WHERE academicterm = '$academicterm'
-								   AND coursemajor != '$coursemajor'
-								   AND subject NOT IN(SELECT subject FROM 
-								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment 
-								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id 
-								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment 
+								   AND coursemajor != '$course'
+								   AND subject NOT IN(SELECT subject FROM
+								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
+								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
+								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
 								   	AND tbl_enrolment.id = '$student')
 									AND tbl_classallocation.subject = tbl_subject.id
 									AND (tbl_subject.code LIKE '%$subject%'
@@ -424,7 +425,7 @@
 								   ");
 			return $q->result_array();
 		}
-		
+
 
 		function getSubDetail($subject){
 			$this->db->where('id', $subject);
@@ -449,8 +450,8 @@
 
 		// function getDP($id){
 		// 	$q = $this->db->query("SELECT * FROM tbl_day, tbl_period, tbl_dayperiods
-		// 						   WHERE tbl_dayperiods.day = tbl_day.id 
-		// 						   AND tbl_dayperiods.period = tbl_period.id 
+		// 						   WHERE tbl_dayperiods.day = tbl_day.id
+		// 						   AND tbl_dayperiods.period = tbl_period.id
 		// 						   AND tbl_dayperiods.id = $id
 		// 						  ");
 		// 	return $q->row_array();
@@ -488,7 +489,7 @@
 
 		function addEnrolment($count, $student, $coursemajor, $registration, $academicterm, $units, $status){
 			$data = array(
-				'student' => $student, 
+				'student' => $student,
 				'coursemajor' => $coursemajor,
 				'registration' => $registration,
 				'academicterm' => $academicterm,
@@ -505,7 +506,7 @@
 
 		function addInitialGrade($alloc, $enrolment){
 			$data = array(
-				'classallocation' => $alloc, 
+				'classallocation' => $alloc,
 				'enrolment' => $enrolment
 			);
 
@@ -541,7 +542,7 @@
 		}
 
 		function getUnit($cur, $level, $term){
-			$q = $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail, `tbl_subject` 
+			$q = $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail, `tbl_subject`
 						WHERE curriculum = '$cur' AND yearlevel = '$level' AND term = '$term' AND
 						tbl_curriculumdetail.subject = tbl_subject.id AND nonacademic = 0
 			");
