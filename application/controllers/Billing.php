@@ -28,7 +28,9 @@ class Billing extends CI_Controller
 			    	redirect('/billing/view_bill/'.$this->input->post('search'));
 			    }
 			    function posting(){
-
+						echo $amountpaid = $this->input->post('payment');
+						echo $override = $this->input->post('override');
+						echo $enrolid = $this->input->post('enrolid');
 			    }
 					function payments_posting(){
 

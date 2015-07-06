@@ -1,4 +1,4 @@
-<?php 
+<?php
 	class Assesment extends CI_Model
 	{
 		function getstudinfo($legacyid){
@@ -33,9 +33,11 @@
 		function balance($id){
 			$m = $this->get_account($id);
 			$aca = $this->api->systemValue();
-			$q = $this->db->query("SELECT SUM(previousbalance) as prev, SUM(amount) as amount FROM tbl_movement WHERE account = '$m' AND academicterm != '". $aca['phaseterm'] . "'")->row_array();
+			$term = $aca['phaseterm'];
+			$ph = $aca['phase'];
+			$q = $this->db->query("SELECT SUM(amount) as amount FROM tbl_movement WHERE account = '$m'")->row_array();
 			extract($q);
-			return  $prev + $amount;
+			return  $amount;
 		}
 		function get_account($id){
 			$this->db->where('party', $id);
@@ -54,7 +56,6 @@
 			echo $enrolid;
 			echo $y = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$x' AND id = '$enrolid'")->num_rows();
 			return $y;
-
 		}
 		// Getting the Amount Override.
 		function get_override($student, $enrolid){
@@ -76,5 +77,11 @@
 				$acad = $x['phaseterm'];
 			}
 			return $acad;
+		}
+		function getCourseMajorId($enrolid){
+			$this->db->where('id',$enrolid);
+			$this->db->select('coursemajor');
+			$x = $this->db->get('tbl_enrolment')->row_array();
+			return $x['coursemajor'];
 		}
 }

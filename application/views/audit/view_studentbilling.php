@@ -228,17 +228,18 @@
 									<tr>
 										<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
 										<th class="tblNum td-total"><?php
-											echo $tui['netprelim'] * $mu + ($get_bal + $tui['netenrolment']); ?></th>
+											echo $tui['netprelim']  + $get_bal ; ?></th>
 									</tr>
 							 		<tr>
 										<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
-										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
+										<td><strong><input class="form-control input-enrol" type="numeric" name="override" placeholder="Enter Amount" value="0"></strong></td>
 									</tr>
 									<tr>
 										<td class="td-total tblNum">Amount: </td>
-										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="0"></strong></td>
+										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="Enter Amount"></strong></td>
 									</tr>
 								</table>
+								<input type="text" name="enrolid" value="<?php echo $enrolid; ?>">
 							<button type="submit" class="btn btn-primary pull-right" style="width:100px;height:40px">Submit</button>
 						</form>
 				<?php endif ?>
@@ -246,11 +247,11 @@
 					<table class="table table-bordered">
 					<label>Full Payment</label>
 					 	<tr>
-						<th>FEES</th>
-						<th class="tblNum">RATE</th>
-						<th class="tblNum">Units</th>
-						<th class="tblNum">Amount</th>
-					</tr>
+							<th>FEES</th>
+							<th class="tblNum">RATE</th>
+							<th class="tblNum">Units</th>
+							<th class="tblNum">Amount</th>
+						</tr>
 					<tr>
 						<td>Tuition</td>
 						<td class="tblNum">
