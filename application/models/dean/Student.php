@@ -256,14 +256,7 @@
 			$q = $this->db->get("tbl_curriculum, tbl_academicterm");
 			return $q->row_array();
 		}
-<<<<<<< HEAD
 		//Get Class Allocation
-		function getClassAloc($academicterm, $student, $coursemajor){
-			$q = $this->db->query("SELECT * FROM tbl_classallocation
-								   WHERE academicterm = '$academicterm'
-								   AND coursemajor = '$coursemajor'
-=======
-
 		function getClassAloc($academicterm, $student, $course){
 
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
@@ -284,15 +277,10 @@
 			$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
 								   WHERE academicterm = '$academicterm'
 								   AND coursemajor != '$course'
->>>>>>> 546228f9797ff169f7a9f1876b5385994abb250a
 								   AND subject NOT IN(SELECT subject FROM
 								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
 								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
 								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
-<<<<<<< HEAD
-								   	AND tbl_classallocation.id != '$academicterm'
-=======
->>>>>>> 546228f9797ff169f7a9f1876b5385994abb250a
 								   	AND tbl_enrolment.id = '$student')
 									AND tbl_classallocation.subject = tbl_subject.id
 									AND (tbl_subject.code LIKE '%$subject%'
