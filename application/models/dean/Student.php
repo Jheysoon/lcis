@@ -81,12 +81,35 @@
 			$discount = 0;
 			$nstp = 0;
 			$leytetymes = 0;
+			$the_rate = 0;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
-			$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
-			$this->db->where($where);
-			$this->db->select('`tbl_fee.id`, `description`, `code`, `accounttype`, `rate`');
 
+					$bs = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+					echo $bs['counted'];
+					if ($bs['counted'] == 0){
+						//Insert into tbl_bill for the ID and get the last insert
+						$nows = Date('Y-m-d');
+								//Begin Transaction for the billing base on the evaluation.
+					//	$this->db->trans_begin();
+						$insertbill = array('requestedby' => $student,
+																'datecreated' => $nows,
+																'enteredby' => $this->session->userdata('uid'),
+																'status' => 'E',
+																'type' => '1'
+																);
+							$this->db->insert('tbl_bill', $insertbill);
+							$billid = $this->db->insert_id();
+					}else{
+						$this->db->where('enrolment', $enid);
+						$this->db->select('id as bills');
+						extract($this->db->get('tbl_billclass')->row_array());
+						$billid = $bills;
+					}
+					//Get all the fee type in tbl_feetype and the rate.
+					$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
+					$this->db->where($where);
+					$this->db->select('`tbl_fee.id as fid`, `description`, `code`, `accounttype`, `rate`');
 			//Get all account code and Rate each account.
 			foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
 					extract($val);
@@ -97,45 +120,55 @@
  							 			$x = $this->getSubs($classallocation);
 			 							 		if($x['computersubject'] == 1) {
 			 							 						 $computer = $rate;
+																	$the_rate = $computer;
 									 							 break;
 						 							}
 											}
 	 							 }elseif($accounttype == 24){
 	 							 	$m = $this->getEn($enid);
-	 							 	foreach ($m as $key => $ms) {
+	 							 	foreach ($m as $key => $ms)
+										{
 	 							 		extract($ms);
  							 			$xl = $this->getSubs($classallocation);
-			 							 		if($xl['bookletcharge'] == 1) {
+			 							 		if($xl['bookletcharge'] == 1)
+													{
 			 							 						 	$booklet = $rate;
-
+																	$the_rate = $booklet;
 									 							  break;
 						 							}
-							 					}
-	 							 }	elseif ($accounttype == 19) {
-		 							 	if ($coursemajor == 5) {
+							 			}
+	 							}
+								elseif ($accounttype == 19)
+								{
+		 							 	if ($coursemajor == 5)
+											{
 	 							 					 $laboratory = $rate;
-		 							 	}
-	 							 }else
-									{
-	 							 	 if($accounttype == 6)
+														$the_rate = $laboratory;
+		 							 		}
+	 							 }
+									elseif($accounttype == 6)
 										{
-	 										 		$mat = $rate * $totalunit;
+												 		$mat = $rate * $totalunit;
+													$the_rate = $mat;
 		 							  }
 										elseif ($accounttype == 7 )
 										{
 		 											 	$tuition = $rate * $totalunit;
+														$the_rate = $tuition;
 		 							  }
 										elseif($accounttype == 20)
 										{
 		 									 			$leytetymes = $rate;
+															$the_rate = $leytetymes;
 		 							  }
 										elseif($accounttype == 22)
 										{
 		 							 			 		$internetfee = $rate;
+															$the_rate = $internetfee;
 		 							  }
 										elseif($accounttype == 21)
 										{
-		 							 	$m = $this->getEn($enid);
+		 							 		$m = $this->getEn($enid);
 			 							 	foreach ($m as $key => $value)
 												{
 								 				extract($value);
@@ -143,6 +176,7 @@
 					 							 		if($x['computersubject'] == 1)
 															{
 					 							 						 $nstp = $rate;
+																			$the_rate = $nstp;
 											 							 break;
 								 							}
 													}
@@ -150,78 +184,97 @@
 										else
 										{
 		 										 	$miscellaneous += $rate;
+													$the_rate = $rate;
 		 							  }
+												$billcheck = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclassdetail WHERE bill = '$billid' AND fee = '$fid'")->row_array();
+												if ($billcheck['counted'] == 0) {
+													$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+													$this->db->insert('tbl_billclassdetail', $billdetails);
+												}else{
+													$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+													$this->db->where('bill', $billid);
+													$this->db->where('fee', $fid);
+													$this->db->update('tbl_billclassdetail', $billdetails);
+												}
+										//echo $fid . "|" . $the_rate . "|" . $billid  . "<br />";
 	 							 }
-			}
-			$discount = 10/100;
-			$netfull = $tuition * $discount;
-			$install = $tuition / 5;
-			$totalbook = $booklet * $numberofsubject * 4;
-			$fullpaydiscount = $tuition * $discount;
-			$discounted = $tuition - $fullpaydiscount;
-			$computerdevided = $computer / 5;
-			$int = $internetfee / 4;
-			$bookfee = $numberofsubject * $booklet;
-			$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
-			$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
-			$netprelim = $install + $computerdevided + $int + $bookfee;
-			$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
-			$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+									$discount = 10/100;
+									$netfull = $tuition * $discount;
+									$install = $tuition / 5;
+									$totalbook = $booklet * $numberofsubject * 4;
+									$fullpaydiscount = $tuition * $discount;
+									$discounted = $tuition - $fullpaydiscount;
+									$computerdevided = $computer / 5;
+									$int = $internetfee / 4;
+									$bookfee = $numberofsubject * $booklet;
+									$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+									$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
+									$netprelim = $install + $computerdevided + $int + $bookfee;
+									$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+									$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
 
-			//Check if billing is created, if it is created it will automatically updated, if not it will be inserted.
-			if ($q['counted'] == 0){
-					$this->db->query("INSERT INTO tbl_bill SET requestedby = '0'");
-					$billid = $this->db->insert_id();
-					$data = array(
-					'id' => $billid,
-					'enrolment' => $enid,
-					'tuition' => $tuition,
-					'matriculation' => $mat,
-					'laboratory' => $laboratory,
-					'miscellaneous' => $miscellaneous,
-					'leytetime' => $leytetymes,
-					'nstp' => $nstp,
-					'internet' => $internetfee,
-					'computer' => $computer,
-					'booklet' => $booklet,
-					'discount' => $discount,
-					'installment' => $installment,
-					'fullpaydiscount' => $fullpaydiscount,
-					'netfullpayment' =>$netfullpayment,
-					'netenrolment' => $netenrolment,
-					'netprelim' => $netprelim,
-					'netmidterm' =>$netprelim,
-					'netsemi' => $netprelim,
-					'netfinal' => $netprelim
-				);
-					$this->db->insert('tbl_billclass', $data);
-					return 0;
-			}else{
-				$datax = array(
-					'enrolment' => $enid,
-					'tuition' => $tuition,
-					'matriculation' => $mat,
-					'laboratory' => $laboratory,
-					'miscellaneous' => $miscellaneous,
-					'leytetime' => $leytetymes,
-					'nstp' => $nstp,
-					'internet' => $internetfee,
-					'computer' => $computer,
-					'booklet' => $booklet,
-					'discount' => $discount,
-					'installment' => $installment,
-					'fullpaydiscount' => $fullpaydiscount,
-					'netfullpayment' =>$netfullpayment,
-					'netenrolment' => $netenrolment,
-					'netprelim' => $netprelim,
-					'netmidterm' =>$netprelim,
-					'netsemi' => $netprelim,
-					'netfinal' => $netprelim
-				);
-				$this->db->where('enrolment', $enid);
-				$this->db->update('tbl_billclass', $datax);
+								//Check if billing is created, if it is created it will automatically updated, if not it will be inserted.
+									if ($q['counted'] == 0){
+											$data = array(
+											'id' => $billid,
+											'enrolment' => $enid,
+											'tuition' => $tuition,
+											'matriculation' => $mat,
+											'laboratory' => $laboratory,
+											'miscellaneous' => $miscellaneous,
+											'leytetime' => $leytetymes,
+											'nstp' => $nstp,
+											'internet' => $internetfee,
+											'computer' => $computer,
+											'booklet' => $booklet,
+											'discount' => $discount,
+											'installment' => $installment,
+											'fullpaydiscount' => $fullpaydiscount,
+											'netfullpayment' =>$netfullpayment,
+											'netenrolment' => $netenrolment,
+											'netprelim' => $netprelim,
+											'netmidterm' =>$netprelim,
+											'netsemi' => $netprelim,
+											'netfinal' => $netprelim
+										);
+											$this->db->insert('tbl_billclass', $data);
+											return 0;
+									}else{
+										$datax = array(
+											'enrolment' => $enid,
+											'tuition' => $tuition,
+											'matriculation' => $mat,
+											'laboratory' => $laboratory,
+											'miscellaneous' => $miscellaneous,
+											'leytetime' => $leytetymes,
+											'nstp' => $nstp,
+											'internet' => $internetfee,
+											'computer' => $computer,
+											'booklet' => $booklet,
+											'discount' => $discount,
+											'installment' => $installment,
+											'fullpaydiscount' => $fullpaydiscount,
+											'netfullpayment' =>$netfullpayment,
+											'netenrolment' => $netenrolment,
+											'netprelim' => $netprelim,
+											'netmidterm' =>$netprelim,
+											'netsemi' => $netprelim,
+											'netfinal' => $netprelim
+										);
+										$this->db->where('enrolment', $enid);
+										$this->db->update('tbl_billclass', $datax);
+									}
+					//first Transaction to execute
+				//	if ($this->db->trans_status() === FALSE)
+				//	{
+							//		$this->db->trans_rollback();
+					//}
+					//else
+					//{
+						//			$this->db->trans_commit();
+					//}
+
 			}
-		}
 		//For rounding money value
 		function rounded($val){
 			return $x = round($val, 0, PHP_ROUND_HALF_UP);
