@@ -197,12 +197,10 @@ class Api
 
 				$sum_units[$i - 1] = $units;
 			}
-			// $this->CI->db->where('student', $partyid);
-			// $this->CI->db->where('registration', $reg_id);
+
 			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
 				WHERE student = $partyid")->result_array();
 
-			//$ite = '';
 			foreach ($enrol as $val)
 			{
 				// NOT_FAILED_GRADE @ application/config/constants.php
@@ -218,21 +216,17 @@ class Api
 						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
 
 					$this->CI->db->where('curriculum', $cur_id);
-					//$this->CI->db->where('yearlevel',  $i);
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
 
 					if ($cur_detail1->num_rows() > 0)
 					{
-						//$ite .= $stu['id'].' ';
-						//$s = $cur_detail1->row_array();
 						$student_units += $stu['units'];
 					}
 				}
 
 			}
-			//return $ite;
 			$min_units = (int) ($units * ($tolerance / 100));
 
 			if($student_units <= $units AND $student_units >= $min_units)
@@ -240,11 +234,9 @@ class Api
 				return $i;
 			}
 
-			//return $student_units.' '.$units;
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
-				// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
 				if($student_units <= $sum_units[$q])
 				{
 					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
