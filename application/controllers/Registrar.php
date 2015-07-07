@@ -232,21 +232,25 @@ class Registrar extends CI_Controller
     }
     function save_grade()
     {
-        $enrolmentid = $this->input->post('enrolmentid');
-        $subjid = $this->input->post('add_subj');
-        $grade = $this->input->post('sub_grade');
-        $academicid = $this->input->post('academictermid');
-        $schoolid = $this->input->post('schoolid');
+        $enrolmentid    = $this->input->post('enrolmentid');
+        $subjid         = $this->input->post('add_subj');
+        $grade          = $this->input->post('sub_grade');
+        $academicid     = $this->input->post('academictermid');
+        $schoolid       = $this->input->post('schoolid');
+
         $this->load->model(array(
-            'registrar/classallocation', 'registrar/studentgrade',
-            'registrar/subject', 'registrar/grade',
-            'registrar/log_student','registrar/enrollment'
+            'registrar/classallocation',
+            'registrar/studentgrade',
+            'registrar/subject',
+            'registrar/grade',
+            'registrar/log_student',
+            'registrar/enrollment'
         ));
         $data['subject'] = $subjid;
         $data['academicterm'] = $academicid;
         //$count = $this->classallocation->whereCount($data);
 
-        // we can prevent user from entering duplicate subj within a academicterm but 
+        // we can prevent user from entering duplicate subj within a academicterm but
         // the studentgrade table will be a mess
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
@@ -256,7 +260,6 @@ class Registrar extends CI_Controller
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
             if (is_numeric($id))
             {
-
                 $data['subj'] = $subjid;
                 $data['grade_user'] = $grade;
                 $data['enrolmentid'] = $enrolmentid;
@@ -362,7 +365,7 @@ class Registrar extends CI_Controller
         {
             echo 'This record is already submitted';
         }
-        
+
     }
 
     function delete_record()
@@ -383,10 +386,11 @@ class Registrar extends CI_Controller
 
     function add_acam()
     {
-        $partyid = $this->input->post('partyid');
-        $sch_id = $this->input->post('school_id');
-        $cid = $this->input->post('course_id');
-        $syid = $this->input->post('sy_id');
+        $partyid    = $this->input->post('partyid');
+        $sch_id     = $this->input->post('school_id');
+        $cid        = $this->input->post('course_id');
+        $syid       = $this->input->post('sy_id');
+
         $this->load->model(array(
             'registrar/enrollment', 'registrar/party',
             'registrar/course', 'registrar/academicterm',
@@ -394,14 +398,15 @@ class Registrar extends CI_Controller
             'registrar/log_student','registrar/registration',
             'registrar/curriculum','registrar/curriculumdetail'
         ));
-        $data['student'] = $partyid;
-        $data['coursemajor'] = $cid;
-        $data['academicterm'] = $syid;
-        $data['school'] = $sch_id;
-        $data['numberofsubject'] = 1;
+
+        $data['student']            = $partyid;
+        $data['coursemajor']        = $cid;
+        $data['academicterm']       = $syid;
+        $data['school']             = $sch_id;
+        $data['numberofsubject']    = 1;
 
         $db['academicterm'] = $syid;
-        $db['student'] = $partyid;
+        $db['student']      = $partyid;
 
         $stat = $this->log_student->chkStatus($partyid);
         if($stat['status'] != 'S')
@@ -409,9 +414,9 @@ class Registrar extends CI_Controller
             $count = $this->enrollment->whereCount($db);
             if ($count < 1)
             {
-                $d['student'] = $partyid;
-                $d['coursemajor'] = $cid;
-                $d['academicterm'] = $syid;
+                $d['student']       = $partyid;
+                $d['coursemajor']   = $cid;
+                $d['academicterm']  = $syid;
                 $this->registration->ins_not_exist($d);
                 $this->log_student->insert_not_exists($partyid, 'E');
                 $id = $this->enrollment->insert_return_id($data);
@@ -427,7 +432,7 @@ class Registrar extends CI_Controller
         {
             echo 'This record is already submitted';
         }
-        
+
     }
 
     function add_session()
@@ -452,10 +457,10 @@ class Registrar extends CI_Controller
             'registrar/log_student'
         ));
 
-        $p = $this->enrollment->getID($enrolmentid);
-        $pid = $p['student'];
+        $p      = $this->enrollment->getID($enrolmentid);
+        $pid    = $p['student'];
+        $stat   = $this->log_student->chkStatus($pid);
 
-        $stat = $this->log_student->chkStatus($pid);
         if($stat['status'] != 'S')
         {
             $this->log_student->insert_not_exists($p['student'], 'E');
@@ -478,10 +483,10 @@ class Registrar extends CI_Controller
             'registrar/enrollment'
         ));
 
-        $val = $this->input->post('val');
+        $val    = $this->input->post('val');
+        $cat    = explode('_', $val);
+        $i      = 0;
 
-        $cat = explode('_', $val);
-        $i = 0;
         foreach ($cat as $c)
         {
             $v = explode('-', $c);
@@ -493,10 +498,11 @@ class Registrar extends CI_Controller
                 $enroll = $v[1];
             $i++;
         }
-        $q = $this->enrollment->getID($enroll);
-        $pid = $q['student'];
 
-        $stat = $this->log_student->chkStatus($pid);
+        $q      = $this->enrollment->getID($enroll);
+        $pid    = $q['student'];
+        $stat   = $this->log_student->chkStatus($pid);
+
         if($stat['status'] != 'S')
         {
             $this->log_student->insert_not_exists($q['student'], 'E');
@@ -515,17 +521,17 @@ class Registrar extends CI_Controller
             'registrar/studentgrade'
         ));
 
-        $enrol_id = $this->input->post('enrol');
+        $enrol_id   = $this->input->post('enrol');
+        $q          = $this->enrollment->getID($enrol_id);
+        $pid        = $q['student'];
+        $stat       = $this->log_student->chkStatus($pid);
 
-        $q = $this->enrollment->getID($enrol_id);
-        $pid = $q['student'];
-
-        $stat = $this->log_student->chkStatus($pid);
         if($stat['status'] != 'S')
         {
-            $grade_id = $this->input->post('grad');
-            $data['enrolmentid'] = $enrol_id;
-            $data['sid'] = $this->input->post('stugrade');
+            $grade_id               = $this->input->post('grad');
+            $data['enrolmentid']    = $enrol_id;
+            $data['sid']            = $this->input->post('stugrade');
+
             $this->studentgrade->update_grade($data['sid'],$grade_id);
             $this->log_student->insert_not_exists($pid, 'E');
             $this->load->view('registrar/ajax/re_exam',$data);
@@ -566,7 +572,7 @@ class Registrar extends CI_Controller
                 $start = new DateTime($dob);
                 $end  = new DateTime(date('Y-m-d'));
                 $dDiff = $start->diff($end);
-                $dif = $dDiff->format('%Y'); 
+                $dif = $dDiff->format('%Y');
                 $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
                 $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
                    if ($dif < 10) {
@@ -585,11 +591,11 @@ class Registrar extends CI_Controller
                    }elseif ($primaryyear == '' OR $primaryyear > $dat) {
                     $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
                    }elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
-                    $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');  
+                    $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');
                    }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
                      $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
                    }else{
-                            
+
                            $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
                             $data = array(
                             'firstname' => $firstname,
@@ -622,7 +628,7 @@ class Registrar extends CI_Controller
                             $this->db->where('student', $partyid);
                             $this->db->where('date',$dateregistered);
                             $this->db->update('tbl_registration', $data3);
-                      
+
                      }
                              $x = array(
                             'firstname' => $firstname,
@@ -656,18 +662,18 @@ class Registrar extends CI_Controller
         $lvl4   = strtoupper($this->input->post('lvl4'));
 
         $data = array(
-            'sch'   => $sch, 
-            'add'   =>$add, 
-            'short' =>$short, 
-            'name'  =>$name, 
-            'lvl1'  =>$lvl1, 
-            'lvl2'  =>$lvl2, 
-            'lvl3'  =>$lvl3, 
+            'sch'   => $sch,
+            'add'   =>$add,
+            'short' =>$short,
+            'name'  =>$name,
+            'lvl1'  =>$lvl1,
+            'lvl2'  =>$lvl2,
+            'lvl3'  =>$lvl3,
             'lvl4'  =>$lvl4
         );
 
         if($this->input->post('action') == 'add'){
-            $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
+            $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school
                               WHERE firstname = '$sch' AND tbl_party.id = tbl_school.id");
             $query = $query->row_array();
             $query = $query['ctr'];
@@ -678,18 +684,18 @@ class Registrar extends CI_Controller
                 $query = 0;
             }
             else{
-                $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school 
+                $query = $this->db->query("SELECT COUNT(*) as ctr FROM tbl_party, tbl_school
                                  WHERE firstname = '$sch' AND firstname = '$sch' AND tbl_party.id = tbl_school.id");
                 $query = $query->row_array();
                 $query = $query['ctr'];
             }
         }
-        
+
         if ($query == 0) {
 
             $data1 = array(
-                'firstname' => $sch, 
-                'address1'  => $add,  
+                'firstname' => $sch,
+                'address1'  => $add,
                 'shortname' => $short
             );
 
@@ -704,8 +710,8 @@ class Registrar extends CI_Controller
             }
 
             $data2 = array(
-                'id'            => $id, 
-                'registrarname' => $name, 
+                'id'            => $id,
+                'registrarname' => $name,
                 'primary'       => $lvl1,
                 'elementary'    => $lvl2,
                 'secondary'     => $lvl3,
@@ -714,7 +720,7 @@ class Registrar extends CI_Controller
 
             if($this->input->post('action') == 'add'){
 
-                $this->db->insert('tbl_school', $data2); 
+                $this->db->insert('tbl_school', $data2);
 
                 $this->session->set_flashdata('message', '
                     <div class="alert alert-success alert-dismissible" role="alert">
@@ -728,14 +734,14 @@ class Registrar extends CI_Controller
             else{
 
                 $data3 = array(
-                    'registrarname' => $name, 
+                    'registrarname' => $name,
                     'primary'       => $lvl1,
                     'elementary'    => $lvl2,
                     'secondary'     => $lvl3,
                     'tertiary'      => $lvl4
                 );
                 $this->db->where('id', $this->input->post('id'));
-                $this->db->update('tbl_school', $data3); 
+                $this->db->update('tbl_school', $data3);
 
                 $this->session->set_flashdata('message', '
                     <div class="alert alert-success alert-dismissible" role="alert">
@@ -747,7 +753,7 @@ class Registrar extends CI_Controller
 
                 redirect('/menu/registrar-sys_param/');
             }
-            
+
 
         }
         else{
@@ -766,7 +772,7 @@ class Registrar extends CI_Controller
                 redirect('/menu/registrar-sys_param/'.$this->input->post('id'));
             }
         }
-        
+
     }
 
     function delete_school($id){
@@ -795,5 +801,5 @@ class Registrar extends CI_Controller
         }
         redirect('/menu/registrar-sys_param/');
     }
-      
+
 }

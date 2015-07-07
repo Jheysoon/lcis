@@ -162,7 +162,7 @@ class Api
     	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
 
-	//function to determine the year level echo $this->api->yearLevel(172,4);
+	//function to determine the year level
 	function yearLevel($partyid, $course = '')
 	{
 		$systemVal 	= $this->systemValue();
@@ -175,14 +175,19 @@ class Api
 				WHERE academicterm =
 				(SELECT MAX(academicterm) FROM tbl_registration
 					WHERE student = $partyid)
-				AND student = $partyid")->row_array();
+				AND student = $partyid");
 
-		$cur_id = $cur['curriculum'];
+		// check if the student has a registration record
+		if($cur->num_rows() > 0)
+		{
+			$c 		= $cur->row_array();
+			$cur_id = $c['curriculum'];
+		}
+		else
+			return 'Does not have a registration';
 
 		if($cur_id != 0)
 		{
-			$reg_id 		= $cur['id'];
-
 			$units 			= 0;
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
 			$student_units 	= 0;
@@ -197,12 +202,9 @@ class Api
 
 				$sum_units[$i - 1] = $units;
 			}
-			// $this->CI->db->where('student', $partyid);
-			// $this->CI->db->where('registration', $reg_id);
-			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
-				WHERE student = $partyid
-				AND registration = $reg_id
-				GROUP BY academicterm")->result_array();
+
+			$this->CI->db->where('student', $partyid);
+			$enrol = $this->CI->db->get('tbl_enrolment')->result_array();
 
 			foreach ($enrol as $val)
 			{
@@ -210,28 +212,26 @@ class Api
 				$threshold_grade = NOT_FAILED_GRADE;
 				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
 					WHERE (semgrade <= $threshold_grade
-						OR reexamgrade <= $threshold_grade)
+						AND reexamgrade <= $threshold_grade)
 						AND enrolment = {$val['id']}")->result_array();
 
 				foreach ($stud as $stud_subj)
 				{
-
 					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
 						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
 
 					$this->CI->db->where('curriculum', $cur_id);
-					//$this->CI->db->where('yearlevel',  $i);
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
+
 					if ($cur_detail1->num_rows() > 0)
 					{
-						//$s = $cur_detail1->row_array();
 						$student_units += $stu['units'];
 					}
 				}
-			}
 
+			}
 			$min_units = (int) ($units * ($tolerance / 100));
 
 			if($student_units <= $units AND $student_units >= $min_units)
@@ -239,11 +239,9 @@ class Api
 				return $i;
 			}
 
-			//return $student_units.' '.$units;
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
-				// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
 				if($student_units <= $sum_units[$q])
 				{
 					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
@@ -269,8 +267,5 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-
-
-
 
 }
