@@ -285,14 +285,11 @@ class Edp extends CI_Controller
 
         // if the count is less than the numberofstudent system value set it to 0
         if($cou == 0 OR $cou < $this->numberOfStudents)
-        {
             $d['section'] = 0;
-        }
+        // force the result to be an integer
         else
-        {
-            // force the result to be an integer
             $d['section'] = (int) ($cou / $this->numberOfStudents);
-        }
+            
         $this->db->insert('out_section',$d);
     }
 
