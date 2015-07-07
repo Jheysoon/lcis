@@ -289,7 +289,7 @@ class Edp extends CI_Controller
         // force the result to be an integer
         else
             $d['section'] = (int) ($cou / $this->numberOfStudents);
-            
+
         $this->db->insert('out_section',$d);
     }
 
@@ -404,6 +404,7 @@ class Edp extends CI_Controller
         $this->load->view('edp/preview',$data);
     }
 
+    // test function
     function tryap()
     {
         $systemVal 	= $this->api->systemValue();

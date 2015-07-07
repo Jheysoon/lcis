@@ -66,16 +66,24 @@ class Main extends CI_Controller
                     $status = 'N';
                 }
 
+                // get the system values in db
+                $systemVal = $this->api->systemValue();
+
+                $this->db->where('id', $systemVal['currentacademicterm']);
+                $sy = $this->db->get('tbl_academicterm')->row_array();
+
+                $this->db->where('id', $sy['term']);
+                $term = $this->db->get('tbl_term')->row_array();
+
                 // add the systemvalue table in session
-                $systemVal = $this->api->yearLevel();
                 $this->session->set_userdata(array(
-                    'uid'               =>$userid,
-                    'datamanagement'    =>$position,
-                    'sy'                =>'2014-2015',
-                    'sem'               =>'1st Semester',
-                    'cur_id'            =>$systemVal['currentacademicterm'],
-                    'status'            =>$status,
-                    'username'          =>$username
+                    'uid'               => $userid,
+                    'datamanagement'    => $position,
+                    'sy'                => $sy['systart'].'-'.$sy['syend'],
+                    'sem'               => $term['shortname'],
+                    'cur_id'            => $systemVal['currentacademicterm'],
+                    'status'            => $status,
+                    'username'          => $username
                 ));
             }
             else
