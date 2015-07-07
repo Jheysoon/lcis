@@ -162,7 +162,7 @@ class Api
     	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
 
-	//function to determine the year level echo $this->api->yearLevel(172,4);
+	//function to determine the year level
 	function yearLevel($partyid, $course = '')
 	{
 		$systemVal 	= $this->systemValue();
@@ -175,9 +175,16 @@ class Api
 				WHERE academicterm =
 				(SELECT MAX(academicterm) FROM tbl_registration
 					WHERE student = $partyid)
-				AND student = $partyid")->row_array();
+				AND student = $partyid");
 
-		$cur_id = $cur['curriculum'];
+		// check if the student has a registration record
+		if($cur->num_rows() > 0)
+		{
+			$c 		= $cur->row_array();
+			$cur_id = $c['curriculum'];
+		}
+		else
+			return 'Does not have a registration';
 
 		if($cur_id != 0)
 		{
@@ -196,8 +203,8 @@ class Api
 				$sum_units[$i - 1] = $units;
 			}
 
-			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
-				WHERE student = $partyid")->result_array();
+			$this->CI->db->where('student', $partyid);
+			$enrol = $this->CI->db->get('tbl_enrolment')->result_array();
 
 			foreach ($enrol as $val)
 			{

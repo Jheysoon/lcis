@@ -124,7 +124,6 @@ class Edp extends CI_Controller
 
     function studentc($isFirstYear = TRUE)
     {
-
         // check if the term is summer
         if ($term == 3)
         {
@@ -200,8 +199,8 @@ class Edp extends CI_Controller
         //truncate table before inserting
         $this->db->query("TRUNCATE out_section");
 
-        $systemVal = $this->api->systemValue();
-        $sy     = $systemVal['nextacademicterm'];
+        $systemVal  = $this->api->systemValue();
+        $sy         = $systemVal['nextacademicterm'];
         $this->numberOfStudents = $systemVal['numberofstudent'];
 
         $tt     = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
@@ -409,7 +408,6 @@ class Edp extends CI_Controller
         $room               = $this->classroom->find($roomId);
         $data['room_name']  = $room['legacycode'];
         $data['location']   = $room['location'];
-
 
         $this->load->view('edp/preview',$data);
     }
