@@ -98,15 +98,17 @@ class Edp extends CI_Controller
                 'registrar/academicterm'
             ));
 
+            // $c = array();
             // $curs = $this->db->get('tbl_course')->result_array();
             // foreach($curs as $cu)
     		// {
+            //     $c[] = ;
             //     $this->yearL = array(0 => 0,1 => 0,2 => 0,3 => 0);
     		// 	$course = $cu['id'];
             //
     		// 	$cid 	= $cu['id'];
     		// 	$year_l = $i;
-    		// 	$count 	= 0;
+    		//
             //
             //     $this->studentc(FALSE);
             //     $this->studentc();
@@ -122,6 +124,7 @@ class Edp extends CI_Controller
 
     function studentc($isFirstYear = TRUE)
     {
+
         // check if the term is summer
         if ($term == 3)
         {
@@ -147,12 +150,12 @@ class Edp extends CI_Controller
                 if($isFirstYear)
                 {
                     if ($yearlevel == 1)
-						$yearL[0] += 1;
+						$this->yearL[0] += 1;
                 }
                 else
                 {
                     if($yearlevel > 1)
-                        $yearL[$yearlevel - 1] += 1;
+                        $this->yearL[$yearlevel - 1] += 1;
                 }
             }
             // else
