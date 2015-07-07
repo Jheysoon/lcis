@@ -158,8 +158,6 @@ class Edp extends CI_Controller
                         $this->yearL[$yearlevel - 1] += 1;
                 }
             }
-            // else
-            // 	break;
         }
     }
 

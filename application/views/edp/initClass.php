@@ -7,8 +7,8 @@
 				$sy 		= $systemVal['nextacademicterm'];
 				if($systemVal['phase'] == FIN AND $systemVal['classallocationstatus'] < 3)
 				{
-					$this->db->where('academicterm',$systemVal['currentacademicterm']);
-					$this->db->where('stage',2);
+					$this->db->where('academicterm', $systemVal['currentacademicterm']);
+					$this->db->where('stage', 2);
 					$c = $this->db->get('tbl_completion')->num_rows();
 					if($c == COLLEGE_COUNT)
 					{
@@ -20,10 +20,10 @@
 							// if the section is zero it will not satisfy this condition
 							for($i = 1;$i <= $s['section'];$i++)
 							{
-								$data['academicterm'] = $s['academicterm'];
-								$data['coursemajor'] = $s['coursemajor'];
-								$data['subject'] = $s['subject'];
-								//$this->db->insert('tbl_classallocation',$data);
+								$data['academicterm'] 	= $s['academicterm'];
+								$data['coursemajor'] 	= $s['coursemajor'];
+								$data['subject'] 		= $s['subject'];
+								$this->db->insert('tbl_classallocation', $data);
 							}
 						}
 						?>
@@ -32,8 +32,10 @@
 						</div>
 						<?php
 					}
-					else{
-						$this->load->view('edp/dean_activity',array('stage'=>2));
+					else
+					{
+						$message = 'You cannot initialize the classallocation';
+						$this->load->view('edp/dean_activity',array('stage' => 2,'message' => $message));
 					}
 				}
 				else{
