@@ -38,7 +38,8 @@
 						$this->load->view('edp/dean_activity',array('stage' => 2,'message' => $message));
 					}
 				}
-				else{
+				else
+				{
 			?>
 				<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
 					Current Phase term is not FINALS !!!

@@ -43,7 +43,6 @@ class Main extends CI_Controller
         }
         else
         {
-
             $this->load->model('useraccess');
 
             $username = stripslashes($this->input->post('username'));
@@ -159,9 +158,13 @@ class Main extends CI_Controller
             elseif($load_model[0] == 'edp')
             {
                 $this->edp();
-            }elseif ($load_model[0] == 'billing') {
+            }
+            elseif ($load_model[0] == 'billing')
+            {
                 $this->dean();
-            }elseif($load_model[0] == 'scholarship'){
+            }
+            elseif($load_model[0] == 'scholarship')
+            {
                 $this->scholarship();
             }
 
@@ -219,8 +222,9 @@ class Main extends CI_Controller
             'dean/subject'
         ));
     }
-    function scholarship(){
-             $this->dean();
+    function scholarship()
+    {
+        $this->dean();
     }
     function createUsername($fname,$lname)
     {
