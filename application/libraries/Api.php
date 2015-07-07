@@ -181,8 +181,6 @@ class Api
 
 		if($cur_id != 0)
 		{
-			//$reg_id 		= $cur['id'];
-
 			$units 			= 0;
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
 			$student_units 	= 0;
