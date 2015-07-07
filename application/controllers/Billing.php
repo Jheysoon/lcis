@@ -16,7 +16,7 @@ class Billing extends CI_Controller
 			    		$this->load->model('cashier/assesment');
 			    		$data['legacyid'] = $legacyid;
 							$this->load->model('dean/student');
-							$this->student->getCalculation(14);
+							$this->student->getCalculation(32864);
 			    		$this->load->view('audit/view_assesment', $data);
 
 			    }

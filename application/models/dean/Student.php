@@ -65,6 +65,19 @@
 	        						 ");
 	        return $q->row_array();
 	    }
+			//Insert Bill Detail
+			function insertbilldetail($enid, $billid, $fid, $the_rate){
+							$billcheck = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclassdetail WHERE bill = '$billid' AND fee = '$fid'")->row_array();
+							if ($billcheck['counted'] == 0) {
+								$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+								$this->db->insert('tbl_billclassdetail', $billdetails);
+							}else{
+								$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+								$this->db->where('bill', $billid);
+								$this->db->where('fee', $fid);
+								$this->db->update('tbl_billclassdetail', $billdetails);
+							}
+			}
 
 		//Calculation for for the billing of a student based on enrolment
 		function getCalculation($enid){
@@ -104,7 +117,7 @@
 						$this->db->where('enrolment', $enid);
 						$this->db->select('id as bills');
 						extract($this->db->get('tbl_billclass')->row_array());
-						$billid = $bills;
+						echo $billid = $bills;
 					}
 					//Get all the fee type in tbl_feetype and the rate.
 					$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
@@ -121,6 +134,7 @@
 			 							 		if($x['computersubject'] == 1) {
 			 							 						 $computer = $rate;
 																	$the_rate = $computer;
+																	$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 									 							 break;
 						 							}
 											}
@@ -134,6 +148,7 @@
 													{
 			 							 						 	$booklet = $rate;
 																	$the_rate = $booklet;
+																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 									 							  break;
 						 							}
 							 			}
@@ -144,27 +159,32 @@
 											{
 	 							 					 $laboratory = $rate;
 														$the_rate = $laboratory;
+																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							 		}
 	 							 }
 									elseif($accounttype == 6)
 										{
 												 		$mat = $rate * $totalunit;
 													$the_rate = $mat;
+															$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							  }
 										elseif ($accounttype == 7 )
 										{
 		 											 	$tuition = $rate * $totalunit;
 														$the_rate = $tuition;
+														$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							  }
 										elseif($accounttype == 20)
 										{
 		 									 			$leytetymes = $rate;
-															$the_rate = $leytetymes;
+														$the_rate = $leytetymes;
+														$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							  }
 										elseif($accounttype == 22)
 										{
 		 							 			 		$internetfee = $rate;
-															$the_rate = $internetfee;
+														$the_rate = $internetfee;
+														$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							  }
 										elseif($accounttype == 21)
 										{
@@ -173,10 +193,11 @@
 												{
 								 				extract($value);
 		 							 			$x = $this->getSubs($classallocation);
-					 							 		if($x['computersubject'] == 1)
+					 							 		if($x['nstp'] == 1)
 															{
-					 							 						 $nstp = $rate;
-																			$the_rate = $nstp;
+					 							 					 	$nstp = $rate;
+																		$the_rate = $nstp;
+																		$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 											 							 break;
 								 							}
 													}
@@ -185,17 +206,8 @@
 										{
 		 										 	$miscellaneous += $rate;
 													$the_rate = $rate;
+													$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 		 							  }
-												$billcheck = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclassdetail WHERE bill = '$billid' AND fee = '$fid'")->row_array();
-												if ($billcheck['counted'] == 0) {
-													$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
-													$this->db->insert('tbl_billclassdetail', $billdetails);
-												}else{
-													$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
-													$this->db->where('bill', $billid);
-													$this->db->where('fee', $fid);
-													$this->db->update('tbl_billclassdetail', $billdetails);
-												}
 										//echo $fid . "|" . $the_rate . "|" . $billid  . "<br />";
 	 							 }
 									$discount = 10/100;
