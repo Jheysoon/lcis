@@ -946,6 +946,7 @@ class Dean extends CI_Controller
         if(empty($id))
         {
             $this->db->insert('tbl_completion',$data);
+            redirect(base_url());
         }
         else
         {
