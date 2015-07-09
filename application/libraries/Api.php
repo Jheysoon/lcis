@@ -184,7 +184,13 @@ class Api
 			$cur_id = $c['curriculum'];
 		}
 		else
+		{
+			$b['comment'] = 'not found tbl_registration';
+			$b['student'] = $partyid;
+			$this->CI->db->insert('out_exception',$b);
 			return 'Does not have a registration';
+		}
+
 
 		if($cur_id != 0)
 		{
@@ -192,9 +198,21 @@ class Api
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
 			$student_units 	= 0;
 
+			// check if the curriculum is found in tbl_year_units
+			$this->CI->db->where('curriculum',$cur_id);
+			$u1 = $this->CI->db->count_all_results('tbl_year_units');
+			if($u1 < 1) {
+				$f['comment'] = 'not found tbl_curriculum';
+				$f['student'] = $partyid;
+				$this->CI->db->insert('out_exception',$f);
+				return 'Error';
+			}
+
+
 			for ($i=1; $i <=4 ; $i++)
 			{
 				// get the total units by yearlevel
+				// add validation if the curriculum does not exist in tbl_year_units
 				$this->CI->db->where('curriculum',$cur_id);
 				$this->CI->db->where('yearlevel',  $i);
 				$u = $this->CI->db->get('tbl_year_units')->row_array();
@@ -212,18 +230,20 @@ class Api
 				$threshold_grade = NOT_FAILED_GRADE;
 				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
 					WHERE (semgrade <= $threshold_grade
-						AND reexamgrade <= $threshold_grade)
+						OR reexamgrade <= $threshold_grade)
 						AND enrolment = {$val['id']}")->result_array();
+
 
 				foreach ($stud as $stud_subj)
 				{
+
 					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
 						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
+
 
 					$this->CI->db->where('curriculum', $cur_id);
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
-
 
 					if ($cur_detail1->num_rows() > 0)
 					{
@@ -232,13 +252,12 @@ class Api
 				}
 
 			}
-			$min_units = (int) ($units * ($tolerance / 100));
 
-			if($student_units <= $units AND $student_units >= $min_units)
-			{
-				return $i;
-			}
-
+			$h['comment'] = 'OK';
+			$h['student'] = $partyid;
+			$h['student_units'] = $student_units;
+			$h['totalunits'] = $units;
+			$this->CI->db->insert('out_exception',$h);
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
@@ -260,6 +279,9 @@ class Api
 		}
 		else
 		{
+			$b['comment'] = 'no curriculum tbl_registration';
+			$b['student'] = $partyid;
+			$this->CI->db->insert('out_exception',$b);
 			return CUR_NOT_FOUND;
 		}
 

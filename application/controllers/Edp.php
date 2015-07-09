@@ -167,7 +167,8 @@ class Edp extends CI_Controller
             'registrar/course',
             'registrar/curriculum',
             'registrar/academicterm',
-            'registrar/curriculumdetail'
+            'registrar/curriculumdetail',
+            'edp/edp_classallocation'
         ));
         $this->load->view('edp/ajax_stu');
     }
@@ -281,7 +282,7 @@ class Edp extends CI_Controller
     {
         $d['academicterm']  = $sy;
         $d['coursemajor']   = $course;
-        $d['subject']       = $$subject;
+        $d['subject']       = $subject;
         $d['yearlevel']     = $yearlevel;
         $d['studentcount']  = $count;
 
@@ -415,58 +416,32 @@ class Edp extends CI_Controller
     // test function
     function tryap()
     {
-        $systemVal 	= $this->api->systemValue();
-		$sy     	= $systemVal['nextacademicterm'];
+        $stud = $this->db->query("SELECT * FROM out_exception where comment = 'no curriculum tbl_registration' GROUP by student")->result_array();
+        foreach ($stud as $val) {
 
-        $curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
-        foreach ($curs as $course)
-        {
-            $this->db->where('id',$sy);
-            $tt     = $this->db->get('tbl_academicterm')->row_array();
-            $term   = $tt['term'];
+            $reg = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm =
+            (SELECT min(academicterm) FROM tbl_enrolment WHERE student = {$val['student']})
+            AND student = {$val['student']}")->row_array();
 
-            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
-    		$cur1 	= 0;
-    		foreach($acamd as $acams)
-    		{
-    			$c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
-    				tbl_coursemajor.id = tbl_curriculum.coursemajor AND
-    				tbl_coursemajor.course = {$course['id']} AND academicterm = {$acams['id']}");
-    			if($c->num_rows() > 0)
-    			{
-    				$cur    = $c->row_array();
-    				$cur1   = $cur['id'];
-    				break;
-    			}
-    		}
+            $reg_id = $reg['registration'];
+            $course = $reg['coursemajor'];
 
-            if($cur1 != 0)
-            {
-                for ($i=1; $i <= 4; $i++)
+            $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
+            foreach ($t as $acam) {
+
+                $c = $this->db->query("SELECT * FROM tbl_curriculum
+                    WHERE coursemajor = $course
+                    AND academicterm = {$acam['id']}");
+
+                if($c->num_rows() > 0)
                 {
-                    if($cur1 == 9)
-                    {
-                        $cur1 = 8;
-                    }
-                    $this->db->where('curriculum',$cur1);
-                    $this->db->where('yearlevel',$i);
-                    $q = $this->db->get('tbl_curriculumdetail')->result_array();
-
-                    $units = 0;
-                    foreach ($q as $qq) {
-                        $this->db->where('id',$qq['subject']);
-                        $r = $this->db->get('tbl_subject')->row_array();
-                        $units += $r['units'];
-                    }
-
-                    echo $data['curriculum'] = $cur1;
-                    echo ' ';
-                    echo $data['yearlevel'] = $i;
-                    echo ' ';
-                    echo $data['totalunits'] = $units;
-                    echo '<br/>';
-                    //$this->db->insert('tbl_year_units',$data);
+                    $cur    = $c->row_array();
+                    $dat['curriculum'] = $cur['id'];
+                    $this->db->where('id',$reg_id);
+                    $this->db->update('tbl_registration',$dat);
+                    break;
                 }
+
             }
         }
     }

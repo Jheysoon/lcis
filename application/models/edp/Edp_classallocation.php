@@ -228,6 +228,6 @@ class Edp_classallocation extends CI_Model
 			AND tbl_coursemajor.course = $cid
 			AND academicterm = $acam
 			AND school = 1
-			GROUP BY student LIMIT 10")->result_array();
+			GROUP BY student")->result_array();
 	}
 }
