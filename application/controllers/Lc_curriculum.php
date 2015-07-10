@@ -8,7 +8,7 @@
 
 */
 /**
-* 
+*
 */
 class Lc_curriculum extends CI_Controller
 {
@@ -33,13 +33,7 @@ class Lc_curriculum extends CI_Controller
 	}
     function addsubcur($yearlevel, $coursemajor, $academicterm, $currid, $major){
         $this->load->model('registrar/common');
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-        $this->load->view('templates/header_title2');
-        $this->load->view('templates/header');
+        $this->api->userMenu();
 
         $data['coursemajor'] = $coursemajor;
         $data['yearlevel'] = $yearlevel;
@@ -68,9 +62,9 @@ class Lc_curriculum extends CI_Controller
             $this->session->set_flashdata('message', $alerts . 'Please Select Year Level.</div>');
         }else{
             if ($x['totalcount'] == 0) {
- 
-            $data = array('description' => $remarks, 
-                'coursemajor' => $coursemajor, 
+
+            $data = array('description' => $remarks,
+                'coursemajor' => $coursemajor,
                 'academicterm' => $accad_id,
                 'yearlevel' => $yearlevel);
             $this->db->insert('tbl_curriculum', $data);
@@ -81,7 +75,7 @@ class Lc_curriculum extends CI_Controller
                  $this->session->set_flashdata('message', $alerts . 'Curriculum Already Exist.</div>');
             }
         }
-        
+
         $data3 = array('ac' => $accad_id,
             'cou' => $coursemajor,
             'rem' => $remarks,
@@ -106,7 +100,7 @@ class Lc_curriculum extends CI_Controller
          $term = $this->input->post('term');
          $currid = $this->input->post('currid');
         $url = $this->input->post('url');
-      
+
         /*if ($x['totalcount'] == 0) {
            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
         } else*/
@@ -123,7 +117,7 @@ class Lc_curriculum extends CI_Controller
         }elseif($term == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Term.</div>');
         }else{
-              $row = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculumdetail WHERE subject = '$subid' AND yearlevel = '$yearlevel' 
+              $row = $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculumdetail WHERE subject = '$subid' AND yearlevel = '$yearlevel'
                 AND term = '$term' AND curriculum = '$currid'");
                  $x = $row->row_array();
                  if ($x['totalcount'] == 0) {
@@ -134,13 +128,13 @@ class Lc_curriculum extends CI_Controller
                     $this->db->insert('tbl_curriculumdetail', $data2);
                     $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
                    unset($_SESSION['params']);
-                 
+
                  }else{
                        $this->session->set_flashdata('message', $alerts .'Subject Already Exist.</div>');
                  }
-          
-        }       
-        redirect('/lc_curriculum/addsubcur/' . $url);      
+
+        }
+        redirect('/lc_curriculum/addsubcur/' . $url);
     }
     function deletesub($id, $yearlevel, $coursemajor, $academicterm, $currid, $m){
         $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
@@ -153,7 +147,7 @@ class Lc_curriculum extends CI_Controller
     function copycurr(){
          $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
          $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-       
+
         echo $coursedesc = $this->input->post('currdesc');
         echo $yearlevel = $this->input->post('yearlevel');
         echo $coursemajor = $this->input->post('coursemajor');
@@ -175,14 +169,14 @@ class Lc_curriculum extends CI_Controller
         }else{
               $this->session->set_flashdata('message', $alerts .'Academic Term Already Exist.</div>');
         }
-        
+
         $checks = $this->db->query("SELECT id as curriculumid FROM tbl_curriculum WHERE coursemajor = '$coursemajor' AND academicterm = '$accad_id' AND yearlevel = '$yearlevel'");
         $x = $checks->row_array();
         $curriculumid = $x['curriculumid'];
 
         $x = $this->db->query("SELECT subject, yearlevel, term FROM tbl_curriculumdetail WHERE curriculum = '$currcid'");
         $xy = $x->result_array();
- 
+
         foreach ($xy as $key => $value) {
             extract($value);
             $data = array(
