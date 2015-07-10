@@ -5,8 +5,14 @@
     $phase = $val['phase'];
     if ($stat == 99 && $phase == 1) {
         $disable = '';
+        $alert = '';
     }
     else{
+        $alert = '<div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+        Unable to make evaluation. Please make sure that enrollment period is set.</div>';
+
         $disable = 'disabled';
     }
  ?>
@@ -19,6 +25,7 @@
 
         <div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
+            <?php echo $alert; ?>
             <div class="col-md-6">
             <?php
                 $config['base_url'] = base_url().'index.php/menu/dean-studentlist';
