@@ -7,7 +7,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 					<div class="col-md-12 col-bg">
-					
+
 					</div>
 				</div>
 
@@ -22,8 +22,8 @@
 				      </div>
 				      <div class="modal-body">
 				        <select name="subj" class="form-control">
-				        	<?php 
-	            				
+				        	<?php
+
 	            				$s = $this->subject->subjectOwner($owner);
 	            				foreach($s as $ss)
 	            				{
@@ -35,13 +35,13 @@
 				        </select>
 				        <br/>
 				        <select class="form-control" name="course_major">
-	            			<?php 
+	            			<?php
 	            				$c = $this->course->getAllCourse();
 	            				foreach($c as $cc)
 	            				{
 	            					?>
 	            					<option value="<?php echo $cc['id'] ?>">
-	            					<?php 
+	            					<?php
 	            						echo $this->api->getCourseMajor($cc['id']);
 	            					 ?>
 	            					</option>
@@ -61,22 +61,19 @@
 				</div>
 
 				<div class="col-md-12">
-					<?php 
-						echo $this->session->flashdata('message'); 
-					
+					<?php
+						echo $this->session->flashdata('message');
+
 						$systemVal 	= $this->api->systemValue();
-						$this->db->where('academicterm',$systemVal['nextacademicterm']);
-						$cc = $this->db->count_all_results('tbl_classallocation');
-						if($cc > 0)
+						if($systemVal['classallocationstatus'] == 5)
 						{
 							?>
-							<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
+					<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
 					<table class="table">
 						<caption>
-						<?php 
-							$systemVal 	= $this->api->systemValue();
+						<?php
 							$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
-							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']); 
+							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
 						 ?>
 						 </caption>
 						<tr>
@@ -87,8 +84,7 @@
 						</tr>
 						<?php
 							$user 		= $this->api->getUserCollege();
-							//$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
-							$sub 		= $this->db->query("SELECT *,tbl_classallocation.id FROM tbl_classallocation,tbl_course where academicterm = {$systemVal['nextacademicterm']} and tbl_classallocation.coursemajor = tbl_course.id and college = $owner")->result_array();
+							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
 
 							foreach($sub as $subj)
 							{
@@ -98,19 +94,20 @@
 							?>
 								<tr>
 									<td>
-										<?php 
+										<?php
 											$s = $this->subject->find($subj['subject']);
 											echo $s['code'];
 										 ?>
 									</td>
 									<td>
-										<?php 
-											$t = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']}")->row_array();
+										<?php
+											$this->db->where('id',$subj['coursemajor']);
+											$t = $this->db->get('tbl_course')->row_array();
 											echo $t['description'];
 										 ?>
 									</td>
 									<td>
-									<?php 
+									<?php
 										$style = '';
 										if(!empty($subj['status']))
 											$style = 'disabled'
@@ -119,30 +116,30 @@
 										<a href="/delete_classalloc/<?php echo $subj['id']; ?>" class="btn btn-danger btn-xs" onClick="return confirm('Are you sure you want to delete ?');">Delete</a>
 										</td>
 									<td>
-										<?php 
+										<?php
 										if(empty($subj['status']))
 											echo 'Checking';
 										else{
 											if($subj['status'] == 'O')
 												echo 'OK';
 										}
-											
 										 ?>
 									</td>
 								</tr>
 							<?php
-								//}
 							}
 							?>
 						</table>
+						<a href="/dean/add_task_comp/4/O">Attest All</a>
 					<?php
 						}
 						else
 						{
 					 ?>
-					 	<div class="alert alert-danger">Class Allocation is not been iniatialized</div>
+					 	<div class="alert alert-danger center-block" style="max-width:400px;text-align:center">
+							Class Allocation is not been iniatialized
+							</div>
 					 <?php } ?>
-				 
 				</div>
 			</div>
 		</div>

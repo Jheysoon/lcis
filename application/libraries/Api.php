@@ -182,21 +182,44 @@ class Api
 				WHERE academicterm =
 				(SELECT MAX(academicterm) FROM tbl_registration
 					WHERE student = $partyid)
-				AND student = $partyid")->row_array();
+				AND student = $partyid");
 
-		$cur_id = $cur['curriculum'];
+		// check if the student has a registration record
+		if($cur->num_rows() > 0)
+		{
+			$c 		= $cur->row_array();
+			$cur_id = $c['curriculum'];
+		}
+		else
+		{
+			$b['comment'] = 'not found tbl_registration';
+			$b['student'] = $partyid;
+			$this->CI->db->insert('out_exception',$b);
+			return 'Does not have a registration';
+		}
+
 
 		if($cur_id != 0)
 		{
-			$reg_id 		= $cur['id'];
-
 			$units 			= 0;
 			$sum_units 		= array(0 => 0, 1 => 0, 2 => 0, 3 => 0);
 			$student_units 	= 0;
 
+			// check if the curriculum is found in tbl_year_units
+			$this->CI->db->where('curriculum',$cur_id);
+			$u1 = $this->CI->db->count_all_results('tbl_year_units');
+			if($u1 < 1) {
+				$f['comment'] = 'not found tbl_curriculum';
+				$f['student'] = $partyid;
+				$this->CI->db->insert('out_exception',$f);
+				return 'Error';
+			}
+
+
 			for ($i=1; $i <=4 ; $i++)
 			{
 				// get the total units by yearlevel
+				// add validation if the curriculum does not exist in tbl_year_units
 				$this->CI->db->where('curriculum',$cur_id);
 				$this->CI->db->where('yearlevel',  $i);
 				$u = $this->CI->db->get('tbl_year_units')->row_array();
@@ -204,12 +227,9 @@ class Api
 
 				$sum_units[$i - 1] = $units;
 			}
-			// $this->CI->db->where('student', $partyid);
-			// $this->CI->db->where('registration', $reg_id);
-			$enrol = $this->CI->db->query("SELECT * FROM tbl_enrolment
-				WHERE student = $partyid
-				AND registration = $reg_id
-				GROUP BY academicterm")->result_array();
+
+			$this->CI->db->where('student', $partyid);
+			$enrol = $this->CI->db->get('tbl_enrolment')->result_array();
 
 			foreach ($enrol as $val)
 			{
@@ -220,37 +240,34 @@ class Api
 						OR reexamgrade <= $threshold_grade)
 						AND enrolment = {$val['id']}")->result_array();
 
+
 				foreach ($stud as $stud_subj)
 				{
 
 					$stu = $this->CI->db->query("SELECT * FROM tbl_subject
 						WHERE id = (SELECT subject FROM tbl_classallocation WHERE id = {$stud_subj['classallocation']})")->row_array();
 
+
 					$this->CI->db->where('curriculum', $cur_id);
-					//$this->CI->db->where('yearlevel',  $i);
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
 					if ($cur_detail1->num_rows() > 0)
 					{
-						//$s = $cur_detail1->row_array();
 						$student_units += $stu['units'];
 					}
 				}
+
 			}
 
-			$min_units = (int) ($units * ($tolerance / 100));
-
-			if($student_units <= $units AND $student_units >= $min_units)
-			{
-				return $i;
-			}
-
-			//return $student_units.' '.$units;
+			$h['comment'] = 'OK';
+			$h['student'] = $partyid;
+			$h['student_units'] = $student_units;
+			$h['totalunits'] = $units;
+			$this->CI->db->insert('out_exception',$h);
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
-				// if($student_units <= $sum_units[$q] AND $student_units >= $m_units)
 				if($student_units <= $sum_units[$q])
 				{
 					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
@@ -269,6 +286,9 @@ class Api
 		}
 		else
 		{
+			$b['comment'] = 'no curriculum tbl_registration';
+			$b['student'] = $partyid;
+			$this->CI->db->insert('out_exception',$b);
 			return CUR_NOT_FOUND;
 		}
 
@@ -276,8 +296,5 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-
-
-
 
 }

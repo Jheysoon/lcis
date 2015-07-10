@@ -16,7 +16,6 @@ class Dean extends CI_Controller
 
     private function head()
     {
-
         $this->load->model(array(
             'home/option',
             'home/option_header',
@@ -298,16 +297,15 @@ class Dean extends CI_Controller
     }
     function search_subject($sid)
     {
-        $sid = urldecode($sid);
         $this->load->model(array(
             'dean/subject',
             'dean/common_dean'
         ));
 
-        $college = $this->api->getUserCollege();
-
-        $s = $this->subject->search($sid,$college);
-        $data = array();
+        $sid        = urldecode($sid);
+        $college    = $this->api->getUserCollege();
+        $s          = $this->subject->search($sid,$college);
+        $data       = array();
 
         foreach ($s as $r)
         {
@@ -317,10 +315,11 @@ class Dean extends CI_Controller
     }
     function search()
     {
-        $code = $this->input->post('search');
-        $url = $this->input->post('url');
+        $code   = $this->input->post('search');
+        $url    = $this->input->post('url');
+        $q      = $this->subject->whereCode($code);
+
         $this->load->model('dean/subject');
-        $q = $this->subject->whereCode($code);
         if($q > 0)
         {
             $sid = $this->subject->count($code);
@@ -337,9 +336,9 @@ class Dean extends CI_Controller
     }
     function load_sub()
     {
-        $sid = $this->input->post('value');
+        $sid                = $this->input->post('value');
+        $data['college']    = $sid;
         $this->load->model('dean/subject');
-        $data['college'] = $sid;
         $this->load->view('dean/ajax/tbl_subject',$data);
     }
 
@@ -377,9 +376,9 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        $college = $this->api->getUserCollege();
+        $college    = $this->api->getUserCollege();
+        $s          = $this->subject->find($id);
 
-        $s = $this->subject->find($id);
         if($college == 0 OR $s['owner'] == 0)
         {
            redirect(base_url('edit_subject/'.$id.'/view'));
@@ -393,9 +392,11 @@ class Dean extends CI_Controller
     function searchStud()
     {
         $this->load->model('dean/student');
-        $id = $this->input->post('search');
+
+        $id  = $this->input->post('search');
         $col = $this->input->post('col');
         $id1 = $this->student->existsID($id, $col);
+
         if ($id1 > 0)
         {
             redirect('/dean_evaluation/' . $id);
@@ -413,10 +414,10 @@ class Dean extends CI_Controller
         $this->load->model(array(
             'dean/student'
         ));
-        $college = $this->api->getUserCollege();
 
-        $s = $this->student->getStudent($sid,$college);
-        $data = array();
+        $college    = $this->api->getUserCollege();
+        $s          = $this->student->getStudent($sid,$college);
+        $data       = array();
 
         foreach ($s as $r)
         {
@@ -450,8 +451,8 @@ class Dean extends CI_Controller
         $data['subject']        = $this->input->post('subject');
         $data['section']        = $this->input->post('sections');
         $data['yearlevel']      = $this->input->post('yearlevel');
+        $is_ajax                = $this->input->post('is_ajax');
 
-        $is_ajax = $this->input->post('is_ajax');
         if($is_ajax != 0)
         {
             $data['studentcount'] = $this->input->post('studentcount');
@@ -732,8 +733,8 @@ class Dean extends CI_Controller
             $data['num'] = $this->input->post('days_count') - 1;
         }
 
-        $data['error'] = $this->error;
-        $data['cid'] = $cid;
+        $data['error']  = $this->error;
+        $data['cid']    = $cid;
         $this->load->view('dean/assigned_subj',$data);
         $this->load->view('templates/footer');
     }
@@ -945,6 +946,7 @@ class Dean extends CI_Controller
         if(empty($id))
         {
             $this->db->insert('tbl_completion',$data);
+            redirect(base_url());
         }
         else
         {

@@ -4,7 +4,7 @@
 */
 class Scholarship extends CI_Controller
 {
-	
+
     private function head()
     {
     	$this->load->model(array(
@@ -36,10 +36,12 @@ class Scholarship extends CI_Controller
     }
     function search_by_id($id)
     {
-        $id = urldecode($id);
-        $data = array();
+        $id 		= urldecode($id);
+        $data 		= array();
+		$results_id = $this->scholarship->searchId($id);
+
         $this->load->model('scholar/scholarship');
-        $results_id = $this->scholarship->searchId($id);
+
         foreach ($results_id as $r)
         {
             $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname']);

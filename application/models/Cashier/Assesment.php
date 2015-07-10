@@ -52,9 +52,8 @@
 			return $x['totalunit'];
 		}
 		function getBilling($enrolid){
-			echo $x = $this->get_phase();
-			echo $enrolid;
-			echo $y = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$x' AND id = '$enrolid'")->num_rows();
+			 $x = $this->get_phase();
+			 $y = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$x' AND id = '$enrolid'")->num_rows();
 			return $y;
 		}
 		// Getting the Amount Override.
