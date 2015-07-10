@@ -3,15 +3,6 @@
 		<th>Student Id</th>
 		<th>Student Name</th>
 		<th>Course</th>
-		<!--<th>
-            <select class="form-control" name='Year Level' required>
-				<option> THIRD YEAR</option>	
-				<option> ALL</option>
-				<option> FIRST YEAR</option>	
-				<option> SECOND YEAR</option>	
-				<option> FOURTH YEAR</option>	
-			</select>
-		</th>-->
 		<th colspan="2">Action</th>
 	</tr>
 
@@ -33,10 +24,15 @@
                     <td><?php echo $lastname . ' , ' . $firstname ?></td>
                     <td><?php echo $description; ?></td>
                          <td>
-                            <a class="a-table label label-danger" href="/dean_evaluation/<?php echo $legacyid;?>">Evaluate
-                             <span class="glyphicon glyphicon-file"></span></a>
+							<?php if ($stat == 99 && $phase == 1): ?>
+	                            <a class="a-table label label-danger" href="/dean_evaluation/<?php echo $legacyid;?>">Evaluate
+	                             <span class="glyphicon glyphicon-file"></span></a>
+							<?php else: ?>
+	                            <a class="a-table label label-default" href="#">Evaluate
+	                             <span class="glyphicon glyphicon-file"></span></a>
+							<?php endif; ?>
                         </td>
-                       
+
                 </tr>
             <?php
             //}
