@@ -287,9 +287,26 @@
 							$datax = array('accountingset' => $accountingset);
 							$this->db->update('tbl_systemvalues',$datax);
 							if ($counted == 1) {
-								echo "nothing to insert";
+
 							}else{
-								echo "insert school acocunt as credit";
+									$getSchoolAccount = $this->db->query("SELECT coursemajor, c.id as accounting, netprelim FROM tbl_billclass a, tbl_enrolment b, tbl_account c WHERE
+									a.id = 3 and a.enrolment = b.id and c.seq = b.coursemajor and c.accounttype = 4 and party = 1")->row_array();
+									extract($getSchoolAccount);
+									$getTotalPayment = $this->totalPayments($billid);
+								//$thisammount = $getTotalPayment - $netenrolment;
+									$school = array('account' => $accounting,
+																'accountingset' => $accountingset,
+																'academicterm' => $academicterm,
+																'systemdate' => $systemdate,
+																'valuedate' => $systemdate,
+																'referencetype' => 6,
+																'referenceid' => $paymentid,
+																'previousbalance' => '',
+																'type' => 'C',
+																'amount' => '-'.$netprelim,
+																'controlledby' => 1
+															);
+										$this->db->insert('tbl_movement', $school);
 							}
 			}
 			function getAmountPaid($student, $enrolid)
