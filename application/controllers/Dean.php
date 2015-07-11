@@ -945,11 +945,17 @@ class Dean extends CI_Controller
         $data['statusdate']     = date('Y-m-d');
         if(empty($id))
         {
+            //check if all the dean has already submitted
+            // then change the classallocation status in tbl_systemvalue
             $this->db->insert('tbl_completion',$data);
+
+
             redirect(base_url());
         }
         else
         {
+            // decrement the classallocation status in tbl_systemvalue
+            // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }
