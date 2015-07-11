@@ -146,16 +146,13 @@ class Edp extends CI_Controller
             // API return curriculum not found if the course does not have a curriculum
             if ($yearlevel != CUR_NOT_FOUND)
             {
-                if($isFirstYear)
-                {
+                if($isFirstYear):
                     if ($yearlevel == 1)
 						$this->yearL[0] += 1;
-                }
-                else
-                {
+                else:
                     if($yearlevel > 1)
                         $this->yearL[$yearlevel - 1] += 1;
-                }
+                endif;
             }
         }
     }
@@ -167,7 +164,8 @@ class Edp extends CI_Controller
             'registrar/course',
             'registrar/curriculum',
             'registrar/academicterm',
-            'registrar/curriculumdetail'
+            'registrar/curriculumdetail',
+            'edp/edp_classallocation'
         ));
         $this->load->view('edp/ajax_stu');
     }
@@ -281,7 +279,7 @@ class Edp extends CI_Controller
     {
         $d['academicterm']  = $sy;
         $d['coursemajor']   = $course;
-        $d['subject']       = $$subject;
+        $d['subject']       = $subject;
         $d['yearlevel']     = $yearlevel;
         $d['studentcount']  = $count;
 
@@ -297,14 +295,14 @@ class Edp extends CI_Controller
 
     function view_sched($roomId = '')
     {
-        $this->load->model(array(
-            'edp/classroom',
-            'edp/edp_classallocation',
-            'dean/subject'
-        ));
-
         if(!empty($roomId) AND is_numeric($roomId))
         {
+            $this->load->model(array(
+                'edp/classroom',
+                'edp/edp_classallocation',
+                'dean/subject'
+            ));
+
             $data['roomId']     = $roomId;
             $room               = $this->classroom->find($roomId);
             $data['room_name']  = $room['legacycode'];
@@ -315,35 +313,43 @@ class Edp extends CI_Controller
             $this->load->view('templates/footer');
         }
         else
-        {
             show_error('Did you type the url by yourself ?');
+    }
+
+    function add_sched($sid = '')
+    {
+        if (!empty($sid))
+        {
+            $this->api->userMenu();
+            $data['roomId'] = $sid;
+
+            $this->load->model(array(
+                'edp/edp_classallocation'
+            ));
+            $this->load->view('edp/select_subj',$data);
+            $this->load->view('templates/footer');
         }
-
+        else
+            show_error('Did you type the url by yourself ?');
     }
 
-    function add_sched($sid)
+    function assign_room($cid = '')
     {
-        $this->api->userMenu();
-        $data['roomId'] = $sid;
+        if (!empty($cid))
+        {
+            $this->api->userMenu();
+            $this->load->model(array(
+                'edp/classroom',
+                'edp/edp_classallocation',
+                'dean/subject'
+            ));
+            $data['cid'] = $cid;
+            $this->load->view('edp/assign_subj_room',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+            show_error('Did you type the url by yourself ?');
 
-        $this->load->model(array(
-            'edp/edp_classallocation'
-        ));
-        $this->load->view('edp/select_subj',$data);
-        $this->load->view('templates/footer');
-    }
-
-    function assign_room($cid)
-    {
-        $this->api->userMenu();
-        $this->load->model(array(
-            'edp/classroom',
-            'edp/edp_classallocation',
-            'dean/subject'
-        ));
-        $data['cid'] = $cid;
-        $this->load->view('edp/assign_subj_room',$data);
-        $this->load->view('templates/footer');
     }
 
     function add_room_class()
@@ -415,58 +421,32 @@ class Edp extends CI_Controller
     // test function
     function tryap()
     {
-        $systemVal 	= $this->api->systemValue();
-		$sy     	= $systemVal['nextacademicterm'];
+        $stud = $this->db->query("SELECT * FROM out_exception where comment = 'no curriculum tbl_registration' GROUP by student")->result_array();
+        foreach ($stud as $val) {
 
-        $curs = $this->db->query("SELECT * FROM tbl_course")->result_array();
-        foreach ($curs as $course)
-        {
-            $this->db->where('id',$sy);
-            $tt     = $this->db->get('tbl_academicterm')->row_array();
-            $term   = $tt['term'];
+            $reg = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm =
+            (SELECT min(academicterm) FROM tbl_enrolment WHERE student = {$val['student']})
+            AND student = {$val['student']}")->row_array();
 
-            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
-    		$cur1 	= 0;
-    		foreach($acamd as $acams)
-    		{
-    			$c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
-    				tbl_coursemajor.id = tbl_curriculum.coursemajor AND
-    				tbl_coursemajor.course = {$course['id']} AND academicterm = {$acams['id']}");
-    			if($c->num_rows() > 0)
-    			{
-    				$cur    = $c->row_array();
-    				$cur1   = $cur['id'];
-    				break;
-    			}
-    		}
+            $reg_id = $reg['registration'];
+            $course = $reg['coursemajor'];
 
-            if($cur1 != 0)
-            {
-                for ($i=1; $i <= 4; $i++)
+            $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
+            foreach ($t as $acam) {
+
+                $c = $this->db->query("SELECT * FROM tbl_curriculum
+                    WHERE coursemajor = $course
+                    AND academicterm = {$acam['id']}");
+
+                if($c->num_rows() > 0)
                 {
-                    if($cur1 == 9)
-                    {
-                        $cur1 = 8;
-                    }
-                    $this->db->where('curriculum',$cur1);
-                    $this->db->where('yearlevel',$i);
-                    $q = $this->db->get('tbl_curriculumdetail')->result_array();
-
-                    $units = 0;
-                    foreach ($q as $qq) {
-                        $this->db->where('id',$qq['subject']);
-                        $r = $this->db->get('tbl_subject')->row_array();
-                        $units += $r['units'];
-                    }
-
-                    echo $data['curriculum'] = $cur1;
-                    echo ' ';
-                    echo $data['yearlevel'] = $i;
-                    echo ' ';
-                    echo $data['totalunits'] = $units;
-                    echo '<br/>';
-                    //$this->db->insert('tbl_year_units',$data);
+                    $cur    = $c->row_array();
+                    $dat['curriculum'] = $cur['id'];
+                    $this->db->where('id',$reg_id);
+                    $this->db->update('tbl_registration',$dat);
+                    break;
                 }
+
             }
         }
     }
@@ -475,5 +455,89 @@ class Edp extends CI_Controller
     {
         //22518
         echo $this->api->yearLevel($id);
+    }
+    // test function
+    function tryap2($id)
+    {
+        $this->db->where('coursemajor',$id);
+        $q = $this->db->get('tbl_enrolment')->result_array();
+        foreach ($q as $val) {
+
+            $this->db->where('enrolment',$val['id']);
+            $qq = $this->db->get('tbl_studentgrade')->result_array();
+
+            foreach ($qq as $val1) {
+                $this->db->where('id',$val1['classallocation']);
+                $s = $this->db->get('tbl_classallocation')->row_array();
+
+                $this->db->where('subject',$s['subject']);
+                $this->db->where('coursemajor',$id);
+                $i = $this->db->count_all_results('out_c');
+                if($i < 1)
+                {
+                    $db['subject'] = $s['subject'];
+                    $db['coursemajor'] = $id;
+                    $this->db->insert('out_c',$db);
+                }
+            }
+        }
+    }
+
+    function tt()
+    {
+        $this->db->where('comment','not found tbl_registration');
+        $t = $this->db->get('out_exception')->result_array();
+        foreach ($t as $val) {
+            $tt = $this->db->query("SELECT * FROM tbl_enrolment
+                WHERE academicterm = (SELECT MIN(academicterm)
+                FROM tbl_enrolment WHERE student = {$val['student']})
+                AND student = {$val['student']} LIMIT 1")->row_array();
+
+            $acam = $tt['academicterm'];
+            $coursemajor = $tt['coursemajor'];
+
+            $t1 = $this->db->query("SELECT * FROM tbl_academicterm
+                ORDER BY systart ASC,term")->result_array();
+
+            foreach ($t1 as $k) {
+                $this->db->where('coursemajor',$coursemajor);
+                $this->db->where('academicterm',$k['id']);
+                $c = $this->db->get('tbl_curriculum');
+
+                if($c->num_rows() > 0)
+                {
+                    $ff = $c->row_array();
+                    $data['student'] = $val['student'];
+                    $data['coursemajor'] = $coursemajor;
+                    $data['curriculum'] = $ff['id'];
+                    $this->db->insert('tbl_registration',$data);
+                    $reg_id = $this->db->insert_id();
+
+                    $d['registration'] = $reg_id;
+                    $this->db->where('student',$val['student']);
+                    $this->db->update('tbl_enrolment',$d);
+                    break;
+                }
+            }
+
+
+        }
+    }
+
+    function up()
+    {
+        $this->db->where('comment','no curriculum tbl_registration');
+        $r = $this->db->get('out_exception')->result_array();
+        foreach ($r as $key) {
+            $this->db->where('student',$key['student']);
+            $this->db->where('coursemajor',22);
+            $g = $this->db->count_all_results('tbl_registration');
+            if($g > 0)
+            {
+                $d['coursemajor'] = 8;
+                $this->db->where('student',$key['student']);
+                $this->db->update('tbl_registration',$d);
+            }
+        }
     }
 }

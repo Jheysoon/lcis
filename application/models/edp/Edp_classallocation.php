@@ -31,6 +31,16 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('academicterm',$acam);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
+
+	function getAlloc1($acam,$owner)
+	{
+		return $this->db->query("SELECT *,tbl_classallocation.id
+						FROM tbl_classallocation,tbl_course
+						WHERE academicterm = $acam
+						AND tbl_classallocation.coursemajor = tbl_course.id
+						AND college = $owner")->result_array();
+	}
+
 	function find($id)
 	{
 		$this->db->where('id',$id);
@@ -228,6 +238,6 @@ class Edp_classallocation extends CI_Model
 			AND tbl_coursemajor.course = $cid
 			AND academicterm = $acam
 			AND school = 1
-			GROUP BY student LIMIT 10")->result_array();
+			GROUP BY student")->result_array();
 	}
 }

@@ -514,7 +514,7 @@ class Dean extends CI_Controller
                 if (in_array($sub['code'], $add)) {
                     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    Duplicate subject <strong>'.$sub['code'].'</strong> in additional subject table.<br/>';
+                    Duplicate subject <strong>'.$sub['code'].'</strong> in additional subject table.</d><br/>';
                     return false;
                 }
                 else{
@@ -602,7 +602,7 @@ class Dean extends CI_Controller
                 $coursemajor = $this->input->post('coursemajor');
                 $registration = $this->input->post('registration');
                 $academicterm = $this->input->post('academicterm');
-                $status = 'E';
+                $status = 'R';
 
                 // Checking if student is already evaluated.
                 $eval = $this->student->checkEvaluation($student, $academicterm);
@@ -945,10 +945,17 @@ class Dean extends CI_Controller
         $data['statusdate']     = date('Y-m-d');
         if(empty($id))
         {
+            //check if all the dean has already submitted
+            // then change the classallocation status in tbl_systemvalue
             $this->db->insert('tbl_completion',$data);
+
+
+            redirect(base_url());
         }
         else
         {
+            // decrement the classallocation status in tbl_systemvalue
+            // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }

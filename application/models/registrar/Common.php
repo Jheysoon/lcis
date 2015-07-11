@@ -1,6 +1,6 @@
-<?php 
+<?php
 	/**
-	* 
+	*
 	*/
 	class Common extends CI_Model
 	{
@@ -19,7 +19,7 @@
 			return $result->row_array();
 		}
 		function selectSec($secondary, $p){
-			
+
 			$result = $this->db->query("SELECT firstname as `secondary`, (SELECT completionsecondary FROM tbl_student WHERE `secondary` = '$secondary' AND id = '$p') as completionsecondary FROM tbl_party WHERE `id` = '$secondary'");
 			return $result->row_array();
 		}
@@ -29,7 +29,7 @@
 		}
 		function get_school($partyid){
 			$result = $this->db->query("SELECT school, firstname as sch
-				FROM tbl_enrolment, tbl_party where student = '$partyid' 
+				FROM tbl_enrolment, tbl_party where student = '$partyid'
 				AND tbl_party.id = tbl_enrolment.school GROUP BY school");
 				return $result->result_array();
 		}
@@ -43,9 +43,9 @@
 			return $result->result_array();
 		}
 		function select_academicterm($academicterm){
-			
-		$result = $this->db->query("SELECT systart, syend, tbl_academicterm.term,description 
-				FROM tbl_academicterm, tbl_term WHERE tbl_academicterm.id = '$academicterm' 
+
+		$result = $this->db->query("SELECT systart, syend, tbl_academicterm.term,description
+				FROM tbl_academicterm, tbl_term WHERE tbl_academicterm.id = '$academicterm'
 				AND tbl_term.id = tbl_academicterm.term");
 				return $result->row_array();
 		}
@@ -54,7 +54,7 @@
 			$this->db->where('student', $partyid);
 			$this->db->where('academicterm', $academicterm);
 			$result = $this->db->get('tbl_enrolment');
-			/*$result = $this->db->query("SELECT id as enrolmentid FROM tbl_enrolment WHERE student = '$partyid' 
+			/*$result = $this->db->query("SELECT id as enrolmentid FROM tbl_enrolment WHERE student = '$partyid'
 				AND academicterm = '$academicterm'");*/
 				return $result->result_array();
 		}
@@ -74,7 +74,7 @@
 				$getAc = $this->db->query("SELECT coursemajor, `date`, student, academicterm FROM tbl_registration WHERE coursemajor = '$coursemajor' AND student = '$partyid' AND `date` = '$date'");
 				$x = $getAc->row_array();
 				 $acad = $x['academicterm'];
-					for ($i=$acad; $i > 0 ; $i--) { 
+					for ($i=$acad; $i > 0 ; $i--) {
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
@@ -83,7 +83,7 @@
                             }
                         }
 
-				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel, term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel, term,  tbl_subject.id as subid, `code`, descriptivetitle
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$ac' AND tbl_curriculum.coursemajor = '$coursemajor') AND
 				 tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' GROUP BY `code`, descriptivetitle ORDER BY curr, academicterm, tbl_curriculumdetail.yearlevel, term");
 			return $result->result_array();
@@ -94,7 +94,7 @@
 				$ac = 0;
 				$x = $getAc->row_array();
 				$acad = $x['academicterm'];
-					for ($i=$acad; $i > 0 ; $i--) { 
+					for ($i=$acad; $i > 0 ; $i--) {
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
@@ -107,7 +107,7 @@
 
 				$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$ac'
-				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
+				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND
 				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculumdetail.yearlevel, tbl_curriculumdetail.term");
 				return $result->row_array();
 		}
@@ -117,7 +117,7 @@
 				$x = $getAc->row_array();
 				$ac = 0;
 				 $acad = $x['academicterm'];
-				 for ($i=$acad; $i > 0 ; $i--) { 
+				 for ($i=$acad; $i > 0 ; $i--) {
                             $a = $this->curriculum->getMatch($i,$coursemajor);
                             if($a != 'repeat')
                             {
@@ -127,74 +127,74 @@
                         }
 			$result = $this->db->query("SELECT coursemajor, academicterm, curriculum, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term as term,  tbl_subject.id as subid, course, tbl_course.description as coursedescription,syend,systart
 										FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$ac' AND tbl_curriculum.coursemajor = '$coursemajor')
-										 AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
+										 AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND
 										tbl_curriculum.id = curriculum GROUP BY term, tbl_curriculumdetail.yearlevel ORDER BY academicterm, tbl_curriculumdetail.yearlevel, term");
 			return $result->result_array();
 		}
 
 		function get_schools(){
 			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, firstname, registrarname
-				FROM tbl_school, tbl_party WHERE  
+				FROM tbl_school, tbl_party WHERE
 				tbl_party.id = tbl_school.id");
 				return $result->result_array();
 		}
 
 		function get_school_detail($id){
 			$result = $this->db->query("SELECT tbl_party.id as sch_id, shortname, address1, firstname, registrarname, `primary`, secondary, elementary, tertiary
-				FROM tbl_school, tbl_party WHERE  
+				FROM tbl_school, tbl_party WHERE
 				tbl_party.id = tbl_school.id AND tbl_school.id = '$id'");
 				return $result->row_array();
 		}
 
 		function insertcurr(){
-		
+
 		}
 		function getsub($currid){
-			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail WHERE curriculum = '$currid')");
+			$result = $this->db->query("SELECT `id`,code, descriptivetitle FROM tbl_subject WHERE tbl_subject.id NOT IN (SELECT subject FROM tbl_curriculumdetail WHERE curriculum = '$currid') ORDER BY code ASC,descriptivetitle ASC");
 			return $result->result_array();
 		}
 		function getC($coursemajor, $acad){
-				$result = $this->db->query("SELECT tbl_curriculum.id as currid, tbl_curriculum.coursemajor, tbl_curriculum.academicterm, tbl_coursemajor.course as coursid, 
-					tbl_course.description as coursedescription, CONCAT(systart, '-', syend) as effectivity FROM tbl_curriculum, tbl_coursemajor, tbl_course, tbl_academicterm 
+				$result = $this->db->query("SELECT tbl_curriculum.id as currid, tbl_curriculum.coursemajor, tbl_curriculum.academicterm, tbl_coursemajor.course as coursid,
+					tbl_course.description as coursedescription, CONCAT(systart, '-', syend) as effectivity FROM tbl_curriculum, tbl_coursemajor, tbl_course, tbl_academicterm
 					WHERE tbl_curriculum.coursemajor = '$coursemajor' AND tbl_curriculum.academicterm = '$acad' AND tbl_coursemajor.id = '$coursemajor' AND tbl_course.id = course AND tbl_academicterm.id = tbl_curriculum.academicterm");
 				return $result->row_array();
 
 
 			/*$result = $this->db->query("SELECT  tbl_course.description as coursedescription,CONCAT(systart, '-', syend) as effectivity
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$acad'
-				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
+				 AND tbl_curriculum.coursemajor = '$coursemajor') AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND
 				tbl_curriculum.id = curriculum GROUP BY coursedescription ORDER BY academicterm, tbl_curriculum.yearlevel, tbl_curriculumdetail.term");
 			return $result->row_array();*/
 		}
 		function getHeaderYear($academicterm, $coursemajor){
 			$result = $this->db->query("SELECT coursemajor, academicterm, curriculum, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term as term,  tbl_subject.id as subid, course, tbl_course.description as coursedescription,syend,systart
 										FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject, tbl_coursemajor, tbl_course, tbl_academicterm WHERE (tbl_curriculum.academicterm = '$academicterm' AND tbl_curriculum.coursemajor = '$coursemajor')
-										 AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND 
+										 AND tbl_coursemajor.id = coursemajor AND tbl_course.id = course AND tbl_academicterm.id = academicterm AND
 										tbl_curriculum.id = curriculum GROUP BY term, tbl_curriculumdetail.yearlevel ORDER BY academicterm, tbl_curriculumdetail.yearlevel, term");
 			return $result->result_array();
 		}
 		function getsubcur($acad, $major,$term, $yearlevel){
-				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.subject as sid, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle 
+				$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.subject as sid, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle
 				FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$major') AND
 				tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' ORDER BY CHAR_LENGTH(code) < 4 DESC, `units` DESC");
 				return $result->result_array();
 		}
 		function getM($coursemajor, $acad){
-			$result = $this->db->query("SELECT tbl_curriculum.id as currid, tbl_curriculum.coursemajor, tbl_curriculum.academicterm, tbl_coursemajor.course as coursid, 
-					CONCAT(tbl_course.description, ' (', tbl_major.description, ')') as coursedescription, CONCAT(systart, '-', syend) as effectivity FROM tbl_curriculum, tbl_coursemajor, tbl_course, tbl_academicterm, tbl_major 
-					WHERE tbl_curriculum.coursemajor = '$coursemajor' AND tbl_curriculum.academicterm = '$acad' AND tbl_coursemajor.id = '$coursemajor' AND tbl_course.id = course 
+			$result = $this->db->query("SELECT tbl_curriculum.id as currid, tbl_curriculum.coursemajor, tbl_curriculum.academicterm, tbl_coursemajor.course as coursid,
+					CONCAT(tbl_course.description, ' (', tbl_major.description, ')') as coursedescription, CONCAT(systart, '-', syend) as effectivity FROM tbl_curriculum, tbl_coursemajor, tbl_course, tbl_academicterm, tbl_major
+					WHERE tbl_curriculum.coursemajor = '$coursemajor' AND tbl_curriculum.academicterm = '$acad' AND tbl_coursemajor.id = '$coursemajor' AND tbl_course.id = course
 					AND tbl_academicterm.id = tbl_curriculum.academicterm AND tbl_major.id = tbl_coursemajor.major");
 				return $result->row_array();
 
 		}
 
 		function check_school($id){
-	        $query = $this->db->query("SELECT * FROM tbl_school, tbl_student 
+	        $query = $this->db->query("SELECT * FROM tbl_school, tbl_student
 	                          WHERE (
 	        				  	tbl_student.primary = '$id' OR
 	        				  	tbl_student.secondary = '$id' OR
 	        				  	tbl_student.elementary = '$id'
-	                          ) 
+	                          )
 	        				  AND (
 	                          	tbl_school.id = tbl_student.primary
 	                          	OR tbl_school.id = tbl_student.secondary
