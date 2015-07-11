@@ -146,16 +146,13 @@ class Edp extends CI_Controller
             // API return curriculum not found if the course does not have a curriculum
             if ($yearlevel != CUR_NOT_FOUND)
             {
-                if($isFirstYear)
-                {
+                if($isFirstYear):
                     if ($yearlevel == 1)
 						$this->yearL[0] += 1;
-                }
-                else
-                {
+                else:
                     if($yearlevel > 1)
                         $this->yearL[$yearlevel - 1] += 1;
-                }
+                endif;
             }
         }
     }
@@ -298,14 +295,14 @@ class Edp extends CI_Controller
 
     function view_sched($roomId = '')
     {
-        $this->load->model(array(
-            'edp/classroom',
-            'edp/edp_classallocation',
-            'dean/subject'
-        ));
-
         if(!empty($roomId) AND is_numeric($roomId))
         {
+            $this->load->model(array(
+                'edp/classroom',
+                'edp/edp_classallocation',
+                'dean/subject'
+            ));
+
             $data['roomId']     = $roomId;
             $room               = $this->classroom->find($roomId);
             $data['room_name']  = $room['legacycode'];
@@ -316,35 +313,43 @@ class Edp extends CI_Controller
             $this->load->view('templates/footer');
         }
         else
-        {
             show_error('Did you type the url by yourself ?');
+    }
+
+    function add_sched($sid = '')
+    {
+        if (!empty($sid))
+        {
+            $this->api->userMenu();
+            $data['roomId'] = $sid;
+
+            $this->load->model(array(
+                'edp/edp_classallocation'
+            ));
+            $this->load->view('edp/select_subj',$data);
+            $this->load->view('templates/footer');
         }
-
+        else
+            show_error('Did you type the url by yourself ?');
     }
 
-    function add_sched($sid)
+    function assign_room($cid = '')
     {
-        $this->api->userMenu();
-        $data['roomId'] = $sid;
+        if (!empty($cid))
+        {
+            $this->api->userMenu();
+            $this->load->model(array(
+                'edp/classroom',
+                'edp/edp_classallocation',
+                'dean/subject'
+            ));
+            $data['cid'] = $cid;
+            $this->load->view('edp/assign_subj_room',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+            show_error('Did you type the url by yourself ?');
 
-        $this->load->model(array(
-            'edp/edp_classallocation'
-        ));
-        $this->load->view('edp/select_subj',$data);
-        $this->load->view('templates/footer');
-    }
-
-    function assign_room($cid)
-    {
-        $this->api->userMenu();
-        $this->load->model(array(
-            'edp/classroom',
-            'edp/edp_classallocation',
-            'dean/subject'
-        ));
-        $data['cid'] = $cid;
-        $this->load->view('edp/assign_subj_room',$data);
-        $this->load->view('templates/footer');
     }
 
     function add_room_class()
