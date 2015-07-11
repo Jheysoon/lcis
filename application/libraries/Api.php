@@ -162,7 +162,14 @@ class Api
     	$this->CI->session->set_flashdata($name,'<div class="alert alert-'.$type.'">'.$message.'</div>');
     }
 
-	//function to determine the year level
+	// update enrolment after payment
+	function updateEnrolmentStatus($enid){
+		$data1['status'] = 'E';
+		$this->db->where('id', $enid);
+		$this->db->update('tbl_enrolment');
+	}
+
+	//function to determine the year level echo $this->api->yearLevel(172,4);
 	function yearLevel($partyid, $course = '')
 	{
 		$systemVal 	= $this->systemValue();

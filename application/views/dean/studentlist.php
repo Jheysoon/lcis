@@ -1,15 +1,31 @@
-<?php 
+<?php
     $col = $this->api->getUserCollege();
+    $val = $this->api->systemValue();
+    $stat = $val['classallocationstatus'];
+    $phase = $val['phase'];
+    if ($stat == 99 && $phase == 1) {
+        $disable = '';
+        $alert = '';
+    }
+    else{
+        $alert = '<div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+        Unable to make evaluation. Please make sure that enrollment period is set.</div>';
+
+        $disable = 'disabled';
+    }
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
-		<div class="panel-heading search">					
+		<div class="panel-heading search">
 				<h4>Student Information Management: List of Students</h4>
 		</div>
-        
+
         <div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
+            <?php echo $alert; ?>
             <div class="col-md-6">
             <?php
                 $config['base_url'] = base_url().'index.php/menu/dean-studentlist';
@@ -45,7 +61,12 @@
 
             <?php
                 echo $this->pagination->create_links();
-                $data = array('param' => $param, 'col' => $col );
+                $data = array(
+                    'param' => $param,
+                    'col' => $col,
+                    'stat' => $stat,
+                    'phase' => $phase
+                );
             ?>
             </ul>
             </div>
@@ -55,9 +76,9 @@
                 <div class="form-group">
                     <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
                     <input type="hidden" name="col" value="<?php echo $col; ?>"/>
-                    <input type="text" name="search" id="studentlist" class="form-control" autocomplete="off" placeholder="Student Id">
+                    <input type="text" name="search" <?php echo $disable; ?> id="studentlist" class="form-control" autocomplete="off" placeholder="Student Id">
                 </div>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary"  <?php echo $disable; ?> >
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
 
@@ -65,7 +86,7 @@
             </div>
             <input type="hidden" name="param" value="<?php echo $param; ?>"/>
     		<div id="studlist_wrapper" class="table-responsive col-md-12">
-                <?php 
+                <?php
                     $this->load->view('dean/ajax/tbl_student',$data);
                  ?>
             <ul class="pagination">
@@ -74,7 +95,7 @@
                 ?>
             </ul>
     		</div>
-                    
+
 		</div>
 		</div>
 	</div>
