@@ -13,16 +13,11 @@ class Main extends CI_Controller
     {
         // if the session is set
         if($this->session->has_userdata('uid'))
-        {
             // go to home page
             $this->home();
-        }
         else
-        {
             // go to login page
             $this->login();
-        }
-
     }
 
     function login()
@@ -38,9 +33,7 @@ class Main extends CI_Controller
 
         //test the rules
         if($this->form_validation->run() == FALSE)
-        {
             $this->load->view('login');
-        }
         else
         {
             $this->load->model('useraccess');
@@ -57,13 +50,9 @@ class Main extends CI_Controller
                 $userid     = $this->useraccess->getUserId($username,$password);
                 $position   = $this->useraccess->getposition($userid);
                 if($position == 'C')
-                {
                     $status = 'S';
-                }
                 else
-                {
                     $status = 'N';
-                }
 
                 // get the system values in db
                 $systemVal = $this->api->systemValue();
@@ -129,14 +118,11 @@ class Main extends CI_Controller
         // redirect if the session has expired
         //@todo verify if the user has really the right to that menu
         if(!$this->session->has_userdata('uid'))
-        {
             redirect(base_url());
-        }
 
         $this->api->userMenu();
 
         $data['orig_page'] = $page;
-
         $page = str_replace('-', '/', $page);
 
         if(file_exists('./application/views/'.$page.'.php'))
@@ -147,34 +133,23 @@ class Main extends CI_Controller
             $load_model = explode('/',$page);
 
             $data['param'] = $param;
-            if($load_model[0]=='registrar')
-            {
+            if($load_model[0]=='registrar'):
                 $this->registrar();
-            }
-            elseif($load_model[0] == 'dean')
-            {
+            elseif($load_model[0] == 'dean'):
                 $this->dean();
-            }
-            elseif($load_model[0] == 'edp')
-            {
+            elseif($load_model[0] == 'edp'):
                 $this->edp();
-            }
-            elseif ($load_model[0] == 'billing')
-            {
+            elseif ($load_model[0] == 'billing'):
                 $this->dean();
-            }
-            elseif($load_model[0] == 'scholarship')
-            {
+            elseif($load_model[0] == 'scholarship'):
                 $this->scholarship();
-            }
+            endif;
 
             $this->load->view($page,$data);
             $this->load->view('templates/footer',$data);
         }
         else
-        {
             show_error('cannot find file');
-        }
 
     }
 
@@ -259,9 +234,7 @@ class Main extends CI_Controller
             echo 'ok';
         }
         else
-        {
             echo 'invalid';
-        }
     }
 
     function logout()
