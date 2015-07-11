@@ -25,6 +25,9 @@ class Api
 
 	function getCourseMajor($id)
 	{
+		if ($id == '') {
+			$id =0;
+		}
 		$this->CI->load->model('registrar/course');
 		$m = '';
 		$course = $this->CI->course->getCourse($id);
