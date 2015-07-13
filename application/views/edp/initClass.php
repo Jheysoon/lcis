@@ -5,13 +5,15 @@
 			<?php
 				$systemVal 	= $this->api->systemValue();
 				$sy 		= $systemVal['nextacademicterm'];
-				if($systemVal['phase'] == FIN AND $systemVal['classallocationstatus'] < 3)
+				if($systemVal['phase'] == FIN AND $systemVal['classallocationstatus'] == 1)
 				{
 					$this->db->where('academicterm', $systemVal['currentacademicterm']);
 					$this->db->where('stage', 2);
 					$c = $this->db->get('tbl_completion')->num_rows();
 					if($c == COLLEGE_COUNT)
 					{
+						$r['classallocationstatus'] = 3;
+						$this->db->update('tbl_systemvalues', $r);
 						// delete first all nextacademicterm
 						$this->db->query("DELETE FROM tbl_classallocation WHERE academicterm = $sy");
 						$st = $this->db->get('out_section')->result_array();

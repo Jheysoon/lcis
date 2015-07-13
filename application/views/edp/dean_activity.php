@@ -30,7 +30,8 @@
                         if($c > 0)
                         {
                             $s = $this->edp_classallocation->get_status($col['dean'],$stage);
-                            echo $s['status'];
+                            if($s['status'] == 'O')
+                                echo 'Attested';
                         }
                         else
                             echo 'Untouched';

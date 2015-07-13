@@ -50,7 +50,7 @@
 			foreach ($e as $stud)
 			{
 
-				$yearlevel = $this->api->yearLevel($stud['student'], $course);
+				$yearlevel = $this->api->yearLevel($stud['student']);
 
 				// API return curriculum not found if the course does not have a curriculum
 				if ($yearlevel != CUR_NOT_FOUND)
@@ -63,8 +63,6 @@
 							$yearL[$yearlevel - 1] += 1;
 					}
 				}
-				// else
-				// 	break;
 			}
 
 			if($term == 3)
@@ -78,7 +76,7 @@
 			foreach ($e as $stud)
 			{
 
-				$yearlevel = $this->api->yearLevel($stud['student'], $course);
+				$yearlevel = $this->api->yearLevel($stud['student']);
 
 				// API return curriculum not found if the course does not have a curriculum
 				if ($yearlevel != CUR_NOT_FOUND)
@@ -88,8 +86,6 @@
 						$yearL[0] += 1;
 					}
 				}
-				// else
-				// 	break;
 			}
 
 			for ($i=1; $i <= 4 ; $i++)
