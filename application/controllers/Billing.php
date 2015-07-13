@@ -20,17 +20,17 @@ class Billing extends CI_Controller
 			    		$this->load->view('audit/view_assesment', $data);
 
 			    }
-			    function view_studentbilling($type, $legacyid){
+			    function view_studentbilling($legacyid){
 				    	$this->head();
 				    	$this->load->model('cashier/assesment');
 				    	$data['legacyid'] = $legacyid;
-				    	$data['type'] = $type;
+				    	$data['type'] = 'installment';
 				    	$this->load->view('audit/view_studentbilling', $data);
 							$this->load->view('templates/footer');
 
 			    }
 			    function search(){
-			    		redirect('/billing/view_bill/'.$this->input->post('search'));
+			    		redirect('/billing/view_studentbilling/'.$this->input->post('search'));
 			    }
 			    function posting(){
 						$uid = $this->session->userdata('uid');
@@ -44,6 +44,7 @@ class Billing extends CI_Controller
 						$total_due = $this->input->post('total_due');
 						$type = $this->input->post('type');
 						$or_no = $this->input->post('or_no');
+						$fullpay = $this->input->post('fullpay');
 
 					// 	$this->load->model('cashier/assesment');
 					// $this->assesment->get_all_enrol($enrolid);
@@ -57,22 +58,37 @@ class Billing extends CI_Controller
 												$this->do_posting($amountpaid, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid);
 										}
 									}else{
+
 											if ($amountpaid < $override) {
 													$this->session->set_flashdata('message', $alerts . 'Not Enoug payment.</div>');
 													redirect('/billing/view_studentbilling/'. $type . '/' . $legacyid);
 												}
 												else{
-													$this->do_posting($amountpaid, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid);
+													if ($amountpaid >= $fullpay AND $fullpay != "") {
+														//	$amountpaid = $amountpaid - $total_due;
+															echo $amountpaid . "<br />";
+															echo $fullpay . "<br />";
+															 $ful = 1;
+															$this->do_posting($fullpay, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid, $ful);
+													}else{
+														 $ful = 0;
+														$this->do_posting($amountpaid, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid, $ful);
+													}
+
 												}
 										}
 					}
-					function do_posting($amountpaid, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid){
+					function do_posting($amountpaid, $override, $enrolid, $legacyid, $total_due, $type, $or_no, $phase, $phaseterm, $uid, $ful){
 							$this->load->model('cashier/assesment');
 							$billid = $this->assesment->getBillingIds($enrolid);
 							$coursemajor = $this->assesment->getCrs($enrolid);
 							$checking = $this->assesment->checkpayment($billid);
 							$or_date = Date('Y-m-d');
 							if ($checking > 0) {
+
+								echo $ful;
+								echo $amountpaid;
+
 								$this->assesment->insertpayment($billid, $amountpaid, $or_no, $phaseterm, $phase, $uid, $or_date);
 								$paymentid = $this->db->insert_id();
 								$am = '-'.$amountpaid;
@@ -81,12 +97,17 @@ class Billing extends CI_Controller
 							}else{
 										$this->assesment->insertpayment($billid, $amountpaid, $or_no, $phaseterm, $phase, $uid, $or_date);
 										$paymentid = $this->db->insert_id();
-										$this->assesment->insertmovement($billid, $coursemajor);
+										$this->assesment->insertmovement($billid, $coursemajor,$amountpaid, $ful);
 										$am = '-'.$amountpaid;
 										$counted = 1;
+										echo $ful;
 										$this->assesment->paymentmovement($am, $paymentid, $billid, $counted);
-
 							}
+					}
+					function endphase()
+					{
+								$this->load->model('cashier/assesment');
+								$this->assesment->endofPhaseBillingPosting();
 					}
 
 
