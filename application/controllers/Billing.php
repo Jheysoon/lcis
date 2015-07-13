@@ -103,6 +103,11 @@ class Billing extends CI_Controller
 										echo $ful;
 										$this->assesment->paymentmovement($am, $paymentid, $billid, $counted);
 							}
+							 $leg = $this->assesment->getLeg($enrolid);
+								//   	$data['legacyid'] = $legacyid;
+								//   	$data['type'] = 'installment';
+								// 	$this->load->view('audit/view_studentbilling', $data);
+						//	redirect("billing/view_studentbilling/".$leg);
 					}
 					function endphase()
 					{

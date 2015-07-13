@@ -238,15 +238,17 @@
 									$this->db->insert('tbl_movement', $data);
 									$this->setCurrentBallance($account, $ts);
 							}
-					//INSERT ACOUNT RECEVABLE IN TBL_MOVEMENT AND STUDENT ACCOUNT.
+
+				//INSERT ACOUNT RECEVABLE IN TBL_MOVEMENT AND STUDENT ACCOUNT.
 					$getAccountId = $this->db->query("SELECT a.student, c.id as accounts, b.netenrolment FROM tbl_enrolment a, tbl_billclass b, tbl_account c
 						 																WHERE b.id = '$billid' AND a.id = b.enrolment AND c.party = a.student")->row_array();
 					extract($getAccountId);
+					//CHECK IF IT IS FULL PAYMENT OR INSTALLMENT BASE
 					if ($ful == 1) {
 							$netenrolment = $amountpaid;
 					}
 
-
+					//INSERT INTO
 					$thisbalance = $this->getBalanceAccount($accounts);
 					$ts = $netenrolment + $thisbalance;
 					$datas = array('account' => $accounts,
@@ -289,11 +291,10 @@
 												'runbalance' => $ts,
 												'controlledby' => 1
 											);
-						$this->db->insert('tbl_movement', $school);
-						$this->setCurrentBallance($accounting, $ts);
-						echo $thisammount . "<br />";
-						echo $amountpaid . "<br />";
-						echo $ful;
+					$this->db->insert('tbl_movement', $school);
+					$this->setCurrentBallance($accounting, $ts);
+					$datax = array('accountingset' => $accountingset);
+					$this->db->update('tbl_systemvalues',$datax);
 			}
 			function totalPayments($billid){
 						$this->db->where('id', $billid);
@@ -325,34 +326,41 @@
 														'runbalance' => $ts,
 														'controlledby' => 1
 													);
+
 							$this->db->insert('tbl_movement', $datas);
 							$datax = array('accountingset' => $accountingset);
 							$this->db->update('tbl_systemvalues',$datax);
 							$this->setCurrentBallance($accounts, $ts);
-							// if ($counted == 1) {
-							//
-							// }else{
-							// 		$getSchoolAccount = $this->db->query("SELECT coursemajor, c.id as accounting, netprelim FROM tbl_billclass a, tbl_enrolment b, tbl_account c WHERE
-							// 		a.id = 3 and a.enrolment = b.id and c.seq = b.coursemajor and c.accounttype = 4 and party = 1")->row_array();
-							// 		extract($getSchoolAccount);
-							// 		$getTotalPayment = $this->totalPayments($billid);
-							// 	//$thisammount = $getTotalPayment - $netenrolment;
-							// 		$school = array('account' => $accounting,
-							// 									'accountingset' => $accountingset,
-							// 									'academicterm' => $academicterm,
-							// 									'systemdate' => $systemdate,
-							// 									'valuedate' => $systemdate,
-							// 									'referencetype' => 6,
-							// 									'referenceid' => $paymentid,
-							// 									'previousbalance' => '',
-							// 									'type' => 'C',
-							// 									'amount' => '-'.$netprelim,
-							// 									'controlledby' => 1
-							// 								);
-							// 			$this->db->insert('tbl_movement', $school);
-							// }
+
+							$ipadd = $this->db->query("SELECT tbl_account.id as ipaccount FROM tbl_account, tbl_cashier
+								WHERE ipaddress = '192.168.1.2' AND tbl_account.seq = tbl_cashier.id AND party = 1 AND accounttype = 1 AND ccy = 1")->row_array();
+							$address = $ipadd['ipaccount'];
+							$thisbalance = $this->getBalanceAccount($address);
+							$ts = -($am) + $thisbalance;
+							$cash= array('account' => $address,
+														'accountingset' => $accountingset,
+														'academicterm' => $academicterm,
+														'systemdate' => $systemdate,
+														'valuedate' => $systemdate,
+														'referencetype' => 6,
+														'referenceid' => $paymentid,
+														'previousbalance' => $thisbalance,
+														'type' => 'D',
+														'amount' => -($am),
+														'runbalance' => $ts,
+														'controlledby' => 1
+													);
+						$this->db->insert('tbl_movement', $cash);
+						$datax = array('accountingset' => $accountingset);
+						$this->db->update('tbl_systemvalues',$datax);
+						$this->setCurrentBallance($address, $ts);
+
+
+
+
 			}
 			function endofPhaseBillingPosting(){
+
 					    $getAcad = $this->api->systemValue();
 							$academicterm = $getAcad['phaseterm'];
 							$phase = $getAcad['phase'];
@@ -379,11 +387,10 @@
 														);
 									$this->db->insert('tbl_movement', $data);
 									$this->setCurrentBallance($account, $ts);
-									$datax = array('accountingset' => $accountingset);
-									$this->db->update('tbl_systemvalues',$datax);
+								//	$datax = array('accountingset' => $accountingset);
 
 
-
+									//POSTING TO MOVEMENT BY END OF PHASE.
 									$getSchoolAccount = $this->db->query("SELECT coursemajor, c.id as accounting, netprelim FROM tbl_billclass a, tbl_enrolment b, tbl_account c WHERE
 							 		a.id = '$billid' and a.enrolment = b.id and c.seq = b.coursemajor and c.accounttype = 4 and party = 1")->row_array();
 											extract($getSchoolAccount);
@@ -406,7 +413,9 @@
 												$this->db->insert('tbl_movement', $school);
 												$datax = array('accountingset' => $accountingset);
 												$this->db->update('tbl_systemvalues',$datax);
-												$this->setCurrentBallance($account, $ts);
+												$this->setCurrentBallance($accounting, $ts);
+												echo $accounting . "<br />";
+												echo $ts;
 							}
 			}
 			function getAmountPaid($student, $enrolid)
@@ -439,5 +448,9 @@
 				$q = $this->db->query("SELECT SUM(amount) as amount FROM tbl_movement WHERE account = '$m' AND academicterm != '$term'")->row_array();
 				extract($q);
 				return  $amount;
+			}
+			function getLeg($enrolid){
+				$m = $this->db->query("SELECT legacyid FROM tbl_enrolment, tbl_party WHERE tbl_enrolment.id = '$enrolid' AND tbl_enrolment.student = tbl_party.id")->row_array();
+				return $m['legacyid'];
 			}
 }
