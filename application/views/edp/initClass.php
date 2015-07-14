@@ -11,6 +11,7 @@
 					{
 						$this->db->where('academicterm', $systemVal['currentacademicterm']);
 						$this->db->where('stage', 2);
+						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();
 						if($c == COLLEGE_COUNT)
 						{
@@ -42,7 +43,8 @@
 							$this->load->view('edp/dean_activity',array('stage' => 2,'message' => $message));
 						}
 					}
-					else {
+					else
+					{
 						?>
 						<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
 							Cannot run this program
@@ -56,9 +58,7 @@
 				<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
 					You have run this program
 				</div>
-			<?php
-				}
-			 ?>
+			<?php } ?>
 			</div>
 		</div>
 	</div>

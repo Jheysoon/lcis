@@ -8,7 +8,8 @@
 					if($nxt['classallocationstatus'] == 3)
 					{
 						$this->db->where('academicterm', $nxt['currentacademicterm']);
-						$this->db->where('stage', 3);
+						$this->db->where('stage', 4);
+						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();
 						if($c == COLLEGE_COUNT)
 						{
@@ -88,7 +89,7 @@
 					}
 					else {
 						$message = 'You cannot continue';
-						$this->load->view('edp/dean_activity',array('stage' => 3,'message' => $message));
+						$this->load->view('edp/dean_activity',array('stage' => 4,'message' => $message));
 					}
 				}
 				else {
