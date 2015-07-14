@@ -950,7 +950,7 @@ class Dean extends CI_Controller
             //check if all the dean has already submitted
             if($status == 4)
             {
-                $this->chkDayPeriod();
+                //$this->chkDayPeriod();
             }
 
 
@@ -968,6 +968,7 @@ class Dean extends CI_Controller
                 $this->db->where('id', $rr['id']);
                 $this->db->update('tbl_completion', $data);
             }
+            $this->chkDeanActivity($stage);
             // then change the classallocation status in tbl_systemvalue
             redirect(base_url());
         }
@@ -977,6 +978,18 @@ class Dean extends CI_Controller
             // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
+        }
+    }
+
+    function chkDeanActivity($stage)
+    {
+        $this->db->where('stage', $stage);
+        $q = $this->db->count_all_results('tbl_completion');
+        if($q == COLLEGE_COUNT)
+        {
+            $r = $this->db->get('tbl_systemvalues')->row_array();
+            $d['classallocationstatus'] = $r['classallocationstatus'];
+            $this->db->update('tbl_systemvalues', $d);
         }
     }
 
