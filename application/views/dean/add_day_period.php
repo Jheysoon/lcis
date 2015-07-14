@@ -67,6 +67,11 @@
 						$systemVal 	= $this->api->systemValue();
 						if($systemVal['classallocationstatus'] == 3)
 						{
+							$this->db->where('stage', 4);
+							$this->db->where('completedby', $this->session->userdata('uid'));
+							$t = $this->db->count_all_results('tbl_completion');
+							if($t < 1)
+							{
 							?>
 					<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
 					<table class="table">
@@ -146,11 +151,19 @@
 						</table>
 						<a href="/dean/add_task_comp/4/O" class="btn btn-primary pull-right">Attest All</a>
 					<?php
+							}
+							else {
+						?>
+							<div class="alert alert-danger center-block" style="text-align:center;max-width:400px;">
+								You have attested this..
+							</div>
+						<?php
+							}
 						}
 						else
 						{
 					 ?>
-					 	<div class="alert alert-danger center-block" style="max-width:400px;text-align:center">
+						<div class="alert alert-danger center-block" style="max-width:400px;text-align:center">
 							Class Allocation is not been iniatialized
 							</div>
 					 <?php } ?>
