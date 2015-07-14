@@ -937,19 +937,35 @@ class Dean extends CI_Controller
     // function to update/insert in tbl_completion
     function add_task_comp($stage,$status,$id = '')
     {
+        $uid                    = $this->session->userdata('uid');
         $systemVal              = $this->api->systemValue();
         $data['academicterm']   = $systemVal['currentacademicterm'];
         $data['stage']          = $stage;
-        $data['completedby']    = $this->session->userdata('uid');
+        $data['completedby']    = $uid;
         $data['status']         = $status;
         $data['statusdate']     = date('Y-m-d');
         if(empty($id))
         {
-            $this->db->insert('tbl_completion',$data);
+            //check if all the dean has already submitted
+            $this->db->where('stage', $stage);
+            $this->db->where('completedby', $uid);
+            $r = $this->db->get('tbl_completion');
+            if($r->num_rows() < 1)
+            {
+                $this->db->insert('tbl_completion',$data);
+            }
+            else {
+                $rr = $r->row_array();
+                $this->db->where('id', $rr['id']);
+                $this->db->update('tbl_completion', $data);
+            }
+            // then change the classallocation status in tbl_systemvalue
             redirect(base_url());
         }
         else
         {
+            // decrement the classallocation status in tbl_systemvalue
+            // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }

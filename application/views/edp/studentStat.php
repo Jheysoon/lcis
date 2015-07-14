@@ -18,8 +18,8 @@
 							<?php
 								$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
 								echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
-						 	?>
-		 				?</strong>
+							?>
+						?</strong>
 							<br/>
 							<input type="button" name="btnYes" class="btn btn-primary pull-right" value="Yes">
 							<span class="clearfix">
@@ -27,17 +27,26 @@
 					<?php
 						}
 						else {
+							if ($nxt['classallocationstatus'] > 0) {
 							?>
-							<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-								Current Phase term is not FINALS !!!
-								<br/>
-								You Are unable to run this program...
-							</div>
+								<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
+									You have run this program .... !!!
+								</div>
 					<?php
+							}
+							else {
+								?>
+								<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
+									Current Phase term is not FINALS !!!
+									<br/>
+									You Are unable to run this program...
+								</div>
+						<?php
+							}
 						}
 					?>
 						<div id="stat_wrapper" class="hide">
-						 	<div class="progress" style="height:25px;">
+							<div class="progress" style="height:25px;">
 							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
 							    <span class="sr-only"></span>
 							    Loading ....

@@ -65,7 +65,7 @@
 						echo $this->session->flashdata('message');
 
 						$systemVal 	= $this->api->systemValue();
-						if($systemVal['classallocationstatus'] == 5)
+						if($systemVal['classallocationstatus'] == 3)
 						{
 							?>
 					<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
