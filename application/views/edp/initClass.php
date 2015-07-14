@@ -44,9 +44,7 @@
 				{
 			?>
 				<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-					Current Phase term is not FINALS !!!
-					<br/>
-					You Are unable to run this program...
+					You have run this program
 				</div>
 			<?php
 				}

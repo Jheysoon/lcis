@@ -13,6 +13,7 @@ class Dean extends CI_Controller
     public $message;
     public $message1;
     public $ret;
+    public $error;
 
     private function head()
     {
@@ -947,6 +948,13 @@ class Dean extends CI_Controller
         if(empty($id))
         {
             //check if all the dean has already submitted
+            if($status == 4)
+            {
+                $this->chkDayPeriod();
+            }
+
+
+
             $this->db->where('stage', $stage);
             $this->db->where('completedby', $uid);
             $r = $this->db->get('tbl_completion');
@@ -954,7 +962,8 @@ class Dean extends CI_Controller
             {
                 $this->db->insert('tbl_completion',$data);
             }
-            else {
+            else
+            {
                 $rr = $r->row_array();
                 $this->db->where('id', $rr['id']);
                 $this->db->update('tbl_completion', $data);
@@ -969,5 +978,13 @@ class Dean extends CI_Controller
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }
+    }
+
+    function chkDayPeriod()
+    {
+        $owner = $this->api->getUserCollege();
+        $this->load->model(array('edp/edp_classallocation'));
+
+        $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
     }
 }

@@ -18,12 +18,12 @@
 				    <form action="/add_classalloc" method="post">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h5 class="modal-title" id="myModalLabel">ADD <?php $owner = $this->api->getUserCollege(); ?></h5>
+				        <h5 class="modal-title" id="myModalLabel">ADD</h5>
 				      </div>
 				      <div class="modal-body">
 				        <select name="subj" class="form-control">
 				        	<?php
-
+								$owner = $this->api->getUserCollege();
 	            				$s = $this->subject->subjectOwner($owner);
 	            				foreach($s as $ss)
 	            				{
@@ -77,36 +77,49 @@
 						 ?>
 						 </caption>
 						<tr>
-							<th>Subject</th>
-							<th>Course</th>
-							<th>Action</th>
-							<th>Status</th>
+							<th style="text-align:center;">Subject</th>
+							<th style="text-align:center;">Course</th>
+							<th style="text-align:center;">Action</th>
+							<th style="text-align:center;">Status</th>
 						</tr>
 						<?php
-							$user 		= $this->api->getUserCollege();
-							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
+							//$user 		= $this->api->getUserCollege();
+							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
 
 							foreach($sub as $subj)
 							{
-								/*$c = $this->db->query("SELECT * FROM tbl_course WHERE id = {$subj['coursemajor']} AND college = $owner")->num_rows();
-								if($c > 0)
-								{*/
+								if($owner == 1)
+								{
+									$this->db->where('owner', $owner);
+									$this->db->where('id', $subj['subject']);
+									$this->db->where('gesubject',1);
+								}
+								else
+								{
+									$this->db->where('owner', $owner);
+									$this->db->where('id', $subj['subject']);
+									$this->db->where('gesubject',0);
+								}
+
+								$q = $this->db->count_all_results('tbl_subject');
+								if($q > 0)
+								{
 							?>
 								<tr>
-									<td>
+									<td style="text-align:center;">
 										<?php
 											$s = $this->subject->find($subj['subject']);
 											echo $s['code'];
 										 ?>
 									</td>
-									<td>
+									<td style="text-align:center;">
 										<?php
 											$this->db->where('id',$subj['coursemajor']);
 											$t = $this->db->get('tbl_course')->row_array();
 											echo $t['description'];
 										 ?>
 									</td>
-									<td>
+									<td style="text-align:center;">
 									<?php
 										$style = '';
 										if(!empty($subj['status']))
@@ -115,7 +128,7 @@
 										<a href="/add_day_period/<?php echo $subj['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a> |
 										<a href="/delete_classalloc/<?php echo $subj['id']; ?>" class="btn btn-danger btn-xs" onClick="return confirm('Are you sure you want to delete ?');">Delete</a>
 										</td>
-									<td>
+									<td style="text-align:center;">
 										<?php
 										if(empty($subj['status']))
 											echo 'Checking';
@@ -127,10 +140,11 @@
 									</td>
 								</tr>
 							<?php
+								}
 							}
 							?>
 						</table>
-						<a href="/dean/add_task_comp/4/O">Attest All</a>
+						<a href="/dean/add_task_comp/4/O" class="btn btn-primary pull-right">Attest All</a>
 					<?php
 						}
 						else
