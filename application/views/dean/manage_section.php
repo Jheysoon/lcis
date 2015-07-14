@@ -11,7 +11,14 @@
 					<div class="col-sm-12">
 						<?php
 							$nxt 	= $this->api->systemValue();
-							if($nxt['classallocationstatus'] == 1){
+							if($nxt['classallocationstatus'] == 1)
+							{
+								$this->db->where('academicterm', $nxt['currentacademicterm']);
+								$this->db->where('stage', 2);
+								$this->db->where('completedby', $this->session->userdata('uid'));
+								$c = $this->db->get('tbl_completion')->num_rows();
+								if($c < 1)
+								{
 						 ?>
 						<a href="/non_exist" class="btn btn-primary btn pull-right">Add Non - Existing Subject</a>
 						<span class="clearfix"></span>
@@ -79,8 +86,16 @@
 								}
 							 ?>
 						</table>
-						<a href="/dean/add_task_comp" class="btn btn-primary pull-right">Attest all</a>
+						<a href="/dean/add_task_comp/2/O" class="btn btn-primary pull-right">Attest all</a>
 					<?php
+							}
+							else {
+					?>
+						<div class="alert alert-danger center-block" style="max-width:400px;text-align:center;">
+							You have attest this
+						</div>
+					<?php
+							}
 						}
 						else {
 							?>

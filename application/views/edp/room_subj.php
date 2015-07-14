@@ -3,12 +3,22 @@
 		<div class="panel p-body">
 
 			<div class="col-md-12">
+				<?php
+					$nxt = $this->api->systemValue();
+					if($nxt['classallocationstatus'] == 3)
+					{
+						$this->db->where('academicterm', $nxt['currentacademicterm']);
+						$this->db->where('stage', 3);
+						$c = $this->db->get('tbl_completion')->num_rows();
+						if($c == COLLEGE_COUNT)
+						{
+				 ?>
 			<table class="table">
 				<caption>
 					<strong>
 						Academicterm SY:
-						<?php 
-							$nxt = $this->api->systemValue();
+						<?php
+
 							$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
 							echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
 						 ?>
@@ -22,7 +32,7 @@
 					<th style="text-align:center;">Action</th>
 					<th style="text-align:center;">Status</th>
 				</tr>
-				<?php 
+				<?php
 					$r = $this->edp_classallocation->getEmptyRoom();
 					foreach($r as $room)
 					{
@@ -37,13 +47,13 @@
 						?>
 				<tr>
 					<td>
-						<?php 
+						<?php
 							$s = $this->subject->find($room['subject']);
 							echo $s['code'];
 						 ?>
 					</td>
 					<td>
-						<?php 
+						<?php
 							echo $this->api->getCourseMajor($room['coursemajor']);
 						 ?>
 					</td>
@@ -53,22 +63,18 @@
 					<td style="text-align:center;">
 						<?php echo $this->edp_classallocation->getPeriod($room['id']); ?>
 					</td>
-					
+
 					<td>
-					<?php 
+					<?php
 						$style = '';
 						if(!empty($room['status']))
-						{
 							$style = 'disabled';
-						}
 					?>
 					<a href="/assign_room/<?php echo $room['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Assign Room</a></td>
 					<td>
-						<?php 
+						<?php
 							if($room['status'] == 'O')
-							{
 								echo 'Room Assigned';
-							}
 						 ?>
 					</td>
 				</tr>
@@ -78,9 +84,23 @@
 					}
 				 ?>
 			</table>
-
+			<?php
+					}
+					else {
+						$message = 'You cannot continue';
+						$this->load->view('edp/dean_activity',array('stage' => 3,'message' => $message));
+					}
+				}
+				else {
+					?>
+					<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
+						The process is not yet here ...
+					</div>
+			<?php
+				}
+			?>
 			</div>
-			
+
 		</div>
 	</div>
 </div>

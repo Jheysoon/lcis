@@ -146,13 +146,14 @@ class Edp extends CI_Controller
             // API return curriculum not found if the course does not have a curriculum
             if ($yearlevel != CUR_NOT_FOUND)
             {
-                if($isFirstYear):
+                if($isFirstYear){
                     if ($yearlevel == 1)
 						$this->yearL[0] += 1;
-                else:
+                }
+                else{
                     if($yearlevel > 1)
                         $this->yearL[$yearlevel - 1] += 1;
-                endif;
+                }
             }
         }
     }
@@ -284,11 +285,11 @@ class Edp extends CI_Controller
         $d['studentcount']  = $count;
 
         // if the count is less than the numberofstudent system value set it to 0
-        if($cou == 0 OR $cou < $this->numberOfStudents)
+        if($count == 0 OR $count < $this->numberOfStudents)
             $d['section'] = 0;
         // force the result to be an integer
         else
-            $d['section'] = (int) ($cou / $this->numberOfStudents);
+            $d['section'] = (int) ($count / $this->numberOfStudents);
 
         $this->db->insert('out_section',$d);
     }
@@ -424,33 +425,51 @@ class Edp extends CI_Controller
         $stud = $this->db->query("SELECT * FROM out_exception where comment = 'no curriculum tbl_registration' GROUP by student")->result_array();
         foreach ($stud as $val) {
 
-            $reg = $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm =
-            (SELECT min(academicterm) FROM tbl_enrolment WHERE student = {$val['student']})
-            AND student = {$val['student']}")->row_array();
+            $reg = $this->db->query("SELECT min(academicterm) as academicterm,registration,coursemajor,id,student FROM tbl_enrolment WHERE student = {$val['student']} GROUP BY coursemajor")->result_array();
+            $reg_id = 0;
+            foreach ($reg as $keys) {
 
-            $reg_id = $reg['registration'];
-            $course = $reg['coursemajor'];
-
-            $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
-            foreach ($t as $acam) {
-
-                $c = $this->db->query("SELECT * FROM tbl_curriculum
-                    WHERE coursemajor = $course
-                    AND academicterm = {$acam['id']}");
-
-                if($c->num_rows() > 0)
+                $reg_id = $keys['registration'];
+                if($reg_id == 0)
                 {
-                    $cur    = $c->row_array();
-                    $dat['curriculum'] = $cur['id'];
-                    $this->db->where('id',$reg_id);
-                    $this->db->update('tbl_registration',$dat);
-                    break;
+                    $reg_id = $this->cre_reg($keys['student'], $keys['coursemajor']);
                 }
+                $course = $keys['coursemajor'];
 
+                $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
+                foreach ($t as $acam) {
+
+                    $c = $this->db->query("SELECT * FROM tbl_curriculum
+                        WHERE coursemajor = $course
+                        AND academicterm = {$acam['id']}");
+
+                    if($c->num_rows() > 0)
+                    {
+                        $cur    = $c->row_array();
+                        $dat['curriculum'] = $cur['id'];
+                        $this->db->where('id',$reg_id);
+                        $this->db->update('tbl_registration',$dat);
+                        break;
+                    }
+                }
             }
         }
     }
 
+    function cre_reg($student,$coursemajor)
+    {
+        $d['student'] = $student;
+        $d['coursemajor'] = $coursemajor;
+        //$d['curriculum'] = $curriculum;
+        $this->db->insert('tbl_registration',$d);
+        $id = $this->db->insert_id();
+
+        $f['registration'] = $id;
+        $this->db->where('student',$student);
+        $this->db->where('coursemajor',$coursemajor);
+        $this->db->update('tbl_enrolment',$f);
+        return $id;
+    }
     function tryap1($id)
     {
         //22518
@@ -538,6 +557,24 @@ class Edp extends CI_Controller
                 $this->db->where('student',$key['student']);
                 $this->db->update('tbl_registration',$d);
             }
+        }
+    }
+
+    function nocur()
+    {
+        $this->db->where('comment', 'no valid academicterm tbl_registration');
+        $q = $this->db->get('out_exception')->result_array();
+
+        foreach ($q as $key) {
+            $t = $this->db->query("SELECT min(academicterm) as ac,student
+                FROM tbl_enrolment WHERE student = {$key['student']} LIMIT 1")->row_array();
+
+            $acam = $t['ac'];
+
+            $f['academicterm'] = $acam;
+            $this->db->where('student',$key['student']);
+            $this->db->update('tbl_registration',$f);
+
         }
     }
 }

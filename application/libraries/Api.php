@@ -173,7 +173,7 @@ class Api
 	}
 
 	//function to determine the year level echo $this->api->yearLevel(172,4);
-	function yearLevel($partyid, $course = '')
+	function yearLevel($partyid)
 	{
 		$systemVal 	= $this->systemValue();
 		$sy     	= $systemVal['nextacademicterm'];
@@ -181,11 +181,15 @@ class Api
 
 		$cur_id 	= 0;
 		// get its curriculum
-		$cur = $this->CI->db->query("SELECT * FROM tbl_registration
-				WHERE academicterm =
-				(SELECT MAX(academicterm) FROM tbl_registration
-					WHERE student = $partyid)
-				AND student = $partyid");
+		// if(!empty($registration))
+		// {
+		// 	$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid AND id = $registration");
+		// }
+		// else
+		// {
+			$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid");
+		//}
+
 
 		// check if the student has a registration record
 		if($cur->num_rows() > 0)
@@ -199,6 +203,16 @@ class Api
 			$b['student'] = $partyid;
 			$this->CI->db->insert('out_exception',$b);
 			return 'Does not have a registration';
+		}
+
+		$t = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid AND (academicterm = NULL OR academicterm = 0)")->num_rows();
+
+		if($t > 0)
+		{
+			$g['comment'] = 'no valid academicterm tbl_registration';
+			$g['student'] = $partyid;
+			$this->CI->db->insert('out_exception',$g);
+			return 'error';
 		}
 
 
