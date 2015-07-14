@@ -7,7 +7,7 @@
 					$nxt = $this->api->systemValue();
 					if($nxt['classallocationstatus'] == 3)
 					{
-						$this->db->where('academicterm', $systemVal['currentacademicterm']);
+						$this->db->where('academicterm', $nxt['currentacademicterm']);
 						$this->db->where('stage', 3);
 						$c = $this->db->get('tbl_completion')->num_rows();
 						if($c == COLLEGE_COUNT)
