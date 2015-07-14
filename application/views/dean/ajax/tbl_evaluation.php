@@ -1,5 +1,4 @@
 <?php
-	// $res = $this->student->getClassAloc($term, $student, $coursemajor);
 	$res = $this->student->getClassAloc($term, $student, $course);
 	$legid = $id;
 	$registration = $this->student->getRegID($student);
