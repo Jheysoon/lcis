@@ -603,7 +603,6 @@ class Dean extends CI_Controller
                 $coursemajor = $this->input->post('coursemajor');
                 $registration = $this->input->post('registration');
                 $academicterm = $this->input->post('academicterm');
-                $status = 'R';
 
                 // Checking if student is already evaluated.
                 $eval = $this->student->checkEvaluation($student, $academicterm);
@@ -619,6 +618,7 @@ class Dean extends CI_Controller
                     $this->student->updateEnrolment($enid, $unit);
                 }
                 else{
+                    $status = 'R';
                     $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
                 }
 
