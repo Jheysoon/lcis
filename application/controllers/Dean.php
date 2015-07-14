@@ -988,7 +988,7 @@ class Dean extends CI_Controller
         if($q == COLLEGE_COUNT)
         {
             $r = $this->db->get('tbl_systemvalues')->row_array();
-            $d['classallocationstatus'] = $r['classallocationstatus'];
+            $d['classallocationstatus'] = $r['classallocationstatus'] + 1;
             $this->db->update('tbl_systemvalues', $d);
         }
     }
