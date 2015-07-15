@@ -126,41 +126,41 @@ class Dean extends CI_Controller
 
     function edit_subject($sid,$param = '')
     {
-        if(!empty($sid) AND is_numeric($sid)) {
+        if(!empty($sid) AND is_numeric($sid))
+        {
+            $this->load->model(array(
+                'home/option',
+                'home/option_header',
+                'home/useroption',
+                'dean/subject',
+                'dean/group',
+                'dean/college'
+            ));
+            $this->load->view('templates/header');
+            $this->load->view('templates/header_title2');
 
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
-            'dean/subject',
-            'dean/group',
-            'dean/college'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+            $sub = $this->subject->find($sid);
+            extract($sub);
+            $data['code']               = $code;
+            $data['descriptivetitle']   = $descriptivetitle;
+            $data['units']              = $units;
+            $data['shortname']          = $shortname;
+            $data['majorsubject']       = $majorsubject;
+            $data['hours']              = $hours;
+            $data['bookletcharge']      = $bookletcharge;
+            $data['sid']                = $sid;
+            $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
+            $data['error']              = '';
+            $data['param']              = $param;
 
-        $sub = $this->subject->find($sid);
-        extract($sub);
-        $data['code']               = $code;
-        $data['descriptivetitle']   = $descriptivetitle;
-        $data['units']              = $units;
-        $data['shortname']          = $shortname;
-        $data['majorsubject']       = $majorsubject;
-        $data['hours']              = $hours;
-        $data['bookletcharge']      = $bookletcharge;
-        $data['sid']                = $sid;
-        $data['owner']              = $owner;
-        $data['comp']               = $computersubject;
-        $data['ge']                 = $gesubject;
-        $data['academic']           = $nonacademic;
-        $data['error']              = '';
-        $data['param']              = $param;
-
-        $this->load->view('dean/subjects',$data);
-        $this->load->view('templates/footer');
-
+            $this->load->view('dean/subjects',$data);
+            $this->load->view('templates/footer');
         }
-        else {
+        else
+        {
             show_error('Did you type the url by yourself ?');
         }
     }
