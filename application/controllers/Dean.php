@@ -129,15 +129,12 @@ class Dean extends CI_Controller
         if(!empty($sid) AND is_numeric($sid))
         {
             $this->load->model(array(
-                'home/option',
-                'home/option_header',
-                'home/useroption',
                 'dean/subject',
                 'dean/group',
                 'dean/college'
             ));
-            $this->load->view('templates/header');
-            $this->load->view('templates/header_title2');
+
+            $this->api->userMenu();
 
             $sub = $this->subject->find($sid);
             extract($sub);
