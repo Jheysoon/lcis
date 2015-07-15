@@ -5,7 +5,7 @@
 			<div class="col-md-12">
 				<?php
 					$nxt = $this->api->systemValue();
-					if($nxt['classallocationstatus'] == 3)
+					if($nxt['classallocationstatus'] == 4)
 					{
 						$this->db->where('academicterm', $nxt['currentacademicterm']);
 						$this->db->where('stage', 4);
@@ -93,11 +93,18 @@
 					}
 				}
 				else {
+					if($nxt['classallocationstatus'] == 3)
+					{
+						$message = 'You cannot continue';
+						$this->load->view('edp/dean_activity',array('stage' => 4,'message' => $message));
+					}
+					else {
 					?>
-					<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-						The process is not yet here ...
-					</div>
-			<?php
+						<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
+							The process is not yet here ...
+						</div>
+				<?php
+					}
 				}
 			?>
 			</div>
