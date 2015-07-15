@@ -381,17 +381,21 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        $college    = $this->api->getUserCollege();
-        $s          = $this->subject->find($id);
-
-        if($college == 0 OR $s['owner'] == 0)
+        if(!empty($id) AND is_numeric($id))
         {
-           redirect(base_url('edit_subject/'.$id.'/view'));
+            $college    = $this->api->getUserCollege();
+            $s          = $this->subject->find($id);
+            if($college == 0 OR $s['owner'] == 0)
+            {
+               redirect(base_url('edit_subject/'.$id.'/view'));
+            }
+            elseif($s['owner'] == $college)
+            {
+                redirect(base_url('edit_subject/'.$id));
+            }
         }
-        elseif($s['owner'] == $college)
-        {
-            redirect(base_url('edit_subject/'.$id));
-        }
+        else 
+            show_error('Did you type the url by yourself ?');
     }
 
     function searchStud()
