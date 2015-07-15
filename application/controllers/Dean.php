@@ -126,6 +126,8 @@ class Dean extends CI_Controller
 
     function edit_subject($sid,$param = '')
     {
+        if(!empty($sid) AND is_numeric($sid)) {
+
         $this->load->model(array(
             'home/option',
             'home/option_header',
@@ -156,6 +158,11 @@ class Dean extends CI_Controller
 
         $this->load->view('dean/subjects',$data);
         $this->load->view('templates/footer');
+
+        }
+        else {
+            show_error('Did you type the url by yourself ?');
+        }
     }
 
     function add_subject()
