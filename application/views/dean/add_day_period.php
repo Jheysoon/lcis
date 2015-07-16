@@ -62,6 +62,8 @@
 
 				<div class="col-md-12">
 					<?php
+						$this->load->view('edp/cl_status');
+
 						echo $this->session->flashdata('message');
 
 						$systemVal 	= $this->api->systemValue();

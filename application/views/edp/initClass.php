@@ -3,6 +3,8 @@
 		<div class="panel p-body">
 			<div class="col-md-12">
 			<?php
+				$this->load->view('edp/cl_status');
+				
 				$systemVal 	= $this->api->systemValue();
 				$sy 		= $systemVal['nextacademicterm'];
 				if($systemVal['phase'] == FIN)

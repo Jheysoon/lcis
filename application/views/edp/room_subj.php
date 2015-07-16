@@ -4,6 +4,8 @@
 
 			<div class="col-md-12">
 				<?php
+					$this->load->view('edp/cl_status');
+
 					$nxt = $this->api->systemValue();
 					if($nxt['classallocationstatus'] == 4)
 					{
