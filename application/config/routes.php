@@ -42,6 +42,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['rgstr_listServices']            = 'registrar/listServices';
     $route['rgstr_oldstudent']              = 'registrar/oldstudent_reg';
 
+    $route['registration']                  = 'registrar/registration';
+
     // Audit Routes
     $route['adt_viewtStudentBilling']       = 'audit/viewtStudentBilling';
     $route['adt_listAllAccount']            = 'audit/listAllAccount';

@@ -13,33 +13,26 @@
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
-
 							<label class="label-control add-label" for="sid">Student ID <small class="required">Auto-Generated</small></label>
 							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="2014-01268">
-
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" name="lastname" placeholder="Lastname" required>
-						
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" name="firstname" placeholder="First Name" required>
-						
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" name="middlename" placeholder="Middle Name" required>
-						
-
-
 						</div>
 						<div class = "col-sm-3">
-							<img class="profile-main2" src="images/profile/img002.jpg">
+							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
 							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
 						</div>
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div>		
+					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
 							<select class="form-control" name='course' required>
-								
+
 								<option> BACHELOR OF SCIENCE IN CRIMINOLOGY</option>
 								<option> BACHELOR OF SECONDARY EDUCATION</option>
 								<option> BACHELOR OF ELEMENTARY EDUCATION</option>
@@ -47,9 +40,9 @@
 								<option> BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</option>
 								<OPTION> BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</OPTION>
 								<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>
-							</select>	
+							</select>
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
@@ -60,11 +53,11 @@
 								<option> </option>
 								<option> </option>
 								<option> </option>
-							</select>	
+							</select>
 						</div>
 					</div>
 
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="yearlevel">Year Level <small class="required">(required)</small></label>
 							<select class="form-control" name='yearlevel' required>
@@ -72,10 +65,10 @@
 								<option> Second Year</option>
 								<option> Third Year</option>
 								<option> Fourth Year</option>
-							</select>	
+							</select>
 						</div>
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div>
+					</div> -->
 
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
@@ -83,9 +76,9 @@
 							<select class="form-control" name='gender' required>
 								<option value="1"> MALE</option>
 								<option value="0"> FEMALE</option>
-							</select>	
+							</select>
 						</div>
-					</div>	
+					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="maritalstatus">Marital Status <small class="optional">(optional)</small></label>
@@ -94,7 +87,7 @@
 								<option> MARRIED</option>
 								<option> SEPARATED</option>
 								<option> WIDOWED</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<!--Reference table -->
@@ -102,13 +95,13 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="religion">Religion <small class="required">(required)</small></label>
 							<select class="form-control" name='religion' required>
-								
+
 								<option> ROMAN CATHOLIC</option>
 								<option> MUSLIM</option>
 								<option> IGLESIA NI CRISTO</option>
 								<option> </option>
 								<option> </option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<!-- Reference table -->
@@ -116,44 +109,44 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="nationality">Nationality <small class="required">(required)</small></label>
 							<select class="form-control" name='nationality' required>
-								
+
 								<option> FILIPINO</option>
 								<option> Others</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required>	
+							<input class="form-control" type="date" name="dob" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="pob" required>	
+							<textarea name="pob" required class="form-control"></textarea>
 						</div>
-					</div>		
+					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="mailadd">Mailing Address <small class="required">(required)</small></label>
-							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." required></textarea>	
+							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." required></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="town_city">Town/City <small class="required">(required)</small></label>
 							<select class="form-control" name='town_city' required>
-								
+
 								<option> TACLOBAN CITY</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -165,7 +158,7 @@
 								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -177,7 +170,7 @@
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -231,7 +224,7 @@
 								<option> ATHLETIC SCHOLAR</option>
 								<option> CULTURAL SCHOLAR</option>
 								<option> NON-ACADEMIC SCHOLAR</option>
-							</select>	
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
@@ -242,7 +235,7 @@
 						      <img src="images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>HS Card (Form 138-A)</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a> 
+						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
 						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
 						      </div>
 						    </div>
@@ -252,7 +245,7 @@
 						      <img src="images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>Certificate of Good Moral Character</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a> 
+						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
 						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
 						      </div>
 						    </div>
@@ -262,7 +255,7 @@
 						      <img src="images/sample.jpg" alt="...">
 						      <div class="caption">
 						        <h5>Certificate of Live Birth</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a> 
+						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
 						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
 						      </div>
 						    </div>

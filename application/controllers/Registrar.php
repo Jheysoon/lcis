@@ -802,4 +802,39 @@ class Registrar extends CI_Controller
         redirect('/menu/registrar-sys_param/');
     }
 
+    function registration()
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('lastname', 'Lastname','required');
+        $this->form_validation->set_rules('firstname', 'Firstname','required');
+        $this->form_validation->set_rules('middlename', 'Middlename','required');
+        $this->form_validation->set_rules('course', 'Course','required');
+        $this->form_validation->set_rules('gender', 'Gender','required');
+        $this->form_validation->set_rules('religion', 'Religion','required');
+        $this->form_validation->set_rules('nationality', 'Nationality','required');
+        $this->form_validation->set_rules('dob', 'Date of Birth','required');
+        $this->form_validation->set_rules('pob', 'Place of Birth','required');
+        $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
+        $this->form_validation->set_rules('father', 'Fathers Name','required');
+        $this->form_validation->set_rules('mother', 'Mothers Name','required');
+        $this->form_validation->set_rules('middlename', 'Middlename','required');
+        $this->form_validation->set_rules('username', 'Username','required');
+        $this->form_validation->set_rules('password', 'Password','required');
+        $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->api->userMenu();
+            $this->load->view('registrar/newstudent_registration');
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            $fname = ucwords($this->input->post('firstname'));
+            $lname = ucwords($this->input->post('lastname'));
+        }
+    }
+
 }
