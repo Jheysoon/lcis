@@ -824,11 +824,12 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('username', 'Username','required');
         $this->form_validation->set_rules('password', 'Password','required');
         $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+        $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
         {
             $this->api->userMenu();
-            $this->load->view('registrar/newstudent_registration');
+            $this->load->view('registrar/newstudent_registration', $d);
             $this->load->view('templates/footer2');
         }
         else
@@ -859,6 +860,9 @@ class Registrar extends CI_Controller
             else
             {
                 // send a invalid email error
+                $d['error'] = '<div class="alert alert-danger center-block" style="max-width:400px;">
+            					Invalid email address
+            				</div>';
                 $this->api->userMenu();
                 $this->load->view('registrar/newstudent_registration');
                 $this->load->view('templates/footer2');

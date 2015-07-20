@@ -9,6 +9,7 @@
 			</div>
 			</div>
 			<div class="panel-body">
+				<?php echo $error; ?>
 					<form class="form-horizontal add-user" method="post" action="/registration" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
@@ -16,11 +17,11 @@
 							<label class="label-control add-label" for="sid">Student ID <small class="required">Auto-Generated</small></label>
 							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="2014-01268">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="lastname" placeholder="Lastname" required>
+							<input class="form-control" type="text" value="<?php echo set_value('lastname') ?>" name="lastname" placeholder="Lastname" required>
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="firstname" placeholder="First Name" required>
+							<input class="form-control" type="text" value="<?php echo set_value('firstname') ?>" name="firstname" placeholder="First Name" required>
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="middlename" placeholder="Middle Name" required>
+							<input class="form-control" type="text" value="<?php echo set_value('middlename') ?>" name="middlename" placeholder="Middle Name" required>
 						</div>
 						<div class = "col-sm-3">
 							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
@@ -37,7 +38,7 @@
 									foreach ($c as $val)
 									{
 								?>
-								<option value="<?php echo $val['id']; ?>"><?php echo $val['description']; ?></option>
+								<option value="<?php echo $val['id']; ?>" <?php echo set_select('course', $val['id']) ?>><?php echo $val['description']; ?></option>
 								<?php
 									}
 								 ?>
@@ -48,12 +49,18 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
 							<select class="form-control" name='major'>
-								<option> </option>
-								<option> </option>
-								<option> </option>
-								<option> </option>
-								<option> </option>
-								<option> </option>
+								<?php
+									$m = $this->db->get('tbl_major')->result_array();
+								 ?>
+								 <option value="0" <?php set_select('major', 0, TRUE); ?>>Select major</option>
+								 <?php
+									foreach($m as $major)
+									{
+								?>
+								<option value="<?php echo $major['id'] ?>" <?php echo set_select('major', $major['id']) ?>><?php echo $major['description'] ?></option>
+								<?php
+									}
+								  ?>
 							</select>
 						</div>
 					</div>
@@ -75,8 +82,8 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
 							<select class="form-control" name='gender' required>
-								<option value="1"> MALE</option>
-								<option value="0"> FEMALE</option>
+								<option value="1" <?php set_select('gender', 1, TRUE) ?>> MALE</option>
+								<option value="0" <?php set_select('gender', 0) ?>> FEMALE</option>
 							</select>
 						</div>
 					</div>
@@ -84,10 +91,10 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="maritalstatus">Marital Status <small class="optional">(optional)</small></label>
 							<select class="form-control" name='maritalstatus'>
-								<option> SINGLE</option>
-								<option> MARRIED</option>
-								<option> SEPARATED</option>
-								<option> WIDOWED</option>
+								<option value="0" <?php echo set_select('maritalstatus', 0, TRUE) ?>>SINGLE</option>
+								<option value="1" <?php echo set_select('maritalstatus', 1) ?>>MARRIED</option>
+								<option value="2" <?php echo set_select('maritalstatus', 2) ?>>SEPARATED</option>
+								<option value="3" <?php echo set_select('maritalstatus', 3) ?>>WIDOWED</option>
 							</select>
 						</div>
 					</div>
@@ -101,7 +108,7 @@
 									foreach ($r as $religion)
 									{
 								?>
-								<option value="<?php echo $religion['id'] ?>"><?php echo $religion['description'] ?></option>
+								<option value="<?php echo $religion['id'] ?>" <?php echo set_select('religion', $religion['id']) ?>><?php echo $religion['description'] ?></option>
 								<?php
 									}
 								 ?>
@@ -124,19 +131,19 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" required>
+							<input class="form-control" type="date" name="dob" value="<?php echo set_value('dob'); ?>" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" required class="form-control"></textarea>
+							<textarea name="pob" required class="form-control" value="<?php echo set_value('pob'); ?>"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="mailadd">Mailing Address <small class="required">(required)</small></label>
-							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." required></textarea>
+							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." required value="<?php echo set_value('mailadd'); ?>"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -155,11 +162,15 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="province">Province <small class="required">(required)</small></label>
 							<select class="form-control" name='province' required>
-								<option>Leyte</option>
-								<option>Nothern Samar</option>
-								<option>Western Samar</option>
-								<option>Eastern Samar</option>
-								<option>Southern Leyte</option>
+								<?php
+									$p = $this->db->get('tbl_province')->result_array();
+									foreach ($p as $province)
+									{
+								?>
+								<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>><?php echo $province['description'] ?></option>
+								<?php
+									}
+								 ?>
 							</select>
 						</div>
 					</div>
@@ -178,38 +189,38 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="contact">Contact No. <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="contact" placeholder="Contact No.">
+							<input class="form-control" type="tel" maxlength="13" name="contact" value="<?php echo set_value('contact'); ?>" placeholder="Contact No.">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="emailadd" placeholder="Email Address">
+							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" placeholder="Father's Name" required>
+							<input class="form-control" type="tel" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="foccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="occupation" placeholder="Father's Guardian">
+							<input class="form-control" type="tel" maxlength="13" name="occupation" value="<?php echo set_value('occupation'); ?>" placeholder="Father's Guardian">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="mother" placeholder="Mother's Name" required>
+							<input class="form-control" type="tel" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="moccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="moccupation" placeholder="Mother's Occupation">
+							<input class="form-control" type="tel" maxlength="13" name="moccupation" value="<?php echo set_value('moccupation'); ?>" placeholder="Mother's Occupation">
 						</div>
 					</div>
 
@@ -268,19 +279,19 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="username">Username <small class="required">(required)</small></label>
-							<input type="text" class="form-control" name="username" placeholder="Username" required>
+							<input type="text" class="form-control" name="username" value="<?php echo set_value('username'); ?>" placeholder="Username" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="password">Password <small class="required">(required)</small></label>
-							<input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+							<input type="password" id="password" class="form-control" value="<?php echo set_value('password'); ?>" name="password" placeholder="Password" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="rpass">Repeat Password <small class="required">(required)</small></label>
-							<input type="password" class="form-control" name="rpass" placeholder="Repeat Password" required>
+							<input type="password" class="form-control" name="rpass" value="<?php echo set_value('rpass'); ?>" placeholder="Repeat Password" required>
 						</div>
 					</div>
 		              <div class="form-group">
