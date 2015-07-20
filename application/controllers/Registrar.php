@@ -813,6 +813,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('course', 'Course','required');
         $this->form_validation->set_rules('gender', 'Gender','required');
         $this->form_validation->set_rules('religion', 'Religion','required');
+        // nationality not found in tbl_party
         $this->form_validation->set_rules('nationality', 'Nationality','required');
         $this->form_validation->set_rules('dob', 'Date of Birth','required');
         $this->form_validation->set_rules('pob', 'Place of Birth','required');
@@ -828,12 +829,41 @@ class Registrar extends CI_Controller
         {
             $this->api->userMenu();
             $this->load->view('registrar/newstudent_registration');
-            $this->load->view('templates/footer');
+            $this->load->view('templates/footer2');
         }
         else
         {
-            $fname = ucwords($this->input->post('firstname'));
-            $lname = ucwords($this->input->post('lastname'));
+            $email = $this->input->post('mailadd');
+            if (filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                $data['firstname']      = ucwords($this->input->post('firstname'));
+                $data['lastname']       = ucwords($this->input->post('lastname'));
+                $data['middlename']     = ucwords($this->input->post('middlename'));
+                $data['sex']            = $this->input->post('gender');
+                $data['religion']       = $this->input->post('religion');
+                $data['dateofbirth']    = $this->input->post('dob');
+                $data['placeofbirth']   = ucwords($this->input->post('pob'));
+                $data['emailaddress']   = $email;
+
+                $this->db->insert('tbl_party', $data);
+                $id = $this->db->insert_id();
+
+                $systemVal              = $this->api->systemValue();
+                $reg['coursemajor']     = $this->input->post('course');
+                $reg['academicterm']    = $systemVal['currentacademcterm'];
+                $reg['datecreated']     = date('Y-m-d');
+                $reg['dateverified']    = date('Y-m-d');
+                $reg['student']         = $id;
+                $this->db->insert('tbl_registration', $reg);
+            }
+            else
+            {
+                // send a invalid email error
+                $this->api->userMenu();
+                $this->load->view('registrar/newstudent_registration');
+                $this->load->view('templates/footer2');
+            }
+
         }
     }
 

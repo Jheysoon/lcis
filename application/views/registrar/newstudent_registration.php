@@ -9,7 +9,7 @@
 			</div>
 			</div>
 			<div class="panel-body">
-					<form class="form-horizontal add-user" method="post" action="<?php echo base_url("registrar/insert_stud") ?>" role="form">
+					<form class="form-horizontal add-user" method="post" action="/registration" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
@@ -32,14 +32,15 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
 							<select class="form-control" name='course' required>
-
-								<option> BACHELOR OF SCIENCE IN CRIMINOLOGY</option>
-								<option> BACHELOR OF SECONDARY EDUCATION</option>
-								<option> BACHELOR OF ELEMENTARY EDUCATION</option>
-								<option> BACHELOR OF ARTS (A.B. POLITICAL SCIENCE)</option>
-								<option> BACHELOR OF SCIENCE IN BUSINESS ADMINISTRATION</option>
-								<OPTION> BACHELOR OF SCIENCE IN OFFICE ADMINISTRATION</OPTION>
-								<OPTION> BACHELOR OF LAWS (Ll.B.)</OPTION>
+								<?php
+									$c = $this->db->get('tbl_course')->result_array();
+									foreach ($c as $val)
+									{
+								?>
+								<option value="<?php echo $val['id']; ?>"><?php echo $val['description']; ?></option>
+								<?php
+									}
+								 ?>
 							</select>
 						</div>
 					</div>
@@ -95,12 +96,15 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="religion">Religion <small class="required">(required)</small></label>
 							<select class="form-control" name='religion' required>
-
-								<option> ROMAN CATHOLIC</option>
-								<option> MUSLIM</option>
-								<option> IGLESIA NI CRISTO</option>
-								<option> </option>
-								<option> </option>
+								<?php
+									$r = $this->db->get('tbl_religion')->result_array();
+									foreach ($r as $religion)
+									{
+								?>
+								<option value="<?php echo $religion['id'] ?>"><?php echo $religion['description'] ?></option>
+								<?php
+									}
+								 ?>
 							</select>
 						</div>
 					</div>
@@ -109,7 +113,6 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="nationality">Nationality <small class="required">(required)</small></label>
 							<select class="form-control" name='nationality' required>
-
 								<option> FILIPINO</option>
 								<option> Others</option>
 								<option> Nationality xxxxxxxxxxxxxxxxxxxxx</option>
@@ -140,7 +143,6 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="town_city">Town/City <small class="required">(required)</small></label>
 							<select class="form-control" name='town_city' required>
-
 								<option> TACLOBAN CITY</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Town/City xxxxxxxxxxxxxxxxxxxxx</option>
@@ -153,11 +155,11 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="province">Province <small class="required">(required)</small></label>
 							<select class="form-control" name='province' required>
-								<option> LEYTE</option>
-								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
-								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
-								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
-								<option> Province xxxxxxxxxxxxxxxxxxxxx</option>
+								<option>Leyte</option>
+								<option>Nothern Samar</option>
+								<option>Western Samar</option>
+								<option>Eastern Samar</option>
+								<option>Southern Leyte</option>
 							</select>
 						</div>
 					</div>
@@ -165,8 +167,8 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="zcode">Zip Code <small class="required">(required)</small></label>
 							<select class="form-control" name='zcode' required>
-								<option> 6500</option>
-								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
+								<option>6500</option>
+								<option>6501</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
 								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
