@@ -188,7 +188,7 @@ class Edp extends CI_Controller
         foreach($coursemajor as $key => $value)
         {
             $data = array();
-            $data['coursemajor']    = $value;
+            $data['course']    = $value;
             $data['yearlevel']      = $year_level[$key];
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
@@ -207,10 +207,10 @@ class Edp extends CI_Controller
 
         $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
 
-        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
+        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
         foreach($stuC as $studentC)
         {
-            $coursemajor    = $studentC['coursemajor'];
+            $coursemajor    = $studentC['course'];
             $acam           = $studentC['academicterm'];
             $cur1           = 0;
 
@@ -234,7 +234,7 @@ class Edp extends CI_Controller
             // if there are more than 1 curriculums
             if($cur_range > 1)
             {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
                 foreach($c as $cc)
                 {
                     $y      = $cc['yearlevel'];
@@ -253,7 +253,7 @@ class Edp extends CI_Controller
 
             elseif($cur1 != 0)
             {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
                 foreach($c as $cc)
                 {
                     $y      = $cc['yearlevel'];
