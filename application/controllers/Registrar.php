@@ -857,6 +857,8 @@ class Registrar extends CI_Controller
                 $reg['dateverified']    = date('Y-m-d');
                 $reg['student']         = $id;
                 $this->db->insert('tbl_registration', $reg);
+
+                redirect(base_url('registration'));
             }
             else
             {
