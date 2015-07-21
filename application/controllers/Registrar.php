@@ -824,6 +824,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('username', 'Username','required');
         $this->form_validation->set_rules('password', 'Password','required');
         $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+        $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
         $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
@@ -834,7 +835,7 @@ class Registrar extends CI_Controller
         }
         else
         {
-            $email = $this->input->post('mailadd');
+            $email = $this->input->post('emailadd');
             if (filter_var($email, FILTER_VALIDATE_EMAIL))
             {
                 $data['firstname']      = ucwords($this->input->post('firstname'));
@@ -864,7 +865,7 @@ class Registrar extends CI_Controller
             					Invalid email address
             				</div>';
                 $this->api->userMenu();
-                $this->load->view('registrar/newstudent_registration');
+                $this->load->view('registrar/newstudent_registration', $d);
                 $this->load->view('templates/footer2');
             }
 
