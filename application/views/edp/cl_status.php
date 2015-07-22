@@ -2,5 +2,5 @@
     <?php
         $systemVal = $this->api->systemValue();
      ?>
-     The classallocation status is now <?php echo $systemVal['classallocationstatus'] ?>
+     The classallocation is now in step no. <?php echo $systemVal['classallocationstatus'] ?>
 </div>

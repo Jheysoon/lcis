@@ -802,7 +802,7 @@ class Registrar extends CI_Controller
         redirect('/menu/registrar-sys_param/');
     }
 
-    function registration()
+    function registration($id = 0)
     {
         $this->load->library('form_validation');
         $this->load->helper('form');
@@ -812,31 +812,70 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('middlename', 'Middlename','required');
         $this->form_validation->set_rules('course', 'Course','required');
         $this->form_validation->set_rules('gender', 'Gender','required');
-        $this->form_validation->set_rules('religion', 'Religion','required');
+        // $this->form_validation->set_rules('religion', 'Religion','required');
         // nationality not found in tbl_party
-        $this->form_validation->set_rules('nationality', 'Nationality','required');
-        $this->form_validation->set_rules('dob', 'Date of Birth','required');
-        $this->form_validation->set_rules('pob', 'Place of Birth','required');
-        $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
-        $this->form_validation->set_rules('father', 'Fathers Name','required');
-        $this->form_validation->set_rules('mother', 'Mothers Name','required');
-        $this->form_validation->set_rules('middlename', 'Middlename','required');
-        $this->form_validation->set_rules('username', 'Username','required');
-        $this->form_validation->set_rules('password', 'Password','required');
-        $this->form_validation->set_rules('rpass', 'Repeat Password','required');
-        $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
+        // $this->form_validation->set_rules('nationality', 'Nationality','required');
+        // $this->form_validation->set_rules('dob', 'Date of Birth','required');
+        // $this->form_validation->set_rules('pob', 'Place of Birth','required');
+        // $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
+        // $this->form_validation->set_rules('father', 'Fathers Name','required');
+        // $this->form_validation->set_rules('mother', 'Mothers Name','required');
+        // $this->form_validation->set_rules('middlename', 'Middlename','required');
+        // $this->form_validation->set_rules('username', 'Username','required');
+        // $this->form_validation->set_rules('password', 'Password','required');
+        // $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+        // $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
+        // $this->form_validation->set_rules('sid', 'Student Id', 'required');
         $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
         {
-            $this->api->userMenu();
-            $this->load->view('registrar/newstudent_registration', $d);
-            $this->load->view('templates/footer2');
+            if($id == 0 OR $this->input->post('firstname'))
+            {
+                $this->api->userMenu();
+                $d['id']        = 0;
+                $d['fname']     = set_value('firstname');
+                $d['lname']     = set_value('lastname');
+                $d['mname']     = set_value('middlename');
+                                    // inline if statement
+                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+                $this->load->view('registrar/newstudent_registration', $d);
+                $this->load->view('templates/footer2');
+            }
+            else
+            {
+                //get the student id
+                $this->db->where('id', $id);
+                $p = $this->db->get('tbl_party')->row_array();
+
+                $this->db->where('id', $id);
+                $r = $this->db->get('tbl_registration')->row_array();
+
+                $this->db->where('id', $r['coursemajor']);
+                $c = $this->db->get('tbl_coursemajor')->row_array();
+
+                //update/display only the important fields
+
+                $l['id']        = $id;
+                $l['fname']     = $p['firstname'];
+                $l['lname']     = $p['lastname'];
+                $l['mname']     = $p['middlename'];
+                $l['legacyid']  = $p['legacyid'];
+                $l['course']    = $c['course'];
+                $l['major']     = $c['major'];
+                $l['error']     = '';
+
+                $this->api->userMenu();
+                $this->load->view('registrar/newstudent_registration', $l);
+                $this->load->view('templates/footer2');
+            }
         }
         else
         {
             $email = $this->input->post('emailadd');
-            if (filter_var($email, FILTER_VALIDATE_EMAIL))
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) OR $this->input->post('emailadd') == NULL)
             {
                 $data['firstname']      = ucwords($this->input->post('firstname'));
                 $data['lastname']       = ucwords($this->input->post('lastname'));
@@ -866,12 +905,27 @@ class Registrar extends CI_Controller
                 $d['error'] = '<div class="alert alert-danger center-block" style="max-width:400px;">
             					Invalid email address
             				</div>';
+                $d['id']        = 0;
+                $d['fname']     = set_value('firstname');
+                $d['lname']     = set_value('lastname');
+                $d['mname']     = set_value('middlename');
+                                    // inline if statement
+                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
                 $this->api->userMenu();
                 $this->load->view('registrar/newstudent_registration', $d);
                 $this->load->view('templates/footer2');
             }
 
         }
+    }
+
+    function find_stu()
+    {
+        $this->db->where('legacyid', $this->input->post('student_search'));
+        $r = $this->db->get('tbl_party')->row_array();
+        redirect('/registration/'.$r['id']);
     }
 
 }
