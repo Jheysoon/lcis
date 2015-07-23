@@ -17,7 +17,11 @@
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
-							<label class="label-control add-label" for="sid">Student ID <small class="required">Auto-Generated</small></label>
+							<label class="label-control add-label" for="sid">Student ID
+								<?php if ($id == 0): ?>
+									<small class="required">Auto-Generated</small>
+								<?php endif; ?>
+							</label>
 							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" value="<?php echo $lname ?>" name="lastname" placeholder="Lastname" required>
