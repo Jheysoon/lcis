@@ -344,7 +344,9 @@ class Edp extends CI_Controller
                 'edp/edp_classallocation',
                 'dean/subject'
             ));
+            $this->load->helper('form');
             $data['cid'] = $cid;
+            $data['num'] = $this->input->post('days_count') ? $this->input->post('days_count') - 1 : 0;
             $this->load->view('edp/assign_subj_room',$data);
             $this->load->view('templates/footer');
         }

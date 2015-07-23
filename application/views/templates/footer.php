@@ -98,7 +98,7 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
-            if(in_array('add_day_period', $str1))
+            if(in_array('add_day_period', $str1) OR in_array('assign_room', $str1))
             {
                 ?>
                 <script type="text/javascript">

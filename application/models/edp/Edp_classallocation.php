@@ -246,4 +246,12 @@ class Edp_classallocation extends CI_Model
 		$sy = $this->api->systemValue();
 		return $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = {$sy['nextacademicterm']} GROUP BY coursemajor")->result_array();
 	}
+
+	function getSubjectByCl($cid)
+	{
+		return $this->db->query("SELECT * FROM tbl_subject
+			WHERE id = (
+				SELECT subject FROM tbl_classallocation
+				WHERE id = $cid)")->row_array();
+	}
 }

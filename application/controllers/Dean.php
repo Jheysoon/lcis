@@ -394,7 +394,7 @@ class Dean extends CI_Controller
                 redirect(base_url('edit_subject/'.$id));
             }
         }
-        else 
+        else
             show_error('Did you type the url by yourself ?');
     }
 
@@ -820,6 +820,12 @@ class Dean extends CI_Controller
                 if($day[0] == $day[1])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    if($this->input->post('edp'))
+                    {
+
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
@@ -829,6 +835,11 @@ class Dean extends CI_Controller
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    if($this->input->post('edp'))
+                    {
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
@@ -847,11 +858,21 @@ class Dean extends CI_Controller
                 }
                 else{
                     $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
+                    if($this->input->post('edp'))
+                    {
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
             else{
                 $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
+                if($this->input->post('edp'))
+                {
+                    $this->session->set_flashdata('message', $this->error);
+                    redirect('/assign_room/'.$cid);
+                }
                 return FALSE;
             }
         }
