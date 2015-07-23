@@ -436,6 +436,7 @@
 											<?php endif ?>
 											<?php endif ?>
 				<?php else: ?>
+					<a href="/billing/endphase">End of Phase</a>
 						<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>All Back Accunts Paid</div>
 				<?php endif; ?>
 			</div>
