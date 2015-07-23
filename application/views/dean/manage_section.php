@@ -10,6 +10,8 @@
 				<div class="form-group">
 					<div class="col-sm-12">
 						<?php
+							$this->load->view('edp/cl_status');
+
 							$nxt 	= $this->api->systemValue();
 							if($nxt['classallocationstatus'] == 1)
 							{

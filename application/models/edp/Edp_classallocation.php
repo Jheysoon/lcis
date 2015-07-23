@@ -240,4 +240,10 @@ class Edp_classallocation extends CI_Model
 			AND school = 1
 			GROUP BY student")->result_array();
 	}
+
+	function getCM_groupBy()
+	{
+		$sy = $this->api->systemValue();
+		return $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = {$sy['nextacademicterm']} GROUP BY coursemajor")->result_array();
+	}
 }

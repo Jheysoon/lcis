@@ -126,36 +126,40 @@ class Dean extends CI_Controller
 
     function edit_subject($sid,$param = '')
     {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
-            'dean/subject',
-            'dean/group',
-            'dean/college'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        if(!empty($sid) AND is_numeric($sid))
+        {
+            $this->load->model(array(
+                'dean/subject',
+                'dean/group',
+                'dean/college'
+            ));
 
-        $sub = $this->subject->find($sid);
-        extract($sub);
-        $data['code']               = $code;
-        $data['descriptivetitle']   = $descriptivetitle;
-        $data['units']              = $units;
-        $data['shortname']          = $shortname;
-        $data['majorsubject']       = $majorsubject;
-        $data['hours']              = $hours;
-        $data['bookletcharge']      = $bookletcharge;
-        $data['sid']                = $sid;
-        $data['owner']              = $owner;
-        $data['comp']               = $computersubject;
-        $data['ge']                 = $gesubject;
-        $data['academic']           = $nonacademic;
-        $data['error']              = '';
-        $data['param']              = $param;
+            $this->api->userMenu();
 
-        $this->load->view('dean/subjects',$data);
-        $this->load->view('templates/footer');
+            $sub = $this->subject->find($sid);
+            extract($sub);
+            $data['code']               = $code;
+            $data['descriptivetitle']   = $descriptivetitle;
+            $data['units']              = $units;
+            $data['shortname']          = $shortname;
+            $data['majorsubject']       = $majorsubject;
+            $data['hours']              = $hours;
+            $data['bookletcharge']      = $bookletcharge;
+            $data['sid']                = $sid;
+            $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
+            $data['error']              = '';
+            $data['param']              = $param;
+
+            $this->load->view('dean/subjects',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            show_error('Did you type the url by yourself ?');
+        }
     }
 
     function add_subject()
@@ -377,17 +381,21 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        $college    = $this->api->getUserCollege();
-        $s          = $this->subject->find($id);
-
-        if($college == 0 OR $s['owner'] == 0)
+        if(!empty($id) AND is_numeric($id))
         {
-           redirect(base_url('edit_subject/'.$id.'/view'));
+            $college    = $this->api->getUserCollege();
+            $s          = $this->subject->find($id);
+            if($college == 0 OR $s['owner'] == 0)
+            {
+               redirect(base_url('edit_subject/'.$id.'/view'));
+            }
+            elseif($s['owner'] == $college)
+            {
+                redirect(base_url('edit_subject/'.$id));
+            }
         }
-        elseif($s['owner'] == $college)
-        {
-            redirect(base_url('edit_subject/'.$id));
-        }
+        else 
+            show_error('Did you type the url by yourself ?');
     }
 
     function searchStud()
@@ -947,14 +955,6 @@ class Dean extends CI_Controller
         $data['statusdate']     = date('Y-m-d');
         if(empty($id))
         {
-            //check if all the dean has already submitted
-            if($status == 4)
-            {
-                $this->chkDayPeriod();
-            }
-
-
-
             $this->db->where('stage', $stage);
             $this->db->where('completedby', $uid);
             $r = $this->db->get('tbl_completion');
@@ -968,7 +968,8 @@ class Dean extends CI_Controller
                 $this->db->where('id', $rr['id']);
                 $this->db->update('tbl_completion', $data);
             }
-            // then change the classallocation status in tbl_systemvalue
+            //check if all the dean has already submitted
+            $this->chkDeanActivity($stage);
             redirect(base_url());
         }
         else
@@ -977,6 +978,19 @@ class Dean extends CI_Controller
             // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
+        }
+    }
+
+    function chkDeanActivity($stage)
+    {
+        $this->db->where('stage', $stage);
+        $q = $this->db->count_all_results('tbl_completion');
+        if($q == COLLEGE_COUNT)
+        {
+            // then change the classallocation status in tbl_systemvalue
+            $r = $this->db->get('tbl_systemvalues')->row_array();
+            $d['classallocationstatus'] = $r['classallocationstatus'] + 1;
+            $this->db->update('tbl_systemvalues', $d);
         }
     }
 

@@ -98,4 +98,3 @@ define('COLLEGE_COUNT', 6);
 define('CUR_NOT_FOUND', 'Curriculum Not Found');
 
 define('NOT_FAILED_GRADE', 21);
-define('TOLERANCE', .30);

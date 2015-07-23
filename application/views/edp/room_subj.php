@@ -4,11 +4,14 @@
 
 			<div class="col-md-12">
 				<?php
+					$this->load->view('edp/cl_status');
+
 					$nxt = $this->api->systemValue();
-					if($nxt['classallocationstatus'] == 3)
+					if($nxt['classallocationstatus'] == 4)
 					{
 						$this->db->where('academicterm', $nxt['currentacademicterm']);
-						$this->db->where('stage', 3);
+						$this->db->where('stage', 4);
+						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();
 						if($c == COLLEGE_COUNT)
 						{
@@ -88,15 +91,22 @@
 					}
 					else {
 						$message = 'You cannot continue';
-						$this->load->view('edp/dean_activity',array('stage' => 3,'message' => $message));
+						$this->load->view('edp/dean_activity',array('stage' => 4,'message' => $message));
 					}
 				}
 				else {
+					if($nxt['classallocationstatus'] == 3)
+					{
+						$message = 'You cannot continue';
+						$this->load->view('edp/dean_activity',array('stage' => 4,'message' => $message));
+					}
+					else {
 					?>
-					<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-						The process is not yet here ...
-					</div>
-			<?php
+						<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
+							The process is not yet here ...
+						</div>
+				<?php
+					}
 				}
 			?>
 			</div>
