@@ -877,48 +877,64 @@ class Registrar extends CI_Controller
             $email = $this->input->post('emailadd');
             if (filter_var($email, FILTER_VALIDATE_EMAIL) OR $this->input->post('emailadd') == NULL)
             {
-                $data['firstname']      = ucwords($this->input->post('firstname'));
-                $data['lastname']       = ucwords($this->input->post('lastname'));
-                $data['middlename']     = ucwords($this->input->post('middlename'));
-                $data['sex']            = $this->input->post('gender');
-                $data['religion']       = $this->input->post('religion');
-                $data['dateofbirth']    = $this->input->post('dob');
-                $data['placeofbirth']   = ucwords($this->input->post('pob'));
-                $data['emailaddress']   = $email;
+                if($this->input->post('password') == $this->input->post('rpass'))
+                {
+                    $data['firstname']      = ucwords($this->input->post('firstname'));
+                    $data['lastname']       = ucwords($this->input->post('lastname'));
+                    $data['middlename']     = ucwords($this->input->post('middlename'));
+                    $data['sex']            = $this->input->post('gender');
+                    $data['religion']       = $this->input->post('religion');
+                    $data['dateofbirth']    = $this->input->post('dob');
+                    $data['placeofbirth']   = ucwords($this->input->post('pob'));
+                    $data['emailaddress']   = $email;
 
-                $this->db->insert('tbl_party', $data);
-                $id = $this->db->insert_id();
+                    $this->db->insert('tbl_party', $data);
+                    $id = $this->db->insert_id();
 
-                $systemVal              = $this->api->systemValue();
-                $reg['coursemajor']     = $this->input->post('course');
-                $reg['academicterm']    = $systemVal['currentacademcterm'];
-                $reg['datecreated']     = date('Y-m-d');
-                $reg['dateverified']    = date('Y-m-d');
-                $reg['student']         = $id;
-                $this->db->insert('tbl_registration', $reg);
+                    $systemVal              = $this->api->systemValue();
+                    $reg['coursemajor']     = $this->input->post('course');
+                    $reg['academicterm']    = $systemVal['currentacademcterm'];
+                    $reg['datecreated']     = date('Y-m-d');
+                    $reg['dateverified']    = date('Y-m-d');
+                    $reg['student']         = $id;
+                    $this->db->insert('tbl_registration', $reg);
 
-                redirect(base_url('registration'));
+                    redirect(base_url('registration'));
+                }
+                else
+                {
+                    $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                    Password and Re-peat password did not match
+                                </div>';
+                    $this->error_reg($error);
+                }
             }
             else
             {
                 // send a invalid email error
-                $d['error'] = '<div class="alert alert-danger center-block" style="max-width:400px;">
-            					Invalid email address
-            				</div>';
-                $d['id']        = 0;
-                $d['fname']     = set_value('firstname');
-                $d['lname']     = set_value('lastname');
-                $d['mname']     = set_value('middlename');
-                                    // inline if statement
-                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
-                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
-                $this->api->userMenu();
-                $this->load->view('registrar/newstudent_registration', $d);
-                $this->load->view('templates/footer2');
+                $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                Invalid email address
+                            </div>';
+                $this->error_reg($error);
             }
 
         }
+    }
+
+    function error_reg($error)
+    {
+        $d['error']     = $error;
+        $d['id']        = 0;
+        $d['fname']     = set_value('firstname');
+        $d['lname']     = set_value('lastname');
+        $d['mname']     = set_value('middlename');
+                            // inline if statement
+        $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+        $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+        $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+        $this->api->userMenu();
+        $this->load->view('registrar/newstudent_registration', $d);
+        $this->load->view('templates/footer2');
     }
 
     function find_stu()
