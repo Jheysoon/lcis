@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Subject extends CI_Model
 {
@@ -37,9 +37,9 @@ class Subject extends CI_Model
 	}
 	function search($sid,$owner)
 	{
-		$q = $this->db->query("SELECT code,descriptivetitle 
-			FROM tbl_subject WHERE (code 
-			LIKE '%$sid%' OR descriptivetitle 
+		$q = $this->db->query("SELECT code,descriptivetitle
+			FROM tbl_subject WHERE (code
+			LIKE '%$sid%' OR descriptivetitle
 			LIKE '%$sid%') AND owner = $owner OR owner = 0 LIMIT 6");
 		return $q->result_array();
 	}
@@ -55,8 +55,8 @@ class Subject extends CI_Model
 		if($owner == 1)
 		{
 			$this->db->where('id',$sid);
-			$this->db->where('owner',$owner);
-			$this->db->or_where('gesubject','1');
+			//$this->db->where('owner',$owner);
+			$this->db->where('gesubject','1');
 		}
 		else
 		{
