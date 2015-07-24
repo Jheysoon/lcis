@@ -113,6 +113,21 @@
                 </script>
         <?php
             }
+            elseif(uri_string() == 'menu/edp-room_subj')
+            {
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#sort_cl').change(function(){
+                    cid = $(this).val();
+                    $.post('/edp/sorting',{cid:cid},function(data){
+                        $('#tbl_cl').html(data);
+                    });
+                });
+            });
+        </script>
+        <?php
+            }
 
                 if (uri_string() == 'menu/scholarship-scholarshiplist' OR in_array('billing-list_billing', $str1)) { ?>
                        <script src="/assets/js/typeahead.bundle.js"></script>

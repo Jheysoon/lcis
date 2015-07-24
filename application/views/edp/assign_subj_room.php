@@ -8,6 +8,7 @@
 				<div class="col-md-12">
 					<?php echo $this->session->flashdata('message'); ?>
 					<div class="col-md-12 col-bg">
+						<a href="<?php echo base_url('menu/edp-room_subj') ?>" class="btn btn-primary">Back</a>
 						<form action="/dean/ass_subj" method="post">
 							<input type="hidden" name="class_id" value="<?php echo $cid; ?>">
 							<input type="hidden" name="edp" value="1">

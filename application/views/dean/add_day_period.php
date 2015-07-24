@@ -67,10 +67,11 @@
 						echo $this->session->flashdata('message');
 
 						$systemVal 	= $this->api->systemValue();
+						$user_id 	= $this->session->userdata('uid');
 						if($systemVal['classallocationstatus'] == 3)
 						{
 							$this->db->where('stage', 4);
-							$this->db->where('completedby', $this->session->userdata('uid'));
+							$this->db->where('completedby', $user_id);
 							$t = $this->db->count_all_results('tbl_completion');
 							if($t < 1)
 							{
@@ -95,9 +96,14 @@
 
 							foreach($sub as $subj)
 							{
-								if($owner == 1)
+								if($user_id == $systemVal['employeeid'])
 								{
-									$this->db->where('owner', $owner);
+									$this->db->where('computersubject', 1);
+									$this->db->where('id', $subj['subject']);
+								}
+								elseif($owner == 1)
+								{
+									//$this->db->where('owner', $owner);
 									$this->db->where('id', $subj['subject']);
 									$this->db->where('gesubject',1);
 								}

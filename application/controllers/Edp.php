@@ -355,9 +355,6 @@ class Edp extends CI_Controller
 
     }
 
-    // @TODO: sorting order in edp-room_subj
-    // by day/period/dean
-    // add comp subjects
     function add_room_class()
     {
         // puydi ku ini ikadto ha http://lcis.dev.com/assign_room/45009
@@ -410,6 +407,32 @@ class Edp extends CI_Controller
         $this->db->update('tbl_classallocation',$data);*/
        /* $this->session->set_flashdata('message','<div class="alert alert-success">Successfully Assigned</div>');
         */
+    }
+
+    function sorting()
+    {
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'registrar/academicterm',
+            'dean/subject'
+        ));
+        $cid = $this->input->post('cid');
+        if($cid == 1)
+        {
+            $this->load->view('edp/ajax_edp_all');
+        }
+        elseif($cid == 2)
+        {
+            $this->load->view('edp/ajax_edp_assigned');
+        }
+        elseif ($cid == 3)
+        {
+            $this->load->view('edp/ajax_edp_notassigned');
+        }
+        else {
+            // this is a error message
+            $this->load->view('edp/ajax_edp_bydean');
+        }
     }
 
     function preview($roomId)
