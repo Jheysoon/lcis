@@ -7,6 +7,31 @@ $(document).ready(function(){
 
     add_subj();
 
+    var student_list = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit:8,
+        remote: '/registrar/search_sub/%QUERY'
+    });
+    student_list.initialize();
+    //student_list.clearRemoteCache();
+    $('#add_subj').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'student_list',
+            displayKey: 'value',
+            templates:{
+                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
+                '<span>{{name}}</span>'),
+                empty:['<div class="alert alert-danger">Unable to find subject</div>']
+            },
+            source: student_list.ttAdapter()
+        }
+    );
 
     function add_subj()
     {
@@ -104,7 +129,7 @@ $(document).ready(function(){
                         else
                         {
                             $.post('/registrar/add_re_exam',{val:$val},function (data){
-                                
+
                             });
                         }
                     });
@@ -120,7 +145,7 @@ $(document).ready(function(){
                 }
             });
         }
-        
+
     });
 
     del_acam();
@@ -150,7 +175,7 @@ $(document).ready(function(){
         else
         {
             $.post('/registrar/add_re_exam',{val:$val},function (data){
-                
+
             });
         }
     });
@@ -204,7 +229,7 @@ $(document).ready(function(){
                     e.preventDefault();
                 });
             }
-            
+
             add_subj();
 
             $('#modal_academicterm').modal('hide')

@@ -1,11 +1,11 @@
 <?php
     $stud = $id;
 	$position = $this->session->userdata('datamanagement');
-    
+
     $result = $this->common->select_student($id);
 
 
-    // check if there is a record found 
+    // check if there is a record found
     if(is_array($result))
     {
         extract($result);
@@ -28,7 +28,7 @@
         $getSecondary = $this->common->selectSec($secondary, $p);
         $getCollege = $this->common->selectTertiary($primary, $p);
     }
-           
+
 ?>
 <input type="hidden" name="uri" value="<?php echo uri_string(); ?>">
 <div class="col-md-3"></div>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="panel-body">
             <?php echo $this->session->flashdata('message'); ?>
-            <?php 
+            <?php
                 if (isset($_SESSION['infos'])) {
                     print_r(extract($_SESSION['infos']));
                    unset($_SESSION['infos']);
@@ -70,7 +70,7 @@
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Last Name</strong>
                         <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>" required>
-                    </div>      
+                    </div>
 
                     <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Date of Birth</strong>
@@ -80,9 +80,9 @@
                                 <strong class="strong">Place of Birth</strong>
                                 <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
                     </div>
-                          
 
-    				
+
+
     				<!-- <div class="col-md-12 pad-bottom-10">
     					<strong class="strong">Year Level 		: </strong>
     					<strong class="strong">Third Year</strong>
@@ -90,7 +90,7 @@
     				 -->
     			</div>
                 <div class="col-md-5">
-                  
+
                     <div class="col-md-12 pad-bottom-10">
 
                                 <strong class="strong">Address : </strong>
@@ -126,8 +126,8 @@
                                     }
                                 ?>
                             </select>
-                        <?php else:  
-                                echo $pr['firstname'];; 
+                        <?php else:
+                                echo $pr['firstname'];;
                             endif ?>
     				</div>
                     <div class="col-md-3">
@@ -143,7 +143,7 @@
                                        <option selected><?php echo $x; ?></option>
                                    <?php else: ?>
                                         <option ><?php echo $x; ?></option>
-                                   <?php endif ?>   
+                                   <?php endif ?>
                                  <?php
                                   $x--;
                                  } ?>
@@ -152,7 +152,7 @@
     			</div>
                 <div class="col-md-5">
                     <div class="col-md-9 pad-bottom-10">
-                        <strong class="strong">Elementary</strong>      
+                        <strong class="strong">Elementary</strong>
                         <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="elementary">
                                <option>Select</option>
@@ -194,7 +194,7 @@
                                    <?php else: ?>
                                         <option><?php echo $x; ?></option>
                                    <?php endif ?>
-                                     
+
                                  <?php
                                   $x--;
                                  } ?>
@@ -243,7 +243,7 @@
                                        <?php else: ?>
                                         <option><?php echo $x; ?></option>
                                    <?php endif ?>
-                                     
+
                                  <?php
                                   $x--;
                                  } ?>
@@ -256,7 +256,7 @@
                             <?php if ($position != 'C' or $position != 'B'): ?>
                                 <select class="form-control" name="course">
                                 <?php
-                                    $course = $this->course->allCourse();                                  
+                                    $course = $this->course->allCourse();
                                     foreach($course as $c)
                                     {
                                         if($c['courseid'] == $specific['courseid'])
@@ -277,7 +277,7 @@
                                     }
                                 ?>
                                  <?php
-                                    $course = $this->course->allcoursm();                                  
+                                    $course = $this->course->allcoursm();
                                     foreach($course as $c)
                                     {
                                         if($c['courseid'] == $specific['courseid'])
@@ -301,7 +301,7 @@
                         <?php else: ?>
                                 <?php echo $description; ?>
                         <?php endif ?>
-                    </div>  
+                    </div>
                      <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Date of Registration</strong>
                                 <input  type="date" name="dor" class="form-control datepicker" value="<?php echo $date; ?>">
@@ -310,14 +310,14 @@
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
                         <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
-                    
-                <?php endif ?>   
+
+                <?php endif ?>
                 </div>
 
                 <br />
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                   <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
-<!-- 
+<!--
                     <img src="assets/images/sample.jpg" alt="..."> -->
                   </div>
                   <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
@@ -326,8 +326,8 @@
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                   </div>
                 </div>
-             
-                  
+
+
             </form>
 
 
@@ -340,7 +340,7 @@
 
                 <!-- modal add academicterm -->
                 <?php if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'): ?>
-                    
+
                 <div class="modal fade" id="modal_academicterm">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
@@ -415,7 +415,7 @@
                 <?php } ?>
                 <br/>
 
-                
+
 
                 <div class="table-responsive" id="academic_wrapper">
                 <?php if(is_array($result)){ ?>
@@ -442,7 +442,7 @@
                                     <td class="tbl-header" style="width: 50%" colspan="2"><strong>School Year: <?php echo $systart . " - " . $syend; ?></strong></td>
                                     <td class="tbl-header" colspan="4">
                                         <strong>Term: <?php echo $description; ?> </strong>
-                                        <?php 
+                                        <?php
                                             // get enrollment id
                                             $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
                                          ?>
@@ -462,7 +462,7 @@
                                     <?php if (($position != 'C' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                                     	   <td>Action</td>
                                     <?php endif ?>
-                                 
+
                                 </tr>
                                 <?php
                                 $getenid = $this->common->select_enrolmentid($academicterm, $partyid);
@@ -476,11 +476,11 @@
                                             <td><?php echo $code; ?></td>
                                             <td><?php echo $descriptivetitle; ?></td>
                                             <td class="text-right">
-                                            <?php                                
-                                            	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'): 
+                                            <?php
+                                            	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'):
                                             ?>
                                             		<label><?php echo $value; ?></label>
-                                            <?php 
+                                            <?php
                                                 else:
                                                     $style = '';
                                                     if($value == 0.00 AND $remarks != 'NO GRADE')
@@ -496,7 +496,7 @@
                                                             if($ag['id'] == $semgrade){
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
-                                                                <?php 
+                                                                <?php
                                                                     if($ag['value']  == 0.00){
                                                                         echo $ag['description'];
                                                                     }
@@ -510,7 +510,7 @@
                                                             else{
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                                <?php 
+                                                                <?php
                                                                     if($ag['value']  == 0.00){
                                                                         echo $ag['description'];
                                                                     }
@@ -521,14 +521,14 @@
                                                                 </option>
                                                             <?php
                                                             }
-                                                            
+
                                                         }
                                                     ?>
                                                     <?php endif ?>
                                                 </select>
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
-                                            <?php 
+                                            <?php
                                                 if($value == 0.00 AND $remarks != 'NO GRADE')
                                                 {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
@@ -550,12 +550,12 @@
                                                             {
                                                     ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
-                                                                    <?php 
+                                                                    <?php
                                                                       if ($ag['value'] == 0.00) {
-                                                                        echo $ag['description']; 
+                                                                        echo $ag['description'];
                                                                       }
                                                                       else{
-                                                                        echo $ag['value']; 
+                                                                        echo $ag['value'];
                                                                       }
                                                                     ?>
                                                                 </option>
@@ -564,12 +564,12 @@
                                                             else{
                                                                 ?>
                                                                 <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                                    <?php 
+                                                                    <?php
                                                                       if ($ag['value'] == 0.00) {
-                                                                        echo $ag['description']; 
+                                                                        echo $ag['description'];
                                                                       }
                                                                       else{
-                                                                        echo $ag['value']; 
+                                                                        echo $ag['value'];
                                                                       }
                                                                      ?>
                                                                 </option>
@@ -590,7 +590,7 @@
 
                                     <?php endforeach ?>
 
-                                    <?php if ($position != 'C' or $position != 'B'): ?>                               
+                                    <?php if ($position != 'C' or $position != 'B'): ?>
 	                                    <tr>
 
 	                                        <td colspan="6">
@@ -607,50 +607,9 @@
 	                                                                <input type="hidden" name="academictermid" value="<?php echo $academicterm; ?>"/>
 	                                                                <input type="hidden" name="enrolmentid" value="<?php echo $enrolmentid; ?>"/>
 	                                                                <input type="hidden" name="schoolid" value="<?php echo $school; ?>"/>
-	                                                                Subject
-	                                                                <select name="add_subj" class="form-control">
-	                                                                    <?php
-                                                                            $partyid;
-                                                                            $acams = $this->registration->getAcam($partyid);
-                                                                            $ac = $acams['academicterm'];
-                                                                            $coursemajor = $acams['coursemajor'];
-                                                                            $filter_subj = 0;
-                                                                            if($ac != 0)
-                                                                            {
-                                                                                for ($i=$ac; $i > 0 ; $i--) { 
-                                                                                    $a = $this->curriculum->getCur($i,$coursemajor);
-                                                                                    if($a != 'repeat')
-                                                                                    {
-                                                                                        $filter_subj = $i;
-                                                                                        break;
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                            if($filter_subj != 0)
-                                                                            {
-    	                                                                        $subj = $this->curriculumdetail->getAllSubj($filter_subj);
-    	                                                                        foreach($subj as $sub)
-    	                                                                        {
-                                                                                    $ssub = $this->subject->findById($sub['subject']);
-
-    	                                                                            ?>
-    	                                                                            <option value="<?php echo $ssub['id']; ?>"><?php echo $ssub['code'].' | '.$ssub['descriptivetitle']; ?></option>
-    	                                                                        <?php
-    	                                                                        }
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                $sub = $this->subject->getAllSubj();
-                                                                                foreach($sub as $ss)
-                                                                                {
-                                                                                    ?>
-                                                                                    <option value="<?php echo $ss['id']; ?>"><?php echo $ss['code'].' | '.$ss['descriptivetitle']; ?></option>
-                                                                                    <?php
-                                                                                }
-                                                                            }
-	                                                                    ?>
-	                                                                </select>
-	                                                                Grade
+	                                                                <label>Subject</label><br/>
+                                                                    <input type="text" class="form-control" id="add_subj" style="width:250px;" name="add_subj" value="" placeholder="Type subject descriptive title or code">
+	                                                                <br/>Grade<br/>
 	                                                                <select name="sub_grade" class="form-control">
 	                                                                    <?php
 	                                                                        $g = $this->grade->getAllGrade();
@@ -658,7 +617,7 @@
 	                                                                        {
 	                                                                            ?>
 	                                                                            <option value="<?php echo $gg['id']; ?>">
-                                                                                    <?php 
+                                                                                    <?php
                                                                                         if($gg['value']  == 0.00){
                                                                                             echo $gg['description'];
                                                                                         }
@@ -692,7 +651,7 @@
                             </table>
                         <?php endforeach ?>
                         <br />
-                        <?php } 
+                        <?php }
                             if(!is_array($result))
                             {
                                 $partyid = $id;
@@ -700,7 +659,7 @@
 	                        $getflag = $this->common->theflag($partyid);
                             $status = $this->log_student->getLatestTm($partyid);
                         if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
-                           
+
                             ?>
                             <div class="pull-right">
                                 <form action="/registrar/insert_flag" method="POST">
@@ -725,7 +684,7 @@
                                     <input type="submit" class="btn btn-primary pull-right" value="Submit" onclick="return confirm('Are you sure?')">
                                 </form>
                         <?php endif ?>
-                        
+
               	  </div>
                 <!-- /div class table-responsive -->
 
@@ -742,17 +701,17 @@
                     if($status['status'] != 'E' AND $status['status'] != 'S')
                     {
                         $this->log_student->insert_not_exists($partyid,'O');
-                    }   
+                    }
                 }
              ?>
 		</div>
 		</div>
 	</div>
 </div>
-<?php 
+<?php
     //}
     //else
-    //{ 
+    //{
         ?>
     <!-- <div class="col-md-3"></div>
     <div class="col-md-9 body-container">

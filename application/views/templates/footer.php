@@ -27,6 +27,8 @@
             if(in_array('rgstr_build',$str1))
             {
                 ?>
+                <script src="/assets/js/typeahead.bundle.js"></script>
+                 <script src="/assets/js/handlebars-v3.0.1.js"></script>
                 <script src="/assets/js/rgstr_build.js"></script>
         <?php
             }

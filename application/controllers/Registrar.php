@@ -186,6 +186,20 @@ class Registrar extends CI_Controller
         echo json_encode($data);
 
     }
+
+    function search_sub($txt)
+    {
+        $txt = urldecode($txt);
+        $data = array();
+
+        $r = $this->db->query("SELECT * FROM tbl_subject WHERE code LIKE '%$txt%' OR descriptivetitle LIKE '%$txt%' ORDER BY code LIMIT 10 ")->result_array();
+        foreach($r as $rr)
+        {
+            $data[] = array('value' =>  $rr['code'], 'name' => $rr['descriptivetitle']);
+        }
+        echo json_encode($data);
+    }
+
     function edit_grades($code, $subject, $grade)
     {
         $data['code'] = $code;
