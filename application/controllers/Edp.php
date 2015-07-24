@@ -355,6 +355,9 @@ class Edp extends CI_Controller
 
     }
 
+    // @TODO: sorting order in edp-room_subj
+    // by day/period/dean
+    // add comp subjects
     function add_room_class()
     {
         // puydi ku ini ikadto ha http://lcis.dev.com/assign_room/45009
@@ -399,6 +402,9 @@ class Edp extends CI_Controller
                 }
             }*/
         }
+        $d['status'] = 'O';
+        $this->db->where('id', $cid);
+        $this->db->update('tbl_classallocation', $d);
         redirect(base_url('menu/edp-room_subj'));
        /* $this->db->where('id',$cid);
         $this->db->update('tbl_classallocation',$data);*/
@@ -419,6 +425,14 @@ class Edp extends CI_Controller
         $data['location']   = $room['location'];
 
         $this->load->view('edp/preview',$data);
+    }
+
+    function cl_inc()
+    {
+        $stat['classallocationstatus'] = $this->input->post('name');
+        $this->db->update('tbl_systemvalues', $stat);
+        $this->api->set_session_message('success', 'Successfully Attested');
+        redirect(base_url());
     }
 
     // test function
