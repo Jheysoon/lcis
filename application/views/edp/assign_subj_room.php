@@ -11,24 +11,17 @@
 						<form action="/dean/ass_subj" method="post">
 							<input type="hidden" name="class_id" value="<?php echo $cid; ?>">
 							<input type="hidden" name="edp" value="1">
-							<table class="table">
-						<?php
-							// get day/period of the subject suggested by dean
-							$this->db->where('classallocation', $cid);
-							$dp_count 	= $this->db->count_all_results('tbl_dayperiod');
-							$dayPeriod	= $this->edp_classallocation->getDayPeriod1($cid);
-							if($dp_count > 0)
-							{
-							?>
-								<caption><strong>Override Dean's Day and Period</strong></caption>
 							<?php
-							}
-							else {
-								?>
-								<caption><strong>Add Day and Period</strong></caption>
-						<?php
-							}
-						?>
+								$dp_count 	= $this->db->count_all_results('tbl_dayperiod');
+								if($dp_count > 0){
+							?>
+							<label class="center-block" style="max-width:200px;"><strong>Override Dean's Day and Period</strong></label>
+							<?php
+								}
+								else {
+									?>
+							<table class="table">
+								<label class="center-block" style="max-width:200px;"><strong>Add Day and Period</strong></label>
 								<tr>
 									<th>Subject</th>
 								</tr>
@@ -41,6 +34,12 @@
 									</td>
 								</tr>
 							</table>
+							<?php
+								}
+							// get day/period of the subject suggested by dean
+							$this->db->where('classallocation', $cid);
+							$dayPeriod	= $this->edp_classallocation->getDayPeriod1($cid);
+						?>
 							<div class="col-md-4">
 
 							</div>
@@ -100,7 +99,7 @@
 									</tr>
 									<?php } ?>
 								</table>
-								<input type="submit" value="Add/Change" class="btn btn-primary pull-right">
+								<input type="submit" value="Add / Change" class="btn btn-primary btn-sm pull-right">
 								<br/><br/>
 							</div>
 						</form>
