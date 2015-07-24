@@ -92,7 +92,7 @@ define('MID', 3);
 define('SEM', 4);
 define('FIN', 5);
 
-define('COLLEGE_COUNT', 6);
+define('COLLEGE_COUNT', 7);
 
 // ERRORS CONSTANT
 define('CUR_NOT_FOUND', 'Curriculum Not Found');
