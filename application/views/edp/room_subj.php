@@ -16,7 +16,7 @@
 						if($c == COLLEGE_COUNT)
 						{
 				 ?>
-			<table class="table">
+			<table class="table table-bordered">
 				<caption>
 					<strong>
 						Academicterm SY:
@@ -66,14 +66,14 @@
 					<td style="text-align:center;">
 						<?php echo $this->edp_classallocation->getPeriod($room['id']); ?>
 					</td>
-
 					<td>
 					<?php
 						$style = '';
 						if(!empty($room['status']))
 							$style = 'disabled';
 					?>
-					<a href="/assign_room/<?php echo $room['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Assign Room</a></td>
+					<a href="/assign_room/<?php echo $room['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Assign Room</a>
+					</td>
 					<td>
 						<?php
 							if($room['status'] == 'O')
@@ -87,6 +87,10 @@
 					}
 				 ?>
 			</table>
+			<form action="/edp/cl_inc" method="post">
+				<input type="hidden" name="name" value="99">
+				<input type="submit" value="Attest All" class="btn btn-primary pull-right">
+			</form>
 			<?php
 					}
 					else {
@@ -113,4 +117,3 @@
 
 		</div>
 	</div>
-</div>
