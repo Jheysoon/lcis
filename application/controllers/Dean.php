@@ -814,7 +814,7 @@ class Dean extends CI_Controller
 
         foreach($day as $key => $value)
         {
-            if($index < 3)
+            if($index < 3 AND $index > 1)
             {
                 //check if the days are just the same
                 if($day[0] == $day[1])
@@ -829,7 +829,7 @@ class Dean extends CI_Controller
                     return FALSE;
                 }
             }
-            elseif($index < 4)
+            elseif($index < 4 AND $index > 1)
             {
                 //check if the days are just the same
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
@@ -877,6 +877,10 @@ class Dean extends CI_Controller
             }
         }
         $this->api->set_session_message('success','Successfully added');
+        if($this->input->post('edp'))
+        {
+            redirect('/assign_room/'.$cid);
+        }
         return TRUE;
     }
 
