@@ -124,6 +124,20 @@ class Edp_classallocation extends CI_Model
 		return $ret;
 	}
 
+	function getRooms($cid)
+	{
+		$array = array();
+		$this->db->order_by('day ASC');
+		$this->db->where('classallocation', $cid);
+		$d = $this->db->get('tbl_dayperiod')->result_array();
+		foreach ($d as $dd)
+		{
+			$room  = $this->db->get_where('tbl_classroom', array('id' =>$dd['classroom']))->row_array();
+			$array[] = $room['legacycode'];
+		}
+		return implode(' / ', $array);
+	}
+
 	###### getPeriodId to be removed
 	function getPeriodId($pid)
 	{
