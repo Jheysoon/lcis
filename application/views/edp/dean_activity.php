@@ -53,7 +53,7 @@
                 </td>
                 <td style="text-align:center;">
                     <?php
-                        $systemVal = $this->api->systemValues();
+                        $systemVal = $this->api->systemValue();
                         $c = $this->edp_classallocation->count_complete($systemVal['employeeid'], $stage);
                         if($c > 0)
                         {
