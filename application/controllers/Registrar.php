@@ -264,8 +264,8 @@ class Registrar extends CI_Controller
         $this->db->where('code', $subid);
         $r = $this->db->get('tbl_subject')->row_array();
 
-        $data['subject'] = $r['id'];
-        $data['academicterm'] = $academicid;
+        $data['subject']        = $r['id'];
+        $data['academicterm']   = $academicid;
         //$count = $this->classallocation->whereCount($data);
 
         // we can prevent user from entering duplicate subj within a academicterm but
@@ -278,14 +278,14 @@ class Registrar extends CI_Controller
             $id = $this->classallocation->insert_ca_returnId($r['id'], $academicid);
             if (is_numeric($id))
             {
-                $data['subj'] = $r['id'];
-                $data['grade_user'] = $grade;
-                $data['enrolmentid'] = $enrolmentid;
-                $data['academicterm'] = $academicid;
-                $data['schoolid'] = $schoolid;
-                $p = $this->enrollment->getID($enrolmentid);
+                $data['subj']           = $r['id'];
+                $data['grade_user']     = $grade;
+                $data['enrolmentid']    = $enrolmentid;
+                $data['academicterm']   = $academicid;
+                $data['schoolid']       = $schoolid;
+                $p                      = $this->enrollment->getID($enrolmentid);
                 $this->log_student->insert_not_exists($p['student'],'E');
-                $data['sid'] = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
+                $data['sid']            = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
                 $this->load->view('registrar/ajax/add_subject', $data);
             }
             else
