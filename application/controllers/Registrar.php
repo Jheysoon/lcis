@@ -802,4 +802,26 @@ class Registrar extends CI_Controller
         redirect('/menu/registrar-sys_param/');
     }
 
+    function search_student_det($sid)
+    {
+        $sid = urldecode($sid);
+        $this->load->model(array(
+            'registrar/tor'
+        ));
+        $s          = $this->tor->getStudent($sid);
+        $data       = array();
+
+        foreach ($s as $r)
+        {
+            $data[] = array('value' => $r['legacyid'], 'name' => $r['lastname'].' '.$r['firstname']);
+        }
+        echo json_encode($data);
+    }
+
+    function tor($sid = ''){
+        $sid = array('sid' => $sid);
+        $this->load->model('registrar/tor');
+        $this->load->view('registrar/tor_preview', $sid);
+    }
+
 }
