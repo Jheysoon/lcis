@@ -121,8 +121,6 @@
                                                 <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
                                         <?php
                                             }
-                                        ?>
-                                <?php
                                     }
                                 ?>
                             </select>
@@ -172,8 +170,6 @@
                                                 <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
                                         <?php
                                             }
-                                        ?>
-                                <?php
                                     }
                                 ?>
                         </select>
@@ -221,8 +217,6 @@
                                                 <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
                                         <?php
                                             }
-                                        ?>
-                                <?php
                                     }
                                 ?>
                         </select>
@@ -272,8 +266,6 @@
                                                 <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
                                         <?php
                                             }
-                                        ?>
-                                <?php
                                     }
                                 ?>
                                  <?php
@@ -293,8 +285,6 @@
                                                 <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
                                         <?php
                                             }
-                                        ?>
-                                <?php
                                     }
                                 ?>
                             </select>
@@ -538,8 +528,7 @@
                                                 <option value="1" selected>
                                                     Select
                                                 </option>
-                                                <?php } ?>
-                                                <?php
+                                                <?php }
                                                     $all_grade = $this->grade->getAllGrade();
 
                                                     foreach($all_grade as $ag)
