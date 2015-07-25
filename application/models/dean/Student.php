@@ -95,11 +95,13 @@
 			$nstp = 0;
 			$leytetymes = 0;
 			$the_rate = 0;
+			$bnt = 0;
+			$compts = 0;
 			$this->db->where('id', $enid);
 			extract($this->db->get('tbl_enrolment')->row_array());
 
 					$bs = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
-					echo $bs['counted'];
+					$bs['counted'];
 					if ($bs['counted'] == 0){
 						//Insert into tbl_bill for the ID and get the last insert
 						$nows = Date('Y-m-d');
@@ -117,7 +119,7 @@
 						$this->db->where('enrolment', $enid);
 						$this->db->select('id as bills');
 						extract($this->db->get('tbl_billclass')->row_array());
-						echo $billid = $bills;
+						$billid = $bills;
 					}
 					//Get all the fee type in tbl_feetype and the rate.
 					$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
@@ -132,11 +134,14 @@
 						 				extract($value);
  							 			$x = $this->getSubs($classallocation);
 			 							 		if($x['computersubject'] == 1) {
-			 							 						 $computer = $rate;
-																	$the_rate = $computer;
-																	$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-									 							 break;
+			 							 						$compts += 1;
 						 							}
+													if ($compts != 0) {
+														$computer = $rate * $compts;
+														$the_rate = $computer;
+														$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+													}
+
 											}
 	 							 }elseif($accounttype == 24){
 	 							 	$m = $this->getEn($enid);
@@ -146,11 +151,11 @@
  							 			$xl = $this->getSubs($classallocation);
 			 							 		if($xl['bookletcharge'] == 1)
 													{
-			 							 						 	$booklet = $rate;
-																	$the_rate = $booklet;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-									 							  break;
+									 								$bnt += 1;
 						 							}
+														$booklet = $rate;
+														$the_rate = $bnt * $booklet * 4;
+														$this->insertbilldetail($enid, $billid, $fid, $the_rate);
 							 			}
 	 							}
 								elseif ($accounttype == 19)
@@ -210,15 +215,16 @@
 		 							  }
 										//echo $fid . "|" . $the_rate . "|" . $billid  . "<br />";
 	 							 }
+
 									$discount = 10/100;
 									$netfull = $tuition * $discount;
 									$install = $tuition / 5;
-									$totalbook = $booklet * $numberofsubject * 4;
+									$totalbook = $booklet * $bnt * 4;
 									$fullpaydiscount = $tuition * $discount;
 									$discounted = $tuition - $fullpaydiscount;
 									$computerdevided = $computer / 5;
 									$int = $internetfee / 4;
-									$bookfee = $numberofsubject * $booklet;
+									$bookfee = $bnt * $booklet;
 									$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
 									$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
 									$netprelim = $install + $computerdevided + $int + $bookfee;
@@ -238,7 +244,7 @@
 											'nstp' => $nstp,
 											'internet' => $internetfee,
 											'computer' => $computer,
-											'booklet' => $booklet,
+											'booklet' => $totalbook,
 											'discount' => $discount,
 											'installment' => $installment,
 											'fullpaydiscount' => $fullpaydiscount,
@@ -262,7 +268,7 @@
 											'nstp' => $nstp,
 											'internet' => $internetfee,
 											'computer' => $computer,
-											'booklet' => $booklet,
+											'booklet' => $totalbook,
 											'discount' => $discount,
 											'installment' => $installment,
 											'fullpaydiscount' => $fullpaydiscount,

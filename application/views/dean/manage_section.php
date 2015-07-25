@@ -10,6 +10,8 @@
 				<div class="form-group">
 					<div class="col-sm-12">
 						<?php
+							$this->load->view('edp/cl_status');
+
 							$nxt 	= $this->api->systemValue();
 							if($nxt['classallocationstatus'] == 1)
 							{
@@ -46,10 +48,21 @@
 							</tr>
 							<?php
 								$this->db->order_by('coursemajor ASC, yearlevel ASC');
-								$all_s = $this->db->get('out_section')->result_array();
+								$all_s 	= $this->db->get('out_section')->result_array();
+								$uid	= $this->session->userdata('uid');
 								foreach($all_s as $subj)
 								{
-									$ss = $this->subject->whereCode_owner($owner,$subj['subject']);
+									if($uid == $nxt['employeeid'])
+									{
+										$this->db->where('computersubject', 1);
+										$this->db->where('id', $subj['subject']);
+										$ss = $this->db->count_all_results('tbl_subject');
+									}
+									else
+									{
+										$ss = $this->subject->whereCode_owner($owner,$subj['subject']);
+									}
+
 									if($ss > 0)
 									{
 							?>
@@ -92,7 +105,7 @@
 							else {
 					?>
 						<div class="alert alert-danger center-block" style="max-width:400px;text-align:center;">
-							You have attest this
+							You have attested this
 						</div>
 					<?php
 							}

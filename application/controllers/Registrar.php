@@ -186,6 +186,20 @@ class Registrar extends CI_Controller
         echo json_encode($data);
 
     }
+
+    function search_sub($txt)
+    {
+        $txt = urldecode($txt);
+        $data = array();
+
+        $r = $this->db->query("SELECT * FROM tbl_subject WHERE code LIKE '%$txt%' OR descriptivetitle LIKE '%$txt%' ORDER BY code LIMIT 10 ")->result_array();
+        foreach($r as $rr)
+        {
+            $data[] = array('value' =>  $rr['code'], 'name' => $rr['descriptivetitle']);
+        }
+        echo json_encode($data);
+    }
+
     function edit_grades($code, $subject, $grade)
     {
         $data['code'] = $code;
@@ -246,28 +260,32 @@ class Registrar extends CI_Controller
             'registrar/log_student',
             'registrar/enrollment'
         ));
-        $data['subject'] = $subjid;
-        $data['academicterm'] = $academicid;
+
+        $this->db->where('code', $subid);
+        $r = $this->db->get('tbl_subject')->row_array();
+
+        $data['subject']        = $r['id'];
+        $data['academicterm']   = $academicid;
         //$count = $this->classallocation->whereCount($data);
 
         // we can prevent user from entering duplicate subj within a academicterm but
         // the studentgrade table will be a mess
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
-        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid")->num_rows();
+        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject={$r['id']}")->num_rows();
         if ($q < 1)
         {
-            $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
+            $id = $this->classallocation->insert_ca_returnId($r['id'], $academicid);
             if (is_numeric($id))
             {
-                $data['subj'] = $subjid;
-                $data['grade_user'] = $grade;
-                $data['enrolmentid'] = $enrolmentid;
-                $data['academicterm'] = $academicid;
-                $data['schoolid'] = $schoolid;
-                $p = $this->enrollment->getID($enrolmentid);
+                $data['subj']           = $r['id'];
+                $data['grade_user']     = $grade;
+                $data['enrolmentid']    = $enrolmentid;
+                $data['academicterm']   = $academicid;
+                $data['schoolid']       = $schoolid;
+                $p                      = $this->enrollment->getID($enrolmentid);
                 $this->log_student->insert_not_exists($p['student'],'E');
-                $data['sid'] = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
+                $data['sid']            = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
                 $this->load->view('registrar/ajax/add_subject', $data);
             }
             else
@@ -822,6 +840,147 @@ class Registrar extends CI_Controller
         $sid = array('sid' => $sid);
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
+    }
+    function registration($id = 0)
+    {
+        $this->load->library('form_validation');
+        $this->load->helper('form');
+
+        $this->form_validation->set_rules('lastname', 'Lastname','required');
+        $this->form_validation->set_rules('firstname', 'Firstname','required');
+        $this->form_validation->set_rules('middlename', 'Middlename','required');
+        $this->form_validation->set_rules('course', 'Course','required');
+        $this->form_validation->set_rules('gender', 'Gender','required');
+        // $this->form_validation->set_rules('religion', 'Religion','required');
+        // nationality not found in tbl_party
+        // $this->form_validation->set_rules('nationality', 'Nationality','required');
+        // $this->form_validation->set_rules('dob', 'Date of Birth','required');
+        // $this->form_validation->set_rules('pob', 'Place of Birth','required');
+        // $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
+        // $this->form_validation->set_rules('father', 'Fathers Name','required');
+        // $this->form_validation->set_rules('mother', 'Mothers Name','required');
+        // $this->form_validation->set_rules('middlename', 'Middlename','required');
+        // $this->form_validation->set_rules('username', 'Username','required');
+        // $this->form_validation->set_rules('password', 'Password','required');
+        // $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+        // $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
+        // $this->form_validation->set_rules('sid', 'Student Id', 'required');
+        $d['error'] = '';
+
+        if($this->form_validation->run() === FALSE)
+        {
+            if($id == 0 OR $this->input->post('firstname'))
+            {
+                $this->api->userMenu();
+                $d['id']        = 0;
+                $d['fname']     = set_value('firstname');
+                $d['lname']     = set_value('lastname');
+                $d['mname']     = set_value('middlename');
+                                    // inline if statement
+                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+                $this->load->view('registrar/newstudent_registration', $d);
+                $this->load->view('templates/footer2');
+            }
+            else
+            {
+                //get the student id
+                $this->db->where('id', $id);
+                $p = $this->db->get('tbl_party')->row_array();
+
+                $this->db->where('id', $id);
+                $r = $this->db->get('tbl_registration')->row_array();
+
+                $this->db->where('id', $r['coursemajor']);
+                $c = $this->db->get('tbl_coursemajor')->row_array();
+
+                //update/display only the important fields
+
+                $l['id']        = $id;
+                $l['fname']     = $p['firstname'];
+                $l['lname']     = $p['lastname'];
+                $l['mname']     = $p['middlename'];
+                $l['legacyid']  = $p['legacyid'];
+                $l['course']    = $c['course'];
+                $l['major']     = $c['major'];
+                $l['error']     = '';
+
+                $this->api->userMenu();
+                $this->load->view('registrar/newstudent_registration', $l);
+                $this->load->view('templates/footer2');
+            }
+        }
+        else
+        {
+            $email = $this->input->post('emailadd');
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) OR $this->input->post('emailadd') == NULL)
+            {
+                if($this->input->post('password') == $this->input->post('rpass'))
+                {
+                    $data['firstname']      = ucwords($this->input->post('firstname'));
+                    $data['lastname']       = ucwords($this->input->post('lastname'));
+                    $data['middlename']     = ucwords($this->input->post('middlename'));
+                    $data['sex']            = $this->input->post('gender');
+                    $data['religion']       = $this->input->post('religion');
+                    $data['dateofbirth']    = $this->input->post('dob');
+                    $data['placeofbirth']   = ucwords($this->input->post('pob'));
+                    $data['emailaddress']   = $email;
+
+                    $this->db->insert('tbl_party', $data);
+                    $id = $this->db->insert_id();
+
+                    $systemVal              = $this->api->systemValue();
+                    $reg['coursemajor']     = $this->input->post('course');
+                    $reg['academicterm']    = $systemVal['currentacademcterm'];
+                    $reg['datecreated']     = date('Y-m-d');
+                    $reg['dateverified']    = date('Y-m-d');
+                    $reg['student']         = $id;
+                    $this->db->insert('tbl_registration', $reg);
+
+                    redirect(base_url('registration'));
+                }
+                else
+                {
+                    $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                    Password and Re-peat password did not match
+                                </div>';
+                    $this->error_reg($error);
+                }
+            }
+            else
+            {
+                // send a invalid email error
+                $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                Invalid email address
+                            </div>';
+                $this->error_reg($error);
+            }
+
+        }
+    }
+
+    function error_reg($error)
+    {
+        $d['error']     = $error;
+        $d['id']        = 0;
+        $d['fname']     = set_value('firstname');
+        $d['lname']     = set_value('lastname');
+        $d['mname']     = set_value('middlename');
+                            // inline if statement
+        $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+        $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+        $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+        $this->api->userMenu();
+        $this->load->view('registrar/newstudent_registration', $d);
+        $this->load->view('templates/footer2');
+    }
+
+    function find_stu()
+    {
+        $this->db->where('legacyid', $this->input->post('student_search'));
+        $r = $this->db->get('tbl_party')->row_array();
+        redirect('/registration/'.$r['id']);
     }
 
 }

@@ -188,7 +188,7 @@ class Edp extends CI_Controller
         foreach($coursemajor as $key => $value)
         {
             $data = array();
-            $data['coursemajor']    = $value;
+            $data['course']    = $value;
             $data['yearlevel']      = $year_level[$key];
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
@@ -207,10 +207,10 @@ class Edp extends CI_Controller
 
         $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
 
-        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY coursemajor")->result_array();
+        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
         foreach($stuC as $studentC)
         {
-            $coursemajor    = $studentC['coursemajor'];
+            $coursemajor    = $studentC['course'];
             $acam           = $studentC['academicterm'];
             $cur1           = 0;
 
@@ -234,7 +234,7 @@ class Edp extends CI_Controller
             // if there are more than 1 curriculums
             if($cur_range > 1)
             {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
                 foreach($c as $cc)
                 {
                     $y      = $cc['yearlevel'];
@@ -253,7 +253,7 @@ class Edp extends CI_Controller
 
             elseif($cur1 != 0)
             {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE coursemajor = $coursemajor")->result_array();
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
                 foreach($c as $cc)
                 {
                     $y      = $cc['yearlevel'];
@@ -344,7 +344,9 @@ class Edp extends CI_Controller
                 'edp/edp_classallocation',
                 'dean/subject'
             ));
+            $this->load->helper('form');
             $data['cid'] = $cid;
+            $data['num'] = $this->input->post('days_count') ? $this->input->post('days_count') - 1 : 0;
             $this->load->view('edp/assign_subj_room',$data);
             $this->load->view('templates/footer');
         }
@@ -397,11 +399,40 @@ class Edp extends CI_Controller
                 }
             }*/
         }
+        $d['status'] = 'O';
+        $this->db->where('id', $cid);
+        $this->db->update('tbl_classallocation', $d);
         redirect(base_url('menu/edp-room_subj'));
        /* $this->db->where('id',$cid);
         $this->db->update('tbl_classallocation',$data);*/
        /* $this->session->set_flashdata('message','<div class="alert alert-success">Successfully Assigned</div>');
         */
+    }
+
+    function sorting()
+    {
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'registrar/academicterm',
+            'dean/subject'
+        ));
+        $cid = $this->input->post('cid');
+        if($cid == 1)
+        {
+            $this->load->view('edp/ajax_edp_all');
+        }
+        elseif($cid == 2)
+        {
+            $this->load->view('edp/ajax_edp_assigned');
+        }
+        elseif ($cid == 3)
+        {
+            $this->load->view('edp/ajax_edp_notassigned');
+        }
+        else {
+            // this is a error message
+            $this->load->view('edp/ajax_edp_bydean');
+        }
     }
 
     function preview($roomId)
@@ -417,6 +448,14 @@ class Edp extends CI_Controller
         $data['location']   = $room['location'];
 
         $this->load->view('edp/preview',$data);
+    }
+
+    function cl_inc()
+    {
+        $stat['classallocationstatus'] = $this->input->post('name');
+        $this->db->update('tbl_systemvalues', $stat);
+        $this->api->set_session_message('success', 'Successfully Attested');
+        redirect(base_url());
     }
 
     // test function

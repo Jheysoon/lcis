@@ -1,4 +1,4 @@
-<?php 
+<?php
   /*$result   = getEmpInfo($_SESSION['id']);
   $row      = mysql_fetch_row($result);
   $name     = $row[2]." ".$row[4];*/
@@ -11,7 +11,7 @@
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" 
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
             data-target="#bs-example-navbar-collapse-1 ">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
@@ -26,7 +26,7 @@
           <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav top-sign navbar-right">
               <li class="logout"><a href="<?php echo base_url('index.php/logout'); ?>">Logout</a></li>
-            </ul> 
+            </ul>
 
               <p class="navbar-text top-sign2 navbar-right">SY: <?php echo $this->session->userdata('sy'); ?>&nbsp;&nbsp;&nbsp;&nbsp; Term: <?php echo $this->session->userdata('sem'); ?></p>
             	<p class="navbar-text top-sign2 navbar-right">Signed in as <?php echo $this->session->userdata('username'); ?>
@@ -40,7 +40,7 @@
         </div>
             <div class="collapse navbar-collapse panel menu-hide" id="bs-example-navbar-collapse-1">
               <div class="visible-xs">
-                
+
               </div>
             </div>
       </nav>
@@ -65,12 +65,20 @@
 
               foreach ($menu as $option)
               {
-                  $menu_option = $this->option->getOption($option['optionid']);
-                  $str = str_replace('/', '-', $menu_option['link']);
+                  $menu_option  = $this->option->getOption($option['optionid']);
+                  $str1         = explode('/', $menu_option['link']);
+                  if(count($str1) > 1)
+                  {
+                      $str          = str_replace('/', '-', $menu_option['link']);
+                      $str = 'menu/'.$str;
+                  }
+                  else
+                    $str = $menu_option['link'];
+                  
                   ?>
                   <ul class="sub-menu">
                       <li class="li-sub-menu">
-                          <a class="menu" href="<?php echo base_url('menu/' . $str); ?>">
+                          <a class="menu" href="<?php echo base_url($str); ?>">
                               <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;
                               &nbsp; <?php echo $menu_option['desc']; ?>
                           </a>

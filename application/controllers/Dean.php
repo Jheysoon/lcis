@@ -13,6 +13,7 @@ class Dean extends CI_Controller
     public $message;
     public $message1;
     public $ret;
+    public $error;
 
     private function head()
     {
@@ -125,36 +126,40 @@ class Dean extends CI_Controller
 
     function edit_subject($sid,$param = '')
     {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
-            'dean/subject',
-            'dean/group',
-            'dean/college'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        if(!empty($sid) AND is_numeric($sid))
+        {
+            $this->load->model(array(
+                'dean/subject',
+                'dean/group',
+                'dean/college'
+            ));
 
-        $sub = $this->subject->find($sid);
-        extract($sub);
-        $data['code']               = $code;
-        $data['descriptivetitle']   = $descriptivetitle;
-        $data['units']              = $units;
-        $data['shortname']          = $shortname;
-        $data['majorsubject']       = $majorsubject;
-        $data['hours']              = $hours;
-        $data['bookletcharge']      = $bookletcharge;
-        $data['sid']                = $sid;
-        $data['owner']              = $owner;
-        $data['comp']               = $computersubject;
-        $data['ge']                 = $gesubject;
-        $data['academic']           = $nonacademic;
-        $data['error']              = '';
-        $data['param']              = $param;
+            $this->api->userMenu();
 
-        $this->load->view('dean/subjects',$data);
-        $this->load->view('templates/footer');
+            $sub = $this->subject->find($sid);
+            extract($sub);
+            $data['code']               = $code;
+            $data['descriptivetitle']   = $descriptivetitle;
+            $data['units']              = $units;
+            $data['shortname']          = $shortname;
+            $data['majorsubject']       = $majorsubject;
+            $data['hours']              = $hours;
+            $data['bookletcharge']      = $bookletcharge;
+            $data['sid']                = $sid;
+            $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
+            $data['error']              = '';
+            $data['param']              = $param;
+
+            $this->load->view('dean/subjects',$data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            show_error('Did you type the url by yourself ?');
+        }
     }
 
     function add_subject()
@@ -376,17 +381,21 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        $college    = $this->api->getUserCollege();
-        $s          = $this->subject->find($id);
-
-        if($college == 0 OR $s['owner'] == 0)
+        if(!empty($id) AND is_numeric($id))
         {
-           redirect(base_url('edit_subject/'.$id.'/view'));
+            $college    = $this->api->getUserCollege();
+            $s          = $this->subject->find($id);
+            if($college == 0 OR $s['owner'] == 0)
+            {
+               redirect(base_url('edit_subject/'.$id.'/view'));
+            }
+            elseif($s['owner'] == $college)
+            {
+                redirect(base_url('edit_subject/'.$id));
+            }
         }
-        elseif($s['owner'] == $college)
-        {
-            redirect(base_url('edit_subject/'.$id));
-        }
+        else
+            show_error('Did you type the url by yourself ?');
     }
 
     function searchStud()
@@ -805,21 +814,32 @@ class Dean extends CI_Controller
 
         foreach($day as $key => $value)
         {
-            if($index < 3)
+            if($index < 3 AND $index > 1)
             {
                 //check if the days are just the same
                 if($day[0] == $day[1])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    if($this->input->post('edp'))
+                    {
+
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
-            elseif($index < 4)
+            elseif($index < 4 AND $index > 1)
             {
                 //check if the days are just the same
                 if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
                 {
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
+                    if($this->input->post('edp'))
+                    {
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
@@ -838,15 +858,29 @@ class Dean extends CI_Controller
                 }
                 else{
                     $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
+                    if($this->input->post('edp'))
+                    {
+                        $this->session->set_flashdata('message', $this->error);
+                        redirect('/assign_room/'.$cid);
+                    }
                     return FALSE;
                 }
             }
             else{
                 $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
+                if($this->input->post('edp'))
+                {
+                    $this->session->set_flashdata('message', $this->error);
+                    redirect('/assign_room/'.$cid);
+                }
                 return FALSE;
             }
         }
         $this->api->set_session_message('success','Successfully added');
+        if($this->input->post('edp'))
+        {
+            redirect('/assign_room/'.$cid);
+        }
         return TRUE;
     }
 
@@ -946,7 +980,6 @@ class Dean extends CI_Controller
         $data['statusdate']     = date('Y-m-d');
         if(empty($id))
         {
-            //check if all the dean has already submitted
             $this->db->where('stage', $stage);
             $this->db->where('completedby', $uid);
             $r = $this->db->get('tbl_completion');
@@ -954,12 +987,14 @@ class Dean extends CI_Controller
             {
                 $this->db->insert('tbl_completion',$data);
             }
-            else {
+            else
+            {
                 $rr = $r->row_array();
                 $this->db->where('id', $rr['id']);
                 $this->db->update('tbl_completion', $data);
             }
-            // then change the classallocation status in tbl_systemvalue
+            //check if all the dean has already submitted
+            $this->chkDeanActivity($stage);
             redirect(base_url());
         }
         else
@@ -969,5 +1004,26 @@ class Dean extends CI_Controller
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }
+    }
+
+    function chkDeanActivity($stage)
+    {
+        $this->db->where('stage', $stage);
+        $q = $this->db->count_all_results('tbl_completion');
+        if($q == COLLEGE_COUNT)
+        {
+            // then change the classallocation status in tbl_systemvalue
+            $r = $this->db->get('tbl_systemvalues')->row_array();
+            $d['classallocationstatus'] = $r['classallocationstatus'] + 1;
+            $this->db->update('tbl_systemvalues', $d);
+        }
+    }
+
+    function chkDayPeriod()
+    {
+        $owner = $this->api->getUserCollege();
+        $this->load->model(array('edp/edp_classallocation'));
+
+        $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
     }
 }

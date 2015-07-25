@@ -82,286 +82,362 @@
 		<div class="panel-body">
 			<div class="col-md-12">
 		<div class="table-responsive">
+			<?php
+				echo $this->session->flashdata('message');
+			 ?>
+<?php
+				 $checkInpayment = $this->assesment->checkP($enrolid);
+				 if ($checkInpayment <= 0) {
+				 	$fullpay = 1;
+			 }else{
+				$fullpay = $this->assesment->getThisBal($student);
+		}
+ ?>
+ <?php if ($fullpay != 0): ?>
 		<?php if ($type == 'installment'): ?>
-				<?php
-				$phase = $this->api->systemValue();
-				if ($phase['phase'] == 1): ?>
-						<label>Installment</label>
-						<table class="table table-bordered">
-							<tr>
-								<th>Enrolment</th>
-								<th class="tblNum">Rate</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>MISCELLANEOUS FEE</td>
-								<td class="tblNum"></td>
-								<td class="tblNum"><?php echo $tui['miscellaneous']; ?></td>
-							</tr>
-							<tr>
-						<td>Matriculation</td>
-						<td class="tblNum"><?php
-							$getRate = $this->assesment->getR($coursemajor, 6);
-							echo $getRate['rate'];
-						 ?></td>
-						<td class="tblNum"><?php echo $tui['matriculation'] ?></td>
-					</tr>
-							<tr>
-								<td>1/5 TUITION</td>
-								<td class="tblNum"></td>
-								<td class="tblNum"><?php echo number_format($tui['tuition']/5, 2, '.', ','); ?></td>
-							</tr>
-							<?php if ($tui['computer'] > 0): ?>
-								<tr>
-									<td>1/5 COMPUTER</td>
-								<td class="tblNum"></td>
-									<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
-								</tr>
-							<?php endif ?>
-						<!-- 	<?php if ($tui['internet'] > 0): ?>
-									<tr>
-										<td>1/4 INTERNET</td>
-										<td class="tblNum"><?php echo $tui['internet']/4; ?></td>
-									</tr>
-							<?php endif ?> -->
-					<!-- 	<?php if ($tui['booklet'] > 0): ?>
-							<tr>
-								<td>BOOKLET FEE</td>
-								<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
-							</tr>
-						<?php endif ?> -->
-						<?php if ($tui['laboratory'] > 0): ?>
-							<tr>
-								<td>LABORATORY FEE</td>
-								<td class="tblNum"></td>
-								<td class="tblNum"><?php echo $tui['laboratory']; ?></td>
-							</tr>
-						<?php endif ?>
-						<tr>
-							<td>LEYTE TIMES</td>
-								<td class="tblNum"></td>
-							<td class="tblNum"><?php echo $tui['leytetime']; ?></td>
-						</tr>
-						<?php if ($tui['nstp'] > 0): ?>
-							<tr>
-								<td>NSTP</td>
-								<td class="tblNum"></td>
-								<td class="tblNum"><?php echo $tui['nstp']; ?></td>
-							</tr>
-						<?php endif ?>
-							<tr>
-								<td>LESS SCHOLARSHIP DISCOUNT</td>
+			<?php
+						$co = $this->assesment->checkExisting($enrolid);
+						if ($co > 0): ?>
 
-								<td class="tblNum"></td>
-								<td class="tblNum">(0.00)</td>
-							</tr>
-							<tr>
-								<td>ADD PREVIOUS BALANCE</td>
-								<td class="tblNum"></td>
-								<td class="tblNum">	<?php
-										$get_bal = $this->assesment->balance($student);
-										echo $x = number_format($get_bal, 2, '.', ',');
-								 ?></td>
-							</tr>
+																<?php
+																$phase = $this->api->systemValue();
+																if ($phase['phase'] == 1): ?>
+															<?php
+																$ph = $this->api->systemValue();
+																$phT = $ph['phase'];
+																	?>
+																		<form action="/billing/posting" method="POST">
+																			<div class="col-md-12">
+																				<table class="table table-bordered">
+																						<label>Full Payment</label>
+																						<tr>
+																							<th>FEES</th>
+																							<th class="tblNum">Amount</th>
+																					</tr>
+																					<tr>
+																						<td>
+																							Amound Due
+																						</td>
+																						<td style="text-align:right">
+																								<?php
 
-							<tr>
-								<th class="td-total tblNum">NET DUE ON ENROLMENT</th>
-								<th class="tblNum td-total" colspan="2"><?php echo number_format($tui['netenrolment'] + $get_bal, 2, '.', ',') ?></th>
-							</tr>
-					 		<tr>
-								<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
-								<td colspan="2"><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="enter amount" value="1,000.00"></strong></td>
-							</tr>
-							</table>
+																									$m  = $this->assesment->getDiscount($student);
+																									echo	$this->assesment->getT($m, $enrolid) ;
+																								?>
+																						</td>
+																					</tr>
+																					<tr>
+																								<td>
+																									Previous Ballance
+																								</td>
+																								<td style="text-align:right">
+																										<?php
+																												echo $this->assesment->balanceenrolment($student);
+																										?>
+																								</td>
+																							</tr>
+																					<tr>
+																								<td>
+																										Amount Paid
+																								</td>
+																								<td style="text-align:right">
+																											<?php
+																													echo '	('.$this->assesment->getAmountPaid($student, $enrolid).')';
+																											 ?>
+																								</td>
+																					</tr>
+																					<tr>
+																						<td>
+																							Total Due
+																						</td>
+
+																						<td style="text-align:right">
+																							<?php
+																							$m  = $this->assesment->getDiscount($student);
+																							echo	$fullpay = $this->assesment->getT($m, $enrolid) + $this->assesment->balanceenrolment($student) - $this->assesment->getAmountPaid($student, $enrolid);
+																							?>
+																						</td>
+																				</tr>
+																				</table>
+																			</div>
+																											<div class="col-md-12">
+																												<table class="table table-bordered">
+																														<label>INSTALLMENT</label>
+																														<tr>
+																															<th>ENROLMENT</th>
+																															<th class="tblNum">Amount</th>
+																													</tr>
+																															<tr>
+																																<td>
+																																	Previous Ballance
+																																</td>
+																																<td style="text-align:right">
+																																		<?php
+																																			echo $this->assesment->balanceenrolment($student);
+																																		?>
+																																</td>
+																															</tr>
+																															<tr>
+																																<td>
+																																	Amound Due
+																																</td>
+																																<td style="text-align:right">
+																																		<?php
+																																				echo $this->assesment->getAmount($enrolid);
+																																		 ?>
+																																</td>
+																															</tr>
+																																<tr>
+																																	<td>
+																																			Amount Paid
+																																	</td>
+																																	<td style="text-align:right">
+																																				<?php
+																																						echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																																				 ?>
+																																	</td>
+																																</tr>
+																																<tr>
+																																	<td>
+																																		Amount Override
+																																	</td>
+																																	<td style="text-align:right">
+																																		<?php
+																																				echo $over = $this->assesment->get_override($student, $enrolid);
+																																		 ?>
+																																	</td>
+																																</tr>
+																																<tr>
+																																<td>
+																																	Total Due
+																																</td>
+																																<td style="text-align:right">
+																																	<?php
+																																			$minusenrolment = $this->assesment->getifExistpayment($enrolid);
+																																			$total_dues = $this->assesment->getAmount($enrolid) + $this->assesment->balanceenrolment($student) - $this->assesment->getAmountPaid($student, $enrolid);
+																																			$ts = $total_dues;
+																																			echo number_format($total_dues,2, '.', ',');
+																																	?>
+																																</td>
+																															</tr>
+
+																												</table>
+																											</div>
+																											<div class="col-md-3 pull-right">
+																														<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
+																											</div>
+																											<div class="col-md-3 pull-right">
+																														<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
+																											</div>
+																											<input type="hidden" name="fullpay" value="<?php echo $fullpay; ?>">
+																											<input type="hidden" name="type" value="<?php echo $type ?>">
+																											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+																											<input type="hidden" name="total_due" value="<?php echo $ts ?>">
+																											<input type="hidden" name="override" value="<?php echo $over ?>">
+																											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+																											<div class="col-md-12">
+																													<br />
+																												<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
+																													<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+																										</div>
+																								</form>
+																			<a href="/billing/endphase">End of Phase</a>
+																				<?php else: ?>
+																					<form action="/billing/posting" method="POST">
+																							<div class="col-md-12">
+																								<table class="table table-bordered">
+																									<?php
+																									$ph = $this->api->systemValue();
+																									$phT = $ph['phase'];
+																									 ?>
+																										<label>INSTALLMENT</label>
+																										<tr>
+																											<th>
+																											<?php
+																												echo	$this->assesment->get_ph($phT);
+																											?>
+																											</th>
+																											<th class="tblNum">Amount</th>
+																									</tr>
+
+																											<tr>
+																												<td>
+																													Previous Ballance
+																												</td>
+																												<td style="text-align:right">
+																														<?php
+
+																																$bal = $this->assesment->balance($student) - $this->assesment->getAmountNetPre($enrolid);
+																																if ($bal >= 0) {
+																																	echo $bal;
+																																}else{
+																																	echo $bal = 0;
+																																}
+																														?>
+																												</td>
+																											</tr>
+																											<tr>
+																												<td >
+																													Amount Due
+																												</td>
+																												<td style="text-align:right">
+																													<?php
+																															echo $this->assesment->getAmountNetPre($enrolid);
+																													 ?>
+																												</td>
+																											</tr>
+																											<tr>
+																												<tr>
+																													<td>
+																															Amount Paid
+																													</td>
+																													<td style="text-align:right">
+																																<?php
+																																		echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																																 ?>
+																													</td>
+																												</tr>
+																												<tr>
+																													<td>
+																														Amount Override
+																													</td>
+																													<td style="text-align:right">
+																														<?php
+																																echo $over = $this->assesment->get_override($student, $enrolid);
+																														 ?>
+																													</td>
+																												</tr>
+																												<td>
+																													Total Due
+																												</td>
+																												<td style="text-align:right">
+																													<?php
+																															$total_dues = $this->assesment->balance($student);// - $this->assesment->getAmountPaid($student, $enrolid);//$this->assesment->getAmountNetPre($enrolid) + $bal - $this->assesment->getAmountPaid($student, $enrolid);
+																															$ts = $total_dues;
+																															echo number_format($total_dues,2, '.', ',');
+																													?>
+																												</td>
+																											</tr>
+																								</table>
+																							</div>
+																							<div class="col-md-3 pull-right">
+																										<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
+																							</div>
+																							<div class="col-md-3 pull-right">
+																										<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
+																							</div>
+																							<input type="hidden" name="type" value="<?php echo $type ?>">
+																							<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+																							<input type="hidden" name="total_due" value="<?php echo $ts ?>">
+																							<input type="hidden" name="override" value="<?php echo $over ?>">
+																							<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+																							<div class="col-md-12">
+																									<br />
+																								<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
+																									<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+																						</div>
+																						<a href="/billing/endphase">End of Phase</a>
+																					</form>
+																				<?php endif ?>
+																					<?php else: ?>
+																						<form action="/billing/posting" method="POST">
+																								<div class="col-md-12">
+																									<table class="table table-bordered">
+																										<?php
+																										$ph = $this->api->systemValue();
+																										$phT = $ph['phase'];
+																										 ?>
+																											<tr>
+																												<th>
+																													Back Accounts
+																												</th>
+																												<th class="tblNum">Amount</th>
+																										</tr>
+
+																												<tr>
+																													<td>
+																														Previous Ballance
+																													</td>
+																													<td style="text-align:right">
+																															<?php
+
+																																	$bal = $this->assesment->balance($student) - $this->assesment->getAmountNetPre($enrolid);
+																																	if ($bal >= 0) {
+																																		echo $bal;
+																																	}else{
+																																		echo $bal = 0;
+																																	}
+																															?>
+																													</td>
+																												</tr>
+																												<tr>
+																													<td >
+																														Amount Due
+																													</td>
+																													<td style="text-align:right">
+																														<?php
+																																echo $this->assesment->getAmountNetPre($enrolid);
+																														 ?>
+																													</td>
+																												</tr>
+																												<tr>
+																													<tr>
+																														<td>
+																																Amount Paid
+																														</td>
+																														<td style="text-align:right">
+																																	<?php
+																																			echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																																	 ?>
+																														</td>
+																													</tr>
+																													<tr>
+																														<td>
+																															Amount Override
+																														</td>
+																														<td style="text-align:right">
+																															<?php
+																																	echo $over = $this->assesment->get_override($student, $enrolid);
+																															 ?>
+																														</td>
+																													</tr>
+																													<td>
+																														Total Due
+																													</td>
+																													<td style="text-align:right">
+																														<?php
+																																$total_dues = $this->assesment->balance($student);// - $this->assesment->getAmountPaid($student, $enrolid);//$this->assesment->getAmountNetPre($enrolid) + $bal - $this->assesment->getAmountPaid($student, $enrolid);
+																																$ts = $total_dues;
+																																echo number_format($total_dues,2, '.', ',');
+																														?>
+																													</td>
+																												</tr>
+																									</table>
+																								</div>
+																								<div class="col-md-3 pull-right">
+																											<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
+																								</div>
+																								<div class="col-md-3 pull-right">
+																											<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
+																								</div>
+																								<input type="hidden" name="type" value="<?php echo $type ?>">
+																								<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+																								<input type="hidden" name="total_due" value="<?php echo $ts ?>">
+																								<input type="hidden" name="override" value="<?php echo $over ?>">
+																								<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+																								<div class="col-md-12">
+																										<br />
+																									<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
+																										<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+																							</div>
+																			<a href="/billing/endphase">End of Phase</a>
+																						</form>
+
+											<?php endif ?>
+											<?php endif ?>
 				<?php else: ?>
-						<label>Installment</label>
-						<form action="/billing/posting" method="POST" />
-								<table class="table table-bordered">
-									<tr>
-										<th><?php
-										echo $phase['phase'];
-										$x = $this->assesment->getPhase($phase['phase']);
-										$mu = $phase['phase'] - 1;
-										echo $x['description'];
-										 ?></th>
-										<th class="tblNum"></th>
-									</tr>
-									<tr>
-										<td>1/5 TUITION</td>
-										<td class="tblNum"><?php
-										$tus = $tui['tuition']/5;
-										echo number_format($tus * $mu + $tui['netenrolment'], 2, '.', ','); ?></td>
-									</tr>
-									<?php if ($tui['computer'] > 0): ?>
-										<tr>
-											<td>1/5 COMPUTER</td>
-											<td class="tblNum"><?php echo $tui['computer']/5; ?></td>
-										</tr>
-									<?php endif ?>
-									<?php if ($tui['internet'] > 0): ?>
-											<tr>
-												<td>1/4 INTERNET</td>
-												<td class="tblNum"><?php echo $tui['internet']/4 * $mu; ?></td>
-											</tr>
-									<?php endif ?>
-								<?php if ($tui['booklet'] > 0): ?>
-									<tr>
-										<td>BOOKLET FEE</td>
-										<td class="tblNum"><?php echo $tui['booklet']/5; ?></td>
-									</tr>
-								<?php endif ?>
-									<tr>
-										<td>LESS SCHOLARSHIP DISCOUNT</td>
-										<td class="tblNum">(0.00)</td>
-									</tr>
-									<tr>
-										<td>ADD PREVIOUS BALANCE</td>
-										<td class="tblNum">	<?php
-												$get_bal = $this->assesment->balance($student);
-												echo $l = number_format($get_bal, 2, '.', ',');
-										 ?></td>
-									</tr>
-									<tr>
-										<td>AMOUNT PAID</td>
-										<td class="tblNum">(0.00)</td>
-									</tr>
-									<tr>
-										<th class="td-total tblNum">NET DUE ON <?php echo $x['description']; ?></th>
-										<th class="tblNum td-total"><?php
-											echo $tui['netprelim']  + $get_bal ; ?></th>
-									</tr>
-							 		<tr>
-										<td class="td-total tblNum">OVERRIDE AMOUNT DUE THIS EXAM: </td>
-										<td><strong><input class="form-control input-enrol" type="numeric" name="override" placeholder="Enter Amount" value="0"></strong></td>
-									</tr>
-									<tr>
-										<td class="td-total tblNum">Amount: </td>
-										<td><strong><input class="form-control input-enrol" type="numeric" name="payment" placeholder="Enter Amount"></strong></td>
-									</tr>
-								</table>
-								<input type="text" name="enrolid" value="<?php echo $enrolid; ?>">
-							<button type="submit" class="btn btn-primary pull-right" style="width:100px;height:40px">Submit</button>
-						</form>
-				<?php endif ?>
-			<?php else: ?>
-					<table class="table table-bordered">
-					<label>Full Payment</label>
-					 	<tr>
-							<th>FEES</th>
-							<th class="tblNum">RATE</th>
-							<th class="tblNum">Units</th>
-							<th class="tblNum">Amount</th>
-						</tr>
-					<tr>
-						<td>Tuition</td>
-						<td class="tblNum">
-						<?php
-							$getRate = $this->assesment->getR($coursemajor, 7);
-							echo $getRate['rate'];
-						?></td>
-						<td class="tblNum"><?php echo $units ?></td>
-						<td class="tblNum"><?php echo number_format($tui['tuition'],2, '.', ',') ; ?></td>
-					</tr>
-
-					<tr>
-						<td>Matriculation</td>
-						<td class="tblNum"><?php
-							$getRate = $this->assesment->getR($coursemajor, 6);
-							echo $getRate['rate'];
-						 ?></td>
-						<td class="tblNum"><?php echo $units; ?></td>
-						<td class="tblNum"><?php echo $tui['matriculation'] ?></td>
-					</tr>
-					<tr>
-						<td>MISCELLANEOUS FEE</td>
-						<td class="tblNum"></td>
-						<td class="tblNum"></td>
-						<td class="tblNum"><?php echo $tui['miscellaneous']; ?></td>
-					</tr>
-					<?php if ($tui['laboratory'] > 0): ?>
-						<tr>
-							<td>LABORATORY FEE</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum"><?php echo $tui['laboratory']; ?></td>
-						</tr>
-					<?php endif ?>
-
-					<tr>
-						<td>LEYTE TIMES</td>
-						<td class="tblNum"></td>
-						<td class="tblNum"></td>
-						<td class="tblNum"><?php echo $tui['leytetime']; ?></td>
-					</tr>
-					<?php if ($tui['nstp'] > 0): ?>
-						<tr>
-							<td>NSTP</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum"><?php echo $tui['nstp']; ?></td>
-						</tr>
-					<?php endif ?>
-					<?php if ($tui['internet']): ?>
-						<tr>
-							<td>INTERNET</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum"><?php echo $tui['internet']; ?></td>
-						</tr>
-					<?php endif ?>
-					<?php if ($tui['computer'] > 0): ?>
-						<tr>
-							<td>COMPUTER</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum"><?php echo $tui['computer']; ?></td>
-						</tr>
-					<?php endif ?>
-					<?php if ($tui['booklet'] > 0): ?>
-						<tr>
-							<td>BOOKLET</td>
-							<td class="tblNum">2.5</td>
-							<td class="tblNum">4</td>
-							<td class="tblNum"><?php echo $tui['booklet']; ?></td>
-						</tr>
-					<?php endif ?>
-					<tr>
-							<td>LESS 10% Discount</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum"><?php echo "(" .$tui['fullpaydiscount'] .")"; ?></td>
-					</tr>
-					<tr>
-							<td>Previous Balance</td>
-							<td class="tblNum"></td>
-							<td class="tblNum"></td>
-							<td class="tblNum">	<?php
-										$get_bal = $this->assesment->balance($student);
-										echo $x = number_format($get_bal, 2, '.', ',');
-								 ?></td>
-					</tr>
-					<tr>
-						<th class="tblNum" colspan="3">GROSS TOTAL THIS SEMESTER</th>
-						<th class="tblNum"><?php
-						 echo number_format($tui['netfullpayment'] + $get_bal, 2, '.', ',');
-
-						 ?> </th>
-					</tr>
-
-				</table>
-				<div class="col-md-3 pull-right">
-							<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px">
-				</div>
-
-
-							<br /><br />
-				<br />
-				<div class="col-md-12">
-					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
-					<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Save</a>
-				<br /><br /><br /><br />
-			</div>
-		<?php endif ?>
+						<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>All Back Accunts Paid</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
