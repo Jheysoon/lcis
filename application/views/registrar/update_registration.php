@@ -12,7 +12,7 @@
 				<?php
 					echo $error;
 				?>
-					<form class="form-horizontal add-user" method="post" action="" role="form">
+					<form class="form-horizontal add-user" method="post" action="/form_update_reg" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
@@ -29,9 +29,9 @@
 						</div>
 						<div class = "col-sm-3">
 							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
-							<?php if($id == 0){ ?>
+
 							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
-							<?php } ?>
+
 						</div>
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
 					</div>
@@ -40,8 +40,8 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
 							<select class="form-control" name='gender' required>
-								<option value="1" <?php set_select('gender', 1, TRUE) ?>> MALE</option>
-								<option value="0" <?php set_select('gender', 0) ?>> FEMALE</option>
+								<option value="M" <?php set_select('gender', 'M', TRUE) ?> <?php echo $gender == 'M' OR $gender == 1 ? 'selected':'' ?>> MALE</option>
+								<option value="F" <?php set_select('gender', 'F') ?> <?php echo $gender == 'F' OR $gender == 0 ? 'selected':'' ?>> FEMALE</option>
 							</select>
 						</div>
 					</div>
@@ -89,13 +89,13 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" value="<?php echo set_value('dob'); ?>" required>
+							<input class="form-control" type="date" name="dob" value="<?php echo $dob; ?>" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" required class="form-control" value="<?php echo set_value('pob'); ?>"></textarea>
+							<textarea name="pob" required class="form-control" value="<?php echo $pob; ?>"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -153,32 +153,32 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
+							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo $emailadd; ?>" placeholder="Email Address">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name" required>
+							<label class="label-control add-label" for="father">Fathers Name</label>
+							<input class="form-control" type="text" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="foccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="occupation" value="<?php echo set_value('occupation'); ?>" placeholder="Father's Guardian">
+							<input class="form-control" type="text" maxlength="13" name="occupation" value="<?php echo set_value('occupation'); ?>" placeholder="Father's Guardian">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name" required>
+							<input class="form-control" type="text" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="moccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="moccupation" value="<?php echo set_value('moccupation'); ?>" placeholder="Mother's Occupation">
+							<input class="form-control" type="text" maxlength="13" name="moccupation" value="<?php echo set_value('moccupation'); ?>" placeholder="Mother's Occupation">
 						</div>
 					</div>
 
@@ -233,7 +233,7 @@
 						  </div>
 						</div>
 					</div>
-					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
+					<!-- <br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="username">Username <small class="required">(required)</small></label>
@@ -252,12 +252,13 @@
 							<input type="password" class="form-control" name="rpass" value="<?php echo set_value('rpass'); ?>" placeholder="Repeat Password" required>
 						</div>
 					</div>
-		              <div class="form-group">
-		                <div class="col-sm-8 col-sm-offset-1">
-		                  <button type="submit" class="btn btn-success">Save</button>
-		                  <a href="index.php?page=addStudent" class="btn btn-warning">Clear</a>
-		                </div>
-		              </div>
+		               -->
+                    <div class="form-group">
+                      <div class="col-sm-8 col-sm-offset-1">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="reset" name="button" class="btn btn-default">Clear</button>
+                      </div>
+                    </div>
 				</form>
 			</div>
 		</div>
