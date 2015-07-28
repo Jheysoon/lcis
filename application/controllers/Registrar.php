@@ -1010,7 +1010,7 @@ class Registrar extends CI_Controller
         $tt = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
         $data['course'] = $tt['course'];
         $data['major'] = $tt['major'];
-        $this->ch_stat_reg($t['id']);
+
         $this->api->userMenu();
         $this->load->view('registrar/update_registration', $data);
     }
@@ -1104,6 +1104,7 @@ class Registrar extends CI_Controller
             $r['coursemajor']   = $t['id'];
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
+            $this->ch_stat_reg($t['id']);
             $this->db->insert('tbl_registration', $r);
             redirect('/shift_student');
         }
