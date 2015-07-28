@@ -32,7 +32,8 @@
                 <script src="/assets/js/rgstr_build.js"></script>
         <?php
             }
-            if(in_array('registrar-student_list',$str1) OR in_array('registrar-update_student', $str1))
+            if(in_array('registrar-student_list',$str1) OR in_array('registrar-update_student', $str1)
+                OR in_array('registrar-shift_student', $str1))
             {
                 ?>
             <script src="/assets/js/typeahead.bundle.js"></script>

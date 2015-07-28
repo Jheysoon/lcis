@@ -306,9 +306,9 @@ class Registrar extends CI_Controller
             'registrar/common',
             'registrar/log_student'
         ));
-        $partyid = $this->input->post('partyid');
-        $url = $this->input->post('url');
-        $flag_status = $this->input->post('flag_status');
+        $partyid        = $this->input->post('partyid');
+        $url            = $this->input->post('url');
+        $flag_status    = $this->input->post('flag_status');
 
         $curtm = $this->log_student->getLatestTm($partyid);
         if($flag_status == 'C')
@@ -317,11 +317,11 @@ class Registrar extends CI_Controller
             if ($tm == $curtm)
             {
                 $this->add_flag($partyid,$flag_status);
-                $data['user'] = $this->session->userdata('uid');
-                $data['dte'] = date('Y-m-d');
-                $data['student'] = $partyid;
-                $data['status'] = $flag_status;
-                $data['tm'] = time();
+                $data['user']       = $this->session->userdata('uid');
+                $data['dte']        = date('Y-m-d');
+                $data['student']    = $partyid;
+                $data['status']     = $flag_status;
+                $data['tm']         = time();
                 $this->db->insert('log_student');
             }
             else
@@ -841,6 +841,8 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
     }
+
+    // this function will be for the new student registration
     function registration($id = 0)
     {
         $this->load->library('form_validation');
@@ -885,14 +887,16 @@ class Registrar extends CI_Controller
             }
             else
             {
+                $this->load->model('registrar/registration');
                 //get the student id
                 $this->db->where('id', $id);
+                $this->db->select('firstname,lastname,middlename,legacyid');
                 $p = $this->db->get('tbl_party')->row_array();
 
-                $this->db->where('id', $id);
-                $r = $this->db->get('tbl_registration')->row_array();
+                $r = $this->registration->getLatestCM($id);
 
                 $this->db->where('id', $r['coursemajor']);
+                $this->db->select('course,major');
                 $c = $this->db->get('tbl_coursemajor')->row_array();
 
                 //update/display only the important fields
@@ -914,47 +918,55 @@ class Registrar extends CI_Controller
         else
         {
             $email = $this->input->post('emailadd');
-            if (filter_var($email, FILTER_VALIDATE_EMAIL) OR $this->input->post('emailadd') == NULL)
+            if($email)
             {
-                if($this->input->post('password') == $this->input->post('rpass'))
+                if (filter_var($email, FILTER_VALIDATE_EMAIL))
                 {
-                    $data['firstname']      = ucwords($this->input->post('firstname'));
-                    $data['lastname']       = ucwords($this->input->post('lastname'));
-                    $data['middlename']     = ucwords($this->input->post('middlename'));
-                    $data['sex']            = $this->input->post('gender');
-                    $data['religion']       = $this->input->post('religion');
-                    $data['dateofbirth']    = $this->input->post('dob');
-                    $data['placeofbirth']   = ucwords($this->input->post('pob'));
-                    $data['emailaddress']   = $email;
+                    if($this->input->post('password') == $this->input->post('rpass'))
+                    {
+                        $data['firstname']      = ucwords($this->input->post('firstname'));
+                        $data['lastname']       = ucwords($this->input->post('lastname'));
+                        $data['middlename']     = ucwords($this->input->post('middlename'));
+                        $data['sex']            = $this->input->post('gender');
+                        $data['religion']       = $this->input->post('religion');
+                        $data['dateofbirth']    = $this->input->post('dob');
+                        $data['placeofbirth']   = ucwords($this->input->post('pob'));
+                        $data['emailaddress']   = $email;
 
-                    $this->db->insert('tbl_party', $data);
-                    $id = $this->db->insert_id();
+                        $this->db->insert('tbl_party', $data);
+                        $id = $this->db->insert_id();
 
-                    $systemVal              = $this->api->systemValue();
-                    $reg['coursemajor']     = $this->input->post('course');
-                    $reg['academicterm']    = $systemVal['currentacademcterm'];
-                    $reg['datecreated']     = date('Y-m-d');
-                    $reg['dateverified']    = date('Y-m-d');
-                    $reg['student']         = $id;
-                    $this->db->insert('tbl_registration', $reg);
+                        // get the latest curriculum for that student
+                        $systemVal              = $this->api->systemValue();
+                        $reg['coursemajor']     = $this->input->post('course');
+                        $reg['academicterm']    = $systemVal['currentacademicterm'];
+                        $reg['datecreated']     = date('Y-m-d');
+                        $reg['dateverified']    = date('Y-m-d');
+                        $reg['student']         = $id;
+                        $this->db->insert('tbl_registration', $reg);
 
-                    redirect(base_url('registration'));
+                        redirect(base_url('registration'));
+                    }
+                    else
+                    {
+                        $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                        Password and Re-peat password did not match
+                                    </div>';
+                        $this->error_reg($error);
+                    }
                 }
                 else
                 {
+                    // send a invalid email error
                     $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
-                                    Password and Re-peat password did not match
+                                    Invalid email address
                                 </div>';
                     $this->error_reg($error);
                 }
             }
             else
             {
-                // send a invalid email error
-                $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
-                                Invalid email address
-                            </div>';
-                $this->error_reg($error);
+
             }
 
         }
@@ -979,8 +991,99 @@ class Registrar extends CI_Controller
     function find_stu()
     {
         $this->db->where('legacyid', $this->input->post('student_search'));
+        $this->db->select('id');
         $r = $this->db->get('tbl_party')->row_array();
-        redirect('/registration/'.$r['id']);
+        redirect('/update_reg/'.$r['id']);
     }
 
+    function update_reg($id)
+    {
+        $data['id'] = $id;
+        $this->load->view('registrar/update_registration', $data);
+    }
+
+    function form_update_reg()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+    }
+
+    function find_shift()
+    {
+        $this->db->where('legacyid', $this->input->post('student_search'));
+        $this->db->select('id');
+        $r = $this->db->get('tbl_party')->row_array();
+        redirect('/shiftee/'.$r['id']);
+    }
+
+    function shiftee($id = '')
+    {
+        if (!empty($id))
+        {
+            $systemVal = $this->api->systemValue();
+            if($systemVal['phase'] == ENR)
+            {
+                $this->load->helper('form');
+                $this->load->library('form_validation');
+
+                $this->form_validation->set_rules('firstname', 'Firstname', 'required');
+                $this->form_validation->set_rules('lastname', 'Lastname', 'required');
+                $this->form_validation->set_rules('middlename', 'Middlename', 'required');
+                if($this->form_validation->run() === FALSE)
+                {
+                    if($this->input->post('id'))
+                    {
+                        $this->load->model('registrar/registration');
+                        $this->db->where('id', $id);
+                        $this->db->select('firstname,middlename,lastname');
+                        $p = $this->db->get('tbl_party')->row_array();
+                        $data['firstname']  = $p['firstname'];
+                        $data['lastname']   = $p['lastname'];
+                        $data['middlename'] = $p['middlename'];
+
+                        $r = $this->registration->getLatestCM();
+
+                        $this->db->where('id', $r['coursemajor']);
+                        $this->db->select('course,major');
+                        $c = $this->db->get('tbl_coursemajor')->row_array();
+
+                        $data['id']     = $id;
+                        $data['course'] = $c['course'];
+                        $data['major']  = $c['major'];
+                        $this->load->view('registrar/shiftee', $data);
+                    }
+                    else
+                    {
+                        $data['id']         = set_value('id');
+                        $data['firstname']  = set_value('firstname');
+                        $data['lastname']   = set_value('lastname');
+                        $data['middlename'] = set_value('middlename');
+                        $data['course']     = set_value('course');
+                        $data['major']      = set_value('major');
+                        $this->load->view('registrar/shiftee', $data);
+                    }
+
+                }
+                else
+                {
+                    // insert some in tbl_registration
+                    $this->db->where('course', $this->input->post('course'));
+                    $this->db->where('major', $this->input->post('major'));
+                    $this->db->select('id');
+                    $y = $this->db->get('tbl_coursemajor')->row_array();
+
+                    $t['coursemajor'] = $y['id'];
+                    $t['student'] = $id;
+                    $t['academicterm'] = $systemVal['currentacademcterm'];
+                    //get the latest curriculum for that student
+                }
+            }
+            else {
+                show_error('Phase term is not enrollment');
+            }
+        }
+        else {
+            show_error('Did you type the url by yourself ?');
+        }
+    }
 }
