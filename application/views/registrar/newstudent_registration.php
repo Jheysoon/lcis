@@ -98,8 +98,8 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
 							<select class="form-control" name='gender' required>
-								<option value="1" <?php set_select('gender', 1, TRUE) ?>> MALE</option>
-								<option value="0" <?php set_select('gender', 0) ?>> FEMALE</option>
+								<option value="M" <?php set_select('gender', 'M', TRUE) ?>> MALE</option>
+								<option value="F" <?php set_select('gender', 'F') ?>> FEMALE</option>
 							</select>
 						</div>
 					</div>
