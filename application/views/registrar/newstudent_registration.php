@@ -218,25 +218,25 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name" required>
+							<input class="form-control" type="text" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="foccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="occupation" value="<?php echo set_value('occupation'); ?>" placeholder="Father's Guardian">
+							<input class="form-control" type="text" maxlength="13" name="occupation" value="<?php echo set_value('occupation'); ?>" placeholder="Father's Guardian">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name" required>
+							<input class="form-control" type="text" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="moccupation">Occupation <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" maxlength="13" name="moccupation" value="<?php echo set_value('moccupation'); ?>" placeholder="Mother's Occupation">
+							<input class="form-control" type="text" maxlength="13" name="moccupation" value="<?php echo set_value('moccupation'); ?>" placeholder="Mother's Occupation">
 						</div>
 					</div>
 
