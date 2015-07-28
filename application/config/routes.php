@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['find_stu']                      = 'registrar/find_stu';
     $route['shiftee']                       = 'registrar/shiftee';
     $route['update_registration/(:num)']    = 'registrar/update_reg/$1';
+    $route['form_update_reg']               = 'registrar/form_update_reg';
 
     // Audit Routes
     $route['adt_viewtStudentBilling']       = 'audit/viewtStudentBilling';

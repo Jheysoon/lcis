@@ -18,11 +18,11 @@
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
                         <label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
-                        <input class="form-control" type="text" value="<?php echo $lastname ?>" name="lastname" placeholder="Lastname" required>
+                        <input class="form-control" type="text" value="<?php echo $lastname == '' ? set_value('lastname'):$lastname ?>" name="lastname" placeholder="Lastname" required>
                         <label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
-                        <input class="form-control" type="text" value="<?php echo $firstname ?>" name="firstname" placeholder="First Name" required>
+                        <input class="form-control" type="text" value="<?php echo $firstname == '' ? set_value('firstname'):$firstname ?>" name="firstname" placeholder="First Name" required>
                         <label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-                        <input class="form-control" type="text" value="<?php echo $middlename ?>" name="middlename" placeholder="Middle Name" required>
+                        <input class="form-control" type="text" value="<?php echo $middlename == '' set_value('middlename'):$middlename ?>" name="middlename" placeholder="Middle Name" required>
                     </div>
                     <div class = "col-sm-3">
                         <img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">

@@ -853,26 +853,26 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('middlename', 'Middlename','required');
         $this->form_validation->set_rules('course', 'Course','required');
         $this->form_validation->set_rules('gender', 'Gender','required');
-        // $this->form_validation->set_rules('religion', 'Religion','required');
+        $this->form_validation->set_rules('religion', 'Religion','required');
         // nationality not found in tbl_party
-        // $this->form_validation->set_rules('nationality', 'Nationality','required');
-        // $this->form_validation->set_rules('dob', 'Date of Birth','required');
-        // $this->form_validation->set_rules('pob', 'Place of Birth','required');
-        // $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
-        // $this->form_validation->set_rules('father', 'Fathers Name','required');
-        // $this->form_validation->set_rules('mother', 'Mothers Name','required');
-        // $this->form_validation->set_rules('middlename', 'Middlename','required');
-        // $this->form_validation->set_rules('username', 'Username','required');
-        // $this->form_validation->set_rules('password', 'Password','required');
-        // $this->form_validation->set_rules('rpass', 'Repeat Password','required');
-        // $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
-        // $this->form_validation->set_rules('sid', 'Student Id', 'required');
+        $this->form_validation->set_rules('nationality', 'Nationality','required');
+        $this->form_validation->set_rules('dob', 'Date of Birth','required');
+        $this->form_validation->set_rules('pob', 'Place of Birth','required');
+        $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
+        $this->form_validation->set_rules('father', 'Fathers Name','required');
+        $this->form_validation->set_rules('mother', 'Mothers Name','required');
+        $this->form_validation->set_rules('middlename', 'Middlename','required');
+        $this->form_validation->set_rules('username', 'Username','required');
+        $this->form_validation->set_rules('password', 'Password','required');
+        $this->form_validation->set_rules('rpass', 'Repeat Password','required');
+        $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
+        $this->form_validation->set_rules('sid', 'Student Id', 'required');
         $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
         {
-            if($id == 0 OR $this->input->post('firstname'))
-            {
+            // if($id == 0 OR $this->input->post('firstname'))
+            // {
                 $this->api->userMenu();
                 $d['id']        = 0;
                 $d['fname']     = set_value('firstname');
@@ -884,91 +884,83 @@ class Registrar extends CI_Controller
                 $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
                 $this->load->view('registrar/newstudent_registration', $d);
                 $this->load->view('templates/footer2');
-            }
-            else
-            {
-                $this->load->model('registrar/registration');
-                //get the student id
-                $this->db->where('id', $id);
-                $this->db->select('firstname,lastname,middlename,legacyid');
-                $p = $this->db->get('tbl_party')->row_array();
-
-                $r = $this->registration->getLatestCM($id);
-
-                $this->db->where('id', $r['coursemajor']);
-                $this->db->select('course,major');
-                $c = $this->db->get('tbl_coursemajor')->row_array();
-
-                //update/display only the important fields
-
-                $l['id']        = $id;
-                $l['fname']     = $p['firstname'];
-                $l['lname']     = $p['lastname'];
-                $l['mname']     = $p['middlename'];
-                $l['legacyid']  = $p['legacyid'];
-                $l['course']    = $c['course'];
-                $l['major']     = $c['major'];
-                $l['error']     = '';
-
-                $this->api->userMenu();
-                $this->load->view('registrar/newstudent_registration', $l);
-                $this->load->view('templates/footer2');
-            }
+            // }
+            // else
+            // {
+            //     $this->load->model('registrar/registration');
+            //     //get the student id
+            //     $this->db->where('id', $id);
+            //     $this->db->select('firstname,lastname,middlename,legacyid');
+            //     $p = $this->db->get('tbl_party')->row_array();
+            //
+            //     $r = $this->registration->getLatestCM($id);
+            //
+            //     $this->db->where('id', $r['coursemajor']);
+            //     $this->db->select('course,major');
+            //     $c = $this->db->get('tbl_coursemajor')->row_array();
+            //
+            //     //update/display only the important fields
+            //
+            //     $l['id']        = $id;
+            //     $l['fname']     = $p['firstname'];
+            //     $l['lname']     = $p['lastname'];
+            //     $l['mname']     = $p['middlename'];
+            //     $l['legacyid']  = $p['legacyid'];
+            //     $l['course']    = $c['course'];
+            //     $l['major']     = $c['major'];
+            //     $l['error']     = '';
+            //
+            //     $this->api->userMenu();
+            //     $this->load->view('registrar/newstudent_registration', $l);
+            //     $this->load->view('templates/footer2');
+            // }
         }
         else
         {
             $email = $this->input->post('emailadd');
-            if($email)
+            if (filter_var($email, FILTER_VALIDATE_EMAIL))
             {
-                if (filter_var($email, FILTER_VALIDATE_EMAIL))
+                if($this->input->post('password') == $this->input->post('rpass'))
                 {
-                    if($this->input->post('password') == $this->input->post('rpass'))
-                    {
-                        $data['firstname']      = ucwords($this->input->post('firstname'));
-                        $data['lastname']       = ucwords($this->input->post('lastname'));
-                        $data['middlename']     = ucwords($this->input->post('middlename'));
-                        $data['sex']            = $this->input->post('gender');
-                        $data['religion']       = $this->input->post('religion');
-                        $data['dateofbirth']    = $this->input->post('dob');
-                        $data['placeofbirth']   = ucwords($this->input->post('pob'));
-                        $data['emailaddress']   = $email;
+                    $data['firstname']      = ucwords($this->input->post('firstname'));
+                    $data['lastname']       = ucwords($this->input->post('lastname'));
+                    $data['middlename']     = ucwords($this->input->post('middlename'));
+                    $data['sex']            = $this->input->post('gender');
+                    $data['religion']       = $this->input->post('religion');
+                    $data['dateofbirth']    = $this->input->post('dob');
+                    $data['placeofbirth']   = ucwords($this->input->post('pob'));
+                    $data['emailaddress']   = $email;
 
-                        $this->db->insert('tbl_party', $data);
-                        $id = $this->db->insert_id();
+                    $this->db->insert('tbl_party', $data);
+                    $id = $this->db->insert_id();
 
-                        // get the latest curriculum for that student
-                        $systemVal              = $this->api->systemValue();
-                        $reg['coursemajor']     = $this->input->post('course');
-                        $reg['academicterm']    = $systemVal['currentacademicterm'];
-                        $reg['datecreated']     = date('Y-m-d');
-                        $reg['dateverified']    = date('Y-m-d');
-                        $reg['student']         = $id;
-                        $this->db->insert('tbl_registration', $reg);
+                    // get the latest curriculum for that student
+                    $systemVal              = $this->api->systemValue();
+                    $reg['coursemajor']     = $this->input->post('course');
+                    $reg['academicterm']    = $systemVal['currentacademicterm'];
+                    $reg['datecreated']     = date('Y-m-d');
+                    $reg['dateverified']    = date('Y-m-d');
+                    $reg['student']         = $id;
+                    $this->db->insert('tbl_registration', $reg);
 
-                        redirect(base_url('registration'));
-                    }
-                    else
-                    {
-                        $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
-                                        Password and Re-peat password did not match
-                                    </div>';
-                        $this->error_reg($error);
-                    }
+                    redirect(base_url('registration'));
                 }
                 else
                 {
-                    // send a invalid email error
                     $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
-                                    Invalid email address
+                                    Password and Re-peat password did not match
                                 </div>';
                     $this->error_reg($error);
                 }
             }
             else
             {
-
+                // send a invalid email error
+                $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
+                                Invalid email address
+                            </div>';
+                $this->error_reg($error);
             }
-
         }
     }
 
@@ -993,12 +985,33 @@ class Registrar extends CI_Controller
         $this->db->where('legacyid', $this->input->post('student_search'));
         $this->db->select('id');
         $r = $this->db->get('tbl_party')->row_array();
-        redirect('/update_reg/'.$r['id']);
+        redirect('/update_registration/'.$r['id']);
     }
 
     function update_reg($id)
     {
+        $this->load->model('registrar/registration');
+        $this->load->helper('form');
         $data['id'] = $id;
+        $this->db->where('id', $id);
+        $this->db->select('firstname,lastname,middlename,placeofbirth,dateofbirth,emailaddress,legacyid,sex');
+        $p = $this->db->get('tbl_party')->row_array();
+        $data['fname']      = $p['firstname'];
+        $data['lname']      = $p['lastname'];
+        $data['mname']      = $p['middlename'];
+        $data['pob']        = $p['placeofbirth'];
+        $data['dob']        = $p['dateofbirth'];
+        $data['emailadd']   = $p['emailaddress'];
+        $data['error']      = '';
+        $data['legacyid']   = $p['legacyid'];
+        $data['gender']     = $p['sex'];
+
+        $t = $this->registration->getLatestCM($id);
+        $tt = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
+        $data['course'] = $tt['course'];
+        $data['major'] = $tt['major'];
+        $this->ch_stat_reg($t['id']);
+        $this->api->userMenu();
         $this->load->view('registrar/update_registration', $data);
     }
 
@@ -1006,6 +1019,57 @@ class Registrar extends CI_Controller
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('lastname', 'Lastname', 'required');
+        $this->form_validation->set_rules('firstname', 'Firstname', 'required');
+        $this->form_validation->set_rules('middlename', 'Middlename', 'required');
+        $this->form_validation->set_rules('pob', 'Place of Birth', 'required');
+        $this->form_validation->set_rules('mailadd', 'Mailing Address', 'required');
+
+        if($this->form_validation->run() === FALSE)
+        {
+            $data['id']         = set_value('id');
+            $data['fname']      = set_value('fname');
+            $data['lname']      = set_value('lname');
+            $data['mname']      = set_value('mname');
+            $data['pob']        = set_value('pob');
+            $data['dob']        = set_value('dob');
+            $data['emailadd']   = set_value('emailadd');
+            $data['error']      = '';
+            $data['legacyid']   = set_value('legacyid');
+            $data['gender']     = set_value('gender');
+            $data['course']     = set_value('course');
+            $data['major']      = set_value('major');
+            $this->api->userMenu();
+            $this->load->view('registrar/update_registration', $data);
+        }
+        else
+        {
+            $this->load->model('registrar/registration');
+            $t['firstname']     = ucwords($this->input->post('firstname'));
+            $t['lastname']      = ucwords($this->input->post('lastname'));
+            $t['middlename']    = ucwords($this->input->post('middlename'));
+            $t['placeofbirth']  = ucwords($this->input->post('pob'));
+            $t['dateofbirth']   = $this->input->post('dob');
+            $t['sex']           = $this->input->post('gender');
+            $t['emailaddress']  = $this->input->post('emailadd');
+            $id                 = $this->input->post('id');
+            $this->db->where('id', $id);
+            $this->db->update('tbl_party', $t);
+            $p = $this->registration->getLatestCM($id);
+
+            // update the tbl_registration status
+            $this->ch_stat_reg($p['id']);
+            $this->api->set_session_message('success', 'Successfully Updated');
+            redirect('/menu/registrar-update_student');
+        }
+    }
+
+    function ch_stat_reg($reg_id, $stat = 'E')
+    {
+        $this->db->where('id', $reg_id);
+        $i['status'] = $stat;
+        $this->db->update('tbl_registration', $i);
     }
 
     function find_shift()
@@ -1016,6 +1080,35 @@ class Registrar extends CI_Controller
         redirect('/shiftee/'.$r['id']);
     }
 
+    function shiftee_form()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('firstname', 'Firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'Lastname', 'required');
+        $this->form_validation->set_rules('middlename', 'Middlename', 'required');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            $d['course'] = $this->input->post('course');
+            $d['major'] = $this->input->post('major');
+            $this->load->view('registrar/shiftee', $d);
+        }
+        else {
+            $this->db->where('course', $this->input->post('course'));
+            $this->db->where('major', $this->input->post('major'));
+            $this->db->select('id');
+            $t                  = $this->db->get('tbl_coursemajor')->row_array();
+            $r['student']       = $this->input->post('id');
+            $r['coursemajor']   = $t['id'];
+            $systemVal          = $this->api->systemValue();
+            $r['academicterm']  = $systemVal['currentacademicterm'];
+            $this->db->insert('tbl_registration', $r);
+            redirect('/shift_student');
+        }
+    }
+
     function shiftee($id = '')
     {
         if (!empty($id))
@@ -1024,15 +1117,15 @@ class Registrar extends CI_Controller
             if($systemVal['phase'] == ENR)
             {
                 $this->load->helper('form');
-                $this->load->library('form_validation');
-
-                $this->form_validation->set_rules('firstname', 'Firstname', 'required');
-                $this->form_validation->set_rules('lastname', 'Lastname', 'required');
-                $this->form_validation->set_rules('middlename', 'Middlename', 'required');
-                if($this->form_validation->run() === FALSE)
-                {
-                    if($this->input->post('id'))
-                    {
+                // $this->load->library('form_validation');
+                //
+                // $this->form_validation->set_rules('firstname', 'Firstname', 'required');
+                // $this->form_validation->set_rules('lastname', 'Lastname', 'required');
+                // $this->form_validation->set_rules('middlename', 'Middlename', 'required');
+                // if($this->form_validation->run() === FALSE)
+                // {
+                //     if($this->input->post('id'))
+                //     {
                         $this->load->model('registrar/registration');
                         $this->db->where('id', $id);
                         $this->db->select('firstname,middlename,lastname');
@@ -1051,32 +1144,32 @@ class Registrar extends CI_Controller
                         $data['course'] = $c['course'];
                         $data['major']  = $c['major'];
                         $this->load->view('registrar/shiftee', $data);
-                    }
-                    else
-                    {
-                        $data['id']         = set_value('id');
-                        $data['firstname']  = set_value('firstname');
-                        $data['lastname']   = set_value('lastname');
-                        $data['middlename'] = set_value('middlename');
-                        $data['course']     = set_value('course');
-                        $data['major']      = set_value('major');
-                        $this->load->view('registrar/shiftee', $data);
-                    }
-
-                }
-                else
-                {
-                    // insert some in tbl_registration
-                    $this->db->where('course', $this->input->post('course'));
-                    $this->db->where('major', $this->input->post('major'));
-                    $this->db->select('id');
-                    $y = $this->db->get('tbl_coursemajor')->row_array();
-
-                    $t['coursemajor'] = $y['id'];
-                    $t['student'] = $id;
-                    $t['academicterm'] = $systemVal['currentacademcterm'];
-                    //get the latest curriculum for that student
-                }
+                //     }
+                //     else
+                //     {
+                //         $data['id']         = set_value('id');
+                //         $data['firstname']  = set_value('firstname');
+                //         $data['lastname']   = set_value('lastname');
+                //         $data['middlename'] = set_value('middlename');
+                //         $data['course']     = set_value('course');
+                //         $data['major']      = set_value('major');
+                //         $this->load->view('registrar/shiftee', $data);
+                //     }
+                //
+                // }
+                // else
+                // {
+                //     // insert some in tbl_registration
+                //     $this->db->where('course', $this->input->post('course'));
+                //     $this->db->where('major', $this->input->post('major'));
+                //     $this->db->select('id');
+                //     $y = $this->db->get('tbl_coursemajor')->row_array();
+                //
+                //     $t['coursemajor'] = $y['id'];
+                //     $t['student'] = $id;
+                //     $t['academicterm'] = $systemVal['currentacademcterm'];
+                //     //get the latest curriculum for that student
+                // }
             }
             else {
                 show_error('Phase term is not enrollment');
