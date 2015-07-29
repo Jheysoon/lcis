@@ -992,27 +992,35 @@ class Registrar extends CI_Controller
     {
         $this->load->model('registrar/registration');
         $this->load->helper('form');
-        $data['id'] = $id;
-        $this->db->where('id', $id);
-        $this->db->select('firstname,lastname,middlename,placeofbirth,dateofbirth,emailaddress,legacyid,sex');
-        $p = $this->db->get('tbl_party')->row_array();
-        $data['fname']      = $p['firstname'];
-        $data['lname']      = $p['lastname'];
-        $data['mname']      = $p['middlename'];
-        $data['pob']        = $p['placeofbirth'];
-        $data['dob']        = $p['dateofbirth'];
-        $data['emailadd']   = $p['emailaddress'];
-        $data['error']      = '';
-        $data['legacyid']   = $p['legacyid'];
-        $data['gender']     = $p['sex'];
+        $this->db->where('student', $id);
+        $this->db->where('status', '');
+        $tt = $this->db->count_all_results('tbl_registration');
+        if($tt > 0)
+        {
+            $data['id'] = $id;
+            $this->db->where('id', $id);
+            $this->db->select('firstname,lastname,middlename,placeofbirth,dateofbirth,emailaddress,legacyid,sex');
+            $p = $this->db->get('tbl_party')->row_array();
+            $data['fname']      = $p['firstname'];
+            $data['lname']      = $p['lastname'];
+            $data['mname']      = $p['middlename'];
+            $data['pob']        = $p['placeofbirth'];
+            $data['dob']        = $p['dateofbirth'];
+            $data['emailadd']   = $p['emailaddress'];
+            $data['error']      = '';
+            $data['legacyid']   = $p['legacyid'];
+            $data['gender']     = $p['sex'];
 
-        $t = $this->registration->getLatestCM($id);
-        $tt = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
-        $data['course'] = $tt['course'];
-        $data['major'] = $tt['major'];
+            $t = $this->registration->getLatestCM($id);
+            $tt = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
+            $data['course'] = $tt['course'];
+            $data['major'] = $tt['major'];
 
-        $this->api->userMenu();
-        $this->load->view('registrar/update_registration', $data);
+            $this->api->userMenu();
+            $this->load->view('registrar/update_registration', $data);
+        }
+        else
+            show_error('Cannot open status is pending');
     }
 
     function form_update_reg()
@@ -1117,49 +1125,76 @@ class Registrar extends CI_Controller
             $systemVal = $this->api->systemValue();
             if($systemVal['phase'] == ENR)
             {
+                $this->load->helper('form');
                 $this->db->where('status', '');
                 $this->db->where('student', $id);
                 $rr = $this->db->count_all_results('tbl_registration');
-                $this->load->helper('form');
-                $this->load->model('registrar/registration');
-                $this->db->where('id', $id);
-                $this->db->select('firstname,middlename,lastname');
-                $p = $this->db->get('tbl_party')->row_array();
-                $data['firstname']  = $p['firstname'];
-                $data['lastname']   = $p['lastname'];
-                $data['middlename'] = $p['middlename'];
+                if($rr > 0)
+                {
+                    $this->load->model('registrar/registration');
+                    $this->db->where('id', $id);
+                    $this->db->select('firstname,middlename,lastname');
+                    $p = $this->db->get('tbl_party')->row_array();
+                    $data['firstname']  = $p['firstname'];
+                    $data['lastname']   = $p['lastname'];
+                    $data['middlename'] = $p['middlename'];
 
-                $r = $this->registration->getLatestCM();
+                    $r = $this->registration->getLatestCM();
 
-                $this->db->where('id', $r['coursemajor']);
-                $this->db->select('course,major');
-                $c = $this->db->get('tbl_coursemajor')->row_array();
+                    $this->db->where('id', $r['coursemajor']);
+                    $this->db->select('course,major');
+                    $c = $this->db->get('tbl_coursemajor')->row_array();
 
-                $data['id']     = $id;
-                $data['course'] = $c['course'];
-                $data['major']  = $c['major'];
-                $this->load->view('registrar/shiftee', $data);
+                    $data['id']     = $id;
+                    $data['course'] = $c['course'];
+                    $data['major']  = $c['major'];
+                    $this->load->view('registrar/shiftee', $data);
+                }
+                else
+                {
+                    show_error('Cannot open status is pending');
+                }
             }
-            else {
+            else
+            {
                 show_error('Phase term is not enrollment');
             }
         }
-        else {
+        else
+        {
             show_error('Did you type the url by yourself ?');
         }
     }
 
     function pending_reg($id)
     {
-        $this->load->model('registrar/registration');
+        $this->load->model(array(
+            'registrar/registration',
+            'registrar/course')
+        );
         $data['id'] = $id;
         $p = $this->registration->getLatestCM($id);
         $this->db->where('id', $p['student']);
-        $pp = $this->db->get('tbl_party')->row_aray();
+        $pp = $this->db->get('tbl_party')->row_array();
         $data['fname'] = $pp['firstname'];
         $data['lname'] = $pp['lastname'];
         $data['mname'] = $pp['middlename'];
+        $data['gender'] = $pp['sex'];
+        $data['legacyid'] = $pp['legacyid'];
+        $data['pob']     = $pp['placeofbirth'];
+        $data['cid']   = $p['coursemajor'];
+        $this->api->userMenu();
         $this->load->view('registrar/pending_reg', $data);
+        $this->load->view('templates/footer');
         // load the students info
+    }
+
+    function approve()
+    {
+        $t['status'] = 'A';
+        $this->db->where('student', $this->input->post('id'));
+        $this->db->update('tbl_registration', $t);
+        $this->api->set_session_message('success', 'Successfully updated');
+        redirect('/menu/registrar-pending_registration');
     }
 }
