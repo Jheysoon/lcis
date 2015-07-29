@@ -30,4 +30,12 @@ class Registration extends CI_Model{
         $q = $this->db->get('tbl_registration');
         return $q->row_array();
     }
+
+    function getLatestCM($id)
+    {
+        return $this->db->query("SELECT * FROM tbl_registration
+            WHERE student = $id AND academicterm = (
+                SELECT max(academicterm) FROM tbl_registration WHERE student = $id
+            )")->row_array();
+    }
 }
