@@ -841,6 +841,7 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
     }
+
     function registration($id = 0)
     {
         $this->load->library('form_validation');
