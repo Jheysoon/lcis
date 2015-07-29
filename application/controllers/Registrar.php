@@ -1117,60 +1117,28 @@ class Registrar extends CI_Controller
             $systemVal = $this->api->systemValue();
             if($systemVal['phase'] == ENR)
             {
+                $this->db->where('status', '');
+                $this->db->where('student', $id);
+                $rr = $this->db->count_all_results('tbl_registration');
                 $this->load->helper('form');
-                // $this->load->library('form_validation');
-                //
-                // $this->form_validation->set_rules('firstname', 'Firstname', 'required');
-                // $this->form_validation->set_rules('lastname', 'Lastname', 'required');
-                // $this->form_validation->set_rules('middlename', 'Middlename', 'required');
-                // if($this->form_validation->run() === FALSE)
-                // {
-                //     if($this->input->post('id'))
-                //     {
-                        $this->load->model('registrar/registration');
-                        $this->db->where('id', $id);
-                        $this->db->select('firstname,middlename,lastname');
-                        $p = $this->db->get('tbl_party')->row_array();
-                        $data['firstname']  = $p['firstname'];
-                        $data['lastname']   = $p['lastname'];
-                        $data['middlename'] = $p['middlename'];
+                $this->load->model('registrar/registration');
+                $this->db->where('id', $id);
+                $this->db->select('firstname,middlename,lastname');
+                $p = $this->db->get('tbl_party')->row_array();
+                $data['firstname']  = $p['firstname'];
+                $data['lastname']   = $p['lastname'];
+                $data['middlename'] = $p['middlename'];
 
-                        $r = $this->registration->getLatestCM();
+                $r = $this->registration->getLatestCM();
 
-                        $this->db->where('id', $r['coursemajor']);
-                        $this->db->select('course,major');
-                        $c = $this->db->get('tbl_coursemajor')->row_array();
+                $this->db->where('id', $r['coursemajor']);
+                $this->db->select('course,major');
+                $c = $this->db->get('tbl_coursemajor')->row_array();
 
-                        $data['id']     = $id;
-                        $data['course'] = $c['course'];
-                        $data['major']  = $c['major'];
-                        $this->load->view('registrar/shiftee', $data);
-                //     }
-                //     else
-                //     {
-                //         $data['id']         = set_value('id');
-                //         $data['firstname']  = set_value('firstname');
-                //         $data['lastname']   = set_value('lastname');
-                //         $data['middlename'] = set_value('middlename');
-                //         $data['course']     = set_value('course');
-                //         $data['major']      = set_value('major');
-                //         $this->load->view('registrar/shiftee', $data);
-                //     }
-                //
-                // }
-                // else
-                // {
-                //     // insert some in tbl_registration
-                //     $this->db->where('course', $this->input->post('course'));
-                //     $this->db->where('major', $this->input->post('major'));
-                //     $this->db->select('id');
-                //     $y = $this->db->get('tbl_coursemajor')->row_array();
-                //
-                //     $t['coursemajor'] = $y['id'];
-                //     $t['student'] = $id;
-                //     $t['academicterm'] = $systemVal['currentacademcterm'];
-                //     //get the latest curriculum for that student
-                // }
+                $data['id']     = $id;
+                $data['course'] = $c['course'];
+                $data['major']  = $c['major'];
+                $this->load->view('registrar/shiftee', $data);
             }
             else {
                 show_error('Phase term is not enrollment');
@@ -1179,5 +1147,19 @@ class Registrar extends CI_Controller
         else {
             show_error('Did you type the url by yourself ?');
         }
+    }
+
+    function pending_reg($id)
+    {
+        $this->load->model('registrar/registration');
+        $data['id'] = $id;
+        $p = $this->registration->getLatestCM($id);
+        $this->db->where('id', $p['student']);
+        $pp = $this->db->get('tbl_party')->row_aray();
+        $data['fname'] = $pp['firstname'];
+        $data['lname'] = $pp['lastname'];
+        $data['mname'] = $pp['middlename'];
+        $this->load->view('registrar/pending_reg', $data);
+        // load the students info
     }
 }

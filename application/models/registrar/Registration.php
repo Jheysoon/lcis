@@ -33,7 +33,7 @@ class Registration extends CI_Model{
 
     function getLatestCM($id)
     {
-        return $this->db->query("SELECT coursemajor FROM tbl_registration
+        return $this->db->query("SELECT * FROM tbl_registration
             WHERE student = $id AND academicterm = (
                 SELECT max(academicterm) FROM tbl_registration WHERE student = $id
             )")->row_array();
