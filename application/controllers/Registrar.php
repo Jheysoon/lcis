@@ -1113,7 +1113,7 @@ class Registrar extends CI_Controller
             $r['academicterm']  = $systemVal['currentacademicterm'];
             $this->ch_stat_reg($t['id']);
             $this->db->insert('tbl_registration', $r);
-            redirect('/shift_student');
+            redirect('/menu/registrar-shift_student');
         }
     }
 

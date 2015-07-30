@@ -13,7 +13,7 @@
              ?>
             <table class="table">
                 <tr>
-                    <th>Student Id</th>
+                    <th>Student ID</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
