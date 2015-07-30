@@ -991,9 +991,9 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/registration');
         $this->load->helper('form');
         $this->db->where('student', $id);
-        $this->db->where('status', '');
+        $this->db->where('status', 'E');
         $tt = $this->db->count_all_results('tbl_registration');
-        if($tt > 0)
+        if($tt < 1)
         {
             $data['id'] = $id;
             $this->db->where('id', $id);
@@ -1018,7 +1018,7 @@ class Registrar extends CI_Controller
             $this->load->view('registrar/update_registration', $data);
         }
         else
-            show_error('Cannot open status is pending');
+            $this->set_error('Cannot open status is pending', 'menu/registrar-update_student');
     }
 
     function form_update_reg()
@@ -1124,10 +1124,10 @@ class Registrar extends CI_Controller
             if($systemVal['phase'] == ENR)
             {
                 $this->load->helper('form');
-                $this->db->where('status', '');
+                $this->db->where('status', 'E');
                 $this->db->where('student', $id);
                 $rr = $this->db->count_all_results('tbl_registration');
-                if($rr > 0)
+                if($rr < 1)
                 {
                     $this->load->model('registrar/registration');
                     $this->db->where('id', $id);
@@ -1150,7 +1150,7 @@ class Registrar extends CI_Controller
                 }
                 else
                 {
-                    show_error('Cannot open status is pending');
+                    $this->set_error('Cannot open status is pending','menu/registrar-shift_student');
                 }
             }
             else
@@ -1204,5 +1204,13 @@ class Registrar extends CI_Controller
         $this->db->where('id', $id);
         $this->db->update('tbl_registration', $t);
         redirect('/menu/registrar-pending_registration');
+    }
+
+    function set_error($message, $back)
+    {
+        $data['back'] = $back;
+        $data['message'] = $message;
+        $this->api->userMenu();
+        $this->load->view('registrar/error_message', $data);
     }
 }
