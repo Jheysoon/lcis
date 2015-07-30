@@ -938,7 +938,6 @@ class Registrar extends CI_Controller
                     $reg['coursemajor']     = $this->input->post('course');
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
-                    $reg['dateverified']    = date('Y-m-d');
                     $reg['student']         = $id;
                     $this->db->insert('tbl_registration', $reg);
 
@@ -1182,6 +1181,7 @@ class Registrar extends CI_Controller
         $data['legacyid']   = $pp['legacyid'];
         $data['pob']        = $pp['placeofbirth'];
         $data['cid']        = $p['coursemajor'];
+        $data['reg']        = $p['id'];
         $this->api->userMenu();
         $this->load->view('registrar/pending_reg', $data);
         $this->load->view('templates/footer');
@@ -1190,10 +1190,19 @@ class Registrar extends CI_Controller
 
     function approve()
     {
-        $t['status'] = 'A';
-        $this->db->where('student', $this->input->post('id'));
+        $t['status']        = 'A';
+        $t['dateverified']  = date('Y-m-d');
+        $this->db->where('id', $this->input->post('reg_id'));
         $this->db->update('tbl_registration', $t);
         $this->api->set_session_message('success', 'Successfully updated');
+        redirect('/menu/registrar-pending_registration');
+    }
+
+    function disapprove($id)
+    {
+        $t['status'] = 'D';
+        $this->db->where('id', $id);
+        $this->db->update('tbl_registration', $t);
         redirect('/menu/registrar-pending_registration');
     }
 }

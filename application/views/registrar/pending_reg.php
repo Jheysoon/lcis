@@ -30,6 +30,8 @@
 				<label>Place of Birth</label>
 				<label class="form-control"><?php echo $pob; ?></label>
 				<form action="/registrar/approve" method="post">
+					<a href="/registrar/disapprove/<?php echo $reg ?>" class="btn btn-danger">Return to Clerk</a>
+					<input type="hidden" name="reg_id" value="<?php echo $reg; ?>">
 					<input type="hidden" name="id" value="<?php echo $id ?>">
 					<input type="submit" value="Approve" class="btn btn-primary pull-right">
 				</form>
