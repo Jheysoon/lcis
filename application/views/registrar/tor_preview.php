@@ -31,7 +31,7 @@
         $limit = 0;
         while ($ctr2 <= $ctr) { ?>
             <div class="wrapper">
-            <?php $ctr3 = 0;  $arr = array();?>
+            <?php $ctr3 = 0; $ctr4 = 0;  $arr = array(); $credit = array();?>
             <div class="table1">
                 <table>
                     <tr>
@@ -168,14 +168,14 @@
                                 <tr>
                                     <td class="no-right" colspan="5"><strong><?php echo $val['firstname']; ?></strong></td>
                                 </tr>
-                            <?php $ctr3+=1; $arr[] = $ctr3;
+                            <?php $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
                         }
                             ?>
                                 <tr>
-                                    <td class="center no-right" colspan="5"><?php echo $val['shortname']." SY : ". $val['systart']."-".$val['syend']; ?></td>
+                                    <td class="center no-right" colspan="5"><?php echo $val['shortname']." SY : ". $val['systart']; ?></td>
                                 </tr>
                             <?php
-                            $ctr3+=1; $arr[] = $ctr3;
+                            $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
                             $sch = $val['school'];
                             $grade = $this->tor->getGrade($id);
                             foreach ($grade as $key2 => $val2) {
@@ -184,7 +184,8 @@
                                 if ($val2['reexamgrade'] != 0) {
                                     $rgrade = $this->tor->getRegrade($val2['reexamgrade']);
                                     if ($rgrade) {
-                                        if ($rgrade['value'] == 0.00) {
+                                        $rex = $rgrade['value'];
+                                        if ($rex == 0.00) {
                                             $rex = $rgrade['description'];
                                             if ($rex == 'INCOMPLETE') {
                                                 $rex = 'INC';
@@ -196,12 +197,8 @@
                                                 $rex = '';
                                             }
                                         }
-                                        else{
-                                            $rex = $rgrade['value'];
-                                        }
                                     }
                                 }
-                                $grr = '';
                                 if ($val2['grade'] == 0.00) {
                                         $gr = $val2['gdesc'];
                                         if ($gr == 'INCOMPLETE') {
@@ -219,10 +216,10 @@
                                     <td class="no-line"><?php echo $val2['code']; ?></td>
                                     <td class="no-line"><?php echo $val2['title']; ?></td>
                                     <td class="center no-line"><?php echo $gr; ?></td>
-                                    <td class="center no-line"><?php echo $rex." ".$val2['reexamgrade']; ?></td>
+                                    <td class="center no-line"><?php echo $rex; ?></td>
                                     <td class="center no-line no-right"><?php echo $val2['units']; ?></td>
                                 </tr>
-                    <?php $ctr3+=1;}
+                    <?php $ctr3+=1; $ctr4+=1; $credit[$ctr4] = $val2['group']."|".$val2['units']; }
                     }
                         if ($ctr2 < $ctr) { ?>
                             <tr>
@@ -232,7 +229,7 @@
                                 <td class="center no-line"></td>
                                 <td class="center no-line no-right"></td>
                             </tr>
-                    <?php   $ctr3+=1; } ?>
+                    <?php   $ctr3+=1; $ctr4+=1; $credit[$ctr4] = "&nbsp;"; } ?>
                 </table>
                 <table>
                     <tr>
@@ -335,19 +332,18 @@
                         if (in_array($a, $arr)) {
                             echo '<tr><td colspan = "10" class="no-left">&nbsp;</td></tr>';
                         }
-                        else{
-                            ?>
+                        else{ $cr = explode('|', $credit[$a]) ?>
                             <tr>
-                                <td class="center no-line no-left">&nbsp;</td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
+                                <td class="center no-line no-left"><?php if ($cr[0] == 1) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 2) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 3) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 4) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 5) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 6) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 7) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 8) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 9) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
                             </tr>
                             <?php
                         } $a+=1 ;
@@ -423,7 +419,7 @@
                 </table>
             </div>
             </div>
-    <?php $ctr2+=1;} ?>
+    <?php $ctr2+=1; $limit+=2;} ?>
     </body>
 </html>
 <?php }

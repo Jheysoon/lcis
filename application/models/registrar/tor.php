@@ -91,7 +91,8 @@ class Tor extends CI_Model
 
     // query getting grade per enrollment
     function getGrade($id){
-      $q = $this->db->query("SELECT a.*, b.value as grade, b.description as gdesc, e.code as code, e.descriptivetitle as title, e.units
+      $q = $this->db->query("SELECT a.*, b.value as grade, b.description as gdesc,
+                             e.code as code, e.descriptivetitle as title, e.units, e.group
                              FROM tbl_studentgrade a, tbl_grade b, tbl_classallocation c, tbl_subject e
                              WHERE enrolment = '$id'
                              AND a.semgrade = b.id AND c.id = a.classallocation AND c.subject = e.id
