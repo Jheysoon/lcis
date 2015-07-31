@@ -58,7 +58,7 @@
                                   <td><?php echo $accountingset ?></td>
                                   <td><?php echo $referenceid ?></td>
                                   <td><?php echo $systemdate ?></td>
-                                  <td>0</td>                  
+                                  <td>0</td>
                                   <td><?php echo $amount; ?></td>
                                   <td><?php echo $runbalance ; ?></td>
                                   <?php
@@ -78,8 +78,7 @@
                             </tr>
                               <?php endforeach; ?>
                           <tr>
-                            <td class="tbl-header-main" colspan="3">Total Balance: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?>
-                            </td>
+                            <td class="tbl-header-main" colspan="3">Total Balance:</td>
                             <td class="tbl-header-main"><?php echo $debit ?></td>
                             <td class="tbl-header-main"><?php echo $credit ?></td>
                             <td class="tbl-header-main"><?php echo $debit - $credit ?></td>
