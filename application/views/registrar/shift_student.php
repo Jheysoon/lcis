@@ -5,7 +5,7 @@
 			<h4>Search for Students</h4>
 		</div>
 		<div class="panel-body">
-			<?php echo current_url() ?>
+			<?php //echo current_url() ?>
 			<form style="max-width:400px;" action="/find_shift" class="center-block" method="post">
 				<input type="text" id="student_search" name="student_search" class="form-control" placeholder="Enter student name,id">
 			    <br/>
