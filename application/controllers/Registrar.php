@@ -841,6 +841,7 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
     }
+
     // this function will be for the new student registration
     function registration($id = 0)
     {
@@ -917,8 +918,10 @@ class Registrar extends CI_Controller
         else
         {
             $email = $this->input->post('emailadd');
+            //check if the email add is valid
             if (filter_var($email, FILTER_VALIDATE_EMAIL))
             {
+                // check if the password and repeat password is equal
                 if($this->input->post('password') == $this->input->post('rpass'))
                 {
                     $data['firstname']      = ucwords($this->input->post('firstname'));
