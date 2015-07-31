@@ -6,21 +6,16 @@
 		</div>
 		<div class="panel-body">
             <?php
+				echo $this->session->flashdata('message');
                 $this->db->where('status', 'E');
                 $this->db->group_by('student');
                 $r = $this->db->get('tbl_registration')->result_array();
              ?>
             <table class="table">
                 <tr>
-                    <th>
-                        Student Id
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Action
-                    </th>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
                 </tr>
                 <?php
                     foreach ($r as $key)

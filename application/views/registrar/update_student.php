@@ -11,6 +11,7 @@
 			    <br/>
 				<input type="submit" value="Search" class="btn btn-primary" style="margin-left:100px;">
             </form>
+			<?php $this->load->view('registrar/disapprove_reg') ?>
 		</div>
 	</div>
 </div>
