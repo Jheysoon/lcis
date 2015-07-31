@@ -147,8 +147,10 @@
                                 );
 
                             });
+                            
                         </script>
                <?php }
          ?>
+
   </body>
 </html>

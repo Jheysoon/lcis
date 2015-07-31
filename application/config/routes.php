@@ -126,7 +126,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
 $route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
 $route['scholarship/(:any)/(:any)'] = 'scholarship/viewscholarship/$1';
-$route['scholarship/(:any)'] = 'scholarship/viewscholarship/$1';/*
+$route['scholarship/(:any)'] = 'scholarship/viewscholarship/$1';
+
+
+$route['accountasset/(:any)/(:any)'] = 'movement/$1/$2';
+$route['accountasset/(:any)'] = 'movement/$1';
+
+
+$route['student-movement/(:any)/(:any)'] = 'movement/$1/$2';
+$route['student-movemen/(:any)'] = 'movement/$1';
+
+/*
+/*
+
+
+/*
+
+
+
 $route['payments/(:any)/(:any)/(:any)'] = 'billing/view_bill/$1';
 $route['payments/(:any)'] = 'billing/view_bill/$1';/**//*
 $route['viewbilling/(:any)/(:any)'] = 'billing/view_studentbilling/$1/$2';
