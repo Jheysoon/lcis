@@ -11,34 +11,32 @@
 			<div class="panel-body">
 				<?php
 					echo $error;
-					$var = ($id != 0 ? '/'.$id:'');
 				?>
-					<form class="form-horizontal add-user" method="post" action="/registration<?php echo $var; ?>" role="form">
+					<form class="form-horizontal add-user" method="post" action="/form_update_reg" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
 							<label class="label-control add-label" for="sid">Student ID
-								<?php if ($id == 0): ?>
-									<small class="required">Auto-Generated</small>
-								<?php endif; ?>
 							</label>
+                            <input type="hidden" name="id" value="<?php echo $id; ?>">
 							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" value="<?php echo $lname ?>" name="lastname" placeholder="Lastname" required>
+							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($lname)) ?>" name="lastname" placeholder="Lastname" required>
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" value="<?php echo $fname ?>" name="firstname" placeholder="First Name" required>
+							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($fname)) ?>" name="firstname" placeholder="First Name" required>
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" value="<?php echo $mname ?>" name="middlename" placeholder="Middle Name" required>
+							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($mname)) ?>" name="middlename" placeholder="Middle Name" required>
 						</div>
 						<div class = "col-sm-3">
 							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
-							<?php if($id == 0){ ?>
+
 							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
-							<?php } ?>
+
 						</div>
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
 					</div>
-					<div class="form-group">
+
+                    <div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
 							<select class="form-control" name='course' required>
@@ -81,25 +79,12 @@
 						</div>
 					</div>
 
-					<!-- <div class="form-group">
-						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="yearlevel">Year Level <small class="required">(required)</small></label>
-							<select class="form-control" name='yearlevel' required>
-								<option> First Year</option>
-								<option> Second Year</option>
-								<option> Third Year</option>
-								<option> Fourth Year</option>
-							</select>
-						</div>
-						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div> -->
-					<?php if($id == 0){ ?>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
 							<select class="form-control" name='gender' required>
-								<option value="M" <?php set_select('gender', 'M', TRUE) ?>> MALE</option>
-								<option value="F" <?php set_select('gender', 'F') ?>> FEMALE</option>
+								<option value="M" <?php set_select('gender', 'M', TRUE) ?> <?php echo $gender == 'M' OR $gender == 1 ? 'selected':'' ?>> MALE</option>
+								<option value="F" <?php set_select('gender', 'F') ?> <?php echo $gender == 'F' OR $gender == 0 ? 'selected':'' ?>> FEMALE</option>
 							</select>
 						</div>
 					</div>
@@ -147,13 +132,13 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" value="<?php echo set_value('dob'); ?>" required>
+							<input class="form-control" type="date" name="dob" value="<?php echo $dob; ?>" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" required class="form-control" value="<?php echo set_value('pob'); ?>"></textarea>
+							<textarea name="pob" required class="form-control" value="<?php echo $pob; ?>"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -211,13 +196,13 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
+							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo $emailadd; ?>" placeholder="Email Address">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
+							<label class="label-control add-label" for="father">Fathers Name</label>
 							<input class="form-control" type="text" maxlength="13" name="father" value="<?php echo set_value('father'); ?>" placeholder="Father's Name">
 						</div>
 					</div>
@@ -229,7 +214,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
-							<label class="label-control add-label" for="mother">Mothers Name <small class="required">(required)</small></label>
+							<label class="label-control add-label" for="mother">Mothers Name</label>
 							<input class="form-control" type="text" maxlength="13" name="mother" value="<?php echo set_value('mother'); ?>" placeholder="Mother's Name">
 						</div>
 					</div>
@@ -291,7 +276,7 @@
 						  </div>
 						</div>
 					</div>
-					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
+					<!-- <br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="username">Username <small class="required">(required)</small></label>
@@ -310,13 +295,13 @@
 							<input type="password" class="form-control" name="rpass" value="<?php echo set_value('rpass'); ?>" placeholder="Repeat Password" required>
 						</div>
 					</div>
-					<?php } ?>
-		              <div class="form-group">
-		                <div class="col-sm-8 col-sm-offset-1">
-		                  <button type="submit" class="btn btn-success">Save</button>
-		                  <a href="index.php?page=addStudent" class="btn btn-warning">Clear</a>
-		                </div>
-		              </div>
+		               -->
+                    <div class="form-group">
+                      <div class="col-sm-8 col-sm-offset-1">
+                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="reset" name="button" class="btn btn-default">Clear</button>
+                      </div>
+                    </div>
 				</form>
 			</div>
 		</div>

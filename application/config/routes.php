@@ -45,6 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['registration']                  = 'registrar/registration';
     $route['registration/(:num)']           = 'registrar/registration/$1';
     $route['find_stu']                      = 'registrar/find_stu';
+    $route['shiftee']                       = 'registrar/shiftee';
+    $route['update_registration/(:num)']    = 'registrar/update_reg/$1';
+    $route['form_update_reg']               = 'registrar/form_update_reg';
+    $route['pending_reg/(:num)']            = 'registrar/pending_reg/$1';
+    $route['find_shift']                    = 'registrar/find_shift';
+    $route['shiftee/(:any)']                = 'registrar/shiftee/$1';
 
     // Audit Routes
     $route['adt_viewtStudentBilling']       = 'audit/viewtStudentBilling';
@@ -115,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $route['registrar/(:num)'] = 'registrar/delete_school/$1';
     $route['dean_evaluation/(:any)'] = 'dean/evaluation/$1';
+    $route['registrar_tor/(:any)'] = 'registrar/tor/$1';
 
 
 /*-----------------------------------------------------------

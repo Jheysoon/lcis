@@ -344,7 +344,9 @@ class Edp extends CI_Controller
                 'edp/edp_classallocation',
                 'dean/subject'
             ));
+            $this->load->helper('form');
             $data['cid'] = $cid;
+            $data['num'] = $this->input->post('days_count') ? $this->input->post('days_count') - 1 : 0;
             $this->load->view('edp/assign_subj_room',$data);
             $this->load->view('templates/footer');
         }
@@ -397,11 +399,40 @@ class Edp extends CI_Controller
                 }
             }*/
         }
+        $d['status'] = 'O';
+        $this->db->where('id', $cid);
+        $this->db->update('tbl_classallocation', $d);
         redirect(base_url('menu/edp-room_subj'));
        /* $this->db->where('id',$cid);
         $this->db->update('tbl_classallocation',$data);*/
        /* $this->session->set_flashdata('message','<div class="alert alert-success">Successfully Assigned</div>');
         */
+    }
+
+    function sorting()
+    {
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'registrar/academicterm',
+            'dean/subject'
+        ));
+        $cid = $this->input->post('cid');
+        if($cid == 1)
+        {
+            $this->load->view('edp/ajax_edp_all');
+        }
+        elseif($cid == 2)
+        {
+            $this->load->view('edp/ajax_edp_assigned');
+        }
+        elseif ($cid == 3)
+        {
+            $this->load->view('edp/ajax_edp_notassigned');
+        }
+        else {
+            // this is a error message
+            $this->load->view('edp/ajax_edp_bydean');
+        }
     }
 
     function preview($roomId)
@@ -417,6 +448,14 @@ class Edp extends CI_Controller
         $data['location']   = $room['location'];
 
         $this->load->view('edp/preview',$data);
+    }
+
+    function cl_inc()
+    {
+        $stat['classallocationstatus'] = $this->input->post('name');
+        $this->db->update('tbl_systemvalues', $stat);
+        $this->api->set_session_message('success', 'Successfully Attested');
+        redirect(base_url());
     }
 
     // test function

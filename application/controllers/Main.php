@@ -160,7 +160,7 @@ class Main extends CI_Controller
         $this->load->model(array(
             'registrar/common','registrar/party',
             'registrar/registration','registrar/course',
-            'registrar/enrollment'
+            'registrar/enrollment', 'registrar/tor'
         ));
         $this->load->library('pagination');
     }

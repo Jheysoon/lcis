@@ -43,9 +43,22 @@
                             $q = $this->db->get('tbl_classallocation')->result_array();
                             foreach ($q as $key)
                             {
-                                // check the owner of that subject
-								$this->db->where('id', $key['subject']);
-								$this->db->where('owner', $owner);
+								if($this->session->userdata('uid') == $systemVal['employeeid'])
+								{
+									$this->db->where('id', $key['subject']);
+									$this->db->where('computersubject', 1);
+								}
+								elseif($owner == 1)
+								{
+									$this->db->where('id', $key['subject']);
+									$this->db->where('gesubject', 1);
+								}
+								else {
+									// check the owner of that subject
+									$this->db->where('id', $key['subject']);
+									$this->db->where('owner', $owner);
+								}
+
 								$count_subj = $this->db->count_all_results('tbl_subject');
 								if ($count_subj > 0)
 								{

@@ -27,10 +27,13 @@
             if(in_array('rgstr_build',$str1))
             {
                 ?>
+                <script src="/assets/js/typeahead.bundle.js"></script>
+                 <script src="/assets/js/handlebars-v3.0.1.js"></script>
                 <script src="/assets/js/rgstr_build.js"></script>
         <?php
             }
-            if(in_array('registrar-student_list',$str1) OR in_array('registrar-update_student', $str1))
+            if(in_array('registrar-student_list',$str1) OR in_array('registrar-update_student', $str1)
+                OR in_array('registrar-shift_student', $str1))
             {
                 ?>
             <script src="/assets/js/typeahead.bundle.js"></script>
@@ -98,7 +101,15 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
-            if(in_array('add_day_period', $str1))
+            if(in_array('registrar-tor_studlist', $str1))
+            {
+                ?>
+                <script src="/assets/js/typeahead.bundle.js"></script>
+                <script src="/assets/js/handlebars-v3.0.1.js"></script>
+                <script type="text/javascript" src="/assets/js/tor.js"></script>
+        <?php
+            }
+            if(in_array('add_day_period', $str1) OR in_array('assign_room', $str1))
             {
                 ?>
                 <script type="text/javascript">
@@ -111,6 +122,21 @@
                         });
                     });
                 </script>
+        <?php
+            }
+            elseif(uri_string() == 'menu/edp-room_subj')
+            {
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#sort_cl').change(function(){
+                    cid = $(this).val();
+                    $.post('/edp/sorting',{cid:cid},function(data){
+                        $('#tbl_cl').html(data);
+                    });
+                });
+            });
+        </script>
         <?php
             }
 
