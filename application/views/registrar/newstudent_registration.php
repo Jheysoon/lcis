@@ -14,6 +14,7 @@
 					$var = ($id != 0 ? '/'.$id:'');
 				?>
 					<form class="form-horizontal add-user" method="post" action="/registration<?php echo $var; ?>" role="form">
+						<input type="hidden" name="pics" value="">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-5">
@@ -31,11 +32,16 @@
 							<input class="form-control" type="text" value="<?php echo $mname ?>" name="middlename" placeholder="Middle Name" required>
 						</div>
 						<div class = "col-sm-3">
-							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
-							<?php if($id == 0){ ?>
-							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
-							<?php } ?>
+
 						</div>
+						<div id="pic_wrapper">
+
+						</div>
+						<div class="pull-right" style="margin-right:90px;width:404px;">
+							<button class="btn btn-success upload-photo" id="pre_take">Take Photo</button>
+							<button class="btn btn-danger upload-photo hide" id="cancel_pic">Cancel</button>
+						</div>
+
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
 					</div>
 					<div class="form-group">
