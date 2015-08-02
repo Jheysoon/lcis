@@ -923,6 +923,8 @@ class Registrar extends CI_Controller
                 // check if the password and repeat password is equal
                 if($this->input->post('password') == $this->input->post('rpass'))
                 {
+                    $this->db->trans_begin();
+                    $systemVal              = $this->api->systemValue();
                     $data['firstname']      = ucwords($this->input->post('firstname'));
                     $data['lastname']       = ucwords($this->input->post('lastname'));
                     $data['middlename']     = ucwords($this->input->post('middlename'));
@@ -931,19 +933,30 @@ class Registrar extends CI_Controller
                     $data['dateofbirth']    = $this->input->post('dob');
                     $data['placeofbirth']   = ucwords($this->input->post('pob'));
                     $data['emailaddress']   = $email;
+                    $data['legacyid']       = $systemVal['laststudentid'];
 
                     $this->db->insert('tbl_party', $data);
                     $id = $this->db->insert_id();
 
+                    // update the laststudent id in systemvalues
+                    $sys['laststudentid'] = $systemVal['laststudentid'] + 1;
+                    $this->db->update('tbl_systemvalues', $sys);
+
                     // get the latest curriculum for that student
-                    $systemVal              = $this->api->systemValue();
                     $reg['coursemajor']     = $this->input->post('course');
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['student']         = $id;
                     $this->db->insert('tbl_registration', $reg);
-
-                    redirect(base_url('registration'));
+                    if ($this->db->trans_status() === FALSE)
+                    {
+                        $this->db->trans_rollback();
+                    }
+                    else
+                    {
+                        $this->db->trans_commit();
+                    }
+                    redirect(base_url('take_photo/'.$id));
                 }
                 else
                 {
@@ -978,6 +991,43 @@ class Registrar extends CI_Controller
         $this->api->userMenu();
         $this->load->view('registrar/newstudent_registration', $d);
         $this->load->view('templates/footer2');
+    }
+
+    function take_photo($id = '')
+    {
+        if(!empty($id))
+        {
+            $this->api->userMenu();
+            $data['id'] = $id;
+            $this->db->where('id', $id);
+            $this->db->select('legacyid');
+            $r = $this->db->get('tbl_party')->row_array();
+            $data['student_id'] = $r['legacyid'];
+            $this->load->view('registrar/take_photo', $data);
+            $this->load->view('templates/footer2');
+        }
+        else {
+            show_error('Did you type the url by yourself ?');
+        }
+    }
+
+    function save_photo()
+    {
+        $id = $this->input->post('id');
+        $image = $this->input->post('image');
+        $bin = base64_decode($image);
+
+        $result = file_put_contents('./assets/images/profile/'.$id.'.jpg', $bin);
+        if(!$result)
+        {
+            die('Could not save image! Check file permissions.');
+        }
+        else {
+            $d['pic'] = $id.'.jpg';
+            $this->db->where('id', $id);
+            $this->db->update('tbl_party', $d);
+            redirect(base_url('registration'));
+        }
     }
 
     function find_stu()
