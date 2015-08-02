@@ -848,25 +848,27 @@ class Registrar extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('form');
 
-        $this->form_validation->set_rules('lastname', 'Lastname','required');
-        $this->form_validation->set_rules('firstname', 'Firstname','required');
-        $this->form_validation->set_rules('middlename', 'Middlename','required');
-        $this->form_validation->set_rules('course', 'Course','required');
-        $this->form_validation->set_rules('gender', 'Gender','required');
-        $this->form_validation->set_rules('religion', 'Religion','required');
+        $field = array(
+                    'lastname'      => 'Lastname',
+                    'firstname'     => 'Firstname',
+                    'middlename'    => 'Middlename',
+                    'course'        =>'Course',
+                    'gender'        =>'Gender',
+                    'religion'      =>'Religion',
+                    'dob'           =>'Date of Birth',
+                    'mailadd'       =>'Mailing Address',
+                    'username'      => 'Username',
+                    'password'      =>'Password',
+                    'rpass'         =>'Repeat Password',
+                    'emailadd'      =>'Email Address'
+                );
+
+        foreach($field as $key => $value)
+        {
+            $this->form_validation->set_rules($key, $value, 'required');
+        }
         // nationality not found in tbl_party
         //$this->form_validation->set_rules('nationality', 'Nationality','required');
-        $this->form_validation->set_rules('dob', 'Date of Birth','required');
-        $this->form_validation->set_rules('pob', 'Place of Birth','required');
-        $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
-        $this->form_validation->set_rules('father', 'Fathers Name','required');
-        $this->form_validation->set_rules('mother', 'Mothers Name','required');
-        $this->form_validation->set_rules('middlename', 'Middlename','required');
-        $this->form_validation->set_rules('username', 'Username','required');
-        $this->form_validation->set_rules('password', 'Password','required');
-        $this->form_validation->set_rules('rpass', 'Repeat Password','required');
-        $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
-        $this->form_validation->set_rules('sid', 'Student Id', 'required');
         $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
