@@ -668,8 +668,8 @@ class Registrar extends CI_Controller
                            redirect('/rgstr_build/' . $url);
     }
 
-    function add_school(){
-
+    function add_school()
+    {
         $sch    = strtoupper($this->input->post('school'));
         $add    = strtoupper($this->input->post('address'));
         $short  = strtoupper($this->input->post('short'));
@@ -855,7 +855,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('gender', 'Gender','required');
         $this->form_validation->set_rules('religion', 'Religion','required');
         // nationality not found in tbl_party
-        $this->form_validation->set_rules('nationality', 'Nationality','required');
+        //$this->form_validation->set_rules('nationality', 'Nationality','required');
         $this->form_validation->set_rules('dob', 'Date of Birth','required');
         $this->form_validation->set_rules('pob', 'Place of Birth','required');
         $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
@@ -871,48 +871,15 @@ class Registrar extends CI_Controller
 
         if($this->form_validation->run() === FALSE)
         {
-            // if($id == 0 OR $this->input->post('firstname'))
-            // {
-                $this->api->userMenu();
-                $d['fname']     = set_value('firstname');
-                $d['lname']     = set_value('lastname');
-                $d['mname']     = set_value('middlename');
-                                    // inline if statement
-                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
-                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
-                $this->load->view('registrar/newstudent_registration', $d);
-                $this->load->view('templates/footer2');
-            // }
-            // else
-            // {
-            //     $this->load->model('registrar/registration');
-            //     //get the student id
-            //     $this->db->where('id', $id);
-            //     $this->db->select('firstname,lastname,middlename,legacyid');
-            //     $p = $this->db->get('tbl_party')->row_array();
-            //
-            //     $r = $this->registration->getLatestCM($id);
-            //
-            //     $this->db->where('id', $r['coursemajor']);
-            //     $this->db->select('course,major');
-            //     $c = $this->db->get('tbl_coursemajor')->row_array();
-            //
-            //     //update/display only the important fields
-            //
-            //     $l['id']        = $id;
-            //     $l['fname']     = $p['firstname'];
-            //     $l['lname']     = $p['lastname'];
-            //     $l['mname']     = $p['middlename'];
-            //     $l['legacyid']  = $p['legacyid'];
-            //     $l['course']    = $c['course'];
-            //     $l['major']     = $c['major'];
-            //     $l['error']     = '';
-            //
-            //     $this->api->userMenu();
-            //     $this->load->view('registrar/newstudent_registration', $l);
-            //     $this->load->view('templates/footer2');
-            // }
+            $this->api->userMenu();
+            $d['fname']     = set_value('firstname');
+            $d['lname']     = set_value('lastname');
+            $d['mname']     = set_value('middlename');
+            $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+            $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+            $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+            $this->load->view('registrar/newstudent_registration', $d);
+            $this->load->view('templates/footer2');
         }
         else
         {
