@@ -43,7 +43,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['rgstr_oldstudent']              = 'registrar/oldstudent_reg';
 
     $route['registration']                  = 'registrar/registration';
-    $route['registration/(:num)']           = 'registrar/registration/$1';
     $route['find_stu']                      = 'registrar/find_stu';
     $route['shiftee']                       = 'registrar/shiftee';
     $route['update_registration/(:num)']    = 'registrar/update_reg/$1';

@@ -843,7 +843,7 @@ class Registrar extends CI_Controller
     }
 
     // this function will be for the new student registration
-    function registration($id = 0)
+    function registration()
     {
         $this->load->library('form_validation');
         $this->load->helper('form');
@@ -874,7 +874,6 @@ class Registrar extends CI_Controller
             // if($id == 0 OR $this->input->post('firstname'))
             // {
                 $this->api->userMenu();
-                $d['id']        = 0;
                 $d['fname']     = set_value('firstname');
                 $d['lname']     = set_value('lastname');
                 $d['mname']     = set_value('middlename');

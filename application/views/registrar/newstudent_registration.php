@@ -9,11 +9,7 @@
 			</div>
 			</div>
 			<div class="panel-body">
-				<?php
-					echo $error;
-					$var = ($id != 0 ? '/'.$id:'');
-				?>
-					<form class="form-horizontal add-user" method="post" action="/registration<?php echo $var; ?>" role="form">
+					<form class="form-horizontal add-user" method="post" action="/registration" role="form">
 						<input type="hidden" name="pics" value="">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
