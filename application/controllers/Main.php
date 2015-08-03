@@ -143,6 +143,8 @@ class Main extends CI_Controller
                 $this->dean();
             elseif($load_model[0] == 'scholarship'):
                 $this->scholarship();
+            elseif($load_model[0] == 'audit'):
+                $this->audit();
             endif;
 
             $this->load->view($page,$data);
@@ -244,6 +246,10 @@ class Main extends CI_Controller
         $this->session->unset_userdata(array('sy','sem','cur_id','datamanagement','status'));
 
         redirect(base_url());
+    }
+    function audit(){
+      $this->load->library('pagination');
+      $this->load->model(array('cashier/account'));
     }
 
 }

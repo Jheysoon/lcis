@@ -25,8 +25,8 @@ class Billing extends CI_Controller
 				    	$this->load->model('cashier/assesment');
 				    	$data['legacyid'] = $legacyid;
 				    	$data['type'] = 'installment';
-							// $this->load->model('dean/student');
-							// $this->student->getCalculation(36868);
+							$this->load->model('dean/student');
+							//$this->student->getCalculation(36868);
 				    	$this->load->view('audit/view_studentbilling', $data);
 							$this->load->view('templates/footer');
 
@@ -48,9 +48,9 @@ class Billing extends CI_Controller
 						$or_no = $this->input->post('or_no');
 						$fullpay = $this->input->post('fullpay');
 
-
-					$suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-					$alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+									//BILLING POSTING AND PAYMENT POSTING..
+									$suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+									$alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
 									if ($override == ""){
 											if ($amountpaid < $total_due) {
 											 $this->session->set_flashdata('message', $alerts . 'Not Enoug payment.</div>');

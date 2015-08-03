@@ -173,8 +173,10 @@
                                 );
 
                             });
+                            
                         </script>
                <?php }
          ?>
+
   </body>
 </html>
