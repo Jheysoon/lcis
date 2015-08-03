@@ -107,6 +107,21 @@ class Tor extends CI_Model
                              WHERE id = '$id'");
       return $q->row_array();
     }
+
+    function getAssignatories(){
+      $this->db->order_by('signposition');
+      $q = $this->db->get('tbl_assignatory');
+      return $q->result_array();
+    }
+
+    function updateFields($f1, $f2, $position){
+      $data = array(
+          'assignatory' => $f1,
+          'designation' => $f2
+      );
+      $this->db->where('signposition', $position);
+      $q = $this->db->update('tbl_assignatory', $data);
+    }
 }
 
 

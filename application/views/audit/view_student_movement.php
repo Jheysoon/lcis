@@ -42,7 +42,7 @@
                             <th>Balance</th>
                         </tr>
                             <?php
-                              $getacad = $this->account->breakAcad(1);
+                              $getacad = $this->account->breakAcad($getAccountid);
                               foreach ($getacad as $key => $value):
                               extract($value);
                             ?>
@@ -50,13 +50,13 @@
                                 <?php
                                 $debit = 0;
                                 $credit = 0;
-                               foreach ($this->account->getmovement(1, $acad) as $key => $value):
+                               foreach ($this->account->getmovement($getAccountid, $acad) as $key => $value):
                               extract($value);
                                 ?>
                             <tr>
                               <?php if ($type == 'C'): ?>
                                   <td><?php echo $accountingset ?></td>
-                                  <td><?php echo $referenceid ?></td>
+                                  <td><a href="#"><?php echo $referenceid ?></a></td>
                                   <td><?php echo $systemdate ?></td>
                                   <td>0</td>
                                   <td><?php echo $amount; ?></td>
@@ -66,7 +66,7 @@
                                    ?>
                               <?php else: ?>
                                   <td><?php echo $accountingset ?></td>
-                                  <td><?php echo $referenceid ?></td>
+                                  <td><a href="#"><?php echo $referenceid ?></a></td>
                                   <td><?php echo $systemdate ?></td>
                                   <td><?php echo $amount; ?></td>
                                   <td>0</td>
