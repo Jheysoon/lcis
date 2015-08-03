@@ -148,7 +148,6 @@
 					<input type='hidden' name='count' value = '<?php echo $ctr; ?>'>
 					<input type='hidden' name='legid' value = '<?php echo $legid; ?>'>
 					<div class="form-group">
-						<!-- <a class="btn btn-info" href="/dean/calculatebill/50">Summarize and Validate  <span class="glyphicon glyphicon-pencil"></span></a> -->
 						<button type="submit" name="btn" value="1" class="btn btn-primary pull-right">Save Evaluation</button>
 					</div>
 				</form>

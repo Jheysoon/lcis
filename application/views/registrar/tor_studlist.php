@@ -3,7 +3,7 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 		<div class="panel-heading search">
-				<h4>Transcript of Records: List of Students</h4>
+				<h4>Transcript of Records: List of Requests</h4>
 		</div>
 
         <div class="panel-body">
@@ -47,7 +47,7 @@
             </ul>
             </div>
             <div class="col-md-6">
-            <form class="navbar-form navbar-right" action="/registrar/searchStud" method="post" role="search">
+            <form class="navbar-form navbar-right" action="/registrar/tor_preview" method="post" role="search">
                 <div class="form-group">
                     <input type="text" name="search" id="studentlist" class="form-control" autocomplete="off" placeholder="Student Id">
                 </div>
