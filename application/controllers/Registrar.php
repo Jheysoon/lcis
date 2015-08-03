@@ -261,7 +261,7 @@ class Registrar extends CI_Controller
             'registrar/enrollment'
         ));
 
-        $this->db->where('code', $subid);
+        $this->db->where('code', $subjid);
         $r = $this->db->get('tbl_subject')->row_array();
 
         $data['subject']        = $r['id'];
