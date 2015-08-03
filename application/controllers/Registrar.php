@@ -841,6 +841,11 @@ class Registrar extends CI_Controller
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
     }
+
+    function tor_preview(){
+        redirect('/registrar_tor/'.$this->input->post('search'));
+    }
+    
     // this function will be for the new student registration
     function registration($id = 0)
     {
@@ -917,8 +922,10 @@ class Registrar extends CI_Controller
         else
         {
             $email = $this->input->post('emailadd');
+            //check if the email add is valid
             if (filter_var($email, FILTER_VALIDATE_EMAIL))
             {
+                // check if the password and repeat password is equal
                 if($this->input->post('password') == $this->input->post('rpass'))
                 {
                     $data['firstname']      = ucwords($this->input->post('firstname'));
@@ -1212,5 +1219,39 @@ class Registrar extends CI_Controller
         $data['message'] = $message;
         $this->api->userMenu();
         $this->load->view('registrar/error_message', $data);
+    }
+
+    function print_fields($sid){
+        $arr = array('sid' => $sid );
+        $this->load->model('registrar/tor');
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title1');
+        $this->load->view('registrar/print_fields',$arr);
+        $this->load->view('templates/footer');
+    }
+
+    function updateFields(){
+        $this->load->model('registrar/tor');
+
+        $f11 = $this->input->post('f-1-1');
+        $f12 = $this->input->post('f-1-2');
+        $this->tor->updateFields($f11, $f12, 1);
+        $f21 = $this->input->post('f-2-1');
+        $f22 = $this->input->post('f-2-2');
+        $this->tor->updateFields($f21, $f22, 2);
+        $f31 = $this->input->post('f-3-1');
+        $f32 = $this->input->post('f-3-2');
+        $this->tor->updateFields($f31, $f32, 3);
+        $f41 = $this->input->post('f-4-1');
+        $f42 = $this->input->post('f-4-2');
+        $this->tor->updateFields($f41, $f42, 4);
+
+        $order   = $this->input->post('order');
+        $serial  = $this->input->post('serial');
+        $remarks = $this->input->post('remarks');
+
+        $sid = $this->input->post('sid');
+
+        redirect('/registrar_tor/'.$sid);
     }
 }

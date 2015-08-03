@@ -9,6 +9,15 @@
         $course = $description." (".$major2['description'].")";
     }
     $rows = $this->tor->getEnrolment2($pid);
+
+    $res = $this->tor->getAssignatories();
+    $ctr = 1;
+    foreach ($res as $key => $value) {
+        extract($value);
+        ${'f'.$ctr.'1'} = $assignatory;
+        ${'f'.$ctr.'2'} = $designation;
+        $ctr+=1;
+    }
  ?>
 <!DOCTYPE html>
 <html>
@@ -20,7 +29,8 @@
     <body>
     <div class="print-header">
         <h2>Leyte Colleges - Transcript of Record</h2>
-        <button type="button" class="print" onclick="window.print();">Print</button>
+        <a class="a print" onclick="window.print();">Print</a>
+        <a href="/registrar/print_fields/<?php echo $sid; ?>" class="a print">Edit Fields</a>
     </div>
     <?php
         $ctr = $rows['ctr']/2;
@@ -172,7 +182,7 @@
                         }
                             ?>
                                 <tr>
-                                    <td class="center no-right" colspan="5"><?php echo $val['shortname']." SY : ". $val['systart']; ?></td>
+                                    <td class="center no-right" colspan="5"><?php echo $val['shortname']." SY : ". $val['systart']."-".$val['syend']; ?></td>
                                 </tr>
                             <?php
                             $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
@@ -287,24 +297,24 @@
                 <table>
                     <tr>
                         <td class="center" width="50%">
-                            <label ><strong><u>&nbsp;&nbsp;AMADOR C. ASTILLA&nbsp;&nbsp;</u></strong></label><br/>
-                            <label >Checked By</label>
+                            <label ><strong><u>&nbsp;&nbsp;<?php echo $f11; ?>&nbsp;&nbsp;</u></strong></label><br/>
+                            <label ><?php echo $f12; ?></label>
                         </td>
                         <td class="center" width="50%">
-                            <label><strong><u>&nbsp;&nbsp;JOSEFA YASMIN A. MORIEL, D.M.&nbsp;&nbsp;</u></strong></label><br/>
-                            <label >Head, OSG concurrent, OIC-Registrar</label>
+                            <label><strong><u>&nbsp;&nbsp;<?php echo $f21; ?>&nbsp;&nbsp;</u></strong></label><br/>
+                            <label ><?php echo $f22; ?></label>
                         </td>
                     </tr>
                 </table><br/><br/>
                 <table>
                     <tr>
                         <td class="center" width="50%">
-                            <label ><strong><u>&nbsp;&nbsp;SUSAN A. CASAS&nbsp;&nbsp;</u></strong></label><br/>
-                            <label >Prepared By</label>
+                            <label ><strong><u>&nbsp;&nbsp;<?php echo $f31; ?>&nbsp;&nbsp;</u></strong></label><br/>
+                            <label ><?php echo $f32; ?></label>
                         </td>
                         <td class="center" width="50%">
-                            <label ><strong><u>&nbsp;&nbsp;AMADOR C. ASTILLA&nbsp;&nbsp;</u></strong></label><br/>
-                            <label >Treasurer</label>
+                            <label ><strong><u>&nbsp;&nbsp;<?php echo $f41; ?>&nbsp;&nbsp;</u></strong></label><br/>
+                            <label ><?php echo $f42; ?></label>
                         </td>
                     </tr>
                 </table><br/>
@@ -387,8 +397,8 @@
                 <table>
                     <tr>
                         <td class="center">
-                            <label><strong><u>&nbsp;&nbsp;JOSEFA YASMIN A. MORIEL, D.M.&nbsp;&nbsp;</u></strong></label><br/>
-                            <label >Head, OSG concurrent, OIC-Registrar</label>
+                            <label><strong><u>&nbsp;&nbsp;<?php echo $f21; ?>&nbsp;&nbsp;</u></strong></label><br/>
+                            <label ><?php echo $f22; ?></label>
                         </td>
                     </tr>
                 </table><br/>
