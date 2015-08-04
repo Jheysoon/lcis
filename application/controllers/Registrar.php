@@ -1144,10 +1144,29 @@ class Registrar extends CI_Controller
             $r['coursemajor']   = $t['id'];
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
-            $this->ch_stat_reg($t['id']);
+
+            $r['curriculum']    = $this->getLatestCur($r['coursemajor']);
+            $this->ch_stat_reg($r['student']);
             $this->db->insert('tbl_registration', $r);
             redirect('/menu/registrar-shift_student');
         }
+    }
+
+    function getLatestCur($coursemajor)
+    {
+        $tt     = $this->api->systemValue();
+        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();foreach($acamd as $acams)
+        {
+            $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
+                tbl_coursemajor.id = tbl_curriculum.coursemajor AND
+                tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
+            if($c->num_rows() > 0)
+            {
+                $cur    = $c->row_array();
+                return $cur['id'];
+            }
+        }
+        return 0;
     }
 
     function shiftee($id = '')
@@ -1165,13 +1184,14 @@ class Registrar extends CI_Controller
                 {
                     $this->load->model('registrar/registration');
                     $this->db->where('id', $id);
-                    $this->db->select('firstname,middlename,lastname');
+                    $this->db->select('firstname,middlename,lastname,legacyid');
                     $p = $this->db->get('tbl_party')->row_array();
                     $data['firstname']  = $p['firstname'];
                     $data['lastname']   = $p['lastname'];
                     $data['middlename'] = $p['middlename'];
+                    $data['legacyid']   = $p['legacyid'];
 
-                    $r = $this->registration->getLatestCM();
+                    $r = $this->registration->getLatestCM($id);
 
                     $this->db->where('id', $r['coursemajor']);
                     $this->db->select('course,major');
@@ -1180,7 +1200,9 @@ class Registrar extends CI_Controller
                     $data['id']     = $id;
                     $data['course'] = $c['course'];
                     $data['major']  = $c['major'];
+                    $this->api->userMenu();
                     $this->load->view('registrar/shiftee', $data);
+                    $this->load->view('templates/footer');
                 }
                 else
                 {
