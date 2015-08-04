@@ -110,6 +110,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['add_subject']                   = 'dean/add_subject';
     $route['edit_subject/(:num)/(:any)']    = 'dean/edit_subject/$1/$2';
 
+    // Instructor Routes
+    $route['add_grade/(:num)']              = 'instructor/student_grade/$1';
+
 
 
 
