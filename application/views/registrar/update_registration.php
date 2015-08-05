@@ -12,32 +12,23 @@
 				<?php
 					echo $error;
 				?>
+				<a href="/take_photo/<?php echo $id ?>" class="btn btn-primary pull-right">Take Photo</a>
 					<form class="form-horizontal add-user" method="post" action="/form_update_reg" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
-					<div class="form-group">
-						<div class="col-sm-offset-1 col-sm-5">
-							<label class="label-control add-label" for="sid">Student ID
-							</label>
-                            <input type="hidden" name="id" value="<?php echo $id; ?>">
-							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
+                    <div class="form-group">
+						<div class="col-sm-8 col-sm-offset-1">
+							<label class="label-control add-label2">Student ID</label>
+							<label class="form-control"><?php echo $legacyid; ?></label>
+							<input type="hidden" name="id" value="<?php echo $id; ?>">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($lname)) ?>" name="lastname" placeholder="Lastname" required>
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($fname)) ?>" name="firstname" placeholder="First Name" required>
+							<input class="form-control" type="text" value="<?php echo $fname ?>" name="firstname" placeholder="First Name" required>
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" value="<?php echo ucwords(strtolower($mname)) ?>" name="middlename" placeholder="Middle Name" required>
-						</div>
-						<div class = "col-sm-3">
-							<img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
-
-							<button class="btn btn-success btn-block upload-photo"> Upload Photo</button>
-
-						</div>
-						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div>
-
-                    <div class="form-group">
-						<div class="col-sm-8 col-sm-offset-1">
+							<input class="form-control" type="text" value="<?php echo $mname ?>" name="middlename" placeholder="Middle Name" required>
+							<br>
+							<hr>
+							<br>
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
 							<select class="form-control" name='course' required>
 								<?php

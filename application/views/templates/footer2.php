@@ -16,31 +16,39 @@
     <script src="<?php echo base_url('assets/js/docs.min.js'); ?>"></script>
     <script src="/assets/js/webcam.js"></script>
     <!-- =============================================================================== -->
-
+    <?php
+        $r = explode('/', uri_string());
+        if(in_array('take_photo', $r)){ ?>
     <script>
         Webcam.set({
             width: 400,
             height: 300,
-            dest_width: 640,
-            dest_height: 480,
-            image_format: 'jpeg',
+            dest_width: 400,
+            dest_height: 300,
+            image_format: 'jpg',
             jpeg_quality: 90,
             force_flash: false
         });
-        var v = 0;
         Webcam.attach('#pic_wrapper');
         $(document).ready(function(){
             $('#pre_take').click(function(e){
-                val = $(this).val();
                 Webcam.freeze();
                 $('#cancel_pic').removeClass('hide');
-
-                Webcamp.snap(function(data_uri){
-                    var data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
-                    $('input[name=pics]').val(data);
-                });
+                $(this).addClass('hide');
+                $('#save').removeClass('hide');
+                // Webcamp.snap(function(data_uri){
+                //     var data =
+                //     $('input[name=pics]').val(data);
+                //     e.preventDefault();
+                // });
 
                 e.preventDefault();
+            });
+            $('#save').click(function(){
+                Webcam.snap( function(data_uri) {
+                    $('#image').val(data_uri.replace(/^data\:image\/\w+\;base64\,/, ''));
+                    $('#form_image').submit();
+			    });
             });
             $('#cancel_pic').click(function(e){
                 Webcam.unfreeze();
@@ -49,5 +57,6 @@
             });
         });
     </script>
+    <?php } ?>
   </body>
 </html>

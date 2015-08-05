@@ -9,44 +9,21 @@
 			</div>
 			</div>
 			<div class="panel-body">
-				<?php
-					echo $error;
-					$var = ($id != 0 ? '/'.$id:'');
-				?>
-					<form class="form-horizontal add-user" method="post" action="/registration<?php echo $var; ?>" role="form">
-						<input type="hidden" name="pics" value="">
+					<form class="form-horizontal add-user" method="post" action="/registration" role="form">
 					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
 					<div class="form-group">
-						<div class="col-sm-offset-1 col-sm-5">
-							<label class="label-control add-label" for="sid">Student ID
-								<?php if ($id == 0): ?>
-									<small class="required">Auto-Generated</small>
-								<?php endif; ?>
-							</label>
-							<input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
+						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" value="<?php echo $lname ?>" name="lastname" placeholder="Lastname" required>
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" value="<?php echo $fname ?>" name="firstname" placeholder="First Name" required>
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
 							<input class="form-control" type="text" value="<?php echo $mname ?>" name="middlename" placeholder="Middle Name" required>
-						</div>
-						<div class = "col-sm-3">
-
-						</div>
-						<div id="pic_wrapper">
-
-						</div>
-						<div class="pull-right" style="margin-right:90px;width:404px;">
-							<button class="btn btn-success upload-photo" id="pre_take">Take Photo</button>
-							<button class="btn btn-danger upload-photo hide" id="cancel_pic">Cancel</button>
-						</div>
-
-						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-8 col-sm-offset-1">
+							<br>
+							<hr>
+							<br>
 							<label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
+
 							<select class="form-control" name='course' required>
 								<?php
 									$c = $this->db->get('tbl_course')->result_array();
@@ -99,7 +76,7 @@
 						</div>
 						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
 					</div> -->
-					<?php if($id == 0){ ?>
+
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
@@ -217,7 +194,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" maxlength="13" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
+							<input class="form-control" type="email" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
 						</div>
 					</div>
 					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
@@ -316,7 +293,6 @@
 							<input type="password" class="form-control" name="rpass" value="<?php echo set_value('rpass'); ?>" placeholder="Repeat Password" required>
 						</div>
 					</div>
-					<?php } ?>
 		              <div class="form-group">
 		                <div class="col-sm-8 col-sm-offset-1">
 		                  <button type="submit" class="btn btn-success">Save</button>
