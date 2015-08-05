@@ -30,7 +30,9 @@ class Instructor extends CI_Controller
                 $this->db->where('classallocation', $id);
                 $data['g'] = $this->db->get('views_class_list')->result_array();
 
-                $this->load->view('instructor/student_grade', $data);
+                $this->load->vars($data);
+                
+                $this->load->view('instructor/student_grade');
                 $this->load->view('templates/footer2');
             // }
             // else
