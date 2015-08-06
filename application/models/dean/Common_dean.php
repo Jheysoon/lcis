@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Common_dean extends CI_Model
 {
@@ -43,5 +43,28 @@ class Common_dean extends CI_Model
 		$q = $this->db->get('tbl_subject');
 		$q = $q->row_array();
 		return $q['owner'];
+	}
+	function getAllCl($user)
+	{
+		$this->db->where('instructor', $user);
+		$this->db->select('id');
+		$c = $this->db->get('tbl_classallocation')->result_array();
+		$data = array();
+		foreach($c as $cc)
+		{
+			$this->db->where('classallocation', $cc['id']);
+			$d = $this->db->get('tbl_dayperiod')->result_array();
+			foreach($d as $dd)
+			{
+				$data[] = $dd;
+			}
+		}
+		return $data;
+	}
+
+	function getParty($id)
+	{
+		$t = $this->db->get_where('tbl_party', array('id' => $id))->row_array();
+		return $t['lastname'].', '.$t['firstname'];
 	}
 }
