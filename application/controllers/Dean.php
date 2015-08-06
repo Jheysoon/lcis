@@ -1026,4 +1026,13 @@ class Dean extends CI_Controller
 
         $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
     }
+
+    function save_instructor()
+    {
+        $data['instructor'] = $this->input->post('instructor');
+        $cl_id      = $this->input->post('cl_id');
+
+        $this->db->where('id', $cl_id);
+        $this->db->update('tbl_classallocation', $data);
+    }
 }

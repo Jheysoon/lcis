@@ -139,6 +139,21 @@
         </script>
         <?php
             }
+            elseif(uri_string() == 'menu/dean-assign_instructor')
+            {
+                ?>
+            <script>
+                $(document).ready(function(){
+                    $('.save_instructor').submit(function(e){
+                        $.post('/dean/save_instructor', $(this).serialize(),function(data){
+
+                        });
+                        e.preventDefault();
+                    });
+                });
+            </script>
+        <?php
+            }
 
                 if (uri_string() == 'menu/scholarship-scholarshiplist' OR in_array('billing-list_billing', $str1)) { ?>
                        <script src="/assets/js/typeahead.bundle.js"></script>
@@ -173,7 +188,7 @@
                                 );
 
                             });
-                            
+
                         </script>
                <?php }
          ?>
