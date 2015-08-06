@@ -87,6 +87,9 @@
 												foreach ($subj_t as $key) {
 													$key1 		= explode('-', $key);
 													$isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
+
+													if($isConflict)
+														break;
 												}
 												if($isConflict)
 													break;
