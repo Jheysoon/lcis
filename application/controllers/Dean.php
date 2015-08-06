@@ -463,16 +463,12 @@ class Dean extends CI_Controller
         $is_ajax                = $this->input->post('is_ajax');
 
         if($is_ajax != 0)
-        {
             $data['studentcount'] = $this->input->post('studentcount');
-        }
 
         //$c = $this->out_section->whereCount($data['academicterm'],$data['coursemajor'],$data['subject'],$data['yearlevel']);
         $id = $this->input->post('out_section_id');
         if($id == NULL)
-        {
             $this->db->insert('out_section',$data);
-        }
         else
         {
             $this->db->where('id',$id);
@@ -480,9 +476,7 @@ class Dean extends CI_Controller
         }
 
         if($is_ajax == 0)
-        {
             redirect(base_url('non_exist'));
-        }
     }
 
 //-------------------------------------------------------------------------
