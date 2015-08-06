@@ -246,9 +246,13 @@ class Dean extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('form');
 
-        $this->form_validation->set_rules('title','Descriptive Title','trim|required');
-        $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
-        $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
+        $rules = array(
+                    array('field' => 'title', 'label' => 'Descriptive Title', 'rules' => 'trim|required'),
+                    array('field' => 'units', 'label' => 'Subject Units' ,    'rules' => 'trim|required|integer'),
+                    array('field' => 'hours', 'label' => 'Subject Hours',     'rules' => 'trim|required|integer')
+                );
+
+        $this->form_validation->set_rules($rules);
 
         $q = $this->subject->whereCode($data['code']);
         if($this->form_validation->run() === FALSE)
