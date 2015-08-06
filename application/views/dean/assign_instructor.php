@@ -6,11 +6,11 @@
 		</div>
 		<div class="panel-body">
             <?php
-                $owner = $this->api->getUserCollege();
-                $systemVal = $this->api->systemValue();
-				$user = $this->session->userdata('uid');
+                $owner 		= $this->api->getUserCollege();
+                $systemVal 	= $this->api->systemValue();
+				$user 		= $this->session->userdata('uid');
 
-                $cl = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
+                $cl 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
                     WHERE a.subject = b.id
                     AND b.owner = $owner
                     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
@@ -78,14 +78,14 @@
 											$isConflict = FALSE;
 											foreach($all_cl as $cl1)
 											{
-												$f = $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
-												$t = $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
-												$from = $f['time'];
-												$to = $t['time'];
+												$f 		= $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+												$t 		= $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+												$from 	= $f['time'];
+												$to 	= $t['time'];
 
 												// subject time looping
 												foreach ($subj_t as $key) {
-													$key1 = explode('-', $key);
+													$key1 		= explode('-', $key);
 													$isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
 												}
 												if($isConflict)
