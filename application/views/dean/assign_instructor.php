@@ -59,12 +59,12 @@
 	                            <td>
 	                                <select class="form-control" name="instructor">
 	                                    <?php if($class['instructor'] == 0) { ?>
-	                                        <option value="option" class="text-justify">No Instructor</option>
+	                                        <option value="option">No Instructor</option>
 	                                    <?php
 	                                    }
 										else {
 											?>
-											<option value="<?php echo $class['instructor'] ?>" class="text-justify" selected><?php echo $this->common_dean->getParty($class['instructor']) ?></option>
+											<option value="<?php echo $class['instructor'] ?>" selected><?php echo $this->common_dean->getParty($class['instructor']) ?></option>
 										<?php
 										}
 	                                    // auto check if the instructor is available for that day/period
@@ -97,7 +97,7 @@
 											if(!$isConflict)
 											{
 										?>
-	                                        <option value="<?php echo $i['id'] ?>" style="text-align:center">
+	                                        <option value="<?php echo $i['id'] ?>">
 	                                            <?php
 	                                                $this->db->where('id', $i['id']);
 	                                                $this->db->select('firstname,lastname,middlename');
