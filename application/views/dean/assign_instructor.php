@@ -52,7 +52,7 @@
 							<td><?php echo $room ?></td>
 							<td><?php echo $time ?></td>
                             <td>
-                                <select class="form-control" name="">
+                                <select class="form-control" name="instructor">
                                     <?php if($class['instructor'] == 0) { ?>
                                         <option value="option">No Instructor</option>
                                     <?php
