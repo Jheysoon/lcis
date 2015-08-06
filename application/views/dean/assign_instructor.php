@@ -20,16 +20,23 @@
              <table class="table">
                  <tr>
                      <th>Subject</th>
-                     <th style="width:50%;">Course</th>
+                     <th style="width:30%;">Course</th>
+					 <th>Room</th>
+					 <th>Period</th>
                      <th>Instructor</th>
                      <th>Action</th>
                  </tr>
                  <?php
                     foreach($cl as $class)
                     {
+						$room = $this->edp_classallocation->getRooms($class['cl_id']);
+						$time = $this->edp_classallocation->getPeriod($class['cl_id']);
+						// this checking will be not be used in testing
+						if(!empty($room) AND !empty($time))
+						{
                         ?>
                         <tr>
-                            <td><?php echo $class['code'] ?></td>
+                            <td><?php echo $class['code'].' '.$class['cl_id'] ?></td>
                             <td>
                                 <?php
                                     if ($class['coursemajor'] != 0) {
@@ -42,6 +49,8 @@
                                         echo 'Not Available';
                                 ?>
                             </td>
+							<td><?php echo $room ?></td>
+							<td><?php echo $time ?></td>
                             <td>
                                 <select class="form-control" name="">
                                     <?php if($class['instructor'] == 0) { ?>
@@ -66,6 +75,7 @@
                             </td>
                         </tr>
                 <?php
+						}
                     }
                   ?>
              </table>
