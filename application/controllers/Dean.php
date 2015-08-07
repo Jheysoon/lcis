@@ -820,7 +820,6 @@ class Dean extends CI_Controller
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
                     if($this->input->post('edp'))
                     {
-
                         $this->session->set_flashdata('message', $this->error);
                         redirect('/assign_room/'.$cid);
                     }
