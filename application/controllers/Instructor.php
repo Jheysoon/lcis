@@ -67,5 +67,6 @@ class Instructor extends CI_Controller
     function all_sched()
     {
         $this->load->view('');
+
     }
 }

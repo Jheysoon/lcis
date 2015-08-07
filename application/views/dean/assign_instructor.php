@@ -7,7 +7,8 @@
 		<div class="panel-body">
 			<?php
 				$systemVal 	= $this->api->systemValue();
-				if($systemVal['classallocationstatus'] == 99)
+				//if($systemVal['classallocationstatus'] == 99)
+				if(true)
 				{
 			 ?>
 			<a href="/instructor_sched" class="btn btn-primary pull-right">View Instructor Schedule</a>
@@ -18,14 +19,14 @@
 
 				$user 		= $this->session->userdata('uid');
 
-                $cl 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
-                    WHERE a.subject = b.id
-                    AND b.owner = $owner
-                    AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+                // $cl 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
+                //     WHERE a.subject = b.id
+                //     AND b.owner = $owner
+                //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
 
                 $instruc = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
 
-                //$cl = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']} LIMIT 20")->result_array();
+                $cl = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']} LIMIT 20")->result_array();
              ?>
              <table class="table">
                  <tr>
