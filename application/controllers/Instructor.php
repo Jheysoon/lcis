@@ -63,4 +63,9 @@ class Instructor extends CI_Controller
             $this->db->update('tbl_studentgrade', $data);
         }
     }
+
+    function all_sched()
+    {
+        $this->load->view('');
+    }
 }
