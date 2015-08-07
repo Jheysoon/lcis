@@ -24,6 +24,7 @@
                      <th>Subject</th>
                      <th>Course</th>
 					 <th>Room</th>
+					 <th>Day</th>
 					 <th>Period</th>
                      <th style="width:200px;">Instructor</th>
 					 <th>Status</th>
@@ -34,6 +35,7 @@
                     {
 						$room = $this->edp_classallocation->getRooms($class['cl_id']);
 						$time = $this->edp_classallocation->getPeriod($class['cl_id']);
+						$day  = $this->edp_classallocation->getDayShort($class['cl_id']);
 						// this checking will be not be used in testing
 						if(!empty($room) AND !empty($time))
 						{
@@ -55,6 +57,7 @@
 	                                ?>
 	                            </td>
 								<td><?php echo $room ?></td>
+								<td><?php echo $day ?></td>
 								<td><?php echo $time ?></td>
 	                            <td>
 	                                <select class="form-control" name="instructor">
@@ -71,28 +74,36 @@
 
 	                                    foreach($instruc as $i)
 										{
+											// time
 											$all_cl = $this->common_dean->getAllCl($i['id']);
 											$subj_t = explode(' / ', $time);
+											$subj_day = explode(' / ', $day);
 
-											// instructor time looping
+											// instructor schedule looping
 											$isConflict = FALSE;
 											foreach($all_cl as $cl1)
 											{
-												$f 		= $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
-												$t 		= $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
-												$from 	= $f['time'];
-												$to 	= $t['time'];
+												$dd = $this->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
+												// checking for day
+												if(in_array($dd['shortname'], $subj_day))
+												{
+													// instructor time
+													$f 		= $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+													$t 		= $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+													$from 	= $f['time'];
+													$to 	= $t['time'];
 
-												// subject time looping
-												foreach ($subj_t as $key) {
-													$key1 		= explode('-', $key);
-													$isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
+													// subject time looping
+													foreach ($subj_t as $key) {
+														$key1 		= explode('-', $key);
+														$isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
 
+														if($isConflict)
+															break;
+													}
 													if($isConflict)
 														break;
 												}
-												if($isConflict)
-													break;
 											}
 											if(!$isConflict)
 											{
