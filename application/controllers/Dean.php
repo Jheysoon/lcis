@@ -165,11 +165,9 @@ class Dean extends CI_Controller
     function add_subject()
     {
         $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
             'dean/subject',
-            'dean/group','dean/college'
+            'dean/group',
+            'dean/college'
         ));
 
         $this->load->library('form_validation');
@@ -184,8 +182,7 @@ class Dean extends CI_Controller
 
         if($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header');
-            $this->load->view('templates/header_title2');
+            $this->api->userMenu();
             $this->load->view('dean/add_subject');
             $this->load->view('templates/footer');
         }
