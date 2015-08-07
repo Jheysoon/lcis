@@ -8,14 +8,14 @@ class Instructor extends CI_Controller
         $this->load->model('instructor/party');
         if(!empty($id))
         {
-            // $where = array(
-            //     'id'            => $id,
-            //     'instructor'    => $this->session->userdata('uid')
-            // );
-            // $this->db->where($where);
-            // $r = $this->db->count_all_results('tbl_classallocation');
-            // if($r > 0)
-            // {
+            $where = array(
+                'id'            => $id,
+                'instructor'    => $this->session->userdata('uid')
+            );
+            $this->db->where($where);
+            $r = $this->db->count_all_results('tbl_classallocation');
+            if($r > 0)
+            {
                 $this->api->userMenu();
                 $data['id'] = $id;
 
@@ -31,12 +31,12 @@ class Instructor extends CI_Controller
                 $data['g'] = $this->db->get('views_class_list')->result_array();
 
                 $this->load->vars($data);
-                
+
                 $this->load->view('instructor/student_grade');
                 $this->load->view('templates/footer2');
-            // }
-            // else
-            //     show_error('You do not handle this class');
+            }
+            else
+                show_error('You do not handle this class');
         }
         else
             show_404();
