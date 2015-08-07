@@ -62,7 +62,7 @@
 	                            <td>
 	                                <select class="form-control" name="instructor">
 	                                    <?php if($class['instructor'] == 0) { ?>
-	                                        <option value="option">No Instructor</option>
+	                                        <option value="0">No Instructor</option>
 	                                    <?php
 	                                    }
 										else {
