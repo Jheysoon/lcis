@@ -5,9 +5,17 @@
 			<h4>Assign Instructor</h4>
 		</div>
 		<div class="panel-body">
+			<?php
+				$systemVal 	= $this->api->systemValue();
+				if($systemVal['classallocationstatus'] == 99)
+				{
+			 ?>
+			<a href="/instructor_sched" class="btn btn-primary pull-right">View Instructor Schedule</a>
+			<span class="clearfix"></span>
+			<br>
             <?php
                 $owner 		= $this->api->getUserCollege();
-                $systemVal 	= $this->api->systemValue();
+
 				$user 		= $this->session->userdata('uid');
 
                 $cl 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
@@ -133,6 +141,16 @@
                     }
                   ?>
              </table>
+			 <?php
+				}
+				else {
+					?>
+					<div class="alert alert-danger">
+						Cannot run program. Class allocation status is not valid
+					</div>
+			<?php
+				}
+			?>
 			 <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
