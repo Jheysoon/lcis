@@ -1028,9 +1028,12 @@ class Dean extends CI_Controller
     function save_instructor()
     {
         $data['instructor'] = $this->input->post('instructor');
-        $cl_id      = $this->input->post('cl_id');
+        if($data['instructor'] != 0)
+        {
+            $cl_id      = $this->input->post('cl_id');
 
-        $this->db->where('id', $cl_id);
-        $this->db->update('tbl_classallocation', $data);
+            $this->db->where('id', $cl_id);
+            $this->db->update('tbl_classallocation', $data);
+        }
     }
 }
