@@ -66,7 +66,24 @@ class Instructor extends CI_Controller
 
     function all_sched()
     {
-        $this->load->view('');
+        $this->api->userMenu();
+        $owner = $this->api->getUserCollege();
 
+        $data['instruc'] = $this->db->query("SELECT firstname, lastname, middlename, a.id as partyid
+            FROM tbl_party a,tbl_academic b
+            WHERE b.id = a.id AND b.college = $owner")->result_array();
+        $this->load->view('instructor/instruc_all', $data);
+        $this->load->view('templates/footer2');
+    }
+
+    function instruc_sched($id = '')
+    {
+        if(!empty($id))
+        {
+            $this->api->userMenu();
+            $this->load->view('instructor/sched');
+        }
+        else
+            show_error('Did you type the url by yourself ?');
     }
 }

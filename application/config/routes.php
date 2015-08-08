@@ -113,6 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     // Instructor Routes
     $route['add_grade/(:num)']              = 'instructor/student_grade/$1';
     $route['instructor_sched']              = 'instructor/all_sched';
+    $route['instruc_sched/(:num)']          = 'instructor/instruc_sched/$1';
 
 
 
