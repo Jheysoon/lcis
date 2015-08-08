@@ -81,7 +81,18 @@ class Instructor extends CI_Controller
         if(!empty($id))
         {
             $this->api->userMenu();
-            $this->load->view('instructor/sched');
+            $this->load->model(array('edp/edp_classallocation', 'dean/subject'));
+            $data['systemVal'] = $this->api->systemValue();
+            $where = array(
+                        'academicterm'  => $data['systemVal']['currentacademicterm'],
+                        'instructor'    => $id
+                    );
+            $this->db->where($where);
+            $data['class']  = $this->db->get('tbl_classallocation')->result_array();
+            $data['time1']  = $this->db->get('tbl_time')->result_array();
+            $data['day1']   = $this->db->get('tbl_day')->result_array();
+
+            $this->load->view('instructor/sched', $data);
         }
         else
             show_error('Did you type the url by yourself ?');
