@@ -82,6 +82,9 @@ class Instructor extends CI_Controller
         {
             $this->api->userMenu();
             $this->load->model(array('edp/edp_classallocation', 'dean/subject'));
+            $this->db->where('id', $id);
+            $this->db->select('firstname,lastname,middlename');
+            $data['name'] = $this->db->get('tbl_party')->row_array();
             $data['systemVal'] = $this->api->systemValue();
             $where = array(
                         'academicterm'  => $data['systemVal']['currentacademicterm'],

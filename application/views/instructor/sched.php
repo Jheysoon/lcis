@@ -2,7 +2,7 @@
 <div class="col-md-9 body-container">
 	<div class="panel p-body">
 		<div class="panel-heading">
-			<h4>Search for Students</h4>
+			<h4><?php echo $name['firstname'].', '.$name['lastname'].' '.$name['middlename'] ?></h4>
 		</div>
 		<?php
 			$owner 		= $this->api->getUserCollege();
@@ -14,6 +14,7 @@
 			$sy = $this->db->get('tbl_academicterm')->row_array();
 		 ?>
 		<div class="panel-body">
+			<a href="/instructor_sched" class="btn btn-success pull-right">Back</a>
 			<table class="table table-bordered">
 				 <caption>
 					 <strong>
@@ -243,7 +244,7 @@
 										<?php echo $table_day[$d][$i+1]['subject']; ?>
 										<br/>
 										<?php echo $table_day[$d][$i+1]['course']; ?>
-										
+
 										<?php echo $table_day[$d][$i+1]['room']; ?>
 									</span>
 								</td>
