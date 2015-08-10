@@ -74,6 +74,9 @@
 						$limit	= $to - 1;
 						$s 		= $this->subject->find($cl['subject']);
 						$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
+						$this->db->where('id', $dd1['classroom']);
+						$this->db->select('legacycode');
+						$room = $this->db->get('tbl_classroom')->row_array();
 						if($dd1['day'] == 1)
 						{
 							for($i = $from; $i <= $limit; $i++)
@@ -84,7 +87,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -102,7 +106,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -120,7 +125,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -138,7 +144,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -156,7 +163,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -174,7 +182,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -192,7 +201,8 @@
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
-														'color'		=> $color[$ctr]);
+														'color'		=> $color[$ctr],
+														'room'		=> $room['legacycode']);
 								}
 								else
 								{
@@ -233,6 +243,8 @@
 										<?php echo $table_day[$d][$i+1]['subject']; ?>
 										<br/>
 										<?php echo $table_day[$d][$i+1]['course']; ?>
+										
+										<?php echo $table_day[$d][$i+1]['room']; ?>
 									</span>
 								</td>
 								<?php
