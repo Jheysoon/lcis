@@ -20,6 +20,12 @@
 
 				$time 	= array();
 				$day 	= array();
+				
+				foreach($time1 as $t)
+				{
+					$time[] = $t['time'];
+				}
+
 				foreach($day1 as $d)
 				{
 					$day[] = $d['id'];
@@ -52,7 +58,7 @@
 						$span	= $to - $from;
 						$limit	= $to - 1;
 						$s 		= $this->subject->find($cl['subject']);
-						$cc 	= $this->edp_classallocation->getCourseShort($dd1['coursemajor']);
+						$cc 	= $this->edp_classallocation->getCourseShort($cl['coursemajor']);
 						if($dd1['day'] == 1)
 						{
 							for($i = $from; $i <= $limit; $i++)
