@@ -7,6 +7,9 @@
 		<div class="panel-body">
 			<?php
 				$systemVal 	= $this->api->systemValue();
+				$this->db->where('id', $systemVal['currentacademicterm']);
+				$sy = $this->db->get('tbl_academicterm')->row_array();
+
 				//if($systemVal['classallocationstatus'] == 99)
 				if(true)
 				{
@@ -16,7 +19,8 @@
 			<br>
             <?php
                 $owner 		= $this->api->getUserCollege();
-
+				$this->db->where('id', $owner);
+				$col = $this->db->get('tbl_college')->row_array();
 				$user 		= $this->session->userdata('uid');
 
                 // $cl 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
@@ -29,6 +33,12 @@
                 $cl = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']} LIMIT 20")->result_array();
              ?>
              <table class="table">
+				 <caption>
+					 <strong>
+					 School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?>
+					 <br><?php echo $col['description'] ?>
+					 </strong>
+				 </caption>
                  <tr>
                      <th>Subject</th>
                      <th>Course</th>

@@ -4,8 +4,23 @@
 		<div class="panel-heading">
 			<h4>Search for Students</h4>
 		</div>
+		<?php
+			$owner 		= $this->api->getUserCollege();
+			$this->db->where('id', $owner);
+			$col = $this->db->get('tbl_college')->row_array();
+
+			$systemVal 	= $this->api->systemValue();
+			$this->db->where('id', $systemVal['currentacademicterm']);
+			$sy = $this->db->get('tbl_academicterm')->row_array();
+		 ?>
 		<div class="panel-body">
 			<table class="table table-bordered">
+				 <caption>
+					 <strong>
+					 School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?>
+					 <br><?php echo $col['description'] ?>
+					 </strong>
+				 </caption>
 				<tr>
 					<th>Time \ Day</th>
 					<th>Monday</th>
@@ -20,7 +35,7 @@
 
 				$time 	= array();
 				$day 	= array();
-				
+
 				foreach($time1 as $t)
 				{
 					$time[] = $t['time'];
