@@ -12,25 +12,29 @@
 			$systemVal 	= $this->api->systemValue();
 			$this->db->where('id', $systemVal['currentacademicterm']);
 			$sy = $this->db->get('tbl_academicterm')->row_array();
+
+			$this->db->where('id', $sy['term']);
+			$this->db->select('abbreviation');
+			$term = $this->db->get('tbl_term')->row_array();
 		 ?>
 		<div class="panel-body">
 			<a href="/instructor_sched" class="btn btn-success pull-right">Back</a>
 			<table class="table table-bordered">
 				 <caption>
 					 <strong>
-					 School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?>
+					 School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $term['abbreviation'] ?>
 					 <br><?php echo $col['description'] ?>
 					 </strong>
 				 </caption>
 				<tr>
-					<th>Time \ Day</th>
-					<th>Monday</th>
-					<th>Tuesday</th>
-					<th>Wednesday</th>
-					<th>Thursday</th>
-					<th>Friday</th>
-					<th>Saturday</th>
-					<th>Sunday</th>
+					<th style="text-align:center">Time \ Day</th>
+					<th style="text-align:center">Monday</th>
+					<th style="text-align:center">Tuesday</th>
+					<th style="text-align:center">Wednesday</th>
+					<th style="text-align:center">Thursday</th>
+					<th style="text-align:center">Friday</th>
+					<th style="text-align:center">Saturday</th>
+					<th style="text-align:center">Sunday</th>
 				</tr>
             <?php
 
