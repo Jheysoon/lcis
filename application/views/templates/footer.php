@@ -150,6 +150,12 @@
                         });
                         e.preventDefault();
                     });
+                    $('#sorting').change(function(){
+                        v = $(this).val();
+                        $.post('/dean/sorts',{sort:v},function(data){
+                            $('#table-body').html(data);
+                        });
+                    });
                 });
             </script>
         <?php

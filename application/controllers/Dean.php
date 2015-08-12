@@ -1032,4 +1032,41 @@ class Dean extends CI_Controller
             $this->db->update('tbl_classallocation', $data);
         }
     }
+
+    function sorts()
+    {
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+
+        $owner 		= $this->api->getUserCollege();
+        $this->db->where('id', $owner);
+        $col = $this->db->get('tbl_college')->row_array();
+        $user 		= $this->session->userdata('uid');
+        $systemVal 	= $this->api->systemValue();
+
+        // $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
+        //     WHERE a.subject = b.id
+        //     AND b.owner = $owner
+        //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+
+        $data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+
+        $data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        $input = $this->input->post('sort');
+        if($input == 0)
+        {
+            $this->load->view('dean/ajax/assigned_ins', $data);
+            $this->load->view('dean/ajax/not_ass_ins', $data);
+        }
+        elseif($input == 1)
+        {
+            $this->load->view('dean/ajax/assigned_ins', $data);
+        }
+        elseif($input == 2)
+        {
+            $this->load->view('dean/ajax/not_ass_ins', $data);
+        }
+    }
 }
