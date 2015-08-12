@@ -11,22 +11,11 @@
       			</div>
       		</div>
           		<div class="panel-body">
-                <form class="form form-horizontal col-md-4" action="index.html" method="post">
-                  <!-- <div class="form-group"> -->
-                    <label class="col-md-4" for="">Select Category</label>
-                      <select class="form-control col-md-8 col-md-offset-4" name="" onchange="category(this)">
-                          <?php foreach ($getCat as $key => $value):
-                              extract($value);
-                             ?>
-                              <option value="/accountasset/<?php echo strtolower($description). '/' . $id ?>" onclick=""><?php echo $description; ?></option>
-                          <?php endforeach; ?>
-                      </select>
-                  <!-- </div> -->
-                </form>
+
 
 
                 <div class="col-md-12">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                                     <?php
                                         $config['base_url'] = base_url().'index.php/menu/audit-accountlist';
                                         $config['total_rows'] = $this->account->getAllaccount();
@@ -65,10 +54,25 @@
                                     ?>
                                     </ul>
                              </div>
-                            <div class="col-md-6"><br/>
-                                <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
-                                    <input type="hidden" id = "thestatus" name = "stats">
+                             <br/>
+                             <form class="form form-horizontal col-md-4" method="post" style="padding:0">
+                              <div class="form-group">
+                                 <label class="col-sm-4 control-label" for="">Select Category</label>
+                                 <div class="col-sm-6">
+                                   <select class="form-control" name="" onchange="category(this)">
+                                       <?php foreach ($getCat as $key => $value):
+                                           extract($value);
+                                          ?>
+                                           <option value="/accountasset/<?php echo strtolower($description). '/' . $id ?>" onclick=""><?php echo $description; ?></option>
+                                       <?php endforeach; ?>
+                                   </select>
+                                 </div>
 
+                                </div>
+                             </form>
+                            <div class="col-md-4" style="margin-top:-10px">
+                                <form class="navbar-form navbar-right" action="/movement/accmov" method="post" role="search">
+                                    <input type="hidden" id = "thestatus" name = "stats">
                                     <div class="form-group">
                                         <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
                                         <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">

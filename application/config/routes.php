@@ -79,6 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['dn_listSubject']                = 'dean/listSubject';
     $route['dn_listCurriculum']             = 'dean/listCurriculum';
 
+
     $route['non_exist']                     = 'dean/addSubjAlloc';
     $route['add_day_period/(:num)']         = 'dean/add_day_period/$1';
     $route['delete_classalloc/(:num)']      = 'dean/delete_classalloc/$1';
@@ -142,6 +143,14 @@ $route['accountasset/(:any)'] = 'movement/$1';
 
 $route['student-movement/(:any)/(:any)'] = 'movement/$1/$2';
 $route['student-movemen/(:any)'] = 'movement/$1';
+
+$route['movements'] = 'movement/accmove';
+$route['movement_update'] = 'movement/update_mov';
+
+
+$route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
+$route['update-movemen/(:any)'] = 'movement/$1';
+
 
 /*
 /*

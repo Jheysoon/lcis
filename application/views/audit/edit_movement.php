@@ -34,7 +34,7 @@
               </div>
                 <div class="table-responsive" style="padding: 20px;">
                   <div class="col-md-12" style="padding:0">
-                        <a href="/student-movement/up_mo/<?php echo $param; ?>" class="btn btn-info pull-right" data-toggle="modal">Edit</a>
+                        <a href="#" class="btn btn-info pull-right  " data-toggle="modal" data-target="#add_movement">Add Movement</a>
                         <br /><br />
                   </div>
                     <table class="table table-bordered">
@@ -43,11 +43,7 @@
                             <th class="tbl-header-main">Reference</th>
                             <th class="tbl-header-main">Date</th>
                             <th class="tbl-header-main" style="width:100px">Type</th>
-
-                            <th class="tbl-header-main" >Previous Balance</th>
-                            <th class="tbl-header-main" >Amount</th>
-                            <th class="tbl-header-main" >Running Balance</th>
-
+                            <th class="tbl-header-main" style="text-align:right;width:100px">Amount</th>
                         </tr>
                             <?php
                               $getacad = $this->account->breakAcad($getAccountid);
@@ -55,7 +51,7 @@
                               extract($value);
                             ?>
                             <form class="" action="/movement_update" method="post">
-                                  <tr><td class="tbl-header-main" colspan="7"><?php echo $sy; ?> &nbsp;&nbsp;&nbsp; SEMESTER: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?> </td></tr>
+                                  <tr><td class="tbl-header-main" colspan="6"><?php echo $sy; ?> &nbsp;&nbsp;&nbsp; SEMESTER: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?> </td></tr>
                                     <?php
                                     $debit = 0;
                                     $credit = 0;
@@ -68,13 +64,11 @@
                                         <td><a href="#"><?php echo $referenceid ?></a></td>
                                         <td><?php echo $systemdate ?></td>
                                         <td><?php echo $type; ?></td>
-                                        <td><?php echo $previousbalance; ?></td>
-                                        <td><?php echo $amount; ?>
-                                              <!-- <input type="text" class="form-control pull-right" name="<?php echo "am-".$counter ?>" value="<?php echo $amount; ?>" style="width:150px;text-align:right">
-                                              <input type="hidden" class="form-control pull-right" name="<?php echo "id-".$counter ?>" value="<?php echo $id; ?>"> -->
+                                        <td>
+                                              <input type="text" class="form-control pull-right" name="<?php echo "am-".$counter ?>" value="<?php echo $amount; ?>" style="width:150px;text-align:right">
+                                              <input type="hidden" class="form-control pull-right" name="<?php echo "id-".$counter ?>" value="<?php echo $id; ?>">
 
                                         </td>
-                                        <td><?php echo $runbalance ?></td>
                                         <?php $total += $amount; ?>
                                     </tr>
                                   <?php
@@ -85,14 +79,14 @@
                                     <input type="hidden" value="<?php echo $param ?>" name="param">
                                     <input type="hidden" name="accountid" value="<?php echo $getAccountid ?>">
                                     <input type="hidden" name="count" value="<?php echo  $counter ?>">
-                                    <td class="tbl-header" colspan="6">Total: <?php echo $counter ?></td>
-                                    <!-- <td class="tbl-header"><button type="submit" class="btn btn-info pull-right" name="button">Save & Recalculate</button>  </td> -->
+                                    <td class="tbl-header" colspan="3">Total: <?php echo $counter ?></td>
+                                    <td class="tbl-header"><button type="submit" class="btn btn-info pull-right" name="button">Save & Recalculate</button>  </td>
                                     <td class="tbl-header" style="text-align:right"><strong><?php echo $total; ?></strong><label for="">&nbsp;&nbsp;&nbsp;</label></label>
                                 </tr>
                           </form>
                             <?php endforeach; ?>
                             <tr>
-                                <td colspan="6" style="background-color:#2f5836"><h4>Total Balance</h4></td>
+                                <td colspan="4" style="background-color:#2f5836"><h4>Total Balance</h4></td>
                                 <td  style="text-align:right;background-color:#2f5836"><h4 style="padding:0"><strong><?php echo number_format($total, 2); ?><label>&nbsp;&nbsp;&nbsp;</label></strong></h4></td>
                             </tr>
                     </table>
