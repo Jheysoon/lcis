@@ -22,3 +22,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.xml
 .idea/workspace.xml
 .idea/workspace.xml
+assets/images/profile/*.jpg
+.imdone

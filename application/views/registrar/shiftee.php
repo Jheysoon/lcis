@@ -12,25 +12,19 @@
                 <form class="form-horizontal add-user" method="post" action="/registrar/shiftee_form" role="form">
                 <br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
                 <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-5">
-                        <label class="label-control add-label" for="sid">Student ID
-                        </label>
+                    <div class="col-sm-8 col-sm-offset-1">
+                        <label class="label-control add-label2">Student ID</label>
+                        <label class="form-control"><?php echo $legacyid; ?></label>
                         <input type="hidden" name="id" value="<?php echo $id; ?>">
-                        <input class="form-control input-id" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-00001)" required value="<?php echo $legacyid; ?>">
                         <label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
                         <input class="form-control" type="text" value="<?php echo $lastname == '' ? set_value('lastname'):$lastname ?>" name="lastname" placeholder="Lastname" required>
                         <label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
                         <input class="form-control" type="text" value="<?php echo $firstname == '' ? set_value('firstname'):$firstname ?>" name="firstname" placeholder="First Name" required>
                         <label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-                        <input class="form-control" type="text" value="<?php echo $middlename == '' set_value('middlename'):$middlename ?>" name="middlename" placeholder="Middle Name" required>
-                    </div>
-                    <div class = "col-sm-3">
-                        <img class="profile-main2" src="<?php echo base_url('assets/images/sample.jpg') ?>">
-                    </div>
-                    <div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-1">
+                        <input class="form-control" type="text" value="<?php echo $middlename == '' ? set_value('middlename'):$middlename ?>" name="middlename" placeholder="Middle Name" required>
+                        <br>
+						<hr>
+                        <br>
                         <label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
                         <select class="form-control" name='course' required>
                             <?php

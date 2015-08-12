@@ -261,7 +261,7 @@ class Registrar extends CI_Controller
             'registrar/enrollment'
         ));
 
-        $this->db->where('code', $subid);
+        $this->db->where('code', $subjid);
         $r = $this->db->get('tbl_subject')->row_array();
 
         $data['subject']        = $r['id'];
@@ -560,116 +560,125 @@ class Registrar extends CI_Controller
         }
     }
 
-    function update_studinfo(){
-                //update in tbl_party
-                    $partyid = $this->input->post('partyid');
-                    $firstname = $this->input->post('firstname');
-                    $middlename = $this->input->post('middlename');
-                    $lastname = $this->input->post('lastname');
-                    $dob = $this->input->post('dob');
-                    $pob = $this->input->post('pob');
-                    $address1 = $this->input->post('address1');
-                    $address2 = $this->input->post('address2');
+    function update_studinfo()
+    {
+        //update in tbl_party
+        $partyid    = $this->input->post('partyid');
+        $firstname  = $this->input->post('firstname');
+        $middlename = $this->input->post('middlename');
+        $lastname   = $this->input->post('lastname');
+        $dob        = $this->input->post('dob');
+        $pob        = $this->input->post('pob');
+        $address1   = $this->input->post('address1');
+        $address2   = $this->input->post('address2');
 
-                   //update in tbl_student
-                    $primary = $this->input->post('primary');
-                    $elementary = $this->input->post('elementary');
-                    $highschool = $this->input->post('highschool');
-                    $primaryyear = $this->input->post('primaryyear');
-                    $elementaryyear = $this->input->post('elementaryyear');
-                    $highschoolyear = $this->input->post('highschoolyear');
-                   //latest registration to be updated
-                    $url = $this->input->post('url');
-                    $course = $this->input->post('course');
-                     $dateregistered = $this->input->post('dateregistered');
-                     echo $dor = $this->input->post('dor');
-                   $dat = date('Y');
+       //update in tbl_student
+        $primary        = $this->input->post('primary');
+        $elementary     = $this->input->post('elementary');
+        $highschool     = $this->input->post('highschool');
+        $primaryyear    = $this->input->post('primaryyear');
+        $elementaryyear = $this->input->post('elementaryyear');
+        $highschoolyear = $this->input->post('highschoolyear');
 
+        //latest registration to be updated
+        $url            = $this->input->post('url');
+        $course         = $this->input->post('course');
+        $dateregistered = $this->input->post('dateregistered');
+        echo $dor       = $this->input->post('dor');
+        $dat = date('Y');
 
+        $start = new DateTime($dob);
+        $end  = new DateTime(date('Y-m-d'));
+        $dDiff = $start->diff($end);
+        $dif = $dDiff->format('%Y');
+        $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+        $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
 
-                $start = new DateTime($dob);
-                $end  = new DateTime(date('Y-m-d'));
-                $dDiff = $start->diff($end);
-                $dif = $dDiff->format('%Y');
-                $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-                $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-                   if ($dif < 10) {
-                      $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
-                   }elseif($pob == ''){
-                      $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
-                   }elseif($address1 == ''){
-                    $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
-                   }
-                   elseif ($elementary == '' OR $elementary == 'Select') {
-                    $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
-                   }elseif ($primary == '' OR $primary == 'Select') {
-                      $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
-                   }elseif ($highschool == '' OR $highschool == 'Select') {
-                    $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
-                   }elseif ($primaryyear == '' OR $primaryyear > $dat) {
-                    $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
-                   }elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
-                    $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');
-                   }elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
-                     $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
-                   }else{
+        if ($dif < 10) {
+          $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
+        }
+        elseif($pob == ''){
+            $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
+        }
+        elseif($address1 == ''){
+            $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
+        }
+        elseif ($elementary == '' OR $elementary == 'Select') {
+            $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
+        }
+        elseif ($primary == '' OR $primary == 'Select') {
+            $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
+        }
+        elseif ($highschool == '' OR $highschool == 'Select') {
+            $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
+        }
+        elseif ($primaryyear == '' OR $primaryyear > $dat) {
+            $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
+        }
+        elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
+            $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');
+        }
+        elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
+            $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
+        }
+        else{
 
-                           $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
-                            $data = array(
-                            'firstname' => $firstname,
-                            'middlename' => $middlename,
-                            'lastname' => $lastname,
-                            'dateofbirth' => $dob,
-                            'placeofbirth' => $pob,
-                            'address1' => $address1,
-                            'address2' => $address2,
+           $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+            $data = array(
+                'firstname'     => $firstname,
+                'middlename'    => $middlename,
+                'lastname'      => $lastname,
+                'dateofbirth'   => $dob,
+                'placeofbirth'  => $pob,
+                'address1'      => $address1,
+                'address2'      => $address2,
+            );
+            $this->db->where('id', $partyid);
+            $this->db->update('tbl_party', $data);
+
+            $data2 = array(
+                'primary'               => $primary,
+                'elementary'            => $elementary,
+                'secondary'             => $highschool,
+                'completionprimary'     => $primaryyear,
+                'completionelementary'  => $elementaryyear,
+                'completionsecondary'   => $highschoolyear
+                );
+            $this->db->where('id', $partyid);
+            $this->db->update('tbl_student', $data2);
+            $coursmaj = $this->db->query("SELECT course, id FROM tbl_coursemajor WHERE course = '$course'");
+            $x = $coursmaj->row_array();
+            $x['id'];
+            $data3 = array('coursemajor' => $course,
+                            'date' => $dor
                             );
-                            $this->db->where('id', $partyid);
-                            $this->db->update('tbl_party', $data);
+            $this->db->where('student', $partyid);
+            $this->db->where('date',$dateregistered);
+            $this->db->update('tbl_registration', $data3);
 
-                            $data2 = array(
-                                'primary' => $primary,
-                                'elementary' => $elementary,
-                                'secondary' => $highschool,
-                                'completionprimary' => $primaryyear,
-                                'completionelementary' => $elementaryyear,
-                                'completionsecondary' => $highschoolyear
-                                );
-                            $this->db->where('id', $partyid);
-                            $this->db->update('tbl_student', $data2);
-                            $coursmaj = $this->db->query("SELECT course, id FROM tbl_coursemajor WHERE course = '$course'");
-                            $x = $coursmaj->row_array();
-                            $x['id'];
-                            $data3 = array('coursemajor' => $course,
-                                            'date' => $dor
-                                            );
-                            $this->db->where('student', $partyid);
-                            $this->db->where('date',$dateregistered);
-                            $this->db->update('tbl_registration', $data3);
-
-                     }
-                             $x = array(
-                            'firstname' => $firstname,
-                            'middlename' => $middlename,
-                            'lastname' => $lastname,
-                            'dob' => $dob,
-                            'pob' => $pob,
-                            'address1' => $address1,
-                            'address2' => $address2,
-                            'primary' => $primary,
-                            'elementaryss' => $elementary,
-                            'secondary' => $highschool,
-                            'completionprimary' => $primaryyear,
-                            'completionelementary' => $elementaryyear,
-                            'completionsecondary' => $highschoolyear
-                        );
-                           $_SESSION['infos'] = $x;
-                          // print_r($_SESSION['infos']);
-                           redirect('/rgstr_build/' . $url);
+        }
+         $x = array(
+             'firstname'            => $firstname,
+             'middlename'           => $middlename,
+             'lastname'             => $lastname,
+            'dob'                   => $dob,
+            'pob'                   => $pob,
+            'address1'              => $address1,
+            'address2'              => $address2,
+            'primary'               => $primary,
+            'elementaryss'          => $elementary,
+            'secondary'             => $highschool,
+            'completionprimary'     => $primaryyear,
+            'completionelementary'  => $elementaryyear,
+            'completionsecondary'   => $highschoolyear
+        );
+        $_SESSION['infos'] = $x;
+        // print_r($_SESSION['infos']);
+        redirect('/rgstr_build/' . $url);
     }
 
-    function add_school(){
-
+    function add_school()
+    {
         $sch    = strtoupper($this->input->post('school'));
         $add    = strtoupper($this->input->post('address'));
         $short  = strtoupper($this->input->post('short'));
@@ -845,79 +854,47 @@ class Registrar extends CI_Controller
     function tor_preview(){
         redirect('/registrar_tor/'.$this->input->post('search'));
     }
-    
+
     // this function will be for the new student registration
-    function registration($id = 0)
+    function registration()
     {
         $this->load->library('form_validation');
         $this->load->helper('form');
 
-        $this->form_validation->set_rules('lastname', 'Lastname','required');
-        $this->form_validation->set_rules('firstname', 'Firstname','required');
-        $this->form_validation->set_rules('middlename', 'Middlename','required');
-        $this->form_validation->set_rules('course', 'Course','required');
-        $this->form_validation->set_rules('gender', 'Gender','required');
-        $this->form_validation->set_rules('religion', 'Religion','required');
+        $field = array(
+                    'lastname'      => 'Lastname',
+                    'firstname'     => 'Firstname',
+                    'middlename'    => 'Middlename',
+                    'course'        =>'Course',
+                    'gender'        =>'Gender',
+                    'religion'      =>'Religion',
+                    'dob'           =>'Date of Birth',
+                    'mailadd'       =>'Mailing Address',
+                    'username'      => 'Username',
+                    'password'      =>'Password',
+                    'rpass'         =>'Repeat Password',
+                    'emailadd'      =>'Email Address'
+                );
+
+        foreach($field as $key => $value)
+        {
+            $this->form_validation->set_rules($key, $value, 'required');
+        }
         // nationality not found in tbl_party
-        $this->form_validation->set_rules('nationality', 'Nationality','required');
-        $this->form_validation->set_rules('dob', 'Date of Birth','required');
-        $this->form_validation->set_rules('pob', 'Place of Birth','required');
-        $this->form_validation->set_rules('mailadd', 'Mailing Address','required');
-        $this->form_validation->set_rules('father', 'Fathers Name','required');
-        $this->form_validation->set_rules('mother', 'Mothers Name','required');
-        $this->form_validation->set_rules('middlename', 'Middlename','required');
-        $this->form_validation->set_rules('username', 'Username','required');
-        $this->form_validation->set_rules('password', 'Password','required');
-        $this->form_validation->set_rules('rpass', 'Repeat Password','required');
-        $this->form_validation->set_rules('emailadd', 'Email Address', 'required');
-        $this->form_validation->set_rules('sid', 'Student Id', 'required');
+        //$this->form_validation->set_rules('nationality', 'Nationality','required');
         $d['error'] = '';
 
         if($this->form_validation->run() === FALSE)
         {
-            // if($id == 0 OR $this->input->post('firstname'))
-            // {
-                $this->api->userMenu();
-                $d['id']        = 0;
-                $d['fname']     = set_value('firstname');
-                $d['lname']     = set_value('lastname');
-                $d['mname']     = set_value('middlename');
-                                    // inline if statement
-                $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
-                $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-                $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
-                $this->load->view('registrar/newstudent_registration', $d);
-                $this->load->view('templates/footer2');
-            // }
-            // else
-            // {
-            //     $this->load->model('registrar/registration');
-            //     //get the student id
-            //     $this->db->where('id', $id);
-            //     $this->db->select('firstname,lastname,middlename,legacyid');
-            //     $p = $this->db->get('tbl_party')->row_array();
-            //
-            //     $r = $this->registration->getLatestCM($id);
-            //
-            //     $this->db->where('id', $r['coursemajor']);
-            //     $this->db->select('course,major');
-            //     $c = $this->db->get('tbl_coursemajor')->row_array();
-            //
-            //     //update/display only the important fields
-            //
-            //     $l['id']        = $id;
-            //     $l['fname']     = $p['firstname'];
-            //     $l['lname']     = $p['lastname'];
-            //     $l['mname']     = $p['middlename'];
-            //     $l['legacyid']  = $p['legacyid'];
-            //     $l['course']    = $c['course'];
-            //     $l['major']     = $c['major'];
-            //     $l['error']     = '';
-            //
-            //     $this->api->userMenu();
-            //     $this->load->view('registrar/newstudent_registration', $l);
-            //     $this->load->view('templates/footer2');
-            // }
+            $this->api->userMenu();
+            $d['fname']     = set_value('firstname');
+            $d['lname']     = set_value('lastname');
+            $d['mname']     = set_value('middlename');
+            $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
+            $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
+            $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
+            $this->load->view('registrar/newstudent_registration', $d);
+            $this->load->view('templates/footer2');
         }
         else
         {
@@ -928,6 +905,8 @@ class Registrar extends CI_Controller
                 // check if the password and repeat password is equal
                 if($this->input->post('password') == $this->input->post('rpass'))
                 {
+                    $this->db->trans_begin();
+                    $systemVal              = $this->api->systemValue();
                     $data['firstname']      = ucwords($this->input->post('firstname'));
                     $data['lastname']       = ucwords($this->input->post('lastname'));
                     $data['middlename']     = ucwords($this->input->post('middlename'));
@@ -936,19 +915,30 @@ class Registrar extends CI_Controller
                     $data['dateofbirth']    = $this->input->post('dob');
                     $data['placeofbirth']   = ucwords($this->input->post('pob'));
                     $data['emailaddress']   = $email;
+                    $data['legacyid']       = $systemVal['laststudentid'];
 
                     $this->db->insert('tbl_party', $data);
                     $id = $this->db->insert_id();
 
+                    // update the laststudent id in systemvalues
+                    $sys['laststudentid'] = $systemVal['laststudentid'] + 1;
+                    $this->db->update('tbl_systemvalues', $sys);
+
                     // get the latest curriculum for that student
-                    $systemVal              = $this->api->systemValue();
                     $reg['coursemajor']     = $this->input->post('course');
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['student']         = $id;
                     $this->db->insert('tbl_registration', $reg);
-
-                    redirect(base_url('registration'));
+                    if ($this->db->trans_status() === FALSE)
+                    {
+                        $this->db->trans_rollback();
+                    }
+                    else
+                    {
+                        $this->db->trans_commit();
+                    }
+                    redirect(base_url('take_photo/'.$id));
                 }
                 else
                 {
@@ -983,6 +973,43 @@ class Registrar extends CI_Controller
         $this->api->userMenu();
         $this->load->view('registrar/newstudent_registration', $d);
         $this->load->view('templates/footer2');
+    }
+
+    function take_photo($id = '')
+    {
+        if(!empty($id))
+        {
+            $this->api->userMenu();
+            $data['id'] = $id;
+            $this->db->where('id', $id);
+            $this->db->select('legacyid');
+            $r = $this->db->get('tbl_party')->row_array();
+            $data['student_id'] = $r['legacyid'];
+            $this->load->view('registrar/take_photo', $data);
+            $this->load->view('templates/footer2');
+        }
+        else {
+            show_error('Did you type the url by yourself ?');
+        }
+    }
+
+    function save_photo()
+    {
+        $id = $this->input->post('id');
+        $image = $this->input->post('image');
+        $bin = base64_decode($image);
+
+        $result = file_put_contents('./assets/images/profile/'.$id.'.jpg', $bin);
+        if(!$result)
+        {
+            die('Could not save image! Check file permissions.');
+        }
+        else {
+            $d['pic'] = $id.'.jpg';
+            $this->db->where('id', $id);
+            $this->db->update('tbl_party', $d);
+            redirect(base_url('registration'));
+        }
     }
 
     function find_stu()
@@ -1117,10 +1144,33 @@ class Registrar extends CI_Controller
             $r['coursemajor']   = $t['id'];
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
-            $this->ch_stat_reg($t['id']);
+            $r['curriculum']    = $this->getLatestCur($r['coursemajor']);
+            $r['createdby']     = $this->session->userdata('uid');
+            $r['datecreated']   = date('Y-m-d');
             $this->db->insert('tbl_registration', $r);
+            $this->ch_stat_reg($this->db->insert_id());
             redirect('/menu/registrar-shift_student');
         }
+    }
+
+    function getLatestCur($coursemajor)
+    {
+        $tt1     = $this->api->systemValue();
+        $this->db->where('id', $tt1['currentacademicterm']);
+        $this->db->select('systart');
+        $tt = $this->db->get('tbl_academicterm')->row_array();
+        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();foreach($acamd as $acams)
+        {
+            $c = $this->db->query("SELECT * FROM tbl_curriculum
+                                    WHERE coursemajor = $coursemajor
+                                    AND academicterm = {$acams['id']}");
+            if($c->num_rows() > 0)
+            {
+                $cur    = $c->row_array();
+                return $cur['id'];
+            }
+        }
+        return 0;
     }
 
     function shiftee($id = '')
@@ -1138,13 +1188,14 @@ class Registrar extends CI_Controller
                 {
                     $this->load->model('registrar/registration');
                     $this->db->where('id', $id);
-                    $this->db->select('firstname,middlename,lastname');
+                    $this->db->select('firstname,middlename,lastname,legacyid');
                     $p = $this->db->get('tbl_party')->row_array();
                     $data['firstname']  = $p['firstname'];
                     $data['lastname']   = $p['lastname'];
                     $data['middlename'] = $p['middlename'];
+                    $data['legacyid']   = $p['legacyid'];
 
-                    $r = $this->registration->getLatestCM();
+                    $r = $this->registration->getLatestCM($id);
 
                     $this->db->where('id', $r['coursemajor']);
                     $this->db->select('course,major');
@@ -1153,7 +1204,9 @@ class Registrar extends CI_Controller
                     $data['id']     = $id;
                     $data['course'] = $c['course'];
                     $data['major']  = $c['major'];
+                    $this->api->userMenu();
                     $this->load->view('registrar/shiftee', $data);
+                    $this->load->view('templates/footer');
                 }
                 else
                 {

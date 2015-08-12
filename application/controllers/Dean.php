@@ -165,11 +165,9 @@ class Dean extends CI_Controller
     function add_subject()
     {
         $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
             'dean/subject',
-            'dean/group','dean/college'
+            'dean/group',
+            'dean/college'
         ));
 
         $this->load->library('form_validation');
@@ -184,8 +182,7 @@ class Dean extends CI_Controller
 
         if($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/header');
-            $this->load->view('templates/header_title2');
+            $this->api->userMenu();
             $this->load->view('dean/add_subject');
             $this->load->view('templates/footer');
         }
@@ -246,9 +243,13 @@ class Dean extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('form');
 
-        $this->form_validation->set_rules('title','Descriptive Title','trim|required');
-        $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
-        $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
+        $rules = array(
+                    array('field' => 'title', 'label' => 'Descriptive Title', 'rules' => 'trim|required'),
+                    array('field' => 'units', 'label' => 'Subject Units' ,    'rules' => 'trim|required|integer'),
+                    array('field' => 'hours', 'label' => 'Subject Hours',     'rules' => 'trim|required|integer')
+                );
+
+        $this->form_validation->set_rules($rules);
 
         $q = $this->subject->whereCode($data['code']);
         if($this->form_validation->run() === FALSE)
@@ -463,16 +464,12 @@ class Dean extends CI_Controller
         $is_ajax                = $this->input->post('is_ajax');
 
         if($is_ajax != 0)
-        {
             $data['studentcount'] = $this->input->post('studentcount');
-        }
 
         //$c = $this->out_section->whereCount($data['academicterm'],$data['coursemajor'],$data['subject'],$data['yearlevel']);
         $id = $this->input->post('out_section_id');
         if($id == NULL)
-        {
             $this->db->insert('out_section',$data);
-        }
         else
         {
             $this->db->where('id',$id);
@@ -480,9 +477,7 @@ class Dean extends CI_Controller
         }
 
         if($is_ajax == 0)
-        {
             redirect(base_url('non_exist'));
-        }
     }
 
 //-------------------------------------------------------------------------
@@ -822,7 +817,6 @@ class Dean extends CI_Controller
                     $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
                     if($this->input->post('edp'))
                     {
-
                         $this->session->set_flashdata('message', $this->error);
                         redirect('/assign_room/'.$cid);
                     }
@@ -1025,5 +1019,54 @@ class Dean extends CI_Controller
         $this->load->model(array('edp/edp_classallocation'));
 
         $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
+    }
+
+    function save_instructor()
+    {
+        $data['instructor'] = $this->input->post('instructor');
+        if($data['instructor'] != 0)
+        {
+            $cl_id      = $this->input->post('cl_id');
+
+            $this->db->where('id', $cl_id);
+            $this->db->update('tbl_classallocation', $data);
+        }
+    }
+
+    function sorts()
+    {
+        $this->load->model(array(
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+
+        $owner 		= $this->api->getUserCollege();
+        $this->db->where('id', $owner);
+        $col = $this->db->get('tbl_college')->row_array();
+        $user 		= $this->session->userdata('uid');
+        $systemVal 	= $this->api->systemValue();
+
+        // $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
+        //     WHERE a.subject = b.id
+        //     AND b.owner = $owner
+        //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+
+        $data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+
+        $data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        $input = $this->input->post('sort');
+        if($input == 0)
+        {
+            $this->load->view('dean/ajax/assigned_ins', $data);
+            $this->load->view('dean/ajax/not_ass_ins', $data);
+        }
+        elseif($input == 1)
+        {
+            $this->load->view('dean/ajax/assigned_ins', $data);
+        }
+        elseif($input == 2)
+        {
+            $this->load->view('dean/ajax/not_ass_ins', $data);
+        }
     }
 }
