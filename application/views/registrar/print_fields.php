@@ -7,6 +7,14 @@
         ${'f'.$ctr.'2'} = $designation;
         $ctr+=1;
     }
+        $order_title = 'Granted under Authority of Special Order No.';
+        $order_no    = '';
+        $series      = '';
+        $remarks     = '';
+
+        if ($this->session->has_userdata('fields')) {
+            extract($this->session->userdata('fields'));
+        }
  ?>
 <div class="panel">
     <div class="panel-heading">
@@ -49,20 +57,25 @@
                 <div class="form-group col-md-12">
                     <h3>Other Fields</h3>
                 </div>
-                <div class="form-group col-md-8">
-                    <label class="label-control">Granted under Authority of Special Order No.</label>
-                    <input name="order" type="text" class="form-control">
+                <div class="form-group col-md-7">
+                    <label class="label-control">Order Title</label>
+                    <input name="order_title" type="text" required class="form-control" value="<?php echo $order_title; ?>">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
+                    <label class="label-control">Order No.</label>
+                    <input name="order" type="text" class="form-control" value="<?php echo $order_no; ?>">
+                </div>
+                <div class="form-group col-md-2">
                     <label class="label-control">Series</label>
-                    <input name="serial" type="text" class="form-control">
+                    <input name="series" type="text" class="form-control" value="<?php echo $series; ?>">
                 </div>
                 <div class="form-group col-md-12">
                     <label class="label-control">Remarks</label>
-                    <input name="remarks" type="text" class="form-control">
+                    <input name="remarks" type="text" class="form-control" value="<?php echo $remarks; ?>">
                 </div>
                 <div class="form-group col-md-12">
-                    <button class="btn btn-primary pull-right" type="submit">Save</button>
+                    <a href="<?php echo base_url('registrar_tor/'.$sid); ?>"class="btn btn-warning pull-right">Go Back</a>
+                    <button style="margin-right: 5px;" class="btn btn-primary pull-right" type="submit">Save & Go Back</button>
                 </div>
             </div>
         </form>

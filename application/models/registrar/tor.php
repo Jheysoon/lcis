@@ -13,6 +13,7 @@ class Tor extends CI_Model
                                  WHERE tbl_registration.coursemajor = tbl_coursemajor.id
                                  AND tbl_coursemajor.course = tbl_course.id
                                  AND tbl_party.id = tbl_registration.student
+                                 AND tbl_registration.status = 'A'
                                  GROUP BY student");
         return $q->num_rows();
     }
@@ -25,6 +26,7 @@ class Tor extends CI_Model
                                  WHERE tbl_registration.coursemajor = tbl_coursemajor.id
                                  AND tbl_coursemajor.course = tbl_course.id
                                  AND tbl_party.id = tbl_registration.student
+                                 AND tbl_registration.status = 'A'
                                  GROUP BY student  ORDER BY legacyid DESC, tbl_registration.id DESC LIMIT $param, 15");
         return $q->result_array();
     }
@@ -37,6 +39,7 @@ class Tor extends CI_Model
                                WHERE tbl_registration.coursemajor = tbl_coursemajor.id
                                AND tbl_coursemajor.course = tbl_course.id
                                AND tbl_party.id = tbl_registration.student
+                               AND tbl_registration.status = 'A'
                                AND(
                                       legacyid LIKE '%$search%'
                                       OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'

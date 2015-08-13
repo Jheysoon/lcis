@@ -1299,9 +1299,19 @@ class Registrar extends CI_Controller
         $f42 = $this->input->post('f-4-2');
         $this->tor->updateFields($f41, $f42, 4);
 
-        $order   = $this->input->post('order');
-        $serial  = $this->input->post('serial');
-        $remarks = $this->input->post('remarks');
+        $order_title   = $this->input->post('order_title');
+        $order         = $this->input->post('order');
+        $series        = $this->input->post('series');
+        $remarks       = $this->input->post('remarks');
+
+        $fields = array(
+            'order_title' => $order_title,
+            'order_no'    => $order,
+            'series'      => $series,
+            'remarks'     => $remarks
+        );
+
+        $this->session->set_userdata('fields', $fields);
 
         $sid = $this->input->post('sid');
 

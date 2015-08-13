@@ -1,7 +1,7 @@
 <table class="table">
     <caption>
         <strong>
-        <br>Assined Subjects
+        <br>Assigned Subjects
         </strong>
     </caption>
     <tr>

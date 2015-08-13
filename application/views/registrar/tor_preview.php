@@ -18,6 +18,18 @@
         ${'f'.$ctr.'2'} = $designation;
         $ctr+=1;
     }
+
+    $order_title = 'Granted under Authority of Special Order No.';
+    $order_no    = '';
+    $series      = '';
+    $remarks     = '';
+
+    if ($this->session->has_userdata('fields')) {
+        extract($this->session->userdata('fields'));
+    }
+    $total_cr = 0;
+    $cr1 = 0; $cr2 = 0; $cr3 = 0; $cr4 = 0; $cr5 = 0;
+    $cr6 = 0; $cr7 = 0; $cr8 = 0; $cr9 = 0; $cr10 = 0;
  ?>
 <!DOCTYPE html>
 <html>
@@ -94,6 +106,9 @@
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td colspan="3">
                             <label >College of</label> <u>&nbsp;&nbsp;<?php echo $college; ?>&nbsp;&nbsp;</u><br/>
                             <label >Candidate for Title/Degree: <u>&nbsp;&nbsp;<?php echo $description; ?>&nbsp;&nbsp;</u></label><br/>
@@ -104,7 +119,7 @@
                         </td>
                     </tr>
                 </table>
-
+                <br/><br/>
                 <table>
                     <tr>
                         <td colspan="3" class="center">
@@ -176,7 +191,7 @@
                         if ($sch != $val['school']) {
                             ?>
                                 <tr>
-                                    <td class="no-right" colspan="5"><strong><?php echo $val['firstname']; ?></strong></td>
+                                    <td class="no-right center" colspan="5"><strong><?php echo $val['firstname']; ?></strong></td>
                                 </tr>
                             <?php $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
                         }
@@ -229,7 +244,14 @@
                                     <td class="center no-line"><?php echo $rex; ?></td>
                                     <td class="center no-line no-right"><?php echo $val2['units']; ?></td>
                                 </tr>
-                    <?php $ctr3+=1; $ctr4+=1; $credit[$ctr4] = $val2['group']."|".$val2['units']; }
+                        <?php
+                            if ($gr != '') {
+                                # code...
+                            }
+                            $ctr3+=1;
+                            $ctr4+=1;
+                            $credit[$ctr4] = $val2['group']."|".$val2['units'];
+                        }
                     }
                         if ($ctr2 < $ctr) { ?>
                             <tr>
@@ -268,10 +290,10 @@
                 </table>
                 <table>
                     <tr>
-                        <td width="200px">Granted under Authority of Special Order No.:</label></td>
-                        <td class="underline"></td>
+                        <td width="200px"><?php echo $order_title; ?>:</label></td>
+                        <td class="underline"><?php echo $order_no; ?></td>
                         <td width="5px"><label >Series: </td>
-                        <td width="30px" class="underline"></td>
+                        <td width="30px" class="underline"><?php echo $series; ?></td>
                     </tr>
                 </table>
                 <table>
@@ -283,7 +305,7 @@
                     </tr>
                     <tr>
                         <td>Remarks :</td>
-                        <td colspan="3" class="underline"></td>
+                        <td colspan="3" class="underline"><?php echo $remarks; ?></td>
                     </tr>
                     <tr>
                         <td colspan="4"><strong>NOT VALID WITHOUT SCHOOL SEAL</strong></td>
@@ -344,16 +366,16 @@
                         }
                         else{ $cr = explode('|', $credit[$a]) ?>
                             <tr>
-                                <td class="center no-line no-left"><?php if ($cr[0] == 1) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 2) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 3) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 4) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 5) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 6) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 7) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 8) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 9) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1];}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line no-left"><?php if ($cr[0] == 1) {echo $cr[1]; $cr1 = $cr1 + $cr[1]; $total_cr = $total_cr + $cr1;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 2) {echo $cr[1]; $cr2 = $cr2 + $cr[1]; $total_cr = $total_cr + $cr2;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 3) {echo $cr[1]; $cr3 = $cr3 + $cr[1]; $total_cr = $total_cr + $cr3;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 4) {echo $cr[1]; $cr4 = $cr4 + $cr[1]; $total_cr = $total_cr + $cr4;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 5) {echo $cr[1]; $cr5 = $cr5 + $cr[1]; $total_cr = $total_cr + $cr5;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 6) {echo $cr[1]; $cr6 = $cr6 + $cr[1]; $total_cr = $total_cr + $cr6;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 7) {echo $cr[1]; $cr7 = $cr7 + $cr[1]; $total_cr = $total_cr + $cr7;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 8) {echo $cr[1]; $cr8 = $cr8 + $cr[1]; $total_cr = $total_cr + $cr8;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 9) {echo $cr[1]; $cr9 = $cr9 + $cr[1]; $total_cr = $total_cr + $cr9;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1]; $cr10 = $cr10 + $cr[1]; $total_cr = $total_cr + $cr10;}else{echo "&nbsp;";} ?></td>
                             </tr>
                             <?php
                         } $a+=1 ;
@@ -361,16 +383,16 @@
                     <tr>
                         <td class="center no-left" colspan="10">Total credits presented for graduation</td>
                         <tr>
-                            <td class="center no-line no-left">&nbsp;</td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
-                            <td class="center no-line"></td>
+                            <td class="center no-line no-left"><?php if ($cr1 != 0 && $ctr2 == $ctr) {echo $cr1;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr2 != 0 && $ctr2 == $ctr) {echo $cr2;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr3 != 0 && $ctr2 == $ctr) {echo $cr3;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr4 != 0 && $ctr2 == $ctr) {echo $cr4;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr5 != 0 && $ctr2 == $ctr) {echo $cr5;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr6 != 0 && $ctr2 == $ctr) {echo $cr6;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr7 != 0 && $ctr2 == $ctr) {echo $cr7;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr8 != 0 && $ctr2 == $ctr) {echo $cr8;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr9 != 0 && $ctr2 == $ctr) {echo $cr9;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr10 != 0 && $ctr2 == $ctr) {echo $cr10;}else{echo "&nbsp;";} ?></td>
                         </tr>
                     </tr>
                 </table>
@@ -378,7 +400,7 @@
                     <tr>
                         <td></td>
                         <td width="30px">Total :</td>
-                        <td width="50px" class="underline"></td>
+                        <td width="50px" class="underline"><?php if ($total_cr != 0 && $ctr2 == $ctr) {echo $total_cr;}else{echo "&nbsp;";} ?></td>
                     </tr>
                 </table><br/>
                 <table>
