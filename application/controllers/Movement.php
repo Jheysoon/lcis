@@ -67,7 +67,7 @@ class Movement extends CI_Controller
     {
         $x = $this->db->query("SELECT * FROM tbl_movement WHERE account = '$accountid' ORDER BY academicterm ASC, id  ASC, referenceid ASC")->result_array();
         $this->db->query("UPDATE tbl_account SET currentbalance = '0' WHERE id = '$accountid'");
-
+        
         foreach ($x as $key => $value) {
           extract($value);
           $m = $this->db->query("SELECT currentbalance FROM tbl_account WHERE id = '$accountid'")->row_array();

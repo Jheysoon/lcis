@@ -60,4 +60,5 @@
     {
       return $this->db->query("SELECT id as acad, CONCAT(systart, '-', syend) as sy, term FROM tbl_academicterm")->result_array();
     }
+    
   }
