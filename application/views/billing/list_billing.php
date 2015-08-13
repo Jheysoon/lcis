@@ -48,17 +48,17 @@
                         </ul>
                  </div>
                 <div class="col-md-6"><br/>
-                    <form class="navbar-form navbar-right" action="/billing/search" method="post" role="search">
-                        <input type="hidden" id = "thestatus" name = "stats">
+									<form class="navbar-form navbar-right" action="/billing/searcheds" method="post" role="search">
+											<!-- <input type="text" id = "thestatus" name = "stats" value="1"> -->
 
-                        <div class="form-group">
-                            <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
-                            <input type="text" name="search" id="student_search" class="form-control" placeholder="Student Id">
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </form>
+											<div class="form-group">
+													<input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
+												 <input type="text" name="stats" id="student_search" class="form-control" placeholder="Student Id">
+											</div>
+											<button type="submit" class="btn btn-primary">
+													<span class="glyphicon glyphicon-search"></span>
+											</button>
+									</form>
                 </div>
             <input type="hidden" name="param" value="<?php echo $param; ?>"/>
     		<div id="studlist_wrapper" class="table-responsive col-md-12">

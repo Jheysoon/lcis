@@ -161,7 +161,7 @@
         <?php
             }
 
-                if (uri_string() == 'menu/scholarship-scholarshiplist' OR in_array('billing-list_billing', $str1)) { ?>
+                if (uri_string() == 'menu/scholarship-scholarshiplist') { ?>
                        <script src="/assets/js/typeahead.bundle.js"></script>
                         <script src="/assets/js/handlebars-v3.0.1.js"></script>
                         <script type="text/javascript">
@@ -232,13 +232,5 @@
 
                    </script>
               <?php } ?>
-              <script>
-                      $(document).ready(function(){
-                            $('')
-
-                      });
-
-              </script>
-
   </body>
 </html>
