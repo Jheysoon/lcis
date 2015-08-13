@@ -158,7 +158,7 @@
 											else {
 												echo 'No assigned day and period';
 											}
-										}
+										//}
 										 ?>
 									</td>
 								</tr>

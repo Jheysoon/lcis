@@ -26,7 +26,7 @@
                 $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
                     WHERE a.subject = b.id
                     AND b.owner = $owner
-                    AND academicterm = {$systemVal['phaseterm']}")->result_array();
+                    AND academicterm = {$systemVal['phaseterm']} ORDER BY title ASC")->result_array();
 
                 $data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
 
