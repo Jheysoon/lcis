@@ -31,8 +31,9 @@ class Billing extends CI_Controller
 							$this->load->view('templates/footer');
 
 			    }
-			    function search(){
-			    		redirect('/billing/view_studentbilling/'.$this->input->post('search'));
+			    function searcheds()
+					{
+							redirect('/billing/view_studentbilling/'.$this->input->post('stats'));
 			    }
 			    function posting(){
 						$uid = $this->session->userdata('uid');
