@@ -11,10 +11,11 @@
       			</div>
       		</div>
           		<div class="panel-body">
-                <form class="form form-horizontal col-md-4" action="index.html" method="post">
-                  <!-- <div class="form-group"> -->
-                    <label class="col-md-4" for="">Select Category <?php echo $param ?></label>
+              <form class="form form-horizontal col-md-4" action="index.html" method="post">
+                <div class="form-group">
+                  <label class="col-sm-4 control-label" for="">Select Category</label>
 
+                    <div class="col-sm-6">
                       <select class="form-control col-md-8 col-md-offset-4" name="" onchange="category(this)">
                           <?php foreach ($getCat as $key => $value):
                               extract($value);
@@ -27,8 +28,9 @@
                              <?php endif; ?>
                           <?php endforeach; ?>
                       </select>
-                  <!-- </div> -->
-                </form>
+                  </div>
+                </div>
+              </form>
               		<div id="studlist_wrapper" class="table-responsive col-md-12">
                           <table class="table table-striped table-bordered table-hover">
                               <tr>

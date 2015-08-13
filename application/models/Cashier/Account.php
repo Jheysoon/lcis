@@ -48,7 +48,17 @@
        return $x['accountid'];
     }
     function getmovement($param, $acad){
-      return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param'")->result_array();
-
+      return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param' ORDER by referenceid")->result_array();
     }
+    function search_account($id)
+    {
+      $party_id = $this->db->query("SELECT *, student FROM tbl_party, tbl_enrolment
+                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname LIKE '%$id%')) AND tbl_party.id = student LIMIT 8")->result_array();
+                               return $party_id;
+    }
+    function acad()
+    {
+      return $this->db->query("SELECT id as acad, CONCAT(systart, '-', syend) as sy, term FROM tbl_academicterm")->result_array();
+    }
+    
   }

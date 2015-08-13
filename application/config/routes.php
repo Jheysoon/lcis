@@ -79,6 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['dn_listSubject']                = 'dean/listSubject';
     $route['dn_listCurriculum']             = 'dean/listCurriculum';
 
+
     $route['non_exist']                     = 'dean/addSubjAlloc';
     $route['add_day_period/(:num)']         = 'dean/add_day_period/$1';
     $route['delete_classalloc/(:num)']      = 'dean/delete_classalloc/$1';
@@ -112,6 +113,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     // Instructor Routes
     $route['add_grade/(:num)']              = 'instructor/student_grade/$1';
+    $route['instructor_sched']              = 'instructor/all_sched';
+    $route['instruc_sched/(:num)']          = 'instructor/instruc_sched/$1';
 
 
 
@@ -122,9 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  |-----------------------------------------------------------
  */
 
-    $route['registrar/(:num)'] = 'registrar/delete_school/$1';
-    $route['dean_evaluation/(:any)'] = 'dean/evaluation/$1';
-    $route['registrar_tor/(:any)'] = 'registrar/tor/$1';
+    $route['registrar/(:num)']          = 'registrar/delete_school/$1';
+    $route['dean_evaluation/(:any)']    = 'dean/evaluation/$1';
+    $route['registrar_tor/(:any)']      = 'registrar/tor/$1';
 
 
 /*-----------------------------------------------------------
@@ -133,18 +136,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  |-----------------------------------------------------------
  */
 
-$route['add_curriculum/(:any)'] = 'dean/add_curriculum/$1';
-$route['insert_curriculum/(:any)'] = 'registrar/curriculum/$1';
-$route['scholarship/(:any)/(:any)'] = 'scholarship/viewscholarship/$1';
-$route['scholarship/(:any)'] = 'scholarship/viewscholarship/$1';
+$route['add_curriculum/(:any)']         = 'dean/add_curriculum/$1';
+$route['insert_curriculum/(:any)']      = 'registrar/curriculum/$1';
+$route['scholarship/(:any)/(:any)']     = 'scholarship/viewscholarship/$1';
+$route['scholarship/(:any)']            = 'scholarship/viewscholarship/$1';
 
 
-$route['accountasset/(:any)/(:any)'] = 'movement/$1/$2';
-$route['accountasset/(:any)'] = 'movement/$1';
+$route['accountasset/(:any)/(:any)']    = 'movement/$1/$2';
+$route['accountasset/(:any)']           = 'movement/$1';
 
 
 $route['student-movement/(:any)/(:any)'] = 'movement/$1/$2';
 $route['student-movemen/(:any)'] = 'movement/$1';
+
+$route['movements'] = 'movement/accmove';
+$route['movement_update'] = 'movement/update_mov';
+
+
+$route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
+$route['update-movemen/(:any)'] = 'movement/$1';
+
 
 /*
 /*

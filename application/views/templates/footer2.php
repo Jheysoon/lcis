@@ -14,11 +14,11 @@
     <script src="<?php echo base_url('assets/js/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/bootstrap.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/docs.min.js'); ?>"></script>
-    <script src="/assets/js/webcam.js"></script>
     <!-- =============================================================================== -->
     <?php
         $r = explode('/', uri_string());
-        if(in_array('take_photo', $r)){ ?>
+        if(in_array('take_photo', $r)) { ?>
+    <script src="/assets/js/webcam.js"></script>
     <script>
         Webcam.set({
             width: 400,
@@ -57,6 +57,23 @@
             });
         });
     </script>
-    <?php } ?>
+    <?php
+        }
+        elseif(in_array('add_grade', $r))
+        {
+            ?>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('.update_grade').submit(function(e){
+                        $.post('/instructor/update_grade',$(this).serialize(),function(data){
+
+                        });
+                        e.preventDefault();
+                    });
+                });
+            </script>
+    <?php
+        }
+    ?>
   </body>
 </html>
