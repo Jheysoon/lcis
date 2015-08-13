@@ -28,6 +28,7 @@ class Edp_classallocation extends CI_Model
 	}
 	function getAlloc($acam)
 	{
+		// select * from tbl_classallocation a,tbl_subject b where a.academicterm = $acam order by descriptivetitle
 		$this->db->where('academicterm',$acam);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
