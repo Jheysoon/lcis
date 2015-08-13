@@ -153,10 +153,10 @@
 											$tt = $this->db->count_all_results('tbl_dayperiod');
 											if($tt > 0)
 											{
-												echo 'Added day and period';
+												echo 'Added day/period';
 											}
 											else {
-												echo 'No assigned day and period';
+												echo 'No assigned day/period';
 											}
 										//}
 										 ?>

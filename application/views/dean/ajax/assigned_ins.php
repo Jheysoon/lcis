@@ -56,7 +56,7 @@
                            else {
                                ?>
                                <option value="<?php echo $class['instructor'] ?>" selected>
-                                   <?php 
+                                   <?php
                                         $this->db->where('id', $class['instructor']);
                                         $this->db->select('firstname,lastname,middlename');
                                         $tt = $this->db->get('tbl_party')->row_array();
