@@ -86,6 +86,7 @@
 						 </caption>
 						<tr>
 							<th style="text-align:center;">Subject</th>
+							<!-- this must be college -->
 							<th style="text-align:center;">Course</th>
 							<th style="text-align:center;">Action</th>
 							<th style="text-align:center;">Status</th>
