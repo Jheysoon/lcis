@@ -55,7 +55,14 @@
                            }
                            else {
                                ?>
-                               <option value="<?php echo $class['instructor'] ?>" selected><?php echo $this->common_dean->getParty($class['instructor']) ?></option>
+                               <option value="<?php echo $class['instructor'] ?>" selected>
+                                   <?php 
+                                        $this->db->where('id', $class['instructor']);
+                                        $this->db->select('firstname,lastname,middlename');
+                                        $tt = $this->db->get('tbl_party')->row_array();
+                                        echo $tt['lastname'].', '.$tt['firstname'].' '.$tt['middlename'];
+                                    ?>
+                               </option>
                            <?php
                            }
                            // auto check if the instructor is available for that day/period
