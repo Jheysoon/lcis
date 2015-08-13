@@ -59,23 +59,29 @@
                                     <?php
                                     $debit = 0;
                                     $credit = 0;
+                                    $prevs = 0;
                                     $counter = 1;
                                    foreach ($this->account->getmovement($getAccountid, $acad) as $key => $value):
                                   extract($value);
+
                                         ?>
+
                                     <tr>
                                         <td><?php echo $accountingset ?></td>
                                         <td><a href="#"><?php echo $referenceid ?></a></td>
                                         <td><?php echo $systemdate ?></td>
                                         <td><?php echo $type; ?></td>
-                                        <td><?php echo $previousbalance; ?></td>
+                                        <td><?php echo   $prevs; ?></td>
                                         <td><?php echo $amount; ?>
                                               <!-- <input type="text" class="form-control pull-right" name="<?php echo "am-".$counter ?>" value="<?php echo $amount; ?>" style="width:150px;text-align:right">
                                               <input type="hidden" class="form-control pull-right" name="<?php echo "id-".$counter ?>" value="<?php echo $id; ?>"> -->
 
                                         </td>
-                                        <td><?php echo $runbalance ?></td>
-                                        <?php $total += $amount; ?>
+                                        <td><?php echo $prev + $amount ?></td>
+                                        <?php
+                                        $total += $amount;
+                                          $prevs += $amount ;
+                                        ?>
                                     </tr>
                                   <?php
                                         $counter += 1;
