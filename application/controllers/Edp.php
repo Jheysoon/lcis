@@ -473,7 +473,9 @@ class Edp extends CI_Controller
                 {
                     $reg_id = $this->cre_reg($reg['student'], $reg['coursemajor']);
                 }
-                $course = $reg['coursemajor'];
+                $this->db->where('id', $reg_id);
+                $gg = $this->db->get('tbl_registration')->row_array();
+                $course = $gg['coursemajor'];
 
                 $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
                 foreach ($t as $acam) {
@@ -614,6 +616,16 @@ class Edp extends CI_Controller
             $this->db->where('student',$key['student']);
             $this->db->update('tbl_registration',$f);
 
+        }
+    }
+
+    function update_reg()
+    {
+        $r = $this->db->get('out_secondary')->result_array();
+        foreach ($r as $key) {
+            $data['coursemajor'] = 2;
+            $this->db->where('id', $key['registration']);
+            $this->db->update('tbl_registration', $data);
         }
     }
 }
