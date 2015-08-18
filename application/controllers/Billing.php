@@ -128,4 +128,4 @@ class Billing extends CI_Controller
 		$this->load->model('cashier/assesment');
 		$this->assesment->endofPhaseBillingPosting();
 	}
-	}
+}
