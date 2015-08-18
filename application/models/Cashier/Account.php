@@ -60,5 +60,12 @@
     {
       return $this->db->query("SELECT id as acad, CONCAT(systart, '-', syend) as sy, term FROM tbl_academicterm")->result_array();
     }
-    
+    function checkexist($type, $dates, $amount, $academicterm, $ref, $desc, $partyid)
+    {
+      $account = $this->getAccountids($partyid);
+      return $this->db->query("SELECT * FROM tbl_movement WHERE account = '$account' AND academicterm = '$academicterm' AND referencetype = '$ref'")->num_rows();
+    }
+
+
+
   }
