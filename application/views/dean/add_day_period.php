@@ -86,6 +86,7 @@
 						 </caption>
 						<tr>
 							<th style="text-align:center;">Subject</th>
+							<!-- this must be college -->
 							<th style="text-align:center;">Course</th>
 							<th style="text-align:center;">Action</th>
 							<th style="text-align:center;">Status</th>
@@ -143,12 +144,21 @@
 										</td>
 									<td style="text-align:center;">
 										<?php
-										if(empty($subj['status']))
-											echo 'Checking';
-										else{
-											if($subj['status'] == 'O')
-												echo 'OK';
-										}
+										// if(empty($subj['status']))
+										// 	echo 'Checking';
+										// else{
+										// 	if($subj['status'] == 'O')
+										// 		echo 'OK';
+											$this->db->where('classallocation', $subj['id']);
+											$tt = $this->db->count_all_results('tbl_dayperiod');
+											if($tt > 0)
+											{
+												echo 'Added day/period';
+											}
+											else {
+												echo 'No assigned day/period';
+											}
+										//}
 										 ?>
 									</td>
 								</tr>

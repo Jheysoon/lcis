@@ -731,7 +731,7 @@ class Dean extends CI_Controller
         if($this->input->post('days_count') == NULL)
         {
             $data['num'] = 0;
-        }
+        }   
         else
         {
             $data['num'] = $this->input->post('days_count') - 1;

@@ -464,16 +464,18 @@ class Edp extends CI_Controller
         $stud = $this->db->query("SELECT * FROM out_exception where comment = 'no curriculum tbl_registration' GROUP by student")->result_array();
         foreach ($stud as $val) {
 
-            $reg = $this->db->query("SELECT min(academicterm) as academicterm,registration,coursemajor,id,student FROM tbl_enrolment WHERE student = {$val['student']} GROUP BY coursemajor")->result_array();
+            $reg = $this->db->query("SELECT academicterm,registration,coursemajor,id,student FROM tbl_enrolment WHERE student = {$val['student']} AND academicterm = 49 GROUP BY coursemajor")->row_array();
             $reg_id = 0;
-            foreach ($reg as $keys) {
+            //foreach ($reg as $keys) {
 
-                $reg_id = $keys['registration'];
+                $reg_id = $reg['registration'];
                 if($reg_id == 0)
                 {
-                    $reg_id = $this->cre_reg($keys['student'], $keys['coursemajor']);
+                    $reg_id = $this->cre_reg($reg['student'], $reg['coursemajor']);
                 }
-                $course = $keys['coursemajor'];
+                $this->db->where('id', $reg_id);
+                $gg = $this->db->get('tbl_registration')->row_array();
+                $course = $gg['coursemajor'];
 
                 $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
                 foreach ($t as $acam) {
@@ -491,7 +493,7 @@ class Edp extends CI_Controller
                         break;
                     }
                 }
-            }
+            //}
         }
     }
 
@@ -614,6 +616,16 @@ class Edp extends CI_Controller
             $this->db->where('student',$key['student']);
             $this->db->update('tbl_registration',$f);
 
+        }
+    }
+
+    function update_reg()
+    {
+        $r = $this->db->get('out_secondary')->result_array();
+        foreach ($r as $key) {
+            $data['coursemajor'] = 2;
+            $this->db->where('id', $key['registration']);
+            $this->db->update('tbl_registration', $data);
         }
     }
 }
