@@ -10,9 +10,8 @@
 				<div class="form-group">
 					<div class="col-sm-12">
 						<?php
-							$this->load->view('edp/cl_status');
-
 							$nxt = $this->api->systemValue();
+							$this->load->view('edp/cl_status');
 							if($nxt['phase'] == FIN AND $nxt['classallocationstatus'] == 0){
 						?>
 						<div class="alert alert-info center-block" id="confirmBox" style="max-width:400px;">
