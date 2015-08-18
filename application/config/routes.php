@@ -155,6 +155,8 @@ $route['movement_update'] = 'movement/update_mov';
 
 $route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
 $route['update-movemen/(:any)'] = 'movement/$1';
+$route['movement_add'] = 'movement/add_movement';
+
 
 
 /*

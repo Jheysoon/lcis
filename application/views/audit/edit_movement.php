@@ -100,13 +100,19 @@
                       </div>
                       <div class="modal-body">
                             <div class="container-fluid">
-                                <form class="form-horizontal" action="" method="post">
+                                <form class="form-horizontal" action="/movement_add" method="post">
+                                  <div class="form-group">
+                                      <label for="" class="col-sm-2 control-label">Date</label>
+                                      <div class="col-sm-10">
+                                      <input type="date" name="dates" class="form-control">
+                                      </div>
+                                  </div>
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label ">Type</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" name="type">
                                                   <option value="D">Debit</option>
-                                                  <option value="D">Credit</option>
+                                                  <option value="C">Credit</option>
                                             </select>
                                         </div>
                                     </div>
@@ -138,14 +144,37 @@
                                         </select>
                                       </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                                <select class="form-control" name="referencetype">
+                                                    <option value="1">Enrolment</option>
+                                                    <option value="2">Prelims</option>
+                                                    <option value="3">Midterm</option>
+                                                    <option value="4">Semi Final</option>
+                                                    <option value="5">Final</option>
+                                                    <option value="6">Payment</option>
+                                                </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                        <input type="text" name="description" class="form-control">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="party" value="<?php echo $getInfo['partyid'] ?>">
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
                                 </form>
                             </div>
                       </div>
 
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
+
                     </div><!-- /.modal-content -->
                   </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->

@@ -67,7 +67,7 @@ class Movement extends CI_Controller
     {
         $x = $this->db->query("SELECT * FROM tbl_movement WHERE account = '$accountid' ORDER BY academicterm ASC, id  ASC, referenceid ASC")->result_array();
         $this->db->query("UPDATE tbl_account SET currentbalance = '0' WHERE id = '$accountid'");
-        
+
         foreach ($x as $key => $value) {
           extract($value);
           $m = $this->db->query("SELECT currentbalance FROM tbl_account WHERE id = '$accountid'")->row_array();
@@ -77,5 +77,29 @@ class Movement extends CI_Controller
           $this->db->query("UPDATE tbl_account SET currentbalance = '$totalbal' WHERE id = '$accountid'");
           echo $curr . "|" . $amount ."|". $totalbal ."<br />";
         }
+    }
+    function add_movement()
+    {
+        $this->load->model('cashier/account');
+        $type = $this->input->post('type');
+        $dates = $this->input->post('dates');
+        $amount = $this->input->post('amount');
+        $academicterm = $this->input->post('academicterm');
+        $ref = $this->input->post('referencetype');
+        $desc = $this->input->post('description');
+        $partyid = $this->input->post('party');
+
+        $checking = $this->account->checkexist($type, $dates, $amount, $academicterm, $ref, $desc, $partyid);
+        echo $checking;
+
+
+        //$this->db->query();
+        // echo $type . "<br />";
+        // echo $partyid . "<br />";
+        // echo $dates. "<br />";
+        // echo $amount. "<br />";
+        // echo $academicterm. "<br />";
+        // echo $ref. "<br />";
+        // echo $desc. "<br />";
     }
 }
