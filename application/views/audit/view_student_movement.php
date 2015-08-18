@@ -40,11 +40,12 @@
                     <table class="table table-bordered">
                         <tr>
                             <th class="tbl-header-main">Date</th>
-                            <th class="tbl-header-main">Reference</th>
+                            <th class="tbl-header-main">Reference Type</th>
+                            <th class="tbl-header-main">Reference ID</th>
                             <th class="tbl-header-main">Description</th>
                             <th class="tbl-header-main">Type</th>
-                            <th class="tbl-header-main" >Amount</th>
-                            <th class="tbl-header-main" >Running Balance</th>
+                            <th class="tbl-header-main" style="text-align:right">Amount</th>
+                            <th class="tbl-header-main" style="text-align:right">Running Balance</th>
                         </tr>
                             <?php
                               $getacad = $this->account->breakAcad($getAccountid);
@@ -54,7 +55,7 @@
                               extract($value);
                             ?>
                             <form class="" action="/movement_update" method="post">
-                                  <tr><td class="tbl-header-main" colspan="6"><?php echo $sy; ?> &nbsp;&nbsp;&nbsp; SEMESTER: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?> </td></tr>
+                                  <tr><td class="tbl-header-main" colspan="7"><?php echo $sy; ?> &nbsp;&nbsp;&nbsp; SEMESTER: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?> </td></tr>
                                     <?php
                                     $debit = 0;
                                     $credit = 0;
@@ -66,11 +67,12 @@
 
                                     <tr>
                                         <td><?php echo $systemdate ?></td>
+                                        <td><a href="#"><?php echo $referencetype ?></a></td>
                                         <td><a href="#"><?php echo $referenceid ?></a></td>
                                         <td><?php echo $description ?></td>
                                         <td><?php echo $type; ?></td>
-                                        <td  style="text-align:right"><?php echo $amount; ?></td>
-                                        <td  style="text-align:right"><?php echo $prevs + $amount ?></td>
+                                        <td  style="text-align:right"><?php echo number_format($amount, 2); ?></td>
+                                        <td  style="text-align:right"><?php echo number_format($prevs + $amount,2) ?></td>
                                         <?php
                                         $total += $amount;
                                           $prevs += $amount ;
@@ -84,14 +86,14 @@
                                     <input type="hidden" value="<?php echo $param ?>" name="param">
                                     <input type="hidden" name="accountid" value="<?php echo $getAccountid ?>">
                                     <input type="hidden" name="count" value="<?php echo  $counter ?>">
-                                    <td class="tbl-header" colspan="5">Total: <?php echo $counter ?></td>
+                                    <td class="tbl-header" colspan="6">Total:</td>
                                     <!-- <td class="tbl-header"><button type="submit" class="btn btn-info pull-right" name="button">Save & Recalculate</button>  </td> -->
                                     <td class="tbl-header" style="text-align:right"><strong><?php echo $total; ?></strong><label for="">&nbsp;&nbsp;&nbsp;</label></label>
                                 </tr>
                           </form>
                             <?php endforeach; ?>
                             <tr>
-                                <td colspan="5" style="background-color:#2f5836"><h4>Total Balance</h4></td>
+                                <td colspan="6" style="background-color:#2f5836"><h4>Current Balance</h4></td>
                                 <td  style="text-align:right;background-color:#2f5836"><h4 style="padding:0"><strong><?php echo number_format($total, 2); ?><label>&nbsp;&nbsp;&nbsp;</label></strong></h4></td>
                             </tr>
                     </table>

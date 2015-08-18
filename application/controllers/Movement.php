@@ -36,8 +36,10 @@ class Movement extends CI_Controller
     {
       $this->head();
       $this->load->model('cashier/account');
+      $params = $this->input->post('search');
       $data['param'] = $this->input->post('search');
-      $this->load->view('audit/view_student_movement', $data);
+      redirect('/student-movement/view_movement/'.$params);
+      // $this->load->view('audit/view_student_movement', $data);
       $this->load->view('templates/footer');
     }
     function update_mov()
@@ -91,6 +93,18 @@ class Movement extends CI_Controller
 
         $checking = $this->account->checkexist($type, $dates, $amount, $academicterm, $ref, $desc, $partyid);
         echo $checking;
+        if ($checking == 1)
+        {
+            if ($type == "D")
+            {
+                $this->account->insertBill($type, $dates, $amount, $academicterm, $ref, $desc, $partyid);
+
+            }
+            elseif ($type == "C")
+            {
+              # code...
+            }
+        }
 
 
         //$this->db->query();
