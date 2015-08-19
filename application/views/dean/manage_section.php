@@ -56,7 +56,7 @@
 								<td>
 									<?php echo $subj['code']; ?>
 								</td>
-								<td><?php echo $subj['descriptivetitle']; ?></td>								
+								<td><?php echo $subj['descriptivetitle']; ?></td>
 								<td>
 									<?php
 										$cc = $this->db->query("SELECT shortname FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
@@ -65,7 +65,7 @@
 								</td>
 								<td><?php echo $subj['yearlevel']; ?></td>
 								<td><?php echo $subj['studentcount']; ?></td>
-								<td><?php echo $subj['section']; ?></td>
+								<td><?php echo round($subj['section']); ?></td>
 
 								<form class="addClassAllocation">
 								<td>
