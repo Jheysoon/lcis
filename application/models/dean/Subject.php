@@ -54,15 +54,14 @@ class Subject extends CI_Model
 	{
 		if($owner == 1)
 		{
-			$this->db->where('id',$sid);
-			//$this->db->where('owner',$owner);
-			$this->db->where('gesubject','1');
+			$where = "id = $sid AND (gesubject = 1 OR owner = $owner)";
+			$this->db->where($where);
 		}
 		else
 		{
-			$this->db->where('id',$sid);
-			$this->db->where('owner',$owner);
-			$this->db->where('gesubject','0');
+			$this->db->where('id', $sid);
+			$this->db->where('owner', $owner);
+			$this->db->where('gesubject', '0');
 		}
 		return $q = $this->db->count_all_results('tbl_subject');
 	}
