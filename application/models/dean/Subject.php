@@ -88,4 +88,33 @@ class Subject extends CI_Model
 		}
 		return $this->db->get('tbl_subject')->result_array();
 	}
+
+	function getSubject()
+	{
+		$owner 		= $this->api->getUserCollege();
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+
+		if($user == $systemVal['employeeid'])
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND computersubject = 1
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+		}
+		elseif($owner == 1)
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND owner = $owner AND (owner = 1 OR gesubject = 1)
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+		}
+		else
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND owner = $owner
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+		}
+	}
 }

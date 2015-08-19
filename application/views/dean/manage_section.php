@@ -25,7 +25,7 @@
 						<a href="/non_exist" class="btn btn-primary btn pull-right">Add Non - Existing Subject</a>
 						<span class="clearfix"></span>
 						<br/>
-						<table class="table">
+						<table class="table table-bordered">
 							<caption>
 								<strong>
 								Preparation for Academicterm SY:
@@ -37,47 +37,30 @@
 								 </strong>
 							</caption>
 							<tr>
-								<td>Subject</td>
-								<td>Description</td>
-								<td>Year Level</td>
-								<td>Course</td>
-								<td>No. of Student</td>
-								<td>Apprx. Section <br/>(<?php echo $nxt['numberofstudent']; ?> students)</td>
-								<td>Section</td>
-								<td>Action</td>
+								<th>Subject</th>
+								<th>Description</th>
+								<th>Year Level</th>
+								<th>Course</th>
+								<th>No. of Student</th>
+								<th>Apprx. Section <br/>(<?php echo $nxt['numberofstudent']; ?> students)</td>
+								<th>Section</th>
+								<th>Action</th>
 							</tr>
 							<?php
-								$this->db->order_by('coursemajor ASC, yearlevel ASC');
-								$all_s 	= $this->db->get('out_section')->result_array();
+								$all_s = $this->subject->getSubject();
 								$uid	= $this->session->userdata('uid');
 								foreach($all_s as $subj)
 								{
-									if($uid == $nxt['employeeid'])
-									{
-										$this->db->where('computersubject', 1);
-										$this->db->where('id', $subj['subject']);
-										$ss = $this->db->count_all_results('tbl_subject');
-									}
-									else
-									{
-										$ss = $this->subject->whereCode_owner($owner,$subj['subject']);
-									}
-
-									if($ss > 0)
-									{
 							?>
 							<tr>
 								<td>
-									<?php
-										$t = $this->subject->find($subj['subject']);
-										echo $t['code'];
-									 ?>
+									<?php echo $subj['code']; ?>
 								</td>
-								<td><?php echo $t['descriptivetitle']; ?></td>
+								<td><?php echo $subj['descriptivetitle']; ?></td>
 								<td><?php echo $subj['yearlevel']; ?></td>
 								<td>
 									<?php
-										$cc = $this->db->query("SELECT * FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
+										$cc = $this->db->query("SELECT shortname FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
 										echo $cc['shortname'];
 									 ?>
 								</td>
@@ -95,7 +78,6 @@
 								</form>
 							</tr>
 							<?php
-									}
 								}
 							 ?>
 						</table>
