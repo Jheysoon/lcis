@@ -39,8 +39,8 @@
 							<tr>
 								<th>Subject</th>
 								<th>Description</th>
-								<th>Year Level</th>
 								<th>Course</th>
+								<th>Year Level</th>
 								<th>No. of Student</th>
 								<th>Apprx. Section <br/>(<?php echo $nxt['numberofstudent']; ?> students)</td>
 								<th>Section</th>
@@ -56,14 +56,14 @@
 								<td>
 									<?php echo $subj['code']; ?>
 								</td>
-								<td><?php echo $subj['descriptivetitle']; ?></td>
-								<td><?php echo $subj['yearlevel']; ?></td>
+								<td><?php echo $subj['descriptivetitle']; ?></td>								
 								<td>
 									<?php
 										$cc = $this->db->query("SELECT shortname FROM tbl_course WHERE id={$subj['coursemajor']}")->row_array();
 										echo $cc['shortname'];
 									 ?>
 								</td>
+								<td><?php echo $subj['yearlevel']; ?></td>
 								<td><?php echo $subj['studentcount']; ?></td>
 								<td><?php echo $subj['section']; ?></td>
 
