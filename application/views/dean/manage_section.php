@@ -30,7 +30,6 @@
 								<strong>
 								Preparation for Academicterm SY:
 								<?php
-									$owner 	= $this->api->getUserCollege();
 									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
 									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$this->academicterm->getLongName($nnxt['term']);
 								 ?>
@@ -48,7 +47,6 @@
 							</tr>
 							<?php
 								$all_s = $this->subject->getSubject();
-								$uid	= $this->session->userdata('uid');
 								foreach($all_s as $subj)
 								{
 							?>
