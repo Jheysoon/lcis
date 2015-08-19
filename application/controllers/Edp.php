@@ -569,7 +569,8 @@ class Edp extends CI_Controller
         $sy         = $systemVal['nextacademicterm'];
         $this->numberOfStudents = $systemVal['numberofstudent'];
 
-        $tt     = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
+        $this->db->where('id', $sy);
+        $tt     = $this->db->get('tbl_academicterm')->row_array();
         $term   = $tt['term'];
 
         $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart DESC,term")->result_array();
