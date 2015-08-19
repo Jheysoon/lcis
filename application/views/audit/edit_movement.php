@@ -33,13 +33,14 @@
 
               </div>
                 <div class="table-responsive" style="padding: 20px;">
-                  <div class="col-md-12" style="padding:0">
+                  <!-- <div class="col-md-12" style="padding:0">
                         <a href="#" class="btn btn-info pull-right  " data-toggle="modal" data-target="#add_movement">Add Movement</a>
                         <br /><br />
-                  </div>
+                  </div> -->
                     <table class="table table-bordered">
                         <tr>
                             <th class="tbl-header-main">Accounting Set</th>
+                            <th class="tbl-header-main">Reference Type</th>
                             <th class="tbl-header-main">Reference</th>
                             <th class="tbl-header-main">Date</th>
                             <th class="tbl-header-main" style="width:100px">Type</th>
