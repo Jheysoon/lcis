@@ -77,16 +77,30 @@ class Subject extends CI_Model
 	}
 	function subjectOwner($owner)
 	{
-		if($owner == 1)
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+
+		if($user == $systemVal['employeeid'])
 		{
-			$this->db->where('gesubject','1');
-			$this->db->or_where('owner',$owner);
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE computersubject = 1
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
+		}
+		elseif($owner == 1)
+		{
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND (owner = 1 OR gesubject = 1) AND computersubject = 0
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
 		}
 		else
 		{
-			$this->db->where('owner',$owner);
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND computersubject = 0 AND gesubject = 0
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
 		}
-		return $this->db->get('tbl_subject')->result_array();
 	}
 
 	function getSubject()
