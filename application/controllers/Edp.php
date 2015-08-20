@@ -517,8 +517,6 @@ class Edp extends CI_Controller
                     break;
                 }
             }
-
-
         }
     }
 
