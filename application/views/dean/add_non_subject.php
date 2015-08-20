@@ -8,16 +8,16 @@
 			</div>
 			<div class="panel-body">
 	            <div class="col-md-4">
-	            	
+
 	            </div>
 	            <div class="col-md-4">
 	            <?php echo $error; ?>
 	            	<form action="/dean/addSubjAlloc" method="post">
 	            		<label>Subject</label>
 	            		<select class="form-control" name="subject">
-	            			<?php 
-	            				$owner = $this->api->getUserCollege();
-	            				$s = $this->subject->subjectOwner($owner);
+	            			<?php
+	            				$owner 	= $this->api->getUserCollege();
+	            				$s 		= $this->subject->subjectOwner($owner);
 	            				foreach($s as $ss)
 	            				{
 	            					?>
@@ -28,13 +28,13 @@
 	            		</select>
 	            		<label>Course</label>
 	            		<select class="form-control" name="course_major">
-	            			<?php 
+	            			<?php
 	            				$c = $this->db->query("SELECT * FROM tbl_course")->result_array();
 	            				foreach($c as $cc)
 	            				{
 	            					?>
 	            					<option value="<?php echo $cc['id'] ?>" <?php echo set_select('course_major') ?>>
-	            					<?php 
+	            					<?php
 	            						echo $cc['description'];
 	            					 ?>
 	            					</option>
@@ -56,9 +56,8 @@
 	            	</form>
 	            </div>
 	            <div class="col-md-4">
-	            	
+
 	            </div>
 			</div>
 		</div>
 	</div>
-
