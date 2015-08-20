@@ -731,7 +731,7 @@ class Dean extends CI_Controller
         if($this->input->post('days_count') == NULL)
         {
             $data['num'] = 0;
-        }   
+        }
         else
         {
             $data['num'] = $this->input->post('days_count') - 1;
@@ -993,8 +993,6 @@ class Dean extends CI_Controller
         }
         else
         {
-            // decrement the classallocation status in tbl_systemvalue
-            // if
             $this->db->where('id',$id);
             $this->db->update('tbl_completion',$data);
         }
@@ -1051,10 +1049,10 @@ class Dean extends CI_Controller
         //     AND b.owner = $owner
         //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
 
-        $data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
-
-        $data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
-        $input = $this->input->post('sort');
+        $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+        $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        $input              = $this->input->post('sort');
+        
         if($input == 0)
         {
             $this->load->view('dean/ajax/assigned_ins', $data);
