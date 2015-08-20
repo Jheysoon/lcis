@@ -49,7 +49,7 @@
         return $x['accountid'];
     }
     function getmovement($param, $acad){
-        return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param' ORDER by referenceid")->result_array();
+        return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param' ORDER by systemdate, valuedate")->result_array();
     }
     function search_account($id)
     {
