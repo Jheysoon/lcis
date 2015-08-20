@@ -50,7 +50,8 @@ class Movement extends CI_Controller
         for ($i=1; $i < $counter; $i++) {
            $vals = $this->input->post('am-'.$i);
            $movid = $this->input->post('id-'.$i);
-           $this->db->query("UPDATE tbl_movement SET amount = '$vals' WHERE id = '$movid'");
+           echo $dates = $this->input->post('d-'.$i);
+           $this->db->query("UPDATE tbl_movement SET amount = '$vals', systemdate = '$dates', valuedate = '$dates' WHERE id = '$movid'");
         }
         $this->move_update($accountid);
 
