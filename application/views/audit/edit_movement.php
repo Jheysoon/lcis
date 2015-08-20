@@ -40,9 +40,8 @@
                     <table class="table table-bordered">
                         <tr>
                             <th class="tbl-header-main">Accounting Set</th>
-                            <th class="tbl-header-main">Reference Type</th>
                             <th class="tbl-header-main">Reference</th>
-                            <th class="tbl-header-main">Date</th>
+                            <th class="tbl-header-main" style="width:150px;">Date</th>
                             <th class="tbl-header-main" style="width:100px">Type</th>
                             <th class="tbl-header-main" style="text-align:right;width:100px">Amount</th>
                         </tr>
@@ -63,7 +62,7 @@
                                     <tr>
                                         <td><?php echo $accountingset ?></td>
                                         <td><a href="#"><?php echo $referenceid ?></a></td>
-                                        <td><?php echo $systemdate ?></td>
+                                        <td><input type="date" name="<?php echo "d-".$counter ?>" class="form-control" value="<?php echo $systemdate ?>"></td>
                                         <td><?php echo $type; ?></td>
                                         <td>
                                               <input type="text" class="form-control pull-right" name="<?php echo "am-".$counter ?>" value="<?php echo $amount; ?>" style="width:150px;text-align:right">
