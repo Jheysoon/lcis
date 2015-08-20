@@ -928,6 +928,7 @@ class Registrar extends CI_Controller
                     $reg['coursemajor']     = $this->input->post('course');
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
+                    $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
                     $this->db->insert('tbl_registration', $reg);
                     if ($this->db->trans_status() === FALSE)
