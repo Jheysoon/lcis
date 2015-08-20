@@ -1,15 +1,15 @@
 <div class="col-md-3"></div>
-	<div class="col-md-9 body-container">
-		<div class="panel p-body">
-			<div class="col-md-12">
+	<div class="col-md-9 body-container" >
+		<div class="panel p-body" >
+			<div class="col-md-12" style="background-color:#F0FBF0;">
 			<?php
 				$this->load->view('edp/cl_status');
-				
+
 				$systemVal 	= $this->api->systemValue();
 				$sy 		= $systemVal['nextacademicterm'];
 				if($systemVal['phase'] == FIN)
 				{
-					if($systemVal['classallocationstatus'] == 2)
+					if($systemVal['classallocationstatus'] == 2 OR $systemVal['classallocationstatus'] == 1)
 					{
 						$this->db->where('academicterm', $systemVal['currentacademicterm']);
 						$this->db->where('stage', 2);
@@ -64,4 +64,3 @@
 			</div>
 		</div>
 	</div>
-</div>

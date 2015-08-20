@@ -550,6 +550,7 @@ class Edp extends CI_Controller
         }
     }
 
+    // test function
     function update_reg()
     {
         $r = $this->db->get('out_secondary')->result_array();
@@ -569,10 +570,11 @@ class Edp extends CI_Controller
         $sy         = $systemVal['nextacademicterm'];
         $this->numberOfStudents = $systemVal['numberofstudent'];
 
-        $tt     = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
+        $this->db->where('id', $sy);
+        $tt     = $this->db->get('tbl_academicterm')->row_array();
         $term   = $tt['term'];
 
-        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart ASC,term")->result_array();
+        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart DESC,term")->result_array();
 
         $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
         foreach($stuC as $studentC)
@@ -610,7 +612,7 @@ class Edp extends CI_Controller
                     $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
                     foreach($cur_range2 as $ra)
                     {
-                        $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
+                        $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
                         foreach($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
@@ -625,7 +627,7 @@ class Edp extends CI_Controller
                 {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
-                    $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
+                    $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
                     foreach($e as $ee) :
                         $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                     endforeach;
