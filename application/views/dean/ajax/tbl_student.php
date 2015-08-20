@@ -24,11 +24,11 @@
                     <td><?php echo $lastname . ' , ' . $firstname ?></td>
                     <td><?php echo $description; ?></td>
                          <td>
-							<?php if ($stat == 99 && $phase == 1): ?>
+							<?php if ($stat == 99 && ($phase == 1 || $phase == 5)): ?>
 	                            <a class="a-table label label-danger" href="/dean_evaluation/<?php echo $legacyid;?>">Evaluate
 	                             <span class="glyphicon glyphicon-file"></span></a>
 							<?php else: ?>
-	                            <a class="a-table label label-default" href="#">Evaluate
+	                            <a class="a-table label label-default" href="">Evaluate
 	                             <span class="glyphicon glyphicon-file"></span></a>
 							<?php endif; ?>
                         </td>
