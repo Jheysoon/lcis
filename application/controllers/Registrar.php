@@ -930,6 +930,7 @@ class Registrar extends CI_Controller
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
+                    $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
                     if ($this->db->trans_status() === FALSE)
                     {
