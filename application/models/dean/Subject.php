@@ -100,21 +100,21 @@ class Subject extends CI_Model
 			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
 				FROM out_section a,tbl_subject b
 				WHERE a.subject = b.id AND computersubject = 1
-				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
 		}
 		elseif($owner == 1)
 		{
 			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
 				FROM out_section a,tbl_subject b
 				WHERE a.subject = b.id AND owner = $owner AND (owner = 1 OR gesubject = 1) AND computersubject = 0
-				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
 		}
 		else
 		{
 			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
 				FROM out_section a,tbl_subject b
 				WHERE a.subject = b.id AND owner = $owner AND computersubject = 0 AND gesubject = 0
-				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
 		}
 	}
 }

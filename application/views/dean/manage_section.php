@@ -11,7 +11,6 @@
 					<div class="col-sm-12">
 						<?php
 							$this->load->view('edp/cl_status');
-
 							$nxt 	= $this->api->systemValue();
 							if($nxt['classallocationstatus'] == 1)
 							{
@@ -25,6 +24,9 @@
 						<a href="/non_exist" class="btn btn-primary btn pull-right">Add Non - Existing Subject</a>
 						<span class="clearfix"></span>
 						<br/>
+						<?php
+							$all_s1 = $this->subject->getSubject();
+						 ?>
 						<table class="table table-bordered">
 							<caption>
 								<strong>
@@ -33,6 +35,8 @@
 									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
 									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$this->academicterm->getLongName($nnxt['term']);
 								 ?>
+								 <br> Total Number of Subjects :
+								 <?php echo $all_s1->num_rows() ?>
 								 </strong>
 							</caption>
 							<tr>
@@ -46,7 +50,7 @@
 								<th>Action</th>
 							</tr>
 							<?php
-								$all_s = $this->subject->getSubject();
+								$all_s = $all_s1->result_array();
 								foreach($all_s as $subj)
 								{
 							?>
