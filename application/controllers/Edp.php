@@ -550,6 +550,7 @@ class Edp extends CI_Controller
         }
     }
 
+    // test function
     function update_reg()
     {
         $r = $this->db->get('out_secondary')->result_array();
