@@ -49,7 +49,7 @@
         return $x['accountid'];
     }
     function getmovement($param, $acad){
-        return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param' ORDER by referenceid")->result_array();
+        return $this->db->query("SELECT * FROM tbl_movement WHERE academicterm = '$acad' AND account = '$param' ORDER by systemdate, valuedate")->result_array();
     }
     function search_account($id)
     {
@@ -155,4 +155,49 @@
         }
         return $id;
     }
-  }
+    function getEnrolmentId($billid)
+    {
+        $this->db->where('id', $billid);
+        $this->db->select('enrolment');
+        $x = $this->db->get('tbl_billclass')->row_array();
+        return $x['enrolment'];
+    }
+    function getBillDetail($refid)
+    {
+        return $this->db->query("SELECT b.rate, c.description, a.amount FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype ORDER by c.id")->result_array();
+    }
+    function getTotalUnit($enr)
+    {
+        $this->db->where('id', $enr);
+        $this->db->select('totalunit');
+        $x = $this->db->get('tbl_enrolment')->row_array();
+        return $x['totalunit'];
+    }
+    function billclass($enrolmentid)
+    {
+      $this->db->where('enrolment', $enrolmentid);
+      return $this->db->get('tbl_billclass')->row_array();
+    }
+    function getSubject($enrolmentid)
+    {
+      return $this->db->query("SELECT c.descriptivetitle, c.units, c.code FROM tbl_studentgrade a, tbl_classallocation b, tbl_subject c WHERE enrolment = '$enrolmentid' AND a.classallocation = b.id AND b.subject = c.id")->result_array();
+    }
+    function getstudents($refid)
+    {
+      return $this->db->query("SELECT CONCAT(b.firstname, ' ' , b.middlename, ' ',b.lastname) as fullname, c.coursemajor FROM tbl_bill a, tbl_party b, tbl_registration c WHERE a.id = '$refid' AND b.id = a.requestedby AND c.student = a.requestedby")->row_array();
+    }
+    function getpayment($refid)
+    {
+      return $this->db->query("SELECT * FROM tbl_payment WHERE id = '$refid'")->row_array();
+    }
+    function getphase($phase)
+    {
+      $x = $this->db->query("SELECT * FROM tbl_phase WHERE id = '$phase'")->row_array();
+      return $x['description'];
+    }
+    function getCashier($id)
+    {
+      $x = $this->db->query("SELECT CONCAT(b.firstname, ' ' , b.middlename, ' ',b.lastname) as fullname FROM tbl_party b WHERE b.id = '$id'")->row_array();
+      return $x['fullname'];
+    }
+}

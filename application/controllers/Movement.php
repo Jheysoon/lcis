@@ -116,4 +116,17 @@ class Movement extends CI_Controller
         // echo $ref. "<br />";
         // echo $desc. "<br />";
     }
+    function view_ref()
+    {
+      $this->load->model('cashier/account');
+      $data['reftype'] = $this->input->post('reftype');
+      $data['refid'] = $this->input->post('refid');
+      if ($this->input->post('reftype') <= 5) {
+            $this->load->view('audit/view_ref', $data);
+      }else{
+
+            $this->load->view('audit/view_payment', $data);
+      }
+
+    }
 }
