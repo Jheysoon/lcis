@@ -54,15 +54,14 @@ class Subject extends CI_Model
 	{
 		if($owner == 1)
 		{
-			$this->db->where('id',$sid);
-			//$this->db->where('owner',$owner);
-			$this->db->where('gesubject','1');
+			$where = "id = $sid AND (gesubject = 1 OR owner = $owner)";
+			$this->db->where($where);
 		}
 		else
 		{
-			$this->db->where('id',$sid);
-			$this->db->where('owner',$owner);
-			$this->db->where('gesubject','0');
+			$this->db->where('id', $sid);
+			$this->db->where('owner', $owner);
+			$this->db->where('gesubject', '0');
 		}
 		return $q = $this->db->count_all_results('tbl_subject');
 	}
@@ -88,5 +87,34 @@ class Subject extends CI_Model
 			$this->db->where('owner',$owner);
 		}
 		return $this->db->get('tbl_subject')->result_array();
+	}
+
+	function getSubject()
+	{
+		$owner 		= $this->api->getUserCollege();
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+
+		if($user == $systemVal['employeeid'])
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND computersubject = 1
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
+		}
+		elseif($owner == 1)
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND owner = $owner AND (owner = 1 OR gesubject = 1) AND computersubject = 0
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
+		}
+		else
+		{
+			return $this->db->query("SELECT a.id as id, code, descriptivetitle, yearlevel, studentcount, section, coursemajor
+				FROM out_section a,tbl_subject b
+				WHERE a.subject = b.id AND owner = $owner AND computersubject = 0 AND gesubject = 0
+				ORDER BY b.code ASC, coursemajor ASC, yearlevel ASC");
+		}
 	}
 }

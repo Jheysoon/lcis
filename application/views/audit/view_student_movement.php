@@ -20,15 +20,15 @@
                     </div>
                     <div class="col-md-12 pad-bottom-10">
                       <strong class="strong">First Name</strong>
-                      <input type="text" class="form-control" name="firstname" value="<?php echo $getInfo['firstname'] ?>">
+                      <input type="text" class="form-control" name="firstname" value="<?php echo $getInfo['firstname'] ?>" disabled>
                     </div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Middle Name</strong>
-                        <input type="text" class="form-control" name="middlename" value="<?php echo $getInfo['middlename'] ?>">
+                        <input type="text" class="form-control" name="middlename" value="<?php echo $getInfo['middlename'] ?>" disabled>
                     </div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Last Name</strong>
-                        <input type="text" class="form-control" name="lastname" value="<?php echo $getInfo['lastname'] ?>">
+                        <input type="text" class="form-control" name="lastname" value="<?php echo $getInfo['lastname'] ?>" disabled>
                     </div>
 
               </div>
@@ -39,18 +39,18 @@
                   </div>
                     <table class="table table-bordered">
                         <tr>
-                            <th class="tbl-header-main">Accounting Set</th>
-                            <th class="tbl-header-main">Reference</th>
                             <th class="tbl-header-main">Date</th>
-                            <th class="tbl-header-main" style="width:100px">Type</th>
-
-                            <th class="tbl-header-main" >Previous Balance</th>
-                            <th class="tbl-header-main" >Amount</th>
-                            <th class="tbl-header-main" >Running Balance</th>
-
+                            <th class="tbl-header-main">Reference Type</th>
+                            <th class="tbl-header-main">Reference ID</th>
+                            <th class="tbl-header-main">Description</th>
+                            <th class="tbl-header-main">Type</th>
+                            <th class="tbl-header-main" style="text-align:right">Amount</th>
+                            <th class="tbl-header-main" style="text-align:right">Running Balance</th>
                         </tr>
                             <?php
                               $getacad = $this->account->breakAcad($getAccountid);
+
+                              $prevs = 0;
                               foreach ($getacad as $key => $value):
                               extract($value);
                             ?>
@@ -62,20 +62,21 @@
                                     $counter = 1;
                                    foreach ($this->account->getmovement($getAccountid, $acad) as $key => $value):
                                   extract($value);
-                                        ?>
-                                    <tr>
-                                        <td><?php echo $accountingset ?></td>
-                                        <td><a href="#"><?php echo $referenceid ?></a></td>
-                                        <td><?php echo $systemdate ?></td>
-                                        <td><?php echo $type; ?></td>
-                                        <td><?php echo $previousbalance; ?></td>
-                                        <td><?php echo $amount; ?>
-                                              <!-- <input type="text" class="form-control pull-right" name="<?php echo "am-".$counter ?>" value="<?php echo $amount; ?>" style="width:150px;text-align:right">
-                                              <input type="hidden" class="form-control pull-right" name="<?php echo "id-".$counter ?>" value="<?php echo $id; ?>"> -->
 
-                                        </td>
-                                        <td><?php echo $runbalance ?></td>
-                                        <?php $total += $amount; ?>
+                                        ?>
+
+                                    <tr>
+                                        <td><?php echo $systemdate ?></td>
+                                        <td><a href="#"><?php echo $referencetype ?></a></td>
+                                        <td><a class="ch" href="#" data-refid="<?php echo $referenceid ?>" data-reftype="<?php echo $referencetype ?>" data-toggle="modal" data-target="#myModal"><?php echo $referenceid ?></a></td>
+                                        <td><?php echo $description ?></td>
+                                        <td><?php echo $type; ?></td>
+                                        <td  style="text-align:right"><?php echo number_format($amount, 2); ?></td>
+                                        <td  style="text-align:right"><?php echo number_format($prevs + $amount,2) ?></td>
+                                        <?php
+                                        $total += $amount;
+                                          $prevs += $amount ;
+                                        ?>
                                     </tr>
                                   <?php
                                         $counter += 1;
@@ -85,76 +86,38 @@
                                     <input type="hidden" value="<?php echo $param ?>" name="param">
                                     <input type="hidden" name="accountid" value="<?php echo $getAccountid ?>">
                                     <input type="hidden" name="count" value="<?php echo  $counter ?>">
-                                    <td class="tbl-header" colspan="6">Total: <?php echo $counter ?></td>
+                                    <td class="tbl-header" colspan="6">Total:</td>
                                     <!-- <td class="tbl-header"><button type="submit" class="btn btn-info pull-right" name="button">Save & Recalculate</button>  </td> -->
                                     <td class="tbl-header" style="text-align:right"><strong><?php echo $total; ?></strong><label for="">&nbsp;&nbsp;&nbsp;</label></label>
                                 </tr>
                           </form>
                             <?php endforeach; ?>
                             <tr>
-                                <td colspan="6" style="background-color:#2f5836"><h4>Total Balance</h4></td>
+                                <td colspan="6" style="background-color:#2f5836"><h4>Current Balance</h4></td>
                                 <td  style="text-align:right;background-color:#2f5836"><h4 style="padding:0"><strong><?php echo number_format($total, 2); ?><label>&nbsp;&nbsp;&nbsp;</label></strong></h4></td>
                             </tr>
                     </table>
                 </div>
-                <div class="modal fade" id="add_movement" data-backdrop="false">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header panel-heading">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Add Movement</h4>
-                      </div>
-                      <div class="modal-body">
-                            <div class="container-fluid">
-                                <form class="form-horizontal" action="" method="post">
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label ">Type</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="type">
-                                                  <option value="D">Debit</option>
-                                                  <option value="D">Credit</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label">Amount</label>
-                                        <div class="col-sm-10">
-                                        <input type="text" name="amount" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label class="col-sm-2 control-label">Academicterm</label>
-                                      <div class="col-sm-10">
-                                        <select class="form-control" name="academicterm">
-                                          <?php foreach ($this->account->acad() as $key => $vals):
-                                            extract($vals);
-                                             ?>
-                                            <option value="<?php echo $acad ?>">
-                                              <?php
-                                              if ($term == 3) {
-                                                $term = 'Summer';
-                                              }elseif($term == 1){
-                                                $term = $term . "st Semester";
-                                              }else{
-                                                  $term = $term . "nd Semester";
-                                              }
-                                              echo $sy ."|". $term; ?>
-                                            </option>
-                                          <?php endforeach; ?>
-                                        </select>
-                                      </div>
-                                    </div>
-                                </form>
-                            </div>
-                      </div>
 
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Reference Detail</h4>
+                  </div>
+                  <div class="modal-body" id="mods">
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
     </div>

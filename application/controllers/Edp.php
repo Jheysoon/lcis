@@ -195,76 +195,7 @@ class Edp extends CI_Controller
             $this->out_studentcount->insert($data);
         }
 
-        //truncate table before inserting
-        $this->db->query("TRUNCATE out_section");
-
-        $systemVal  = $this->api->systemValue();
-        $sy         = $systemVal['nextacademicterm'];
-        $this->numberOfStudents = $systemVal['numberofstudent'];
-
-        $tt     = $this->db->query("SELECT * FROM tbl_academicterm WHERE id = $sy")->row_array();
-        $term   = $tt['term'];
-
-        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
-
-        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
-        foreach($stuC as $studentC)
-        {
-            $coursemajor    = $studentC['course'];
-            $acam           = $studentC['academicterm'];
-            $cur1           = 0;
-
-            foreach($acamd as $acams)
-            {
-                $c = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE
-                    tbl_coursemajor.id = tbl_curriculum.coursemajor AND
-                    tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
-                if($c->num_rows() > 0)
-                {
-                    $cur    = $c->row_array();
-                    $cur1   = $cur['id'];
-                    break;
-                }
-            }
-
-            //get the curriculum within 4 years
-            $cur_range1 = $acam - 12;
-            $cur_range  = $this->db->query("SELECT * FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
-
-            // if there are more than 1 curriculums
-            if($cur_range > 1)
-            {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
-                foreach($c as $cc)
-                {
-                    $y      = $cc['yearlevel'];
-                    $cou    = $cc['studentcount'];
-
-                    $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
-                    foreach($cur_range2 as $ra)
-                    {
-                        $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
-                        foreach($e as $ee):
-                            $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
-                        endforeach;
-                    }
-                }
-            }
-
-            elseif($cur1 != 0)
-            {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
-                foreach($c as $cc)
-                {
-                    $y      = $cc['yearlevel'];
-                    $cou    = $cc['studentcount'];
-                    $e      = $this->db->query("SELECT * FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
-                    foreach($e as $ee) :
-                        $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
-                    endforeach;
-                }
-            }
-        }
+        $this->out_section();
 
         // update the system value in tbl_systemvalues
         $this->db->update('tbl_systemvalues',array('classallocationstatus' => 1));
@@ -464,16 +395,18 @@ class Edp extends CI_Controller
         $stud = $this->db->query("SELECT * FROM out_exception where comment = 'no curriculum tbl_registration' GROUP by student")->result_array();
         foreach ($stud as $val) {
 
-            $reg = $this->db->query("SELECT min(academicterm) as academicterm,registration,coursemajor,id,student FROM tbl_enrolment WHERE student = {$val['student']} GROUP BY coursemajor")->result_array();
+            $reg = $this->db->query("SELECT academicterm,registration,coursemajor,id,student FROM tbl_enrolment WHERE student = {$val['student']} AND academicterm = 49 GROUP BY coursemajor")->row_array();
             $reg_id = 0;
-            foreach ($reg as $keys) {
+            //foreach ($reg as $keys) {
 
-                $reg_id = $keys['registration'];
+                $reg_id = $reg['registration'];
                 if($reg_id == 0)
                 {
-                    $reg_id = $this->cre_reg($keys['student'], $keys['coursemajor']);
+                    $reg_id = $this->cre_reg($reg['student'], $reg['coursemajor']);
                 }
-                $course = $keys['coursemajor'];
+                $this->db->where('id', $reg_id);
+                $gg = $this->db->get('tbl_registration')->row_array();
+                $course = $gg['coursemajor'];
 
                 $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
                 foreach ($t as $acam) {
@@ -491,7 +424,7 @@ class Edp extends CI_Controller
                         break;
                     }
                 }
-            }
+            //}
         }
     }
 
@@ -614,6 +547,92 @@ class Edp extends CI_Controller
             $this->db->where('student',$key['student']);
             $this->db->update('tbl_registration',$f);
 
+        }
+    }
+
+    // test function
+    function update_reg()
+    {
+        $r = $this->db->get('out_secondary')->result_array();
+        foreach ($r as $key) {
+            $data['coursemajor'] = 2;
+            $this->db->where('id', $key['registration']);
+            $this->db->update('tbl_registration', $data);
+        }
+    }
+
+    function out_section()
+    {
+        //truncate table before inserting
+        $this->db->query("TRUNCATE out_section");
+
+        $systemVal  = $this->api->systemValue();
+        $sy         = $systemVal['nextacademicterm'];
+        $this->numberOfStudents = $systemVal['numberofstudent'];
+
+        $this->db->where('id', $sy);
+        $tt     = $this->db->get('tbl_academicterm')->row_array();
+        $term   = $tt['term'];
+
+        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart DESC,term")->result_array();
+
+        $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
+        foreach($stuC as $studentC)
+        {
+            $coursemajor    = $studentC['course'];
+            $acam           = $studentC['academicterm'];
+            $cur1           = 0;
+
+            foreach($acamd as $acams)
+            {
+                $c = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE
+                    tbl_coursemajor.id = tbl_curriculum.coursemajor AND
+                    tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
+                if($c->num_rows() > 0)
+                {
+                    $cur    = $c->row_array();
+                    $cur1   = $cur['id'];
+                    break;
+                }
+            }
+
+            //get the curriculum within 4 years
+            $cur_range1 = $acam - 12;
+            $cur_range  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
+
+            // if there are more than 1 curriculums
+            if($cur_range > 1)
+            {
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
+                foreach($c as $cc)
+                {
+                    $y      = $cc['yearlevel'];
+                    $cou    = $cc['studentcount'];
+
+                    $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
+                    foreach($cur_range2 as $ra)
+                    {
+                        $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
+                        foreach($e as $ee):
+                            $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
+                        endforeach;
+                    }
+                }
+            }
+
+            elseif($cur1 != 0)
+            {
+                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
+                foreach($c as $cc)
+                {
+                    $y      = $cc['yearlevel'];
+                    $cou    = $cc['studentcount'];
+                    $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
+                    foreach($e as $ee) :
+                        $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
+                    endforeach;
+                }
+            }
         }
     }
 }

@@ -79,7 +79,7 @@
                                        $f 		= $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
                                        $t 		= $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
                                        $from 	= $f['time'];
-                                       $to 	= $t['time'];
+                                       $to 	    = $t['time'];
 
                                        // subject time looping
                                        foreach ($subj_t as $key) {
