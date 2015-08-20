@@ -68,7 +68,7 @@
                                     <tr>
                                         <td><?php echo $systemdate ?></td>
                                         <td><a href="#"><?php echo $referencetype ?></a></td>
-                                        <td><a href="#"><?php echo $referenceid ?></a></td>
+                                        <td><a class="ch" href="#" data-refid="<?php echo $referenceid ?>" data-reftype="<?php echo $referencetype ?>" data-toggle="modal" data-target="#myModal"><?php echo $referenceid ?></a></td>
                                         <td><?php echo $description ?></td>
                                         <td><?php echo $type; ?></td>
                                         <td  style="text-align:right"><?php echo number_format($amount, 2); ?></td>
@@ -98,65 +98,26 @@
                             </tr>
                     </table>
                 </div>
-                <div class="modal fade" id="add_movement" data-backdrop="false">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header panel-heading">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Add Movement</h4>
-                      </div>
-                      <div class="modal-body">
-                            <div class="container-fluid">
-                                <form class="form-horizontal" action="" method="post">
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label ">Type</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-control" name="type">
-                                                  <option value="D">Debit</option>
-                                                  <option value="D">Credit</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label">Amount</label>
-                                        <div class="col-sm-10">
-                                        <input type="text" name="amount" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label class="col-sm-2 control-label">Academicterm</label>
-                                      <div class="col-sm-10">
-                                        <select class="form-control" name="academicterm">
-                                          <?php foreach ($this->account->acad() as $key => $vals):
-                                            extract($vals);
-                                             ?>
-                                            <option value="<?php echo $acad ?>">
-                                              <?php
-                                              if ($term == 3) {
-                                                $term = 'Summer';
-                                              }elseif($term == 1){
-                                                $term = $term . "st Semester";
-                                              }else{
-                                                  $term = $term . "nd Semester";
-                                              }
-                                              echo $sy ."|". $term; ?>
-                                            </option>
-                                          <?php endforeach; ?>
-                                        </select>
-                                      </div>
-                                    </div>
 
-                                </form>
-                            </div>
-                      </div>
 
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Reference Detail</h4>
+                  </div>
+                  <div class="modal-body" id="mods">
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
     </div>

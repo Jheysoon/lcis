@@ -232,5 +232,16 @@
 
                    </script>
               <?php } ?>
+              <script type="text/javascript">
+                  $(document).ready(function(){
+                    $('.ch').click(function(){
+                      var refid = $(this).data('refid');
+                      var reftype = $(this).data('reftype');
+                      $.post('/movement/view_ref', {refid:refid, reftype:reftype} , function(data){
+                        $('#mods').html(data);
+                      })
+                    });
+                  });
+              </script>
   </body>
 </html>
