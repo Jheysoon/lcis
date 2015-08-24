@@ -928,7 +928,9 @@ class Registrar extends CI_Controller
                     $reg['coursemajor']     = $this->input->post('course');
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
+                    $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
+                    $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
                     if ($this->db->trans_status() === FALSE)
                     {
@@ -1043,10 +1045,10 @@ class Registrar extends CI_Controller
             $data['legacyid']   = $p['legacyid'];
             $data['gender']     = $p['sex'];
 
-            $t = $this->registration->getLatestCM($id);
-            $tt = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
+            $t              = $this->registration->getLatestCM($id);
+            $tt             = $this->db->get_where('tbl_coursemajor', array('id' => $t['coursemajor']))->row_array();
             $data['course'] = $tt['course'];
-            $data['major'] = $tt['major'];
+            $data['major']  = $tt['major'];
 
             $this->api->userMenu();
             $this->load->view('registrar/update_registration', $data);

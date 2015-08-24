@@ -217,7 +217,14 @@ class Edp extends CI_Controller
 
         // if the count is less than the numberofstudent system value set it to 0
         if($count == 0 OR $count < $this->numberOfStudents)
-            $d['section'] = 0;
+        {
+            // if the student count is less than 10
+            // default no. of section is 0
+            if($count <= 10)
+                $d['section'] = 0;
+            else
+                $d['section'] = 1;
+        }
         // force the result to be an integer
         else
             $d['section'] = (int) ($count / $this->numberOfStudents);
@@ -510,8 +517,6 @@ class Edp extends CI_Controller
                     break;
                 }
             }
-
-
         }
     }
 

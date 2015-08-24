@@ -37,6 +37,13 @@
 								 ?>
 								 <br> Total Number of Subjects :
 								 <?php echo $all_s1->num_rows() ?>
+								 <br>
+								 College :
+								 <?php
+									$this->db->where('id', $this->api->getUserCollege());
+									$col = $this->db->get('tbl_college')->row_array();
+									echo $col['description'];
+								  ?>
 								 </strong>
 							</caption>
 							<tr>

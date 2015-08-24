@@ -50,21 +50,34 @@ class Subject extends CI_Model
 		return $q->row_array();
 	}
 
-	function whereCode_owner($owner,$sid)
+	function whereCode_owner($owner, $sid)
 	{
-		if($owner == 1)
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+
+		if($user == $systemVal['employeeid'])
 		{
-			$where = "id = $sid AND (gesubject = 1 OR owner = $owner)";
-			$this->db->where($where);
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE computersubject = 1 AND id = $sid
+				ORDER BY code ASC, descriptivetitle ASC")->num_rows();
+		}
+		elseif($owner == 1)
+		{
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND (owner = 1 OR gesubject = 1) AND computersubject = 0 AND id = $sid
+				ORDER BY code ASC, descriptivetitle ASC")->num_rows();
 		}
 		else
 		{
-			$this->db->where('id', $sid);
-			$this->db->where('owner', $owner);
-			$this->db->where('gesubject', '0');
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND computersubject = 0 AND gesubject = 0 AND id = $sid
+				ORDER BY code ASC, descriptivetitle ASC")->num_rows();
 		}
-		return $q = $this->db->count_all_results('tbl_subject');
 	}
+
 	function getCode_owner($owner,$sid)
 	{
 		$this->db->where('owner',$owner);
@@ -77,16 +90,30 @@ class Subject extends CI_Model
 	}
 	function subjectOwner($owner)
 	{
-		if($owner == 1)
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+
+		if($user == $systemVal['employeeid'])
 		{
-			$this->db->where('gesubject','1');
-			$this->db->or_where('owner',$owner);
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE computersubject = 1
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
+		}
+		elseif($owner == 1)
+		{
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND (owner = 1 OR gesubject = 1) AND computersubject = 0
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
 		}
 		else
 		{
-			$this->db->where('owner',$owner);
+			return $this->db->query("SELECT id, code, descriptivetitle
+				FROM tbl_subject
+				WHERE owner = $owner AND computersubject = 0 AND gesubject = 0
+				ORDER BY code ASC, descriptivetitle ASC")->result_array();
 		}
-		return $this->db->get('tbl_subject')->result_array();
 	}
 
 	function getSubject()
