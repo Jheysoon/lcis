@@ -128,13 +128,9 @@ class Tor extends CI_Model
       return $row + $sch + $ac;
     }
 
-    function getAllocationDetails($classallocation){
-          $q = $this->db->query("SELECT a.subject, b.code, b.descriptivetitle, b.units
-                                 FROM tbl_classallocation a, tbl_subject b
-                                 WHERE a.id = '$classallocation'
-                                 AND a.subject = b.id
-          ");
-          $sch = $q->row_array();
+    function getSource($pid){
+          $q = $this->db->query("SELECT hscard, tor FROM tbl_student WHERE id = $pid");
+          return $q->row_array();
     }
 }
 

@@ -29,6 +29,23 @@
     $total_cr = 0;
     $cr1 = 0; $cr2 = 0; $cr3 = 0; $cr4 = 0; $cr5 = 0;
     $cr6 = 0; $cr7 = 0; $cr8 = 0; $cr9 = 0; $cr10 = 0;
+
+    $source = $this->tor->getSource($pid);
+    if ($source) {
+        extract($source);
+        if ($tor == 1) {
+            $source = 'Honorable Dismissal - School';
+        }
+        elseif($hscard == 1){
+            $source = 'Form 137';
+        }
+        else{
+            $source = '';
+        }
+    }
+    else{
+        $source = '';
+    }
  ?>
 <!DOCTYPE html>
 <html>
@@ -99,7 +116,7 @@
                     </tr>
                     <tr>
                         <td>Source of Entrance :</td>
-                        <td colspan="3" class="underline"></td>
+                        <td colspan="3" class="underline"><?php echo $source; ?></td>
                     </tr>
                     <tr>
                         <td>Course :</td>
@@ -107,7 +124,6 @@
                     </tr>
                 </table>
             </div>
-
 
             <!-- ================= Right header ================ -->
             <div class="table2">
@@ -120,15 +136,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3">&nbsp;</td>
+                        <td colspan="3">&nbsp;<br/><br/></td>
                     </tr>
                     <tr>
                         <td colspan="3">
                             <label >College of</label> <u>&nbsp;&nbsp;<?php echo $college; ?>&nbsp;&nbsp;</u><br/>
                             <label >Candidate for Title/Degree: <u>&nbsp;&nbsp;<?php echo $description; ?>&nbsp;&nbsp;</u></label><br/>
-                            <label >College of</label><br/>
-                            <label >Candidate for Title/Degree</label><br/>
                             <label >Major in</label><br/>
+                            <label >College of</label><br/>
                             <label >Date of Graduation</label>
                         </td>
                     </tr>
