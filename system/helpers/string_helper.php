@@ -251,7 +251,7 @@ if ( ! function_exists('increment_string'))
 	 * @param	string	Which number should be used for the first dupe increment
 	 * @return	string
 	 */
-	function increment_string($str, $separator = '_', $first = 1)
+	function increment_string($str, $data = array(), $separator = '_', $first = 1)
 	{
 		preg_match('/(.+)'.$separator.'([0-9]+)$/', $str, $match);
 		return isset($match[2]) ? $match[1].$separator.($match[2] + 1) : $str.$separator.$first;

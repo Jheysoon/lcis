@@ -640,4 +640,14 @@ class Edp extends CI_Controller
             }
         }
     }
+
+    function str()
+    {
+        $this->load->helper('string');
+        echo increment_string('file', '_'); // "file_1"
+        echo '<br/>';
+        echo increment_string('file', '-', 2); // "file-2"
+        echo '<br/>';
+        echo increment_string('file_4'); // "file_5"
+    }
 }
