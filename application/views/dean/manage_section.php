@@ -38,11 +38,13 @@
 								 <br> Total Number of Subjects :
 								 <?php echo $all_s1->num_rows() ?>
 								 <br>
-								 College :
 								 <?php
-									$this->db->where('id', $this->api->getUserCollege());
-									$col = $this->db->get('tbl_college')->row_array();
-									echo $col['description'];
+									if($this->session->userdata('uid') != $nxt['employeeid'])
+									{
+										$this->db->where('id', $this->api->getUserCollege());
+										$col = $this->db->get('tbl_college')->row_array();
+										echo 'College: '.$col['description'];
+									}
 								  ?>
 								 </strong>
 							</caption>
@@ -78,7 +80,7 @@
 
 								<form class="addClassAllocation">
 								<td>
-									<input type="number" min="1" class="form-control input-sm" name="sections" value="<?php echo $subj['section']; ?>" required>
+									<input type="number" min="1" data-param="<?php echo round($subj['section']); ?>" class="form-control input-sm section" name="sections" value="<?php echo $subj['section']; ?>" required>
 									<input type="hidden" name="out_section_id" value="<?php echo $subj['id']; ?>">
 								</td>
 								<td>
