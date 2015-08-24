@@ -8,7 +8,6 @@
         $major2 = $this->api->getMajor($major)->row_array();
         $course = $description." (".$major2['description'].")";
     }
-    $rows = $this->tor->getEnrolment2($pid);
 
     $res = $this->tor->getAssignatories();
     $ctr = 1;
@@ -30,12 +29,32 @@
     $total_cr = 0;
     $cr1 = 0; $cr2 = 0; $cr3 = 0; $cr4 = 0; $cr5 = 0;
     $cr6 = 0; $cr7 = 0; $cr8 = 0; $cr9 = 0; $cr10 = 0;
+
+    $source = $this->tor->getSource($pid);
+    if ($source) {
+        extract($source);
+        if ($tor == 1) {
+            $source = 'Honorable Dismissal - School';
+        }
+        elseif($hscard == 1){
+            $source = 'Form 137';
+        }
+        else{
+            $source = '';
+        }
+    }
+    else{
+        $source = '';
+    }
  ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Leyte Colleges-Transcript of Record</title>
+        <link rel="icon" type="image/jpg" href="<?php echo base_url('assets/images/LC Logo.jpg'); ?>">
+        <link rel="shortcut icon" type="image/jpg" href="<?php echo  base_url('assets/images/LC logo.jpg'); ?>">
+
         <link rel="stylesheet" href="<?php echo base_url('/assets/css/print2.css'); ?>">
     </head>
     <body>
@@ -45,16 +64,25 @@
         <a href="/registrar/print_fields/<?php echo $sid; ?>" class="a print">Edit Fields</a>
     </div>
     <?php
-        $ctr = $rows['ctr']/2;
-        if ($rows['ctr']%2 == 1) {
-            $ctr = $ctr + 0.5;
+        $t = $this->tor->countPage($sid);
+        $page = $t/20;
+        if ($t%20 != 0) {
+            $page = intval($page) + 1;
         }
+        $sch = '';
+        $aca = '';
         $ctr2 = 1;
         $limit = 0;
-        while ($ctr2 <= $ctr) { ?>
-            <div class="wrapper">
+        while ($ctr2 <= $page) { ?>
+
+        <!-- =================== wrapper per page ==================== -->
+
+        <div class="wrapper">
             <?php $ctr3 = 0; $ctr4 = 0;  $arr = array(); $credit = array();?>
+
+            <!-- ================= Left header ================ -->
             <div class="table1">
+
                 <table>
                     <tr>
                         <td width="100px">
@@ -84,11 +112,11 @@
                     </tr>
                     <tr>
                         <td>Date of Entrance :</td>
-                        <td colspan="3" class="underline"></td>
+                        <td colspan="3" class="underline"><?php echo $dte; ?></td>
                     </tr>
                     <tr>
                         <td>Source of Entrance :</td>
-                        <td colspan="3" class="underline"></td>
+                        <td colspan="3" class="underline"><?php echo $source; ?></td>
                     </tr>
                     <tr>
                         <td>Course :</td>
@@ -96,6 +124,8 @@
                     </tr>
                 </table>
             </div>
+
+            <!-- ================= Right header ================ -->
             <div class="table2">
                 <table>
                     <tr>
@@ -106,15 +136,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3">&nbsp;</td>
+                        <td colspan="3">&nbsp;<br/><br/></td>
                     </tr>
                     <tr>
                         <td colspan="3">
                             <label >College of</label> <u>&nbsp;&nbsp;<?php echo $college; ?>&nbsp;&nbsp;</u><br/>
                             <label >Candidate for Title/Degree: <u>&nbsp;&nbsp;<?php echo $description; ?>&nbsp;&nbsp;</u></label><br/>
-                            <label >College of</label><br/>
-                            <label >Candidate for Title/Degree</label><br/>
                             <label >Major in</label><br/>
+                            <label >College of</label><br/>
                             <label >Date of Graduation</label>
                         </td>
                     </tr>
@@ -173,96 +202,130 @@
                 </table>
             </div>
             <!-- start of second row of tables for TOR -->
+
+            <!-- ======================= Left TOR Body ========================= -->
             <div class="table1">
                 <table class="tbl-bordered">
                     <tr>
-                        <td class="center" rowspan="2" colspan="2">SUBJECTS<br/>(With Descriptive Title)</td>
-                        <td class="center" colspan="2">GRADES</td>
-                        <td class="center no-right" rowspan="2">CREDITS</td>
+                        <th class="center" rowspan="2" colspan="2">SUBJECTS<br/>(With Descriptive Title)</th>
+                        <th class="center" colspan="2">GRADES</th>
+                        <th width="10" class="center no-right td-center" rowspan="2">CREDITS</th>
                     </tr>
                     <tr>
-                        <td class="center">Final</td>
-                        <td class="center">Re-Ex</td>
+                        <th width="40" class="center">Final</th>
+                        <th width="40" class="center">Re-Ex</th>
                     </tr>
                     <?php
+                    $page_limiter = 0;
                     $enrol = $this->tor->getEnrolment($pid, $limit);
-                    $sch = '';
-                    foreach ($enrol as $key => $val) { extract($val);
-                        if ($sch != $val['school']) {
-                            ?>
-                                <tr>
-                                    <td class="no-right center" colspan="5"><strong><?php echo $val['firstname']; ?></strong></td>
-                                </tr>
-                            <?php $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
-                        }
-                            ?>
-                                <tr>
-                                    <td class="center no-right" colspan="5"><?php echo $val['shortname']." SY : ". $val['systart']."-".$val['syend']; ?></td>
-                                </tr>
-                            <?php
-                            $ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
-                            $sch = $val['school'];
-                            $grade = $this->tor->getGrade($id);
-                            foreach ($grade as $key2 => $val2) {
-                                $gr = $val2['grade'];
-                                $rex = '';
-                                if ($val2['reexamgrade'] != 0) {
-                                    $rgrade = $this->tor->getRegrade($val2['reexamgrade']);
-                                    if ($rgrade) {
-                                        $rex = $rgrade['value'];
-                                        if ($rex == 0.00) {
-                                            $rex = $rgrade['description'];
-                                            if ($rex == 'INCOMPLETE') {
-                                                $rex = 'INC';
-                                            }
-                                            elseif ($rex == 'DROPPED') {
-                                                $rex = 'DRP';
-                                            }
-                                            else{
-                                                $rex = '';
-                                            }
-                                        }
-                                    }
-                                }
-                                if ($val2['grade'] == 0.00) {
-                                        $gr = $val2['gdesc'];
-                                        if ($gr == 'INCOMPLETE') {
-                                            $gr = 'INC';
-                                        }
-                                        elseif ($gr == 'DROPPED') {
-                                            $gr = 'DRP';
-                                        }
-                                        else{
-                                            $gr = '';
-                                        }
-                                }
-                                ?>
-                                <tr>
-                                    <td class="no-line"><?php echo $val2['code']; ?></td>
-                                    <td class="no-line"><?php echo $val2['title']; ?></td>
-                                    <td class="center no-line"><?php echo $gr; ?></td>
-                                    <td class="center no-line"><?php echo $rex; ?></td>
-                                    <td class="center no-line no-right"><?php echo $val2['units']; ?></td>
-                                </tr>
-                        <?php
-                            if ($gr != '') {
-                                # code...
+                    foreach ($enrol as $key => $val) {
+                        extract($val);
+                        // $group = $this->tor->getGroup($classallocation);
+                        $acad = $systart."-".$syend." ".$shortname;
+                        if ($school != $sch) {
+
+                            // do not show school if its on the last row then break the loop
+                            if ($page_limiter == 19) {
+                                break;
                             }
+                            echo "<tr><td class='center no-right' colspan='5'>".$school."</td></tr>";
+                            $sch = $school; $page_limiter++;$ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
+                        }
+                        if ($aca != $acad) {
+
+                            // do not show academicterm if its on the last row then break the loop
+                            if ($page_limiter == 19) {
+                                break;
+                            }
+                            echo "<tr><td class='center no-right' colspan='5'>".$acad."</td></tr>";
+                            $aca = $acad; $page_limiter++;$ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
+                        }
+
+                        // get sem grade
+                        $g1 = $this->tor->getGrade($semgrade);
+                        $gr1 = $g1['value'];
+                        if ( $gr1 == 0.00) {
+                                $gr1 = $g1['description'];
+                                if ($gr1 == 'INCOMPLETE') {
+                                    $gr1 = 'INC';
+                                }
+                                elseif ($gr1 == 'DROPPED') {
+                                    $gr1 = 'DRP';
+                                }
+                                else{
+                                    $gr1 = '';
+                                }
+                        }
+
+                        // get re-exam grade
+                        $g2 = $this->tor->getGrade($reexamgrade);
+                        $gr2 = $g2['value'];
+                        if ($gr2 == 0.00) {
+                                $gr2 = $g2['description'];
+                                if ($gr2 == 'INCOMPLETE') {
+                                    $gr2 = 'INC';
+                                }
+                                elseif ($gr2 == 'DROPPED') {
+                                    $gr2 = 'DRP';
+                                }
+                                else{
+                                    $gr2 = '';
+                                }
+                        }
+
+                        // check for long descriptive titles for splitting and add new row
+                        if (strlen($descriptivetitle) > 40) {
+                            $title = explode(' ', $descriptivetitle);
+                            $count = count($title);
+                            $f = intval($count/2 + 1);
+                            $fword = '';
+                            $sword = '';
+                            for ($i=0; $i < $f; $i++) {
+                                $fword = $fword." ".$title[$i];
+                            }
+                            for ($i=$i; $i < $count; $i++) {
+                                $sword = $sword." ".$title[$i];
+                            }
+                            $descriptivetitle = $fword."<br>".$sword;
+
+                            $page_limiter++;
                             $ctr3+=1;
                             $ctr4+=1;
-                            $credit[$ctr4] = $val2['group']."|".$val2['units'];
+                            $credit[$ctr4] = $group."|".$units."|<br/>&nbsp;";
+                        }
+                        else{
+                            $ctr3+=1;
+                            $ctr4+=1;
+                            $credit[$ctr4] = $group."|".$units;
+                        }
+                        ?>
+                        <tr>
+                            <td class="no-line"><?php echo $code; ?></td>
+                            <td class="no-line"><?php echo $descriptivetitle; ?></td>
+                            <td class="center no-line"><?php echo $gr1; ?></td>
+                            <td class="center no-line"><?php echo $gr2; ?></td>
+                            <td class="center no-line no-right"><?php echo $units; ?></td>
+                        </tr>
+                    <?php
+                        $limit++;
+                        $page_limiter++;
+                        if ($page_limiter == 20) {
+                            break;
                         }
                     }
-                        if ($ctr2 < $ctr) { ?>
-                            <tr>
-                                <td class="no-line"></td>
-                                <td class="center no-line">-- over --</td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line"></td>
-                                <td class="center no-line no-right"></td>
-                            </tr>
-                    <?php   $ctr3+=1; $ctr4+=1; $credit[$ctr4] = "&nbsp;"; } ?>
+                    if ($ctr2 < $ctr) { ?>
+                        <tr>
+                            <td class="no-line"></td>
+                            <td class="center no-line">-- over --</td>
+                            <td class="center no-line"></td>
+                            <td class="center no-line"></td>
+                            <td class="center no-line no-right"></td>
+                        </tr>
+                    <?php $ctr3+=1; $ctr4+=1; $credit[$ctr4] = "&nbsp;"; } ?>
                 </table>
+                <!-- end of tor table -->
+
+                <!-- ======================= left footer & Assignatories ===================== -->
                 <table>
                     <tr>
                         <td>
@@ -315,7 +378,7 @@
                         <td class="underline"></td>
                     </tr>
                 </table><br/><br/>
-                <!--------------------------------------- assignatories  ------------------------------------------>
+                <!-- =========================== assignatories ====================== -->
                 <table>
                     <tr>
                         <td class="center" width="50%">
@@ -341,22 +404,26 @@
                     </tr>
                 </table><br/>
             </div>
+            <!-- end of left footer and assignatories -->
+
+
+            <!-- ======================= Right TOR Body ========================= -->
             <div class="table2">
                 <table class="tbl-bordered">
                     <tr>
-                        <td class="center no-left" colspan="10">Credits by Groups</td>
+                        <th class="center no-left" colspan="10">Credits by Groups</th>
                     </tr>
                     <tr>
-                        <td width="10%" class="center no-left">1</td>
-                        <td width="10%" class="center">2</td>
-                        <td width="10%" class="center">3</td>
-                        <td width="10%" class="center">4</td>
-                        <td width="10%" class="center">5</td>
-                        <td width="10%" class="center">6</td>
-                        <td width="10%" class="center">7</td>
-                        <td width="10%" class="center">8</td>
-                        <td width="10%" class="center">9</td>
-                        <td width="10%" class="center">10</td>
+                        <th width="10%" class="center no-left">1</th>
+                        <th width="10%" class="center">2</th>
+                        <th width="10%" class="center">3</th>
+                        <th width="10%" class="center">4</th>
+                        <th width="10%" class="center">5</th>
+                        <th width="10%" class="center">6</th>
+                        <th width="10%" class="center">7</th>
+                        <th width="10%" class="center">8</th>
+                        <th width="10%" class="center">9</th>
+                        <th width="10%" class="center">10</th>
                     </tr>
                     <?php
                     $a = 1;
@@ -366,32 +433,43 @@
                         }
                         else{ $cr = explode('|', $credit[$a]) ?>
                             <tr>
-                                <td class="center no-line no-left"><?php if ($cr[0] == 1) {echo $cr[1]; $cr1 = $cr1 + $cr[1]; $total_cr = $total_cr + $cr1;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 2) {echo $cr[1]; $cr2 = $cr2 + $cr[1]; $total_cr = $total_cr + $cr2;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 3) {echo $cr[1]; $cr3 = $cr3 + $cr[1]; $total_cr = $total_cr + $cr3;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 4) {echo $cr[1]; $cr4 = $cr4 + $cr[1]; $total_cr = $total_cr + $cr4;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 5) {echo $cr[1]; $cr5 = $cr5 + $cr[1]; $total_cr = $total_cr + $cr5;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 6) {echo $cr[1]; $cr6 = $cr6 + $cr[1]; $total_cr = $total_cr + $cr6;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 7) {echo $cr[1]; $cr7 = $cr7 + $cr[1]; $total_cr = $total_cr + $cr7;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 8) {echo $cr[1]; $cr8 = $cr8 + $cr[1]; $total_cr = $total_cr + $cr8;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 9) {echo $cr[1]; $cr9 = $cr9 + $cr[1]; $total_cr = $total_cr + $cr9;}else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1]; $cr10 = $cr10 + $cr[1]; $total_cr = $total_cr + $cr10;}else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line no-left">
+                                 <?php if ($cr[0] == 1) {
+                                     echo $cr[1];
+                                     $cr1 = $cr1 + $cr[1];
+                                     $total_cr = $total_cr + $cr1;
+                                 }
+                                 else{
+                                     echo "&nbsp;";
+                                 }
+                                 if (count($cr) == 3) {
+                                    echo $cr[2];
+                                } ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 2)  {echo $cr[1]; $cr2 = $cr2 + $cr[1];   $total_cr = $total_cr + $cr2;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 3)  {echo $cr[1]; $cr3 = $cr3 + $cr[1];   $total_cr = $total_cr + $cr3;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 4)  {echo $cr[1]; $cr4 = $cr4 + $cr[1];   $total_cr = $total_cr + $cr4;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 5)  {echo $cr[1]; $cr5 = $cr5 + $cr[1];   $total_cr = $total_cr + $cr5;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 6)  {echo $cr[1]; $cr6 = $cr6 + $cr[1];   $total_cr = $total_cr + $cr6;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 7)  {echo $cr[1]; $cr7 = $cr7 + $cr[1];   $total_cr = $total_cr + $cr7;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 8)  {echo $cr[1]; $cr8 = $cr8 + $cr[1];   $total_cr = $total_cr + $cr8;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 9)  {echo $cr[1]; $cr9 = $cr9 + $cr[1];   $total_cr = $total_cr + $cr9;}  else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1]; $cr10 = $cr10 + $cr[1]; $total_cr = $total_cr + $cr10;} else{echo "&nbsp;";} ?></td>
                             </tr>
                             <?php
                         } $a+=1 ;
                     } ?>
                     <tr>
-                        <td class="center no-left" colspan="10">Total credits presented for graduation</td>
+                        <th class="center no-left" colspan="10">Total credits presented for graduation</th>
                         <tr>
                             <td class="center no-line no-left"><?php if ($cr1 != 0 && $ctr2 == $ctr) {echo $cr1;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr2 != 0 && $ctr2 == $ctr) {echo $cr2;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr3 != 0 && $ctr2 == $ctr) {echo $cr3;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr4 != 0 && $ctr2 == $ctr) {echo $cr4;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr5 != 0 && $ctr2 == $ctr) {echo $cr5;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr6 != 0 && $ctr2 == $ctr) {echo $cr6;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr7 != 0 && $ctr2 == $ctr) {echo $cr7;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr8 != 0 && $ctr2 == $ctr) {echo $cr8;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr9 != 0 && $ctr2 == $ctr) {echo $cr9;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line"><?php if ($cr2 != 0 && $ctr2 == $ctr) {echo $cr2;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr3 != 0 && $ctr2 == $ctr) {echo $cr3;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr4 != 0 && $ctr2 == $ctr) {echo $cr4;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr5 != 0 && $ctr2 == $ctr) {echo $cr5;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr6 != 0 && $ctr2 == $ctr) {echo $cr6;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr7 != 0 && $ctr2 == $ctr) {echo $cr7;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr8 != 0 && $ctr2 == $ctr) {echo $cr8;}else{echo "&nbsp;";}  ?></td>
+                            <td class="center no-line"><?php if ($cr9 != 0 && $ctr2 == $ctr) {echo $cr9;}else{echo "&nbsp;";}  ?></td>
                             <td class="center no-line"><?php if ($cr10 != 0 && $ctr2 == $ctr) {echo $cr10;}else{echo "&nbsp;";} ?></td>
                         </tr>
                     </tr>
@@ -403,6 +481,9 @@
                         <td width="50px" class="underline"><?php if ($total_cr != 0 && $ctr2 == $ctr) {echo $total_cr;}else{echo "&nbsp;";} ?></td>
                     </tr>
                 </table><br/>
+                <!-- end of group credits -->
+
+                <!-- ================== right footer for ched ===================== -->
                 <table>
                     <tr>
                         <td class="center"><strong><label>CERTIFICATION</label></strong></td>
@@ -450,8 +531,11 @@
                     </tr>
                 </table>
             </div>
-            </div>
-    <?php $ctr2+=1; $limit+=2;} ?>
+            <!-- end of right footer -->
+        </div>
+        <!-- end of wrapper -->
+        <?php $ctr2+=1;} // end of wrapper/page loop ?>
+
     </body>
 </html>
 <?php }

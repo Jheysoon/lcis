@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Author: Vladz
+ * Author: Oliver
  * Date: July 2015
  * Type: Model
  */
+
 class Tor extends CI_Model
 {
     // query for counting page
@@ -51,7 +52,7 @@ class Tor extends CI_Model
 
     // query for getting specific student details
     function getStudDetails($sid){
-      $q = $this->db->query("SELECT d.*, d.id as pid, b.major as major,  c.description as description, e.*, f.description as college
+      $q = $this->db->query("SELECT d.*, d.id as pid, a.datecreated as dte, b.major as major,  c.description as description, e.*, f.description as college
                              FROM tbl_registration a, tbl_coursemajor b, tbl_course c, tbl_party d, tbl_student e, tbl_college f
                              WHERE a.coursemajor = b.id
                              AND b.course = c.id
@@ -77,34 +78,19 @@ class Tor extends CI_Model
 
     // query getting enrollment
     function getEnrolment($pid, $limit){
-      $q = $this->db->query("SELECT a.*, b.firstname, c.systart, c.syend, d.shortname
-                             FROM tbl_enrolment a, tbl_party b, tbl_academicterm c, tbl_term d
-                             WHERE a.student = '$pid' AND a.school = b.id
-                             AND a.academicterm = c.id AND c.term = d.id
-                             ORDER BY c.systart, c.syend, d.id LIMIT $limit, 2");
+      $q = $this->db->query("SELECT a.*, b.firstname as school, d.subject, c.code, c.descriptivetitle, c.units, c.group
+                             FROM view_tor a, tbl_party b, tbl_subject c, tbl_classallocation d
+                             WHERE a.student = '$pid'
+                             AND a.classallocation = d.id
+                             AND d.subject = c.id
+                             AND b.id = a.school
+                             ORDER BY a.systart, a.syend, a.shortname, c.units DESC, c.code
+                             LIMIT $limit, 20");
       return $q->result_array();
     }
 
-    function getEnrolment2($pid){
-      $q = $this->db->query("SELECT COUNT(*) as ctr
-                             FROM tbl_enrolment a, tbl_party b
-                             WHERE a.student = '$pid' AND a.school = b.id");
-      return $q->row_array();
-    }
-
-    // query getting grade per enrollment
+    // query getting grade
     function getGrade($id){
-      $q = $this->db->query("SELECT a.*, b.value as grade, b.description as gdesc,
-                             e.code as code, e.descriptivetitle as title, e.units, e.group
-                             FROM tbl_studentgrade a, tbl_grade b, tbl_classallocation c, tbl_subject e
-                             WHERE enrolment = '$id'
-                             AND a.semgrade = b.id AND c.id = a.classallocation AND c.subject = e.id
-                             ORDER BY e.units DESC, e.code");
-      return $q->result_array();
-    }
-
-    // query getting re-exam grade
-    function getRegrade($id){
       $q = $this->db->query("SELECT value, description
                              FROM tbl_grade
                              WHERE id = '$id'");
@@ -124,6 +110,27 @@ class Tor extends CI_Model
       );
       $this->db->where('signposition', $position);
       $q = $this->db->update('tbl_assignatory', $data);
+    }
+
+    function countPage($sid){
+      $q = $this->db->query("SELECT a.* FROM view_tor a, tbl_party b WHERE b.legacyid = '$sid' AND a.student = b.id");
+      $row = $q->num_rows();
+
+      $q = $this->db->query("SELECT distinct(school) FROM view_tor");
+      $sch = $q->num_rows();
+
+      $q = $this->db->query("SELECT academicterm FROM tbl_enrolment a, tbl_party b
+                             WHERE b.legacyid = '$sid'
+                             AND a.student = b.id
+                           ");
+      $ac = $q->num_rows();
+
+      return $row + $sch + $ac;
+    }
+
+    function getSource($pid){
+          $q = $this->db->query("SELECT hscard, tor FROM tbl_student WHERE id = $pid");
+          return $q->row_array();
     }
 }
 
