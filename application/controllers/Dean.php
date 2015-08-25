@@ -800,13 +800,6 @@ class Dean extends CI_Controller
         // count the number of days
         $index = count($day);
 
-        $this->db->where('classallocation',$cid);
-        $dd = $this->db->count_all_results('tbl_dayperiod');
-        if($dd > 0)
-        {
-            $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
-        }
-
         foreach($day as $key => $value)
         {
             if($index < 3 AND $index > 1)
@@ -844,6 +837,9 @@ class Dean extends CI_Controller
                 //end time period must be greater than the start time period
                 if($end_time[$key] > $start_time[$key])
                 {
+                    // delete first the days and period before inserting
+                    $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+
                     $data['classallocation']    = $cid;
                     $data['day']                = $value;
                     $data['from_time']          = $start_time[$key];
@@ -1052,7 +1048,7 @@ class Dean extends CI_Controller
         $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
         $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
         $input              = $this->input->post('sort');
-        
+
         if($input == 0)
         {
             $this->load->view('dean/ajax/assigned_ins', $data);
