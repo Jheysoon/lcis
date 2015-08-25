@@ -35,13 +35,13 @@
 				        <br/>
 				        <select class="form-control" name="course_major">
 	            			<?php
-	            				$c = $this->course->getAllCourse();
+								$c = $this->db->get('tbl_course')->result_array();
 	            				foreach($c as $cc)
 	            				{
 	            					?>
 	            					<option value="<?php echo $cc['id'] ?>">
 	            					<?php
-	            						echo $this->api->getCourseMajor($cc['id']);
+	            						echo $cc['description'];
 	            					 ?>
 	            					</option>
 	            			<?php
@@ -50,7 +50,7 @@
 	            		</select>
 				      </div>
 				      <div class="modal-footer">
-				      	<button type="button" class="btn btn-primary">Save</button>
+				    	<button type="button" class="btn btn-primary">Save</button>
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				      </div>
 				    </form>
@@ -79,18 +79,18 @@
 					<table class="table">
 						<caption>
 							<strong>
-						<?php
-							$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
-							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
-						 ?>
-						 <br>
-						 <?php
-							if($systemVal['employeeid'] != $user_id)
-							{
-								$of = $this->db->get_where('tbl_college', array('id' => $owner))->row_array();
-								echo 'College: '.$of['description'];
-							}
-						  ?>
+							<?php
+								$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+								echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
+							 ?>
+							 <br>
+							 <?php
+								if($systemVal['employeeid'] != $user_id)
+								{
+									$of = $this->db->get_where('tbl_college', array('id' => $owner))->row_array();
+									echo 'College: '.$of['description'];
+								}
+							  ?>
 							</strong>
 						</caption>
 						<tr>
