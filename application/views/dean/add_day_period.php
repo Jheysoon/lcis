@@ -84,10 +84,12 @@
 							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
 						 ?>
 						 <br>
-						 College :
 						 <?php
-							$of = $this->db->get_where('tbl_college', array('id' => $owner))->row_array();
-							echo $of['description'];
+							if($systemVal['employeeid'] != $user_id)
+							{
+								$of = $this->db->get_where('tbl_college', array('id' => $owner))->row_array();
+								echo 'College: '.$of['description'];
+							}
 						  ?>
 							</strong>
 						</caption>
