@@ -16,7 +16,7 @@
 					 <table class="table">
 						<tr>
 							<th>Subject</th>
-							<th>Course</th
+							<th>Course</th>
 						</tr>
 						<tr>
 							<td>
@@ -27,13 +27,15 @@
 							</td>
 							<td>
 								<?php
-									echo $this->api->getCourseMajor($cl['coursemajor']);
+									$this->db->where('id', $cl['coursemajor']);
+									$t = $this->db->get('tbl_course')->row_array();
+									echo $t['description'];
 								 ?>
 							</td>
 						</tr>
 					 </table>
 					 <div class="col-md-4">
-						
+
 					 </div>
 					 <form action="/add_day_period/<?php echo $cid; ?>" method="post">
 
