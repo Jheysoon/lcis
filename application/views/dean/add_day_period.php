@@ -78,11 +78,19 @@
 					<a href="/add_classalloc" class="btn btn-success pull-right" data-toggle="modal" data-target="#modal_classalloc">Add</a>
 					<table class="table">
 						<caption>
+							<strong>
 						<?php
 							$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
 							echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
 						 ?>
-						 </caption>
+						 <br>
+						 College :
+						 <?php
+							$of = $this->db->get_where('tbl_college', array('id' => $owner))->row_array();
+							echo $of['description'];
+						  ?>
+							</strong>
+						</caption>
 						<tr>
 							<th style="text-align:center;">Subject</th>
 							<!-- this must be college -->
@@ -96,38 +104,16 @@
 
 							foreach($sub as $subj)
 							{
-								if($user_id == $systemVal['employeeid'])
-								{
-									$this->db->where('computersubject', 1);
-									$this->db->where('id', $subj['subject']);
-								}
-								elseif($owner == 1)
-								{
-									//$this->db->where('owner', $owner);
-									$this->db->where('id', $subj['subject']);
-									$this->db->where('gesubject',1);
-								}
-								else
-								{
-									$this->db->where('owner', $owner);
-									$this->db->where('id', $subj['subject']);
-									$this->db->where('gesubject',0);
-								}
-
-								$q = $this->db->count_all_results('tbl_subject');
-								if($q > 0)
-								{
 							?>
 								<tr>
 									<td style="text-align:center;">
 										<?php
-											$s = $this->subject->find($subj['subject']);
-											echo $s['code'];
+											echo $subj['code'];
 										 ?>
 									</td>
 									<td style="text-align:center;">
 										<?php
-											$this->db->where('id',$subj['coursemajor']);
+											$this->db->where('id', $subj['coursemajor']);
 											$t = $this->db->get('tbl_course')->row_array();
 											echo $t['description'];
 										 ?>
@@ -138,8 +124,8 @@
 										if(!empty($subj['status']))
 											$style = 'disabled'
 									 ?>
-										<a href="/add_day_period/<?php echo $subj['id']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a> |
-										<a href="/delete_classalloc/<?php echo $subj['id']; ?>" class="btn btn-danger btn-xs" onClick="return confirm('Are you sure you want to delete ?');">Delete</a>
+										<a href="/add_day_period/<?php echo $subj['cid']; ?>" <?php echo $style; ?> class="btn btn-primary btn-xs">Add Day/Period</a> |
+										<a href="/delete_classalloc/<?php echo $subj['cid']; ?>" class="btn btn-danger btn-xs" onClick="return confirm('Are you sure you want to delete ?');">Delete</a>
 										</td>
 									<td style="text-align:center;">
 										<?php
@@ -148,7 +134,7 @@
 										// else{
 										// 	if($subj['status'] == 'O')
 										// 		echo 'OK';
-											$this->db->where('classallocation', $subj['id']);
+											$this->db->where('classallocation', $subj['cid']);
 											$tt = $this->db->count_all_results('tbl_dayperiod');
 											if($tt > 0)
 											{
@@ -162,7 +148,6 @@
 									</td>
 								</tr>
 							<?php
-								}
 							}
 							?>
 						</table>
