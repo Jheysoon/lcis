@@ -6,6 +6,8 @@
 
 
     // check if there is a record found
+
+    //@todo: check first before extract function
     if(is_array($result))
     {
         extract($result);
