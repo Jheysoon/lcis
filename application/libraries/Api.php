@@ -180,16 +180,7 @@ class Api
 		$tolerance 	= (int) $systemVal['cutoffpercentage'];
 
 		$cur_id 	= 0;
-		// get its curriculum
-		// if(!empty($registration))
-		// {
-		// 	$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid AND id = $registration");
-		// }
-		// else
-		// {
-			$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid");
-		//}
-
+		$cur 		= $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid");
 
 		// check if the student has a registration record
 		if($cur->num_rows() > 0)
