@@ -172,7 +172,7 @@ class Dean extends CI_Controller
 
         $this->load->library('form_validation');
         $this->load->helper('form');
-            
+
         // rules
         $this->form_validation->set_rules('code','Subject Code','trim|required|is_unique[tbl_subject.code]',
             array('is_unique'=>'Subject Code already exists'));
@@ -382,21 +382,17 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        if(!empty($id) AND is_numeric($id))
+        $college    = $this->api->getUserCollege();
+        $s          = $this->subject->find($id);
+        
+        if($s['owner'] == $college)
         {
-            $college    = $this->api->getUserCollege();
-            $s          = $this->subject->find($id);
-            if($college == 0 OR $s['owner'] == 0)
-            {
-               redirect(base_url('edit_subject/'.$id.'/view'));
-            }
-            elseif($s['owner'] == $college)
-            {
-                redirect(base_url('edit_subject/'.$id));
-            }
+            redirect(base_url('edit_subject/'.$id));
         }
         else
-            show_error('Did you type the url by yourself ?');
+        {
+            redirect(base_url('edit_subject/'.$id.'/view'));
+        }
     }
 
     function searchStud()
