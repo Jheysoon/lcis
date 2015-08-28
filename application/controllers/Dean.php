@@ -172,7 +172,7 @@ class Dean extends CI_Controller
 
         $this->load->library('form_validation');
         $this->load->helper('form');
-
+            
         // rules
         $this->form_validation->set_rules('code','Subject Code','trim|required|is_unique[tbl_subject.code]',
             array('is_unique'=>'Subject Code already exists'));
