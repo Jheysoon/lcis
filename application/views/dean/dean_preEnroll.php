@@ -8,13 +8,13 @@
 	$sys = $this->api->systemValue();
 	$term = $sys['phaseterm'];
 	$sy = $this->student->getAcTerm($term);
-	$yl = $this->api->getYearLevel($pid);
-	extract($yl);
-	if ($level < 4 and $count != 0) {
-		if ($count%2 != 1) {
-			$level = $level + 1;
-		}
-	}
+	$level = $this->api->yearLevel($pid);
+
+	// if ($level < 4 and $count != 0) {
+	// 	if ($count%2 != 1) {
+	// 		$level = $level + 1;
+	// 	}
+	// }
 
 	if ($level == 1 || $level == 0) {
 		$level = 'FIRST';
@@ -33,10 +33,11 @@
 		$lvl = 4;
 	}
 
+
 	$un = $this->student->getUnit($curriculum, $lvl, $sy['term']);
 	$cur = $this->student->getAllCur($curriculum);
 	if($cur){
-		$cur = extract($cur);
+		extract($cur);
 		$cur = $systart."-".$syend;
 	}
 	else{
@@ -54,6 +55,9 @@
 			<div class="col-md-12">
 				<?php
 					echo $message;
+					if ($cur == 0 || $cur == '') {
+						echo '<div class="alert alert-danger"><strong>No curriculum found!</strong> Please update student\'s curriculum</div>';
+					}
 				 ?>
 			</div>
 			<div class="col-md-6 ">
@@ -77,12 +81,12 @@
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">YEAR LEVEL</label>
-				<input class="form-control" type="text" readonly value="<?php echo $level.' YEAR'; ?>">
+				<input class="form-control" type="text" readonly value="<?php echo $level.' YEAR '; ?>">
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" type="text" readonly value="<?php echo $description.' '.$course; ?>">
+				<input class="form-control" type="text" readonly value="<?php echo $description; ?>">
 			</div>
 
 			<div class="col-md-4 ">
@@ -104,6 +108,8 @@
 				$data['coursemajor'] = $cid;
 				$data['course'] = $course;
 				$data['lvl'] = $lvl;
+				$data['cur'] = $curriculum;
+				$data['sem'] = $sy['term'];
 				$this->load->view('dean/ajax/tbl_evaluation', $data);
 			?>
 		</div>

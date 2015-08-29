@@ -405,11 +405,18 @@ class Dean extends CI_Controller
 
         $id  = $this->input->post('search');
         $col = $this->input->post('col');
-        $id1 = $this->student->existsID($id, $col);
+        $id1 = $this->student->existsID($id);
 
-        if ($id1 > 0)
+        if ($id1)
         {
-            redirect('/dean_evaluation/' . $id);
+            extract($id1);
+            if ($cid == $col) {
+                redirect('/dean_evaluation/' . $id);
+            }
+            else{
+                $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
+                redirect($this->input->post('cur_url'));
+            }
         }
         else
         {
@@ -514,7 +521,7 @@ class Dean extends CI_Controller
                 // Get subject ID for duplicate verification.
                 $sub = $this->student->getSubject($cid);
 
-                // Check if there is any duplicate subject in additional subject table.
+                // Check if there are any duplicate subjects in additional subject table.
                 if (in_array($sub['code'], $add)) {
                     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -634,7 +641,7 @@ class Dean extends CI_Controller
                 }
 
                 // Call billing method.
-                // $this->calculatebill($enid);
+                $this->calculatebill($enid);
 
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -1052,7 +1059,7 @@ class Dean extends CI_Controller
         $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
         $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
         $input              = $this->input->post('sort');
-        
+
         if($input == 0)
         {
             $this->load->view('dean/ajax/assigned_ins', $data);
