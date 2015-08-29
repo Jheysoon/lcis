@@ -19,6 +19,10 @@
                 $college = $this->edp_classallocation->getAllCollege();
                 foreach ($college as $col)
                 {
+                    if($col['id'] == 6)
+                    {
+                        continue;
+                    }
             ?>
             <tr>
                 <td>

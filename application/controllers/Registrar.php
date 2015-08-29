@@ -921,7 +921,9 @@ class Registrar extends CI_Controller
                     $id = $this->db->insert_id();
 
                     // update the laststudent id in systemvalues
-                    $sys['laststudentid'] = $systemVal['laststudentid'] + 1;
+                    $lid = explode('-', $systemVal['laststudentid']);
+                    $inc = $lid[1] + 1;
+                    $sys['laststudentid'] = $lid[0].'-'.$inc;
                     $this->db->update('tbl_systemvalues', $sys);
 
                     // get the latest curriculum for that student

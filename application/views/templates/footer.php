@@ -81,10 +81,23 @@
                 <script type="text/javascript">
                     $(document).ready(function(){
                         $('.addClassAllocation').submit(function (e){
+                            elem = $(this).parent();
                             $.post('/dean/addClassAlloc1',$(this).serialize(),function(data){
+                                elem.removeClass('danger');
                                 alert('Successfully Updated');
                             });
                             e.preventDefault();
+                        });
+                        $('.section').keyup(function() {
+                            param = $(this).data('param');
+                            if(param != $(this).val())
+                            {
+                                $(this).parent().parent().addClass('danger');
+                            }
+                            else
+                            {
+                                $(this).parent().parent().removeClass('danger');
+                            }
                         });
                     });
                 </script>

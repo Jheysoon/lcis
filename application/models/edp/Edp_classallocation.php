@@ -28,9 +28,32 @@ class Edp_classallocation extends CI_Model
 	}
 	function getAlloc($acam)
 	{
-		// select * from tbl_classallocation a,tbl_subject b where a.academicterm = $acam order by descriptivetitle
-		$this->db->where('academicterm',$acam);
-		return $this->db->get('tbl_classallocation')->result_array();
+		$user 		= $this->session->userdata('uid');
+		$systemVal 	= $this->api->systemValue();
+		$owner 		= $this->api->getUserCollege();
+
+		if($user == $systemVal['employeeid'])
+		{
+			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
+				FROM tbl_classallocation a, tbl_subject b
+				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 1
+				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+		}
+		elseif ($owner == 1)
+		{
+			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
+				FROM tbl_classallocation a, tbl_subject b
+				WHERE a.subject = b.id AND academicterm = $acam AND (owner = 1 OR gesubject = 1) AND computersubject = 0
+				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+		}
+		else
+		{
+			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
+				FROM tbl_classallocation a, tbl_subject b
+				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 0 AND gesubject = 0 AND owner = $owner
+				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+		}
+
 	}
 
 	function getAlloc1($acam,$owner)
