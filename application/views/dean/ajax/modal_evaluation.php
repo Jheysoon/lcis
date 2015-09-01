@@ -1,6 +1,6 @@
 <?php
     	if ($subject != '') {
-			$res2 = $this->student->getClassAloc2($term, $student, $course, $subject); ?>
+			$res2 = $this->student->getClassAloc2($term, $student, $subject); ?>
 			<?php if ($res2): ?>
 				<div class="table-responsive col-md-12">
 					<table class="table table-bordered">
@@ -25,7 +25,7 @@
 										<td class="tbl-header"><strong>Units: </strong><?php echo $sub['units']; ?></td>
 									</tr>
 							<?php
-									$sched = $this->student->getSched($term, $aloccation['subject']);
+									$sched = $this->student->getSched2($term, $aloccation['subject']);
 									foreach ($sched as $aloc) {
 										$p = $this->edp_classallocation->getPeriod($aloc['id']);
 										$d = $this->edp_classallocation->getDayShort($aloc['id']);

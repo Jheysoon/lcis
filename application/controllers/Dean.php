@@ -401,11 +401,18 @@ class Dean extends CI_Controller
 
         $id  = $this->input->post('search');
         $col = $this->input->post('col');
-        $id1 = $this->student->existsID($id, $col);
+        $id1 = $this->student->existsID($id);
 
-        if ($id1 > 0)
+        if ($id1)
         {
-            redirect('/dean_evaluation/' . $id);
+            extract($id1);
+            if ($cid == $col) {
+                redirect('/dean_evaluation/' . $id);
+            }
+            else{
+                $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
+                redirect($this->input->post('cur_url'));
+            }
         }
         else
         {
@@ -510,7 +517,7 @@ class Dean extends CI_Controller
                 // Get subject ID for duplicate verification.
                 $sub = $this->student->getSubject($cid);
 
-                // Check if there is any duplicate subject in additional subject table.
+                // Check if there are any duplicate subjects in additional subject table.
                 if (in_array($sub['code'], $add)) {
                     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -630,7 +637,7 @@ class Dean extends CI_Controller
                 }
 
                 // Call billing method.
-                // $this->calculatebill($enid);
+                $this->calculatebill($enid);
 
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

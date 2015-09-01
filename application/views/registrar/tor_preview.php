@@ -291,12 +291,32 @@
                             $page_limiter++;
                             $ctr3+=1;
                             $ctr4+=1;
-                            $credit[$ctr4] = $group."|".$units."|<br/>&nbsp;";
+                            if (is_numeric($gr1) || is_numeric($gr2)) {
+                                if ($gr1 <= 3.0 || $gr2 <= 3.0) {
+                                    $credit[$ctr4] = $group."|".$units."|<br/>&nbsp;";
+                                }
+                                else{
+                                    $credit[$ctr4] = "0|0|<br/>&nbsp;";
+                                }
+                            }
+                            else{
+                                $credit[$ctr4] = "0|0|<br/>&nbsp;";
+                            }
                         }
                         else{
                             $ctr3+=1;
                             $ctr4+=1;
-                            $credit[$ctr4] = $group."|".$units;
+                            if (is_numeric($gr1) || is_numeric($gr2)) {
+                                if ($gr1 <= 3.0 || $gr2 <= 3.0) {
+                                    $credit[$ctr4] = $group."|".$units;
+                                }
+                                else{
+                                    $credit[$ctr4] = "0|0";
+                                }
+                            }
+                            else{
+                                $credit[$ctr4] = "0|0";
+                            }
                         }
                         ?>
                         <tr>
