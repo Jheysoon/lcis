@@ -3,11 +3,15 @@
     if ($details) {
     extract($details);
     $course = $description;
+    $cm = '';
     $name = strtoupper($lastname).", ".ucwords(strtolower($firstname))." ".strtoupper($middlename);
     if ($major != 0) {
         $major2 = $this->api->getMajor($major)->row_array();
         $course = $description." (".$major2['description'].")";
+        $cm = $major2['description'];
     }
+
+    $for = 'student';
 
     $res = $this->tor->getAssignatories();
     $ctr = 1;
@@ -34,7 +38,7 @@
     if ($source) {
         extract($source);
         if ($tor == 1) {
-            $source = 'Honorable Dismissal - School';
+            $source = 'Honorable Dismissal';
         }
         elseif($hscard == 1){
             $source = 'Form 137';
@@ -135,20 +139,34 @@
                             <strong><label >RECORD OF CANDIDATE FOR GRADUATION</label></strong>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="3">&nbsp;<br/><br/></td>
+                    <tr colspan="3">
+                        <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="3">
-                            <label >College of</label> <u>&nbsp;&nbsp;<?php echo $college; ?>&nbsp;&nbsp;</u><br/>
-                            <label >Candidate for Title/Degree: <u>&nbsp;&nbsp;<?php echo $description; ?>&nbsp;&nbsp;</u></label><br/>
-                            <label >Major in</label><br/>
-                            <label >College of</label><br/>
-                            <label >Date of Graduation</label>
+                        <td width="50">College of :</td>
+                        <td colspan="2" class="underline">
+                            <?php echo $college; ?>
                         </td>
                     </tr>
+                    </table><table>
+                        <tr>
+                            <td>Candidate for Title/Degree :</td>
+                        </tr>
+                        <tr>
+                            <td class="center underline"><?php echo $description; ?></td>
+                        </tr>
+                    </table><table>
+                        <tr>
+                            <td width="50">Major in :</td>
+                            <td class="underline"><?php echo $cm; ?></td>
+                        </tr>
+                    </table><table>
+                        <tr>
+                            <td width="85">Date of Graduation :</td>
+                            <td class="underline"><?php echo "" ?></td>
+                        </tr>
                 </table>
-                <br/><br/>
+                <br/>
                 <table>
                     <tr>
                         <td colspan="3" class="center">
@@ -368,7 +386,8 @@
                 </table>
                 <table>
                     <tr>
-                        <td><strong>TITLE OR DEGREE CONFERRED :</strong>&nbsp;&nbsp;<u><?php echo $course ?>&nbsp;&nbsp;</u></td>
+                        <td width="160px"><strong>TITLE OR DEGREE CONFERRED :</td>
+                        <td class="center underline"><?php echo $course ?>&nbsp;&nbsp;</td>
                     </tr>
                 </table>
                 <table>
@@ -465,15 +484,15 @@
                                  if (count($cr) == 3) {
                                     echo $cr[2];
                                 } ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 2)  {echo $cr[1]; $cr2 = $cr2 + $cr[1];   $total_cr = $total_cr + $cr2;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 3)  {echo $cr[1]; $cr3 = $cr3 + $cr[1];   $total_cr = $total_cr + $cr3;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 4)  {echo $cr[1]; $cr4 = $cr4 + $cr[1];   $total_cr = $total_cr + $cr4;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 5)  {echo $cr[1]; $cr5 = $cr5 + $cr[1];   $total_cr = $total_cr + $cr5;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 6)  {echo $cr[1]; $cr6 = $cr6 + $cr[1];   $total_cr = $total_cr + $cr6;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 7)  {echo $cr[1]; $cr7 = $cr7 + $cr[1];   $total_cr = $total_cr + $cr7;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 8)  {echo $cr[1]; $cr8 = $cr8 + $cr[1];   $total_cr = $total_cr + $cr8;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 9)  {echo $cr[1]; $cr9 = $cr9 + $cr[1];   $total_cr = $total_cr + $cr9;}  else{echo "&nbsp;";} ?></td>
-                                <td class="center no-line"><?php if ($cr[0] == 10) {echo $cr[1]; $cr10 = $cr10 + $cr[1]; $total_cr = $total_cr + $cr10;} else{echo "&nbsp;";} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 2)  {echo $cr[1]; $cr2 = $cr2 + $cr[1];   $total_cr = $total_cr + $cr2;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 3)  {echo $cr[1]; $cr3 = $cr3 + $cr[1];   $total_cr = $total_cr + $cr3;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 4)  {echo $cr[1]; $cr4 = $cr4 + $cr[1];   $total_cr = $total_cr + $cr4;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 5)  {echo $cr[1]; $cr5 = $cr5 + $cr[1];   $total_cr = $total_cr + $cr5;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 6)  {echo $cr[1]; $cr6 = $cr6 + $cr[1];   $total_cr = $total_cr + $cr6;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 7)  {echo $cr[1]; $cr7 = $cr7 + $cr[1];   $total_cr = $total_cr + $cr7;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 8)  {echo $cr[1]; $cr8 = $cr8 + $cr[1];   $total_cr = $total_cr + $cr8;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 9)  {echo $cr[1]; $cr9 = $cr9 + $cr[1];   $total_cr = $total_cr + $cr9;}  else{echo "&nbsp;";}} ?></td>
+                                <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($cr[0] == 10) {echo $cr[1]; $cr10 = $cr10 + $cr[1]; $total_cr = $total_cr + $cr10;} else{echo "&nbsp;";}} ?></td>
                             </tr>
                             <?php
                         } $a+=1 ;
@@ -481,16 +500,16 @@
                     <tr>
                         <th class="center no-left" colspan="10">Total credits presented for graduation</th>
                         <tr>
-                            <td class="center no-line no-left"><?php if ($cr1 != 0 && $ctr2 == $ctr) {echo $cr1;}else{echo "&nbsp;";} ?></td>
-                            <td class="center no-line"><?php if ($cr2 != 0 && $ctr2 == $ctr) {echo $cr2;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr3 != 0 && $ctr2 == $ctr) {echo $cr3;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr4 != 0 && $ctr2 == $ctr) {echo $cr4;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr5 != 0 && $ctr2 == $ctr) {echo $cr5;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr6 != 0 && $ctr2 == $ctr) {echo $cr6;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr7 != 0 && $ctr2 == $ctr) {echo $cr7;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr8 != 0 && $ctr2 == $ctr) {echo $cr8;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr9 != 0 && $ctr2 == $ctr) {echo $cr9;}else{echo "&nbsp;";}  ?></td>
-                            <td class="center no-line"><?php if ($cr10 != 0 && $ctr2 == $ctr) {echo $cr10;}else{echo "&nbsp;";} ?></td>
+                            <td class="center no-line no-left"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr1 != 0 && $ctr2 == $ctr) {echo $cr1;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr2 != 0 && $ctr2 == $ctr) {echo $cr2;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr3 != 0 && $ctr2 == $ctr) {echo $cr3;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr4 != 0 && $ctr2 == $ctr) {echo $cr4;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr5 != 0 && $ctr2 == $ctr) {echo $cr5;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr6 != 0 && $ctr2 == $ctr) {echo $cr6;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr7 != 0 && $ctr2 == $ctr) {echo $cr7;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr8 != 0 && $ctr2 == $ctr) {echo $cr8;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr9 != 0 && $ctr2 == $ctr) {echo $cr9;}else{echo "&nbsp;";} } ?></td>
+                            <td class="center no-line"><?php if($for == 'student'){ echo "&nbsp;"; } else{if ($cr10 != 0 && $ctr2 == $ctr) {echo $cr10;}else{echo "&nbsp;";} } ?></td>
                         </tr>
                     </tr>
                 </table>
@@ -498,7 +517,7 @@
                     <tr>
                         <td></td>
                         <td width="30px">Total :</td>
-                        <td width="50px" class="underline"><?php if ($total_cr != 0 && $ctr2 == $ctr) {echo $total_cr;}else{echo "&nbsp;";} ?></td>
+                        <td width="50px" class="underline"><?php if($for == 'student'){ echo "&nbsp;"; } else{ if ($total_cr != 0 && $ctr2 == $ctr) {echo $total_cr;}else{echo "&nbsp;";}} ?></td>
                     </tr>
                 </table><br/>
                 <!-- end of group credits -->
