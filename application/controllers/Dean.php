@@ -384,7 +384,7 @@ class Dean extends CI_Controller
     {
         $college    = $this->api->getUserCollege();
         $s          = $this->subject->find($id);
-        
+
         if($s['owner'] == $college)
         {
             redirect(base_url('edit_subject/'.$id));
@@ -493,6 +493,7 @@ class Dean extends CI_Controller
         $ctr = $this->input->post('count');
         $ctr2 = 1;
         $unit = 0;
+        $subCount = 0;
 
         // Putting all selected schedules into schedule array.
 
@@ -502,6 +503,7 @@ class Dean extends CI_Controller
                 $un = $this->student->getUnits($this->input->post('rad-'.$ctr));
                 extract($un);
                 $unit = $unit + $units;
+                $subCount++;
                 $ctr2++;
             }
             $ctr--;
@@ -529,6 +531,7 @@ class Dean extends CI_Controller
                     $un = $this->student->getUnits($cid);
                     extract($un);
                     $unit = $unit + $units;
+                    $subCount++;
                     $ctr2++;
                 }
                 $add[] = $sub['code'];
@@ -592,16 +595,6 @@ class Dean extends CI_Controller
                 $dup[] = $value;
             }
 
-
-            // if($this->input->post('counter') < $unit){
-            //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-            //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            //       <strong>No. of units exceeded!</strong><br/>
-            //       Total units taken : '.$unit.'
-            //     </div>';
-            //     return false;
-            // }else
-
             // If there are no conflicts proceed to saving.
             if ($message == '') {
 
@@ -621,11 +614,11 @@ class Dean extends CI_Controller
                     }
                     $this->student->deleteEvaluation($eval['id']);
                     $enid = $eval['id'];
-                    $this->student->updateEnrolment($enid, $unit);
+                    $this->student->updateEnrolment($enid, $unit, $subCount);
                 }
                 else{
                     $status = 'R';
-                    $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
+                    $enid = $this->student->addEnrolment($subCount, $student, $coursemajor, $registration, $academicterm, $unit, $status);
                 }
 
                 // Adding new records to student grade
@@ -639,6 +632,7 @@ class Dean extends CI_Controller
                 // Call billing method.
                 $this->calculatebill($enid);
 
+                // Success message
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Evaluation successfuly saved</strong><br/>
@@ -884,9 +878,7 @@ class Dean extends CI_Controller
 //------------------------------------------------------------------------
 
     function ajaxEvaluation(){
-        $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
-        $this->load->helper('form');
 
         $term        = $this->input->post('term');
         $student     = $this->input->post('student');
@@ -901,6 +893,22 @@ class Dean extends CI_Controller
         );
 
         $this->load->view('dean/ajax/modal_evaluation', $param);
+    }
+
+    function ajaxSched(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        $term        = $this->input->post('term');
+        $subject     = $this->input->post('subject');
+
+        $param = array(
+            'term' => $term,
+            'subject' => $subject
+        );
+
+        $this->load->view('dean/ajax/tbl_AddSubSched', $param);
     }
 
 //-------------------------------------------------------------------------
