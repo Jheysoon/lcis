@@ -53,7 +53,9 @@
                               $prevs = 0;
                               foreach ($getacad as $key => $value):
                               extract($value);
+
                             ?>
+
                             <form class="" action="/movement_update" method="post">
                                   <tr><td class="tbl-header-main" colspan="7"><?php echo $sy; ?> &nbsp;&nbsp;&nbsp; SEMESTER: <?php if ($term == 3) { $term = 'Summer'; } echo $term ?> </td></tr>
                                     <?php
@@ -82,7 +84,7 @@
                                         $counter += 1;
                                        endforeach;
                                  ?>
-                                  <tr>
+                                <tr>
                                     <input type="hidden" value="<?php echo $param ?>" name="param">
                                     <input type="hidden" name="accountid" value="<?php echo $getAccountid ?>">
                                     <input type="hidden" name="count" value="<?php echo  $counter ?>">
