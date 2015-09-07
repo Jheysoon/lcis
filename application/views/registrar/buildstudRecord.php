@@ -6,27 +6,29 @@
 
 
     // check if there is a record found
+
+    //@todo: check first before extract function
     if(is_array($result))
     {
         extract($result);
-        $p = $partyid;
+        $p          = $partyid;
         $get_school = $this->common->selectOther($partyid);
         extract($get_school);
-        $getElementary = $this->common->selectElem($elementary, $p);
-        $getSecondary = $this->common->selectSec($secondary, $p);
-        $getCollege = $this->common->selectTertiary($primary, $p);
+        $getElementary  = $this->common->selectElem($elementary, $p);
+        $getSecondary   = $this->common->selectSec($secondary, $p);
+        $getCollege     = $this->common->selectTertiary($primary, $p);
     }
     else
     {
         $res = $this->party->getInfo($id);
         extract($res);
-        $p = $id;
-        $partyid = $id;
+        $p          = $id;
+        $partyid    = $id;
         $get_school = $this->common->selectOther($res['id']);
         extract($get_school);
-        $getElementary = $this->common->selectElem($elementary, $p);
-        $getSecondary = $this->common->selectSec($secondary, $p);
-        $getCollege = $this->common->selectTertiary($primary, $p);
+        $getElementary  = $this->common->selectElem($elementary, $p);
+        $getSecondary   = $this->common->selectSec($secondary, $p);
+        $getCollege     = $this->common->selectTertiary($primary, $p);
     }
 
 ?>
@@ -125,7 +127,7 @@
                                 ?>
                             </select>
                         <?php else:
-                                echo $pr['firstname'];;
+                                echo $pr['firstname'];
                             endif ?>
     				</div>
                     <div class="col-md-3">

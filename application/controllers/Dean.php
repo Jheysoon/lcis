@@ -382,21 +382,17 @@ class Dean extends CI_Controller
 
     function ident_subj($id)
     {
-        if(!empty($id) AND is_numeric($id))
+        $college    = $this->api->getUserCollege();
+        $s          = $this->subject->find($id);
+
+        if($s['owner'] == $college)
         {
-            $college    = $this->api->getUserCollege();
-            $s          = $this->subject->find($id);
-            if($college == 0 OR $s['owner'] == 0)
-            {
-               redirect(base_url('edit_subject/'.$id.'/view'));
-            }
-            elseif($s['owner'] == $college)
-            {
-                redirect(base_url('edit_subject/'.$id));
-            }
+            redirect(base_url('edit_subject/'.$id));
         }
         else
-            show_error('Did you type the url by yourself ?');
+        {
+            redirect(base_url('edit_subject/'.$id.'/view'));
+        }
     }
 
     function searchStud()
@@ -405,11 +401,18 @@ class Dean extends CI_Controller
 
         $id  = $this->input->post('search');
         $col = $this->input->post('col');
-        $id1 = $this->student->existsID($id, $col);
+        $id1 = $this->student->existsID($id);
 
-        if ($id1 > 0)
+        if ($id1)
         {
-            redirect('/dean_evaluation/' . $id);
+            extract($id1);
+            if ($cid == $col) {
+                redirect('/dean_evaluation/' . $id);
+            }
+            else{
+                $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
+                redirect($this->input->post('cur_url'));
+            }
         }
         else
         {
@@ -490,6 +493,7 @@ class Dean extends CI_Controller
         $ctr = $this->input->post('count');
         $ctr2 = 1;
         $unit = 0;
+        $subCount = 0;
 
         // Putting all selected schedules into schedule array.
 
@@ -499,6 +503,7 @@ class Dean extends CI_Controller
                 $un = $this->student->getUnits($this->input->post('rad-'.$ctr));
                 extract($un);
                 $unit = $unit + $units;
+                $subCount++;
                 $ctr2++;
             }
             $ctr--;
@@ -514,7 +519,7 @@ class Dean extends CI_Controller
                 // Get subject ID for duplicate verification.
                 $sub = $this->student->getSubject($cid);
 
-                // Check if there is any duplicate subject in additional subject table.
+                // Check if there are any duplicate subjects in additional subject table.
                 if (in_array($sub['code'], $add)) {
                     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -526,6 +531,7 @@ class Dean extends CI_Controller
                     $un = $this->student->getUnits($cid);
                     extract($un);
                     $unit = $unit + $units;
+                    $subCount++;
                     $ctr2++;
                 }
                 $add[] = $sub['code'];
@@ -589,16 +595,6 @@ class Dean extends CI_Controller
                 $dup[] = $value;
             }
 
-
-            // if($this->input->post('counter') < $unit){
-            //     $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-            //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            //       <strong>No. of units exceeded!</strong><br/>
-            //       Total units taken : '.$unit.'
-            //     </div>';
-            //     return false;
-            // }else
-
             // If there are no conflicts proceed to saving.
             if ($message == '') {
 
@@ -618,11 +614,11 @@ class Dean extends CI_Controller
                     }
                     $this->student->deleteEvaluation($eval['id']);
                     $enid = $eval['id'];
-                    $this->student->updateEnrolment($enid, $unit);
+                    $this->student->updateEnrolment($enid, $unit, $subCount);
                 }
                 else{
                     $status = 'R';
-                    $enid = $this->student->addEnrolment($this->input->post('count'), $student, $coursemajor, $registration, $academicterm, $unit, $status);
+                    $enid = $this->student->addEnrolment($subCount, $student, $coursemajor, $registration, $academicterm, $unit, $status);
                 }
 
                 // Adding new records to student grade
@@ -634,8 +630,9 @@ class Dean extends CI_Controller
                 }
 
                 // Call billing method.
-                // $this->calculatebill($enid);
+                $this->calculatebill($enid);
 
+                // Success message
                 $this->message1 = '<div class="alert alert-success alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Evaluation successfuly saved</strong><br/>
@@ -800,13 +797,6 @@ class Dean extends CI_Controller
         // count the number of days
         $index = count($day);
 
-        $this->db->where('classallocation',$cid);
-        $dd = $this->db->count_all_results('tbl_dayperiod');
-        if($dd > 0)
-        {
-            $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
-        }
-
         foreach($day as $key => $value)
         {
             if($index < 3 AND $index > 1)
@@ -844,6 +834,9 @@ class Dean extends CI_Controller
                 //end time period must be greater than the start time period
                 if($end_time[$key] > $start_time[$key])
                 {
+                    // delete first the days and period before inserting
+                    $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+
                     $data['classallocation']    = $cid;
                     $data['day']                = $value;
                     $data['from_time']          = $start_time[$key];
@@ -885,9 +878,7 @@ class Dean extends CI_Controller
 //------------------------------------------------------------------------
 
     function ajaxEvaluation(){
-        $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
-        $this->load->helper('form');
 
         $term        = $this->input->post('term');
         $student     = $this->input->post('student');
@@ -902,6 +893,22 @@ class Dean extends CI_Controller
         );
 
         $this->load->view('dean/ajax/modal_evaluation', $param);
+    }
+
+    function ajaxSched(){
+        $this->load->model('edp/edp_classallocation');
+        $this->load->model('dean/student');
+        $this->load->helper('form');
+
+        $term        = $this->input->post('term');
+        $subject     = $this->input->post('subject');
+
+        $param = array(
+            'term' => $term,
+            'subject' => $subject
+        );
+
+        $this->load->view('dean/ajax/tbl_AddSubSched', $param);
     }
 
 //-------------------------------------------------------------------------
@@ -1052,7 +1059,7 @@ class Dean extends CI_Controller
         $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
         $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
         $input              = $this->input->post('sort');
-        
+
         if($input == 0)
         {
             $this->load->view('dean/ajax/assigned_ins', $data);
@@ -1067,4 +1074,130 @@ class Dean extends CI_Controller
             $this->load->view('dean/ajax/not_ass_ins', $data);
         }
     }
+
+    // function to fill up classallocation
+    function fill_classallocation()
+    {
+        $room = $this->db->get('tbl_classroom')->result_array();
+
+        $t = $this->db->get('tbl_time')->result_array();
+        //$c = $this->db->get('tbl_classallocation')->result_array();
+
+        $c = $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = 50")->result_array();
+
+
+        $d = $this->db->get('tbl_day')->result_array();
+
+        $univ = 0;
+        $univ_day = 0;
+        $r = 0;
+        $ctr2 = 0;
+        foreach ($c as $cl)
+        {
+            $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = {$cl['id']}");
+
+            $this->db->where('id', $cl['subject']);
+            $s = $this->db->get('tbl_subject')->row_array();
+            $units = $s['units'];
+            $units_heap = $units;
+
+            $ctr = 0;
+            $ctr1 = 0;
+
+            if($univ == 28)
+            {
+                $univ = 0;
+                $univ_day = $univ_day + 1;
+                //$ctr2++;
+            }
+
+            $o = $univ + $units_heap;
+
+            if($o >= 28)
+            {
+                $univ = 0;
+                $univ_day++;
+                if($univ_day >= 3)
+                {
+                    $univ_day = 0;
+                }
+                if($r >= 69)
+                {
+                    $r = 0;
+                }
+                $o = $univ + $units_heap;
+            }
+
+            $start = $t[$univ]['id'];
+
+            $end = $t[$o]['id'];
+
+            $univ = $univ + $units_heap;
+
+            if($univ_day == 0)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 1;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 3;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+            }
+            elseif($univ_day == 1)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 2;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 4;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+            }
+            elseif($univ_day == 2)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 5;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 6;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+                $r++;
+                if($r >= 69)
+                {
+                    $r = 0;
+                }
+            }
+
+            if($r >= 69)
+            {
+                $r = 0;
+            }
+            if($univ_day >= 3)
+            {
+                $univ_day = 0;
+            }
+        }
+    }
+
+
 }

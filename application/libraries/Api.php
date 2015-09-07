@@ -180,16 +180,7 @@ class Api
 		$tolerance 	= (int) $systemVal['cutoffpercentage'];
 
 		$cur_id 	= 0;
-		// get its curriculum
-		// if(!empty($registration))
-		// {
-		// 	$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid AND id = $registration");
-		// }
-		// else
-		// {
-			$cur = $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid");
-		//}
-
+		$cur 		= $this->CI->db->query("SELECT * FROM tbl_registration WHERE student = $partyid");
 
 		// check if the student has a registration record
 		if($cur->num_rows() > 0)
@@ -253,7 +244,7 @@ class Api
 				// NOT_FAILED_GRADE @ application/config/constants.php
 				$threshold_grade = NOT_FAILED_GRADE;
 				$stud = $this->CI->db->query("SELECT * FROM tbl_studentgrade
-					WHERE (semgrade <= $threshold_grade
+					WHERE (semgrade <= $threshold_grade OR semgrade = 44
 						OR reexamgrade <= $threshold_grade)
 						AND enrolment = {$val['id']}")->result_array();
 

@@ -8,6 +8,7 @@
         						 AND tbl_coursemajor.course = tbl_course.id
         						 AND tbl_party.id = tbl_registration.student
         						 AND tbl_course.college = '$col'
+								 AND tbl_registration.status != 'G'
         						 GROUP BY student ORDER BY legacyid DESC")
             ->num_rows();
 		}
@@ -19,6 +20,7 @@
 	        						 AND tbl_coursemajor.course = tbl_course.id
 	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_course.college = '$col'
+									 AND tbl_registration.status != 'G'
 	        						 GROUP BY student  ORDER BY legacyid DESC LIMIT $param, 15");
 	        return $q->result_array();
 	    }
@@ -26,15 +28,16 @@
 	        $q = $this->db->query("SELECT description as des FROM tbl_major WHERE id = '$id'");
 	        return $q->row_array();
 	    }
-        function existsID($id, $col)
+        function existsID($id)
         {
-	        $q = $this->db->query("SELECT * FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        $q = $this->db->query("SELECT tbl_course.college as cid, tbl_college.description as description
+								   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party, tbl_college
 	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
 	        						 AND tbl_coursemajor.course = tbl_course.id
+									 AND tbl_course.college = tbl_college.id
 	        						 AND tbl_party.id = tbl_registration.student
-	        						 AND tbl_course.college = '$col'
 	        						 AND legacyid = '$id'");
-	        return $q->num_rows();
+	        return $q->row_array();
 	      }
 		function getStudent($search, $col)
 	    {
@@ -48,20 +51,25 @@
 	        						 		legacyid LIKE '%$search%'
 	        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'
 	        						 		OR CONCAT(firstname, ' ', lastname) LIKE '%$search%'
+	        						 		OR CONCAT(lastname, ', ', firstname) LIKE '%$search%'
+	        						 		OR CONCAT(firstname, ', ', lastname) LIKE '%$search%'
 	        						 	)
 	        						 GROUP BY student  ORDER BY legacyid");
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
-	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major,
-								 tbl_coursemajor.course as course, tbl_course.description as
-	        					 description, tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
+	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_registration.id as reg,
+								 tbl_coursemajor.course as course, tbl_course.description as description,
+									 tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
 	        					 tbl_registration.date as dte, tbl_party.id as pid
 	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
 	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
 	        						 AND tbl_coursemajor.course = tbl_course.id
 	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_party.legacyid = '$id'
+									 AND tbl_registration.id =
+									 (SELECT MAX(a.id) FROM tbl_registration a, tbl_party b
+									 WHERE a.student = b.id AND b.legacyid = '$id' )
 	        						 ");
 	        return $q->row_array();
 	    }
@@ -370,39 +378,80 @@
 			return $q->row_array();
 		}
 		//Get Class Allocation
-		function getClassAloc($academicterm, $student, $course){
+		function getClassAloc($academicterm, $student, $course, $lvl, $cur, $term){
 
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
 								   WHERE academicterm = '$academicterm'
 								   AND coursemajor = '$course'
-								   AND subject NOT IN(SELECT subject FROM
-								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
-								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
-								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
-								   	AND tbl_enrolment.id = '$student')
+								   AND subject IN(
+									   SELECT subject FROM tbl_curriculumdetail
+									   WHERE curriculum = '$cur'
+									   AND yearlevel = '$lvl'
+									   AND term = '$term'
+								   )
+								   AND subject NOT IN(SELECT b.subject FROM
+								   	tbl_studentgrade a, tbl_classallocation b, tbl_enrolment c, tbl_grade d
+								   	WHERE a.classallocation = b.id
+								   	AND c.id = a.enrolment
+								   	AND c.student = $student
+									AND (d.id = a.semgrade OR d.id = a.reexamgrade)
+									AND d.value <= 3.0 AND description IS NULL)
 									GROUP BY subject
+									ORDER BY subject
 								   ");
 			return $q->result_array();
 		}
 
-		function getClassAloc2($academicterm, $student, $course, $subject){
+		// function getClassAloc2($academicterm, $student, $subject){
+		//
+		// 	$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
+		// 						   WHERE academicterm = '$academicterm'
+		// 						   AND subject NOT IN(SELECT b.subject FROM
+		// 						   	tbl_studentgrade a, tbl_classallocation b, tbl_enrolment c, tbl_grade d
+		// 						   	WHERE a.classallocation = b.id
+		// 						   	AND c.id = a.enrolment
+		// 						   	AND c.student = $student
+		// 							AND (d.id = a.semgrade OR d.id = a.reexamgrade)
+		// 							AND d.value <= 3.0 AND description IS NULL)
+		// 							AND tbl_classallocation.subject = tbl_subject.id
+		// 							AND (tbl_subject.code LIKE '%$subject%'
+		// 							OR tbl_subject.descriptivetitle LIKE '%$subject%')
+		// 							GROUP BY subject
+		// 						   ");
+		// 	return $q->result_array();
+		// }
 
-			$q = $this->db->query("SELECT * FROM tbl_classallocation, tbl_subject
-								   WHERE academicterm = '$academicterm'
-								   AND coursemajor != '$course'
-								   AND subject NOT IN(SELECT subject FROM
-								   	tbl_studentgrade, tbl_classallocation, tbl_enrolment
-								   	WHERE tbl_studentgrade.classallocation = tbl_classallocation.id
-								   	AND tbl_enrolment.id = tbl_studentgrade.enrolment
-								   	AND tbl_enrolment.id = '$student')
-									AND tbl_classallocation.subject = tbl_subject.id
-									AND (tbl_subject.code LIKE '%$subject%'
-									OR tbl_subject.descriptivetitle LIKE '%$subject%')
-									GROUP BY subject
+		function getClassAloc2($subject, $term){
+			$q = $this->db->query("SELECT a.*
+								   FROM tbl_subject a, tbl_classallocation b
+								   WHERE (a.code LIKE '%$subject%'
+								   OR a.descriptivetitle LIKE '%$subject%')
+								   AND b.academicterm = '$term'
+								   AND a.id = b.subject
+								   GROUP BY a.id
+								   ORDER BY a.code
 								   ");
 			return $q->result_array();
 		}
 
+		function checkEnrolment($subject, $student){
+			$q = $this->db->query("SELECT a.id
+								   FROM tbl_studentgrade a, tbl_classallocation b, tbl_enrolment c, tbl_grade d
+								   WHERE a.enrolment = c.id
+								   AND b.id = a.classallocation
+								   AND b.subject = '$subject'
+								   AND c.student = '$student'
+								   AND (d.id = a.semgrade OR d.id = a.reexamgrade)
+								   AND d.value <= 3.0 AND description IS NULL
+								   ");
+			return $q->num_rows();
+		}
+
+		function getAllocSched($subject, $term){
+			$q = $this->db->query("SELECT
+								   ");
+			return $q->num_rows();
+		}
 
 		function getSubDetail($subject){
 			$this->db->where('id', $subject);
@@ -410,7 +459,14 @@
 			return $q->row_array();
 		}
 
-		function getSched($id, $sub){
+		function getSched($id, $sub, $coursemajor){
+			$where = 'academicterm='.$id.' AND subject='.$sub.' AND coursemajor ='.$coursemajor;
+			$this->db->where($where);
+			$q = $this->db->get('tbl_classallocation');
+			return $q->result_array();
+		}
+
+		function getSched2($id, $sub){
 			$where = 'academicterm='.$id.' AND subject='.$sub;
 			$this->db->where($where);
 			$q = $this->db->get('tbl_classallocation');
@@ -424,15 +480,6 @@
 			$q = $this->db->get('tbl_classallocation, tbl_subject');
 			return $q->row_array();
 		}
-
-		// function getDP($id){
-		// 	$q = $this->db->query("SELECT * FROM tbl_day, tbl_period, tbl_dayperiods
-		// 						   WHERE tbl_dayperiods.day = tbl_day.id
-		// 						   AND tbl_dayperiods.period = tbl_period.id
-		// 						   AND tbl_dayperiods.id = $id
-		// 						  ");
-		// 	return $q->row_array();
-		// }
 
 		function getRoom($id){
 			$q = $this->db->query("SELECT legacycode, tbl_location.description as loc FROM tbl_classroom, tbl_location
@@ -544,8 +591,8 @@
 			$this->db->delete('tbl_studentgrade');
 		}
 
-		function updateEnrolment($id, $unit){
-			$data = array('totalunit' => $unit);
+		function updateEnrolment($id, $unit, $subCount){
+			$data = array('totalunit' => $unit, 'numberofsubject' => $subCount);
 			$this->db->where('id', $id);
 			$this->db->update('tbl_enrolment', $data);
 		}

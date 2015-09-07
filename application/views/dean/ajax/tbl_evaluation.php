@@ -1,5 +1,5 @@
 <?php
-	$res = $this->student->getClassAloc($term, $student, $course);
+	$res = $this->student->getClassAloc($term, $student, $course, $lvl, $cur, $sem);
 	$legid = $id;
 	$registration = $this->student->getRegID($student);
 
@@ -24,8 +24,9 @@
 								<input style="width: 70px;" class="pull-right form-control" name="counter" readonly type="text" value ='<?php echo $units; ?>'>
 								<label class="pull-right">Max Units &nbsp;&nbsp;&nbsp;</label>
 							</td>
-						</tr><br/><br/>
- -->					<table class="table table-bordered table-hover" id = "tabletest">
+						</tr><br/><br/> -->
+
+						<table class="table table-bordered table-hover" id = "tabletest">
 						<tr class="main-table-header">
 							<th  style="background: #2F5836" colspan="7">
 								<h4 style="float: left">Select Subject</h4>
@@ -53,7 +54,7 @@
 								</tr>
 						<?php
 
-								$sched = $this->student->getSched($term, $aloccation['subject']);
+								$sched = $this->student->getSched($term, $aloccation['subject'], $course);
 								foreach ($sched as $aloc) {
 									$p = $this->edp_classallocation->getPeriod($aloc['id']);
 									$d = $this->edp_classallocation->getDayShort($aloc['id']);
@@ -180,6 +181,11 @@
                   <strong>Subject not found! Please search another subject!</strong>
             </div>
 			<form id="modal-table" class="form" role="form" onsubmit="return false">
+				<div class="progress" id = "prog">
+				  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+				    <span >Please wait while loading subjects.</span>
+				  </div>
+				</div>
             	<div id = "div_eval">
 	            <?php
 	            	// echo $term;

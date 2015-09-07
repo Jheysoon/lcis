@@ -29,7 +29,7 @@
 						<th>Sunday</th>
 					</tr>
 
-					<?php 
+					<?php
 						// get all time periods
 						$time1 = $this->db->get('tbl_time')->result_array();
 						$time = array();
@@ -66,12 +66,16 @@
 						$ctr = 0;
 						foreach($class as $cl)
 						{
+							if($ctr >= 11)
+							{
+								$ctr = 0;
+							}
 							$cc_count = $this->edp_classallocation->countDayPer($cl['id'],$roomId);
 							if($cc_count > 0)
 							{
 								//determine the color of the subject
 								$dd = $this->edp_classallocation->getDayPeriod($cl['id'],$roomId);
-								foreach ($dd as $per) 
+								foreach ($dd as $per)
 								{
 
 									if($per['day'] == 1)
@@ -122,7 +126,7 @@
 											}
 										}
 									}
-									elseif ($per['day'] == 3) 
+									elseif ($per['day'] == 3)
 									{
 										$from 	= $per['from_time'];
 										$to 	= $per['to_time'];
@@ -146,7 +150,7 @@
 											}
 										}
 									}
-									elseif ($per['day'] == 4) 
+									elseif ($per['day'] == 4)
 									{
 										$from 	= $per['from_time'];
 										$to 	= $per['to_time'];
@@ -170,7 +174,7 @@
 											}
 										}
 									}
-									elseif ($per['day'] == 5) 
+									elseif ($per['day'] == 5)
 									{
 										$from 	= $per['from_time'];
 										$to 	= $per['to_time'];
@@ -194,7 +198,7 @@
 											}
 										}
 									}
-									elseif ($per['day'] == 6) 
+									elseif ($per['day'] == 6)
 									{
 										$from 	= $per['from_time'];
 										$to 	= $per['to_time'];
@@ -218,7 +222,7 @@
 											}
 										}
 									}
-									elseif ($per['day'] == 7) 
+									elseif ($per['day'] == 7)
 									{
 										$from 	= $per['from_time'];
 										$to 	= $per['to_time'];
@@ -255,14 +259,14 @@
 						$table_day['6'] = $saturday;
 						$table_day['7'] = $sunday;
 
-						for($i = 0;$i < 26;$i++)
+						for($i = 0;$i < 27;$i++)
 						{
 							?>
 					<tr>
 						<td style="text-align:center;"><strong><?php echo $time[$i].' - '.$time[$i+1]; ?></strong></td>
-						<?php 
-							if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
-							{
+						<?php
+							// if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
+							// {
 								foreach($day as $d)
 								{
 									//checks if there is scheduled subject
@@ -288,11 +292,11 @@
 							<?php
 									}
 								}
-							}
-							else
-							{
-								echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
-							}
+							// }
+							// else
+							// {
+							// 	echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
+							// }
 						 ?>
 
 					</tr>

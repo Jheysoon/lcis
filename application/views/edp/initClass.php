@@ -30,6 +30,9 @@
 									$data['academicterm'] 	= $s['academicterm'];
 									$data['coursemajor'] 	= $s['coursemajor'];
 									$data['subject'] 		= $s['subject'];
+									$data['instructor']		= 0;
+									$data['reserved']		= 0;
+									$data['enrolled']		= 0;
 									$this->db->insert('tbl_classallocation', $data);
 								}
 							}
