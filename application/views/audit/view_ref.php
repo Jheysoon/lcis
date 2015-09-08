@@ -121,11 +121,17 @@
            </tr>
        </table>
    </div>
+<?php
 
-
+  $subj_unit = $this->account->getUnit($enrolmentid);
+ ?>
    <div class="table-responsive col-md-12" style="padding:0;">
        <table class="table table-bordered">
-         <tr ><td colspan="3" style="background-color:#2f5836"><h4>Subject</h4></td></tr>
+         <tr >
+           <td style="background-color:#2f5836"><h4>Subject</h4></td>
+           <td  style="background-color:#2f5836"><h4>Number of Subject&nbsp;&nbsp;:&nbsp;&nbsp;<strong><?php echo $subj_unit['numberofsubject']; ?></strong></h4></td>
+           <td style="background-color:#2f5836"><h4>Total Unit&nbsp;&nbsp;:&nbsp;&nbsp;<strong><?php echo $subj_unit['totalunit']; ?></strong></h4></td>
+         </tr>
            <tr>
                <th class="tbl-header-main">Code</th>
                <th class="tbl-header-main">Descriptive Title</th>

@@ -66,6 +66,10 @@
 	border: none;
 }
 
+#prog{
+	display: none;
+}
+
 .img-logo{
 	width: 40px;
 	height: 40px;

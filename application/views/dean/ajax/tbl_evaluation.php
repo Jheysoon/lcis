@@ -181,6 +181,11 @@
                   <strong>Subject not found! Please search another subject!</strong>
             </div>
 			<form id="modal-table" class="form" role="form" onsubmit="return false">
+				<div class="progress" id = "prog">
+				  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+				    <span >Please wait while loading subjects.</span>
+				  </div>
+				</div>
             	<div id = "div_eval">
 	            <?php
 	            	// echo $term;
