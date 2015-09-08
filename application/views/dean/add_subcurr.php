@@ -56,9 +56,9 @@
 					$x = 1;
 					 while ($x <= $yearlevel) { ?>
 					 <?php if ($x == $year): ?>
-					 	<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
+						<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
 					 <?php else: ?>
-					 	<option value="<?php echo $x; ?>"><?php echo $x ?></option>
+						<option value="<?php echo $x; ?>"><?php echo $x ?></option>
 					 <?php endif ?>
 
 					<?php $x += 1;	} ?>
@@ -114,7 +114,7 @@
             	 <?php foreach ($getCuYear as $m => $va):
                     extract($va)
             	?>
-                  	 <tr>
+                	 <tr>
                             <td class="tbl-header-main" colspan="5">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>
                     </tr>
                     	<tr>
