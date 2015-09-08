@@ -49,21 +49,6 @@
 				</div>
 
 				<div class="col-md-12 ">
-					<label class="lbl-data">Term</label>
-					<select class="form-control" name = "term">
-					<option value="0" selected>Select Term</option>
-						<?php for ($i=1; $i < 3; $i++) { ?>
-						<?php if ($ter == $i): ?>
-							<option value="<?php echo $i; ?>" selected><?php echo $i ?></option>
-						<?php else: ?>
-							<option value="<?php echo $i; ?>"><?php echo $i ?></option>
-						<?php endif ?>
-
-						<?php } ?>
-					</select>
-				</div>
-
-				<div class="col-md-12 ">
 					<label class="lbl-data">Year Level</label>
 					<select class="form-control" name = "yearlevel">
 					<option value="0">Select Year Level</option>
@@ -80,6 +65,23 @@
 
 					</select>
 				</div>
+
+				<div class="col-md-12 ">
+					<label class="lbl-data">Term</label>
+					<select class="form-control" name = "term">
+					<option value="0" selected>Select Term</option>
+						<?php for ($i=1; $i < 3; $i++) { ?>
+						<?php if ($ter == $i): ?>
+							<option value="<?php echo $i; ?>" selected><?php echo $i ?></option>
+						<?php else: ?>
+							<option value="<?php echo $i; ?>"><?php echo $i ?></option>
+						<?php endif ?>
+
+						<?php } ?>
+					</select>
+				</div>
+
+
 
 				<div class="col-md-12">
 					</br />
