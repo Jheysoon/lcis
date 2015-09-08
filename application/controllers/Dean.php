@@ -384,7 +384,7 @@ class Dean extends CI_Controller
     {
         $college    = $this->api->getUserCollege();
         $s          = $this->subject->find($id);
-        
+
         if($s['owner'] == $college)
         {
             redirect(base_url('edit_subject/'.$id));

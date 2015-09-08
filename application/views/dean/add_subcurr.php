@@ -2,23 +2,11 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 
-		<div class="panel-heading search">
-			<div class="col-md-6">
-			<h4>System Parameter: Add Subject To Curriculum</h4>
+			<div class="panel-heading search">
+				<div class="col-md-6">
+					<h4>System Parameter: Add Subject To Curriculum</h4>
+				</div>
 			</div>
-
-		<!-- 	<div class="col-md-4">
-				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
-			        <div class="form-group">
-			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Subjecct Id">
-			        </div>
-			        <button type="submit" class="btn btn-primary">
-			        <span class="glyphicon glyphicon-search"></span>
-			        </button>
-			     </form>
-			</div> -->
-		</div>
 
 
 	<form action="/lc_curriculum/insertsubj" method="POST" />
