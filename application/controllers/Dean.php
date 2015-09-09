@@ -174,8 +174,7 @@ class Dean extends CI_Controller
         $this->load->helper('form');
 
         // rules
-        $this->form_validation->set_rules('code','Subject Code','trim|required|is_unique[tbl_subject.code]',
-            array('is_unique'=>'Subject Code already exists'));
+        $this->form_validation->set_rules('code','Subject Code','trim|required');
         $this->form_validation->set_rules('title','Descriptive Title','trim|required');
         $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
         $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
