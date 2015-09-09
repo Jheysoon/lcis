@@ -9,7 +9,10 @@
         <div class="panel-body">
 
           <form class="form" method="post" action="/dean/add_subject" role="form">
-          <?php echo validation_errors('<div class="alert alert-danger">','</div>'); ?>
+          <?php
+            echo validation_errors('<div class="alert alert-danger">','</div>');
+            echo (isset($error)) ? $error : '';
+            ?>
             <div class="col-md-12">
               <h3>Subject Form</h3>
               <hr/>
@@ -42,7 +45,7 @@
                 <input type="number" min="1" required class="form-control" value="<?php echo set_value('hours'); ?>" name="hours" placeholder="Hours">
               </div>
 
-              
+
 
             </div>
 
@@ -63,7 +66,7 @@
                   </label>
                 </div>
               </div>
-              
+
               <div class="form-group col-md-6">
                 <label for="booklet">Booklet Charge</label>
                 <div class="radio">
@@ -83,14 +86,14 @@
               <div class="form-group col-md-12">
                 <label for="major">College</label>
                 <select class="form-control" name="owner">
-                    <?php 
+                    <?php
                         $col = $this->college->all();
                         foreach($col as $college)
                         {
                     ?>
                     <option value="<?php echo $college['id']; ?>" <?php echo set_select('owner',$college['id']); ?>><?php echo $college['description']; ?></option>
                     <?php
-                            
+
                         }
                     ?>
                 </select>
@@ -99,7 +102,7 @@
               <div class="form-group col-md-12">
                 <label for="group">Group</label>
                 <select class="form-control" name="group">
-                  <?php 
+                  <?php
                         $gr = $this->group->all();
                         foreach($gr as $g)
                         {

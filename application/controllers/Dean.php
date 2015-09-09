@@ -202,15 +202,30 @@ class Dean extends CI_Controller
 
             // check if the subject code already exists
 
-            $this->subject->insert($data);
-            $this->session->set_flashdata('message',
-            '<div class="alert alert-success" style="margin:20px;">
-                Subject Successfully Inserted
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-            </div>');
-            redirect(base_url('menu/dean-subject_list'));
+            $this->db->where('code', $data['code'])
+            ->where('descriptivetitle', $data['descriptivetitle'])
+            ->where('units', $data['units']);
+            $c = $this->db->count_all_results('tbl_subject');
+            if($c < 1)
+            {
+                $this->subject->insert($data);
+                $this->session->set_flashdata('message',
+                '<div class="alert alert-success" style="margin:20px;">
+                    Subject Successfully Inserted
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>');
+                redirect(base_url('menu/dean-subject_list'));
+            }
+            else
+            {
+                $this->api->userMenu();
+                $d['error'] = '<div class="alert alert-danger">Subject already exists</div>';
+                $this->load->view('dean/add_subject', $d);
+                $this->load->view('templates/footer');
+            }
+
         }
     }
 
