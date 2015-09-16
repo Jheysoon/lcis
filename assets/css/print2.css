@@ -109,7 +109,7 @@ th{
   color: #fff;
 }
 
-h2 {
+h2, .legacy {
     float: left;
     padding-left: 10px;
     position: relative;

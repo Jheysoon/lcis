@@ -75,6 +75,10 @@ class Dean extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    function enrolmentLegacyGrouping(){
+        $this->load->view('dean/enrolment_grouping');   
+    }
+
     function updateStudentLoad()
     {
         $this->head();
