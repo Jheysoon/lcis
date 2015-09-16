@@ -14,8 +14,10 @@
         return $this->db->query("SELECT * FROM tbl_account WHERE accounttype = 4 AND seq = 0")->num_rows();
     }
     function getAllmovement($limit = 0){
-        return $this->db->query("SELECT firstname, lastname, legacyid, tbl_party.id as partyid, tbl_account.id as accounts FROM tbl_account, tbl_party, tbl_movement WHERE
-           tbl_account.party = tbl_party.id AND tbl_movement.account = tbl_account.id AND academicterm = 49 AND tbl_party.partytype = 3 LIMIT $limit, 15")->result_array();
+      $acad = $this->api->systemValue();
+      $term = $acad['currentacademicterm'];
+        return $this->db->query("SELECT firstname, lastname, legacyid, tbl_party.id as partyid, tbl_account.id as accounts FROM tbl_account, tbl_party, tbl_movement,tbl_enrolment WHERE
+           tbl_account.party = tbl_party.id AND tbl_movement.account = tbl_account.id AND tbl_enrolment.academicterm = '$term' AND tbl_party.partytype = 3 AND tbl_enrolment.student = tbl_account.party LIMIT $limit, 15")->result_array();
     }
     function getStudInfo($id)
     {
@@ -54,7 +56,7 @@
     function search_account($id)
     {
         $party_id = $this->db->query("SELECT *, student FROM tbl_party, tbl_enrolment
-                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname LIKE '%$id%')) AND tbl_party.id = student LIMIT 8")->result_array();
+                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%') AND tbl_party.id = student LIMIT 8")->result_array();
                                return $party_id;
     }
     function acad()
@@ -199,5 +201,9 @@
     {
       $x = $this->db->query("SELECT CONCAT(b.firstname, ' ' , b.middlename, ' ',b.lastname) as fullname FROM tbl_party b WHERE b.id = '$id'")->row_array();
       return $x['fullname'];
+    }
+    function getUnit($enrolmentid)
+    {
+        return $this->db->query("SELECT totalunit, numberofsubject FROM tbl_enrolment WHERE id = '$enrolmentid'")->row_array();
     }
 }
