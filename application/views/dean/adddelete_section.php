@@ -3,30 +3,30 @@
 		<div class="panel p-body">
 
 		<div class="panel-heading search">
-			<div class="col-md-6">						
-			<h4>Add New / Dissolve Section</h4>					
+			<div class="col-md-6">
+			<h4>Add New / Dissolve Section</h4>
 			</div>
 		</div>
 
 		<div class="panel-body">
 			<div class="col-md-6 ">
 				<label class="lbl-data">SCHOOL YEAR</label>
-				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="2014-2015">							
+				<input class="form-control" maxlength="10" type="text" readonly name="sid" placeholder="(e.g. 2014-2015)" required value="2014-2015">
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">TERM</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST SEMESTER">							
+				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="FIRST SEMESTER">
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">COLLEGE</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="COLLEGE OF ARTS AND SCIENCES">							
+				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="COLLEGE OF ARTS AND SCIENCES">
 			</div>
 
 			<div class="col-md-6 ">
 				<label class="lbl-data">COURSE</label>
-				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="A.B. POLITICAL SCIENCE">							
+				<input class="form-control" maxlength="10" type="text"  readonly name="sid" placeholder="(e.g. 2014-2015)" required value="A.B. POLITICAL SCIENCE">
 			</div>
 		</div>
 
@@ -39,24 +39,24 @@
 						<th>Days</th>
 						<th><select class="form-control" name='course' required>
 								<option> SUBJECT CODE</option>
-								<option> ENGL 1</option>									
-								<option> MATH 2</option>									
-								<option> FIL 2</option>	
-								<option> NAT SCI 2</option>	
-								<option> POL SCI 1</option>	
-								<option> PSYCH 1</option>	
-								<option> HUM 1</option>	
-								<option> P.E. 2</option>	
-								<option> NSTP 2</option>	
-							</select>	
+								<option> ENGL 1</option>
+								<option> MATH 2</option>
+								<option> FIL 2</option>
+								<option> NAT SCI 2</option>
+								<option> POL SCI 1</option>
+								<option> PSYCH 1</option>
+								<option> HUM 1</option>
+								<option> P.E. 2</option>
+								<option> NSTP 2</option>
+							</select>
 						</th>
 						<th>Descriptive Title</th>
 						<th>No of Students</th>
 						<th><select class="form-control" name='instructor' required>
 								<option> STATUS</option>
-								<option> OPEN</option>																	
-								<option> PENDING</option>									
-							</select>	
+								<option> OPEN</option>
+								<option> PENDING</option>
+							</select>
 						</th>
 						<th>Instructor</th>
 						<th></th>
@@ -71,9 +71,9 @@
 						<td>25</td>
 						<td>OPEN</td>
 						<td>TERESA VALDERAMA</td>
-						<td></td>				
+						<td></td>
 						</tr>
-					
+
 					<tr>
 						<td>PT003</td>
 						<td>9:00 AM – 10:00 AM</td>
@@ -83,9 +83,9 @@
 						<td>30</td>
 						<td>OPEN</td>
 						<td>EMMA LAGDAMEO</td>
-						<td></td>				
+						<td></td>
 					</tr>
-					
+
 					<tr>
 						<td>PT004</td>
 						<td>11:00 AM – 12:00 NN</td>
@@ -95,9 +95,9 @@
 						<td>5</td>
 						<td>PENDING</td>
 						<td></td>
-						<td><a class="a-table label label-info" href="index.php?page=viewINCGrading">Dissolve <span class="glyphicon glyphicon-trash"></span></a>					
+						<td><a class="a-table label label-info" href="index.php?page=viewINCGrading">Dissolve <span class="glyphicon glyphicon-trash"></span></a>
 					</tr>
-					
+
 					<tr>
 						<td>PT009</td>
 						<td>08:00 AM – 09:00 AM</td>
@@ -107,9 +107,9 @@
 						<td>15</td>
 						<td>OPEN</td>
 						<td>ANTONIO SUAREZ</td>
-						<td></td>				
+						<td></td>
 					</tr>
-					
+
 					<tr>
 						<td>PT010</td>
 						<td>09:00 AM – 10:00 AM</td>
@@ -119,7 +119,7 @@
 						<td>19</td>
 						<td>OPEN</td>
 						<td>EMMA LAGDAMEO</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -131,7 +131,7 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -143,9 +143,9 @@
 						<td>35</td>
 						<td>OPEN</td>
 						<td>EVELYN PORTILLO</td>
-						<td></td>				
+						<td></td>
 					</tr>
-					
+
 					<tr>
 						<td>PT014</td>
 						<td>08:00 AM – 09:00 AM</td>
@@ -155,7 +155,7 @@
 						<td>40</td>
 						<td>OPEN</td>
 						<td>EMMA LAGDAMEO</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -167,7 +167,7 @@
 						<td>31</td>
 						<td>OPEN</td>
 						<td>TERESA VALDERAMA</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -179,7 +179,7 @@
 						<td>21</td>
 						<td>OPEN</td>
 						<td>EDENZITA GILAMO</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -191,7 +191,7 @@
 						<td>35</td>
 						<td>OPEN</td>
 						<td>ANTONIO SUAREZ</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -203,7 +203,7 @@
 						<td>15</td>
 						<td>OPEN</td>
 						<td>EVELYN PORTILLO</td>
-						<td></td>				
+						<td></td>
 					</tr>
 
 					<tr>
@@ -214,8 +214,8 @@
 						<td>GENERAL PSYCHOLOGY</td>
 						<td>20</td>
 						<td>OPEN</td>
-						<td></td>				
-						<td></td>				
+						<td></td>
+						<td></td>
 					</tr>
 				</table>
 			</div>
