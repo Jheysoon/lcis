@@ -543,12 +543,11 @@
                             <label ><?php echo $f22; ?></label>
                         </td>
                     </tr>
-                </table><br/>
+                </table><br/><br/>
                 <table>
                     <tr>
                         <td width="70px">Evaluated By :</td>
                         <td class="underline"></td>
-                        <td></td>
                     </tr>
                 </table>
             </div>

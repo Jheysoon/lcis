@@ -192,10 +192,10 @@ class Common extends CI_Model
 	{
 		$result = $this->db->query("SELECT tbl_curriculum.id as curr, tbl_curriculumdetail.subject as sid, tbl_curriculumdetail.id as  detailid, `description` as currdescription, coursemajor, academicterm, curriculum, subject, `units`, tbl_curriculumdetail.yearlevel as yearlevel, tbl_curriculumdetail.term,  tbl_subject.id as subid, `code`, descriptivetitle
 		FROM tbl_curriculum, tbl_curriculumdetail, tbl_subject WHERE (tbl_curriculum.academicterm = '$acad' AND tbl_curriculum.coursemajor = '$major') AND
-		tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' ORDER BY CHAR_LENGTH(code) < 4 DESC, `units` DESC");
+		tbl_curriculum.id = curriculum AND tbl_subject.id = subject AND tbl_curriculumdetail.term = '$term' AND tbl_curriculumdetail.yearlevel = '$yearlevel' ORDER BY `units` DESC, code ASC");
 		return $result->result_array();
 	}
-	function getM($coursemajor, $acad)
+	function getM($coursemajor, $acad)	
 	{
 		$result = $this->db->query("SELECT tbl_curriculum.id as currid, tbl_curriculum.coursemajor, tbl_curriculum.academicterm, tbl_coursemajor.course as coursid,
 			CONCAT(tbl_course.description, ' (', tbl_major.description, ')') as coursedescription, CONCAT(systart, '-', syend) as effectivity FROM tbl_curriculum, tbl_coursemajor, tbl_course, tbl_academicterm, tbl_major

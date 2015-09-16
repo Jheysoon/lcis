@@ -2,23 +2,11 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 
-		<div class="panel-heading search">
-			<div class="col-md-6">
-			<h4>System Parameter: Add Subject To Curriculum</h4>
+			<div class="panel-heading search">
+				<div class="col-md-6">
+					<h4>System Parameter: Add Subject To Curriculum</h4>
+				</div>
 			</div>
-
-		<!-- 	<div class="col-md-4">
-				<form class="navbar-form navbar-right" action="index.php" method="post" role="search">
-			        <div class="form-group">
-			          <input type="hidden" name="page" value="search">
-			          <input type="text" name="search" class="form-control" placeholder="Subjecct Id">
-			        </div>
-			        <button type="submit" class="btn btn-primary">
-			        <span class="glyphicon glyphicon-search"></span>
-			        </button>
-			     </form>
-			</div> -->
-		</div>
 
 
 	<form action="/lc_curriculum/insertsubj" method="POST" />
@@ -61,6 +49,24 @@
 				</div>
 
 				<div class="col-md-12 ">
+					<label class="lbl-data">Year Level</label>
+					<select class="form-control" name = "yearlevel">
+					<option value="0">Select Year Level</option>
+					<?php
+					$x = 1;
+					 while ($x <= $yearlevel) { ?>
+					 <?php if ($x == $year): ?>
+						<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
+					 <?php else: ?>
+						<option value="<?php echo $x; ?>"><?php echo $x ?></option>
+					 <?php endif ?>
+
+					<?php $x += 1;	} ?>
+
+					</select>
+				</div>
+
+				<div class="col-md-12 ">
 					<label class="lbl-data">Term</label>
 					<select class="form-control" name = "term">
 					<option value="0" selected>Select Term</option>
@@ -75,23 +81,7 @@
 					</select>
 				</div>
 
-				<div class="col-md-12 ">
-					<label class="lbl-data">Year Level</label>
-					<select class="form-control" name = "yearlevel">
-					<option value="0">Select Year Level</option>
-					<?php
-					$x = 1;
-					 while ($x <= $yearlevel) { ?>
-					 <?php if ($x == $year): ?>
-					 	<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
-					 <?php else: ?>
-					 	<option value="<?php echo $x; ?>"><?php echo $x ?></option>
-					 <?php endif ?>
 
-					<?php $x += 1;	} ?>
-
-					</select>
-				</div>
 
 				<div class="col-md-12">
 					</br />
@@ -124,7 +114,7 @@
             	 <?php foreach ($getCuYear as $m => $va):
                     extract($va)
             	?>
-                  	 <tr>
+                	 <tr>
                             <td class="tbl-header-main" colspan="5">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>
                     </tr>
                     	<tr>

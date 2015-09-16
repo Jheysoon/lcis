@@ -100,4 +100,9 @@ class Instructor extends CI_Controller
         else
             show_error('Did you type the url by yourself ?');
     }
+
+    function match_subject()
+    {
+        $this->load->view('match_subject');
+    }
 }
