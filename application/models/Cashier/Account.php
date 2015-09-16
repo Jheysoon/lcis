@@ -166,7 +166,7 @@
     }
     function getBillDetail($refid)
     {
-        return $this->db->query("SELECT b.rate, c.description, a.amount FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype ORDER by c.id")->result_array();
+        return $this->db->query("SELECT b.rate, c.description, a.amount FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype GROUP BY c.description ORDER by c.id")->result_array();
     }
     function getTotalUnit($enr)
     {
