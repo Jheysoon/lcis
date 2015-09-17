@@ -32,6 +32,9 @@
       </div><!-- /.container-fluid -->
     </nav>
     <br><br><br>
+    <br>
+    <a href="<?php echo base_url() ?>" class="btn btn-primary btn-sm pull-right"> <<< Back </a>
+    <br><br>
     <div class="container-fluid">
         <div class="row">
             <form action="/combine_subject" method="post">
