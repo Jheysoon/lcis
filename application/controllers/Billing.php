@@ -18,19 +18,19 @@ class Billing extends CI_Controller
 		$this->load->model('cashier/assesment');
 		$data['legacyid'] = $legacyid;
 		$this->load->model('dean/student');
-		$this->student->getCalculation(21758);
+	//	$this->student->getCalculation(21758);
 		$this->load->view('audit/view_assesment', $data);
     }
 
     function view_studentbilling($legacyid)
 	{
-	    	$this->head();
-	    	$this->load->model('cashier/assesment');
-	    	$data['legacyid'] = $legacyid;
-	    	$data['type'] = 'installment';
+	    $this->head();
+    	$this->load->model('cashier/assesment');
+    	$data['legacyid'] = $legacyid;
+    	$data['type'] = 'installment';
 			$this->load->model('dean/student');
-			//$this->student->getCalculation(36868);
-	    	$this->load->view('audit/view_studentbilling', $data);
+		//$this->student->getCalculation(36868);
+    	$this->load->view('audit/view_studentbilling', $data);
 			$this->load->view('templates/footer');
     }
 

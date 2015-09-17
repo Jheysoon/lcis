@@ -76,7 +76,9 @@ class Dean extends CI_Controller
     }
 
     function enrolmentLegacyGrouping(){
-        $this->load->view('dean/enrolment_grouping');   
+        $this->load->model('dean/group');
+        $this->load->view('dean/enrolment_grouping');
+        $this->load->view('templates/footer');
     }
 
     function updateStudentLoad()
@@ -1215,6 +1217,40 @@ class Dean extends CI_Controller
                 $univ_day = 0;
             }
         }
+    }
+
+    function group(){
+
+        $checked = $this->input->post('checked');
+
+        if ($checked) {
+            $this->load->model('dean/group');
+            $group = $this->group->get_group_no();
+            $group = $group['gr'] + 1;
+            $gr = array('grouping'=> $group);
+
+            foreach ($checked as $key => $value) {
+                $this->group->group_sub($checked[$key], $gr);
+            }
+
+            $this->session->set_flashdata('message',
+            '<div class="alert alert-success" style="margin:20px;">
+                <strong>Subjects grouped!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>');
+        }
+        else{
+            $this->session->set_flashdata('message',
+            '<div class="alert alert-danger">
+                <strong>Please select subjects to group!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>');
+        }
+        redirect(base_url('enrolment_grouping'));
     }
 
 
