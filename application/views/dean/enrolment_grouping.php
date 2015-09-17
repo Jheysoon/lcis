@@ -48,7 +48,7 @@
                         ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
-                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE; ?>"></td>
+                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE.'|'.$SUBNAME; ?>"></td>
                                 <td><?php echo $SUBNAME; ?></td>
                                 <td><?php echo $SUBTITLE; ?></td>
                                 <td><?php echo $UNITS; ?></td>
@@ -79,6 +79,7 @@
                             <th>Code</th>
                             <th>Descriptive Title</th>
                             <th>Unit</th>
+                            <th>Action</th>
                         </tr>
                         <?php 
                             $subcode = $this->api->get_subcode();
@@ -88,6 +89,7 @@
                                 <td><?php echo $SUBNAME; ?></td>
                                 <td><?php echo $SUBTITLE; ?></td>
                                 <td><?php echo $UNITS; ?></td>
+                                <td><a class="label label-danger a-table" href="/ungroup/<?php echo $grouping; ?>">Ungroup</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
