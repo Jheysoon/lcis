@@ -32,6 +32,9 @@
       </div><!-- /.container-fluid -->
     </nav>
     <br><br><br>
+    <br>
+    <a href="<?php echo base_url() ?>" class="btn btn-primary btn-sm pull-right"> <<< Back </a>
+    <br><br>
     <div class="container-fluid">
         <div class="row">
             <form action="/combine_subject" method="post">
@@ -121,9 +124,11 @@
                                 <tbody>
                                     <?php
                                         $subcodes = $this->api->get_subcode();
-                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE subject_id = 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
+                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
                                         foreach($r as $rr)
                                         {
+                                            if($rr['subject_id'] == 0)
+                                            {
                                             ?>
                                             <tr>
                                                 <td>
@@ -140,6 +145,7 @@
                                                 </td>
                                             </tr>
                                     <?php
+                                            }
                                         }
                                      ?>
                                 </tbody>
@@ -151,6 +157,47 @@
         			</div>
                 </div>
             </form>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+                <div class="panel p-body">
+                    <div class="panel-heading search">
+                        <div class="col-md-6">
+                            <h4>Assigned Subjects</h4>
+                        </div>
+                    </div>
+                        <div style="max-height: 440px; overflow-y: auto;">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>
+                                        Code
+                                    </th>
+                                    <th>Descriptive Title</th>
+                                    <th>Units</th>
+                                </tr>
+                                <?php
+                                    $rr = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND subject_id != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
+                                    foreach($rr as $aa)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $aa['SUBNAME'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $aa['SUBTITLE'] ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $aa['UNITS'] ?>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
+                                 ?>
+                            </table>
+                        </div>
+                </div>
+            </div>
         </div>
     </div>
 <script type="text/javascript">
