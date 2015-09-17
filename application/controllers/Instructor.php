@@ -105,4 +105,17 @@ class Instructor extends CI_Controller
     {
         $this->load->view('match_subject');
     }
+
+    function combine_subject()
+    {
+        $cur_subj       = $this->input->post('cur_sub');
+        $legacy_name    = $this->input->post('legacyname');
+
+        foreach ($legacy_name as $key => $value) {
+            $this->db->where('grouping', $legacy_name[$key]);
+            $data['subject_id'] = $cur_subj;
+            $this->db->update('tbl_enrolment_legacy', $data);
+        }
+        redirect('/match_subject');
+    }
 }
