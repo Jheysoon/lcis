@@ -12,7 +12,7 @@ class Group extends CI_Model
 		$q = $this->db->query("SELECT id, SUBTITLE, SUBNAME, UNITS
 			FROM `tbl_enrolment_legacy`
 			WHERE grouping = 0
-			AND $code
+			AND ($code)
 			GROUP BY `SUBTITLE`,`UNITS`
 		");
 		return $q->result_array();
@@ -22,7 +22,7 @@ class Group extends CI_Model
 		$q = $this->db->query("SELECT id, SUBTITLE, SUBNAME, UNITS
 			FROM `tbl_enrolment_legacy`
 			WHERE grouping != 0
-			AND $code
+			AND ($code)
 			GROUP BY grouping
 		");
 		return $q->result_array();
