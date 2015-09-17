@@ -305,4 +305,23 @@ class Api
 	}
 	// end for yearLevel function
 
+	function get_subcode(){
+		$col = $this->getUserCollege();
+		if ($col == 1) {
+			return "SUBSTRING(SUBCODE, 1, 2) = 'GE' OR SUBSTRING(SUBCODE, 1, 2) = 'AB'";
+		}
+		elseif ($col == 2){
+			return "SUBSTRING(SUBCODE, 1, 2) = 'ED'";
+		}
+		elseif ($col == 3){
+			return "SUBSTRING(SUBCODE, 1, 2) = 'CR'";
+		}
+		elseif ($col == 4){
+			return "SUBSTRING(SUBCODE, 1, 1) = 'L'";
+		}
+		elseif ($col == 5){
+			return "SUBSTRING(SUBCODE, 1, 2) = 'OA' OR SUBSTRING(SUBCODE, 1, 2) = 'CM'";
+		}
+	}
+
 }

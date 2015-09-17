@@ -1221,6 +1221,8 @@ class Dean extends CI_Controller
 
     function group(){
 
+        $subcode = $this->api->get_subcode();
+
         $checked = $this->input->post('checked');
 
         if ($checked) {
@@ -1233,13 +1235,13 @@ class Dean extends CI_Controller
                 $this->group->group_sub($checked[$key], $gr);
             }
 
-            $this->session->set_flashdata('message',
-            '<div class="alert alert-success" style="margin:20px;">
-                <strong>Subjects grouped!</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-            </div>');
+            // $this->session->set_flashdata('message',
+            // '<div class="alert alert-success" style="margin:20px;">
+            //     <strong>Subjects grouped!</strong>
+            //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            //       <span aria-hidden="true">&times;</span>
+            //     </button>
+            // </div>');
         }
         else{
             $this->session->set_flashdata('message',

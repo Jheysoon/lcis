@@ -42,10 +42,13 @@
                             <th>Descriptive Title</th>
                             <th>Unit</th>
                         </tr>
-                        <?php $res = $this->group->get_subjects('ED'); ?>
+                        <?php 
+                            $subcode = $this->api->get_subcode();
+                            $res = $this->group->get_subjects($subcode); 
+                        ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
-                                <td><input type="checkbox" name="checked[]" value="<?php echo $id; ?>"></td>
+                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE; ?>"></td>
                                 <td><?php echo $SUBNAME; ?></td>
                                 <td><?php echo $SUBTITLE; ?></td>
                                 <td><?php echo $UNITS; ?></td>
@@ -77,7 +80,9 @@
                             <th>Descriptive Title</th>
                             <th>Unit</th>
                         </tr>
-                        <?php $res = $this->group->get_grouped_subjects('ED'); ?>
+                        <?php 
+                            $subcode = $this->api->get_subcode();
+                            $res = $this->group->get_grouped_subjects($subcode); ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
                                 <td><?php echo $SUBNAME; ?></td>
