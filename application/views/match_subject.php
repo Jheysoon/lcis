@@ -57,12 +57,10 @@
                                 <tbody>
                                     <?php
                                         $owner = $this->api->getUserCollege();
-                                        if($owner == 1)
-                                        {
+                                        if($owner == 1){
                                             $cur = array('14', '18');
                                         }
-                                        elseif($owner == 2)
-                                        {
+                                        elseif($owner == 2){
                                             $cur = array('53', '49', '51', '48');
                                         }
                                         elseif ($owner == 3) {
@@ -71,10 +69,10 @@
                                         elseif ($owner == 4) {
                                             $cur = array('42', '50');
                                         }
-                                        elseif($owner == 5)
-                                        {
+                                        elseif($owner == 5){
                                             $cur = array('16', '54');
                                         }
+
                                         $curs = implode($cur, ',');
                                         $r = $this->db->query("SELECT DISTINCT(b.id) as subject,code,descriptivetitle,units
                                             FROM tbl_curriculumdetail a,tbl_subject b WHERE curriculum IN($curs)
@@ -122,7 +120,8 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE subject_id = 0 GROUP BY grouping ORDER BY grouping ASC LIMIT 200")->result_array();
+                                        $subcodes = $this->api->get_subcode();
+                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE subject_id = 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
                                         foreach($r as $rr)
                                         {
                                             ?>
