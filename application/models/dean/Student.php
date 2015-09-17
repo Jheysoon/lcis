@@ -31,318 +31,400 @@
         function existsID($id)
         {
 	        $q = $this->db->query("SELECT tbl_course.college as cid, tbl_college.description as description
-								   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party, tbl_college
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
-	        						 AND tbl_coursemajor.course = tbl_course.id
-									 AND tbl_course.college = tbl_college.id
-	        						 AND tbl_party.id = tbl_registration.student
-	        						 AND legacyid = '$id'");
+													   		 FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party, tbl_college
+						        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+						        						 AND tbl_coursemajor.course = tbl_course.id
+														 	 	 AND tbl_course.college = tbl_college.id
+						        						 AND tbl_party.id = tbl_registration.student
+						        						 AND legacyid = '$id'");
 	        return $q->row_array();
 	      }
 		function getStudent($search, $col)
 	    {
 	        $q = $this->db->query("SELECT legacyid, lastname, firstname
-	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
-	        						 AND tbl_coursemajor.course = tbl_course.id
-	        						 AND tbl_party.id = tbl_registration.student
-	        						 AND tbl_course.college = '$col'
-	        						 AND(
-	        						 		legacyid LIKE '%$search%'
-	        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'
-	        						 		OR CONCAT(firstname, ' ', lastname) LIKE '%$search%'
-	        						 		OR CONCAT(lastname, ', ', firstname) LIKE '%$search%'
-	        						 		OR CONCAT(firstname, ', ', lastname) LIKE '%$search%'
-	        						 	)
-	        						 GROUP BY student  ORDER BY legacyid");
+						        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+						        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+						        						 AND tbl_coursemajor.course = tbl_course.id
+						        						 AND tbl_party.id = tbl_registration.student
+						        						 AND tbl_course.college = '$col'
+						        						 AND(
+						        						 		legacyid LIKE '%$search%'
+						        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'
+						        						 		OR CONCAT(firstname, ' ', lastname) LIKE '%$search%'
+						        						 		OR CONCAT(lastname, ', ', firstname) LIKE '%$search%'
+						        						 		OR CONCAT(firstname, ', ', lastname) LIKE '%$search%'
+						        						 	)
+	        						 					GROUP BY student  ORDER BY legacyid");
 	        return $q->result_array();
 	    }
 	    function getStudInfo($id){
 	        $q = $this->db->query("SELECT lastname, firstname, tbl_coursemajor.major as major, tbl_registration.id as reg,
-								 tbl_coursemajor.course as course, tbl_course.description as description,
-									 tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
-	        					 tbl_registration.date as dte, tbl_party.id as pid
-	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
-	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
-	        						 AND tbl_coursemajor.course = tbl_course.id
-	        						 AND tbl_party.id = tbl_registration.student
-	        						 AND tbl_party.legacyid = '$id'
-									 AND tbl_registration.id =
+																 tbl_coursemajor.course as course, tbl_course.description as description,
+																 tbl_coursemajor.id as cid, tbl_registration.curriculum as curriculum,
+									        			 tbl_registration.date as dte, tbl_party.id as pid
+						        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+						        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+						        						 AND tbl_coursemajor.course = tbl_course.id
+						        						 AND tbl_party.id = tbl_registration.student
+						        						 AND tbl_party.legacyid = '$id'
+									 						 	AND tbl_registration.id =
 									 (SELECT MAX(a.id) FROM tbl_registration a, tbl_party b
 									 WHERE a.student = b.id AND b.legacyid = '$id' )
 	        						 ");
 	        return $q->row_array();
 	    }
 			//Insert Bill Detail
-			function insertbilldetail($enid, $billid, $fid, $the_rate){
-							$billcheck = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclassdetail WHERE bill = '$billid' AND fee = '$fid'")->row_array();
-							if ($billcheck['counted'] == 0) {
-								$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
-								$this->db->insert('tbl_billclassdetail', $billdetails);
-							}else{
-								$billdetails = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
-								$this->db->where('bill', $billid);
-								$this->db->where('fee', $fid);
-								$this->db->update('tbl_billclassdetail', $billdetails);
+			function insertbilldetail($data){
+							$this->db->where('bill', $data['bill']);
+							$this->db->where('fee', $data['fid']);
+							$x = $this->db->get('tbl_billclassdetail')->num_rows();
+							if ($x > 0)
+							{
+								$this->db->where('bill', $data['bill']);
+								$this->db->where('fee', $data['fid']);
+								$this->db->update('tbl_billclassdetail', $data);
+							}
+							else
+							{
+								$this->db->insert('tbl_billclassdetail', $data);
 							}
 			}
+			function enr_info($enid)
+			{
+					 return $this->db->query("SELECT student as partyid, coursemajor WHERE id = '$enid'")->row_array();
+			}
+			function get_fees($coursemajor)
+			{
+					return $this->db->query("SELECT  a.id AS fid, a.feetype, a.rate, b.code, b.description, b.miscellaneous
+																  	FROM  `tbl_feetype` b, tbl_fee a
+																  	WHERE a.feetype = b.id
+																  	AND coursemajor = $coursemajor
+																  	AND a.feetype !=19
+																  	AND feetype !=21")->result_array();
+			}
+			function get_sub_unit($enid)
+			{
+					$x = $this->db->query("SELECT SUM(units)  as units
+														FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+														WHERE enrolment =  '$enid'
+														AND b.id = a.classallocation
+														AND c.id = b.subject
+														AND c.nstp =0")->row_array();
+					return $x['units'];
+			}
+			function get_total_subj($enid)
+			{
+					$x = $this->db->query("SELECT SUM(units)  as subjects
+														FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+														WHERE enrolment =  '$enid'
+														AND b.id = a.classallocation
+														AND c.id = b.subject")->row_array();
+					return $x['subjects'];
+			}
+			function insert_bill($data)
+			{
+					$this->db->insert('tbl_bill', $data);
+					return $this->db->insert_id();
+			}
+			function get_chem($enid)
+			{
+					return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+																		WHERE enrolment = '$enid'
+																		AND b.id = a.classallocation
+																		AND c.id = b.subject AND chemlab = 1")->num_rows();
+			}
+			function get_comp($enid)
+			{
+				return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+																	WHERE enrolment = '$enid'
+																	AND b.id = a.classallocation
+																	AND c.id = b.subject AND computersubject = 1")->num_rows();
+			}
+			function get_nstp($enid)
+			{
+				return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+																	WHERE enrolment = '$enid'
+																	AND b.id = a.classallocation
+																	AND c.id = b.subject AND nstp = 1")->num_rows();
+			}
+			function check_billclass($enid)
+			{
+				return $this->db->query("SELECT * FROM tbl_billclass WHERE enrolment = '$enid'")->num_rows();
+			}
+			function get_billid($enid)
+			{
+				 $x = $this->db->query("SELECT * FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+				 return $x['id'];
+			}
+
+
+
+
 
 		//Calculation for for the billing of a student based on enrolment
-		function getCalculation($enid){
-			$this->load->model('cashier/assesment');
-			$computer = 0;
-			$booklet = 0;
-			$netenrol = 0;
-			$tuition = 0;
-			$mat = 0;
-			$totalbook = 0;
-			$totaltuition = 0;
-			$laboratory = 0;
-			$miscellaneous = 0;
-			$internetfee = 0;
-			$discount = 0;
-			$nstp = 0;
-			$leytetymes = 0;
-			$the_rate = 0;
-			$bnt = 0;
-			$compts = 0;
-			$this->db->where('id', $enid);
-			extract($this->db->get('tbl_enrolment')->row_array());
-					$bs = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
-					$bs['counted'];
-					if ($bs['counted'] == 0){
-						//
-						//Insert into tbl_bill for the ID and get the last insert
-						$nows = Date('Y-m-d');
-						$insertbill = array('requestedby' => $student,
-																'datecreated' => $nows,
-																'enteredby' => $this->session->userdata('uid'),
-																'status' => 'R',
-																'type' => '1'
-																);
-							$this->db->insert('tbl_bill', $insertbill);
-							$billid = $this->db->insert_id();
-					}else{
-						$this->db->where('enrolment', $enid);
-						$this->db->select('id as bills');
-						extract($this->db->get('tbl_billclass')->row_array());
-						$billid = $bills;
-						$ps = $this->assesment->checkP($enid);
-						if ($ps > 0) {
-								$this->assesment->revertPosting($billid);
-								$nows = Date('Y-m-d');
-								$insertbill = array('requestedby' => $student,
-																	'datecreated' => $nows,
-																	'enteredby' => $this->session->userdata('uid'),
-																	'status' => 'R',
-																	'type' => '1'
-																	);
-								$this->db->insert('tbl_bill', $insertbill);
-								$billid = $this->db->insert_id();
-						}else{
-								$nows = Date('Y-m-d');
-								$insertbill = array('requestedby' => $student,
-																		'datecreated' => $nows,
-																		'enteredby' => $this->session->userdata('uid'),
-																		'status' => 'R',
-																		'type' => '1'
-																		);
-									$this->db->insert('tbl_bill', $insertbill);
-									$billid = $this->db->insert_id();
-						}
-					}
+//		function getCalculation($enid = 45584){
 
-					//Get all the fee type in tbl_feetype and the rate.
-					$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
-					$this->db->where($where);
-					$this->db->select('`tbl_fee.id as fid`, `description`, `code`, `accounttype`, `rate`');
-					//Get all account code and Rate each account.
-								foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
-										extract($val);
-						 							 if ($accounttype == 23){
-						 							 	$m = $this->getEn($enid);
-						 							 	foreach ($m as $key => $value) {
-											 				extract($value);
-					 							 			$x = $this->getSubs($classallocation);
-								 							 		if($x['computersubject'] == 1) {
-								 							 						$compts += 1;
-											 							}
-																		if ($compts != 0) {
-																			$computer = $rate * $compts;
-																			$the_rate = $computer;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-																		}
+			//Get student party id and the course major of the student.
+		//	$enr_info =
 
-																}
-						 							 }elseif($accounttype == 24){
-						 							 	$m = $this->getEn($enid);
-						 							 	foreach ($m as $key => $ms)
-															{
-						 							 		extract($ms);
-					 							 			$xl = $this->getSubs($classallocation);
-								 							 		if($xl['bookletcharge'] == 1)
-																		{
-														 								$bnt += 1;
-											 							}
-																			$booklet = $rate;
-																			$the_rate = $bnt * $booklet * 4;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-												 			}
-						 							}
-													elseif ($accounttype == 19)
-													{
-							 							 	if ($coursemajor == 5)
-																{
-						 							 					 $laboratory = $rate;
-																			$the_rate = $laboratory;
-																					$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							 		}
-						 							 }
-														elseif($accounttype == 6)
-															{
-																	 		$mat = $rate * $totalunit;
-																		$the_rate = $mat;
-																				$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							  }
-															elseif ($accounttype == 7 )
-															{
-							 											 	$tuition = $rate * $totalunit;
-																			$the_rate = $tuition;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							  }
-															elseif($accounttype == 20)
-															{
-							 									 			$leytetymes = $rate;
-																			$the_rate = $leytetymes;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							  }
-															elseif($accounttype == 22)
-															{
-							 							 			 		$internetfee = $rate;
-																			$the_rate = $internetfee;
-																			$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							  }
-															elseif($accounttype == 21)
-															{
-							 							 		$m = $this->getEn($enid);
-								 							 	foreach ($m as $key => $value)
-																	{
-													 				extract($value);
-							 							 			$x = $this->getSubs($classallocation);
-										 							 		if($x['nstp'] == 1)
-																				{
-										 							 					 	$nstp = $rate;
-																							$the_rate = $nstp;
-																							$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-																 							 break;
-													 							}
-																		}
-							 							 }
-															else
-															{
-							 										 	$miscellaneous += $rate;
-																		$the_rate = $rate;
-																		$this->insertbilldetail($enid, $billid, $fid, $the_rate);
-							 							  }
-															//echo $fid . "|" . $the_rate . "|" . $billid  . "<br />";
-						 							 }
 
-														$discount = 10/100;
-														$netfull = $tuition * $discount;
-														$install = $tuition / 5;
-														$totalbook = $booklet * $bnt * 4;
-														$fullpaydiscount = $tuition * $discount;
-														$discounted = $tuition - $fullpaydiscount;
-														$computerdevided = $computer / 5;
-														$int = $internetfee / 4;
-														$bookfee = $bnt * $booklet;
-														$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
-														$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
-														$netprelim = $install + $computerdevided + $int + $bookfee;
-														$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
-														$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
 
-														//Check if billing is created, if it is created it will automatically updated, if not it will be inserted.
-														$qm = $this->assesment->checkP($enid);
-														if ($qm <= 0) {
-																if ($q['counted'] == 0){
-																		$data = array(
-																		'id' => $billid,
-																		'enrolment' => $enid,
-																		'tuition' => $tuition,
-																		'matriculation' => $mat,
-																		'laboratory' => $laboratory,
-																		'miscellaneous' => $miscellaneous,
-																		'leytetime' => $leytetymes,
-																		'nstp' => $nstp,
-																		'internet' => $internetfee,
-																		'computer' => $computer,
-																		'booklet' => $totalbook,
-																		'discount' => $discount,
-																		'installment' => $installment,
-																		'fullpaydiscount' => $fullpaydiscount,
-																		'netfullpayment' =>$netfullpayment,
-																		'netenrolment' => $netenrolment,
-																		'netprelim' => $netprelim,
-																		'netmidterm' =>$netprelim,
-																		'netsemi' => $netprelim,
-																		'netfinal' => $netprelim
-																	);
-																		$this->db->insert('tbl_billclass', $data);
-																		return 0;
-																}else{
-																	$datax = array(
-																		'enrolment' => $enid,
-																		'tuition' => $tuition,
-																		'matriculation' => $mat,
-																		'laboratory' => $laboratory,
-																		'miscellaneous' => $miscellaneous,
-																		'leytetime' => $leytetymes,
-																		'nstp' => $nstp,
-																		'internet' => $internetfee,
-																		'computer' => $computer,
-																		'booklet' => $totalbook,
-																		'discount' => $discount,
-																		'installment' => $installment,
-																		'fullpaydiscount' => $fullpaydiscount,
-																		'netfullpayment' =>$netfullpayment,
-																		'netenrolment' => $netenrolment,
-																		'netprelim' => $netprelim,
-																		'netmidterm' =>$netprelim,
-																		'netsemi' => $netprelim,
-																		'netfinal' => $netprelim
-																	);
-																	$this->db->where('enrolment', $enid);
-																	$this->db->update('tbl_billclass', $datax);
-																}
-														}else{
-																	$data = array(
-																	'id' => $billid,
-																	'enrolment' => $enid,
-																	'tuition' => $tuition,
-																	'matriculation' => $mat,
-																	'laboratory' => $laboratory,
-																	'miscellaneous' => $miscellaneous,
-																	'leytetime' => $leytetymes,
-																	'nstp' => $nstp,
-																	'internet' => $internetfee,
-																	'computer' => $computer,
-																	'booklet' => $totalbook,
-																	'discount' => $discount,
-																	'installment' => $installment,
-																	'fullpaydiscount' => $fullpaydiscount,
-																	'netfullpayment' =>$netfullpayment,
-																	'netenrolment' => $netenrolment,
-																	'netprelim' => $netprelim,
-																	'netmidterm' =>$netprelim,
-																	'netsemi' => $netprelim,
-																	'netfinal' => $netprelim
-																);
-																	$this->db->insert('tbl_billclass', $data);
-																	$this->assesment->reverseposting($billid);
-														}
+			//Get All Fees based on the coursemajor of the student.
 
-			}
+			// $this->load->model('cashier/assesment');
+			// $computer = 0;
+			// $booklet = 0;
+			// $netenrol = 0;
+			// $tuition = 0;
+			// $mat = 0;
+			// $totalbook = 0;
+			// $totaltuition = 0;
+			// $laboratory = 0;
+			// $miscellaneous = 0;
+			// $internetfee = 0;
+			// $discount = 0;
+			// $nstp = 0;
+			// $leytetymes = 0;
+			// $the_rate = 0;
+			// $bnt = 0;
+			// $compts = 0;
+			// $this->db->where('id', $enid);
+			// extract($this->db->get('tbl_enrolment')->row_array());
+			// 		$bs = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+			// 		$bs['counted'];
+			// 		if ($bs['counted'] == 0){
+			// 			//
+			// 			//Insert into tbl_bill for the ID and get the last insert
+			// 			$nows = Date('Y-m-d');
+			// 			$insertbill = array('requestedby' => $student,
+			// 													'datecreated' => $nows,
+			// 													'enteredby' => $this->session->userdata('uid'),
+			// 													'status' => 'R',
+			// 													'type' => '1'
+			// 													);
+			// 				$this->db->insert('tbl_bill', $insertbill);
+			// 				$billid = $this->db->insert_id();
+			// 		}else{
+			// 			$this->db->where('enrolment', $enid);
+			// 			$this->db->select('id as bills');
+			// 			extract($this->db->get('tbl_billclass')->row_array());
+			// 			$billid = $bills;
+			// 			$ps = $this->assesment->checkP($enid);
+			// 			if ($ps > 0) {
+			// 					$this->assesment->revertPosting($billid);
+			// 					$nows = Date('Y-m-d');
+			// 					$insertbill = array('requestedby' => $student,
+			// 														'datecreated' => $nows,
+			// 														'enteredby' => $this->session->userdata('uid'),
+			// 														'status' => 'R',
+			// 														'type' => '1'
+			// 														);
+			// 					$this->db->insert('tbl_bill', $insertbill);
+			// 					$billid = $this->db->insert_id();
+			// 			}else{
+			// 					$nows = Date('Y-m-d');
+			// 					$insertbill = array('requestedby' => $student,
+			// 															'datecreated' => $nows,
+			// 															'enteredby' => $this->session->userdata('uid'),
+			// 															'status' => 'R',
+			// 															'type' => '1'
+			// 															);
+			// 						$this->db->insert('tbl_bill', $insertbill);
+			// 						$billid = $this->db->insert_id();
+			// 			}
+			// 		}
+			//
+			// 		//Get all the fee type in tbl_feetype and the rate.
+			// 		$where = "tbl_feetype.id = tbl_fee.feetype AND tbl_fee.coursemajor = " . $coursemajor;
+			// 		$this->db->where($where);
+			// 		$this->db->select('`tbl_fee.id as fid`, `description`, `code`, `accounttype`, `rate`');
+			// 		//Get all account code and Rate each account.
+			// 					foreach ($this->db->get('tbl_fee, tbl_feetype')->result_array() as $key => $val) {
+			// 							extract($val);
+			// 			 							 if ($accounttype == 23){
+			// 			 							 	$m = $this->getEn($enid);
+			// 			 							 	foreach ($m as $key => $value) {
+			// 								 				extract($value);
+			// 		 							 			$x = $this->getSubs($classallocation);
+			// 					 							 		if($x['computersubject'] == 1) {
+			// 					 							 						$compts += 1;
+			// 								 							}
+			// 															if ($compts != 0) {
+			// 																$computer = $rate * $compts;
+			// 																$the_rate = $computer;
+			// 																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 															}
+			//
+			// 													}
+			// 			 							 }elseif($accounttype == 24){
+			// 			 							 	$m = $this->getEn($enid);
+			// 			 							 	foreach ($m as $key => $ms)
+			// 												{
+			// 			 							 		extract($ms);
+			// 		 							 			$xl = $this->getSubs($classallocation);
+			// 					 							 		if($xl['bookletcharge'] == 1)
+			// 															{
+			// 											 								$bnt += 1;
+			// 								 							}
+			// 																$booklet = $rate;
+			// 																$the_rate = $bnt * $booklet * 4;
+			// 																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 									 			}
+			// 			 							}
+			// 										elseif ($accounttype == 19)
+			// 										{
+			// 				 							 	if ($coursemajor == 5)
+			// 													{
+			// 			 							 					 $laboratory = $rate;
+			// 																$the_rate = $laboratory;
+			// 																		$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							 		}
+			// 			 							 }
+			// 											elseif($accounttype == 6)
+			// 												{
+			// 														 		$mat = $rate * $totalunit;
+			// 															$the_rate = $mat;
+			// 																	$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							  }
+			// 												elseif ($accounttype == 7 )
+			// 												{
+			// 				 											 	$tuition = $rate * $totalunit;
+			// 																$the_rate = $tuition;
+			// 																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							  }
+			// 												elseif($accounttype == 20)
+			// 												{
+			// 				 									 			$leytetymes = $rate;
+			// 																$the_rate = $leytetymes;
+			// 																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							  }
+			// 												elseif($accounttype == 22)
+			// 												{
+			// 				 							 			 		$internetfee = $rate;
+			// 																$the_rate = $internetfee;
+			// 																$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							  }
+			// 												elseif($accounttype == 21)
+			// 												{
+			// 				 							 		$m = $this->getEn($enid);
+			// 					 							 	foreach ($m as $key => $value)
+			// 														{
+			// 										 				extract($value);
+			// 				 							 			$x = $this->getSubs($classallocation);
+			// 							 							 		if($x['nstp'] == 1)
+			// 																	{
+			// 							 							 					 	$nstp = $rate;
+			// 																				$the_rate = $nstp;
+			// 																				$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 													 							 break;
+			// 										 							}
+			// 															}
+			// 				 							 }
+			// 												else
+			// 												{
+			// 				 										 	$miscellaneous += $rate;
+			// 															$the_rate = $rate;
+			// 															$this->insertbilldetail($enid, $billid, $fid, $the_rate);
+			// 				 							  }
+			// 												//echo $fid . "|" . $the_rate . "|" . $billid  . "<br />";
+			// 			 							 }
+			//
+			// 											$discount = 10/100;
+			// 											$netfull = $tuition * $discount;
+			// 											$install = $tuition / 5;
+			// 											$totalbook = $booklet * $bnt * 4;
+			// 											$fullpaydiscount = $tuition * $discount;
+			// 											$discounted = $tuition - $fullpaydiscount;
+			// 											$computerdevided = $computer / 5;
+			// 											$int = $internetfee / 4;
+			// 											$bookfee = $bnt * $booklet;
+			// 											$netfullpayment = $discounted + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+			// 											$netenrolment = $install + $computerdevided + $miscellaneous + $laboratory + $leytetymes + $nstp + $mat;
+			// 											$netprelim = $install + $computerdevided + $int + $bookfee;
+			// 											$installment =  $tuition + $mat + $laboratory + $miscellaneous + $leytetymes + $nstp + $internetfee + $computer + $totalbook;
+			// 											$q = $this->db->query("SELECT COUNT(*) as counted FROM tbl_billclass WHERE enrolment = '$enid'")->row_array();
+			//
+			// 											//Check if billing is created, if it is created it will automatically updated, if not it will be inserted.
+			// 											$qm = $this->assesment->checkP($enid);
+			// 											if ($qm <= 0) {
+			// 													if ($q['counted'] == 0){
+			// 															$data = array(
+			// 															'id' => $billid,
+			// 															'enrolment' => $enid,
+			// 															'tuition' => $tuition,
+			// 															'matriculation' => $mat,
+			// 															'laboratory' => $laboratory,
+			// 															'miscellaneous' => $miscellaneous,
+			// 															'leytetime' => $leytetymes,
+			// 															'nstp' => $nstp,
+			// 															'internet' => $internetfee,
+			// 															'computer' => $computer,
+			// 															'booklet' => $totalbook,
+			// 															'discount' => $discount,
+			// 															'installment' => $installment,
+			// 															'fullpaydiscount' => $fullpaydiscount,
+			// 															'netfullpayment' =>$netfullpayment,
+			// 															'netenrolment' => $netenrolment,
+			// 															'netprelim' => $netprelim,
+			// 															'netmidterm' =>$netprelim,
+			// 															'netsemi' => $netprelim,
+			// 															'netfinal' => $netprelim
+			// 														);
+			// 															$this->db->insert('tbl_billclass', $data);
+			// 															return 0;
+			// 													}else{
+			// 														$datax = array(
+			// 															'enrolment' => $enid,
+			// 															'tuition' => $tuition,
+			// 															'matriculation' => $mat,
+			// 															'laboratory' => $laboratory,
+			// 															'miscellaneous' => $miscellaneous,
+			// 															'leytetime' => $leytetymes,
+			// 															'nstp' => $nstp,
+			// 															'internet' => $internetfee,
+			// 															'computer' => $computer,
+			// 															'booklet' => $totalbook,
+			// 															'discount' => $discount,
+			// 															'installment' => $installment,
+			// 															'fullpaydiscount' => $fullpaydiscount,
+			// 															'netfullpayment' =>$netfullpayment,
+			// 															'netenrolment' => $netenrolment,
+			// 															'netprelim' => $netprelim,
+			// 															'netmidterm' =>$netprelim,
+			// 															'netsemi' => $netprelim,
+			// 															'netfinal' => $netprelim
+			// 														);
+			// 														$this->db->where('enrolment', $enid);
+			// 														$this->db->update('tbl_billclass', $datax);
+			// 													}
+			// 											}else{
+			// 														$data = array(
+			// 														'id' => $billid,
+			// 														'enrolment' => $enid,
+			// 														'tuition' => $tuition,
+			// 														'matriculation' => $mat,
+			// 														'laboratory' => $laboratory,
+			// 														'miscellaneous' => $miscellaneous,
+			// 														'leytetime' => $leytetymes,
+			// 														'nstp' => $nstp,
+			// 														'internet' => $internetfee,
+			// 														'computer' => $computer,
+			// 														'booklet' => $totalbook,
+			// 														'discount' => $discount,
+			// 														'installment' => $installment,
+			// 														'fullpaydiscount' => $fullpaydiscount,
+			// 														'netfullpayment' =>$netfullpayment,
+			// 														'netenrolment' => $netenrolment,
+			// 														'netprelim' => $netprelim,
+			// 														'netmidterm' =>$netprelim,
+			// 														'netsemi' => $netprelim,
+			// 														'netfinal' => $netprelim
+			// 													);
+			// 														$this->db->insert('tbl_billclass', $data);
+			// 														$this->assesment->reverseposting($billid);
+			// 											}
+
+//			}
 		//For rounding money value
 		function rounded($val){
 			return $x = round($val, 0, PHP_ROUND_HALF_UP);
