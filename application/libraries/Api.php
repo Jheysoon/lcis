@@ -305,4 +305,29 @@ class Api
 	}
 	// end for yearLevel function
 
+	function get_subcode($college)
+	{
+		//$subcode = array('AB', 'CM', 'CR', 'ED', 'GE', 'LE', 'NSTP', 'OA');
+		if($college == 1)
+		{
+			return 'AB|GE';
+		}
+		elseif($college == 2)
+		{
+			return 'ED';
+		}
+		elseif($college == 3)
+		{
+			return 'CM|CR';
+		}
+		elseif($college == 4)
+		{
+			return 'LE|L';
+		}
+		elseif($college == 5)
+		{
+			return 'OA';
+		}
+	}
+
 }
