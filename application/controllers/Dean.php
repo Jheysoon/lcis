@@ -1221,6 +1221,8 @@ class Dean extends CI_Controller
 
     function group(){
 
+        $subcode = $this->api->get_subcode();
+
         $checked = $this->input->post('checked');
 
         if ($checked) {
@@ -1230,11 +1232,12 @@ class Dean extends CI_Controller
             $gr = array('grouping'=> $group);
 
             foreach ($checked as $key => $value) {
-                $this->group->group_sub($checked[$key], $gr);
+                $rr = explode('|', $checked[$key]);
+                $this->group->group_sub($rr[0], $rr[1], $gr);
             }
 
             $this->session->set_flashdata('message',
-            '<div class="alert alert-success" style="margin:20px;">
+            '<div class="alert alert-success">
                 <strong>Subjects grouped!</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -1250,6 +1253,22 @@ class Dean extends CI_Controller
                 </button>
             </div>');
         }
+        redirect(base_url('enrolment_grouping'));
+    }
+
+    function ungroup($gr){
+        $this->load->model('dean/group');
+        $data['grouping'] = 0;
+        $this->group->ungroup($gr, $data);
+
+        $this->session->set_flashdata('message',
+        '<div class="alert alert-success">
+            <strong>Subject ungrouped!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>');
+
         redirect(base_url('enrolment_grouping'));
     }
 
