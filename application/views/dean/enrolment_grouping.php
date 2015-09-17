@@ -47,7 +47,7 @@
                             <th>Descriptive Title</th>
                             <th>Unit</th>
                         </tr>
-                        <?php 
+                        <?php
                             $subcode = $this->api->get_subcode();
                             $res = $this->group->get_subjects($subcode); 
                         ?>
@@ -86,7 +86,7 @@
                             <th>Unit</th>
                             <th>Action</th>
                         </tr>
-                        <?php 
+                        <?php
                             $subcode = $this->api->get_subcode();
                             $res = $this->group->get_grouped_subjects($subcode); ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
