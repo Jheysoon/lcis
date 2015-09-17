@@ -24,15 +24,69 @@
             </div><!-- /.container-fluid -->
           </nav>
         </div>
-		<div class="col-md-6" style="margin-top: 60px">
+        <div class="col-md-12" style="margin-top: 60px"></div>
+        <?php echo '<br/><br/><br/>'.$this->session->flashdata('message'); ?>
+		<div class="col-md-6">
 			<div class="panel p-body">
 				<div class="panel-heading search">
 					<div class="col-md-6">
-					<h4>Add New / Dissolve Section</h4>
+					<h4>Legacy Subjects</h4>
 					</div>
 				</div>
-				<div class="panel-body">
+                <form class="form" action="/dean/group" method="post">
+                    <div style="max-height: 440px; overflow-y: scroll;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="10px;"></th>
+                            <th>Code</th>
+                            <th>Descriptive Title</th>
+                            <th>Unit</th>
+                        </tr>
+                        <?php $res = $this->group->get_subjects('ED'); ?>
+                        <?php foreach ($res as $key => $value): extract($value)?>
+                            <tr>
+                                <td><input type="checkbox" name="checked[]" value="<?php echo $id; ?>"></td>
+                                <td><?php echo $SUBNAME; ?></td>
+                                <td><?php echo $SUBTITLE; ?></td>
+                                <td><?php echo $UNITS; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    </div>
+                    <div class="panel-body">
+                        <button type="submit" class="btn btn-warning pull-right">Add Group >></button>
+                    </div>
+                </form>
+			</div>
+		</div>
+
+
+
+		<div class="col-md-6">
+			<div class="panel p-body">
+				<div class="panel-heading search">
+					<div class="col-md-6">
+					<h4>Grouped Subjects</h4>
+					</div>
 				</div>
+
+                <div style="max-height: 440px; overflow-y: scroll;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Code</th>
+                            <th>Descriptive Title</th>
+                            <th>Unit</th>
+                        </tr>
+                        <?php $res = $this->group->get_grouped_subjects('ED'); ?>
+                        <?php foreach ($res as $key => $value): extract($value)?>
+                            <tr>
+                                <td><?php echo $SUBNAME; ?></td>
+                                <td><?php echo $SUBTITLE; ?></td>
+                                <td><?php echo $UNITS; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
 			</div>
 		</div>
 	</body>
