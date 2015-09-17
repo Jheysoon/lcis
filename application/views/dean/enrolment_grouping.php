@@ -24,14 +24,19 @@
             </div><!-- /.container-fluid -->
           </nav>
         </div>
-        <div class="col-md-12" style="margin-top: 60px"></div>
-        <?php echo '<br/><br/><br/>'.$this->session->flashdata('message'); ?>
+        <div class="col-md-11" style="margin-top: 70px">
+            <?php 
+                echo $this->session->flashdata('message'); 
+                $col = $this->group->getCol($this->api->getUserCollege());
+            ?>
+        </div>
+        <div class="col-md-1" style="margin-top: 70px">
+            <a href="/" class="btn btn-primary pull-right"> <<< Back</a>
+        </div>
 		<div class="col-md-6">
 			<div class="panel p-body">
 				<div class="panel-heading search">
-					<div class="col-md-6">
-					<h4>Legacy Subjects</h4>
-					</div>
+					<h4>Legacy Subjects <small style="color: #FF0">(<?php echo $col['description']; ?>)</small></h4>
 				</div>
                 <form class="form" action="/dean/group" method="post">
                     <div style="max-height: 440px; overflow-y: scroll;">
