@@ -130,7 +130,7 @@ class Dean extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    function edit_subject($sid,$param = '')
+    function edit_subject($sid, $param = '')
     {
         if(!empty($sid) AND is_numeric($sid))
         {
@@ -142,7 +142,7 @@ class Dean extends CI_Controller
 
             $this->api->userMenu();
 
-            $sub = $this->subject->find($sid);
+            $sub                        = $this->subject->find($sid);
             extract($sub);
             $data['code']               = $code;
             $data['descriptivetitle']   = $descriptivetitle;
@@ -159,7 +159,7 @@ class Dean extends CI_Controller
             $data['error']              = '';
             $data['param']              = $param;
 
-            $this->load->view('dean/subjects',$data);
+            $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
         }
         else
@@ -180,10 +180,10 @@ class Dean extends CI_Controller
         $this->load->helper('form');
 
         // rules
-        $this->form_validation->set_rules('code','Subject Code','trim|required');
-        $this->form_validation->set_rules('title','Descriptive Title','trim|required');
-        $this->form_validation->set_rules('units','Subject Units','trim|required|integer');
-        $this->form_validation->set_rules('hours','Subject Hours','trim|required|integer');
+        $this->form_validation->set_rules('code', 'Subject Code', 'trim|required');
+        $this->form_validation->set_rules('title', 'Descriptive Title', 'trim|required');
+        $this->form_validation->set_rules('units', 'Subject Units', 'trim|required|integer');
+        $this->form_validation->set_rules('hours', 'Subject Hours', 'trim|required|integer');
 
         if($this->form_validation->run() === FALSE)
         {
