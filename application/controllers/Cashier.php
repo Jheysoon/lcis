@@ -56,13 +56,15 @@ class Cashier extends CI_Controller {
         $this->load->view('cashier/add_cashout');
         $this->load->view('templates/footer');
     }
-    function addservicpayment(){
+    function addservicpayment()
+    {
         $this->head();
         $this->load->view('cashier/add_servicepayment');
         $this->load->view('templates/footer');
     }
-    function searchstud($id){
-      $id = urldecode($id);
+    function searchstud($id)
+    {
+      $id   = urldecode($id);
       $data = array();
       $this->load->model('cashier/account');
       $results_id = $this->account->search_account($id);
@@ -75,6 +77,5 @@ class Cashier extends CI_Controller {
     function accmove()
     {
       $id = $this->load->model('cashier/account');
-      
     }
 }

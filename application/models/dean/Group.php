@@ -44,4 +44,10 @@ class Group extends CI_Model
 		$this->db->update('tbl_enrolment_legacy', $data);
 	}
 
+	function getCol($id){
+		$this->db->where('id', $id);
+		$q = $this->db->get('tbl_college');
+		return $q->row_array();
+	}
+
 }

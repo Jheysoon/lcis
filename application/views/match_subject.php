@@ -41,25 +41,32 @@
                 <?php
                 //$e = explode('|', 'ED');
                 //echo 'substr(subcode,1,2) ='.implode($e, ' OR substr(subcode,1,2)=');
+                    $owner = $this->api->getUserCollege();
                  ?>
                 <div class="col-md-6">
                     <div class="panel p-body">
         				<div class="panel-heading search">
         					<div class="col-md-6">
-        					<h4>Curriculum Subjects</h4>
+        					<h4>Curriculum Subjects <?php
+                                $this->db->where('id', $owner);
+                                $col = $this->db->get('tbl_college')->row_array();
+                                echo '('.$col['description'].')';
+                              ?></h4>
         					</div>
         				</div>
                         <div style="max-height: 440px; overflow-y: auto;">
                             <table class="table table-bordered">
                                 <thead>
                                     <th></th>
+                                    <th>Year Level</th>
+                                    <th>Term</th>
                                     <th>Code</th>
                                     <th>Descriptive Title</th>
                                     <th>Units</th>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $owner = $this->api->getUserCollege();
+
                                         if($owner == 1){
                                             $cur = array('14', '18');
                                         }
@@ -77,7 +84,7 @@
                                         }
 
                                         $curs = implode($cur, ',');
-                                        $r = $this->db->query("SELECT DISTINCT(b.id) as subject,code,descriptivetitle,units
+                                        $r = $this->db->query("SELECT DISTINCT(b.id) as subject,code,descriptivetitle,units,yearlevel,term
                                             FROM tbl_curriculumdetail a,tbl_subject b WHERE curriculum IN($curs)
                                             AND a.subject = b.id ORDER BY yearlevel,term,descriptivetitle")->result_array();
                                         // $r = $this->db->get('view_cur_subjects')->result_array();
@@ -87,6 +94,12 @@
                                             <tr>
                                                 <td>
                                                     <input type="radio" name="cur_sub" value="<?php echo $sub['subject'] ?>">
+                                                </td>
+                                                <td>
+                                                    <?php echo $sub['yearlevel'] ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $sub['term'] ?>
                                                 </td>
                                                 <td>
                                                     <?php echo $sub['code'] ?>
@@ -152,7 +165,7 @@
                             </table>
                         </div>
                         <div class="panel-body">
-                            <button type="submit" class="btn btn-warning pull-right">Same Subject</button>
+                            <button type="submit" class="btn btn-warning pull-right">Match Subject</button>
                         </div>
         			</div>
                 </div>

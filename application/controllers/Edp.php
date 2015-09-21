@@ -54,14 +54,14 @@ class Edp extends CI_Controller
         $this->load->helper('form');
 
         //rules
-        $this->form_validation->set_rules('room','Classroom','trim|required|max_length[10]');
-        $this->form_validation->set_rules('mincapacity','Minimum Capacity','trim|required|integer');
-        $this->form_validation->set_rules('maxcapacity','Maximun Capacity','trim|required|integer');
+        $this->form_validation->set_rules('room', 'Classroom', 'trim|required|max_length[10]');
+        $this->form_validation->set_rules('mincapacity', 'Minimum Capacity', 'trim|required|integer');
+        $this->form_validation->set_rules('maxcapacity', 'Maximun Capacity', 'trim|required|integer');
 
         if($this->form_validation->run() === FALSE)
         {
             $data['error'] = '';
-            $this->load->view('edp/edit_classroom',$data);
+            $this->load->view('edp/edit_classroom', $data);
         }
         else
         {
@@ -83,7 +83,7 @@ class Edp extends CI_Controller
                 $this->db->insert('tbl_classroom',$dat);
             }
         }
-        $this->load->view('templates/footer',array('orig_page'=>''));
+        $this->load->view('templates/footer', array('orig_page' => ''));
     }
 
     function load_stat()
@@ -187,8 +187,8 @@ class Edp extends CI_Controller
 
         foreach($coursemajor as $key => $value)
         {
-            $data = array();
-            $data['course']    = $value;
+            $data                   = array();
+            $data['course']         = $value;
             $data['yearlevel']      = $year_level[$key];
             $data['studentcount']   = $count[$key];
             $data['academicterm']   = $acam;
@@ -198,9 +198,9 @@ class Edp extends CI_Controller
         $this->out_section();
 
         // update the system value in tbl_systemvalues
-        $this->db->update('tbl_systemvalues',array('classallocationstatus' => 1));
+        $this->db->update('tbl_systemvalues', array('classallocationstatus' => 1));
 
-        $this->session->set_flashdata('message','<div class="alert alert-success">
+        $this->session->set_flashdata('message', '<div class="alert alert-success">
             Successfully Created
         </div>');
         redirect(base_url());
@@ -229,7 +229,7 @@ class Edp extends CI_Controller
         else
             $d['section'] = (int) ($count / $this->numberOfStudents);
 
-        $this->db->insert('out_section',$d);
+        $this->db->insert('out_section', $d);
     }
 
     function view_sched($roomId = '')
@@ -248,7 +248,7 @@ class Edp extends CI_Controller
             $data['location']   = $room['location'];
             $this->api->userMenu();
 
-            $this->load->view('edp/view_room_sched',$data);
+            $this->load->view('edp/view_room_sched', $data);
             $this->load->view('templates/footer');
         }
         else
@@ -265,7 +265,7 @@ class Edp extends CI_Controller
             $this->load->model(array(
                 'edp/edp_classallocation'
             ));
-            $this->load->view('edp/select_subj',$data);
+            $this->load->view('edp/select_subj', $data);
             $this->load->view('templates/footer');
         }
         else
@@ -285,7 +285,7 @@ class Edp extends CI_Controller
             $this->load->helper('form');
             $data['cid'] = $cid;
             $data['num'] = $this->input->post('days_count') ? $this->input->post('days_count') - 1 : 0;
-            $this->load->view('edp/assign_subj_room',$data);
+            $this->load->view('edp/assign_subj_room', $data);
             $this->load->view('templates/footer');
         }
         else
@@ -312,7 +312,7 @@ class Edp extends CI_Controller
 
         foreach($dayPeriodId as $key => $value)
         {
-            $this->edp_classallocation->updateClassroom($room[$key],$value);
+            $this->edp_classallocation->updateClassroom($room[$key], $value);
             /*$f = $this->db->get_where('tbl_period',array('id' => $from_time[$key]))->row_array();
             $ff = $f['time'];
             $t = $this->db->get_where('tbl_period',array('id' => $to_time[$key]))->row_array();
@@ -412,10 +412,11 @@ class Edp extends CI_Controller
                     $reg_id = $this->cre_reg($reg['student'], $reg['coursemajor']);
                 }
                 $this->db->where('id', $reg_id);
-                $gg = $this->db->get('tbl_registration')->row_array();
-                $course = $gg['coursemajor'];
 
-                $t = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
+                $gg     = $this->db->get('tbl_registration')->row_array();
+                $course = $gg['coursemajor'];
+                $t      = $this->db->query("SELECT * FROM tbl_academicterm ORDER BY systart ASC,term")->result_array();
+
                 foreach ($t as $acam) {
 
                     $c = $this->db->query("SELECT * FROM tbl_curriculum
@@ -435,18 +436,18 @@ class Edp extends CI_Controller
         }
     }
 
-    function cre_reg($student,$coursemajor)
+    function cre_reg($student, $coursemajor)
     {
-        $d['student'] = $student;
-        $d['coursemajor'] = $coursemajor;
+        $d['student']       = $student;
+        $d['coursemajor']   = $coursemajor;
         //$d['curriculum'] = $curriculum;
-        $this->db->insert('tbl_registration',$d);
+        $this->db->insert('tbl_registration', $d);
         $id = $this->db->insert_id();
 
         $f['registration'] = $id;
-        $this->db->where('student',$student);
-        $this->db->where('coursemajor',$coursemajor);
-        $this->db->update('tbl_enrolment',$f);
+        $this->db->where('student', $student);
+        $this->db->where('coursemajor', $coursemajor);
+        $this->db->update('tbl_enrolment', $f);
         return $id;
     }
     function tryap1($id)
@@ -457,25 +458,25 @@ class Edp extends CI_Controller
     // test function
     function tryap2($id)
     {
-        $this->db->where('coursemajor',$id);
+        $this->db->where('coursemajor', $id);
         $q = $this->db->get('tbl_enrolment')->result_array();
         foreach ($q as $val) {
 
-            $this->db->where('enrolment',$val['id']);
+            $this->db->where('enrolment', $val['id']);
             $qq = $this->db->get('tbl_studentgrade')->result_array();
 
             foreach ($qq as $val1) {
-                $this->db->where('id',$val1['classallocation']);
+                $this->db->where('id', $val1['classallocation']);
                 $s = $this->db->get('tbl_classallocation')->row_array();
 
-                $this->db->where('subject',$s['subject']);
-                $this->db->where('coursemajor',$id);
+                $this->db->where('subject', $s['subject']);
+                $this->db->where('coursemajor', $id);
                 $i = $this->db->count_all_results('out_c');
                 if($i < 1)
                 {
-                    $db['subject'] = $s['subject'];
-                    $db['coursemajor'] = $id;
-                    $this->db->insert('out_c',$db);
+                    $db['subject']      = $s['subject'];
+                    $db['coursemajor']  = $id;
+                    $this->db->insert('out_c', $db);
                 }
             }
         }
@@ -483,7 +484,7 @@ class Edp extends CI_Controller
 
     function tt()
     {
-        $this->db->where('comment','not found tbl_registration');
+        $this->db->where('comment', 'not found tbl_registration');
         $t = $this->db->get('out_exception')->result_array();
         foreach ($t as $val) {
             $tt = $this->db->query("SELECT * FROM tbl_enrolment
@@ -491,11 +492,10 @@ class Edp extends CI_Controller
                 FROM tbl_enrolment WHERE student = {$val['student']})
                 AND student = {$val['student']} LIMIT 1")->row_array();
 
-            $acam = $tt['academicterm'];
-            $coursemajor = $tt['coursemajor'];
-
-            $t1 = $this->db->query("SELECT * FROM tbl_academicterm
-                ORDER BY systart ASC,term")->result_array();
+            $acam           = $tt['academicterm'];
+            $coursemajor    = $tt['coursemajor'];
+            $t1             = $this->db->query("SELECT * FROM tbl_academicterm
+                                ORDER BY systart ASC,term")->result_array();
 
             foreach ($t1 as $k) {
                 $this->db->where('coursemajor',$coursemajor);
@@ -504,16 +504,16 @@ class Edp extends CI_Controller
 
                 if($c->num_rows() > 0)
                 {
-                    $ff = $c->row_array();
-                    $data['student'] = $val['student'];
-                    $data['coursemajor'] = $coursemajor;
-                    $data['curriculum'] = $ff['id'];
-                    $this->db->insert('tbl_registration',$data);
+                    $ff                     = $c->row_array();
+                    $data['student']        = $val['student'];
+                    $data['coursemajor']    = $coursemajor;
+                    $data['curriculum']     = $ff['id'];
+                    $this->db->insert('tbl_registration', $data);
                     $reg_id = $this->db->insert_id();
 
                     $d['registration'] = $reg_id;
-                    $this->db->where('student',$val['student']);
-                    $this->db->update('tbl_enrolment',$d);
+                    $this->db->where('student', $val['student']);
+                    $this->db->update('tbl_enrolment', $d);
                     break;
                 }
             }
@@ -522,17 +522,17 @@ class Edp extends CI_Controller
 
     function up()
     {
-        $this->db->where('comment','no curriculum tbl_registration');
+        $this->db->where('comment', 'no curriculum tbl_registration');
         $r = $this->db->get('out_exception')->result_array();
         foreach ($r as $key) {
-            $this->db->where('student',$key['student']);
-            $this->db->where('coursemajor',22);
+            $this->db->where('student', $key['student']);
+            $this->db->where('coursemajor', 22);
             $g = $this->db->count_all_results('tbl_registration');
             if($g > 0)
             {
                 $d['coursemajor'] = 8;
-                $this->db->where('student',$key['student']);
-                $this->db->update('tbl_registration',$d);
+                $this->db->where('student', $key['student']);
+                $this->db->update('tbl_registration', $d);
             }
         }
     }
@@ -549,8 +549,8 @@ class Edp extends CI_Controller
             $acam = $t['ac'];
 
             $f['academicterm'] = $acam;
-            $this->db->where('student',$key['student']);
-            $this->db->update('tbl_registration',$f);
+            $this->db->where('student', $key['student']);
+            $this->db->update('tbl_registration', $f);
 
         }
     }
