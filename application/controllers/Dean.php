@@ -469,8 +469,8 @@ class Dean extends CI_Controller
         $id                 = $this->input->post('out_section_id');
         $data['section']    = $this->input->post('sections');
 
-        $this->db->where('id',$id);
-        $this->db->update('out_section',$data);
+        $this->db->where('id', $id);
+        $this->db->update('out_section', $data);
     }
 
     // leave it as is..
@@ -492,11 +492,11 @@ class Dean extends CI_Controller
         //$c = $this->out_section->whereCount($data['academicterm'],$data['coursemajor'],$data['subject'],$data['yearlevel']);
         $id = $this->input->post('out_section_id');
         if($id == NULL)
-            $this->db->insert('out_section',$data);
+            $this->db->insert('out_section', $data);
         else
         {
             $this->db->where('id',$id);
-            $this->db->update('out_section',$data);
+            $this->db->update('out_section', $data);
         }
 
         if($is_ajax == 0)
@@ -618,10 +618,10 @@ class Dean extends CI_Controller
             // If there are no conflicts proceed to saving.
             if ($message == '') {
 
-                $student = $this->input->post('student');
-                $coursemajor = $this->input->post('coursemajor');
-                $registration = $this->input->post('registration');
-                $academicterm = $this->input->post('academicterm');
+                $student        = $this->input->post('student');
+                $coursemajor    = $this->input->post('coursemajor');
+                $registration   = $this->input->post('registration');
+                $academicterm   = $this->input->post('academicterm');
 
                 // Checking if student is already evaluated.
                 $eval = $this->student->checkEvaluation($student, $academicterm);
@@ -698,7 +698,7 @@ class Dean extends CI_Controller
 
         if($this->form_validation->run() === FALSE)
         {
-            $this->load->view('dean/add_non_subject',$data);
+            $this->load->view('dean/add_non_subject', $data);
             $this->load->view('templates/footer');
         }
         else
@@ -709,7 +709,7 @@ class Dean extends CI_Controller
             if($q > 0)
             {
                 $data['error'] = '<div class="alert alert-danger">You have already assigned this subject with this course</div>';
-                $this->load->view('dean/add_non_subject',$data);
+                $this->load->view('dean/add_non_subject', $data);
                 $this->load->view('templates/footer');
             }
             else
@@ -720,7 +720,7 @@ class Dean extends CI_Controller
                 $db['academicterm'] = $systemVal['nextacademicterm'];
                 $db['studentcount'] = 0;
                 $db['yearlevel']    = $this->input->post('yearlevel');
-                $this->db->insert('out_section',$db);
+                $this->db->insert('out_section', $db);
                 redirect('/non_exist');
             }
         }
@@ -861,7 +861,7 @@ class Dean extends CI_Controller
                     $data['day']                = $value;
                     $data['from_time']          = $start_time[$key];
                     $data['to_time']            = $end_time[$key];
-                    $this->db->insert('tbl_dayperiod',$data);
+                    $this->db->insert('tbl_dayperiod', $data);
                 }
                 else{
                     $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
@@ -973,9 +973,9 @@ class Dean extends CI_Controller
     // function to delete classallocation
     function delete_classalloc($id)
     {
-        $this->db->where('id',$id);
+        $this->db->where('id', $id);
         $this->db->delete('tbl_classallocation');
-        $this->db->where('classallocation',$id);
+        $this->db->where('classallocation', $id);
         $this->db->delete('tbl_dayperiod');
         redirect('/menu/dean-add_day_period');
     }
@@ -985,7 +985,7 @@ class Dean extends CI_Controller
     {
         $data['subject']        = $this->input->post('subj');
         $data['coursemajor']    = $this->input->post('course_major');
-        $this->db->insert('tbl_classallocation',$data);
+        $this->db->insert('tbl_classallocation', $data);
         redirect('/menu/dean-add_day_period');
     }
 
@@ -1006,7 +1006,7 @@ class Dean extends CI_Controller
             $r = $this->db->get('tbl_completion');
             if($r->num_rows() < 1)
             {
-                $this->db->insert('tbl_completion',$data);
+                $this->db->insert('tbl_completion', $data);
             }
             else
             {
@@ -1020,8 +1020,8 @@ class Dean extends CI_Controller
         }
         else
         {
-            $this->db->where('id',$id);
-            $this->db->update('tbl_completion',$data);
+            $this->db->where('id', $id);
+            $this->db->update('tbl_completion', $data);
         }
     }
 
@@ -1043,7 +1043,7 @@ class Dean extends CI_Controller
         $owner = $this->api->getUserCollege();
         $this->load->model(array('edp/edp_classallocation'));
 
-        $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'],$owner);
+        $su = $this->edp_classallocation->getAlloc($systemVal['nextacademicterm'], $owner);
     }
 
     function save_instructor()
@@ -1117,17 +1117,17 @@ class Dean extends CI_Controller
             $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = {$cl['id']}");
 
             $this->db->where('id', $cl['subject']);
-            $s = $this->db->get('tbl_subject')->row_array();
-            $units = $s['units'];
-            $units_heap = $units;
 
-            $ctr = 0;
-            $ctr1 = 0;
+            $s          = $this->db->get('tbl_subject')->row_array();
+            $units      = $s['units'];
+            $units_heap = $units;
+            $ctr        = 0;
+            $ctr1       = 0;
 
             if($univ == 28)
             {
-                $univ = 0;
-                $univ_day = $univ_day + 1;
+                $univ       = 0;
+                $univ_day   = $univ_day + 1;
                 //$ctr2++;
             }
 
