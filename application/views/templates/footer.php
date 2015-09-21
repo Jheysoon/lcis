@@ -114,6 +114,17 @@
                 <script type="text/javascript" src="/assets/js/dean_subject.js"></script>
         <?php
             }
+            if(in_array('lc_curriculum', $str1))
+            {
+                ?>
+                <script src="/assets/js/select2.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('select[name=subid]').select2();
+                    });
+                </script>
+        <?php
+            }
             if(in_array('registrar-tor_studlist', $str1))
             {
                 ?>
