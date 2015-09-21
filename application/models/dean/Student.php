@@ -8,7 +8,7 @@
         						 AND tbl_coursemajor.course = tbl_course.id
         						 AND tbl_party.id = tbl_registration.student
         						 AND tbl_course.college = '$col'
-								 AND tbl_registration.status != 'G'
+								 	 	 AND tbl_registration.status != 'G'
         						 GROUP BY student ORDER BY legacyid DESC")
             ->num_rows();
 		}
@@ -20,7 +20,7 @@
 	        						 AND tbl_coursemajor.course = tbl_course.id
 	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_course.college = '$col'
-									 AND tbl_registration.status != 'G'
+									 	 	 AND tbl_registration.status != 'G'
 	        						 GROUP BY student  ORDER BY legacyid DESC LIMIT $param, 15");
 	        return $q->result_array();
 	    }
@@ -67,10 +67,9 @@
 						        						 AND tbl_coursemajor.course = tbl_course.id
 						        						 AND tbl_party.id = tbl_registration.student
 						        						 AND tbl_party.legacyid = '$id'
-									 						 	AND tbl_registration.id =
-									 (SELECT MAX(a.id) FROM tbl_registration a, tbl_party b
-									 WHERE a.student = b.id AND b.legacyid = '$id' )
-	        						 ");
+									 						 	 AND tbl_registration.id =
+																 (SELECT MAX(a.id) FROM tbl_registration a, tbl_party b
+																 WHERE a.student = b.id AND b.legacyid = '$id' )");
 	        return $q->row_array();
 	    }
 			//Insert Bill Detail
