@@ -1233,7 +1233,7 @@ class Dean extends CI_Controller
 
             foreach ($checked as $key => $value) {
                 $rr = explode('|', $checked[$key]);
-                $this->group->group_sub($rr[0], $rr[1], $gr);
+                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr);
             }
 
             $this->session->set_flashdata('message',
