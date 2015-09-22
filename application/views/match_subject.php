@@ -187,6 +187,7 @@
                                     </th>
                                     <th>Descriptive Title</th>
                                     <th>Units</th>
+                                    <th>Action</th>
                                 </tr>
                                 <?php
                                     $rr = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND subject_id != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
@@ -202,6 +203,9 @@
                                             </td>
                                             <td>
                                                 <?php echo $aa['UNITS'] ?>
+                                            </td>
+                                            <td>
+                                                <a href="/undo_subject/<?php echo $aa['subject_id'] ?>" onclick="return confirm('Are you sure to undo ?')" class="btn btn-danger btn-xs btn-block">Undo</a>
                                             </td>
                                         </tr>
                                 <?php

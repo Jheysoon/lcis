@@ -118,4 +118,12 @@ class Instructor extends CI_Controller
         }
         redirect('/match_subject');
     }
+
+    function undo_subject($id)
+    {
+        $data['subject_id'] = 0;
+        $this->db->where('subject_id', $id);
+        $this->db->update('tbl_enrolment_legacy', $data);
+        redirect('/match_subject');
+    }
 }
