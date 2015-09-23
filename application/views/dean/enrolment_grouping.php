@@ -25,8 +25,8 @@
           </nav>
         </div>
         <div class="col-md-11" style="margin-top: 70px">
-            <?php 
-                echo $this->session->flashdata('message'); 
+            <?php
+                echo $this->session->flashdata('message');
                 $col = $this->group->getCol($this->api->getUserCollege());
             ?>
         </div>
@@ -49,7 +49,7 @@
                         </tr>
                         <?php
                             $subcode = $this->api->get_subcode();
-                            $res = $this->group->get_subjects($subcode); 
+                            $res = $this->group->get_subjects($subcode);
                         ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
