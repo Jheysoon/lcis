@@ -80,7 +80,7 @@
                                             $cur = array('42', '50');
                                         }
                                         elseif($owner == 5){
-                                            $cur = array('16', '54');
+                                            $cur = array('16', '54', '56');
                                         }
 
                                         $curs = implode($cur, ',');
