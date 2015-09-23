@@ -53,7 +53,7 @@
                         ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
-                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE.'|'.$SUBNAME; ?>"></td>
+                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE.'|'.$SUBNAME.'|'.$UNITS; ?>"></td>
                                 <td><?php echo $SUBNAME; ?></td>
                                 <td><?php echo $SUBTITLE; ?></td>
                                 <td><?php echo $UNITS; ?></td>
