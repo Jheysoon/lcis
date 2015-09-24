@@ -123,12 +123,14 @@ class Api
 
 	//$from = 1:00,	$from_compare 	= 2:00
 	//$to 	= 3:00,	$to_compare 	= 5:00
-    function intersectCheck($from, $from_compare, $to, $to_compare){
-        $from = strtotime($from);
-        $from_compare = strtotime($from_compare);
-        $to = strtotime($to);
-        $to_compare = strtotime($to_compare);
-        $intersect = min($to, $to_compare) - max($from, $from_compare);
+    function intersectCheck($from, $from_compare, $to, $to_compare)
+	{
+        $from 			= strtotime($from);
+        $from_compare 	= strtotime($from_compare);
+        $to 			= strtotime($to);
+        $to_compare 	= strtotime($to_compare);
+        $intersect 		= min($to, $to_compare) - max($from, $from_compare);
+		
             if ( $intersect < 0 ) $intersect = 0;
             $overlap = $intersect / 3600;
             if ( $overlap <= 0 ):
