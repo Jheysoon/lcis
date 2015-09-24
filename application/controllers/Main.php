@@ -203,12 +203,12 @@ class Main extends CI_Controller
     {
         $this->dean();
     }
-    function createUsername($fname,$lname)
+    function createUsername($fname, $lname)
     {
-        if(strlen($lname)>=6)
+        if(strlen($lname) >= 6)
         {
-            $username='';
-            for($i=0;$i<6;$i++)
+            $username = '';
+            for($i = 0; $i < 6; $i++)
             {
                 $username .= $lname[$i];
             }
