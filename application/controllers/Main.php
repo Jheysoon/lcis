@@ -206,13 +206,13 @@ class Main extends CI_Controller
     function createUsername($fname, $lname)
     {
         if(strlen($lname) >= 6)
-        {
-            $username = '';
-            for($i = 0; $i < 6; $i++)
-            {
-                $username .= $lname[$i];
-            }
-        }
+            $username = substr($lname, 0, 6);
+        else
+            $username = $lname;
+
+        // check if the username already exists in database
+        $username = $username.substr($fname, 0, 2);
+        echo $username;
     }
 
     function setSy_session()
