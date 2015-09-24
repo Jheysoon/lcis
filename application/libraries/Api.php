@@ -46,6 +46,11 @@ class Api
             'dean/subject',
             'dean/common_dean'
         ));
+
+		if(! $this->CI->session->has_userdata('uid'))
+		{
+			redirect(base_url());
+		}
         $uid = $this->CI->session->userdata('uid');
 
         $col = $this->CI->common_dean->countAcam($uid);
@@ -130,7 +135,7 @@ class Api
         $to 			= strtotime($to);
         $to_compare 	= strtotime($to_compare);
         $intersect 		= min($to, $to_compare) - max($from, $from_compare);
-		
+
             if ( $intersect < 0 ) $intersect = 0;
             $overlap = $intersect / 3600;
             if ( $overlap <= 0 ):
