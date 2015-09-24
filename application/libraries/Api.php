@@ -103,14 +103,20 @@ class Api
 	// load the user menu
 	function userMenu()
 	{
-		$this->CI->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-
-        $this->CI->load->view('templates/header');
-        $this->CI->load->view('templates/header_title2');
+		if($this->CI->session->has_userdata('uid'))
+		{
+			$this->CI->load->model(array(
+	            'home/option',
+	            'home/option_header',
+	            'home/useroption'
+	        ));
+	        $this->CI->load->view('templates/header');
+	        $this->CI->load->view('templates/header_title2');
+		}
+		else
+		{
+			redirect(base_url());
+		}
 	}
 
 	// 1:00-3:00 / 2:00-5:00
@@ -304,7 +310,7 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-	
+
 	function get_subcode(){
 		$col = $this->getUserCollege();
 		if ($col == 1) {
