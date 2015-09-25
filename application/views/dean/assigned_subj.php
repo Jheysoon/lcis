@@ -2,7 +2,7 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 			<div class="panel-heading">
-				<h4>Assign Day/Period</h4>
+				<h4>Subject Schedule</h4>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-12">
@@ -32,7 +32,7 @@
 							</td>
 						</tr>
 					 </table>
-					 <form action="/add_day_period/<?php echo $cid; ?>" method="post">
+					 <!-- <form action="/add_day_period/<?php echo $cid; ?>" method="post">
 
 					 <div class="col-md-4 col-md-offset-4">
 						<label>Select how many days</label>
@@ -97,8 +97,59 @@
 						</table>
 						<input type="submit" class="btn btn-primary pull-right" value="Submit">
 					 </div>
-					 </form>
+					 </form> -->
 				</div>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<form action="/add_day_period/<?php echo $cid; ?>" method="post">
+								<table class="table">
+									<tr>
+										<th>Days</th>
+										<th>Start Time</th>
+										<th>End Time</th>
+									</tr>
+									<?php
+										$d = $this->db->get('tbl_day')->result_array();
+										$t = $this->db->get('tbl_time')->result_array();
+										foreach($d as $day)
+										{
+											?>
+											<tr>
+												<td>
+													<div class="checkbox">
+														<label>
+															<input type="checkbox" style="margin-top:8px;" name="day[]" value="<?php echo $day['id'] ?>">
+															<strong style="font-size:18px"><?php echo $day['day'] ?></strong>
+														</label>
+													</div>
+												</td>
+												<td>
+													<select class="form-control" name="start_time[]">
+														<?php foreach ($t as $time) { ?>
+															<option value="<?php echo $time['id'] ?>"><?php echo $time['time'] ?></option>
+														<?php } ?>
+													</select>
+												</td>
+												<td>
+													<select class="form-control" name="end_time[]">
+														<?php foreach ($t as $time) { ?>
+															<option value="<?php echo $time['id'] ?>"><?php echo $time['time'] ?></option>
+														<?php } ?>
+													</select>
+												</td>
+											</tr>
+									<?php
+										}
+									 ?>
+								</table>
+								<input type="submit" class="btn btn-primary pull-right" value="Submit">
+							</form>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
