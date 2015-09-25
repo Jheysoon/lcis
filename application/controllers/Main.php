@@ -210,8 +210,27 @@ class Main extends CI_Controller
         else
             $username = $lname;
 
-        // check if the username already exists in database
         $username = $username.substr($fname, 0, 2);
+
+        // check if the username already exists in database
+        $this->db->where('username', $username);
+        $count  = $this->db->count_all_results('tbl_useraccess');
+        $ctr    = 0;
+        $suffix = '00';
+
+        // find an alternative username
+        while ($count > 0)
+        {
+            $ctr++;
+            if($ctr < 10)
+                $suffix = '0'.$ctr;
+            else
+                $suffix = $ctr;
+                
+            $username = $username.$suffix;
+            $this->db->where('username', $username);
+            $count  = $this->db->count_all_results('tbl_useraccess');
+        }
         echo $username;
     }
 
