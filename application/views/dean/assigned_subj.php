@@ -9,10 +9,8 @@
 				<?php
 					echo $this->session->flashdata('message');
 					echo $error;
+					$cl = $this->edp_classallocation->find($cid);
 				?>
-					<?php
-						$cl = $this->edp_classallocation->find($cid);
-					 ?>
 					 <table class="table">
 						<tr>
 							<th>Subject</th>
@@ -34,12 +32,9 @@
 							</td>
 						</tr>
 					 </table>
-					 <div class="col-md-4">
-
-					 </div>
 					 <form action="/add_day_period/<?php echo $cid; ?>" method="post">
 
-					 <div class="col-md-4">
+					 <div class="col-md-4 col-md-offset-4">
 						<label>Select how many days</label>
 						<select class="form-control" name="days_count" data-classId="<?php echo $cid; ?>">
 							<option value="1" <?php echo set_select('days_count','1'); ?>>1</option>
@@ -85,10 +80,10 @@
 								<td>
 									<select class="form-control" name="end_time[]">
 									<?php
-										//$t = $this->db->get('tbl_time')->result_array();
 										foreach($t as $time)
 										{
-											if($time['id'] != 1){
+											if($time['id'] != 1)
+											{
 									 ?>
 										<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time['.$i.']',$time['id']); ?>><?php echo $time['time'] ?></option>
 									 <?php
@@ -101,10 +96,8 @@
 							<?php } ?>
 						</table>
 						<input type="submit" class="btn btn-primary pull-right" value="Submit">
-
 					 </div>
 					 </form>
-
 				</div>
 			</div>
 		</div>
