@@ -137,7 +137,7 @@
                                 <tbody>
                                     <?php
                                         $subcodes = $this->api->get_subcode();
-                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
+                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC, SUBTITLE")->result_array();
                                         foreach($r as $rr)
                                         {
                                             if($rr['subject_id'] == 0)

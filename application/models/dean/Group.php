@@ -23,7 +23,7 @@ class Group extends CI_Model
 			FROM `tbl_enrolment_legacy`
 			WHERE grouping != 0
 			AND ($code)
-			GROUP BY grouping
+			GROUP BY grouping ORDER BY SUBTITLE
 		");
 		return $q->result_array();
 	}
