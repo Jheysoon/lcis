@@ -811,41 +811,22 @@ class Dean extends CI_Controller
                     {
 
                         $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
-                        if($this->input->post('edp'))
-                        {
-                            $this->session->set_flashdata('message', $this->error);
-                            redirect('/assign_room/'.$cid);
-                        }
                         return FALSE;
                     }
                 }
                 else
                 {
                     $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
                     return FALSE;
                 }
             }
             else
             {
                 $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
-                if($this->input->post('edp'))
-                {
-                    $this->session->set_flashdata('message', $this->error);
-                    redirect('/assign_room/'.$cid);
-                }
                 return FALSE;
             }
         }
         $this->api->set_session_message('success','Successfully added');
-        if($this->input->post('edp'))
-        {
-            redirect('/assign_room/'.$cid);
-        }
         return TRUE;
     }
 
