@@ -70,14 +70,14 @@
 											<td>
 												<select class="form-control" name="start_time<?php echo $day['id'] ?>">
 													<?php foreach ($t as $time) { ?>
-														<option value="<?php echo $time['id'] ?>" <?php echo set_select('start_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?></option>
+														<option value="<?php echo $time['id'] ?>" <?php echo set_select('start_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
 													<?php } ?>
 												</select>
 											</td>
 											<td>
 												<select class="form-control" name="end_time<?php echo $day['id'] ?>">
 													<?php foreach ($t as $time) { ?>
-														<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?></option>
+														<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
 													<?php } ?>
 												</select>
 											</td>
