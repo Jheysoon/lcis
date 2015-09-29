@@ -13,7 +13,7 @@
 						$this->db->where('stage', 4);
 						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();
-						if($c == COLLEGE_COUNT)
+						if(TRUE)
 						{
 				 ?>
 			<div style="max-width:200px;">

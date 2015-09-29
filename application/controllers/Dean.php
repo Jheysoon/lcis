@@ -736,7 +736,7 @@ class Dean extends CI_Controller
 
         $this->load->helper('form');
 
-        if($this->input->post('days_count'))
+        if($this->input->post('day'))
         {
             $ret = $this->ass_subj();
             if($ret == TRUE)
@@ -745,126 +745,83 @@ class Dean extends CI_Controller
             }
         }
 
-        if($this->input->post('days_count') == NULL)
-        {
-            $data['num'] = 0;
-        }
-        else
-        {
-            $data['num'] = $this->input->post('days_count') - 1;
-        }
-
         $data['error']  = $this->error;
         $data['cid']    = $cid;
-        $this->load->view('dean/assigned_subj',$data);
+        $this->load->view('dean/assigned_subj', $data);
         $this->load->view('templates/footer');
     }
 
-    function ajax_day_period()
+    function edp_override($id)
     {
-        $cid = $this->input->post('cid');
-        $template = '';
-        $template .= '<tr>
-                <th>Day</th>
-                <th>Start Period</th>
-                <th>End Period</th>
-            </tr>';
-        for($i=1;$i <= $cid; $i++)
+        $this->api->userMenu();
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+        $this->load->helper('form');
+
+        if($this->input->post('day'))
         {
-            $template .= '<tr>
-                <td>
-                    <select class="form-control" name="day[]">';
-                        $d = $this->db->get('tbl_day')->result_array();
-                        foreach($d as $day){
-                            $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
-                        }
-                    $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="start_time[]">';
-                        $t = $this->db->get('tbl_time')->result_array();
-                        foreach($t as $time){
-                        $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
-                      }
-                     $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="end_time[]">';
-                        foreach($t as $time)
-                        {
-                            if($time['id'] != 1){
-
-                            $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                            }
-                        }
-                    $template .='</select>
-                </td>
-            </tr>';
+            $valid = $this->ass_subj();
+            if($valid)
+            {
+                redirect('/assign_room/'.$cid);
+            }
         }
-        echo $template;
+        $data['error']  = $this->error;
+        $data['cid']    = $id;
+        $this->load->view('edp/assign_subj_room', $data);
+        $this->load->view('templates/footer');
     }
-
 
     // function in adding day period
     function ass_subj()
     {
         $day        = $this->input->post('day');
-        $start_time = $this->input->post('start_time');
-        $end_time   = $this->input->post('end_time');
         $cid        = $this->input->post('class_id');
         $url        = $this->input->post('url');
 
-        // count the number of days
-        $index = count($day);
+        $days       = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
         foreach($day as $key => $value)
         {
-            if($index < 3 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
-            elseif($index < 4 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
+            $start_time = $this->input->post('start_time'.$value);
+            $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if($start_time[$key] != 11 AND $end_time[$key] != 12)
+            if($start_time != 11 AND $end_time != 12)
             {
                 //end time period must be greater than the start time period
-                if($end_time[$key] > $start_time[$key])
+                if($end_time > $start_time)
                 {
-                    // delete first the days and period before inserting
-                    $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+                    // check if schedule overlaps
+                    if( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) )
+                    {
+                        // delete first the days and period before inserting
+                        $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
 
-                    $data['classallocation']    = $cid;
-                    $data['day']                = $value;
-                    $data['from_time']          = $start_time[$key];
-                    $data['to_time']            = $end_time[$key];
-                    $this->db->insert('tbl_dayperiod', $data);
+                        $data['classallocation']    = $cid;
+                        $data['day']                = $value;
+                        $data['from_time']          = $start_time;
+                        $data['to_time']            = $end_time;
+                        $this->db->insert('tbl_dayperiod', $data);
+                    }
+                    else
+                    {
+
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
+                        if($this->input->post('edp'))
+                        {
+                            $this->session->set_flashdata('message', $this->error);
+                            redirect('/assign_room/'.$cid);
+                        }
+                        return FALSE;
+                    }
                 }
-                else{
-                    $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
+                else
+                {
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
                     if($this->input->post('edp'))
                     {
                         $this->session->set_flashdata('message', $this->error);
@@ -873,8 +830,9 @@ class Dean extends CI_Controller
                     return FALSE;
                 }
             }
-            else{
-                $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
+            else
+            {
+                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
                 if($this->input->post('edp'))
                 {
                     $this->session->set_flashdata('message', $this->error);
