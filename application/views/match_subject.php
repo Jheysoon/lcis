@@ -42,16 +42,13 @@
     <div class="container-fluid">
         <div class="row">
             <form action="/combine_subject" method="post">
-                <?php
-                //$e = explode('|', 'ED');
-                //echo 'substr(subcode,1,2) ='.implode($e, ' OR substr(subcode,1,2)=');
-                    $owner = $this->api->getUserCollege();
-                 ?>
                 <div class="col-md-6">
                     <div class="panel p-body">
         				<div class="panel-heading search">
         					<div class="col-md-6">
-        					<h4>Curriculum Subjects <?php
+        					<h4>Curriculum Subjects
+                            <?php
+                                $owner = $this->api->getUserCollege();
                                 $this->db->where('id', $owner);
                                 $col = $this->db->get('tbl_college')->row_array();
                                 echo '('.$col['description'].')';
