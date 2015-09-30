@@ -35,6 +35,10 @@
     <br>
     <a href="<?php echo base_url() ?>" class="btn btn-primary btn-sm pull-right"> <<< Back </a>
     <br><br>
+    <div class="alert alert-info" style="text-align:center">
+        <strong> Just match the Legacy Subjects to Curriculum Subjects</strong><br>
+        <strong>You can select many Legacy Subjects to only one corresponding Curriculum Subject</strong>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <form action="/combine_subject" method="post">
