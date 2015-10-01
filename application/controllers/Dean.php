@@ -1215,7 +1215,7 @@ class Dean extends CI_Controller
     function create_reg()
     {
         $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
-                        WHERE course = 'BSC' OR course = 'BSOA' OR course = 'LLB'
+                        WHERE course = 'BSBA' OR course = 'LLB'
                         GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
 
         $template = '';
@@ -1227,6 +1227,8 @@ class Dean extends CI_Controller
                             <td>COURSE</td>
                             <td>SCH_YR</td>
                             <td>Semester</td>
+                            <td>Curriculum</td>
+                            <td>Coursemajor</td>
                             <td style="text-align:center">NAME</td>
                         </tr>
         ';
@@ -1252,6 +1254,35 @@ class Dean extends CI_Controller
                     $d = $s1[0].'-04-01';
                 $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $s1[0], 'syend' => ++$s1[0], 'term' => $semester))->row_array();
             }
+
+            if ($legacy['COURSE'] == 'LLB') 
+            {
+                $coursemajor = 19;
+            }
+            elseif ($legacy['COURSE'] == 'BSBA') 
+            {
+                $coursemajor = 25;
+            }
+
+
+            $ac = 0;
+
+            $acad = $sy['id'];
+            for ($i=$acad; $i > 0 ; $i--) {
+                $a = $this->get_curr($i,$coursemajor);
+                if($a != 'repeat')
+                {
+                    $i;
+                    $ac = $a;
+                    break;
+                }
+            }
+
+
+
+
+
+
             // $acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE systart = '{$s1[0]}' ORDER BY systart, term")->result_array();
             // foreach($acam as $ac)
             // {
@@ -1280,6 +1311,9 @@ class Dean extends CI_Controller
             //     $coursemajor = 18;
             // }
 
+
+
+
             $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
             $template .= '<tr>
                             <td style="width:100px;">'.$p['id'].'</td>
@@ -1288,11 +1322,35 @@ class Dean extends CI_Controller
                             <td style="width:100px;">'.$legacy['COURSE'].'</td>
                             <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
                             <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
+                            <td style="width:100px;">'.$a.'</td>
+                            <td style="width:100px;">'.$coursemajor.'</td>
                             <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
                         </tr>';
+            $data = array('coursemajor' => $coursemajor, 'curriculum' => $a, 'date' => $d, 'student' => $p['id'], 'academicterm' => $sy['id'], 'status' => 'A');
+            $this->db->insert('tbl_registration', $data);
         }
         $template .= '</table>';
+
+
+
         echo $template;
+    }
+    function get_curr($coursemajor, $i)
+    {
+        $this->db->where('academicterm',$i);
+        $this->db->where('coursemajor',$coursemajor);
+        $q = $this->db->count_all_results('tbl_curriculum');
+        if($q > 0)
+        {
+            $this->db->where('coursemajor',$coursemajor);
+            $q = $this->db->get('tbl_curriculum');
+            $q = $q->row_array();
+            return $q['id'];
+        }
+        else
+        {
+            return 'repeat';
+        }
     }
 
 
