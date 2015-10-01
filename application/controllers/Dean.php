@@ -1211,5 +1211,90 @@ class Dean extends CI_Controller
         redirect(base_url('enrolment_grouping'));
     }
 
+    // --------------------------------------------------------------------------------------
+
+    function create_reg()
+    {
+        $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
+                        WHERE course = 'BSC' OR course = 'BSOA' OR course = 'LLB'
+                        GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
+
+        $template = '';
+        $template .= '<table>
+                        <tr>
+                            <td>Party ID</td>
+                            <td>Academicterm</td>
+                            <td>Date</td>
+                            <td>COURSE</td>
+                            <td>SCH_YR</td>
+                            <td>Semester</td>
+                            <td style="text-align:center">NAME</td>
+                        </tr>
+        ';
+        foreach($leg as $legacy)
+        {
+            $semester   = ($legacy['SEMESTER'] == 'S') ? '3' : $legacy['SEMESTER'];
+            $year       = explode('-', $legacy['SCH_YR']);
+            $s          = explode('/', $legacy['DATE_ENROL']);
+            $s1         = explode('-', $legacy['IDNO']);
+            $d          = '';
+            if($s1[0] == $s[2])
+            {
+                $d          = $s[2].'-'.$s[1].'-'.$s[0];
+                $sy         = $this->db->get_where('tbl_academicterm', array('systart' => $year[0], 'syend' => $year[1], 'term' => $semester))->row_array();
+            }
+            else
+            {
+                if($semester == 1)
+                    $d = $s1[0].'-06-01';
+                elseif($semester == 2)
+                    $d = $s1[0].'-11-01';
+                else
+                    $d = $s1[0].'-04-01';
+                $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $s1[0], 'syend' => ++$s1[0], 'term' => $semester))->row_array();
+            }
+            // $acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE systart = '{$s1[0]}' ORDER BY systart, term")->result_array();
+            // foreach($acam as $ac)
+            // {
+            //     $this->db->where('curriculum', $ac['id']);
+            //
+            // }
+            //
+            // if($legacy['COURSE'] == 'BSOA')
+            // {
+            //     $coursemajor = 7;
+            // }
+            // elseif ($legacy['COURSE'] == 'BEED') {
+            //     $coursemajor = 18;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSA') {
+            //     $coursemajor = 21;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSBA') {
+            //     // for temporary
+            //     $coursemajor = 25;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSC' OR $legacy['COURSE'] == 'BSCRIM') {
+            //     $coursemajor = 5;
+            // }
+            // elseif ($legacy['COURSE'] == 'BEED') {
+            //     $coursemajor = 18;
+            // }
+
+            $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
+            $template .= '<tr>
+                            <td style="width:100px;">'.$p['id'].'</td>
+                            <td style="width:100px;">'.$sy['id'].'</td>
+                            <td style="width:100px;">'.$d.'</td>
+                            <td style="width:100px;">'.$legacy['COURSE'].'</td>
+                            <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
+                            <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
+                            <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
+                        </tr>';
+        }
+        $template .= '</table>';
+        echo $template;
+    }
+
 
 }
