@@ -281,4 +281,12 @@ class Billing extends CI_Controller
 
 			}
 		}
+		function get_all_enrolment()
+		{
+			$x = $this->db->get('tbl_enrolment')->result_array();
+			foreach ($x as $key => $value) {
+					$this->billcalculation($value['id']);
+			}
+
+		}
 }
