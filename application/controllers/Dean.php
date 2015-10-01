@@ -465,7 +465,6 @@ class Dean extends CI_Controller
 
     function addClassAlloc1()
     {
-        //$this->load->model('dean/out_section');
         $id                 = $this->input->post('out_section_id');
         $data['section']    = $this->input->post('sections');
 
