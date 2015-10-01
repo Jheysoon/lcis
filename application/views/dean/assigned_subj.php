@@ -2,17 +2,15 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 			<div class="panel-heading">
-				<h4>Assign Day/Period</h4>
+				<h4>Subject Schedule</h4>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-12">
 				<?php
 					echo $this->session->flashdata('message');
 					echo $error;
+					$cl = $this->edp_classallocation->find($cid);
 				?>
-					<?php
-						$cl = $this->edp_classallocation->find($cid);
-					 ?>
 					 <table class="table">
 						<tr>
 							<th>Subject</th>
@@ -34,78 +32,59 @@
 							</td>
 						</tr>
 					 </table>
-					 <div class="col-md-4">
+				</div>
 
-					 </div>
-					 <form action="/add_day_period/<?php echo $cid; ?>" method="post">
-
-					 <div class="col-md-4">
-						<label>Select how many days</label>
-						<select class="form-control" name="days_count" data-classId="<?php echo $cid; ?>">
-							<option value="1" <?php echo set_select('days_count','1'); ?>>1</option>
-							<option value="2" <?php echo set_select('days_count','2'); ?>>2</option>
-							<option value="3" <?php echo set_select('days_count','3'); ?>>3</option>
-						</select>
-					 </div>
-					 <div class="col-md-4">
-
-					 </div>
-					 <div class="col-md-12">
-
-						<input type="hidden" name="url" value="<?php echo current_url(); ?>">
-						<input type="hidden" name="class_id" value="<?php echo $cid; ?>">
-						<table class="table" id="table_day">
-							<tr>
-								<th>Day</th>
-								<th>Start Period</th>
-								<th>End Period</th>
-							</tr>
-							<?php for($i = 0;$i <= $num;$i++) {?>
-							<tr>
-								<td>
-									<select class="form-control" name="day[]">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<form action="/add_day_period/<?php echo $cid; ?>" method="post">
+								<input type="hidden" name="class_id" value="<?php echo $cid; ?>">
+								<table class="table">
+									<tr>
+										<th style="text-align:center;">Days</th>
+										<th style="text-align:center;">Start Time</th>
+										<th style="text-align:center;">End Time</th>
+									</tr>
 									<?php
 										$d = $this->db->get('tbl_day')->result_array();
-										foreach($d as $day){
-									?>
-										<option value="<?php echo $day['id'] ?>" <?php echo set_select('day['.$i.']',$day['id']); ?>><?php echo $day['day']; ?></option>
-									<?php } ?>
-									</select>
-								</td>
-								<td>
-									<select class="form-control" name="start_time[]">
-									<?php
 										$t = $this->db->get('tbl_time')->result_array();
-										foreach($t as $time){
-									 ?>
-									 	<option value="<?php echo $time['id'] ?>" <?php echo set_select('start_time['.$i.']',$time['id']); ?>><?php echo $time['time'] ?></option>
-								 <?php } ?>
-									 </select>
-								</td>
-								<td>
-									<select class="form-control" name="end_time[]">
-									<?php
-										//$t = $this->db->get('tbl_time')->result_array();
-										foreach($t as $time)
+										foreach($d as $day)
 										{
-											if($time['id'] != 1){
-									 ?>
-										<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time['.$i.']',$time['id']); ?>><?php echo $time['time'] ?></option>
-									 <?php
-											}
+											?>
+											<tr>
+												<td>
+													<div class="checkbox">
+														<label>
+															<input type="checkbox" style="margin-top:8px;" name="day[]" value="<?php echo $day['id'] ?>" <?php echo set_checkbox('day', $day['id']) ?>>
+															<strong style="font-size:18px"><?php echo $day['day'] ?></strong>
+														</label>
+													</div>
+												</td>
+												<td>
+													<select class="form-control" name="start_time<?php echo $day['id'] ?>">
+														<?php foreach ($t as $time) { ?>
+															<option value="<?php echo $time['id'] ?>" <?php echo set_select('start_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
+														<?php } ?>
+													</select>
+												</td>
+												<td>
+													<select class="form-control" name="end_time<?php echo $day['id'] ?>">
+														<?php foreach ($t as $time) { ?>
+															<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
+														<?php } ?>
+													</select>
+												</td>
+											</tr>
+									<?php
 										}
-										?>
-									 </select>
-								</td>
-							</tr>
-							<?php } ?>
-						</table>
-						<input type="submit" class="btn btn-primary pull-right" value="Submit">
-
-					 </div>
-					 </form>
-
+									 ?>
+								</table>
+								<input type="submit" class="btn btn-primary pull-right" value="Submit">
+							</form>
+						</div>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>

@@ -465,7 +465,6 @@ class Dean extends CI_Controller
 
     function addClassAlloc1()
     {
-        //$this->load->model('dean/out_section');
         $id                 = $this->input->post('out_section_id');
         $data['section']    = $this->input->post('sections');
 
@@ -736,7 +735,7 @@ class Dean extends CI_Controller
 
         $this->load->helper('form');
 
-        if($this->input->post('days_count'))
+        if($this->input->post('day'))
         {
             $ret = $this->ass_subj();
             if($ret == TRUE)
@@ -745,149 +744,88 @@ class Dean extends CI_Controller
             }
         }
 
-        if($this->input->post('days_count') == NULL)
-        {
-            $data['num'] = 0;
-        }
-        else
-        {
-            $data['num'] = $this->input->post('days_count') - 1;
-        }
-
         $data['error']  = $this->error;
         $data['cid']    = $cid;
-        $this->load->view('dean/assigned_subj',$data);
+        $this->load->view('dean/assigned_subj', $data);
         $this->load->view('templates/footer');
     }
 
-    function ajax_day_period()
+    function edp_override($id)
     {
-        $cid = $this->input->post('cid');
-        $template = '';
-        $template .= '<tr>
-                <th>Day</th>
-                <th>Start Period</th>
-                <th>End Period</th>
-            </tr>';
-        for($i=1;$i <= $cid; $i++)
+        $this->api->userMenu();
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+        $this->load->helper('form');
+
+        if($this->input->post('day'))
         {
-            $template .= '<tr>
-                <td>
-                    <select class="form-control" name="day[]">';
-                        $d = $this->db->get('tbl_day')->result_array();
-                        foreach($d as $day){
-                            $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
-                        }
-                    $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="start_time[]">';
-                        $t = $this->db->get('tbl_time')->result_array();
-                        foreach($t as $time){
-                        $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
-                      }
-                     $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="end_time[]">';
-                        foreach($t as $time)
-                        {
-                            if($time['id'] != 1){
-
-                            $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                            }
-                        }
-                    $template .='</select>
-                </td>
-            </tr>';
+            $valid = $this->ass_subj();
+            if($valid)
+            {
+                redirect('/assign_room/'.$cid);
+            }
         }
-        echo $template;
+        $data['error']  = $this->error;
+        $data['cid']    = $id;
+        $this->load->view('edp/assign_subj_room', $data);
+        $this->load->view('templates/footer');
     }
-
 
     // function in adding day period
     function ass_subj()
     {
         $day        = $this->input->post('day');
-        $start_time = $this->input->post('start_time');
-        $end_time   = $this->input->post('end_time');
         $cid        = $this->input->post('class_id');
         $url        = $this->input->post('url');
 
-        // count the number of days
-        $index = count($day);
+        $days       = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
         foreach($day as $key => $value)
         {
-            if($index < 3 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
-            elseif($index < 4 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
+            $start_time = $this->input->post('start_time'.$value);
+            $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if($start_time[$key] != 11 AND $end_time[$key] != 12)
+            if($start_time != 11 AND $end_time != 12)
             {
                 //end time period must be greater than the start time period
-                if($end_time[$key] > $start_time[$key])
+                if($end_time > $start_time)
                 {
-                    // delete first the days and period before inserting
-                    $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
-
-                    $data['classallocation']    = $cid;
-                    $data['day']                = $value;
-                    $data['from_time']          = $start_time[$key];
-                    $data['to_time']            = $end_time[$key];
-                    $this->db->insert('tbl_dayperiod', $data);
-                }
-                else{
-                    $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
-                    if($this->input->post('edp'))
+                    // check if schedule overlaps
+                    if( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) )
                     {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
+                        // delete first the days and period before inserting
+                        $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+
+                        $data['classallocation']    = $cid;
+                        $data['day']                = $value;
+                        $data['from_time']          = $start_time;
+                        $data['to_time']            = $end_time;
+                        $this->db->insert('tbl_dayperiod', $data);
                     }
+                    else
+                    {
+
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
+                        return FALSE;
+                    }
+                }
+                else
+                {
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
                     return FALSE;
                 }
             }
-            else{
-                $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
-                if($this->input->post('edp'))
-                {
-                    $this->session->set_flashdata('message', $this->error);
-                    redirect('/assign_room/'.$cid);
-                }
+            else
+            {
+                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
                 return FALSE;
             }
         }
         $this->api->set_session_message('success','Successfully added');
-        if($this->input->post('edp'))
-        {
-            redirect('/assign_room/'.$cid);
-        }
         return TRUE;
     }
 
@@ -1233,7 +1171,7 @@ class Dean extends CI_Controller
 
             foreach ($checked as $key => $value) {
                 $rr = explode('|', $checked[$key]);
-                $this->group->group_sub($rr[0], $rr[1], $gr);
+                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr);
             }
 
             $this->session->set_flashdata('message',
@@ -1270,6 +1208,91 @@ class Dean extends CI_Controller
         </div>');
 
         redirect(base_url('enrolment_grouping'));
+    }
+
+    // --------------------------------------------------------------------------------------
+
+    function create_reg()
+    {
+        $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
+                        WHERE course = 'BSC' OR course = 'BSOA' OR course = 'LLB'
+                        GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
+
+        $template = '';
+        $template .= '<table>
+                        <tr>
+                            <td>Party ID</td>
+                            <td>Academicterm</td>
+                            <td>Date</td>
+                            <td>COURSE</td>
+                            <td>SCH_YR</td>
+                            <td>Semester</td>
+                            <td style="text-align:center">NAME</td>
+                        </tr>
+        ';
+        foreach($leg as $legacy)
+        {
+            $semester   = ($legacy['SEMESTER'] == 'S') ? '3' : $legacy['SEMESTER'];
+            $year       = explode('-', $legacy['SCH_YR']);
+            $s          = explode('/', $legacy['DATE_ENROL']);
+            $s1         = explode('-', $legacy['IDNO']);
+            $d          = '';
+            if($s1[0] == $s[2])
+            {
+                $d          = $s[2].'-'.$s[1].'-'.$s[0];
+                $sy         = $this->db->get_where('tbl_academicterm', array('systart' => $year[0], 'syend' => $year[1], 'term' => $semester))->row_array();
+            }
+            else
+            {
+                if($semester == 1)
+                    $d = $s1[0].'-06-01';
+                elseif($semester == 2)
+                    $d = $s1[0].'-11-01';
+                else
+                    $d = $s1[0].'-04-01';
+                $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $s1[0], 'syend' => ++$s1[0], 'term' => $semester))->row_array();
+            }
+            // $acam = $this->db->query("SELECT * FROM tbl_academicterm WHERE systart = '{$s1[0]}' ORDER BY systart, term")->result_array();
+            // foreach($acam as $ac)
+            // {
+            //     $this->db->where('curriculum', $ac['id']);
+            //
+            // }
+            //
+            // if($legacy['COURSE'] == 'BSOA')
+            // {
+            //     $coursemajor = 7;
+            // }
+            // elseif ($legacy['COURSE'] == 'BEED') {
+            //     $coursemajor = 18;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSA') {
+            //     $coursemajor = 21;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSBA') {
+            //     // for temporary
+            //     $coursemajor = 25;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSC' OR $legacy['COURSE'] == 'BSCRIM') {
+            //     $coursemajor = 5;
+            // }
+            // elseif ($legacy['COURSE'] == 'BEED') {
+            //     $coursemajor = 18;
+            // }
+
+            $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
+            $template .= '<tr>
+                            <td style="width:100px;">'.$p['id'].'</td>
+                            <td style="width:100px;">'.$sy['id'].'</td>
+                            <td style="width:100px;">'.$d.'</td>
+                            <td style="width:100px;">'.$legacy['COURSE'].'</td>
+                            <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
+                            <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
+                            <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
+                        </tr>';
+        }
+        $template .= '</table>';
+        echo $template;
     }
 
 

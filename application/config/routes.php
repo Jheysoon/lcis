@@ -95,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['view_sched/(:num)']             = 'edp/view_sched/$1';
     $route['assign_room/(:num)']            = 'edp/assign_room/$1';
     $route['preview/(:num)']                = 'edp/preview/$1';
+    $route['edp_override/(:num)']           = 'dean/edp_override/$1';
 
     // Student Routes
     $route['stdnt_editSelfEvaluation']      = 'student/editSelfEvaluation';
@@ -117,6 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['instruc_sched/(:num)']          = 'instructor/instruc_sched/$1';
     $route['match_subject']                 = 'instructor/match_subject';
     $route['combine_subject']               = 'instructor/combine_subject';
+    $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
 
 
 

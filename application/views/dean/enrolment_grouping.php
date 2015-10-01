@@ -25,8 +25,8 @@
           </nav>
         </div>
         <div class="col-md-11" style="margin-top: 70px">
-            <?php 
-                echo $this->session->flashdata('message'); 
+            <?php
+                echo $this->session->flashdata('message');
                 $col = $this->group->getCol($this->api->getUserCollege());
             ?>
         </div>
@@ -53,7 +53,7 @@
                         ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>
-                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE.'|'.$SUBNAME; ?>"></td>
+                                <td><input type="checkbox" name="checked[]" value="<?php echo $SUBTITLE.'|'.$SUBNAME.'|'.$UNITS; ?>"></td>
                                 <td><?php echo $SUBNAME; ?></td>
                                 <td><?php echo $SUBTITLE; ?></td>
                                 <td><?php echo $UNITS; ?></td>

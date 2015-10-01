@@ -203,16 +203,35 @@ class Main extends CI_Controller
     {
         $this->dean();
     }
-    function createUsername($fname,$lname)
+    function createUsername($fname, $lname)
     {
-        if(strlen($lname)>=6)
+        if(strlen($lname) >= 6)
+            $username = substr($lname, 0, 6);
+        else
+            $username = $lname;
+
+        $username = $username.substr($fname, 0, 2);
+
+        // check if the username already exists in database
+        $this->db->where('username', $username);
+        $count  = $this->db->count_all_results('tbl_useraccess');
+        $ctr    = 0;
+        $suffix = '00';
+
+        // find an alternative username
+        while ($count > 0)
         {
-            $username='';
-            for($i=0;$i<6;$i++)
-            {
-                $username .= $lname[$i];
-            }
+            $ctr++;
+            if($ctr < 10)
+                $suffix = '0'.$ctr;
+            else
+                $suffix = $ctr;
+                
+            $username = $username.$suffix;
+            $this->db->where('username', $username);
+            $count  = $this->db->count_all_results('tbl_useraccess');
         }
+        echo $username;
     }
 
     function setSy_session()

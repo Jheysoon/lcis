@@ -23,12 +23,13 @@ class Group extends CI_Model
 			FROM `tbl_enrolment_legacy`
 			WHERE grouping != 0
 			AND ($code)
-			GROUP BY grouping
+			GROUP BY grouping ORDER BY SUBTITLE
 		");
 		return $q->result_array();
 	}
 
-	function group_sub($subtitle, $subname, $gr){
+	function group_sub($subtitle, $subname, $unit, $gr){
+		$this->db->where('UNITS', $unit);
 		$this->db->where('SUBNAME', $subname);
 		$this->db->where('SUBTITLE', $subtitle);
 		$this->db->update('tbl_enrolment_legacy', $gr);
