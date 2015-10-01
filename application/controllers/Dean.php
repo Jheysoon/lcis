@@ -1215,7 +1215,6 @@ class Dean extends CI_Controller
     function create_reg()
     {
         $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
-                        WHERE course = 'BSBA' OR course = 'LLB'
                         GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
 
         $template = '';
@@ -1255,29 +1254,17 @@ class Dean extends CI_Controller
                 $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $s1[0], 'syend' => ++$s1[0], 'term' => $semester))->row_array();
             }
 
-            if ($legacy['COURSE'] == 'LLB') 
-            {
-                $coursemajor = 19;
-            }
-            elseif ($legacy['COURSE'] == 'BSBA') 
-            {
-                $coursemajor = 25;
-            }
+            // if ($legacy['COURSE'] == 'LLB') 
+            // {
+            //     $coursemajor = 19;
+            // }
+            // elseif ($legacy['COURSE'] == 'BSBA') 
+            // {
+            //     $coursemajor = 25;
+            // }
 
 
-            $ac = 0;
-
-            $acad = $sy['id'];
-            for ($i=$acad; $i > 0 ; $i--) {
-                $a = $this->get_curr($i,$coursemajor);
-                if($a != 'repeat')
-                {
-                    $i;
-                    $ac = $a;
-                    break;
-                }
-            }
-
+           
 
 
 
@@ -1290,26 +1277,45 @@ class Dean extends CI_Controller
             //
             // }
             //
-            // if($legacy['COURSE'] == 'BSOA')
-            // {
-            //     $coursemajor = 7;
-            // }
-            // elseif ($legacy['COURSE'] == 'BEED') {
-            //     $coursemajor = 18;
-            // }
-            // elseif ($legacy['COURSE'] == 'BSA') {
-            //     $coursemajor = 21;
-            // }
-            // elseif ($legacy['COURSE'] == 'BSBA') {
-            //     // for temporary
-            //     $coursemajor = 25;
-            // }
-            // elseif ($legacy['COURSE'] == 'BSC' OR $legacy['COURSE'] == 'BSCRIM') {
-            //     $coursemajor = 5;
-            // }
-            // elseif ($legacy['COURSE'] == 'BEED') {
-            //     $coursemajor = 18;
-            // }
+            if($legacy['COURSE'] == 'BSOA')
+            {
+                $coursemajor = 7;
+            }
+            elseif ($legacy['COURSE'] == 'BEED') {
+                $coursemajor = 18;
+            }
+            elseif ($legacy['COURSE'] == 'BSA') {
+                $coursemajor = 21;
+            }
+            elseif ($legacy['COURSE'] == 'BSBA') {
+                // for temporary
+                $coursemajor = 25;
+            }
+            elseif ($legacy['COURSE'] == 'BSC' OR $legacy['COURSE'] == 'BSCRIM') {
+                $coursemajor = 5;
+            }
+            elseif ($legacy['COURSE'] == 'BEED') {
+                $coursemajor = 18;  
+            }
+            elseif ($legacy['COURSE'] == 'LLB')
+            {
+                $coursemajor = 19;
+            }
+
+
+
+             $ac = 0;
+
+            $acad = $sy['id'];
+            for ($i=$acad; $i > 0 ; $i--) {
+                $a = $this->get_curr($i,$coursemajor);
+                if($a != 'repeat')
+                {
+                    $i;
+                    $ac = $a;
+                    break;
+                }
+            }
 
 
 

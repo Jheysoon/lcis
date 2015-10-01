@@ -287,6 +287,5 @@ class Billing extends CI_Controller
 			foreach ($x as $key => $value) {
 					$this->billcalculation($value['id']);
 			}
-
 		}
 }
