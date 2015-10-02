@@ -1304,6 +1304,7 @@ class Dean extends CI_Controller
             $cur1 = 0;
             if($legacy['COURSE'] == 'BSED')
             {
+                $coursemajor = 17;
                 $cur1 = 55;
             }
             else {
