@@ -1302,17 +1302,24 @@ class Dean extends CI_Controller
             $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
 
             $cur1 = 0;
-            foreach($acamd as $acams)
+            if($legacy['COURSE'] == 'BSED')
             {
-                $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE
-                    coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-                if($c->num_rows() > 0)
+                $cur1 = 55;
+            }
+            else {
+                foreach($acamd as $acams)
                 {
-                    $cur    = $c->row_array();
-                    $cur1   = $cur['id'];
-                    break;
+                    $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE
+                        coursemajor = $coursemajor AND academicterm = {$acams['id']}");
+                    if($c->num_rows() > 0)
+                    {
+                        $cur    = $c->row_array();
+                        $cur1   = $cur['id'];
+                        break;
+                    }
                 }
             }
+
             if($cur1 == 0)
             {
                 if($coursemajor == 21)
