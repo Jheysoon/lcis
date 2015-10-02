@@ -1257,7 +1257,7 @@ class Dean extends CI_Controller
                 {
                     $d          = $s[2].'-'.$s[1].'-'.$s[0];
                     $systart = $s[2];
-                    $syend = $systart++;
+                    $syend = $systart + 1;
                 }
                 else {
                     if($semester == 1){
@@ -1271,7 +1271,7 @@ class Dean extends CI_Controller
                         $d = $s1[0].'-04-01';
                     }
                     $systart = $s1[0];
-                    $syend = $systart++;
+                    $syend = $systart + 1;
                 }
             }
 
@@ -1297,6 +1297,10 @@ class Dean extends CI_Controller
             elseif ($legacy['COURSE'] == 'LLB')
             {
                 $coursemajor = 19;
+            }
+            elseif($legacy['COURSE'] == 'AB')
+            {
+                $coursemajor = 16;
             }
 
             $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
@@ -1328,7 +1332,7 @@ class Dean extends CI_Controller
                     $cur1 = 0;
                 }
                 else {
-                    $cur = $this->db->query("SELECT * FROM tbl_curriculum WHERE coursemajor = $coursemajor LIMIT 1")->row_array();
+                    $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart ASC LIMIT 1 ")->row_array();
                     $cur1 = $cur['id'];
                 }
 
