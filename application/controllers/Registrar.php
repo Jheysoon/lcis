@@ -1321,4 +1321,27 @@ class Registrar extends CI_Controller
 
         redirect('/registrar_tor/'.$sid);
     }
+
+    function legacy_matching()
+    {
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
+        $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->load->view('legacy_matching');
+        }
+        else {
+            $legacy = $this->input->post('legacy');
+            foreach($legacy as $c)
+            {
+                $data['subject_id'] = $this->input->post('tbl_subject');
+                $this->db->where('grouping', $c);
+                $this->db->update('tbl_enrolment_legacy', $data);
+            }
+            $this->load->view('legacy_matching');
+        }
+
+    }
 }
