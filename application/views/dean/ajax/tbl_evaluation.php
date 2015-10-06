@@ -19,6 +19,8 @@
 					<input type="hidden" name="coursemajor" value="<?php echo $coursemajor; ?>">
 					<input type="hidden" name="registration" value="<?php echo $registration; ?>">
 					<input type="hidden" name="academicterm" value="<?php echo $term; ?>">
+					<input type="hidden" name="level" value="<?php echo $lvl; ?>">
+					<input type="hidden" name="sem" value="<?php echo $sem; ?>">
 						<!-- <tr>
 							<td colspan="5">
 								<input style="width: 70px;" class="pull-right form-control" name="counter" readonly type="text" value ='<?php echo $units; ?>'>

@@ -49,7 +49,7 @@
                         </tr>
                         <?php
                             $subcode = $this->api->get_subcode();
-                            $res = $this->group->get_subjects($subcode); 
+                            $res = $this->group->get_subjects($subcode);
                         ?>
                         <?php foreach ($res as $key => $value): extract($value)?>
                             <tr>

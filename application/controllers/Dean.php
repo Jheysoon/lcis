@@ -458,9 +458,158 @@ class Dean extends CI_Controller
         }
         echo json_encode($data);
     }
+
     function calculatebill($enid){
-        $this->load->model('dean/student');
-        return $this->student->getCalculation($enid);
+            $this->load->model('dean/student');
+            //Function to get the coursemajor and the party id of the student
+            $enr_info = $this->student->enr_info($enid);
+            $coursemajor = $enr_info['coursemajor'];
+            $partyid = $enr_info['partyid'];
+            $billid = 0;
+            $updates = 0;
+            // ---------------------------- //
+
+
+            $check_billclass = $this->student->check_billclass($enid);
+            if ($check_billclass > 0) {
+                //Get Bill Id
+                    $billid = $this->student->get_billid($enid);
+                    $updates = 1;
+            }
+            else
+            {
+                //Function Insert Into Tbl_bill firstname
+                $data_bill = array('requestedby' => $partyid,
+                                                     'datecreated' => Date('Y-m-d'),
+                                                     'enteredby' => $this->session->userdata('uid'),
+                                                     'status' => 'R',
+                                                     'type' => '1');
+                $billid = $this->student->insert_bill($data_bill);
+                // ------------------------------ //
+            }
+            //Function to get all fees based on coursemajor of the student
+        foreach ($this->student->get_fees($coursemajor) as $key => $value)
+            {
+                    extract($value);
+                    if ($feetype == 1)
+                    {
+                        //Get Total Units. And Calculate for the Matriculation
+                        $units = $this->student->get_sub_unit($enid);
+                        $the_rate = $units * $rate;
+                    }
+                    elseif ($feetype == 2)
+                    {
+                        //Get Total Units. And Calculate for the Tution
+                        $units = $this->student->get_sub_unit($enid);
+                        $the_rate = $units * $rate;
+                    }
+                    elseif ($feetype == 18)
+                    {
+                        //Get No. of Subject and Calculate by no. of subject * rate * per exam
+                        $nosubject = $this->student->get_total_subj($enid);
+                        $the_rate = $nosubject * $rate * 4;
+                    }
+                    elseif ($feetype == 20)
+                    {
+                        //Get Chem Lab.
+                        $chem_lab = $this->student->get_chem($enid);
+                        if ($chem_lab > 0)
+                        {
+                            $the_rate = $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    elseif ($feetype == 17)
+                    {
+                        //Get No. of computer subject and calculate computer subject by no. of computersubject * rate;
+                        $get_comp = $this->student->get_comp($enid);
+                        if ($get_comp > 0)
+                        {
+                            $the_rate = $get_comp * $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    elseif ($feetype == 15)
+                    {
+                        //NSTP.
+                        $get_nstp = $this->student->get_nstp($enid);
+                        if ($get_nstp > 0)
+                        {
+                            $the_rate = $get_nstp * $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    else
+                    {
+                            $the_rate = $rate;
+                    }
+
+                    if ($the_rate > 0)
+                    {
+                        $data = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+                        $this->student->insertbilldetail($data);
+                    }
+            }
+
+
+            if ($billid != 0)
+            {
+                    $tui = 0;
+                    $int = 0;
+                    $boo = 0;
+                    $comp = 0;
+                    $netenrol = 0;
+                    $id = 0;
+                    $get_billdetail = $this->student->getdetail($billid);
+                    foreach ($get_billdetail as $key => $value)
+                    {
+                        extract($value);
+                        if ($id == 2)
+                        {
+                            $tui = $amount / 5;
+                        }
+                        elseif ($id == 16)
+                        {
+                            $int = $amount / 4;
+                        }
+                        elseif ($id == 18)
+                        {
+                            $boo = $amount / 4;
+                        }
+                        elseif ($id == 17)
+                        {
+                            $comp = $amount / 5;
+                        }
+                        else
+                        {
+                            $netenrol += $amount;
+                        }
+                    }
+
+                    $netpr = $tui + $int + $boo + $comp;
+                    $data = array('id' => $billid, 'enrolment' => $enid,
+                                                'netenrolment' => $netenrol + $tui, 'netprelim' => $netpr,
+                                                'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netpr);
+                        if ($updates == 1)
+                        {
+                                $this->student->update_billclass($data, $billid);
+                                $this->assesment->revertPosting($billid);
+                        }
+                        else
+                        {
+                                $this->student->insert_billclass($data);
+                        }
+
+            }
     }
 
     function addClassAlloc1()
@@ -514,6 +663,8 @@ class Dean extends CI_Controller
         $unit = 0;
         $subCount = 0;
 
+        $nstp = FALSE;
+
         // Putting all selected schedules into schedule array.
 
         while ( $ctr != 0) {
@@ -521,6 +672,12 @@ class Dean extends CI_Controller
                 $names['var'.$ctr2] = $this->input->post('rad-'.$ctr);
                 $un = $this->student->getUnits($this->input->post('rad-'.$ctr));
                 extract($un);
+                $sub = $this->student->getSubject($this->input->post('rad-'.$ctr));
+
+                // check nstp if selected
+                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                    $nstp = TRUE;
+                }
                 $unit = $unit + $units;
                 $subCount++;
                 $ctr2++;
@@ -537,6 +694,11 @@ class Dean extends CI_Controller
 
                 // Get subject ID for duplicate verification.
                 $sub = $this->student->getSubject($cid);
+
+                // check nstp if selected
+                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                    $nstp = TRUE;
+                }
 
                 // Check if there are any duplicate subjects in additional subject table.
                 if (in_array($sub['code'], $add)) {
@@ -614,10 +776,49 @@ class Dean extends CI_Controller
                 $dup[] = $value;
             }
 
+            //check nstp
+            $student = $this->input->post('student');
+            $sem     = $this->input->post('sem');
+
+            // if nstp is not selected in evaluation
+            if ($nstp == FALSE) { 
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  False.
+                </div>';
+                return false;
+                $check = $this->student->checkNSTP($student, 298);
+                if ($sem == 1) {
+                    if (!$check) {
+                        $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          Please select NSTP subject.
+                        </div>';
+                        return false;
+                    }
+                }
+                else if($sem == 2){
+                    if ($check) {
+                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != NULL )) {
+                            $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              Please select NSTP subject.
+                            </div>';
+                            return false;
+                        }
+                    }
+                }
+            }
+            else{
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  True.
+                </div>';
+                return false;
+            }
+
             // If there are no conflicts proceed to saving.
             if ($message == '') {
-
-                $student        = $this->input->post('student');
                 $coursemajor    = $this->input->post('coursemajor');
                 $registration   = $this->input->post('registration');
                 $academicterm   = $this->input->post('academicterm');
@@ -1168,10 +1369,11 @@ class Dean extends CI_Controller
             $group = $this->group->get_group_no();
             $group = $group['gr'] + 1;
             $gr = array('grouping'=> $group);
+            $sub = $this->api->get_subcode();
 
             foreach ($checked as $key => $value) {
                 $rr = explode('|', $checked[$key]);
-                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr);
+                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr, $sub);
             }
 
             $this->session->set_flashdata('message',
@@ -1250,7 +1452,7 @@ class Dean extends CI_Controller
             }
             else
             {
-
+          
                 $this->db->where('student', $p['id']);
                 $i = $this->db->count_all_results('tbl_registration');
                 if($i > 0)
@@ -1356,4 +1558,5 @@ class Dean extends CI_Controller
 
         echo $template;
     }
+
 }
