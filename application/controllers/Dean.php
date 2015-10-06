@@ -460,13 +460,160 @@ class Dean extends CI_Controller
     }
 
     function calculatebill($enid){
-        // $this->load->model('dean/student');
-        // return $this->student->getCalculation($enid);
+            $this->load->model('dean/student');
+            //Function to get the coursemajor and the party id of the student
+            $enr_info = $this->student->enr_info($enid);
+            $coursemajor = $enr_info['coursemajor'];
+            $partyid = $enr_info['partyid'];
+            $billid = 0;
+            $updates = 0;
+            // ---------------------------- //
+
+
+            $check_billclass = $this->student->check_billclass($enid);
+            if ($check_billclass > 0) {
+                //Get Bill Id
+                    $billid = $this->student->get_billid($enid);
+                    $updates = 1;
+            }
+            else
+            {
+                //Function Insert Into Tbl_bill firstname
+                $data_bill = array('requestedby' => $partyid,
+                                                     'datecreated' => Date('Y-m-d'),
+                                                     'enteredby' => $this->session->userdata('uid'),
+                                                     'status' => 'R',
+                                                     'type' => '1');
+                $billid = $this->student->insert_bill($data_bill);
+                // ------------------------------ //
+            }
+            //Function to get all fees based on coursemajor of the student
+        foreach ($this->student->get_fees($coursemajor) as $key => $value)
+            {
+                    extract($value);
+                    if ($feetype == 1)
+                    {
+                        //Get Total Units. And Calculate for the Matriculation
+                        $units = $this->student->get_sub_unit($enid);
+                        $the_rate = $units * $rate;
+                    }
+                    elseif ($feetype == 2)
+                    {
+                        //Get Total Units. And Calculate for the Tution
+                        $units = $this->student->get_sub_unit($enid);
+                        $the_rate = $units * $rate;
+                    }
+                    elseif ($feetype == 18)
+                    {
+                        //Get No. of Subject and Calculate by no. of subject * rate * per exam
+                        $nosubject = $this->student->get_total_subj($enid);
+                        $the_rate = $nosubject * $rate * 4;
+                    }
+                    elseif ($feetype == 20)
+                    {
+                        //Get Chem Lab.
+                        $chem_lab = $this->student->get_chem($enid);
+                        if ($chem_lab > 0)
+                        {
+                            $the_rate = $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    elseif ($feetype == 17)
+                    {
+                        //Get No. of computer subject and calculate computer subject by no. of computersubject * rate;
+                        $get_comp = $this->student->get_comp($enid);
+                        if ($get_comp > 0)
+                        {
+                            $the_rate = $get_comp * $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    elseif ($feetype == 15)
+                    {
+                        //NSTP.
+                        $get_nstp = $this->student->get_nstp($enid);
+                        if ($get_nstp > 0)
+                        {
+                            $the_rate = $get_nstp * $rate;
+                        }
+                        else
+                        {
+                            $the_rate = 0;
+                        }
+                    }
+                    else
+                    {
+                            $the_rate = $rate;
+                    }
+
+                    if ($the_rate > 0)
+                    {
+                        $data = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
+                        $this->student->insertbilldetail($data);
+                    }
+            }
+
+
+            if ($billid != 0)
+            {
+                    $tui = 0;
+                    $int = 0;
+                    $boo = 0;
+                    $comp = 0;
+                    $netenrol = 0;
+                    $id = 0;
+                    $get_billdetail = $this->student->getdetail($billid);
+                    foreach ($get_billdetail as $key => $value)
+                    {
+                        extract($value);
+                        if ($id == 2)
+                        {
+                            $tui = $amount / 5;
+                        }
+                        elseif ($id == 16)
+                        {
+                            $int = $amount / 4;
+                        }
+                        elseif ($id == 18)
+                        {
+                            $boo = $amount / 4;
+                        }
+                        elseif ($id == 17)
+                        {
+                            $comp = $amount / 5;
+                        }
+                        else
+                        {
+                            $netenrol += $amount;
+                        }
+                    }
+
+                    $netpr = $tui + $int + $boo + $comp;
+                    $data = array('id' => $billid, 'enrolment' => $enid,
+                                                'netenrolment' => $netenrol + $tui, 'netprelim' => $netpr,
+                                                'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netpr);
+                        if ($updates == 1)
+                        {
+                                $this->student->update_billclass($data, $billid);
+                                $this->assesment->revertPosting($billid);
+                        }
+                        else
+                        {
+                                $this->student->insert_billclass($data);
+                        }
+
+            }
     }
 
     function addClassAlloc1()
     {
-        //$this->load->model('dean/out_section');
         $id                 = $this->input->post('out_section_id');
         $data['section']    = $this->input->post('sections');
 
@@ -789,7 +936,7 @@ class Dean extends CI_Controller
 
         $this->load->helper('form');
 
-        if($this->input->post('days_count'))
+        if($this->input->post('day'))
         {
             $ret = $this->ass_subj();
             if($ret == TRUE)
@@ -798,149 +945,88 @@ class Dean extends CI_Controller
             }
         }
 
-        if($this->input->post('days_count') == NULL)
-        {
-            $data['num'] = 0;
-        }
-        else
-        {
-            $data['num'] = $this->input->post('days_count') - 1;
-        }
-
         $data['error']  = $this->error;
         $data['cid']    = $cid;
-        $this->load->view('dean/assigned_subj',$data);
+        $this->load->view('dean/assigned_subj', $data);
         $this->load->view('templates/footer');
     }
 
-    function ajax_day_period()
+    function edp_override($id)
     {
-        $cid = $this->input->post('cid');
-        $template = '';
-        $template .= '<tr>
-                <th>Day</th>
-                <th>Start Period</th>
-                <th>End Period</th>
-            </tr>';
-        for($i=1;$i <= $cid; $i++)
+        $this->api->userMenu();
+        $this->load->model(array(
+            'edp/classroom',
+            'edp/edp_classallocation',
+            'dean/subject'
+        ));
+        $this->load->helper('form');
+
+        if($this->input->post('day'))
         {
-            $template .= '<tr>
-                <td>
-                    <select class="form-control" name="day[]">';
-                        $d = $this->db->get('tbl_day')->result_array();
-                        foreach($d as $day){
-                            $template .='<option value="'.$day['id'].'">'.$day['day'].'</option>';
-                        }
-                    $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="start_time[]">';
-                        $t = $this->db->get('tbl_time')->result_array();
-                        foreach($t as $time){
-                        $template .= '<option value="'.$time['id'] .'">'.$time['time'].'</option>';
-                      }
-                     $template .= '</select>
-                </td>
-                <td>
-                    <select class="form-control" name="end_time[]">';
-                        foreach($t as $time)
-                        {
-                            if($time['id'] != 1){
-
-                            $template .= '<option value="'.$time['id'].'">'.$time['time'].'</option>';
-                            }
-                        }
-                    $template .='</select>
-                </td>
-            </tr>';
+            $valid = $this->ass_subj();
+            if($valid)
+            {
+                redirect('/assign_room/'.$cid);
+            }
         }
-        echo $template;
+        $data['error']  = $this->error;
+        $data['cid']    = $id;
+        $this->load->view('edp/assign_subj_room', $data);
+        $this->load->view('templates/footer');
     }
-
 
     // function in adding day period
     function ass_subj()
     {
         $day        = $this->input->post('day');
-        $start_time = $this->input->post('start_time');
-        $end_time   = $this->input->post('end_time');
         $cid        = $this->input->post('class_id');
         $url        = $this->input->post('url');
 
-        // count the number of days
-        $index = count($day);
+        $days       = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
         foreach($day as $key => $value)
         {
-            if($index < 3 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
-            elseif($index < 4 AND $index > 1)
-            {
-                //check if the days are just the same
-                if($day[0] == $day[1] OR $day[1] == $day[2] OR $day[0] == $day[2])
-                {
-                    $this->error = '<div class="alert alert-danger">Subject days must be unique</div>';
-                    if($this->input->post('edp'))
-                    {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
-                    }
-                    return FALSE;
-                }
-            }
+            $start_time = $this->input->post('start_time'.$value);
+            $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if($start_time[$key] != 11 AND $end_time[$key] != 12)
+            if($start_time != 11 AND $end_time != 12)
             {
                 //end time period must be greater than the start time period
-                if($end_time[$key] > $start_time[$key])
+                if($end_time > $start_time)
                 {
-                    // delete first the days and period before inserting
-                    $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
-
-                    $data['classallocation']    = $cid;
-                    $data['day']                = $value;
-                    $data['from_time']          = $start_time[$key];
-                    $data['to_time']            = $end_time[$key];
-                    $this->db->insert('tbl_dayperiod', $data);
-                }
-                else{
-                    $this->error = '<div class="alert alert-danger">Time End Period must be greater than Start Period</div>';
-                    if($this->input->post('edp'))
+                    // check if schedule overlaps
+                    if( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) )
                     {
-                        $this->session->set_flashdata('message', $this->error);
-                        redirect('/assign_room/'.$cid);
+                        // delete first the days and period before inserting
+                        $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
+
+                        $data['classallocation']    = $cid;
+                        $data['day']                = $value;
+                        $data['from_time']          = $start_time;
+                        $data['to_time']            = $end_time;
+                        $this->db->insert('tbl_dayperiod', $data);
                     }
+                    else
+                    {
+
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
+                        return FALSE;
+                    }
+                }
+                else
+                {
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
                     return FALSE;
                 }
             }
-            else{
-                $this->error = '<div class="alert alert-danger">Time Period must not 12:00 am - 1:00 pm</div>';
-                if($this->input->post('edp'))
-                {
-                    $this->session->set_flashdata('message', $this->error);
-                    redirect('/assign_room/'.$cid);
-                }
+            else
+            {
+                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
                 return FALSE;
             }
         }
         $this->api->set_session_message('success','Successfully added');
-        if($this->input->post('edp'))
-        {
-            redirect('/assign_room/'.$cid);
-        }
         return TRUE;
     }
 
@@ -1326,5 +1412,151 @@ class Dean extends CI_Controller
         redirect(base_url('enrolment_grouping'));
     }
 
+    // --------------------------------------------------------------------------------------
+
+    function create_reg()
+    {
+        $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
+                        GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
+
+        $template = '';
+        $template .= '<table>
+                        <tr>
+                            <td>Party ID</td>
+                            <td>Academicterm</td>
+                            <td>Date</td>
+                            <td>COURSE</td>
+                            <td>SCH_YR</td>
+                            <td>Semester</td>
+                            <td>Curriculum</td>
+                            <td>Coursemajor</td>
+                            <td style="text-align:center">NAME</td>
+                        </tr>
+        ';
+        foreach($leg as $legacy)
+        {
+            $semester   = ($legacy['SEMESTER'] == 'S') ? '3' : $legacy['SEMESTER'];
+            $year       = explode('-', $legacy['SCH_YR']);
+            $s          = explode('/', $legacy['DATE_ENROL']);
+            $s1         = explode('-', $legacy['IDNO']);
+            $d          = '';
+            $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
+            $systart = '';
+            $syend = '';
+            if($s1[0] == $s[2])
+            {
+                $d          = $s[2].'-'.$s[1].'-'.$s[0];
+                $systart = $year[0];
+                $syend = $year[1];
+                //$sy         = $this->db->get_where('tbl_academicterm', array('systart' => $year[0], 'syend' => $year[1], 'term' => $semester))->row_array();
+            }
+            else
+            {
+          
+                $this->db->where('student', $p['id']);
+                $i = $this->db->count_all_results('tbl_registration');
+                if($i > 0)
+                {
+                    $d          = $s[2].'-'.$s[1].'-'.$s[0];
+                    $systart = $s[2];
+                    $syend = $systart + 1;
+                }
+                else {
+                    if($semester == 1){
+                        $d = $s1[0].'-06-01';
+                    }
+                    elseif($semester == 2){
+                        $d = $s1[0].'-11-01';
+                    }
+
+                    else{
+                        $d = $s1[0].'-04-01';
+                    }
+                    $systart = $s1[0];
+                    $syend = $systart + 1;
+                }
+            }
+
+            $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $systart, 'syend' => $syend, 'term' => $semester))->row_array();
+
+            if($legacy['COURSE'] == 'BSOA' OR $legacy['COURSE'] == 'BSC')
+            {
+                $coursemajor = 7;
+            }
+            elseif ($legacy['COURSE'] == 'BEED') {
+                $coursemajor = 18;
+            }
+            elseif ($legacy['COURSE'] == 'BSA') {
+                $coursemajor = 21;
+            }
+            elseif ($legacy['COURSE'] == 'BSBA') {
+                // for temporary
+                $coursemajor = 25;
+            }
+            elseif ($legacy['COURSE'] == 'BSCRIM') {
+                $coursemajor = 5;
+            }
+            elseif ($legacy['COURSE'] == 'LLB')
+            {
+                $coursemajor = 19;
+            }
+            elseif($legacy['COURSE'] == 'AB')
+            {
+                $coursemajor = 16;
+            }
+
+            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
+
+            $cur1 = 0;
+            if($legacy['COURSE'] == 'BSED')
+            {
+                $coursemajor = 17;
+                $cur1 = 55;
+            }
+            else {
+                foreach($acamd as $acams)
+                {
+                    $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE
+                        coursemajor = $coursemajor AND academicterm = {$acams['id']}");
+                    if($c->num_rows() > 0)
+                    {
+                        $cur    = $c->row_array();
+                        $cur1   = $cur['id'];
+                        break;
+                    }
+                }
+            }
+
+            if($cur1 == 0)
+            {
+                if($coursemajor == 21)
+                {
+                    $cur1 = 0;
+                }
+                else {
+                    $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart ASC LIMIT 1 ")->row_array();
+                    $cur1 = $cur['id'];
+                }
+
+            }
+
+            $template .= '<tr>
+                            <td style="width:100px;">'.$p['id'].'</td>
+                            <td style="width:100px;">'.$sy['id'].'</td>
+                            <td style="width:100px;">'.$d.'</td>
+                            <td style="width:100px;">'.$legacy['COURSE'].'</td>
+                            <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
+                            <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
+                            <td style="width:100px;">'.$cur1.'</td>
+                            <td style="width:100px;">'.$coursemajor.'</td>
+                            <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
+                        </tr>';
+            $data = array('coursemajor' => $coursemajor, 'curriculum' => $cur1, 'date' => $d, 'student' => $p['id'], 'academicterm' => $sy['id'], 'status' => 'A');
+            $this->db->insert('tbl_registration', $data);
+        }
+        $template .= '</table>';
+
+        echo $template;
+    }
 
 }

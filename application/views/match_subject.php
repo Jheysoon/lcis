@@ -35,19 +35,20 @@
     <br>
     <a href="<?php echo base_url() ?>" class="btn btn-primary btn-sm pull-right"> <<< Back </a>
     <br><br>
+    <div class="alert alert-info" style="text-align:center">
+        <strong> Just match the Legacy Subjects to Curriculum Subjects</strong><br>
+        <strong>You can select many Legacy Subjects to only one corresponding Curriculum Subject</strong>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <form action="/combine_subject" method="post">
-                <?php
-                //$e = explode('|', 'ED');
-                //echo 'substr(subcode,1,2) ='.implode($e, ' OR substr(subcode,1,2)=');
-                    $owner = $this->api->getUserCollege();
-                 ?>
                 <div class="col-md-6">
                     <div class="panel p-body">
         				<div class="panel-heading search">
         					<div class="col-md-6">
-        					<h4>Curriculum Subjects <?php
+        					<h4>Curriculum Subjects
+                            <?php
+                                $owner = $this->api->getUserCollege();
                                 $this->db->where('id', $owner);
                                 $col = $this->db->get('tbl_college')->row_array();
                                 echo '('.$col['description'].')';
@@ -80,7 +81,7 @@
                                             $cur = array('42', '50');
                                         }
                                         elseif($owner == 5){
-                                            $cur = array('16', '54');
+                                            $cur = array('16', '54', '56');
                                         }
 
                                         $curs = implode($cur, ',');
@@ -137,7 +138,7 @@
                                 <tbody>
                                     <?php
                                         $subcodes = $this->api->get_subcode();
-                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC")->result_array();
+                                        $r = $this->db->query("SELECT * FROM tbl_enrolment_legacy WHERE grouping != 0 AND ($subcodes) GROUP BY grouping ORDER BY grouping ASC, SUBTITLE")->result_array();
                                         foreach($r as $rr)
                                         {
                                             if($rr['subject_id'] == 0)

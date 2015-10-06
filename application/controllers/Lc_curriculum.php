@@ -64,10 +64,10 @@ class Lc_curriculum extends CI_Controller
 		{
             if ($x['totalcount'] == 0)
 			{
-	            $data = array('description' => $remarks,
-	                'coursemajor' => $coursemajor,
-	                'academicterm' => $accad_id,
-	                'yearlevel' => $yearlevel);
+	            $data = array(	'description' 	=> $remarks,
+	                			'coursemajor' 	=> $coursemajor,
+	                			'academicterm' 	=> $accad_id,
+	                			'yearlevel' 	=> $yearlevel);
 	            $this->db->insert('tbl_curriculum', $data);
 	            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Added.</div>');
             }
