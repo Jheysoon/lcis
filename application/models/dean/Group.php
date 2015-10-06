@@ -28,9 +28,10 @@ class Group extends CI_Model
 		return $q->result_array();
 	}
 
-	function group_sub($subtitle, $subname, $unit, $gr){
+	function group_sub($subtitle, $subname, $unit, $gr, $sub){
 		$this->db->where('UNITS', $unit);
 		$this->db->where('SUBNAME', $subname);
+		$this->db->where($sub);
 		$this->db->where('SUBTITLE', $subtitle);
 		$this->db->update('tbl_enrolment_legacy', $gr);
 	}

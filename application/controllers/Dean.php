@@ -458,9 +458,10 @@ class Dean extends CI_Controller
         }
         echo json_encode($data);
     }
+
     function calculatebill($enid){
-        $this->load->model('dean/student');
-        return $this->student->getCalculation($enid);
+        // $this->load->model('dean/student');
+        // return $this->student->getCalculation($enid);
     }
 
     function addClassAlloc1()
@@ -515,6 +516,8 @@ class Dean extends CI_Controller
         $unit = 0;
         $subCount = 0;
 
+        $nstp = FALSE;
+
         // Putting all selected schedules into schedule array.
 
         while ( $ctr != 0) {
@@ -522,6 +525,12 @@ class Dean extends CI_Controller
                 $names['var'.$ctr2] = $this->input->post('rad-'.$ctr);
                 $un = $this->student->getUnits($this->input->post('rad-'.$ctr));
                 extract($un);
+                $sub = $this->student->getSubject($this->input->post('rad-'.$ctr));
+
+                // check nstp if selected
+                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                    $nstp = TRUE;
+                }
                 $unit = $unit + $units;
                 $subCount++;
                 $ctr2++;
@@ -538,6 +547,11 @@ class Dean extends CI_Controller
 
                 // Get subject ID for duplicate verification.
                 $sub = $this->student->getSubject($cid);
+
+                // check nstp if selected
+                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                    $nstp = TRUE;
+                }
 
                 // Check if there are any duplicate subjects in additional subject table.
                 if (in_array($sub['code'], $add)) {
@@ -615,10 +629,49 @@ class Dean extends CI_Controller
                 $dup[] = $value;
             }
 
+            //check nstp
+            $student = $this->input->post('student');
+            $sem     = $this->input->post('sem');
+
+            // if nstp is not selected in evaluation
+            if ($nstp == FALSE) { 
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  False.
+                </div>';
+                return false;
+                $check = $this->student->checkNSTP($student, 298);
+                if ($sem == 1) {
+                    if (!$check) {
+                        $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          Please select NSTP subject.
+                        </div>';
+                        return false;
+                    }
+                }
+                else if($sem == 2){
+                    if ($check) {
+                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != NULL )) {
+                            $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              Please select NSTP subject.
+                            </div>';
+                            return false;
+                        }
+                    }
+                }
+            }
+            else{
+                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  True.
+                </div>';
+                return false;
+            }
+
             // If there are no conflicts proceed to saving.
             if ($message == '') {
-
-                $student        = $this->input->post('student');
                 $coursemajor    = $this->input->post('coursemajor');
                 $registration   = $this->input->post('registration');
                 $academicterm   = $this->input->post('academicterm');
@@ -1230,10 +1283,11 @@ class Dean extends CI_Controller
             $group = $this->group->get_group_no();
             $group = $group['gr'] + 1;
             $gr = array('grouping'=> $group);
+            $sub = $this->api->get_subcode();
 
             foreach ($checked as $key => $value) {
                 $rr = explode('|', $checked[$key]);
-                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr);
+                $this->group->group_sub($rr[0], $rr[1], $rr[2], $gr, $sub);
             }
 
             $this->session->set_flashdata('message',

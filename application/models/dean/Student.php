@@ -273,10 +273,10 @@
 
 		function getSubject($cid)
 		{
-			$where = 'tbl_classallocation.id='.$cid.' AND tbl_classallocation.subject=tbl_subject.id';
+			$where = 'a.id='.$cid.' AND a.subject = b.id';
 			$this->db->where($where);
-			$this->db->select('code');
-			$q = $this->db->get('tbl_classallocation, tbl_subject');
+			$this->db->select('b.code, b.id as subID');
+			$q = $this->db->get('tbl_classallocation a, tbl_subject b');
 			return $q->row_array();
 		}
 
@@ -388,5 +388,13 @@
 			$data = array('totalunit' => $unit, 'numberofsubject' => $subCount);
 			$this->db->where('id', $id);
 			$this->db->update('tbl_enrolment', $data);
-		}
+		}		
+
+	    function checkNSTP($student, $subject){
+	    	$q = $this->db->query("SELECT e.value as gr, e.description
+	    		FROM tbl_studentgrade a, tbl_enrolment b, tbl_classallocation c, tbl_subject d, tbl_grade e
+	    		WHERE b.id = a.enrolment AND a.classallocation = c.id AND c.subject = d.id
+	    		AND (e.id = a.semgrade OR e.id = a.reexamgrade) AND b.student = '$student' AND d.id = '$subject'
+	    	");
+	    }
 	}

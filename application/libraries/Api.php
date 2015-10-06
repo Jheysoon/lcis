@@ -308,7 +308,7 @@ class Api
 	function get_subcode(){
 		$col = $this->getUserCollege();
 		if ($col == 1) {
-			return "SUBSTRING(SUBCODE, 1, 2) = 'GE' OR SUBSTRING(SUBCODE, 1, 2) = 'AB'";
+			return "(SUBSTRING(SUBCODE, 1, 2) = 'GE' OR SUBSTRING(SUBCODE, 1, 2) = 'AB')";
 		}
 		elseif ($col == 2){
 			return "SUBSTRING(SUBCODE, 1, 2) = 'ED'";
@@ -320,7 +320,7 @@ class Api
 			return "SUBSTRING(SUBCODE, 1, 1) = 'L'";
 		}
 		elseif ($col == 5){
-			return "SUBSTRING(SUBCODE, 1, 2) = 'OA' OR SUBSTRING(SUBCODE, 1, 2) = 'CM'";
+			return "(SUBSTRING(SUBCODE, 1, 2) = 'OA' OR SUBSTRING(SUBCODE, 1, 2) = 'CM')";
 		}
 	}
 
