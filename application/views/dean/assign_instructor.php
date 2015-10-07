@@ -11,7 +11,6 @@
 				$sy = $this->db->get('tbl_academicterm')->row_array();
 
 				if($systemVal['classallocationstatus'] == 99)
-				//if(true)
 				{
 			 ?>
 			<a href="/instructor_sched" class="btn btn-primary pull-right">View Instructor Schedule</a>
@@ -39,8 +38,7 @@
 				</strong>
 			</p>
 			<?php
-				if($systemVal['classallocationstatus'] == 99){
-				//if(true){
+				if($systemVal['classallocationstatus'] == 99) {
 			?>
 			<select class="form-control" id="sorting" style="max-width:200px;">
 				<option value="0">All</option>
