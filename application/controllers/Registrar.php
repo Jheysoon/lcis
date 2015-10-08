@@ -936,6 +936,8 @@ class Registrar extends CI_Controller
                     $reg['student']         = $id;
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
+
+                    // TODO: Insert a record in tbl_useraccess
                     if ($this->db->trans_status() === FALSE)
                     {
                         $this->db->trans_rollback();
