@@ -31,7 +31,7 @@
 							if ($nxt['classallocationstatus'] > 0) {
 							?>
 								<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-									You have run this program .... !!!
+									You have already run this program .... !!!
 								</div>
 					<?php
 							}
