@@ -915,13 +915,15 @@ class Registrar extends CI_Controller
                     $data['dateofbirth']    = $this->input->post('dob');
                     $data['placeofbirth']   = ucwords($this->input->post('pob'));
                     $data['emailaddress']   = $email;
-                    $data['legacyid']       = $systemVal['laststudentid'];
+                    //check if the legacyid exists
+                    $stud_id                = $this->student_id($systemVal['laststudentid']);
+                    $data['legacyid']       = $stud_id;
 
                     $this->db->insert('tbl_party', $data);
                     $id = $this->db->insert_id();
 
                     // update the laststudent id in systemvalues
-                    $lid = explode('-', $systemVal['laststudentid']);
+                    $lid = explode('-', $stud_id);
                     $inc = $lid[1] + 1;
                     $sys['laststudentid'] = $lid[0].'-'.$inc;
                     $this->db->update('tbl_systemvalues', $sys);
@@ -934,6 +936,8 @@ class Registrar extends CI_Controller
                     $reg['student']         = $id;
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
+
+                    // TODO: Insert a record in tbl_useraccess
                     if ($this->db->trans_status() === FALSE)
                     {
                         $this->db->trans_rollback();
@@ -961,6 +965,20 @@ class Registrar extends CI_Controller
                 $this->error_reg($error);
             }
         }
+    }
+
+    function student_id($id)
+    {
+        $value  = $id;
+        $this->db->where('legacyid', $value);
+        $c      = $this->db->count_all_results('tbl_party');
+        while($c > 0)
+        {
+            $value += 1;
+            $this->db->where('legacyid', $value);
+            $c = $this->db->count_all_results('tbl_party');
+        }
+        return $value;
     }
 
     function error_reg($error)

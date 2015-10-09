@@ -779,7 +779,7 @@ class Dean extends CI_Controller
             $sem     = $this->input->post('sem');
 
             // if nstp is not selected in evaluation
-            if ($nstp == FALSE) { 
+            if ($nstp == FALSE) {
                 $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   False.
@@ -1450,7 +1450,7 @@ class Dean extends CI_Controller
             }
             else
             {
-          
+
                 $this->db->where('student', $p['id']);
                 $i = $this->db->count_all_results('tbl_registration');
                 if($i > 0)
@@ -1555,6 +1555,12 @@ class Dean extends CI_Controller
         $template .= '</table>';
 
         echo $template;
+    }
+
+    function change_sy()
+    {
+        $this->session->set_userdata('assign_sy', $this->input->post('sy'));
+        redirect('/menu/dean-assign_instructor');
     }
 
 }

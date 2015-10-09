@@ -120,6 +120,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['combine_subject']               = 'instructor/combine_subject';
     $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
 
+    $route['change_sy']                     = 'dean/change_sy';
+
 
 
 /*-----------------------------------------------------------

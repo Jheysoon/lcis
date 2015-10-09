@@ -17,7 +17,7 @@
 						<div class="alert alert-info center-block" id="confirmBox" style="max-width:400px;">
 							<strong> Do you want to run the student statistics for <br/>
 							<?php
-								$nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+								$nnxt = $this->academicterm->findById($nxt['phaseterm']);
 								echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
 							?>
 						?</strong>
@@ -31,7 +31,7 @@
 							if ($nxt['classallocationstatus'] > 0) {
 							?>
 								<div class="alert alert-danger center-block" style="text-align:center;width:400px;">
-									You have run this program .... !!!
+									You have already run this program .... !!!
 								</div>
 					<?php
 							}

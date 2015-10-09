@@ -71,7 +71,8 @@ class Main extends CI_Controller
                     'sem'               => $term['shortname'],
                     'cur_id'            => $systemVal['currentacademicterm'],
                     'status'            => $status,
-                    'username'          => $username
+                    'username'          => $username,
+                    'assign_sy'         => $systemVal['phaseterm']
                 ));
             }
             else
@@ -226,7 +227,7 @@ class Main extends CI_Controller
                 $suffix = '0'.$ctr;
             else
                 $suffix = $ctr;
-                
+
             $username = $username.$suffix;
             $this->db->where('username', $username);
             $count  = $this->db->count_all_results('tbl_useraccess');
