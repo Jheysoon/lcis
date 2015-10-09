@@ -155,20 +155,20 @@ $route['accountasset/(:any)']           = 'movement/$1';
 
 
 $route['student-movement/(:any)/(:any)'] = 'movement/$1/$2';
-$route['student-movemen/(:any)'] = 'movement/$1';
+$route['student-movemen/(:any)']         = 'movement/$1';
 
-$route['movements'] = 'movement/accmove';
-$route['movement_update'] = 'movement/update_mov';
+$route['movements']                      = 'movement/accmove';
+$route['movement_update']                = 'movement/update_mov';
 
 
-$route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
-$route['update-movemen/(:any)'] = 'movement/$1';
-$route['movement_add'] = 'movement/add_movement';
+$route['update-movement/(:any)/(:any)']  = 'movement/$1/$2';
+$route['update-movemen/(:any)']          = 'movement/$1';
+$route['movement_add']                   = 'movement/add_movement';
 
 //Audit Payment Override
 
-$route['payment_override']  = 'audit/payment_override';
-
+$route['payment_override']               = 'audit/payment_override';
+$route['list_billing']                   = 'audit/list_billing';
 
 /*
 /*

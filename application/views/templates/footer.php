@@ -220,7 +220,7 @@
                             });
                         </script>
                <?php }
-             if (uri_string() == 'menu/audit-accountlist' OR in_array('billing-list_billing', $str1)) { ?>
+             if (uri_string() == 'menu/audit-accountlist' OR in_array('list_billing', $str1) OR in_array('payment_override', $str1)) { ?>
                       <script src="/assets/js/typeahead.bundle.js"></script>
                        <script src="/assets/js/handlebars-v3.0.1.js"></script>
                        <script type="text/javascript">
