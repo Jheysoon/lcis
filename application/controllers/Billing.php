@@ -17,8 +17,6 @@ class Billing extends CI_Controller
 		$this->head();
 		$this->load->model('cashier/assesment');
 		$data['legacyid'] = $legacyid;
-		$this->load->model('dean/student');
-		$this->student->getCalculation(36868);
 		$this->load->view('audit/view_assesment', $data);
     }
 
@@ -28,10 +26,8 @@ class Billing extends CI_Controller
     	$this->load->model(array('cashier/assesment', 'dean/student'));
     	$data['legacyid'] = $legacyid;
     	$data['type'] = 'installment';
-			$this->load->model('dean/student');
-			$this->billcalculation(36868);
     	$this->load->view('audit/view_studentbilling', $data);
-			$this->load->view('templates/footer');
+		$this->load->view('templates/footer');
     }
 
     function searcheds()
@@ -130,7 +126,7 @@ class Billing extends CI_Controller
 	}
 	function billcalculation($enid)
 	{
-			//$this->load->model('dean/student');
+			$this->load->model('dean/student');
 			//Function to get the coursemajor and the party id of the student
 			$enr_info = $this->student->enr_info($enid);
 			$coursemajor = $enr_info['coursemajor'];
@@ -271,19 +267,19 @@ class Billing extends CI_Controller
 												'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netpr);
 						if ($updates == 1)
 						{
-								$this->student->update_billclass($data, $billid);
-								$this->assesment->revertPosting($billid);
+							$this->student->update_billclass($data, $billid);
+							$this->assesment->revertPosting($billid);
 						}
 						else
 						{
-								$this->student->insert_billclass($data);
+							$this->student->insert_billclass($data);
 						}
 
 			}
 		}
 		function get_all_enrolment()
 		{
-			$x = $this->db->get('tbl_enrolment')->result_array();
+			$x = $this->db->query("SELECT * FROM tbl_enrolment LIMIT 10")->result_array();
 			foreach ($x as $key => $value) {
 					$this->billcalculation($value['id']);
 			}

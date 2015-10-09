@@ -32,5 +32,26 @@ class Audit extends CI_Controller {
         $this->load->view('audit/view_cashieraccountmovement');
         $this->load->view('templates/footer');
     }
+    function payment_override()
+    {
+        $this->api->userMenu();
+        $this->load->library('pagination');
+        $this->load->model('registrar/enrollment');
+        $this->session->set_userdata('audit', 1);
+        $data['headertitle'] = 'Paymen Override';
+        $this->load->view('billing/list_billing');
+        $this->load->view('templates/footer');
+
+    }
+    function list_billing()
+    {
+        $this->api->userMenu();
+        $this->load->library('pagination');
+        $this->load->model('registrar/enrollment');
+        $this->session->set_userdata('audit', 1);
+        $data['headertitle'] = 'Paymen Override';
+        $this->load->view('billing/list_billing');
+        $this->load->view('templates/footer');
+    }
 
 }

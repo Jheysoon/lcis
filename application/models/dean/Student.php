@@ -139,7 +139,7 @@
 																	AND b.id = a.classallocation
 																	AND c.id = b.subject AND computersubject = 1")->num_rows();
 			}
-			function get_nstp($enid)
+			function  ($enid)
 			{
 				return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
 																	WHERE enrolment = '$enid'
