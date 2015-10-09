@@ -559,8 +559,6 @@ class Dean extends CI_Controller
                         $this->student->insertbilldetail($data);
                     }
             }
-
-
             if ($billid != 0)
             {
                     $tui = 0;

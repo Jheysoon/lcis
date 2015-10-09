@@ -163,6 +163,9 @@ $route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
 $route['update-movemen/(:any)'] = 'movement/$1';
 $route['movement_add'] = 'movement/add_movement';
 
+//Audit Payment Override
+
+$route['payment_override']  = 'audit/payment_override';
 
 
 /*
