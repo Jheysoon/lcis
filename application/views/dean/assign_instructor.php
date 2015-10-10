@@ -50,7 +50,7 @@
 						foreach($sy as $s) {
 						$sem = $s['term'] == 3 ? 'Summer' : $s['term'].' term';
 					?>
-						<option value="<?php echo $s['id'] ?>"><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
+						<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
 					<?php } ?>
 				</select>
 				<input type="submit" class="btn btn-primary pull-right" name="name" value="Change">
