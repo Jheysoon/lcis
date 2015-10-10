@@ -902,8 +902,9 @@ class Registrar extends CI_Controller
             //check if the email add is valid
             if (filter_var($email, FILTER_VALIDATE_EMAIL))
             {
+                $password = $this->input->post('password');
                 // check if the password and repeat password is equal
-                if($this->input->post('password') == $this->input->post('rpass'))
+                if($password == $this->input->post('rpass'))
                 {
                     $this->db->trans_begin();
                     $systemVal              = $this->api->systemValue();
@@ -937,7 +938,10 @@ class Registrar extends CI_Controller
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
-                    // TODO: Insert a record in tbl_useraccess
+                    $acc['username'] = $this->input->post('username');
+                    $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
+                    $this->db->insert('tbl_useraccess', $acc);
+
                     if ($this->db->trans_status() === FALSE)
                     {
                         $this->db->trans_rollback();

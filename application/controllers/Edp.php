@@ -58,22 +58,17 @@ class Edp extends CI_Controller
         $this->form_validation->set_rules('mincapacity', 'Minimum Capacity', 'trim|required|integer');
         $this->form_validation->set_rules('maxcapacity', 'Maximun Capacity', 'trim|required|integer');
 
-        if($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $data['error'] = '';
             $this->load->view('edp/edit_classroom', $data);
-        }
-        else
-        {
+        } else {
             $min = $this->input->post('mincapacity');
             $max = $this->input->post('maxcapacity');
-            if($min > $max OR $min == $max)
-            {
+
+            if ($min > $max OR $min == $max) {
                 $data['error'] = 'error';
                 $this->load->view('edp/edit_classroom',$data);
-            }
-            else
-            {
+            } else {
                 $dat['legacycode']     = $this->input->post('room');
                 $dat['mincapacity']    = $this->input->post('mincapacity');
                 $dat['maxcapacity']    = $this->input->post('maxcapacity');
@@ -91,8 +86,7 @@ class Edp extends CI_Controller
         $systemVal = $this->api->systemValue();
 
         //check if the phase term is FINALS
-        if ($systemVal['phase'] == FIN)
-        {
+        if ($systemVal['phase'] == FIN) {
             $this->load->model(array(
                 'edp/edp_classallocation',
                 'registrar/academicterm'
@@ -115,9 +109,7 @@ class Edp extends CI_Controller
             //
             // }
             $this->load->view('edp/ajax_studentCount');
-        }
-        else
-        {
+        } else {
             echo 'Not final';
         }
     }
@@ -125,8 +117,7 @@ class Edp extends CI_Controller
     function studentc($isFirstYear = TRUE)
     {
         // check if the term is summer
-        if ($term == 3)
-        {
+        if ($term == 3) {
             // if term is summer . get the students enrolled in last 2nd sem.
             if($isFirstYear)
                 $acam 	= $current_academicterm - 2;
@@ -134,23 +125,20 @@ class Edp extends CI_Controller
                 $acam 	= $current_academicterm - 1;
 
             $e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
-        }
-        // if not get the students in enrolled in current academicterm
-        else
+        } else {
+            // if not get the students in enrolled in current academicterm
             $e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
+        }
 
-        foreach ($e as $stud)
-        {
+        foreach ($e as $stud) {
             $yearlevel = $this->api->yearLevel($stud['student'], $course);
 
             // API return curriculum not found if the course does not have a curriculum
-            if ($yearlevel != CUR_NOT_FOUND)
-            {
-                if($isFirstYear){
+            if ($yearlevel != CUR_NOT_FOUND) {
+                if ($isFirstYear) {
                     if ($yearlevel == 1)
 						$this->yearL[0] += 1;
-                }
-                else{
+                } else {
                     if($yearlevel > 1)
                         $this->yearL[$yearlevel - 1] += 1;
                 }
@@ -185,8 +173,7 @@ class Edp extends CI_Controller
         //truncate table before inserting
         $this->db->query("TRUNCATE out_studentcount");
 
-        foreach($coursemajor as $key => $value)
-        {
+        foreach ($coursemajor as $key => $value) {
             $data                   = array();
             $data['course']         = $value;
             $data['yearlevel']      = $year_level[$key];
@@ -216,26 +203,23 @@ class Edp extends CI_Controller
         $d['studentcount']  = $count;
 
         // if the count is less than the numberofstudent system value set it to 0
-        if($count == 0 OR $count < $this->numberOfStudents)
-        {
+        if ($count == 0 OR $count < $this->numberOfStudents) {
             // if the student count is less than 10
             // default no. of section is 0
             if($count <= 10)
                 $d['section'] = 0;
             else
                 $d['section'] = 1;
-        }
-        // force the result to be an integer
-        else
+        } else {
+            // force the result to be an integerv
             $d['section'] = (int) ($count / $this->numberOfStudents);
-
+        }
         $this->db->insert('out_section', $d);
     }
 
     function view_sched($roomId = '')
     {
-        if(!empty($roomId) AND is_numeric($roomId))
-        {
+        if ( ! empty($roomId) AND is_numeric($roomId) ) {
             $this->load->model(array(
                 'edp/classroom',
                 'edp/edp_classallocation',
@@ -250,15 +234,15 @@ class Edp extends CI_Controller
 
             $this->load->view('edp/view_room_sched', $data);
             $this->load->view('templates/footer');
-        }
-        else
+        } else {
             show_error('Did you type the url by yourself ?');
+        }
+
     }
 
     function add_sched($sid = '')
     {
-        if (!empty($sid))
-        {
+        if ( ! empty($sid) ) {
             $this->api->userMenu();
             $data['roomId'] = $sid;
 
@@ -274,8 +258,7 @@ class Edp extends CI_Controller
 
     function assign_room($cid = '')
     {
-        if (!empty($cid))
-        {
+        if ( !empty($cid) ) {
             $this->api->userMenu();
             $this->load->model(array(
                 'edp/classroom',
@@ -311,8 +294,7 @@ class Edp extends CI_Controller
         $conflict       = FALSE;
         $cid            = $this->input->post('cid');
 
-        foreach($dayPeriodId as $key => $value)
-        {
+        foreach ($dayPeriodId as $key => $value) {
             $this->edp_classallocation->updateClassroom($room[$key], $value);
             /*$f = $this->db->get_where('tbl_period',array('id' => $from_time[$key]))->row_array();
             $ff = $f['time'];
@@ -356,19 +338,13 @@ class Edp extends CI_Controller
             'dean/subject'
         ));
         $cid = $this->input->post('cid');
-        if($cid == 1)
-        {
+        if ($cid == 1) {
             $this->load->view('edp/ajax_edp_all');
-        }
-        elseif($cid == 2)
-        {
+        } elseif ($cid == 2) {
             $this->load->view('edp/ajax_edp_assigned');
-        }
-        elseif ($cid == 3)
-        {
+        } elseif ($cid == 3) {
             $this->load->view('edp/ajax_edp_notassigned');
-        }
-        else {
+        } else {
             // this is a error message
             $this->load->view('edp/ajax_edp_bydean');
         }
@@ -473,8 +449,7 @@ class Edp extends CI_Controller
                 $this->db->where('subject', $s['subject']);
                 $this->db->where('coursemajor', $id);
                 $i = $this->db->count_all_results('out_c');
-                if($i < 1)
-                {
+                if ($i < 1) {
                     $db['subject']      = $s['subject'];
                     $db['coursemajor']  = $id;
                     $this->db->insert('out_c', $db);
@@ -503,8 +478,7 @@ class Edp extends CI_Controller
                 $this->db->where('academicterm',$k['id']);
                 $c = $this->db->get('tbl_curriculum');
 
-                if($c->num_rows() > 0)
-                {
+                if ($c->num_rows() > 0) {
                     $ff                     = $c->row_array();
                     $data['student']        = $val['student'];
                     $data['coursemajor']    = $coursemajor;
@@ -529,8 +503,7 @@ class Edp extends CI_Controller
             $this->db->where('student', $key['student']);
             $this->db->where('coursemajor', 22);
             $g = $this->db->count_all_results('tbl_registration');
-            if($g > 0)
-            {
+            if($g > 0) {
                 $d['coursemajor'] = 8;
                 $this->db->where('student', $key['student']);
                 $this->db->update('tbl_registration', $d);
@@ -607,30 +580,23 @@ class Edp extends CI_Controller
             $cur_range  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
 
             // if there are more than 1 curriculums
-            if($cur_range > 1)
-            {
+            if ($cur_range > 1) {
                 $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
-                foreach($c as $cc)
-                {
+                foreach ($c as $cc) {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
 
                     $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
-                    foreach($cur_range2 as $ra)
-                    {
+                    foreach ($cur_range2 as $ra) {
                         $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
                         foreach($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
                     }
                 }
-            }
-
-            elseif($cur1 != 0)
-            {
+            } elseif ($cur1 != 0) {
                 $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
-                foreach($c as $cc)
-                {
+                foreach ($c as $cc) {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
                     $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
@@ -641,5 +607,4 @@ class Edp extends CI_Controller
             }
         }
     }
-
 }

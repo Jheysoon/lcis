@@ -11,8 +11,7 @@
 				$this->db->where('id', $phaseterm);
 				$sy = $this->db->get('tbl_academicterm')->row_array();
 
-				if($systemVal['classallocationstatus'] == 99)
-				{
+				if ($systemVal['classallocationstatus'] == 99) {
 			 ?>
 			<a href="/instructor_sched" class="btn btn-primary pull-right">View Instructor Schedule</a>
 			<span class="clearfix"></span>
@@ -39,7 +38,7 @@
 				</strong>
 			</p>
 			<?php
-				if($systemVal['classallocationstatus'] == 99) {
+				if ($systemVal['classallocationstatus'] == 99) {
 					$this->db->order_by('systart,term');
 					$sy = $this->db->get('tbl_academicterm')->result_array();
 			?>
@@ -47,10 +46,10 @@
 				<label>School Year : </label>
 				<select class="form-control" name="sy">
 					<?php
-						foreach($sy as $s) {
+						foreach ($sy as $s) {
 						$sem = $s['term'] == 3 ? 'Summer' : $s['term'].' term';
 					?>
-						<option value="<?php echo $s['id'] ?>"><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
+						<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
 					<?php } ?>
 				</select>
 				<input type="submit" class="btn btn-primary pull-right" name="name" value="Change">
@@ -70,8 +69,7 @@
 			?>
 			 </div>
 			 <?php
-				}
-				else {
+				} else {
 					?>
 					<div class="alert alert-danger">
 						Cannot run program. Class allocation status is not valid
