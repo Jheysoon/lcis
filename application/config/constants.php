@@ -83,3 +83,15 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+/* phases variables */
+define('ENR', 1);
+define('PRE', 2);
+define('MID', 3);
+define('SEM', 4);
+define('FIN', 5);
+define('COLLEGE_COUNT', 6);
+// ERRORS CONSTANT
+define('CUR_NOT_FOUND', 'Curriculum Not Found');
+define('NOT_FAILED_GRADE', 21);
