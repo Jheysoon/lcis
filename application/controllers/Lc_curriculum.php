@@ -135,10 +135,10 @@ class Lc_curriculum extends CI_Controller
                  $x = $row->row_array();
                  if ($x['totalcount'] == 0)
 				 {
-                    $data2 = array('curriculum' => $currid,
-                		'subject' => $subid,
-                		'yearlevel' => $yearlevel,
-                		'term' => $term);
+                    $data2 = array(	'curriculum' 	=> $currid,
+                					'subject' 		=> $subid,
+                					'yearlevel' 	=> $yearlevel,
+                					'term' 			=> $term);
                     $this->db->insert('tbl_curriculumdetail', $data2);
                     $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
                    unset($_SESSION['params']);
