@@ -261,11 +261,12 @@ class Billing extends CI_Controller
 						{
 							$netenrol += $amount;
 						}
-						echo $netenrol . "|Netenrol|TUITION" . $tui . "<br />";
+					
 					}
 
 					$netpr = $tui + $int + $boo + $comp;
 					$ens = $netenrol + $tui;
+					echo $ens . "<br />";
 					$data = array('id' => $billid, 'enrolment' => $enid,
 												'netenrolment' => $ens, 'netprelim' => $netpr,
 												'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netpr);
@@ -283,7 +284,7 @@ class Billing extends CI_Controller
 		}
 		function get_all_enrolment()
 		{
-			$x = $this->db->query("SELECT * FROM tbl_enrolment LIMIT 20")->result_array();
+			$x = $this->db->query("SELECT * FROM tbl_enrolment")->result_array();
 			foreach ($x as $key => $value) {
 					$this->billcalculation($value['id']);
 			}
