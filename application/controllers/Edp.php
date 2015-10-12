@@ -91,23 +91,7 @@ class Edp extends CI_Controller
                 'edp/edp_classallocation',
                 'registrar/academicterm'
             ));
-
-            // $c = array();
-            // $curs = $this->db->get('tbl_course')->result_array();
-            // foreach($curs as $cu)
-    		// {
-            //     $c[] = ;
-            //     $this->yearL = array(0 => 0,1 => 0,2 => 0,3 => 0);
-    		// 	$course = $cu['id'];
-            //
-    		// 	$cid 	= $cu['id'];
-    		// 	$year_l = $i;
-    		//
-            //
-            //     $this->studentc(FALSE);
-            //     $this->studentc();
-            //
-            // }
+            
             $this->load->view('edp/ajax_studentCount');
         } else {
             echo 'Not final';
