@@ -427,11 +427,10 @@ class Registrar extends CI_Controller
         $db['student']      = $partyid;
 
         $stat = $this->log_student->chkStatus($partyid);
-        if($stat['status'] != 'S')
-        {
+        if ($stat['status'] != 'S') {
             $count = $this->enrollment->whereCount($db);
-            if ($count < 1)
-            {
+
+            if ($count < 1) {
                 $d['student']       = $partyid;
                 $d['coursemajor']   = $cid;
                 $d['academicterm']  = $syid;
@@ -440,14 +439,10 @@ class Registrar extends CI_Controller
                 $id = $this->enrollment->insert_return_id($data);
                 $data['id'] = $id;
                 $this->load->view('registrar/ajax/add_academicterm', $data);
-            }
-            else
-            {
+            } else {
                 echo 'Academic Term Already Exists';
             }
-        }
-        else
-        {
+        } else {
             echo 'This record is already submitted';
         }
 
@@ -479,17 +474,14 @@ class Registrar extends CI_Controller
         $pid    = $p['student'];
         $stat   = $this->log_student->chkStatus($pid);
 
-        if($stat['status'] != 'S')
-        {
+        if ($stat['status'] != 'S') {
             $this->log_student->insert_not_exists($p['student'], 'E');
             $this->enrollment->delete_enroll($enrolmentid);
 
             // after the classallocation has been deleted
             // its time to deleted the subjects grade
             $this->studentgrade->delete($enrolmentid);
-        }
-        else
-        {
+        } else {
             echo 'This record is already submitted';
         }
     }
@@ -521,8 +513,7 @@ class Registrar extends CI_Controller
         $pid    = $q['student'];
         $stat   = $this->log_student->chkStatus($pid);
 
-        if($stat['status'] != 'S')
-        {
+        if ($stat['status'] != 'S') {
             $this->log_student->insert_not_exists($q['student'], 'E');
             $this->studentgrade->update_reexam_grade($studgrade, $grade_id);
         }
@@ -544,8 +535,7 @@ class Registrar extends CI_Controller
         $pid        = $q['student'];
         $stat       = $this->log_student->chkStatus($pid);
 
-        if($stat['status'] != 'S')
-        {
+        if ($stat['status'] != 'S') {
             $grade_id               = $this->input->post('grad');
             $data['enrolmentid']    = $enrol_id;
             $data['sid']            = $this->input->post('stugrade');
@@ -553,9 +543,7 @@ class Registrar extends CI_Controller
             $this->studentgrade->update_grade($data['sid'],$grade_id);
             $this->log_student->insert_not_exists($pid, 'E');
             $this->load->view('registrar/ajax/re_exam',$data);
-        }
-        else
-        {
+        } else {
             echo 'This record is already submitted';
         }
     }
