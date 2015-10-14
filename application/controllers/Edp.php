@@ -183,7 +183,7 @@ class Edp extends CI_Controller
         $this->db->query("TRUNCATE out_section");
 
         $systemVal  = $this->api->systemValue();
-        $sy         = $systemVal['nextacademicterm'];
+        $sy         = $systemVal['phaseterm'];
         $this->numberOfStudents = $systemVal['numberofstudent'];
 
         $this->db->where('id', $sy);
