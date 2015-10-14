@@ -80,7 +80,7 @@
 						<caption>
 							<strong>
 							<?php
-								$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+								$acam 		= $this->academicterm->findById($systemVal['phaseterm']);
 								echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']);
 							 ?>
 							 <br>
@@ -102,7 +102,7 @@
 						</tr>
 						<?php
 							//$user 		= $this->api->getUserCollege();
-							$sub 		= $this->edp_classallocation->getAlloc($systemVal['nextacademicterm']);
+							$sub 		= $this->edp_classallocation->getAlloc($systemVal['phaseterm']);
 
 							foreach($sub as $subj)
 							{

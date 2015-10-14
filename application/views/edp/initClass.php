@@ -6,7 +6,7 @@
 				$this->load->view('edp/cl_status');
 
 				$systemVal 	= $this->api->systemValue();
-				$sy 		= $systemVal['nextacademicterm'];
+				$sy 		= $systemVal['phaseterm'];
 				if($systemVal['phase'] == FIN)
 				{
 					if($systemVal['classallocationstatus'] == 2 OR $systemVal['classallocationstatus'] == 1)
