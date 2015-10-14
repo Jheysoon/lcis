@@ -88,6 +88,17 @@
                             });
                             e.preventDefault();
                         });
+                        $('.section').change(function() {
+                            param = $(this).data('param');
+                            if(param != $(this).val())
+                            {
+                                $(this).parent().parent().addClass('danger');
+                            }
+                            else
+                            {
+                                $(this).parent().parent().removeClass('danger');
+                            }
+                        });
                         $('.section').keyup(function() {
                             param = $(this).data('param');
                             if(param != $(this).val())
