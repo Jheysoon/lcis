@@ -1496,7 +1496,7 @@ class Dean extends CI_Controller
             }
             elseif ($legacy['COURSE'] == 'LLB')
             {
-                $coursemajor = 19;
+                $coursemajor = 6;
             }
             elseif($legacy['COURSE'] == 'AB')
             {
