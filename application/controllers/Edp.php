@@ -193,6 +193,7 @@ class Edp extends CI_Controller
         $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart DESC,term")->result_array();
 
         $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
+        
         foreach($stuC as $studentC)
         {
             $coursemajor    = $studentC['course'];
@@ -204,6 +205,7 @@ class Edp extends CI_Controller
                 $c = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE
                     tbl_coursemajor.id = tbl_curriculum.coursemajor AND
                     tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
+                
                 if($c->num_rows() > 0)
                 {
                     $cur    = $c->row_array();
@@ -214,29 +216,34 @@ class Edp extends CI_Controller
 
             //get the curriculum within 4 years
             $cur_range1 = $acam - 12;
-            $cur_range  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
+            $cur_range  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm BETWEEN $cur_range1 AND $acam AND tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->num_rows();
 
             // if there are more than 1 curriculums
             if ($cur_range > 1) {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
+                $c = $this->db->get_where('out_studentcount', array('course' => $coursemajor))->result_array();
+                
                 foreach ($c as $cc) {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
 
                     $cur_range2  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
+                    
                     foreach ($cur_range2 as $ra) {
-                        $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['id']} AND yearlevel = $y AND term = $term")->result_array();
+                        $e = $this->db->get_where('tbl_curriculumdetail', array('curriculum' => $ra['id'], 'yearlevel' => $y, 'term' => $term))->result_array();
+                        
                         foreach($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
                     }
                 }
             } elseif ($cur1 != 0) {
-                $c = $this->db->query("SELECT * FROM out_studentcount WHERE course = $coursemajor")->result_array();
+                $c = $this->db->get_where('out_studentcount', array('course' => $coursemajor))->result_array();
+
                 foreach ($c as $cc) {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
-                    $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = $cur1 AND yearlevel = $y AND term = $term")->result_array();
+                    $e      = $this->db->get_where('tbl_curriculumdetail', array('curriculum' => $cur1, 'yearlevel' => $y, 'term' => $term))->result_array();
+
                     foreach($e as $ee) :
                         $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                     endforeach;
@@ -263,7 +270,7 @@ class Edp extends CI_Controller
             else
                 $d['section'] = 1;
         } else {
-            // force the result to be an integerv
+            // force the result to be an integer
             $d['section'] = (int) ($count / $this->numberOfStudents);
         }
         $this->db->insert('out_section', $d);
