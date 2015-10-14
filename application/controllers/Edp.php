@@ -223,9 +223,9 @@ class Edp extends CI_Controller
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
 
-                    $cur_range2  = $this->db->query("SELECT tbl_curriculum.id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
+                    $cur_range2  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
                     foreach ($cur_range2 as $ra) {
-                        $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['tbl_curriculum.id']} AND yearlevel = $y AND term = $term")->result_array();
+                        $e      = $this->db->query("SELECT subject FROM tbl_curriculumdetail WHERE curriculum = {$ra['id']} AND yearlevel = $y AND term = $term")->result_array();
                         foreach($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
