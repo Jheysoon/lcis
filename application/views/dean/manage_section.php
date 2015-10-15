@@ -32,7 +32,7 @@
 								<strong>
 								Preparation for Academicterm SY:
 								<?php
-									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
+									$nnxt 	= $this->academicterm->findById($nxt['phaseterm']);
 									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$this->academicterm->getLongName($nnxt['term']);
 								 ?>
 								 <br> Total Number of Subjects :
