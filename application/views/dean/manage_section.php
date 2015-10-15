@@ -14,7 +14,7 @@
 							$nxt 	= $this->api->systemValue();
 							if($nxt['classallocationstatus'] == 1)
 							{
-								$this->db->where('academicterm', $nxt['currentacademicterm']);
+								$this->db->where('academicterm', $nxt['phaseterm']);
 								$this->db->where('stage', 2);
 								$this->db->where('completedby', $this->session->userdata('uid'));
 								$c = $this->db->get('tbl_completion')->num_rows();
