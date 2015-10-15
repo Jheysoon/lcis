@@ -53,7 +53,7 @@
             <?php } ?>
             <tr>
                 <td>
-                    Computer Subjects
+                    COMPUTER SUBJECTS AND NSTP
                 </td>
                 <td style="text-align:center;">
                     <?php
