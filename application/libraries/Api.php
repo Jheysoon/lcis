@@ -83,27 +83,15 @@ class Api
 	}
 
 	// this function checks if the user has the right/access for that menu
-	function verifyUserAccess($url)
+	function verifyUserAccess($optionid)
 	{
-		$user = $this->CI->session->userdata('uid');
-		$this->CI->db->where('link',$url);
-		$q = $this->CI->db->get('tbl_option');
-		if($q->num_rows() > 0)
-		{
-			$option = $q->row_array();
-			$option_id = $option['id'];
-			$this->CI->db->where('optionid',$option_id);
-			$this->CI->db->where('userid',$user);
-			$count = $this->CI->count_all_results('tbl_useroption');
-			if($count > 0)
-				return 'ok';
-			else
-				return 'error';
+		$this->CI->db->where('optionid', $optionid);
+		$this->CI->db->where('userid', $this->CI->session->userdata('uid'));
+		$c = $this->CI->db->count_all_results('tbl_useroption');
+		if ($c < 1) {
+			show_error('Unauthorized Access');
 		}
-		else
-			return 'error';
 	}
-
 
 	// load the user menu
 	function userMenu()
