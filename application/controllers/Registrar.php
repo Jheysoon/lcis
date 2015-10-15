@@ -1287,6 +1287,11 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    function set_print_for($sid, $for){
+        $this->session->set_userdata('for', $for);
+        redirect(base_url('registrar_tor/'.$sid));
+    }
+
     function updateFields(){
         $this->load->model('registrar/tor');
 

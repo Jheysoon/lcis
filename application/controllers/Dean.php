@@ -726,9 +726,13 @@ class Dean extends CI_Controller
             $ctr2 = $ctr2-1;
             $i = $ctr2;
 
-            // Separating multi-scheduled class allocations/subjects
-            // into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
-            // and put them in a new array for conflict checking.
+            /*
+             |---------------------------------------------------------------------
+             | Separating multi-scheduled class allocations/subjects
+             | into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
+             | and put them in a new array for conflict checking.
+             |---------------------------------------------------------------------
+            */
 
             while ($ctr2 != 0) {
                 $ii = $i;
@@ -781,12 +785,7 @@ class Dean extends CI_Controller
             $sem     = $this->input->post('sem');
 
             // if nstp is not selected in evaluation
-            if ($nstp == FALSE) { 
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  False.
-                </div>';
-                return false;
+            if ($nstp == FALSE) {
                 $check = $this->student->checkNSTP($student, 298);
                 if ($sem == 1) {
                     if (!$check) {
@@ -799,7 +798,7 @@ class Dean extends CI_Controller
                 }
                 else if($sem == 2){
                     if ($check) {
-                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != NULL )) {
+                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != 'DROPPED' )) {
                             $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               Please select NSTP subject.
@@ -808,13 +807,6 @@ class Dean extends CI_Controller
                         }
                     }
                 }
-            }
-            else{
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  True.
-                </div>';
-                return false;
             }
 
             // If there are no conflicts proceed to saving.
