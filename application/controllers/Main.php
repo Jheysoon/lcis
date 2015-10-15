@@ -126,6 +126,8 @@ class Main extends CI_Controller
         $data['orig_page'] = $page;
         $page = str_replace('-', '/', $page);
 
+        $this->api->verifyUserAccess($page);
+
         if(file_exists('./application/views/'.$page.'.php'))
         {
 
