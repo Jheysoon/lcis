@@ -239,7 +239,15 @@ class Edp extends CI_Controller
             // force the result to be an integer
             $d['section'] = (int) ($count / $this->numberOfStudents);
         }
-        $this->db->insert('out_section', $d);
+        
+        $this->db->where('coursemajor', $course);
+        $this->db->where('subject', $subject);
+        $this->db->where('yearlevel', $yearlevel);
+        $c = $this->db->count_all_results('out_section');
+
+        if ($c < 1) {
+            $this->db->insert('out_section', $d);
+        }
     }
 
     function view_sched($roomId = '')
