@@ -878,7 +878,7 @@ class Dean extends CI_Controller
                 if ($end_time > $start_time) {
 
                     // check if schedule overlaps
-                    if ( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) ) {
+                    if ( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 13 AND $end_time <= 28) ) {
                         
                         // delete first the days and period before inserting
                         $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
