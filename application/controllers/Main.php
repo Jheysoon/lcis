@@ -71,7 +71,8 @@ class Main extends CI_Controller
                     'sem'               => $term['shortname'],
                     'cur_id'            => $systemVal['currentacademicterm'],
                     'status'            => $status,
-                    'username'          => $username
+                    'username'          => $username,
+                    'assign_sy'         => $systemVal['phaseterm']
                 ));
             }
             else
@@ -124,6 +125,8 @@ class Main extends CI_Controller
 
         $data['orig_page'] = $page;
         $page = str_replace('-', '/', $page);
+
+        $this->api->verifyUserAccess($page);
 
         if(file_exists('./application/views/'.$page.'.php'))
         {
@@ -226,12 +229,32 @@ class Main extends CI_Controller
                 $suffix = '0'.$ctr;
             else
                 $suffix = $ctr;
-                
+
             $username = $username.$suffix;
             $this->db->where('username', $username);
             $count  = $this->db->count_all_results('tbl_useraccess');
         }
-        echo $username;
+        return $username;
+    }
+
+
+    function create_useraccess()
+    {
+        $q = $this->db->query("SELECT instructor FROM tbl_classallocation WHERE instructor != 0 AND academicterm = 49 GROUP BY instructor")->result_array();
+        foreach ($q as $user) {
+            $this->db->where('partyid', $user['instructor']);
+            $c = $this->db->count_all_results('tbl_useraccess');
+            if ($c < 1) {
+                $this->db->where('id', $user['instructor']);
+                $party = $this->db->get('tbl_party')->row_array();
+                $username = $this->createUsername($party['firstname'], $party['lastname']);
+                $password = password_hash('welcome', PASSWORD_BCRYPT);
+                $data['username'] = strtolower($username);
+                $data['password'] = $password;
+                $data['partyid'] = $user['instructor'];
+                $this->db->insert('tbl_useraccess', $data);
+            }
+        }
     }
 
     function setSy_session()

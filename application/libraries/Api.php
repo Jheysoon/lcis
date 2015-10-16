@@ -88,22 +88,20 @@ class Api
 		$user = $this->CI->session->userdata('uid');
 		$this->CI->db->where('link',$url);
 		$q = $this->CI->db->get('tbl_option');
-		if($q->num_rows() > 0)
-		{
+
+		if ($q->num_rows() > 0) {
 			$option = $q->row_array();
 			$option_id = $option['id'];
 			$this->CI->db->where('optionid',$option_id);
 			$this->CI->db->where('userid',$user);
 			$count = $this->CI->count_all_results('tbl_useroption');
-			if($count > 0)
-				return 'ok';
-			else
-				return 'error';
+
+			if($count < 1)
+				show_error('Unathorized Access');
 		}
 		else
 			return 'error';
 	}
-
 
 	// load the user menu
 	function userMenu()
@@ -273,10 +271,10 @@ class Api
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
-					if ($cur_detail1->num_rows() > 0)
-					{
+					//if ($cur_detail1->num_rows() > 0)
+					//{
 						$student_units += $stu['units'];
-					}
+					//}
 				}
 
 			}
@@ -286,9 +284,11 @@ class Api
 			$h['student_units'] = $student_units;
 			$h['totalunits'] = $units;
 			$this->CI->db->insert('out_exception',$h);
+
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
+
 				if($student_units <= $sum_units[$q])
 				{
 					if($student_units >= $m_units AND $student_units <= $sum_units[$q])

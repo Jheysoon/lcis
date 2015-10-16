@@ -9,13 +9,13 @@
 	if($term != 2)
 	{
  ?>
-<input type="hidden" name="acam" value="<?php echo $curr['nextacademicterm']; ?>">
+<input type="hidden" name="acam" value="<?php echo $curr['phaseterm']; ?>">
 <table class="table">
 	<caption>
 		<strong>
 		Preparation Statistics for Academicterm SY:
 		<?php
-			$nnxt 	= $this->academicterm->findById($curr['nextacademicterm']);
+			$nnxt 	= $this->academicterm->findById($curr['phaseterm']);
 			echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
 		 ?>
 		 </strong>

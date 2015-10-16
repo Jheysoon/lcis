@@ -1,7 +1,10 @@
 
 <?php
-   $info = $this->party->get($this->session->userdata('uid'));
-   extract($info);
+   $info        = $this->party->get($this->session->userdata('uid'));
+   $firstname   = $info['firstname'];
+   $lastname    = $info['lastname'];
+   $middlename  = $info['middlename'];
+   $legacyid    = $info['legacyid'];
 ?>
 	<div class="col-md-3">
 
@@ -16,7 +19,7 @@
 						<img class="profile-main" src="<?php echo base_url('assets/images/sample.jpg'); ?>">
 					</a><br>
 					<h3><?php echo $firstname.' '.$middlename.'. '.$lastname; ?>  <!-- <small> (<?php //echo $_SESSION['uname']; ?>)</small> --> </h3>
-				</div><hr/>	
+				</div><hr/>
 				<div class="col-md-12 det">
 				<div class="col-md-12 pad-bottom-10">
 						<div class="col-md-2">ID</div>
@@ -40,4 +43,3 @@
         </div>
       </div>
     </div>
-

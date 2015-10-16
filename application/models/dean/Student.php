@@ -139,7 +139,7 @@
 																	AND b.id = a.classallocation
 																	AND c.id = b.subject AND computersubject = 1")->num_rows();
 			}
-			function get_nstp($enid)
+			function  get_nstp($enid)
 			{
 				return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
 																	WHERE enrolment = '$enid'
@@ -159,7 +159,7 @@
 			{
 				return $this->db->query("SELECT c.id, c.code, c.description, a.amount, b.rate
 													FROM `tbl_billclassdetail` a, tbl_fee b, tbl_feetype c
-													WHERE b.feetype = c.id AND a.fee = b.id ")->result_array();
+													WHERE b.feetype = c.id AND a.fee = b.id AND a.bill = '$billid'")->result_array();
 			}
 			function insert_billclass($data)
 			{

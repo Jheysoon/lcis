@@ -15,121 +15,6 @@ class Dean extends CI_Controller
     public $ret;
     public $error;
 
-    private function head()
-    {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
-            'dean/student'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
-    }
-
-    function listSubjectSectioning()
-    {
-        $this->head();
-        $this->load->view('dean/list_subjectsectioning');
-        $this->load->view('templates/footer');
-    }
-
-    function ClassAllocation()
-    {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
-
-        $this->load->view('dean/dean_classAllocation');
-        $this->load->view('templates/footer');
-    }
-    function qwe()
-    {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
-
-        $this->load->view('edp/edpScheduling');
-        $this->load->view('templates/footer');
-    }
-
-    function adddelete_Section()
-    {
-        $this->head();
-        $this->load->view('dean/adddelete_section');
-        $this->load->view('templates/footer');
-    }
-
-    function PreEnrolment()
-    {
-        $this->head();
-        $this->load->view('dean/dean_preEnroll');
-        $this->load->view('templates/footer');
-    }
-
-    function enrolmentLegacyGrouping(){
-        $this->load->model('dean/group');
-        $this->load->view('dean/enrolment_grouping');
-        $this->load->view('templates/footer');
-    }
-
-    function updateStudentLoad()
-    {
-        $this->head();
-        $this->load->view('dean/update_studentload');
-        $this->load->view('templates/footer');
-    }
-
-    function listGradingList()
-    {
-        $this->head();
-        $this->load->view('dean/grading_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listINCsubject()
-    {
-        $this->head();
-        $this->load->view('dean/incsubject_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listAttest()
-    {
-        $this->head();
-        $this->load->view('dean/attest_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listCompletedINC()
-    {
-        $this->head();
-        $this->load->view('dean/completedinc_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listSubject()
-    {
-        $this->head();
-        $this->load->view('dean/subject_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listCurriculum()
-    {
-        $this->head();
-        $this->load->view('dean/curriculum_list');
-        $this->load->view('templates/footer');
-    }
-
     function edit_subject($sid, $param = '')
     {
         if(!empty($sid) AND is_numeric($sid))
@@ -559,8 +444,6 @@ class Dean extends CI_Controller
                         $this->student->insertbilldetail($data);
                     }
             }
-
-
             if ($billid != 0)
             {
                     $tui = 0;
@@ -1371,6 +1254,7 @@ class Dean extends CI_Controller
  | group and ungroup function. ( to be removed in production )
  |---------------------------------------------------------------
 */
+ 
     function group(){
 
         $subcode = $this->api->get_subcode();
@@ -1425,151 +1309,10 @@ class Dean extends CI_Controller
         redirect(base_url('enrolment_grouping'));
     }
 
-    // --------------------------------------------------------------------------------------
-
-    function create_reg()
+    function change_sy()
     {
-        $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
-                        GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
-
-        $template = '';
-        $template .= '<table>
-                        <tr>
-                            <td>Party ID</td>
-                            <td>Academicterm</td>
-                            <td>Date</td>
-                            <td>COURSE</td>
-                            <td>SCH_YR</td>
-                            <td>Semester</td>
-                            <td>Curriculum</td>
-                            <td>Coursemajor</td>
-                            <td style="text-align:center">NAME</td>
-                        </tr>
-        ';
-        foreach($leg as $legacy)
-        {
-            $semester   = ($legacy['SEMESTER'] == 'S') ? '3' : $legacy['SEMESTER'];
-            $year       = explode('-', $legacy['SCH_YR']);
-            $s          = explode('/', $legacy['DATE_ENROL']);
-            $s1         = explode('-', $legacy['IDNO']);
-            $d          = '';
-            $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
-            $systart = '';
-            $syend = '';
-            if($s1[0] == $s[2])
-            {
-                $d          = $s[2].'-'.$s[1].'-'.$s[0];
-                $systart = $year[0];
-                $syend = $year[1];
-                //$sy         = $this->db->get_where('tbl_academicterm', array('systart' => $year[0], 'syend' => $year[1], 'term' => $semester))->row_array();
-            }
-            else
-            {
-          
-                $this->db->where('student', $p['id']);
-                $i = $this->db->count_all_results('tbl_registration');
-                if($i > 0)
-                {
-                    $d          = $s[2].'-'.$s[1].'-'.$s[0];
-                    $systart = $s[2];
-                    $syend = $systart + 1;
-                }
-                else {
-                    if($semester == 1){
-                        $d = $s1[0].'-06-01';
-                    }
-                    elseif($semester == 2){
-                        $d = $s1[0].'-11-01';
-                    }
-
-                    else{
-                        $d = $s1[0].'-04-01';
-                    }
-                    $systart = $s1[0];
-                    $syend = $systart + 1;
-                }
-            }
-
-            $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $systart, 'syend' => $syend, 'term' => $semester))->row_array();
-
-            if($legacy['COURSE'] == 'BSOA' OR $legacy['COURSE'] == 'BSC')
-            {
-                $coursemajor = 7;
-            }
-            elseif ($legacy['COURSE'] == 'BEED') {
-                $coursemajor = 18;
-            }
-            elseif ($legacy['COURSE'] == 'BSA') {
-                $coursemajor = 21;
-            }
-            elseif ($legacy['COURSE'] == 'BSBA') {
-                // for temporary
-                $coursemajor = 25;
-            }
-            elseif ($legacy['COURSE'] == 'BSCRIM') {
-                $coursemajor = 5;
-            }
-            elseif ($legacy['COURSE'] == 'LLB')
-            {
-                $coursemajor = 19;
-            }
-            elseif($legacy['COURSE'] == 'AB')
-            {
-                $coursemajor = 16;
-            }
-
-            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
-
-            $cur1 = 0;
-            if($legacy['COURSE'] == 'BSED')
-            {
-                $coursemajor = 17;
-                $cur1 = 55;
-            }
-            else {
-                foreach($acamd as $acams)
-                {
-                    $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE
-                        coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-                    if($c->num_rows() > 0)
-                    {
-                        $cur    = $c->row_array();
-                        $cur1   = $cur['id'];
-                        break;
-                    }
-                }
-            }
-
-            if($cur1 == 0)
-            {
-                if($coursemajor == 21)
-                {
-                    $cur1 = 0;
-                }
-                else {
-                    $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart ASC LIMIT 1 ")->row_array();
-                    $cur1 = $cur['id'];
-                }
-
-            }
-
-            $template .= '<tr>
-                            <td style="width:100px;">'.$p['id'].'</td>
-                            <td style="width:100px;">'.$sy['id'].'</td>
-                            <td style="width:100px;">'.$d.'</td>
-                            <td style="width:100px;">'.$legacy['COURSE'].'</td>
-                            <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
-                            <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
-                            <td style="width:100px;">'.$cur1.'</td>
-                            <td style="width:100px;">'.$coursemajor.'</td>
-                            <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
-                        </tr>';
-            $data = array('coursemajor' => $coursemajor, 'curriculum' => $cur1, 'date' => $d, 'student' => $p['id'], 'academicterm' => $sy['id'], 'status' => 'A');
-            $this->db->insert('tbl_registration', $data);
-        }
-        $template .= '</table>';
-
-        echo $template;
+        $this->session->set_userdata('assign_sy', $this->input->post('sy'));
+        redirect('/menu/dean-assign_instructor');
     }
 
 }

@@ -19,7 +19,6 @@
                             'instructor'    => $this->session->userdata('uid')
                         );
                 $this->db->where($where);
-                $this->db->where('academicterm', $systemVal['currentacademicterm']);
                 $this->db->select(array('id', 'instructor', 'coursemajor', 'subject'));
                 $r = $this->db->get('tbl_classallocation')->result_array();
                 foreach($r as $rr)

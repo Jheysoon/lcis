@@ -120,6 +120,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['combine_subject']               = 'instructor/combine_subject';
     $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
 
+    $route['change_sy']                     = 'dean/change_sy';
+
 
 
 /*-----------------------------------------------------------
@@ -153,17 +155,20 @@ $route['accountasset/(:any)']           = 'movement/$1';
 
 
 $route['student-movement/(:any)/(:any)'] = 'movement/$1/$2';
-$route['student-movemen/(:any)'] = 'movement/$1';
+$route['student-movemen/(:any)']         = 'movement/$1';
 
-$route['movements'] = 'movement/accmove';
-$route['movement_update'] = 'movement/update_mov';
-
-
-$route['update-movement/(:any)/(:any)'] = 'movement/$1/$2';
-$route['update-movemen/(:any)'] = 'movement/$1';
-$route['movement_add'] = 'movement/add_movement';
+$route['movements']                      = 'movement/accmove';
+$route['movement_update']                = 'movement/update_mov';
 
 
+$route['update-movement/(:any)/(:any)']  = 'movement/$1/$2';
+$route['update-movemen/(:any)']          = 'movement/$1';
+$route['movement_add']                   = 'movement/add_movement';
+
+//Audit Payment Override
+
+$route['payment_override']               = 'audit/payment_override';
+$route['list_billing']                   = 'audit/list_billing';
 
 /*
 /*

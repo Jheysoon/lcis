@@ -14,7 +14,7 @@
 							$nxt 	= $this->api->systemValue();
 							if($nxt['classallocationstatus'] == 1)
 							{
-								$this->db->where('academicterm', $nxt['currentacademicterm']);
+								$this->db->where('academicterm', $nxt['phaseterm']);
 								$this->db->where('stage', 2);
 								$this->db->where('completedby', $this->session->userdata('uid'));
 								$c = $this->db->get('tbl_completion')->num_rows();
@@ -32,7 +32,7 @@
 								<strong>
 								Preparation for Academicterm SY:
 								<?php
-									$nnxt 	= $this->academicterm->findById($nxt['nextacademicterm']);
+									$nnxt 	= $this->academicterm->findById($nxt['phaseterm']);
 									echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$this->academicterm->getLongName($nnxt['term']);
 								 ?>
 								 <br> Total Number of Subjects :
