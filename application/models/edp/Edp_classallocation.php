@@ -36,21 +36,25 @@ class Edp_classallocation extends CI_Model
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 1
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND (computersubject = 1 OR nstp = 1)
 				ORDER BY b.code ASC, coursemajor ASC")->result_array();
 		}
 		elseif ($owner == 1)
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND (owner = 1 OR gesubject = 1) AND computersubject = 0
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND (owner = 1 OR gesubject = 1) AND computersubject = 0 AND nstp = 0
 				ORDER BY b.code ASC, coursemajor ASC")->result_array();
 		}
 		else
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 0 AND gesubject = 0 AND owner = $owner
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND computersubject = 0 AND gesubject = 0 
+				AND owner = $owner AND nstp = 0
 				ORDER BY b.code ASC, coursemajor ASC")->result_array();
 		}
 
