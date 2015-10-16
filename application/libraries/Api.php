@@ -94,7 +94,7 @@ class Api
 			$option_id = $option['id'];
 			$this->CI->db->where('optionid',$option_id);
 			$this->CI->db->where('userid',$user);
-			$count = $this->CI->count_all_results('tbl_useroption');
+			$count = $this->CI->db->count_all_results('tbl_useroption');
 
 			if($count < 1)
 				show_error('Unathorized Access');
