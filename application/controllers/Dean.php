@@ -889,7 +889,7 @@ class Dean extends CI_Controller
                         $data['to_time']            = $end_time;
                         $this->db->insert('tbl_dayperiod', $data);
                     } else {
-                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in <strong>'.$days[$value - 1].'</strong></div>';
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Noon Break in <strong>'.$days[$value - 1].'</strong></div>';
                         
                         return FALSE;
                     }
