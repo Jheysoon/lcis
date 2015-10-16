@@ -17,24 +17,45 @@
 			<span class="clearfix"></span>
 			<br>
             <?php
-                $owner 		= $this->api->getUserCollege();
-				$this->db->where('id', $owner);
-				$col = $this->db->get('tbl_college')->row_array();
-				$user 		= $this->session->userdata('uid');
+            	$user 		= $this->session->userdata('uid');
+            	if ($user != $systemVal['employeeid']) {
+            		$owner 		= $this->api->getUserCollege();
+					$this->db->where('id', $owner);
+					$col = $this->db->get('tbl_college')->row_array();
 
-                $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
-                    WHERE a.subject = b.id
-                    AND b.owner = $owner
-                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
-
-                $data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+					$data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+            	} else {
+            		$data['instruc'] = '';
+            	}
+                
+				if ($user == $systemVal['employeeid']) {
+					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+						FROM tbl_classallocation a,tbl_subject b
+	                    WHERE a.subject = b.id
+	                    AND (b.computersubject = 1 OR b.nstp = 1)
+	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+				} elseif($owner == 1) {
+					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+						FROM tbl_classallocation a,tbl_subject b
+	                    WHERE a.subject = b.id
+	                    AND b.owner = $owner AND b.gesubject = 1 
+	                    AND b.computersubject = 0 AND b.nstp = 0
+	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+				} else {
+					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+						FROM tbl_classallocation a,tbl_subject b
+	                    WHERE a.subject = b.id
+	                    AND b.owner = $owner AND b.gesubject = 0 
+	                    AND b.computersubject = 0 AND b.nstp = 0
+	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+				}
 
                 //$data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
              ?>
 			 <p style="text-align:center;">
 				<strong>
 					School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?>
-				  <br><?php echo $col['description'] ?>
+				  <br><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?>
 				</strong>
 			</p>
 			<?php
