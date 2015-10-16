@@ -1,4 +1,5 @@
 <?php
+	// Get classallocation
 	$res = $this->student->getClassAloc($term, $student, $course, $lvl, $cur, $sem);
 	$legid = $id;
 	$registration = $this->student->getRegID($student);
@@ -95,7 +96,7 @@
 								$ctr2++;}$ctr++;
 							}
 						 ?>
-
+						 
 					</table>
 					<table class="table table-bordered table-hover" id = "tblAddSubject">
 					<tr class="main-table-header">

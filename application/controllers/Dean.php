@@ -609,9 +609,13 @@ class Dean extends CI_Controller
             $ctr2 = $ctr2-1;
             $i = $ctr2;
 
-            // Separating multi-scheduled class allocations/subjects
-            // into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
-            // and put them in a new array for conflict checking.
+            /*
+             |---------------------------------------------------------------------
+             | Separating multi-scheduled class allocations/subjects
+             | into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
+             | and put them in a new array for conflict checking.
+             |---------------------------------------------------------------------
+            */
 
             while ($ctr2 != 0) {
                 $ii = $i;
@@ -654,8 +658,12 @@ class Dean extends CI_Controller
                     }
                 }
 
-                // Array that holds checked schedules.
-                // Used to avoid checking schedules that are already checked.
+                /*
+                 |-------------------------------------------------------------
+                 | Array that holds checked schedules.
+                 | Used to avoid checking schedules that are already checked.
+                 |-------------------------------------------------------------
+                */
                 $dup[] = $value;
             }
 
@@ -665,11 +673,6 @@ class Dean extends CI_Controller
 
             // if nstp is not selected in evaluation
             if ($nstp == FALSE) {
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  False.
-                </div>';
-                return false;
                 $check = $this->student->checkNSTP($student, 298);
                 if ($sem == 1) {
                     if (!$check) {
@@ -682,7 +685,7 @@ class Dean extends CI_Controller
                 }
                 else if($sem == 2){
                     if ($check) {
-                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != NULL )) {
+                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != 'DROPPED' )) {
                             $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               Please select NSTP subject.
@@ -691,13 +694,6 @@ class Dean extends CI_Controller
                         }
                     }
                 }
-            }
-            else{
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  True.
-                </div>';
-                return false;
             }
 
             // If there are no conflicts proceed to saving.
@@ -924,11 +920,13 @@ class Dean extends CI_Controller
         return TRUE;
     }
 
-//------------------------------------------------------------------------
-// Searching function for adding subject in evaluation method
-// (called through ajax @ views/dean/ajax/evaluation.js).
-// A table of searched subjects is displayed after execution.
-//------------------------------------------------------------------------
+/*
+ |------------------------------------------------------------------------
+ | Searching function for adding subject in evaluation method
+ | (called through ajax @ views/dean/ajax/evaluation.js).
+ | A table of searched subjects is displayed after execution.
+ |------------------------------------------------------------------------
+*/
 
     function ajaxEvaluation(){
         $this->load->model('dean/student');
@@ -948,6 +946,13 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/modal_evaluation', $param);
     }
 
+/*
+ |-------------------------------------------------------------------------
+ | Refreshing function for additional subject table.
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
+
     function ajaxSched(){
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
@@ -964,10 +969,12 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/tbl_AddSubSched', $param);
     }
 
-//-------------------------------------------------------------------------
-// Function for adding subject to additional subject table in evaluation
-// (called through ajax @ views/dean/ajax/evaluation.js)
-//-------------------------------------------------------------------------
+/*
+ |-------------------------------------------------------------------------
+ | Function for adding subject to additional subject table in evaluation
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
 
     function appendSubject(){
         $this->load->model('edp/edp_classallocation');
@@ -1127,6 +1134,137 @@ class Dean extends CI_Controller
         }
     }
 
+    // function to fill up classallocation
+    function fill_classallocation()
+    {
+        $room = $this->db->get('tbl_classroom')->result_array();
+
+        $t = $this->db->get('tbl_time')->result_array();
+        //$c = $this->db->get('tbl_classallocation')->result_array();
+
+        $c = $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = 50")->result_array();
+
+
+        $d = $this->db->get('tbl_day')->result_array();
+
+        $univ = 0;
+        $univ_day = 0;
+        $r = 0;
+        $ctr2 = 0;
+        foreach ($c as $cl)
+        {
+            $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = {$cl['id']}");
+
+            $this->db->where('id', $cl['subject']);
+
+            $s          = $this->db->get('tbl_subject')->row_array();
+            $units      = $s['units'];
+            $units_heap = $units;
+            $ctr        = 0;
+            $ctr1       = 0;
+
+            if($univ == 28)
+            {
+                $univ       = 0;
+                $univ_day   = $univ_day + 1;
+                //$ctr2++;
+            }
+
+            $o = $univ + $units_heap;
+
+            if($o >= 28)
+            {
+                $univ = 0;
+                $univ_day++;
+                if($univ_day >= 3)
+                {
+                    $univ_day = 0;
+                }
+                if($r >= 69)
+                {
+                    $r = 0;
+                }
+                $o = $univ + $units_heap;
+            }
+
+            $start = $t[$univ]['id'];
+
+            $end = $t[$o]['id'];
+
+            $univ = $univ + $units_heap;
+
+            if($univ_day == 0)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 1;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 3;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+            }
+            elseif($univ_day == 1)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 2;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 4;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+            }
+            elseif($univ_day == 2)
+            {
+                $data['classallocation'] = $cl['id'];
+                $data['from_time']  = $start;
+                $data['to_time']    = $end;
+                $data['day']        = 5;
+                $data['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data);
+
+                $data1['classallocation'] = $cl['id'];
+                $data1['from_time']  = $start;
+                $data1['to_time']    = $end;
+                $data1['day']        = 6;
+                $data1['classroom']  = $room[$r]['id'];
+                $this->db->insert('tbl_dayperiod', $data1);
+                $r++;
+                if($r >= 69)
+                {
+                    $r = 0;
+                }
+            }
+
+            if($r >= 69)
+            {
+                $r = 0;
+            }
+            if($univ_day >= 3)
+            {
+                $univ_day = 0;
+            }
+        }
+    }
+
+/*
+ |---------------------------------------------------------------
+ | Temporary functions for legacy subject grouping.
+ | group and ungroup function. ( to be removed in production )
+ |---------------------------------------------------------------
+*/
+ 
     function group(){
 
         $subcode = $this->api->get_subcode();
