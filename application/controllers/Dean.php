@@ -889,19 +889,19 @@ class Dean extends CI_Controller
                         $data['to_time']            = $end_time;
                         $this->db->insert('tbl_dayperiod', $data);
                     } else {
-                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in <strong>'.$days[$value - 1].'</strong></div>';
                         
                         return FALSE;
                     }
 
                 } else {
-                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in <strong>'.$days[$value - 1].'</strong></div>';
                     
                     return FALSE;
                 }
 
             } else {
-                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
+                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
                 
                 return FALSE;
             }
@@ -909,7 +909,7 @@ class Dean extends CI_Controller
         }
 
         $this->api->set_session_message('success','Successfully added');
-        
+
         return TRUE;
     }
 
