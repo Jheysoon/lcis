@@ -48,7 +48,8 @@
 
 				foreach($day1 as $d)
 				{
-					$day[] = $d['id'];
+					if($d['id'] != 8)
+						$day[] = $d['id'];
 				}
 
 				$monday 	= array();
@@ -227,16 +228,17 @@
 				$table_day['6'] = $saturday;
 				$table_day['7'] = $sunday;
 
-				for($i = 0;$i < 26;$i++)
+				for($i = 0;$i < 27;$i++)
 				{
 					?>
 			<tr>
 				<td style="text-align:center;"><strong><?php echo $time[$i].' - '.$time[$i+1]; ?></strong></td>
 				<?php
-					if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
-					{
+					// if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
+					// {
 						foreach($day as $d)
 						{
+							if($d[''])
 							//checks if there is scheduled subject
 							if(!empty($table_day[$d][$i+1]))
 							{
@@ -262,11 +264,11 @@
 					<?php
 							}
 						}
-					}
-					else
-					{
-						echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
-					}
+					// }
+					// else
+					// {
+					// 	echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
+					// }
 				 ?>
 
 			</tr>
