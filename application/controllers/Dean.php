@@ -819,13 +819,13 @@ class Dean extends CI_Controller
 
         $this->load->helper('form');
 
-        if($this->input->post('day'))
-        {
+        if ($this->input->post('day')) {
             $ret = $this->ass_subj();
-            if($ret == TRUE)
-            {
+
+            if ($ret == TRUE) {
                 redirect('/menu/dean-add_day_period');
             }
+
         }
 
         $data['error']  = $this->error;
@@ -844,13 +844,13 @@ class Dean extends CI_Controller
         ));
         $this->load->helper('form');
 
-        if($this->input->post('day'))
-        {
+        if ($this->input->post('day')) {
             $valid = $this->ass_subj();
-            if($valid)
-            {
+
+            if ($valid) {
                 redirect('/assign_room/'.$cid);
             }
+
         }
         $data['error']  = $this->error;
         $data['cid']    = $id;
@@ -867,20 +867,19 @@ class Dean extends CI_Controller
 
         $days       = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
-        foreach($day as $key => $value)
-        {
+        foreach ($day as $key => $value) {
             $start_time = $this->input->post('start_time'.$value);
             $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if($start_time != 11 AND $end_time != 12)
-            {
+            if ($start_time != 11 AND $end_time != 12)  {
+
                 //end time period must be greater than the start time period
-                if($end_time > $start_time)
-                {
+                if ($end_time > $start_time) {
+
                     // check if schedule overlaps
-                    if( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) )
-                    {
+                    if ( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) ) {
+                        
                         // delete first the days and period before inserting
                         $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
 
@@ -889,27 +888,28 @@ class Dean extends CI_Controller
                         $data['from_time']          = $start_time;
                         $data['to_time']            = $end_time;
                         $this->db->insert('tbl_dayperiod', $data);
-                    }
-                    else
-                    {
-
+                    } else {
                         $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
+                        
                         return FALSE;
                     }
-                }
-                else
-                {
+
+                } else {
                     $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
+                    
                     return FALSE;
                 }
-            }
-            else
-            {
+
+            } else {
                 $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
+                
                 return FALSE;
             }
+
         }
+
         $this->api->set_session_message('success','Successfully added');
+        
         return TRUE;
     }
 
