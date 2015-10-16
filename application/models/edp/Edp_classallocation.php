@@ -38,7 +38,7 @@ class Edp_classallocation extends CI_Model
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id AND academicterm = $acam 
 				AND (computersubject = 1 OR nstp = 1)
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 		elseif ($owner == 1)
 		{
@@ -46,7 +46,7 @@ class Edp_classallocation extends CI_Model
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id AND academicterm = $acam 
 				AND (owner = 1 OR gesubject = 1) AND computersubject = 0 AND nstp = 0
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 		else
 		{
@@ -55,7 +55,7 @@ class Edp_classallocation extends CI_Model
 				WHERE a.subject = b.id AND academicterm = $acam 
 				AND computersubject = 0 AND gesubject = 0 
 				AND owner = $owner AND nstp = 0
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 
 	}

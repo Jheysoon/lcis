@@ -85,7 +85,7 @@
 										}
 									 ?>
 								</table>
-								<input type="submit" class="btn btn-primary pull-right" value="Submit">
+								<input type="submit" class="btn btn-primary pull-right" value="Submit" name="submit">
 							</form>
 						</div>
 					</div>

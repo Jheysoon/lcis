@@ -826,6 +826,8 @@ class Dean extends CI_Controller
                 redirect('/menu/dean-add_day_period');
             }
 
+        }  elseif($this->input->post('submit')) {
+            $this->error = '<div class="alert alert-danger" style="text-align:center">Please select a day</div>';
         }
 
         $data['error']  = $this->error;
@@ -851,7 +853,10 @@ class Dean extends CI_Controller
                 redirect('/assign_room/'.$cid);
             }
 
+        } elseif($this->input->post('submit')) {
+            $this->error = '<div class="alert alert-danger" style="text-align:center">Please select a day</div>';
         }
+
         $data['error']  = $this->error;
         $data['cid']    = $id;
         $this->load->view('edp/assign_subj_room', $data);
@@ -872,7 +877,7 @@ class Dean extends CI_Controller
             $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if ($start_time != 11 AND $end_time != 12)  {
+            if ($start_time != 11 AND $end_time != 13) {
 
                 //end time period must be greater than the start time period
                 if ($end_time > $start_time) {
@@ -901,7 +906,13 @@ class Dean extends CI_Controller
                 }
 
             } else {
-                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+
+                if($start_time == 11 AND $end_time == 13)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not in 12:00 pm - 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+                elseif ($start_time == 11)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">Start Time must not 12:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+                elseif($end_time == 13)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time must not 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
                 
                 return FALSE;
             }
