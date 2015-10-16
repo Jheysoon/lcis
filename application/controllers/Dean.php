@@ -775,8 +775,12 @@ class Dean extends CI_Controller
                     }
                 }
 
-                // Array that holds checked schedules.
-                // Used to avoid checking schedules that are already checked.
+                /*
+                 |-------------------------------------------------------------
+                 | Array that holds checked schedules.
+                 | Used to avoid checking schedules that are already checked.
+                 |-------------------------------------------------------------
+                */
                 $dup[] = $value;
             }
 
@@ -1022,11 +1026,13 @@ class Dean extends CI_Controller
         return TRUE;
     }
 
-//------------------------------------------------------------------------
-// Searching function for adding subject in evaluation method
-// (called through ajax @ views/dean/ajax/evaluation.js).
-// A table of searched subjects is displayed after execution.
-//------------------------------------------------------------------------
+/*
+ |------------------------------------------------------------------------
+ | Searching function for adding subject in evaluation method
+ | (called through ajax @ views/dean/ajax/evaluation.js).
+ | A table of searched subjects is displayed after execution.
+ |------------------------------------------------------------------------
+*/
 
     function ajaxEvaluation(){
         $this->load->model('dean/student');
@@ -1046,6 +1052,13 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/modal_evaluation', $param);
     }
 
+/*
+ |-------------------------------------------------------------------------
+ | Refreshing function for additional subject table.
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
+
     function ajaxSched(){
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
@@ -1062,10 +1075,12 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/tbl_AddSubSched', $param);
     }
 
-//-------------------------------------------------------------------------
-// Function for adding subject to additional subject table in evaluation
-// (called through ajax @ views/dean/ajax/evaluation.js)
-//-------------------------------------------------------------------------
+/*
+ |-------------------------------------------------------------------------
+ | Function for adding subject to additional subject table in evaluation
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
 
     function appendSubject(){
         $this->load->model('edp/edp_classallocation');
@@ -1350,6 +1365,12 @@ class Dean extends CI_Controller
         }
     }
 
+/*
+ |---------------------------------------------------------------
+ | Temporary functions for legacy subject grouping.
+ | group and ungroup function. ( to be removed in production )
+ |---------------------------------------------------------------
+*/
     function group(){
 
         $subcode = $this->api->get_subcode();

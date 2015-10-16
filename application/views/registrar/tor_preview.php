@@ -78,11 +78,7 @@ if ($details) {
             <a href="/registrar/set_print_for/<?php echo $sid; ?>/<?php echo 'Student' ?>" class="a print">Student Copy</a>
         <?php endif ?>    </div>
     <?php
-        $t = $this->tor->countPage($sid);
-        $page = $t/20;
-        if ($t%20 != 0) {
-            $page = intval($page) + 1;
-        }
+        $page = $this->api->countPage($sid);
         $sch = '';
         $aca = '';
         $ctr2 = 1;
@@ -361,7 +357,7 @@ if ($details) {
                             break;
                         }
                     }
-                    if ($ctr2 < $ctr) { ?>
+                    if ($ctr2 < $page) { ?>
                         <tr>
                             <td class="no-line"></td>
                             <td class="center no-line">-- over --</td>

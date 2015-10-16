@@ -337,4 +337,17 @@ class Api
 		}
 	}
 
+	// function for counting no. of pages in tor
+	function countPage($sid){
+		$this->CI->load->model('registrar/tor');
+
+        $t = $this->CI->tor->countPage($sid);
+        $page = $t/20;
+        if ($t%20 != 0) {
+            $page = intval($page) + 1;
+        }
+
+        return $page;
+	}
+
 }
