@@ -28,7 +28,7 @@
            if(!empty($room) AND !empty($time))
            {
            ?>
-           <form class="save_instructor" method="post">
+           <form class="save_instructor" method="post" data-alloc = "<?php echo $class['cl_id'] ?>">
                <tr>
                    <input type="hidden" name="cl_id" value="<?php echo $class['cl_id'] ?>">
                    <td><?php echo $class['code'] ?></td>
@@ -48,9 +48,9 @@
                    <td><?php echo $day ?></td>
                    <td><?php echo $time ?></td>
                    <td>
-                       <select class="form-control" name="instructor">
+                       <select class="form-control" name="instructor" required>
                            <?php if($class['instructor'] == 0) { ?>
-                               <option value="0">No Instructor</option>
+                               <option value="">No Instructor</option>
                            <?php
                            }
                            else {
@@ -117,7 +117,7 @@
                            ?>
                        </select>
                    </td>
-                   <td><strong><?php echo ($class['instructor'] == 0) ? 'Not Assigned':'Assigned' ?></strong></td>
+                   <td id="alloc_<?php echo $class['cl_id'] ?>"><strong><?php echo ($class['instructor'] == 0) ? 'Not Assigned':'Assigned' ?></strong></td>
                    <td>
                        <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                    </td>

@@ -181,8 +181,12 @@
                 $(document).ready(function(){
                     $('.save_instructor').submit(function(e){
                         $.post('/dean/save_instructor', $(this).serialize(),function(data){
-
+                            
                         });
+
+                        $id = $(this).data('alloc');
+                        $('#alloc_' + $id).html('Assigned');
+
                         e.preventDefault();
                     });
                     $('#sorting').change(function(){
