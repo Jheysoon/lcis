@@ -68,9 +68,9 @@
 						<select class="form-control" name="sy">
 							<?php
 								foreach ($sy as $s) {
-								$sem = $s['term'] == 3 ? 'Summer' : $s['term'].' term';
+								$sem = $s['term'] == 3 ? 'Summer' : 'Term: '.$s['term'];
 							?>
-								<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
+								<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo 'SY: '.$s['systart'].'-'.$s['syend'].'  '.$sem ?></option>
 							<?php } ?>
 						</select>
 						<span class="input-group-btn">
