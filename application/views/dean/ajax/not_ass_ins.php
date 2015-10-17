@@ -1,9 +1,7 @@
 <table class="table">
-    <caption>
-        <strong>
-        <br>Subject that does not have instructor
-        </strong>
-    </caption>
+    <tr>
+      <td class="tbl-header" style="text-align: center;" colspan="8"><strong>Subject that does not have instructor</strong></td>
+    </tr>
     <tr>
         <th>Subject</th>
         <th>Course</th>
