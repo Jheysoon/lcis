@@ -79,6 +79,9 @@
 								foreach ($dd as $per)
 								{
 
+									if($per['day'] == 8 OR $per['from_time'] == 0 OR $per['to_time'] == 0)
+										continue;
+
 									if($per['day'] == 1)
 									{
 										$from 	= $per['from_time'];
