@@ -1,9 +1,7 @@
 <table class="table">
-    <caption>
-        <strong>
-        <br>Assigned Subjects
-        </strong>
-    </caption>
+    <tr>
+      <td class="tbl-header" style="text-align: center;" colspan="8"><strong>Assigned Subjects</strong></td>
+    </tr>
     <tr>
         <th>Subject</th>
         <th>Course</th>

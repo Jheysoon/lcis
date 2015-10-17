@@ -2,7 +2,9 @@
 <div class="col-md-9 body-container">
 	<div class="panel p-body">
 		<div class="panel-heading">
-			<h4>Assign Instructor</h4>
+			<h4 class="col-md-6">Assign Instructor</h4>
+			<a href="/instructor_sched" class="btn btn-warning pull-right">View Instructor Schedule</a>
+			<span class="clearfix"></span>
 		</div>
 		<div class="panel-body">
 			<?php
@@ -13,9 +15,6 @@
 
 				if ($systemVal['classallocationstatus'] == 99) {
 			 ?>
-			<a href="/instructor_sched" class="btn btn-primary pull-right">View Instructor Schedule</a>
-			<span class="clearfix"></span>
-			<br>
             <?php
             	$user 		= $this->session->userdata('uid');
             	if ($user != $systemVal['employeeid']) {
@@ -52,36 +51,47 @@
 
                 //$data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
              ?>
-			 <p style="text-align:center;">
-				<strong>
-					School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?>
-				  <br><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?>
-				</strong>
-			</p>
+			 <div class="col-md-6">
+				<h3 style="text-align: center; font-weight: bold"><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?></h3>
+				<h5 style="text-align: center; font-weight: bold">School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?></h5>
+			 </div>
 			<?php
 				if ($systemVal['classallocationstatus'] == 99) {
 					$this->db->order_by('systart,term');
 					$sy = $this->db->get('tbl_academicterm')->result_array();
 			?>
-			<form action="/change_sy" method="post" style="max-width:200px;">
-				<label>School Year : </label>
-				<select class="form-control" name="sy">
-					<?php
-						foreach ($sy as $s) {
-						$sem = $s['term'] == 3 ? 'Summer' : $s['term'].' term';
-					?>
-						<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo $s['systart'].'-'.$s['syend'].' | '.$sem ?></option>
-					<?php } ?>
-				</select>
-				<input type="submit" class="btn btn-primary pull-right" name="name" value="Change">
-			</form>
-			<span class="clearfix"></span>
-			<label>Sort by :</label>
-			<select class="form-control" id="sorting" style="max-width:200px;">
-				<option value="0">All</option>
-				<option value="1">Assigned</option>
-				<option value="2">Not Assigned</option>
-			</select>
+			<div class="col-md-4">
+				<form class="form" action="/change_sy" method="post">
+					<div class="form-group">
+					<label class="control-label">School Year : </label>
+					<div class="input-group">
+						<select class="form-control" name="sy">
+							<?php
+								foreach ($sy as $s) {
+								$sem = $s['term'] == 3 ? 'Summer' : 'Term: '.$s['term'];
+							?>
+								<option value="<?php echo $s['id'] ?>" <?php echo ($phaseterm == $s['id']) ? 'selected' : '' ?>><?php echo 'SY: '.$s['systart'].'-'.$s['syend'].'  '.$sem ?></option>
+							<?php } ?>
+						</select>
+						<span class="input-group-btn">
+							<input type="submit" class="btn btn-primary pull-right" name="name" value="Change">	
+						</span>					
+					</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-2">
+				<div class="form">
+					<div class="form-group">
+						<label class="control-label">Sort by :</label>
+						<select class="form-control" id="sorting">
+							<option value="0">All</option>
+							<option value="1">Assigned</option>
+							<option value="2">Not Assigned</option>
+						</select>
+					</div>
+				</div>
+			</div>
 			<?php } ?>
 			<div id="table-body">
              <?php
