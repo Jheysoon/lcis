@@ -55,8 +55,11 @@
 								<?php
 									$d = $this->db->get('tbl_day')->result_array();
 									$t = $this->db->get('tbl_time')->result_array();
-									foreach($d as $day)
-									{
+
+									foreach ($d as $day) {
+
+										if ($day['id'] == 8)
+											continue;
 										?>
 										<tr>
 											<td>

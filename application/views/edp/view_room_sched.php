@@ -45,7 +45,8 @@
 
 						foreach($day1 as $d)
 						{
-							$day[] = $d['id'];
+							if ($d['id'] != 8)
+								$day[] = $d['id'];
 						}
 
 						$class = $this->edp_classallocation->allocByRoom($roomId);
