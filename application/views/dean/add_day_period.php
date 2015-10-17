@@ -168,7 +168,7 @@
 						{
 					 ?>
 						<div class="alert alert-danger center-block" style="max-width:400px;text-align:center">
-							Class Allocation is not been iniatialized
+							<strong>Class Allocation is not been iniatialized<strong>
 							</div>
 					 <?php } ?>
 				</div>

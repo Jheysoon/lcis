@@ -106,7 +106,7 @@
 						else {
 							?>
 						<div class="alert alert-danger center-block" style="max-width:400px;">
-							Cannot run this program. The EDP must complete the step 1.
+							<strong>Cannot run this program. The EDP must complete the step 1.</strong>
 						</div>
 					<?php
 						}
