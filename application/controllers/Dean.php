@@ -1088,13 +1088,66 @@ class Dean extends CI_Controller
 
     function save_instructor()
     {
-        $data['instructor'] = $this->input->post('instructor');
+        $instructor         = $this->input->post('instructor');
+        $data['instructor'] = $instructor;
         $cl_id              = $this->input->post('cl_id');
-        $this->db->where('id', $cl_id);
-        $this->db->update('tbl_classallocation', $data);
-        if ($data['instructor'] == 0) {
-            echo 'no';
+        $acam               = $this->session->userdata('assign_sy');
+
+        $this->load->model(array('edp/edp_classallocation', 'dean/common_dean'));
+
+        $time = $this->edp_classallocation->getPeriod($cl_id);
+        $day  = $this->edp_classallocation->getDayShort($cl_id);
+
+        // $cl = $this->db->query("SELECT day, from_time, to_time FROM tbl_classallocation a, tbl_dayperiod b
+        //     WHERE a.id = b.classallocation 
+        //     AND a.instructor = $instructor 
+        //     AND a.academicterm = $acam")->result_array();
+
+        $all_cl     = $this->common_dean->getAllCl($instructor);
+        $subj_t     = explode(' / ', $time);
+        $subj_day   = explode(' / ', $day);
+
+        $isConflict = false;
+
+        foreach ($all_cl as $cl1) {
+            $dd = $this->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
+
+           // checking for day
+           if (in_array($dd['shortname'], $subj_day)) {
+               // instructor time
+               $f       = $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+               $t       = $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+               $from    = $f['time'];
+               $to      = $t['time'];
+
+               // subject time looping
+               foreach ($subj_t as $key) {
+                   $key1        = explode('-', $key);
+                   $isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
+
+                   if ($isConflict)
+                       break;
+               }
+
+               if ($isConflict)
+                   break;
+           }
         }
+
+        if (!$isConflict) {
+            
+            if ($data['instructor'] == 0) {
+                echo 'no';
+            } else {
+                $this->db->where('id', $cl_id);
+                $this->db->update('tbl_classallocation', $data);
+                echo 'ok';
+            }
+
+        } else {
+            echo 'conflict';
+        }
+        
     }
 
     function sorts()
