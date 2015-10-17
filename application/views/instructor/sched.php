@@ -60,12 +60,12 @@
 				$saturday 	= array();
 				$sunday 	= array();
 				$color 		= array(
-									'#0050EF','#1BA1E2',
-									'#AA00FF','#FA6800',
-									'#76608A','#6D8764',
-									'#F0A30A','#6A00FF',
-									'#00ABA9','#008A00',
-									'#87794E','#E3C800'
+									'#BA68C8','#0097A7',
+									'#F06292','#039BE5',
+									'#E57373','#00C853',
+									'#7986CB','#689F38',
+									'#9575CD','#43A047',
+									'#009688','#EF6C00'
 							);
 				$ctr = 0;
 
@@ -73,7 +73,12 @@
 					$this->db->where('classallocation', $cl['id']);
 					$dd = $this->db->get('tbl_dayperiod')->result_array();
 
+
 					foreach ($dd as $dd1) {
+
+						if($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
+							continue;
+
 						$from 	= $dd1['from_time'];
 						$to 	= $dd1['to_time'];
 						$span	= $to - $from;

@@ -86,8 +86,9 @@ class Instructor extends CI_Controller
             $this->db->select('firstname,lastname,middlename');
             $data['name'] = $this->db->get('tbl_party')->row_array();
             $data['systemVal'] = $this->api->systemValue();
+            $acam = $this->session->userdata('assign_sy');
             $where = array(
-                        'academicterm'  => $data['systemVal']['currentacademicterm'],
+                        'academicterm'  => $acam,
                         'instructor'    => $id
                     );
             $this->db->where($where);
