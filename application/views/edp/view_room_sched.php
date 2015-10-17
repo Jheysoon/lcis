@@ -58,12 +58,14 @@
 						$friday 	= array();
 						$saturday 	= array();
 						$sunday 	= array();
-						$color 		= array('#0050EF','#1BA1E2',
-											'#AA00FF','#FA6800',
-											'#76608A','#6D8764',
-											'#F0A30A','#6A00FF',
-											'#00ABA9','#008A00',
-											'#87794E','#E3C800');
+						$color 		= array(
+									'#BA68C8','#0097A7',
+									'#F06292','#039BE5',
+									'#E57373','#00C853',
+									'#7986CB','#689F38',
+									'#9575CD','#43A047',
+									'#009688','#EF6C00'
+							);
 						$ctr = 0;
 						foreach($class as $cl)
 						{
