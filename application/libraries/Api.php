@@ -128,6 +128,10 @@ class Api
 	//$to 	= 3:00,	$to_compare 	= 5:00
     function intersectCheck($from, $from_compare, $to, $to_compare)
 	{
+		if ($from == $from_compare AND $to == $to_compare) {
+			return true;
+		}
+
         $from 			= strtotime($from);
         $from_compare 	= strtotime($from_compare);
         $to 			= strtotime($to);
