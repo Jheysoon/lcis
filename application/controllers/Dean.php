@@ -1192,19 +1192,15 @@ class Dean extends CI_Controller
                 AND b.computersubject = 0 AND b.nstp = 0
                 AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
         }
+        
         $input              = $this->input->post('sort');
 
-        if($input == 0)
-        {
+        if ($input == 0) {
             $this->load->view('dean/ajax/assigned_ins', $data);
             $this->load->view('dean/ajax/not_ass_ins', $data);
-        }
-        elseif($input == 1)
-        {
+        } elseif ($input == 1)  {
             $this->load->view('dean/ajax/assigned_ins', $data);
-        }
-        elseif($input == 2)
-        {
+        } elseif ($input == 2) {
             $this->load->view('dean/ajax/not_ass_ins', $data);
         }
     }
