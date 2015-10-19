@@ -9,7 +9,7 @@
         <th>Day</th>
         <th>Period</th>
         <th style="width:200px;">Instructor</th>
-        <th>Status</th>
+        <!-- <th>Status</th> -->
         <th>Action</th>
     </tr>
     <?php
@@ -115,7 +115,7 @@
                            ?>
                        </select>
                    </td>
-                   <td id="alloc_<?php echo $class['cl_id'] ?>"><strong><?php echo ($class['instructor'] == 0) ? 'Not Assigned':'Assigned' ?></strong></td>
+                   <!-- <td id="alloc_<?php echo $class['cl_id'] ?>"><strong><?php echo ($class['instructor'] == 0) ? 'Not Assigned':'Assigned' ?></strong></td> -->
                    <td>
                        <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                    </td>
