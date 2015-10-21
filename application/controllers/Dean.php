@@ -15,6 +15,18 @@ class Dean extends CI_Controller
     public $ret;
     public $error;
 
+    private function head()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+            'dean/student'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+    }
+
     function edit_subject($sid, $param = '')
     {
         if(!empty($sid) AND is_numeric($sid))
