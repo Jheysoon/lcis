@@ -1,4 +1,5 @@
 <?php
+    $office = $this->api->getUserOffice();
     $col = $this->api->getUserCollege();
     $val = $this->api->systemValue();
     $stat = $val['classallocationstatus'];
@@ -20,7 +21,7 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 		<div class="panel-heading search">
-				<h4>Student Information Management: List of Students</h4>
+				<h4>Student Information Management: List of Students <?php echo $office; ?></h4>
 		</div>
 
         <div class="panel-body">
@@ -29,7 +30,12 @@
             <div class="col-md-6">
             <?php
                 $config['base_url'] = base_url().'index.php/menu/dean-studentlist';
-                $config['total_rows'] = $this->student->getRows($col);
+                if ($office == 3) {
+                    $config['total_rows'] = $this->student->getRows2();
+                }
+                else{
+                    $config['total_rows'] = $this->student->getRows($col);
+                }
                 $config['per_page'] = 15;
                 $config['num_links'] = 2;
                 $config['first_link'] = 'First';
@@ -65,6 +71,7 @@
                     'param' => $param,
                     'col' => $col,
                     'stat' => $stat,
+                    'office' => $office,
                     'phase' => $phase
                 );
             ?>
@@ -76,6 +83,7 @@
                 <div class="form-group">
                     <input type="hidden" name="cur_url" value="<?php echo current_url(); ?>"/>
                     <input type="hidden" name="col" value="<?php echo $col; ?>"/>
+                    <input type="hidden" name="office" value="<?php echo $office; ?>"/>
                     <input type="text" name="search" <?php echo $disable; ?> id="studentlist" class="form-control" autocomplete="off" placeholder="Student Id">
                 </div>
                 <button type="submit" class="btn btn-primary"  <?php echo $disable; ?> >
