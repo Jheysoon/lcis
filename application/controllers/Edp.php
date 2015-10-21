@@ -227,26 +227,33 @@ class Edp extends CI_Controller
         $d['yearlevel']     = $yearlevel;
         $d['studentcount']  = $count;
 
-        // if the count is less than the numberofstudent system value set it to 0
-        if ($count == 0 OR $count < $this->numberOfStudents) {
-            // if the student count is less than 10
-            // default no. of section is 0
-            if($count <= 10)
-                $d['section'] = 0;
-            else
-                $d['section'] = 1;
+        // nstp subject must have 1 section only
+        if ($subject == 298 OR $subject == 299) {
+            $d['section'] = 1;
         } else {
-            // force the result to be an integer
-            $d['section'] = (int) ($count / $this->numberOfStudents);
+            // if the count is less than the numberofstudent system value set it to 0
+            if ($count == 0 OR $count < $this->numberOfStudents) {
+                // if the student count is less than 10
+                // default no. of section is 0
+                if($count <= 10)
+                    $d['section'] = 0;
+                else
+                    $d['section'] = 1;
+            } else {
+                // force the result to be an integer
+                $d['section'] = (int) ($count / $this->numberOfStudents);
+            }
         }
-        
+
         $this->db->where('coursemajor', $course);
         $this->db->where('subject', $subject);
-        $this->db->where('yearlevel', $yearlevel);
         $c = $this->db->count_all_results('out_section');
 
         if ($c < 1) {
             $this->db->insert('out_section', $d);
+        } else {
+            $section = $d['section'];
+            $this->db->query("UPDATE out_section SET section = section + $section WHERE coursemajor = $course AND subject = $subject");
         }
     }
 

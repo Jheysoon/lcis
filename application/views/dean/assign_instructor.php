@@ -22,7 +22,10 @@
 					$this->db->where('id', $owner);
 					$col = $this->db->get('tbl_college')->row_array();
 
-					$data['instruc'] = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+					$this->db->select('id');
+					$inst 	= $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+					$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
+					$data['instruc'] = array_merge($inst, $inst1);
             	} else {
             		$data['instruc'] = '';
             	}
@@ -49,7 +52,6 @@
 	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
 				}
 
-                //$data['cl'] = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
              ?>
 			 <div class="col-md-6">
 				<h3 style="text-align: center; font-weight: bold"><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?></h3>
