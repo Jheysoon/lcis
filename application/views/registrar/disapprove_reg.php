@@ -1,6 +1,8 @@
 <br/>
 <table class="table">
-    <caption><strong>Disapproved Registration</strong></caption>
+    <tr>
+      <td class="tbl-header" style="text-align: center;" colspan="8"><strong>Disapproved Registration</strong></td>
+    </tr>
     <tr>
         <th style="text-align:center;">Student Number</th>
         <th style="text-align:center;">Name</th>
