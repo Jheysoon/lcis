@@ -86,8 +86,7 @@ class Api
 	function verifyUserAccess($url)
 	{
 		$user = $this->CI->session->userdata('uid');
-		$this->CI->db->where('link',$url);
-		$q = $this->CI->db->get('tbl_option');
+		$q = $this->CI->db->query("SELECT * FROM tbl_option WHERE link LIKE '%$url%'");
 
 		if ($q->num_rows() > 0) {
 			$option = $q->row_array();
@@ -100,7 +99,7 @@ class Api
 				show_error('Unathorized Access');
 		}
 		else
-			return 'error';
+			show_error($url);
 	}
 
 	// load the user menu

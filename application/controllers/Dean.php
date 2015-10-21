@@ -15,6 +15,18 @@ class Dean extends CI_Controller
     public $ret;
     public $error;
 
+    private function head()
+    {
+        $this->load->model(array(
+            'home/option',
+            'home/option_header',
+            'home/useroption',
+            'dean/student'
+        ));
+        $this->load->view('templates/header');
+        $this->load->view('templates/header_title2');
+    }
+
     function edit_subject($sid, $param = '')
     {
         if(!empty($sid) AND is_numeric($sid))
@@ -1098,11 +1110,6 @@ class Dean extends CI_Controller
         $time = $this->edp_classallocation->getPeriod($cl_id);
         $day  = $this->edp_classallocation->getDayShort($cl_id);
 
-        // $cl = $this->db->query("SELECT day, from_time, to_time FROM tbl_classallocation a, tbl_dayperiod b
-        //     WHERE a.id = b.classallocation 
-        //     AND a.instructor = $instructor 
-        //     AND a.academicterm = $acam")->result_array();
-
         $all_cl     = $this->common_dean->getAllCl($instructor);
         $subj_t     = explode(' / ', $time);
         $subj_day   = explode(' / ', $day);
@@ -1157,32 +1164,50 @@ class Dean extends CI_Controller
             'dean/subject'
         ));
 
-        $owner 		= $this->api->getUserCollege();
-        $this->db->where('id', $owner);
-        $col = $this->db->get('tbl_college')->row_array();
         $user 		= $this->session->userdata('uid');
         $systemVal 	= $this->api->systemValue();
+        $phaseterm  = $this->session->userdata('assign_sy');
 
-        // $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
-        //     WHERE a.subject = b.id
-        //     AND b.owner = $owner
-        //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        if ($user != $systemVal['employeeid']) {
+            $owner              = $this->api->getUserCollege();
+            $this->db->where('id', $owner);
+            $col = $this->db->get('tbl_college')->row_array();
+            $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+        } else {
+            $data['instruc'] = '';
+        }
 
-        $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
-        $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        
+        if ($user == $systemVal['employeeid']) {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND (b.computersubject = 1 OR b.nstp = 1)
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        } elseif($owner == 1) {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND b.owner = $owner AND b.gesubject = 1 
+                AND b.computersubject = 0 AND b.nstp = 0
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        } else {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND b.owner = $owner AND b.gesubject = 0 
+                AND b.computersubject = 0 AND b.nstp = 0
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        }
+
         $input              = $this->input->post('sort');
 
-        if($input == 0)
-        {
+        if ($input == 0) {
             $this->load->view('dean/ajax/assigned_ins', $data);
             $this->load->view('dean/ajax/not_ass_ins', $data);
-        }
-        elseif($input == 1)
-        {
+        } elseif ($input == 1)  {
             $this->load->view('dean/ajax/assigned_ins', $data);
-        }
-        elseif($input == 2)
-        {
+        } elseif ($input == 2) {
             $this->load->view('dean/ajax/not_ass_ins', $data);
         }
     }
