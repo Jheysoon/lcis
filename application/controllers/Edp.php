@@ -159,7 +159,7 @@ class Edp extends CI_Controller
         $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= {$tt['systart']} ORDER BY systart DESC,term")->result_array();
 
         $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
-        
+
         foreach($stuC as $studentC)
         {
             $coursemajor    = $studentC['course'];
@@ -171,7 +171,7 @@ class Edp extends CI_Controller
                 $c = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE
                     tbl_coursemajor.id = tbl_curriculum.coursemajor AND
                     tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
-                
+
                 if($c->num_rows() > 0)
                 {
                     $cur    = $c->row_array();
@@ -187,16 +187,16 @@ class Edp extends CI_Controller
             // if there are more than 1 curriculums
             if ($cur_range > 1) {
                 $c = $this->db->get_where('out_studentcount', array('course' => $coursemajor))->result_array();
-                
+
                 foreach ($c as $cc) {
                     $y      = $cc['yearlevel'];
                     $cou    = $cc['studentcount'];
 
                     $cur_range2  = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE academicterm between $cur_range1 and $acam and tbl_curriculum.coursemajor = tbl_coursemajor.id AND course = $coursemajor")->result_array();
-                    
+
                     foreach ($cur_range2 as $ra) {
                         $e = $this->db->get_where('tbl_curriculumdetail', array('curriculum' => $ra['id'], 'yearlevel' => $y, 'term' => $term))->result_array();
-                        
+
                         foreach($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
@@ -250,8 +250,22 @@ class Edp extends CI_Controller
         $c = $this->db->count_all_results('out_section');
 
         if ($c < 1) {
-            $this->db->insert('out_section', $d);
-        } elseif($subjet != 299 OR $subject != 298) {
+
+            if ($subject == 299 OR $subject == 298) {
+                $where = "(subject = 299 OR subject = 298)";
+                $this->db->where($where);
+                $cc = $this->db->count_all_results('out_section');
+
+                if ($cc < 1) {
+                    $this->db->insert('out_section', $d);
+                }
+
+            } else {
+                $this->db->insert('out_section', $d);
+            }
+
+        }
+        elseif($subject != 299 OR $subject != 298) {
             $section = $d['section'];
             $this->db->query("UPDATE out_section SET section = section + $section WHERE coursemajor = $course AND subject = $subject");
         }
