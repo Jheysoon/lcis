@@ -251,7 +251,7 @@ class Edp extends CI_Controller
 
         if ($c < 1) {
             $this->db->insert('out_section', $d);
-        } else {
+        } elseif($subjet != 299 OR $subject != 298) {
             $section = $d['section'];
             $this->db->query("UPDATE out_section SET section = section + $section WHERE coursemajor = $course AND subject = $subject");
         }

@@ -892,7 +892,7 @@ class Dean extends CI_Controller
 
                     // check if schedule overlaps
                     if ( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 13 AND $end_time <= 28) ) {
-                        
+
                         // delete first the days and period before inserting
                         $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
 
@@ -903,13 +903,13 @@ class Dean extends CI_Controller
                         $this->db->insert('tbl_dayperiod', $data);
                     } else {
                         $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Noon Break in <strong>'.$days[$value - 1].'</strong></div>';
-                        
+
                         return FALSE;
                     }
 
                 } else {
                     $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in <strong>'.$days[$value - 1].'</strong></div>';
-                    
+
                     return FALSE;
                 }
 
@@ -921,7 +921,7 @@ class Dean extends CI_Controller
                     $this->error = '<div class="alert alert-danger" style="text-align:center">Start Time must not 12:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
                 elseif($end_time == 13)
                     $this->error = '<div class="alert alert-danger" style="text-align:center">End Time must not 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
-                
+
                 return FALSE;
             }
 
@@ -1142,7 +1142,7 @@ class Dean extends CI_Controller
         }
 
         if (!$isConflict) {
-            
+
             if ($data['instructor'] == 0) {
                 echo 'no';
             } else {
@@ -1154,7 +1154,7 @@ class Dean extends CI_Controller
         } else {
             echo 'conflict';
         }
-        
+
     }
 
     function sorts()
@@ -1172,7 +1172,7 @@ class Dean extends CI_Controller
             $owner              = $this->api->getUserCollege();
             $this->db->where('id', $owner);
             $col = $this->db->get('tbl_college')->row_array();
-            
+
             $this->db->select('id');
             $inst   = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
             $inst1  = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
@@ -1181,25 +1181,25 @@ class Dean extends CI_Controller
             $data['instruc'] = '';
         }
 
-        
+
         if ($user == $systemVal['employeeid']) {
-            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
                 FROM tbl_classallocation a,tbl_subject b
                 WHERE a.subject = b.id
                 AND (b.computersubject = 1 OR b.nstp = 1)
                 AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
         } elseif($owner == 1) {
-            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
                 FROM tbl_classallocation a,tbl_subject b
                 WHERE a.subject = b.id
-                AND b.owner = $owner AND b.gesubject = 1 
+                AND b.owner = $owner AND b.gesubject = 1
                 AND b.computersubject = 0 AND b.nstp = 0
                 AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
         } else {
-            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
                 FROM tbl_classallocation a,tbl_subject b
                 WHERE a.subject = b.id
-                AND b.owner = $owner AND b.gesubject = 0 
+                AND b.owner = $owner AND b.gesubject = 0
                 AND b.computersubject = 0 AND b.nstp = 0
                 AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
         }
@@ -1346,7 +1346,7 @@ class Dean extends CI_Controller
  | group and ungroup function. ( to be removed in production )
  |---------------------------------------------------------------
 */
- 
+
     function group(){
 
         $subcode = $this->api->get_subcode();
