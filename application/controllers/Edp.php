@@ -160,24 +160,23 @@ class Edp extends CI_Controller
 
         $stuC   = $this->db->query("SELECT * FROM out_studentcount GROUP BY course")->result_array();
 
-        foreach($stuC as $studentC)
-        {
+        foreach ($stuC as $studentC) {
             $coursemajor    = $studentC['course'];
             $acam           = $studentC['academicterm'];
             $cur1           = 0;
 
-            foreach($acamd as $acams)
-            {
+            foreach ($acamd as $acams) {
                 $c = $this->db->query("SELECT tbl_curriculum.id as id FROM tbl_curriculum,tbl_coursemajor WHERE
                     tbl_coursemajor.id = tbl_curriculum.coursemajor AND
                     tbl_coursemajor.course = $coursemajor AND academicterm = {$acams['id']}");
 
-                if($c->num_rows() > 0)
-                {
+                if ($c->num_rows() > 0) {
                     $cur    = $c->row_array();
                     $cur1   = $cur['id'];
+
                     break;
                 }
+
             }
 
             //get the curriculum within 4 years
@@ -197,11 +196,14 @@ class Edp extends CI_Controller
                     foreach ($cur_range2 as $ra) {
                         $e = $this->db->get_where('tbl_curriculumdetail', array('curriculum' => $ra['id'], 'yearlevel' => $y, 'term' => $term))->result_array();
 
-                        foreach($e as $ee):
+                        foreach ($e as $ee):
                             $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                         endforeach;
+
                     }
+
                 }
+
             } elseif ($cur1 != 0) {
                 $c = $this->db->get_where('out_studentcount', array('course' => $coursemajor))->result_array();
 
@@ -210,10 +212,12 @@ class Edp extends CI_Controller
                     $cou    = $cc['studentcount'];
                     $e      = $this->db->get_where('tbl_curriculumdetail', array('curriculum' => $cur1, 'yearlevel' => $y, 'term' => $term))->result_array();
 
-                    foreach($e as $ee) :
+                    foreach ($e as $ee) :
                         $this->insert_section($sy, $coursemajor, $ee['subject'], $y, $cou);
                     endforeach;
+
                 }
+
             }
         }
     }
@@ -232,6 +236,7 @@ class Edp extends CI_Controller
         if ($subject == 298 OR $subject == 299) {
             $d['section'] = 1;
         } else {
+
             // if the count is less than the numberofstudent system value set it to 0
             if ($count == 0 OR $count < $this->numberOfStudents) {
                 // if the student count is less than 10
@@ -244,6 +249,7 @@ class Edp extends CI_Controller
                 // force the result to be an integer
                 $d['section'] = (int) ($count / $this->numberOfStudents);
             }
+
         }
 
         $this->db->where('coursemajor', $course);
@@ -265,8 +271,7 @@ class Edp extends CI_Controller
                 $this->db->insert('out_section', $d);
             }
 
-        }
-        elseif($subject != 299 OR $subject != 298) {
+        } elseif ($subject != 299 OR $subject != 298) {
             $section = $d['section'];
             $this->db->query("UPDATE out_section SET section = section + $section WHERE coursemajor = $course AND subject = $subject");
         }
