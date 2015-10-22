@@ -40,6 +40,25 @@ class Api
 		return $course.' '.$m;
 	}
 
+	function getUserOffice(){
+		$this->CI->load->model('dean/common_dean');
+
+		if(! $this->CI->session->has_userdata('uid'))
+		{
+			redirect(base_url());
+		}
+        $uid = $this->CI->session->userdata('uid');
+
+        $office = $this->CI->common_dean->getUserOffice($uid);
+
+        if ($office) 
+        	$office = $office['office'];
+        else
+        	$office = 'waray';
+
+        return $office;
+	}
+
 	function getUserCollege()
 	{
 		$this->CI->load->model(array(

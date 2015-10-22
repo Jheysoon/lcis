@@ -67,4 +67,10 @@ class Common_dean extends CI_Model
 		$t = $this->db->get_where('tbl_party', array('id' => $id))->row_array();
 		return $t['lastname'].', '.$t['firstname'];
 	}
+
+	function getUserOffice($uid){
+		$this->db->where('id', $uid);
+		$this->db->select('office');
+		return $this->db->get('tbl_administration')->row_array();
+	}
 }

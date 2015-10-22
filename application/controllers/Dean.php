@@ -316,19 +316,25 @@ class Dean extends CI_Controller
     {
         $this->load->model('dean/student');
 
-        $id  = $this->input->post('search');
-        $col = $this->input->post('col');
-        $id1 = $this->student->existsID($id);
+        $id     = $this->input->post('search');
+        $col    = $this->input->post('col');
+        $office = $this->input->post('office');
+        $id1    = $this->student->existsID($id);
 
         if ($id1)
         {
             extract($id1);
-            if ($cid == $col) {
+            if ($office == 3) {
                 redirect('/dean_evaluation/' . $id);
             }
             else{
-                $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
-                redirect($this->input->post('cur_url'));
+                if ($cid == $col) {
+                    redirect('/dean_evaluation/' . $id);
+                }
+                else{
+                    $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
+                    redirect($this->input->post('cur_url'));
+                }
             }
         }
         else
@@ -345,8 +351,15 @@ class Dean extends CI_Controller
             'dean/student'
         ));
 
+
+        $office     = $this->api->getUserOffice();
         $college    = $this->api->getUserCollege();
-        $s          = $this->student->getStudent($sid,$college);
+        if ($office == 3) {
+            $s = $this->student->getStudent2($sid);
+        }
+        else{
+            $s = $this->student->getStudent($sid,$college);
+        }
         $data       = array();
 
         foreach ($s as $r)

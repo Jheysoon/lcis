@@ -59,7 +59,7 @@ $(document).ready(function(){
             templates:{
                 suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
                 '<span>{{name}}</span>'),
-                empty:['<div class="alert alert-danger">Unable to find subject</div>']
+                empty:['<div class="alert alert-danger">Unable to find student</div>']
             },
             source: studlist.ttAdapter()
         }
