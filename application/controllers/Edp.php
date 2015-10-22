@@ -221,6 +221,7 @@ class Edp extends CI_Controller
     // function for populate the out_section table
     private function insert_section($sy, $course, $subject, $yearlevel, $count)
     {
+        //@TODO: max capacity for computersubjects is 15 average
         $d['academicterm']  = $sy;
         $d['coursemajor']   = $course;
         $d['subject']       = $subject;
