@@ -398,6 +398,7 @@ class Edp extends CI_Controller
             'dean/subject'
         ));
         $cid = $this->input->post('cid');
+        
         if ($cid == 1) {
             $this->load->view('edp/ajax_edp_all');
         } elseif ($cid == 2) {
