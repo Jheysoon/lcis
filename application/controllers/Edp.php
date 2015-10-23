@@ -168,41 +168,34 @@ class Edp extends CI_Controller
 
             if ($coursemajor != 8 AND $coursemajor != 9 AND $coursemajor != 10 AND $coursemajor != 11) :
 
-                if ($coursemajor != 2) {
-                    $c = $this->db->query("SELECT id FROM tbl_coursemajor 
-                    WHERE course = $coursemajor")->result_array();
+                if ($coursemajor == 2) {
+                    $sql = "SELECT id FROM tbl_coursemajor WHERE course = $coursemajor AND major != 0";
                 } else {
-                    $c = array(array('id' => 2));
+                    $sql = "SELECT id FROM tbl_coursemajor WHERE course = $coursemajor";
                 }
+                
+                $c = $this->db->query($sql)->result_array();
                 
                 foreach ($c as $curs) :
                     $course         = 0;
                     $cur1           = 0;
 
-                    if ($curs['id'] != 2) {
+                    foreach ($acamd as $acams) {
+                    $this->db->where('coursemajor', $curs['id']);
+                    $this->db->where('academicterm', $acams['id']);
+                    $c1 = $this->db->get('tbl_curriculum');
 
-                        foreach ($acamd as $acams) {
-                        $this->db->where('coursemajor', $curs['id']);
-                        $this->db->where('academicterm', $acams['id']);
-                        $c1 = $this->db->get('tbl_curriculum');
-
-                            if ($c1->num_rows() > 0) {
-                                $course = $curs['id'];
-                                $cc = $c1->row_array();
-                                $cur1 = $cc['id'];
-                                break;
-                            }
-
+                        if ($c1->num_rows() > 0) {
+                            $course = $curs['id'];
+                            $cc = $c1->row_array();
+                            $cur1 = $cc['id'];
+                            break;
                         }
 
-                    } else {
-                        $cur1 = 55;
                     }
 
-                    
-
-                    if ($course != 0 AND $cur1 != 0) {
-                        echo $course.' '.$cur1.' <br/>';
+                    if ($course != 0 AND $cur1 != 0 AND $cur1 != 55) {
+                        //echo $course.' '.$cur1.' <br/>';
 
                         //get the curriculum within 4 years
                         $cur_range1 = $acam - 12;
