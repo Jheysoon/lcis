@@ -173,7 +173,7 @@ class Edp extends CI_Controller
                 } else {
                     $sql = "SELECT id FROM tbl_coursemajor WHERE course = $coursemajor";
                 }
-                
+
                 $c = $this->db->query($sql)->result_array();
                 
                 foreach ($c as $curs) :
