@@ -357,8 +357,6 @@ class Api
 			return "(SUBSTRING(SUBCODE, 1, 2) = 'OA' OR SUBSTRING(SUBCODE, 1, 2) = 'CM')";
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	// function for counting no. of pages in tor
 	function countPage($sid){
@@ -373,5 +371,4 @@ class Api
         return $page;
 	}
 
->>>>>>> 596b11f578c81488391097000bc8df715f88bb2a
 }
