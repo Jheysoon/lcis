@@ -1354,6 +1354,13 @@ class Dean extends CI_Controller
         }
     }
 
+    function enrolmentLegacyGrouping()
+    {
+        $this->load->model('dean/group');
+        $this->load->view('dean/enrolment_grouping');
+        $this->load->view('templates/footer');
+    }
+
 /*
  |---------------------------------------------------------------
  | Temporary functions for legacy subject grouping.
