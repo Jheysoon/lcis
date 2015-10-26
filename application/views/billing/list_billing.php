@@ -1,3 +1,4 @@
+
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
@@ -82,7 +83,7 @@
                                     <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
                                     <td><?php echo $course; ?></td>
                                     <td>
-                                        <a class="a-table label label-info" href="/view_std/<?php echo $stud_info['legacyid'] ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
+                                        <a class="a-table label label-info" href="/view_std/<?php echo $stud_info['legacyid'] ?>">View Bills&nbsp;<span class="glyphicon glyphicon-file"></span></a>
                                     </td>
                                 </tr>
                             <?php
