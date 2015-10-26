@@ -69,11 +69,11 @@
 						$ctr = 0;
 						foreach($class as $cl)
 						{
-							if($ctr >= 11)
-							{
+							if ($ctr > 11)
 								$ctr = 0;
-							}
+
 							$cc_count = $this->edp_classallocation->countDayPer($cl['id'],$roomId);
+
 							if($cc_count > 0)
 							{
 								//determine the color of the subject
