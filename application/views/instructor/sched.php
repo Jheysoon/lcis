@@ -208,6 +208,9 @@
 
 					}
 					$ctr++;
+					if ($ctr > 11)
+						$ctr = 0;
+
 				}
 				$table_day['1'] = $monday;
 				$table_day['2']	= $tuesday;
