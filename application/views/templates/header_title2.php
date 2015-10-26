@@ -47,8 +47,8 @@
           <?php
 
           $option_header = $this->useroption->getOptionHeader();
-          foreach($option_header as $option_h)
-          {
+
+          foreach ($option_header as $option_h) {
               ?>
           <li class="list-group-item">
               <a class="menu">
@@ -58,17 +58,15 @@
               <?php
               $menu = $this->useroption->getUserMenu($option_h['header']);
 
-              foreach ($menu as $option)
-              {
+              foreach ($menu as $option) {
                   $menu_option  = $this->option->getOption($option['optionid']);
                   $str1         = explode('/', $menu_option['link']);
-                  if(count($str1) > 1)
-                  {
+
+                  if (count($str1) > 1) {
                       $str          = str_replace('/', '-', $menu_option['link']);
                       $str = 'menu/'.$str;
-                  }
-                  else
-                    $str = $menu_option['link'];
+                  } else
+                        $str = $menu_option['link'];
                   
                   ?>
                   <ul class="sub-menu">
