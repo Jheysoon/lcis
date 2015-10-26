@@ -10,7 +10,7 @@
 			$col = $this->db->get('tbl_college')->row_array();
 
 			$systemVal 	= $this->api->systemValue();
-			$this->db->where('id', $systemVal['currentacademicterm']);
+			$this->db->where('id', $systemVal['phaseterm']);
 			$sy = $this->db->get('tbl_academicterm')->row_array();
 
 			$this->db->where('id', $sy['term']);
