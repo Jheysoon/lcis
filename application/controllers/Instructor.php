@@ -176,7 +176,7 @@ class Instructor extends CI_Controller
             }
             elseif ($COURSE == 'LLB')
             {
-                $coursemajor = 19;
+                $coursemajor = 6;
             }
             elseif ($COURSE == 'BSED')
             {
@@ -221,9 +221,6 @@ class Instructor extends CI_Controller
                        'totalunit' => $sub['totalunit'], 'dte' => $DATE_ENROL);
        $this->db->insert('tbl_enrolment', $data);
         }
-
        echo $template;
-
-      
     }
 }
