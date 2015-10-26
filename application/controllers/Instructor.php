@@ -127,4 +127,5 @@ class Instructor extends CI_Controller
         $this->db->update('tbl_enrolment_legacy', $data);
         redirect('/match_subject');
     }
+
 }

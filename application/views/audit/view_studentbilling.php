@@ -202,9 +202,18 @@
 																Amount Override
 															</td>
 															<td style="text-align:right">
-																<?php
+																
+															<?php 
+																if ($this->session->userdata('audit') == 1): 
+																$over = 0;
+															?>
+																	<input type="text" class="form-control" style="width:30%">
+															<?php else: ?>
+																	<?php
 																		echo $over = $this->assesment->get_override($student, $enrolid);
-																 ?>
+																 	?>
+															<?php endif ?>
+															
 															</td>
 														</tr>
 														<tr>
@@ -302,9 +311,18 @@
 																Amount Override
 															</td>
 															<td style="text-align:right">
+															<?php 
+																if ($this->session->userdata('audit') == 1): 
+																$over = 0;
+															?>
+																	<input type="text" class="form-control" style="width:30%">
+
+															<?php else: ?>
 																<?php
-																		echo $over = $this->assesment->get_override($student, $enrolid);
+																	echo $over = $this->assesment->get_override($student, $enrolid);
 																 ?>
+															<?php endif ?>
+																
 															</td>
 														</tr>
 														<td>
@@ -396,9 +414,19 @@
 																			Amount Override
 																		</td>
 																		<td style="text-align:right">
-																			<?php
+																			<?php 	
+																				if ($this->session->userdata('audit') == 1): 
+																				$over = 0;
+																			?>
+																				<input type="text" class="form-control pull-right" style="width:30%;text-align:right;">
+																			
+																			<?php else: ?>
+
+																				<?php
 																					echo $over = $this->assesment->get_override($student, $enrolid);
-																			 ?>
+																			 	?>
+																			<?php endif ?>
+																			
 																		</td>
 																	</tr>
 																	<td>

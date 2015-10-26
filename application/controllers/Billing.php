@@ -127,6 +127,7 @@ class Billing extends CI_Controller
 	function billcalculation($enid)
 	{
 			$this->load->model('dean/student');
+			$this->load->model('cashier/assesment');
 			//Function to get the coursemajor and the party id of the student
 			$enr_info = $this->student->enr_info($enid);
 			$coursemajor = $enr_info['coursemajor'];
@@ -226,8 +227,6 @@ class Billing extends CI_Controller
 						$this->student->insertbilldetail($data);
 					}
 			}
-
-
 			if ($billid != 0)
 			{
 					$tui = 0;
@@ -273,20 +272,42 @@ class Billing extends CI_Controller
 						if ($updates == 1)
 						{
 							$this->student->update_billclass($data, $billid);
-							$this->assesment->revertPosting($billid);
+							//$this->assesment->revertPosting($billid);
 						}
 						else
 						{
 							$this->student->insert_billclass($data);
 						}
+			}
+		}
+		// function get_all_enrolment()
+		// {
+		// 	$x = $this->db->query("SELECT * FROM out_enr")->result_array();
+		// 	foreach ($x as $key => $value) {
+		// 			$this->billcalculation($value['id']);
+		// 	}
+		// }
+		// function delete_bills()
+		// {
+		// 	$x = $this->db->query("SELECT  tbl_billclass.id, tbl_billclass.enrolment, tbl_enrolment.coursemajor, tbl_enrolment.numberofsubject
+		// 					  FROM tbl_studentgrade, tbl_billclass, tbl_enrolment
+		// 					  WHERE tbl_billclass.netenrolment =842
+		// 					  AND tbl_billclass.enrolment = tbl_studentgrade.enrolment
+		// 					  AND tbl_enrolment.id = tbl_billclass.enrolment")->result_array();
+		// 	foreach ($x as $key => $value) {
+		// 		$this->db->where('id', $value['id']);
+		// 		$this->db->delete('tbl_bill');
 
-			}
-		}
-		function get_all_enrolment()
-		{
-			$x = $this->db->query("SELECT * FROM tbl_enrolment")->result_array();
-			foreach ($x as $key => $value) {
-					$this->billcalculation($value['id']);
-			}
-		}
+		// 		$this->db->where('id', $value['id']);
+		// 		$this->db->where('enrolment', $value['enrolment']);
+		// 		$this->db->delete('tbl_billclass');
+
+		// 		$this->db->where('bill', $value['id']);
+		// 		$this->db->delete('tbl_billclassdetail');
+
+
+		// 		$this->db->where('id', $value['enrolment']);
+		// 		$this->db->delete('tbl_enrolment');
+		// 	}
+		// }
 }

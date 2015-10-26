@@ -371,6 +371,7 @@ class Dean extends CI_Controller
 
     function calculatebill($enid){
             $this->load->model('dean/student');
+            $this->load->model('cashier/assesment');
             //Function to get the coursemajor and the party id of the student
             $enr_info = $this->student->enr_info($enid);
             $coursemajor = $enr_info['coursemajor'];

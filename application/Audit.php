@@ -37,8 +37,6 @@ class Audit extends CI_Controller {
         $this->api->userMenu();
         $this->load->library('pagination');
         $this->load->model('registrar/enrollment');
-        $this->load->model('registrar/party');
-        $this->load->model('registrar/course');
         $this->session->set_userdata('audit', 1);
         $data['headertitle'] = 'Paymen Override';
         $this->load->view('billing/list_billing', $data);
@@ -57,7 +55,7 @@ class Audit extends CI_Controller {
     }
     function view_std($id)
     {
-        // redirect('/billing/view_studentbilling/'.$id);
+        redirect('/billing/view_studentbilling/'.$id);
     }
 
 }
