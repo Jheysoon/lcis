@@ -12,7 +12,7 @@ class Instructor extends CI_Controller
                 'id'            => $id,
                 'instructor'    => $this->session->userdata('uid')
             );
-            
+
             $this->db->where($where);
             $r = $this->db->count_all_results('tbl_classallocation');
 
@@ -82,6 +82,8 @@ class Instructor extends CI_Controller
         if(!empty($id))
         {
             $this->api->userMenu();
+
+            $data['owner']          = $this->api->getUserCollege();
 
             $this->load->model(array('edp/edp_classallocation', 'dean/subject'));
             $this->db->where('id', $id);
