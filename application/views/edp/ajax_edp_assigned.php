@@ -4,7 +4,7 @@
             Academicterm SY:
             <?php
                 $nxt = $this->api->systemValue();
-                $nnxt = $this->academicterm->findById($nxt['nextacademicterm']);
+                $nnxt = $this->academicterm->findById($nxt['phaseterm']);
                 echo $nnxt['systart'].' - '.$nnxt['syend'].' Term: '.$nnxt['term'];
              ?>
         </strong>

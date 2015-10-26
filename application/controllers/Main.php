@@ -126,6 +126,8 @@ class Main extends CI_Controller
         $data['orig_page'] = $page;
         $page = str_replace('-', '/', $page);
 
+        $this->api->verifyUserAccess($page);
+
         if(file_exists('./application/views/'.$page.'.php'))
         {
 
@@ -249,6 +251,7 @@ class Main extends CI_Controller
                 $password = password_hash('welcome', PASSWORD_BCRYPT);
                 $data['username'] = strtolower($username);
                 $data['password'] = $password;
+                $data['partyid'] = $user['instructor'];
                 $this->db->insert('tbl_useraccess', $data);
             }
         }

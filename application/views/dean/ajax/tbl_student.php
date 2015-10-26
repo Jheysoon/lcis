@@ -7,7 +7,13 @@
 	</tr>
 
     <?php
-        $result = $this->student->getStud($param, $col);
+
+        if ($office == 3) {
+            $result = $this->student->getStud2($param);
+        }
+        else{
+            $result = $this->student->getStud($param, $col);
+        }
 
         foreach($result as $info)
         {

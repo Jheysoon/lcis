@@ -52,4 +52,9 @@ class Student extends CI_Controller
         $this->load->view('student/view_collegiatecalendar');
         $this->load->view('templates/footer');
     }
+
+    function yearlevel($id = '0')
+    {
+        echo $this->api->yearLevel($id);
+    }
 }

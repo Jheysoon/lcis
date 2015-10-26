@@ -6,12 +6,12 @@
 				$this->load->view('edp/cl_status');
 
 				$systemVal 	= $this->api->systemValue();
-				$sy 		= $systemVal['nextacademicterm'];
+				$sy 		= $systemVal['phaseterm'];
 				if($systemVal['phase'] == FIN)
 				{
 					if($systemVal['classallocationstatus'] == 2 OR $systemVal['classallocationstatus'] == 1)
 					{
-						$this->db->where('academicterm', $systemVal['currentacademicterm']);
+						$this->db->where('academicterm', $systemVal['phaseterm']);
 						$this->db->where('stage', 2);
 						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();

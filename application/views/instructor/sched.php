@@ -48,7 +48,8 @@
 
 				foreach($day1 as $d)
 				{
-					$day[] = $d['id'];
+					if($d['id'] != 8)
+						$day[] = $d['id'];
 				}
 
 				$monday 	= array();
@@ -59,20 +60,25 @@
 				$saturday 	= array();
 				$sunday 	= array();
 				$color 		= array(
-									'#0050EF','#1BA1E2',
-									'#AA00FF','#FA6800',
-									'#76608A','#6D8764',
-									'#F0A30A','#6A00FF',
-									'#00ABA9','#008A00',
-									'#87794E','#E3C800'
+									'#BA68C8','#0097A7',
+									'#F06292','#039BE5',
+									'#E57373','#00C853',
+									'#7986CB','#689F38',
+									'#9575CD','#43A047',
+									'#009688','#EF6C00'
 							);
 				$ctr = 0;
-				foreach($class as $cl)
-				{
+
+				foreach ($class as $cl) {
 					$this->db->where('classallocation', $cl['id']);
 					$dd = $this->db->get('tbl_dayperiod')->result_array();
-					foreach($dd as $dd1)
-					{
+
+
+					foreach ($dd as $dd1) {
+
+						if($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
+							continue;
+
 						$from 	= $dd1['from_time'];
 						$to 	= $dd1['to_time'];
 						$span	= $to - $from;
@@ -82,138 +88,124 @@
 						$this->db->where('id', $dd1['classroom']);
 						$this->db->select('legacycode');
 						$room = $this->db->get('tbl_classroom')->row_array();
-						if($dd1['day'] == 1)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						if ($dd1['day'] == 1) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$monday[$i] = array('day'		=> 'Monday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$monday[$i] = array('day'=>'Monday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 2)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						} elseif ($dd1['day'] == 2) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$tuesday[$i] = array('day'		=> 'Tuesday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$tuesday[$i] = array('day' => 'Tuesday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 3)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+						} elseif($dd1['day'] == 3) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$wednesday[$i] = array('day'		=> 'Wednesday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$wednesday[$i] = array('day' => 'Wednesday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 4)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						} elseif ($dd1['day'] == 4) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$thursday[$i] = array('day'		=> 'Thursday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$thursday[$i] = array('day' => 'Thursday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 5)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						} elseif ($dd1['day'] == 5) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$friday[$i] = array('day'		=> 'Friday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$friday[$i] = array('day' => 'Friday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 6)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						} elseif ($dd1['day'] == 6) {
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$saturday[$i] = array('day'		=> 'Saturday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$saturday[$i] = array('day' => 'Saturday');
 								}
+
 							}
-						}
-						elseif($dd1['day'] == 7)
-						{
-							for($i = $from; $i <= $limit; $i++)
-							{
-								if($i == $from)
-								{
+
+						} elseif ($dd1['day'] == 7) {
+
+							for ($i = $from; $i <= $limit; $i++) {
+
+								if ($i == $from) {
 									$sunday[$i] = array('day'		=> 'Sunday',
 														'rowspan' 	=> $span,
 														'subject' 	=> $s['code'],
 														'course' 	=> $cc,
 														'color'		=> $color[$ctr],
 														'room'		=> $room['legacycode']);
-								}
-								else
-								{
+								} else {
 									$sunday[$i] = array('day' => 'Sunday');
 								}
+
 							}
+
 						}
 
 					}
@@ -227,21 +219,19 @@
 				$table_day['6'] = $saturday;
 				$table_day['7'] = $sunday;
 
-				for($i = 0;$i < 26;$i++)
-				{
+				for ($i = 0;$i < 27;$i++) {
 					?>
 			<tr>
 				<td style="text-align:center;"><strong><?php echo $time[$i].' - '.$time[$i+1]; ?></strong></td>
 				<?php
-					if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
-					{
-						foreach($day as $d)
-						{
+					// if($time[$i] != '12:00' AND $time[$i+1] != '1:00')
+					// {
+						foreach ($day as $d) {
+
 							//checks if there is scheduled subject
-							if(!empty($table_day[$d][$i+1]))
-							{
-								if(!empty($table_day[$d][$i+1]['rowspan']))
-								{
+							if (!empty($table_day[$d][$i+1])) {
+
+								if (!empty($table_day[$d][$i+1]['rowspan'])) {
 								?>
 								<td rowspan="<?php echo $table_day[$d][$i+1]['rowspan']; ?>" class="colspan" style="background-color:<?php echo $table_day[$d][$i+1]['color']; ?>;">
 									<span>
@@ -254,19 +244,18 @@
 								</td>
 								<?php
 								}
-							}
-							else
-							{
+
+							} else {
 					?>
 							<td style="height:5px;">&nbsp;</td>
 					<?php
 							}
 						}
-					}
-					else
-					{
-						echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
-					}
+					// }
+					// else
+					// {
+					// 	echo '<td colspan="7" style="text-align:center;">LUNCH BREAK</td>';
+					// }
 				 ?>
 
 			</tr>

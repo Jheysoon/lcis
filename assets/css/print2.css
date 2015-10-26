@@ -99,14 +99,16 @@ th{
     padding: 5px 20px;
     border-radius: 3px;
     float: right;
-    margin: 12px 10px;
+    margin: 12px 10px 12px 0px;
     background-color: #eb9316;
     color: #fcffaa;
     border: 1px solid #fcffaa;
 }
+
 .print:hover {
-  background-color: #fca427;
-  color: #fff;
+    background-color: #fca427;
+    cursor: pointer;
+    color: #fff;
 }
 
 h2, .legacy {

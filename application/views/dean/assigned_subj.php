@@ -48,8 +48,11 @@
 									<?php
 										$d = $this->db->get('tbl_day')->result_array();
 										$t = $this->db->get('tbl_time')->result_array();
-										foreach($d as $day)
-										{
+
+										foreach ($d as $day) {
+
+											if ($day['id'] == 8)
+												continue;
 											?>
 											<tr>
 												<td>
@@ -62,14 +65,20 @@
 												</td>
 												<td>
 													<select class="form-control" name="start_time<?php echo $day['id'] ?>">
-														<?php foreach ($t as $time) { ?>
+														<?php foreach ($t as $time) { 
+																if($time['id'] == 12)
+																	continue;
+														?>
 															<option value="<?php echo $time['id'] ?>" <?php echo set_select('start_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
 														<?php } ?>
 													</select>
 												</td>
 												<td>
 													<select class="form-control" name="end_time<?php echo $day['id'] ?>">
-														<?php foreach ($t as $time) { ?>
+														<?php foreach ($t as $time) { 
+																if ($time['id'] == 1 OR $time['id'] == 12)
+																	continue;
+														?>
 															<option value="<?php echo $time['id'] ?>" <?php echo set_select('end_time'.$day['id'], $time['id']) ?>><?php echo $time['time'] ?> <?php echo ($time['id'] < 11) ? ' AM' : ' PM' ?></option>
 														<?php } ?>
 													</select>
@@ -79,7 +88,7 @@
 										}
 									 ?>
 								</table>
-								<input type="submit" class="btn btn-primary pull-right" value="Submit">
+								<input type="submit" class="btn btn-primary pull-right" value="Submit" name="submit">
 							</form>
 						</div>
 					</div>

@@ -135,11 +135,13 @@ class Lc_curriculum extends CI_Controller
                  $x = $row->row_array();
                  if ($x['totalcount'] == 0)
 				 {
-                    $data2 = array('curriculum' => $currid,
-                		'subject' => $subid,
-                		'yearlevel' => $yearlevel,
-                		'term' => $term);
-                    $this->db->insert('tbl_curriculumdetail', $data2);
+                    $data2 = array(	'curriculum' 	=> $currid,
+                					'subject' 		=> $subid,
+                					'yearlevel' 	=> $yearlevel,
+                					'term' 			=> $term);
+
+					$this->update_year_units($currid, $yearlevel);
+
                     $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Added.</div>');
                    unset($_SESSION['params']);
                 }
@@ -156,10 +158,37 @@ class Lc_curriculum extends CI_Controller
         $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
         $this->db->where('id', $id);
         $this->db->delete('tbl_curriculumdetail');
+		$this->update_year_units($currid, $yearlevel);
         $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Subject Deleted.</div>');
         $url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m;
         redirect('/lc_curriculum/addsubcur/' . $url);
     }
+
+	function update_year_units($cur_id, $yearlevel)
+	{
+		$this->db->where('curriculum', $cur_id);
+		$c = $this->db->count_all_results('tbl_year_units');
+		if ($c > 0) {
+			$r 		= $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail a,tbl_subject b
+									WHERE a.subject = b.id AND a.curriculum = $cur_id AND a.yearlevel = $yearlevel")->row_array();
+			$unit['totalunits'] = $r['unit'];
+			$this->db->where('curriculum', $cur_id);
+			$this->db->where('yearlevel', $yearlevel);
+			$this->db->update('tbl_year_units', $unit);
+		} else {
+			$w = $this->db->query("SELECT curriculum,yearlevel,SUM(units) as unit
+							FROM tbl_curriculumdetail,tbl_subject WHERE
+							curriculum = $cur_id AND subject = tbl_subject.id GROUP BY yearlevel ORDER BY yearlevel")->result_array();
+			foreach ($w as $year_units) {
+				$data['curriculum'] = $year_units['curriculum'];
+				$data['yearlevel'] 	= $year_units['yearlevel'];
+				$data['totalunits'] = $year_units['unit'];
+				$this->db->insert('tbl_year_units', $data);
+			}
+		}
+
+
+	}
     function copycurr()
 	{
         $suc 	= '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
@@ -206,6 +235,7 @@ class Lc_curriculum extends CI_Controller
                 );
             $this->db->insert('tbl_curriculumdetail', $data);
         }
+		$this->update_year_units($curriculumid, $yearlevel);
        redirect('/menu/dean-add_curriculum');
     }
 }

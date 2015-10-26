@@ -27,109 +27,6 @@ class Dean extends CI_Controller
         $this->load->view('templates/header_title2');
     }
 
-    function listSubjectSectioning()
-    {
-        $this->head();
-        $this->load->view('dean/list_subjectsectioning');
-        $this->load->view('templates/footer');
-    }
-
-    function ClassAllocation()
-    {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
-
-        $this->load->view('dean/dean_classAllocation');
-        $this->load->view('templates/footer');
-    }
-    function qwe()
-    {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption'
-        ));
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
-
-        $this->load->view('edp/edpScheduling');
-        $this->load->view('templates/footer');
-    }
-
-    function adddelete_Section()
-    {
-        $this->head();
-        $this->load->view('dean/adddelete_section');
-        $this->load->view('templates/footer');
-    }
-
-    function PreEnrolment()
-    {
-        $this->head();
-        $this->load->view('dean/dean_preEnroll');
-        $this->load->view('templates/footer');
-    }
-
-    function enrolmentLegacyGrouping(){
-        $this->load->model('dean/group');
-        $this->load->view('dean/enrolment_grouping');
-        $this->load->view('templates/footer');
-    }
-
-    function updateStudentLoad()
-    {
-        $this->head();
-        $this->load->view('dean/update_studentload');
-        $this->load->view('templates/footer');
-    }
-
-    function listGradingList()
-    {
-        $this->head();
-        $this->load->view('dean/grading_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listINCsubject()
-    {
-        $this->head();
-        $this->load->view('dean/incsubject_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listAttest()
-    {
-        $this->head();
-        $this->load->view('dean/attest_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listCompletedINC()
-    {
-        $this->head();
-        $this->load->view('dean/completedinc_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listSubject()
-    {
-        $this->head();
-        $this->load->view('dean/subject_list');
-        $this->load->view('templates/footer');
-    }
-
-    function listCurriculum()
-    {
-        $this->head();
-        $this->load->view('dean/curriculum_list');
-        $this->load->view('templates/footer');
-    }
-
     function edit_subject($sid, $param = '')
     {
         if(!empty($sid) AND is_numeric($sid))
@@ -419,19 +316,25 @@ class Dean extends CI_Controller
     {
         $this->load->model('dean/student');
 
-        $id  = $this->input->post('search');
-        $col = $this->input->post('col');
-        $id1 = $this->student->existsID($id);
+        $id     = $this->input->post('search');
+        $col    = $this->input->post('col');
+        $office = $this->input->post('office');
+        $id1    = $this->student->existsID($id);
 
         if ($id1)
         {
             extract($id1);
-            if ($cid == $col) {
+            if ($office == 3) {
                 redirect('/dean_evaluation/' . $id);
             }
             else{
-                $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
-                redirect($this->input->post('cur_url'));
+                if ($cid == $col) {
+                    redirect('/dean_evaluation/' . $id);
+                }
+                else{
+                    $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
+                    redirect($this->input->post('cur_url'));
+                }
             }
         }
         else
@@ -448,8 +351,15 @@ class Dean extends CI_Controller
             'dean/student'
         ));
 
+
+        $office     = $this->api->getUserOffice();
         $college    = $this->api->getUserCollege();
-        $s          = $this->student->getStudent($sid,$college);
+        if ($office == 3) {
+            $s = $this->student->getStudent2($sid);
+        }
+        else{
+            $s = $this->student->getStudent($sid,$college);
+        }
         $data       = array();
 
         foreach ($s as $r)
@@ -725,9 +635,13 @@ class Dean extends CI_Controller
             $ctr2 = $ctr2-1;
             $i = $ctr2;
 
-            // Separating multi-scheduled class allocations/subjects
-            // into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
-            // and put them in a new array for conflict checking.
+            /*
+             |---------------------------------------------------------------------
+             | Separating multi-scheduled class allocations/subjects
+             | into individual schedules (eg. ENG 103, T/TH, 8:00-9:00/9:00-10:00)
+             | and put them in a new array for conflict checking.
+             |---------------------------------------------------------------------
+            */
 
             while ($ctr2 != 0) {
                 $ii = $i;
@@ -770,8 +684,12 @@ class Dean extends CI_Controller
                     }
                 }
 
-                // Array that holds checked schedules.
-                // Used to avoid checking schedules that are already checked.
+                /*
+                 |-------------------------------------------------------------
+                 | Array that holds checked schedules.
+                 | Used to avoid checking schedules that are already checked.
+                 |-------------------------------------------------------------
+                */
                 $dup[] = $value;
             }
 
@@ -781,11 +699,6 @@ class Dean extends CI_Controller
 
             // if nstp is not selected in evaluation
             if ($nstp == FALSE) {
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  False.
-                </div>';
-                return false;
                 $check = $this->student->checkNSTP($student, 298);
                 if ($sem == 1) {
                     if (!$check) {
@@ -798,7 +711,7 @@ class Dean extends CI_Controller
                 }
                 else if($sem == 2){
                     if ($check) {
-                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != NULL )) {
+                        if ( ($check['gr'] <= 3.0 AND $check['gr'] > 0.0) || ( $check['gr'] == 0 AND $check['description'] != 'DROPPED' )) {
                             $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
                               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               Please select NSTP subject.
@@ -807,13 +720,6 @@ class Dean extends CI_Controller
                         }
                     }
                 }
-            }
-            else{
-                $this->message1 = '<div class="alert alert-danger alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  True.
-                </div>';
-                return false;
             }
 
             // If there are no conflicts proceed to saving.
@@ -935,13 +841,15 @@ class Dean extends CI_Controller
 
         $this->load->helper('form');
 
-        if($this->input->post('day'))
-        {
+        if ($this->input->post('day')) {
             $ret = $this->ass_subj();
-            if($ret == TRUE)
-            {
+
+            if ($ret == TRUE) {
                 redirect('/menu/dean-add_day_period');
             }
+
+        }  elseif($this->input->post('submit')) {
+            $this->error = '<div class="alert alert-danger" style="text-align:center">Please select a day</div>';
         }
 
         $data['error']  = $this->error;
@@ -960,14 +868,17 @@ class Dean extends CI_Controller
         ));
         $this->load->helper('form');
 
-        if($this->input->post('day'))
-        {
+        if ($this->input->post('day')) {
             $valid = $this->ass_subj();
-            if($valid)
-            {
+
+            if ($valid) {
                 redirect('/assign_room/'.$cid);
             }
+
+        } elseif($this->input->post('submit')) {
+            $this->error = '<div class="alert alert-danger" style="text-align:center">Please select a day</div>';
         }
+
         $data['error']  = $this->error;
         $data['cid']    = $id;
         $this->load->view('edp/assign_subj_room', $data);
@@ -983,20 +894,19 @@ class Dean extends CI_Controller
 
         $days       = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
-        foreach($day as $key => $value)
-        {
+        foreach ($day as $key => $value) {
             $start_time = $this->input->post('start_time'.$value);
             $end_time   = $this->input->post('end_time'.$value);
 
             // check if the user select the noon break time period
-            if($start_time != 11 AND $end_time != 12)
-            {
+            if ($start_time != 11 AND $end_time != 13) {
+
                 //end time period must be greater than the start time period
-                if($end_time > $start_time)
-                {
+                if ($end_time > $start_time) {
+
                     // check if schedule overlaps
-                    if( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 12 AND $end_time <= 27) )
-                    {
+                    if ( ($start_time >= 1 AND $end_time <= 11) OR ($start_time >= 13 AND $end_time <= 28) ) {
+
                         // delete first the days and period before inserting
                         $this->db->query("DELETE FROM tbl_dayperiod WHERE classallocation = $cid");
 
@@ -1005,35 +915,44 @@ class Dean extends CI_Controller
                         $data['from_time']          = $start_time;
                         $data['to_time']            = $end_time;
                         $this->db->insert('tbl_dayperiod', $data);
-                    }
-                    else
-                    {
+                    } else {
+                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Noon Break in <strong>'.$days[$value - 1].'</strong></div>';
 
-                        $this->error = '<div class="alert alert-danger" style="text-align:center">Overlaps Schedule in '.$days[$value - 1].'</div>';
                         return FALSE;
                     }
-                }
-                else
-                {
-                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in '.$days[$value - 1].'</div>';
+
+                } else {
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time Period must be greater than Start Time in <strong>'.$days[$value - 1].'</strong></div>';
+
                     return FALSE;
                 }
-            }
-            else
-            {
-                $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not 12:00 am - 1:00 pm in '.$days[$value - 1].'</div>';
+
+            } else {
+
+                if($start_time == 11 AND $end_time == 13)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">Time Period must not in 12:00 pm - 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+                elseif ($start_time == 11)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">Start Time must not 12:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+                elseif($end_time == 13)
+                    $this->error = '<div class="alert alert-danger" style="text-align:center">End Time must not 1:00 pm in <strong>'.$days[$value - 1].'</strong></div>';
+
                 return FALSE;
             }
+
         }
+
         $this->api->set_session_message('success','Successfully added');
+
         return TRUE;
     }
 
-//------------------------------------------------------------------------
-// Searching function for adding subject in evaluation method
-// (called through ajax @ views/dean/ajax/evaluation.js).
-// A table of searched subjects is displayed after execution.
-//------------------------------------------------------------------------
+/*
+ |------------------------------------------------------------------------
+ | Searching function for adding subject in evaluation method
+ | (called through ajax @ views/dean/ajax/evaluation.js).
+ | A table of searched subjects is displayed after execution.
+ |------------------------------------------------------------------------
+*/
 
     function ajaxEvaluation(){
         $this->load->model('dean/student');
@@ -1053,6 +972,13 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/modal_evaluation', $param);
     }
 
+/*
+ |-------------------------------------------------------------------------
+ | Refreshing function for additional subject table.
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
+
     function ajaxSched(){
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
@@ -1069,10 +995,12 @@ class Dean extends CI_Controller
         $this->load->view('dean/ajax/tbl_AddSubSched', $param);
     }
 
-//-------------------------------------------------------------------------
-// Function for adding subject to additional subject table in evaluation
-// (called through ajax @ views/dean/ajax/evaluation.js)
-//-------------------------------------------------------------------------
+/*
+ |-------------------------------------------------------------------------
+ | Function for adding subject to additional subject table in evaluation
+ | (called through ajax @ views/dean/ajax/evaluation.js)
+ |-------------------------------------------------------------------------
+*/
 
     function appendSubject(){
         $this->load->model('edp/edp_classallocation');
@@ -1186,14 +1114,61 @@ class Dean extends CI_Controller
 
     function save_instructor()
     {
-        $data['instructor'] = $this->input->post('instructor');
-        if($data['instructor'] != 0)
-        {
-            $cl_id      = $this->input->post('cl_id');
+        $instructor         = $this->input->post('instructor');
+        $data['instructor'] = $instructor;
+        $cl_id              = $this->input->post('cl_id');
+        $acam               = $this->session->userdata('assign_sy');
 
-            $this->db->where('id', $cl_id);
-            $this->db->update('tbl_classallocation', $data);
+        $this->load->model(array('edp/edp_classallocation', 'dean/common_dean'));
+
+        $time = $this->edp_classallocation->getPeriod($cl_id);
+        $day  = $this->edp_classallocation->getDayShort($cl_id);
+
+        $all_cl     = $this->common_dean->getAllCl($instructor);
+        $subj_t     = explode(' / ', $time);
+        $subj_day   = explode(' / ', $day);
+
+        $isConflict = false;
+
+        foreach ($all_cl as $cl1) {
+            $dd = $this->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
+
+           // checking for day
+           if (in_array($dd['shortname'], $subj_day)) {
+               // instructor time
+               $f       = $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+               $t       = $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+               $from    = $f['time'];
+               $to      = $t['time'];
+
+               // subject time looping
+               foreach ($subj_t as $key) {
+                   $key1        = explode('-', $key);
+                   $isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
+
+                   if ($isConflict)
+                       break;
+               }
+
+               if ($isConflict)
+                   break;
+           }
         }
+
+        if (!$isConflict) {
+
+            if ($data['instructor'] == 0) {
+                echo 'no';
+            } else {
+                $this->db->where('id', $cl_id);
+                $this->db->update('tbl_classallocation', $data);
+                echo 'ok';
+            }
+
+        } else {
+            echo 'conflict';
+        }
+
     }
 
     function sorts()
@@ -1203,32 +1178,54 @@ class Dean extends CI_Controller
             'dean/subject'
         ));
 
-        $owner 		= $this->api->getUserCollege();
-        $this->db->where('id', $owner);
-        $col = $this->db->get('tbl_college')->row_array();
         $user 		= $this->session->userdata('uid');
         $systemVal 	= $this->api->systemValue();
+        $phaseterm  = $this->session->userdata('assign_sy');
 
-        // $data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a,tbl_subject b
-        //     WHERE a.subject = b.id
-        //     AND b.owner = $owner
-        //     AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+        if ($user != $systemVal['employeeid']) {
+            $owner              = $this->api->getUserCollege();
+            $this->db->where('id', $owner);
+            $col = $this->db->get('tbl_college')->row_array();
 
-        $data['instruc']    = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
-        $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor FROM tbl_classallocation a, tbl_subject b WHERE a.subject = b.id AND academicterm = {$systemVal['currentacademicterm']}")->result_array();
+            $this->db->select('id');
+            $inst   = $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+            $inst1  = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
+            $data['instruc'] = array_merge($inst, $inst1);
+        } else {
+            $data['instruc'] = '';
+        }
+
+
+        if ($user == $systemVal['employeeid']) {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND (b.computersubject = 1 OR b.nstp = 1)
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        } elseif($owner == 1) {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND b.owner = $owner AND b.gesubject = 1
+                AND b.computersubject = 0 AND b.nstp = 0
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        } else {
+            $data['cl']         = $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+                FROM tbl_classallocation a,tbl_subject b
+                WHERE a.subject = b.id
+                AND b.owner = $owner AND b.gesubject = 0
+                AND b.computersubject = 0 AND b.nstp = 0
+                AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+        }
+
         $input              = $this->input->post('sort');
 
-        if($input == 0)
-        {
+        if ($input == 0) {
             $this->load->view('dean/ajax/assigned_ins', $data);
             $this->load->view('dean/ajax/not_ass_ins', $data);
-        }
-        elseif($input == 1)
-        {
+        } elseif ($input == 1)  {
             $this->load->view('dean/ajax/assigned_ins', $data);
-        }
-        elseif($input == 2)
-        {
+        } elseif ($input == 2) {
             $this->load->view('dean/ajax/not_ass_ins', $data);
         }
     }
@@ -1357,6 +1354,13 @@ class Dean extends CI_Controller
         }
     }
 
+/*
+ |---------------------------------------------------------------
+ | Temporary functions for legacy subject grouping.
+ | group and ungroup function. ( to be removed in production )
+ |---------------------------------------------------------------
+*/
+
     function group(){
 
         $subcode = $this->api->get_subcode();
@@ -1409,153 +1413,6 @@ class Dean extends CI_Controller
         </div>');
 
         redirect(base_url('enrolment_grouping'));
-    }
-
-    // --------------------------------------------------------------------------------------
-
-    function create_reg()
-    {
-        $leg = $this->db->query("SELECT * FROM tbl_enrolment_legacy
-                        GROUP BY IDNO , COURSE ORDER BY SCH_YR,SEMESTER")->result_array();
-
-        $template = '';
-        $template .= '<table>
-                        <tr>
-                            <td>Party ID</td>
-                            <td>Academicterm</td>
-                            <td>Date</td>
-                            <td>COURSE</td>
-                            <td>SCH_YR</td>
-                            <td>Semester</td>
-                            <td>Curriculum</td>
-                            <td>Coursemajor</td>
-                            <td style="text-align:center">NAME</td>
-                        </tr>
-        ';
-        foreach($leg as $legacy)
-        {
-            $semester   = ($legacy['SEMESTER'] == 'S') ? '3' : $legacy['SEMESTER'];
-            $year       = explode('-', $legacy['SCH_YR']);
-            $s          = explode('/', $legacy['DATE_ENROL']);
-            $s1         = explode('-', $legacy['IDNO']);
-            $d          = '';
-            $p          = $this->db->get_where('tbl_party', array('legacyid' => $legacy['IDNO']))->row_array();
-            $systart = '';
-            $syend = '';
-            if($s1[0] == $s[2])
-            {
-                $d          = $s[2].'-'.$s[1].'-'.$s[0];
-                $systart = $year[0];
-                $syend = $year[1];
-                //$sy         = $this->db->get_where('tbl_academicterm', array('systart' => $year[0], 'syend' => $year[1], 'term' => $semester))->row_array();
-            }
-            else
-            {
-
-                $this->db->where('student', $p['id']);
-                $i = $this->db->count_all_results('tbl_registration');
-                if($i > 0)
-                {
-                    $d          = $s[2].'-'.$s[1].'-'.$s[0];
-                    $systart = $s[2];
-                    $syend = $systart + 1;
-                }
-                else {
-                    if($semester == 1){
-                        $d = $s1[0].'-06-01';
-                    }
-                    elseif($semester == 2){
-                        $d = $s1[0].'-11-01';
-                    }
-
-                    else{
-                        $d = $s1[0].'-04-01';
-                    }
-                    $systart = $s1[0];
-                    $syend = $systart + 1;
-                }
-            }
-
-            $sy    = $this->db->get_where('tbl_academicterm', array('systart' => $systart, 'syend' => $syend, 'term' => $semester))->row_array();
-
-            if($legacy['COURSE'] == 'BSOA' OR $legacy['COURSE'] == 'BSC')
-            {
-                $coursemajor = 7;
-            }
-            elseif ($legacy['COURSE'] == 'BEED') {
-                $coursemajor = 18;
-            }
-            elseif ($legacy['COURSE'] == 'BSA') {
-                $coursemajor = 21;
-            }
-            elseif ($legacy['COURSE'] == 'BSBA') {
-                // for temporary
-                $coursemajor = 25;
-            }
-            elseif ($legacy['COURSE'] == 'BSCRIM') {
-                $coursemajor = 5;
-            }
-            elseif ($legacy['COURSE'] == 'LLB')
-            {
-                $coursemajor = 19;
-            }
-            elseif($legacy['COURSE'] == 'AB')
-            {
-                $coursemajor = 16;
-            }
-
-            $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
-
-            $cur1 = 0;
-            if($legacy['COURSE'] == 'BSED')
-            {
-                $coursemajor = 17;
-                $cur1 = 55;
-            }
-            else {
-                foreach($acamd as $acams)
-                {
-                    $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE
-                        coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-                    if($c->num_rows() > 0)
-                    {
-                        $cur    = $c->row_array();
-                        $cur1   = $cur['id'];
-                        break;
-                    }
-                }
-            }
-
-            if($cur1 == 0)
-            {
-                if($coursemajor == 21)
-                {
-                    $cur1 = 0;
-                }
-                else {
-                    $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart ASC LIMIT 1 ")->row_array();
-                    $cur1 = $cur['id'];
-                }
-
-            }
-
-            $template .= '<tr>
-                            <td style="width:100px;">'.$p['id'].'</td>
-                            <td style="width:100px;">'.$sy['id'].'</td>
-                            <td style="width:100px;">'.$d.'</td>
-                            <td style="width:100px;">'.$legacy['COURSE'].'</td>
-                            <td style="width:100px;">'.$legacy['SCH_YR'].'</td>
-                            <td style="width:100px;">'.$legacy['SEMESTER'].'</td>
-                            <td style="width:100px;">'.$cur1.'</td>
-                            <td style="width:100px;">'.$coursemajor.'</td>
-                            <td style="width:300px;text-align:justify">'.$legacy['LNAME'].' , '.$legacy['FNAME'].'</td>
-                        </tr>';
-            $data = array('coursemajor' => $coursemajor, 'curriculum' => $cur1, 'date' => $d, 'student' => $p['id'], 'academicterm' => $sy['id'], 'status' => 'A');
-            $this->db->insert('tbl_registration', $data);
-        }
-        $template .= '</table>';
-
-        echo $template;
     }
 
     function change_sy()

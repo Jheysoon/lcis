@@ -6,11 +6,13 @@
 		</div>
 		<div class="panel-body">
 			<?php //echo current_url() ?>
-			<form style="max-width:400px;" action="/find_shift" class="center-block" method="post">
+			<form action="/find_shift" class="form navbar-right" method="post">
 				<input type="text" id="student_search" name="student_search" class="form-control" placeholder="Enter student name,id">
-			    <br/>
-				<input type="submit" value="Search" class="btn btn-primary" style="margin-left:100px;">
-            </form>
+		        <button type="submit" class="btn btn-primary">
+		        	<span class="glyphicon glyphicon-search"></span>
+		        </button>
+		        <br/><br/>
+		    </form>
 			<?php $this->load->view('registrar/disapprove_reg') ?>
 		</div>
 	</div>

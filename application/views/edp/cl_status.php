@@ -2,11 +2,11 @@
     <?php
         $systemVal = $this->api->systemValue();
         if($systemVal['classallocationstatus'] == 99){
-            echo '<br/>Class Allocation program is finished';
+            echo '<strong>Class Allocation program is finished</strong>';
         }
         else{
             $r = $systemVal['classallocationstatus'] + 1;
-            echo 'The classallocation is now in step no. '.$r;
+            echo '<strong>The classallocation is now in step no. '.$r.'</strong>';
         }
     ?>
 </div>

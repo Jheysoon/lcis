@@ -8,7 +8,14 @@
         						 AND tbl_coursemajor.course = tbl_course.id
         						 AND tbl_party.id = tbl_registration.student
         						 AND tbl_course.college = '$col'
-								 	 	 AND tbl_registration.status != 'G'
+								 AND tbl_registration.status != 'G'
+        						 GROUP BY student ORDER BY legacyid DESC")
+            ->num_rows();
+		}
+		function getRows2(){
+        return $this->db->query("SELECT * FROM tbl_registration, tbl_party
+        						 WHERE tbl_party.id = tbl_registration.student
+								 AND tbl_registration.status != 'G'
         						 GROUP BY student ORDER BY legacyid DESC")
             ->num_rows();
 		}
@@ -21,6 +28,17 @@
 	        						 AND tbl_party.id = tbl_registration.student
 	        						 AND tbl_course.college = '$col'
 									 	 	 AND tbl_registration.status != 'G'
+	        						 GROUP BY student  ORDER BY legacyid DESC LIMIT $param, 15");
+	        return $q->result_array();
+	    }
+		function getStud2($param)
+	    {
+	        $q = $this->db->query("SELECT tbl_party.id as pid, legacyid, lastname, firstname,  tbl_course.description as description, tbl_coursemajor.major as major
+	        					   FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+	        						 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+	        						 AND tbl_coursemajor.course = tbl_course.id
+	        						 AND tbl_party.id = tbl_registration.student
+									 AND tbl_registration.status != 'G'
 	        						 GROUP BY student  ORDER BY legacyid DESC LIMIT $param, 15");
 	        return $q->result_array();
 	    }
@@ -47,6 +65,21 @@
 						        						 AND tbl_coursemajor.course = tbl_course.id
 						        						 AND tbl_party.id = tbl_registration.student
 						        						 AND tbl_course.college = '$col'
+						        						 AND(
+						        						 		legacyid LIKE '%$search%'
+						        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'
+						        						 		OR CONCAT(firstname, ' ', lastname) LIKE '%$search%'
+						        						 		OR CONCAT(lastname, ', ', firstname) LIKE '%$search%'
+						        						 		OR CONCAT(firstname, ', ', lastname) LIKE '%$search%'
+						        						 	)
+	        						 					GROUP BY student  ORDER BY legacyid");
+	        return $q->result_array();
+	    }
+		function getStudent2($search)
+	    {
+	        $q = $this->db->query("SELECT legacyid, lastname, firstname
+						        					   FROM tbl_registration, tbl_party
+						        						 WHERE tbl_party.id = tbl_registration.student
 						        						 AND(
 						        						 		legacyid LIKE '%$search%'
 						        						 		OR CONCAT(lastname, ' ', firstname) LIKE '%$search%'

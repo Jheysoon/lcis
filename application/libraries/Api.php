@@ -40,6 +40,25 @@ class Api
 		return $course.' '.$m;
 	}
 
+	function getUserOffice(){
+		$this->CI->load->model('dean/common_dean');
+
+		if(! $this->CI->session->has_userdata('uid'))
+		{
+			redirect(base_url());
+		}
+        $uid = $this->CI->session->userdata('uid');
+
+        $office = $this->CI->common_dean->getUserOffice($uid);
+
+        if ($office) 
+        	$office = $office['office'];
+        else
+        	$office = 'waray';
+
+        return $office;
+	}
+
 	function getUserCollege()
 	{
 		$this->CI->load->model(array(
@@ -86,24 +105,21 @@ class Api
 	function verifyUserAccess($url)
 	{
 		$user = $this->CI->session->userdata('uid');
-		$this->CI->db->where('link',$url);
-		$q = $this->CI->db->get('tbl_option');
-		if($q->num_rows() > 0)
-		{
+		$q = $this->CI->db->query("SELECT * FROM tbl_option WHERE link LIKE '%$url%'");
+
+		if ($q->num_rows() > 0) {
 			$option = $q->row_array();
 			$option_id = $option['id'];
 			$this->CI->db->where('optionid',$option_id);
 			$this->CI->db->where('userid',$user);
-			$count = $this->CI->count_all_results('tbl_useroption');
-			if($count > 0)
-				return 'ok';
-			else
-				return 'error';
+			$count = $this->CI->db->count_all_results('tbl_useroption');
+
+			if($count < 1)
+				show_error('Unathorized Access');
 		}
 		else
-			return 'error';
+			show_error($url);
 	}
-
 
 	// load the user menu
 	function userMenu()
@@ -130,6 +146,10 @@ class Api
 	//$to 	= 3:00,	$to_compare 	= 5:00
     function intersectCheck($from, $from_compare, $to, $to_compare)
 	{
+		if ($from == $from_compare AND $to == $to_compare) {
+			return true;
+		}
+
         $from 			= strtotime($from);
         $from_compare 	= strtotime($from_compare);
         $to 			= strtotime($to);
@@ -273,10 +293,10 @@ class Api
 					$this->CI->db->where('subject', $stu['id']);
 					$cur_detail1 = $this->CI->db->get('tbl_curriculumdetail');
 
-					if ($cur_detail1->num_rows() > 0)
-					{
+					//if ($cur_detail1->num_rows() > 0)
+					//{
 						$student_units += $stu['units'];
-					}
+					//}
 				}
 
 			}
@@ -286,9 +306,11 @@ class Api
 			$h['student_units'] = $student_units;
 			$h['totalunits'] = $units;
 			$this->CI->db->insert('out_exception',$h);
+
 			for ($q=0; $q <= 3 ; $q++)
 			{
 				$m_units = (int) ($sum_units[$q] * ($tolerance / 100));
+
 				if($student_units <= $sum_units[$q])
 				{
 					if($student_units >= $m_units AND $student_units <= $sum_units[$q])
@@ -335,4 +357,21 @@ class Api
 			return "(SUBSTRING(SUBCODE, 1, 2) = 'OA' OR SUBSTRING(SUBCODE, 1, 2) = 'CM')";
 		}
 	}
+<<<<<<< HEAD
+=======
+
+	// function for counting no. of pages in tor
+	function countPage($sid){
+		$this->CI->load->model('registrar/tor');
+
+        $t = $this->CI->tor->countPage($sid);
+        $page = $t/20;
+        if ($t%20 != 0) {
+            $page = intval($page) + 1;
+        }
+
+        return $page;
+	}
+
+>>>>>>> 596b11f578c81488391097000bc8df715f88bb2a
 }

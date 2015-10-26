@@ -88,6 +88,17 @@
                             });
                             e.preventDefault();
                         });
+                        $('.section').change(function() {
+                            param = $(this).data('param');
+                            if(param != $(this).val())
+                            {
+                                $(this).parent().parent().addClass('danger');
+                            }
+                            else
+                            {
+                                $(this).parent().parent().removeClass('danger');
+                            }
+                        });
                         $('.section').keyup(function() {
                             param = $(this).data('param');
                             if(param != $(this).val())
@@ -170,7 +181,13 @@
                 $(document).ready(function(){
                     $('.save_instructor').submit(function(e){
                         $.post('/dean/save_instructor', $(this).serialize(),function(data){
-
+                            if (data == 'conflict') {
+                                alert('Instructor Conflict');
+                            } else if(data == 'no') {
+                                alert('Please select a Instructor');
+                            } else {
+                                alert('Successfully Assigned');
+                            }
                         });
                         e.preventDefault();
                     });

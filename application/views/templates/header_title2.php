@@ -12,7 +12,7 @@
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1 ">
+            data-target="#header1">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -23,7 +23,7 @@
             </div>
           </div>
 
-          <div class="collapse navbar-collapse pull-right">
+          <div class="collapse navbar-collapse pull-right" id = "header1">
             <ul class="nav navbar-nav top-sign navbar-right">
               <li class="logout"><a href="<?php echo base_url('index.php/logout'); ?>">Logout</a></li>
             </ul>
@@ -38,11 +38,6 @@
 	            </p>
           </div>
         </div>
-            <div class="collapse navbar-collapse panel menu-hide" id="bs-example-navbar-collapse-1">
-              <div class="visible-xs">
-
-              </div>
-            </div>
       </nav>
     </div>
     <div class="row">

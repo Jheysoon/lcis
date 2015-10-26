@@ -5,7 +5,7 @@ class Edp_classallocation extends CI_Model
 	function allocByRoom($rid)
 	{
 		$systemVal = $this->api->systemValue();
-		$nxt = $systemVal['nextacademicterm'];
+		$nxt = $systemVal['phaseterm'];
 		$this->db->where('academicterm',$nxt);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
@@ -36,22 +36,26 @@ class Edp_classallocation extends CI_Model
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 1
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND (computersubject = 1 OR nstp = 1)
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 		elseif ($owner == 1)
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND (owner = 1 OR gesubject = 1) AND computersubject = 0
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND (owner = 1 OR gesubject = 1) AND computersubject = 0 AND nstp = 0
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 		else
 		{
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
-				WHERE a.subject = b.id AND academicterm = $acam AND computersubject = 0 AND gesubject = 0 AND owner = $owner
-				ORDER BY b.code ASC, coursemajor ASC")->result_array();
+				WHERE a.subject = b.id AND academicterm = $acam 
+				AND computersubject = 0 AND gesubject = 0 
+				AND owner = $owner AND nstp = 0
+				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
 
 	}
@@ -74,7 +78,7 @@ class Edp_classallocation extends CI_Model
 	function getEmptyRoom()
 	{
 		$systemVal = $this->api->systemValue();
-		$this->db->where('academicterm',$systemVal['nextacademicterm']);
+		$this->db->where('academicterm', $systemVal['phaseterm']);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
 
@@ -178,7 +182,7 @@ class Edp_classallocation extends CI_Model
 	function roomUsed($rid)
 	{
 		$systemVal 	= $this->api->systemValue();
-		$nxt 		= $systemVal['nextacademicterm'];
+		$nxt 		= $systemVal['phaseterm'];
 		$this->db->where('academicterm',$nxt);
 		$this->db->where('classroom',$rid);
 		return $this->db->count_all_results('tbl_classallocation');
@@ -186,7 +190,7 @@ class Edp_classallocation extends CI_Model
 	function getClid($rid)
 	{
 		$systemVal 	= $this->api->systemValue();
-		$nxt 		= $systemVal['nextacademicterm'];
+		$nxt 		= $systemVal['phasterm'];
 		$this->db->where('academicterm',$nxt);
 		$this->db->where('classroom',$rid);
 		return  $this->db->get('tbl_classallocation')->result_array();
@@ -255,17 +259,17 @@ class Edp_classallocation extends CI_Model
 	function count_complete($partyid,$stage)
 	{
 		$systemVal = $this->api->systemValue();
-		$this->db->where('academicterm',$systemVal['currentacademicterm']);
-		$this->db->where('stage',$stage);
-		$this->db->where('completedby',$partyid);
+		$this->db->where('academicterm', $systemVal['phaseterm']);
+		$this->db->where('stage', $stage);
+		$this->db->where('completedby', $partyid);
 		return $this->db->count_all_results('tbl_completion');
 	}
 	function get_status($partyid,$stage)
 	{
 		$systemVal = $this->api->systemValue();
-		$this->db->where('academicterm',$systemVal['currentacademicterm']);
-		$this->db->where('stage',$stage);
-		$this->db->where('completedby',$partyid);
+		$this->db->where('academicterm', $systemVal['phaseterm']);
+		$this->db->where('stage', $stage);
+		$this->db->where('completedby', $partyid);
 		return $this->db->get('tbl_completion')->row_array();
 	}
 
@@ -282,7 +286,7 @@ class Edp_classallocation extends CI_Model
 	function getCM_groupBy()
 	{
 		$sy = $this->api->systemValue();
-		return $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = {$sy['nextacademicterm']} GROUP BY coursemajor")->result_array();
+		return $this->db->query("SELECT * FROM tbl_classallocation WHERE academicterm = {$sy['phaseterm']} GROUP BY coursemajor")->result_array();
 	}
 
 	function getSubjectByCl($cid)
