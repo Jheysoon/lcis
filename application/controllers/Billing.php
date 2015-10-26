@@ -280,6 +280,22 @@ class Billing extends CI_Controller
 						}
 			}
 		}
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
 		// function get_all_enrolment()
 		// {
 		// 	$x = $this->db->query("SELECT * FROM out_enr")->result_array();

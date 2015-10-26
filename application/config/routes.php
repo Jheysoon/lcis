@@ -169,7 +169,12 @@ $route['movement_add']                   = 'movement/add_movement';
 
 $route['payment_override']               = 'audit/payment_override';
 $route['list_billing']                   = 'audit/list_billing';
+$route['view_std/(:any)/(:any)']         = 'audit/view_std/$1/$2';
 $route['view_std/(:any)']                = 'audit/view_std/$1';
+$route['view_over/(:any)/(:any)']        = 'audit/view_override/$1/$2';
+$route['view_over/(:any)']               = 'audit/view_override/$1';
+$route['insert_override']                = 'audit/insert_override';
+
 
 /*
 /*

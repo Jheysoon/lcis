@@ -121,12 +121,13 @@
 		function getT($m, $enrolid)
 		{
 				$l = $this->db->query("SELECT * FROM tbl_billclass WHERE enrolment = '$enrolid'")->row_array();
-				$r = $l['tuition'] * $m;
-				if ($r <= 0) {
-						return $l['netfullpayment'];
-				}else{
-						return $l['installment'] - $r;
-				}
+				
+				// $r = $l['tuition'] * $m;
+				// if ($r <= 0) {
+				// 		return $l['netfullpayment'];
+				// }else{
+				// 		return $l['installment'] - $r;
+				// }
 	}
 		function getAmount($enrolid)
 		{
@@ -512,6 +513,15 @@
 						$this->insertAllValues($accounting, $accountingset, $academicterm, $systemdate, $phase, $billid, $thisbalance, $type, $thisammount, $ts);
 						$datax = array('accountingset' => $accountingset);
 						$this->db->update('tbl_systemvalues',$datax);
+			}
+			function get_billid($id)
+			{
+				$this->db->where('enrolment', $id);
+				$this->db->select('id');
+				$x = $this->db->get('tbl_billclass')->row_array();
+
+				return $x['id'];
+
 			}
 			
 }
