@@ -87,6 +87,8 @@ class Audit extends CI_Controller {
     }
     function insert_override()
     {
+
+        $this->load->model('cashier/assesment');
         $enrolid = $this->input->post('enrolid');
         $academ = $this->input->post('academ');
         $student = $this->input->post('student');
@@ -95,6 +97,18 @@ class Audit extends CI_Controller {
         $amount = $this->input->post('override');
 
 
+        $data = array('academicterm' => $academ,
+                      'enrolment' => $enrolid,
+                      'student' => $student,
+                      'billing' => $billid,
+                      'phase' => $phase,
+                      'amount' => $amount,
+                      'dateapplied' => Date('Y-m-d'),
+                      'approvedby' => $this->session->userdata('uid'));
+
+        $this->assesment->insert_override($data);
+
         echo $enrolid . " | ". $academ . " | ". $student . " | ". $billid . " | ". $phase . " | ". $amount;
+        redirect('/view_over/'.$this->input->post('legacyid'));
     }
 }

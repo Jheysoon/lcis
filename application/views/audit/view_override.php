@@ -131,7 +131,7 @@
 										<?php
 
 											$m  = $this->assesment->getDiscount($student);
-											echo	$this->assesment->getT($m, $enrolid) ;
+											echo $this->assesment->getT($m, $enrolid);
 										?>
 								</td>
 							</tr>
@@ -171,11 +171,11 @@
 					</div>
 									<div class="col-md-12">
 										<table class="table table-bordered">
-										<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
 											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
 											<input type="hidden" name="academ" value="<?php echo $ph['phaseterm'] ?>">
 											<input type="hidden" name="student" value="<?php echo $student ?>">
-											<input type="hiddne" name="billid" value="<?php echo $billid  ?>">
+											<input type="hidden" name="billid" value="<?php echo $billid  ?>">
 											<input type="hidden" name="phase" value="<?php echo $ph['phase'] ?>">
 												<label>INSTALLMENT</label>
 												<tr>
@@ -221,11 +221,7 @@
 																	$over = $this->assesment->get_override($student, $enrolid);
 																 ?>
 															
-																	<input type="text" name="override" class="form-control" style="width:30%;text-align:right">
-																														
-																														
-														
-															
+																	<input type="text" value="<?php echo $over ?>"name="override" class="form-control pull-right" style="width:30%;text-align:right">
 															</td>
 														</tr>
 														<tr>
@@ -333,7 +329,7 @@
 																<?php
 																	$over = $this->assesment->get_override($student, $enrolid);
 																 ?>
-																	<input type="text" name = "override" class="form-control pull-right" style="width:30%;text-align:right">
+																	<input type="text" value="<?php echo $over ?>" name = "override" class="form-control pull-right" style="width:30%;text-align:right">
 
 																
 																
@@ -435,8 +431,10 @@
 																			Amount Override
 																		</td>
 																		<td style="text-align:right">
-																		
-																				<input type="text" name="override" class="form-control pull-right" style="width:30%;text-align:right;">
+																		<?php
+																			$over = $this->assesment->get_override($student, $enrolid);
+																		 ?>
+																				<input type="text" value="<?php echo $over ?>"name="override" class="form-control pull-right" style="width:30%;text-align:right;">
 																			
 																		
 																			

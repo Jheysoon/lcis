@@ -69,7 +69,7 @@
 			$phase = $x['phase'];
 			$xy = $this->get_phase();
 
-			$array = array('student' => $student, 'phase' => $phase, 'academicterm' => $xy);
+			$array = array('student' => $student, 'phase' => $phase, 'enrolment' => $enrolid);
 			$this->db->where($array);
 			$this->db->select('amount');
 			$y = $this->db->get('tbl_paymentoverride')->row_array();
@@ -120,15 +120,55 @@
 		}
 		function getT($m, $enrolid)
 		{
+
+
+			$coursemajor = $this->db->query("SELECT coursemajor FROM tbl_enrolment WHERE id = '$enrolid'")->row_array();
+			$cour = $coursemajor['coursemajor'];
+			$taeka = $this->db->query("SELECT tbl_billclassdetail.amount as am  FROM tbl_fee, tbl_billclassdetail,tbl_billclass
+										WHERE tbl_fee.id = tbl_billclassdetail.fee 
+										AND tbl_billclass.enrolment = '$enrolid' 
+										AND tbl_billclass.id = tbl_billclassdetail.bill 
+										AND  tbl_fee.feetype = 2
+										AND tbl_fee.coursemajor = '$cour'")->row_array();
+		
 				$l = $this->db->query("SELECT * FROM tbl_billclass WHERE enrolment = '$enrolid'")->row_array();
+				if ($m == 0) {
+					$totaldisc = $l['netenrolment'];
+				}else{
+					$disc = $taeka['am'] * $m;	
+					$totaldisc = $l['netenrolment'] - $disc;
+				}
 				
+
+
+
+
+
+				$misc = ($l['netprelim'] * 4) + $totaldisc;
+
+					return  + $misc;
+
+				// return $tui = $this->get_tuition($enrolid);
+				
+
 				// $r = $l['tuition'] * $m;
 				// if ($r <= 0) {
 				// 		return $l['netfullpayment'];
 				// }else{
 				// 		return $l['installment'] - $r;
 				// }
-	}
+		}
+		function get_tuition($enrolid)
+		{
+			$coursemajor = $this->db->query("SELECT coursemajor FROM tbl_enrolment WHERE id = '$enrolid'")->row_array();
+			return $cour = $coursemajor['coursemajor'];
+			$amount = $this->db->query("SELECT tbl_billclassdetail.amount  FROM `tbl_fee`, tbl_billclassdetail,tbl_billclass
+			WHERE tbl_fee.id = tbl_billclassdetail.fee 
+			AND tbl_billclass.enrolment = $enrolid AND tbl_billclass.id = tbl_billclassdetail.bill AND  feetype = 2 AND tbl_fee.coursemajor = $cour")->row_array();
+			return $amount['amount'];
+
+
+		}
 		function getAmount($enrolid)
 		{
 					//$m = 	$this->db->query("SELECT netenrolment FROM tbl_billclass WHERE enrolment = '$enrolid'")->row_array();
@@ -522,6 +562,10 @@
 
 				return $x['id'];
 
+			}
+			function insert_override($data)
+			{
+				$this->db->insert('tbl_paymentoverride', $data);
 			}
 			
 }
