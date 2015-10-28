@@ -46,10 +46,12 @@ class Common_dean extends CI_Model
 	}
 	function getAllCl($user)
 	{
-		$this->db->where('instructor', $user);
+		$sy = $this->session->userdata('assign_sy');
+		$this->db->where('instructor', $user);		
+		$this->db->where('academicterm', $sy);
 		$this->db->select('id');
-		$c = $this->db->get('tbl_classallocation')->result_array();
-		$data = array();
+		$c 		= $this->db->get('tbl_classallocation')->result_array();
+		$data 	= array();
 		foreach($c as $cc)
 		{
 			$this->db->where('classallocation', $cc['id']);
