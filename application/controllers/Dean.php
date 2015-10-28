@@ -992,7 +992,7 @@ class Dean extends CI_Controller
             'subject' => $subject
         );
 
-        $this->load->view('dean/ajax/tbl_AddSubSched', $param);
+        $this->load->view('dean/ajax/tbl_addSubSched', $param);
     }
 
 /*
