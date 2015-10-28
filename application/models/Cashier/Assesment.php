@@ -325,9 +325,9 @@
 			}
 			function totalPayments($billid){
 						$this->db->where('id', $billid);
-						$this->db->select('installment');
+						$this->db->select('netenrolment');
 						$x = $this->db->get('tbl_billclass')->row_array();
-						return $x['installment'];
+						return $x['netenrolment'];
 			}
 			function paymentmovement($am, $paymentid, $billid, $counted)
 			{
@@ -567,5 +567,17 @@
 			{
 				$this->db->insert('tbl_paymentoverride', $data);
 			}
-			
+			function check_pay($enrolid, $phase, $academ, $student)
+			{
+				return $this->db->query("SELECT * FROM tbl_paymentoverride WHERE enrolment = '$enrolid' 
+										AND student = '$student' AND phase = '$phase' AND academicterm = '$academ'")->num_rows();
+			}
+			function update_override($data, $enrolid, $phase, $academ, $student)
+			{
+				$this->db->where('student', $student);
+				$this->db->where('phase', $phase);
+				$this->db->where('academicterm', $academ);
+				$this->db->where('enrolment', $enrolid);
+				$this->db->update('tbl_paymentoverride', $data);
+			}
 }

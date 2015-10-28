@@ -107,15 +107,8 @@
 	<?php
 		$ph = $this->api->systemValue();
 		$phT = $ph['phase'];
-
-
 	?>
-
-
 				<form action="/insert_override" method="POST">
-
-
-
 					<div class="col-md-12">
 						<table class="table table-bordered">
 								<label>Full Payment</label>
@@ -221,7 +214,7 @@
 																	$over = $this->assesment->get_override($student, $enrolid);
 																 ?>
 															
-																	<input type="text" value="<?php echo $over ?>"name="override" class="form-control pull-right" style="width:30%;text-align:right">
+																	<input type="text" value="<?php echo $over ?> "name="override" class="form-control pull-right" style="width:30%;text-align:right">
 															</td>
 														</tr>
 														<tr>
