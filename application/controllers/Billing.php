@@ -32,7 +32,12 @@ class Billing extends CI_Controller
 
     function searcheds()
 	{
-		redirect('/billing/view_studentbilling/'.$this->input->post('stats'));
+		if ($this->session->userdata('audit') == 1) {
+			redirect('/view_over/'.$this->input->post('stats'));
+		}else{
+			redirect('/billing/view_studentbilling/'.$this->input->post('stats'));
+		}
+	
     }
 
 	function posting()

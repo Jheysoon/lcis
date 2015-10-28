@@ -96,18 +96,21 @@ class Audit extends CI_Controller {
         $phase = $this->input->post('phase');
         $amount = $this->input->post('override');
 
+     $data = array('academicterm' => $academ,
+                          'enrolment' => $enrolid,
+                          'student' => $student,
+                          'billing' => $billid,
+                          'phase' => $phase,
+                          'amount' => $amount,
+                          'dateapplied' => Date('Y-m-d'),
+                          'approvedby' => $this->session->userdata('uid'));
 
-        $data = array('academicterm' => $academ,
-                      'enrolment' => $enrolid,
-                      'student' => $student,
-                      'billing' => $billid,
-                      'phase' => $phase,
-                      'amount' => $amount,
-                      'dateapplied' => Date('Y-m-d'),
-                      'approvedby' => $this->session->userdata('uid'));
-
-        $this->assesment->insert_override($data);
-
+        $checkfirst = $this->assesment->check_pay($enrolid, $phase, $academ, $student);
+        if ($checkfirst > 0) {
+           $this->assesment->update_override($data, $enrolid, $phase, $academ, $student);
+        }else{
+           $this->assesment->insert_override($data);
+        }
         echo $enrolid . " | ". $academ . " | ". $student . " | ". $billid . " | ". $phase . " | ". $amount;
         redirect('/view_over/'.$this->input->post('legacyid'));
     }
