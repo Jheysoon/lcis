@@ -239,7 +239,6 @@
 		{
 			$q = $this->db->query("SELECT * FROM tbl_classallocation
 													   WHERE academicterm = '$academicterm'
-													   AND coursemajor = '$course'
 													   AND subject IN(
 													   SELECT subject FROM tbl_curriculumdetail
 													   WHERE curriculum = '$cur'
@@ -250,10 +249,10 @@
 													   WHERE a.classallocation = b.id
 													   AND c.id = a.enrolment
 													   AND c.student = $student
-														 AND (d.id = a.semgrade OR d.id = a.reexamgrade)
-														 AND d.value <= 3.0 AND description IS NULL)
-														 GROUP BY subject
-														 ORDER BY subject");
+														AND (d.id = a.semgrade OR d.id = a.reexamgrade)
+														AND d.value <= 3.0 AND description IS NULL)
+														GROUP BY subject
+														ORDER BY subject");
 			return $q->result_array();
 		}
 		function getClassAloc2($subject, $term)
@@ -291,7 +290,7 @@
 		}
 		function getSched($id, $sub, $coursemajor)
 		{
-			$where = 'academicterm='.$id.' AND subject='.$sub.' AND coursemajor ='.$coursemajor;
+			$where = 'academicterm='.$id.' AND subject='.$sub;
 			$this->db->where($where);
 			$q = $this->db->get('tbl_classallocation');
 			return $q->result_array();
