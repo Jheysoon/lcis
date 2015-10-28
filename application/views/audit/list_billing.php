@@ -1,4 +1,3 @@
-
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
@@ -83,12 +82,7 @@
                                     <td><?php echo $stud_info['lastname'] . ' , ' . $stud_info['firstname'] ?></td>
                                     <td><?php echo $course; ?></td>
                                     <td>
-                                    <?php if ($this->session->userdata('audit') == 1): ?>
-                                        <a class="a-table label label-info" href="/view_over/<?php echo $stud_info['legacyid'] ?>">View Bills&nbsp;<span class="glyphicon glyphicon-file"></span></a>
-                                    <?php else: ?>
-                                        <a class="a-table label label-info" href="/view_std/<?php echo $stud_info['legacyid'] ?>">View Bills&nbsp;<span class="glyphicon glyphicon-file"></span></a>
-                                    <?php endif ?>
-                                      
+                                        <a class="a-table label label-info" href="/view_std/<?php echo $stud_info['legacyid'] ?>">View Bills<span class="glyphicon glyphicon-file"></span></a>
                                     </td>
                                 </tr>
                             <?php

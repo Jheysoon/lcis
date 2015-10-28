@@ -128,20 +128,20 @@
 			function get_fees($coursemajor)
 			{
 					return $this->db->query("SELECT  a.id AS fid, a.feetype, a.rate, b.code, b.description, b.miscellaneous
-																  	FROM  `tbl_feetype` b, tbl_fee a
-																  	WHERE a.feetype = b.id
-																  	AND coursemajor = $coursemajor
-																  	AND a.feetype !=19
-																  	AND feetype !=21")->result_array();
+										  	 FROM  `tbl_feetype` b, tbl_fee a
+										  	 WHERE a.feetype = b.id
+										  	 AND coursemajor = $coursemajor
+										  	 AND a.feetype !=19
+										  	 AND feetype !=21")->result_array();
 			}
 			function get_sub_unit($enid)
 			{
 					$x = $this->db->query("SELECT SUM(units)  as units
-														FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
-														WHERE enrolment =  '$enid'
-														AND b.id = a.classallocation
-														AND c.id = b.subject
-														AND c.nstp =0")->row_array();
+											FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+											WHERE enrolment =  '$enid'
+											AND b.id = a.classallocation
+											AND c.id = b.subject
+											AND c.nstp = 0")->row_array();
 					return $x['units'];
 			}
 			function get_total_subj($enid)
@@ -175,9 +175,9 @@
 			function  get_nstp($enid)
 			{
 				return $this->db->query("SELECT * FROM `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
-																	WHERE enrolment = '$enid'
-																	AND b.id = a.classallocation
-																	AND c.id = b.subject AND nstp = 1")->num_rows();
+										WHERE enrolment = '$enid'
+										AND b.id = a.classallocation
+										AND c.id = b.subject AND nstp = 1")->num_rows();
 			}
 			function check_billclass($enid)
 			{

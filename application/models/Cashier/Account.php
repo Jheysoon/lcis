@@ -11,7 +11,9 @@
     }
     function getAllaccount()
     {
-        return $this->db->query("SELECT * FROM tbl_account WHERE accounttype = 4 AND seq = 0")->num_rows();
+        $x = $this->api->systemValue();
+        $aca = $x['phaseterm'];
+        return $this->db->query("SELECT * FROM tbl_account WHERE accounttype = 4 AND seq = 0 AND academicterm = '$aca'")->num_rows();
     }
     function getAllmovement($limit = 0){
       $acad = $this->api->systemValue();

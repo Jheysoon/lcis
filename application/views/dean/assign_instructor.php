@@ -40,7 +40,7 @@
 					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
 						FROM tbl_classallocation a,tbl_subject b
 	                    WHERE a.subject = b.id
-	                    AND b.owner = $owner AND b.gesubject = 1 
+	                    AND (b.owner = $owner OR b.gesubject = 1)
 	                    AND b.computersubject = 0 AND b.nstp = 0
 	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
 				} else {

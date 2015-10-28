@@ -70,26 +70,32 @@
                                foreach($all_cl as $cl1)
                                {
                                    $dd = $this->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
-                                   // checking for day
-                                   if(in_array($dd['shortname'], $subj_day))
-                                   {
-                                       // instructor time
-                                       $f 		= $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
-                                       $t 		= $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
-                                       $from 	= $f['time'];
-                                       $to 	    = $t['time'];
+                                   
+                                    // dont check if the subject day is TBA
+                                    if ( !in_array('TBA', $subj_day)) {
+                                        
+                                        // checking for day
+                                        if(in_array($dd['shortname'], $subj_day))
+                                        {
+                                            // instructor time
+                                            $f       = $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+                                            $t       = $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+                                            $from    = $f['time'];
+                                            $to      = $t['time'];
 
-                                       // subject time looping
-                                       foreach ($subj_t as $key) {
-                                           $key1 		= explode('-', $key);
-                                           $isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
+                                            // subject time looping
+                                            foreach ($subj_t as $key) {
+                                                $key1        = explode('-', $key);
+                                                $isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
 
-                                           if($isConflict)
-                                               break;
-                                       }
-                                       if($isConflict)
-                                           break;
-                                   }
+                                                if($isConflict)
+                                                    break;
+                                            }
+                                            if($isConflict)
+                                                break;
+                                        }
+                                    }
+                                   
                                }
                                if(!$isConflict)
                                {

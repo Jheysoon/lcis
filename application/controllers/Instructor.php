@@ -6,16 +6,17 @@ class Instructor extends CI_Controller
     function student_grade($id = '')
     {
         $this->load->model('instructor/party');
-        if(!empty($id))
-        {
+
+        if (!empty($id)) {
             $where = array(
                 'id'            => $id,
                 'instructor'    => $this->session->userdata('uid')
             );
+
             $this->db->where($where);
             $r = $this->db->count_all_results('tbl_classallocation');
-            if($r > 0)
-            {
+
+            if ($r > 0) {
                 $this->api->userMenu();
                 $data['id'] = $id;
 
@@ -56,8 +57,8 @@ class Instructor extends CI_Controller
         );
         $this->db->where($where);
         $r = $this->db->count_all_results('tbl_classallocation');
-        if($r > 0)
-        {
+
+        if ($r > 0) {
             $data['semgrade'] = $grade;
             $this->db->where('id', $id);
             $this->db->update('tbl_studentgrade', $data);
@@ -81,12 +82,15 @@ class Instructor extends CI_Controller
         if(!empty($id))
         {
             $this->api->userMenu();
+
+            $data['owner']          = $this->api->getUserCollege();
+
             $this->load->model(array('edp/edp_classallocation', 'dean/subject'));
             $this->db->where('id', $id);
             $this->db->select('firstname,lastname,middlename');
-            $data['name'] = $this->db->get('tbl_party')->row_array();
-            $data['systemVal'] = $this->api->systemValue();
-            $acam = $this->session->userdata('assign_sy');
+            $data['name']       = $this->db->get('tbl_party')->row_array();
+            $data['systemVal']  = $this->api->systemValue();
+            $acam               = $this->session->userdata('assign_sy');
             $where = array(
                         'academicterm'  => $acam,
                         'instructor'    => $id
@@ -117,6 +121,7 @@ class Instructor extends CI_Controller
             $data['subject_id'] = $cur_subj;
             $this->db->update('tbl_enrolment_legacy', $data);
         }
+
         redirect('/match_subject');
     }
 
@@ -127,4 +132,5 @@ class Instructor extends CI_Controller
         $this->db->update('tbl_enrolment_legacy', $data);
         redirect('/match_subject');
     }
+
 }

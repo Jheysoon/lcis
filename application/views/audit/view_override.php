@@ -75,6 +75,8 @@
 		 	$tui = $this->assesment->getTotal($enrolid);
 		 	$get_units = $this->assesment->get_unit($enrolid);
 		 	$units = $get_units;
+
+		$billid = $this->assesment->get_billid($enrolid);
 		;
 		 ?>
 
@@ -106,7 +108,7 @@
 		$ph = $this->api->systemValue();
 		$phT = $ph['phase'];
 	?>
-				<form action="/billing/posting" method="POST">
+				<form action="/insert_override" method="POST">
 					<div class="col-md-12">
 						<table class="table table-bordered">
 								<label>Full Payment</label>
@@ -122,7 +124,7 @@
 										<?php
 
 											$m  = $this->assesment->getDiscount($student);
-											echo	$this->assesment->getT($m, $enrolid) ;
+											echo $this->assesment->getT($m, $enrolid);
 										?>
 								</td>
 							</tr>
@@ -162,6 +164,12 @@
 					</div>
 									<div class="col-md-12">
 										<table class="table table-bordered">
+											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+											<input type="hidden" name="academ" value="<?php echo $ph['phaseterm'] ?>">
+											<input type="hidden" name="student" value="<?php echo $student ?>">
+											<input type="hidden" name="billid" value="<?php echo $billid  ?>">
+											<input type="hidden" name="phase" value="<?php echo $ph['phase'] ?>">
 												<label>INSTALLMENT</label>
 												<tr>
 													<th>ENROLMENT</th>
@@ -202,11 +210,11 @@
 																Amount Override
 															</td>
 															<td style="text-align:right">
-																
-																	<?php
-																		echo $over = $this->assesment->get_override($student, $enrolid);
-																 	?>
+																<?php
+																	$over = $this->assesment->get_override($student, $enrolid);
+																 ?>
 															
+																	<input type="text" value="<?php echo $over ?> "name="override" class="form-control pull-right" style="width:30%;text-align:right">
 															</td>
 														</tr>
 														<tr>
@@ -225,17 +233,17 @@
 
 										</table>
 									</div>
-									<div class="col-md-3 pull-right">
+									<!-- <div class="col-md-3 pull-right">
 												<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
 									</div>
 									<div class="col-md-3 pull-right">
 												<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-									</div>
-									<input type="hidden" name="fullpay" value="<?php echo $fullpay; ?>">
+									</div> -->
+									<!-- <input type="hidden" name="fullpay" value="<?php echo $fullpay; ?>">
 									<input type="hidden" name="type" value="<?php echo $type ?>">
 									<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
 									<input type="hidden" name="total_due" value="<?php echo $ts ?>">
-									<input type="hidden" name="override" value="<?php echo $over ?>">
+									<input type="hidden" name="override" value="<?php echo $over ?>"> -->
 									<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
 									<div class="col-md-12">
 											<br />
@@ -243,15 +251,22 @@
 											<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
 								</div>
 						</form>
-					<a href="/billing/endphase">End of Phase</a>
+					<a href="/insert_override">End of Phase</a>
 						<?php else: ?>
-							<form action="/billing/posting" method="POST">
+							<form action="/insert_override" method="POST">
+									
 									<div class="col-md-12">
 										<table class="table table-bordered">
 											<?php
 											$ph = $this->api->systemValue();
 											$phT = $ph['phase'];
 											 ?>
+											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+											<input type="hidden" name="academ" value="<?php echo $ph['phaseterm'] ?>">
+											<input type="hidden" name="student" value="<?php echo $student ?>">
+											<input type="hiddne" name="billid" value="<?php echo $billid  ?>">
+											<input type="hidden" name="phase" value="<?php echo $ph['phase'] ?>">
 												<label>INSTALLMENT</label>
 												<tr>
 													<th>
@@ -304,11 +319,13 @@
 																Amount Override
 															</td>
 															<td style="text-align:right">
-															<?php 
-															
-																	echo $over = $this->assesment->get_override($student, $enrolid);
+																<?php
+																	$over = $this->assesment->get_override($student, $enrolid);
 																 ?>
-															
+																	<input type="text" value="<?php echo $over ?>" name = "override" class="form-control pull-right" style="width:30%;text-align:right">
+
+																
+																
 															</td>
 														</tr>
 														<td>
@@ -324,17 +341,17 @@
 													</tr>
 											</table>
 											</div>
-											<div class="col-md-3 pull-right">
+											<!-- <div class="col-md-3 pull-right">
 														<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
 											</div>
 											<div class="col-md-3 pull-right">
 														<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-											</div>
-											<input type="hidden" name="type" value="<?php echo $type ?>">
+											</div> -->
+											<!-- <input type="hidden" name="type" value="<?php echo $type ?>">
 											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
 											<input type="hidden" name="total_due" value="<?php echo $ts ?>">
 											<input type="hidden" name="override" value="<?php echo $over ?>">
-											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>"> -->
 											<div class="col-md-12">
 													<br />
 												<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
@@ -344,13 +361,20 @@
 									</form>
 								<?php endif ?>
 									<?php else: ?>
-										<form action="/billing/posting" method="POST">
+										<form action="/insert_override" method="POST">
+											
 												<div class="col-md-12">
 													<table class="table table-bordered">
 														<?php
 														$ph = $this->api->systemValue();
 														$phT = $ph['phase'];
 														 ?>
+														<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+														<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
+														<input type="hidden" name="academ" value="<?php echo $phT['phaseterm'] ?>">
+														<input type="hidden" name="student" value="<?php echo $student ?>">
+														<input type="hiddne" name="billid" value="<?php echo $billid  ?>">
+														<input type="hidden" name="phase" value="<?php echo $phT['phase'] ?>">
 															<tr>
 																<th>
 																	Back Accounts
@@ -400,10 +424,12 @@
 																			Amount Override
 																		</td>
 																		<td style="text-align:right">
+																		<?php
+																			$over = $this->assesment->get_override($student, $enrolid);
+																		 ?>
+																				<input type="text" value="<?php echo $over ?>"name="override" class="form-control pull-right" style="width:30%;text-align:right;">
+																			
 																		
-																				<?php
-																					echo $over = $this->assesment->get_override($student, $enrolid);
-																			 	?>
 																			
 																		</td>
 																	</tr>
@@ -420,23 +446,23 @@
 																</tr>
 													</table>
 												</div>
-												<div class="col-md-3 pull-right">
+												<!-- <div class="col-md-3 pull-right">
 															<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
 															<br /><br />
 															<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
 		 														
-												</div>
+												</div> -->
 												<!-- <div class="col-md-3 pull-right">
 															<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
 												</div>
 												<div class="col-md-3 pull-right">
 															<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
 												</div> -->
-												<input type="hidden" name="type" value="<?php echo $type ?>">
+												<!-- <input type="hidden" name="type" value="<?php echo $type ?>">
 												<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
 												<input type="hidden" name="total_due" value="<?php echo $ts ?>">
 												<input type="hidden" name="override" value="<?php echo $over ?>">
-												<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
+												<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>"> -->
 												<div class="col-md-12">
 														<br />
 													<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>

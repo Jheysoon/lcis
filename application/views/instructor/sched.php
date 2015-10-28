@@ -5,12 +5,10 @@
 			<h4><?php echo $name['firstname'].', '.$name['lastname'].' '.$name['middlename'] ?></h4>
 		</div>
 		<?php
-			$owner 		= $this->api->getUserCollege();
 			$this->db->where('id', $owner);
 			$col = $this->db->get('tbl_college')->row_array();
 
-			$systemVal 	= $this->api->systemValue();
-			$this->db->where('id', $systemVal['currentacademicterm']);
+			$this->db->where('id', $systemVal['phaseterm']);
 			$sy = $this->db->get('tbl_academicterm')->row_array();
 
 			$this->db->where('id', $sy['term']);
@@ -210,6 +208,9 @@
 
 					}
 					$ctr++;
+					if ($ctr > 11)
+						$ctr = 0;
+
 				}
 				$table_day['1'] = $monday;
 				$table_day['2']	= $tuesday;

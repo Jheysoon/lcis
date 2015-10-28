@@ -339,7 +339,6 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-
 	function get_subcode(){
 		$col = $this->getUserCollege();
 		if ($col == 1) {
