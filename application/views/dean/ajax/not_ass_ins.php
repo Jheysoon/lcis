@@ -9,7 +9,7 @@
         <th>Day</th>
         <th>Period</th>
         <th style="width:200px;">Instructor</th>
-        <!-- <th>Status</th> -->
+        <th>Other Instructors</th>
         <th>Action</th>
     </tr>
     <?php
@@ -73,7 +73,7 @@
                                    
                                     // dont check if the subject day is TBA
                                     if ( !in_array('TBA', $subj_day)) {
-                                        
+
                                         // checking for day
                                         if(in_array($dd['shortname'], $subj_day))
                                         {
@@ -114,7 +114,7 @@
                            ?>
                        </select>
                    </td>
-                   <!-- <td id="alloc_<?php echo $class['cl_id'] ?>"><strong><?php echo ($class['instructor'] == 0) ? 'Not Assigned':'Assigned' ?></strong></td> -->
+                   <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary cl_id_other">Choose</a></td>
                    <td>
                        <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                    </td>

@@ -97,6 +97,7 @@
 			<?php } ?>
 			<div id="table-body">
              <?php
+             	echo $this->session->flashdata('message');
 				$this->load->view('dean/ajax/assigned_ins', $data);
 				$this->load->view('dean/ajax/not_ass_ins', $data);
 			?>
@@ -113,4 +114,44 @@
 			 <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" id="myModalIns" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+    	<div class="modal-content modal-sm">
+    		<form action="/dean/ass_ins_other" method="POST">
+	      		<div class="modal-header">
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        		<h4 class="modal-title" id="myModalLabel" style="color:#fff;">Modal title</h4>
+	      		</div>
+	      		<div class="modal-body">
+	  				<label>Instructor</label>
+	  				<input type="hidden" id="cl_id" name="cl_id" value="">
+	      			<select class="form-control" name="instructor">
+	      				<?php 
+		        			$this->db->select('id');
+		        			$inst = $this->db->get_where('tbl_academic', array('college !=' => '' ,'college !=', $owner))->result_array();
+		        			$inst1 = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college != '' ")->result_array();
+		        			$ins12 	= array_merge($inst, $inst1);
+
+		        			foreach($ins12 as $i) {
+		        				$p = $this->db->get_where('tbl_party', array('id' => $i['id']));
+
+		        				if ($p->num_rows() > 0) {
+		        					$pp = $p->row_array();
+		        				?>
+		        			<option value="<?php echo $pp['id'] ?>"><?php echo $pp['firstname'].' '.$pp['lastname'] ?></option>
+		        		<?php
+		        				}
+		        			}
+	        			?>
+	      			</select>
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        		<button type="submit" class="btn btn-primary">Save</button>
+	      		</div>
+      		</form>
+    	</div>
+  	</div>
 </div>
