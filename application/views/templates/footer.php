@@ -284,5 +284,20 @@
                     });
                   });
               </script>
+        <?php 
+            if (uri_string() == 'menu/dean-assign_instructor') {
+                ?>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('.cl_id_other').click(function(){
+                        //alert($(this).data('param'));
+                        $('#cl_id').val($(this).data('param'));
+                    });
+                });
+            </script>
+        <?php
+            }
+
+         ?>
   </body>
 </html>

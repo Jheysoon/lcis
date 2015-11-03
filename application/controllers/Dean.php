@@ -872,7 +872,7 @@ class Dean extends CI_Controller
             $valid = $this->ass_subj();
 
             if ($valid) {
-                redirect('/assign_room/'.$cid);
+                redirect('/assign_room/'.$id);
             }
 
         } elseif($this->input->post('submit')) {
@@ -1159,14 +1159,17 @@ class Dean extends CI_Controller
 
             if ($data['instructor'] == 0) {
                 echo 'no';
+                return 'no';
             } else {
                 $this->db->where('id', $cl_id);
                 $this->db->update('tbl_classallocation', $data);
                 echo 'ok';
+                return 'ok';
             }
 
         } else {
             echo 'conflict';
+            return 'conflict';
         }
 
     }
@@ -1426,6 +1429,26 @@ class Dean extends CI_Controller
     {
         $this->session->set_userdata('assign_sy', $this->input->post('sy'));
         redirect('/menu/dean-assign_instructor');
+    }
+
+    function ass_ins_other()
+    {
+        $response = $this->save_instructor();
+
+        if ($response == 'ok') {
+            // redirect to assign another instructor
+            $this->session->flashdata('message', '<div class="alert alert-success">Successfully Assigned</div>');
+        } elseif ($response == 'conflict') {
+            // redirect and show a error message
+            $this->session->flashdata('message', '<div class="alert alert-danger">Conflict Schedule</div>');
+        } else {
+            // redirect
+            $this->session->flashdata('message', '<div class="alert alert-danger">Please choose a instructor</div>');
+        }
+
+        redirect('/menu/dean-assign_instructor');
+        //echo $this->input->post('cl_id');
+        
     }
 
 }

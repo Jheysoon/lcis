@@ -9,7 +9,7 @@
 					$nxt = $this->api->systemValue();
 					if($nxt['classallocationstatus'] == 4)
 					{
-						$this->db->where('academicterm', $nxt['currentacademicterm']);
+						$this->db->where('academicterm', $nxt['phaseterm']);
 						$this->db->where('stage', 4);
 						$this->db->where('status', 'O');
 						$c = $this->db->get('tbl_completion')->num_rows();
