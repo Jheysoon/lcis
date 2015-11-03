@@ -67,7 +67,7 @@
 					}
 				 ?>
 				<input class="form-control" maxlength="10" type="text" name="sid" placeholder="(e.g. 2014-2015)" required value="<?php echo $yearlevel; ?>" disabled>
-			<br />
+				
 			</div>
 		</div>
 		<?php
@@ -79,7 +79,6 @@
 		$billid = $this->assesment->get_billid($enrolid);
 		;
 		 ?>
-
 
 		<div class="panel-body">
 			<div class="col-md-12">
@@ -124,7 +123,7 @@
 										<?php
 
 											$m  = $this->assesment->getDiscount($student);
-											echo $this->assesment->getT($m, $enrolid);
+											echo number_format($this->assesment->getT($m, $enrolid),2, '.', ',');
 										?>
 								</td>
 							</tr>
@@ -134,7 +133,7 @@
 										</td>
 										<td style="text-align:right">
 												<?php
-														echo $this->assesment->balanceenrolment($student);
+														echo number_format($this->assesment->balanceenrolment($student),2, '.', ',');
 												?>
 										</td>
 									</tr>
@@ -144,7 +143,7 @@
 										</td>
 										<td style="text-align:right">
 													<?php
-															echo '	('.$this->assesment->getAmountPaid($student, $enrolid).')';
+															echo '	('.number_format($this->assesment->getAmountPaid($student, $enrolid),2, '.', ',').')';
 													 ?>
 										</td>
 							</tr>
@@ -156,7 +155,8 @@
 								<td style="text-align:right">
 									<?php
 									$m  = $this->assesment->getDiscount($student);
-									echo	$fullpay = $this->assesment->getT($m, $enrolid) + $this->assesment->balanceenrolment($student) - $this->assesment->getAmountPaid($student, $enrolid);
+									$fullpay = $this->assesment->getT($m, $enrolid) + $this->assesment->balanceenrolment($student) - $this->assesment->getAmountPaid($student, $enrolid);
+									echo number_format($this->assesment->getT($m, $enrolid) + $this->assesment->balanceenrolment($student) - $this->assesment->getAmountPaid($student, $enrolid), 2,'.',',')
 									?>
 								</td>
 						</tr>
@@ -181,7 +181,7 @@
 														</td>
 														<td style="text-align:right">
 																<?php
-																	echo $this->assesment->balanceenrolment($student);
+																	echo number_format($this->assesment->balanceenrolment($student),2, '.', ',');
 																?>
 														</td>
 													</tr>
@@ -191,7 +191,7 @@
 														</td>
 														<td style="text-align:right">
 																<?php
-																		echo $this->assesment->getAmount($enrolid);
+																		echo number_format($this->assesment->getAmount($enrolid),2, '.', ',');
 																 ?>
 														</td>
 													</tr>
@@ -201,7 +201,7 @@
 															</td>
 															<td style="text-align:right">
 																		<?php
-																				echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																				echo '	('.number_format($this->assesment->getAmountPaid($student, $enrolid),2, '.', ',') .')';
 																		 ?>
 															</td>
 														</tr>
@@ -247,11 +247,12 @@
 									<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
 									<div class="col-md-12">
 											<br />
-										<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
+											<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
 											<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+											 <a href="/student-movement/view_movement/<?php echo $legacyid ?>" target="_blank" class="btn btn-success">View Movement</a>
 								</div>
 						</form>
-					<a href="/insert_override">End of Phase</a>
+					<!-- <a href="/insert_override">End of Phase</a> -->
 						<?php else: ?>
 							<form action="/insert_override" method="POST">
 									
@@ -286,7 +287,7 @@
 
 																		$bal = $this->assesment->balance($student) - $this->assesment->getAmountNetPre($enrolid);
 																		if ($bal >= 0) {
-																			echo $bal;
+																			echo number_format($bal,2, '.', ',');
 																		}else{
 																			echo $bal = 0;
 																		}
@@ -299,7 +300,7 @@
 														</td>
 														<td style="text-align:right">
 															<?php
-																	echo $this->assesment->getAmountNetPre($enrolid);
+																	echo number_format($this->assesment->getAmountNetPre($enrolid),2, '.', ',');
 															 ?>
 														</td>
 													</tr>
@@ -310,7 +311,7 @@
 															</td>
 															<td style="text-align:right">
 																		<?php
-																				echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																				echo '	('.number_format($this->assesment->getAmountPaid($student, $enrolid),2, '.', ',') .')';
 																		 ?>
 															</td>
 														</tr>
@@ -355,9 +356,10 @@
 											<div class="col-md-12">
 													<br />
 												<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
-													<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+												<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+												 <a href="/student-movement/view_movement/<?php echo $legacyid ?>" target="_blank" class="btn btn-success">View Movement</a>
 										</div>
-										<a href="/billing/endphase">End of Phase</a>
+										<!-- <a href="/billing/endphase">End of Phase</a> -->
 									</form>
 								<?php endif ?>
 									<?php else: ?>
@@ -391,7 +393,7 @@
 
 																					$bal = $this->assesment->balance($student) - $this->assesment->getAmountNetPre($enrolid);
 																					if ($bal >= 0) {
-																						echo $bal;
+																						echo number_format($bal,2, '.', ',');
 																					}else{
 																						echo $bal = 0;
 																					}
@@ -404,7 +406,7 @@
 																	</td>
 																	<td style="text-align:right">
 																		<?php
-																				echo $this->assesment->getAmountNetPre($enrolid);
+																				echo number_format($this->assesment->getAmountNetPre($enrolid),2, '.', ',');
 																		 ?>
 																	</td>
 																</tr>
@@ -415,7 +417,7 @@
 																		</td>
 																		<td style="text-align:right">
 																					<?php
-																							echo '	('.$this->assesment->getAmountPaid($student, $enrolid) .')';
+																							echo '	('.number_format($this->assesment->getAmountPaid($student, $enrolid),2, '.', ',') .')';
 																					 ?>
 																		</td>
 																	</tr>
@@ -466,15 +468,16 @@
 												<div class="col-md-12">
 														<br />
 													<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
-														<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+													<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
+													 <a href="/student-movement/view_movement/<?php echo $legacyid ?>" target="_blank" class="btn btn-success">View Movement</a>
 											</div>
-											<a href="/billing/endphase">End of Phase</a>
+											<!-- <a href="/billing/endphase">End of Phase</a> -->
 										</form>
 
 											<?php endif ?>
 											<?php endif ?>
 				<?php else: ?>
-					<a href="/billing/endphase">End of Phase</a>
+					<!-- <a href="/billing/endphase">End of Phase</a> -->
 						<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>All Back Accunts Paid</div>
 				<?php endif; ?>
 			</div>
