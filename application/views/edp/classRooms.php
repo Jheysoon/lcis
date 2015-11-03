@@ -6,7 +6,7 @@
 				<h4>Class Allocation For The SY:
 				<?php 
 					$systemVal 	= $this->api->systemValue();
-					$acam 		= $this->academicterm->findById($systemVal['nextacademicterm']);
+					$acam 		= $this->academicterm->findById($systemVal['phaseterm']);
 					echo $acam['systart'].' - '.$acam['syend'].' Term:'.$this->academicterm->getLongName($acam['term']); 
 				 ?>
 				</h4>		
