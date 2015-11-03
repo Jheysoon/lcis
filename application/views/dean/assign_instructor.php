@@ -14,8 +14,7 @@
 				$sy = $this->db->get('tbl_academicterm')->row_array();
 
 				if ($systemVal['classallocationstatus'] == 99) {
-			 ?>
-            <?php
+			
             	$user 		= $this->session->userdata('uid');
             	if ($user != $systemVal['employeeid']) {
             		$owner 		= $this->api->getUserCollege();
@@ -129,20 +128,22 @@
 	  				<input type="hidden" id="cl_id" name="cl_id" value="">
 	      			<select class="form-control" name="instructor">
 	      				<?php 
-		        			$this->db->select('id');
-		        			$inst = $this->db->get_where('tbl_academic', array('college !=' => '' ,'college !=', $owner))->result_array();
-		        			$inst1 = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college != '' ")->result_array();
-		        			$ins12 	= array_merge($inst, $inst1);
+	      					if ($systemVal['classallocationstatus'] == 99) {
+			        			$this->db->select('id');
+			        			$inst = $this->db->get_where('tbl_academic', array('college !=' => '' ,'college !=', $owner))->result_array();
+			        			$inst1 = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college != '' ")->result_array();
+			        			$ins12 	= array_merge($inst, $inst1);
 
-		        			foreach($ins12 as $i) {
-		        				$p = $this->db->get_where('tbl_party', array('id' => $i['id']));
+			        			foreach($ins12 as $i) {
+			        				$p = $this->db->get_where('tbl_party', array('id' => $i['id']));
 
-		        				if ($p->num_rows() > 0) {
-		        					$pp = $p->row_array();
+			        				if ($p->num_rows() > 0) {
+			        					$pp = $p->row_array();
 		        				?>
 		        			<option value="<?php echo $pp['id'] ?>"><?php echo $pp['firstname'].' '.$pp['lastname'] ?></option>
 		        		<?php
-		        				}
+			        				}
+			        			}
 		        			}
 	        			?>
 	      			</select>

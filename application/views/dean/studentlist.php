@@ -21,7 +21,7 @@
 	<div class="col-md-9 body-container">
 		<div class="panel p-body">
 		<div class="panel-heading search">
-				<h4>Student Information Management: List of Students <?php echo $office; ?></h4>
+				<h4>Student Information Management: List of Students</h4>
 		</div>
 
         <div class="panel-body">

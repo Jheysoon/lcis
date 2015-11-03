@@ -872,7 +872,7 @@ class Dean extends CI_Controller
             $valid = $this->ass_subj();
 
             if ($valid) {
-                redirect('/assign_room/'.$cid);
+                redirect('/assign_room/'.$id);
             }
 
         } elseif($this->input->post('submit')) {

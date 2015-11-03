@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Author: Oliver
+ * Author: vladz
  * Date: July 2015
  * Type: Model
  */
@@ -20,17 +20,17 @@ class Tor extends CI_Model
     }
 
     // query for getting student page limits
-    // function getStud($param)
-    // {
-    //     $q = $this->db->query("SELECT tbl_party.id as pid, legacyid, lastname, firstname,  tbl_course.description as description, tbl_coursemajor.major as major
-    //                            FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
-    //                              WHERE tbl_registration.coursemajor = tbl_coursemajor.id
-    //                              AND tbl_coursemajor.course = tbl_course.id
-    //                              AND tbl_party.id = tbl_registration.student
-    //                              AND tbl_registration.status = 'A'
-    //                              GROUP BY student  ORDER BY legacyid DESC, tbl_registration.id DESC LIMIT $param, 15");
-    //     return $q->result_array();
-    // }
+    function getStud($param)
+    {
+        $q = $this->db->query("SELECT tbl_party.id as pid, legacyid, lastname, firstname,  tbl_course.description as description, tbl_coursemajor.major as major
+                               FROM tbl_registration, tbl_coursemajor, tbl_course, tbl_party
+                                 WHERE tbl_registration.coursemajor = tbl_coursemajor.id
+                                 AND tbl_coursemajor.course = tbl_course.id
+                                 AND tbl_party.id = tbl_registration.student
+                                 AND tbl_registration.status = 'A'
+                                 GROUP BY student  ORDER BY legacyid DESC, tbl_registration.id DESC LIMIT $param, 15");
+        return $q->result_array();
+    }
 
     // query for searching specific student
     function getStudent($search)
