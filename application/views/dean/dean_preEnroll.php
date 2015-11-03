@@ -79,9 +79,14 @@
 				<input class="form-control" type="text" readonly value="<?php echo $sy['term']; ?>">
 			</div>
 
-			<div class="col-md-6 ">
+			<div class="col-md-3 ">
 				<label class="lbl-data">YEAR LEVEL</label>
 				<input class="form-control" type="text" readonly value="<?php echo $level.' YEAR '; ?>">
+			</div>
+
+			<div class="col-md-3 ">
+				<label class="lbl-data">CURRICULUM</label>
+				<input class="form-control" type="text" readonly value="<?php echo $cur; ?>">
 			</div>
 
 			<div class="col-md-6 ">
@@ -89,27 +94,23 @@
 				<input class="form-control" type="text" readonly value="<?php echo $description; ?>">
 			</div>
 
-			<div class="col-md-4 ">
-				<label class="lbl-data">CURRICULUM</label>
-				<input class="form-control" type="text" readonly value="<?php echo $cur; ?>">
-			</div>
-
-			<div class="col-md-2">
+			<div class="col-md-6">
 						<br/><br/>
-                        <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $pid; ?>/<?php echo $dte; ?>/<?php echo $cid; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
+                        <a class="btn btn-primary" href="/lc_curriculum/viewcurriculum/<?php echo $pid; ?>/<?php echo $dte; ?>/<?php echo $cid; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
+			            <a class="btn btn-primary" href="/registrar/permanentRecord/<?php echo $id; ?>" target="_blank" style="margin-right:10px">View Permanent Record</a>
 			</div>
 			<div class="col-md-12">&nbsp;</div>
 		<div class="col-md-12" id="tbl-eval">
 			<?php
-				$data['term'] = $term;
-				$data['id'] = $id;
-				$data['student'] = $pid;
-				$data['units'] = $un['unit'];
-				$data['coursemajor'] = $cid;
-				$data['course'] = $course;
-				$data['lvl'] = $lvl;
-				$data['cur'] = $curriculum;
-				$data['sem'] = $sy['term'];
+				$data['term'] 			= $term;
+				$data['id'] 			= $id;
+				$data['student'] 		= $pid;
+				$data['units'] 			= $un['unit'];
+				$data['coursemajor'] 	= $cid;
+				$data['course'] 		= $course;
+				$data['lvl'] 			= $lvl;
+				$data['cur'] 			= $curriculum;
+				$data['sem'] 			= $sy['term'];
 				$this->load->view('dean/ajax/tbl_evaluation', $data);
 			?>
 		</div>
