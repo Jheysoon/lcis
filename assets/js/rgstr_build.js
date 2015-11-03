@@ -7,32 +7,6 @@ $(document).ready(function(){
 
     add_subj();
 
-    var student_list = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit:8,
-        remote: '/registrar/search_sub/%QUERY'
-    });
-    student_list.initialize();
-    //student_list.clearRemoteCache();
-    $('#add_subj').typeahead(
-        {
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'student_list',
-            displayKey: 'value',
-            templates:{
-                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                '<span>{{name}}</span>'),
-                empty:['<div class="alert alert-danger">Unable to find subject</div>']
-            },
-            source: student_list.ttAdapter()
-        }
-    );
-
     function add_subj()
     {
         $('.frm-add-subj').submit(function (e){

@@ -599,7 +599,14 @@
 	                                                                <input type="hidden" name="enrolmentid" value="<?php echo $enrolmentid; ?>"/>
 	                                                                <input type="hidden" name="schoolid" value="<?php echo $school; ?>"/>
 	                                                                <label>Subject</label><br/>
-                                                                    <input type="text" class="form-control" id="add_subj" style="width:250px;" name="add_subj" value="" placeholder="Type subject descriptive title or code">
+                                                                    <select class="form-control" name="add_subj">
+                                                                        <?php
+                                                                            $s = $this->db->get('tbl_subject')->result();
+                                                                            foreach ($s as $subject) {
+                                                                         ?>
+                                                                        <option value="<?php echo $subject->id ?>"><?php echo $subject->code.' | '.$subject->descriptivetitle ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
 	                                                                <br/>Grade<br/>
 	                                                                <select name="sub_grade" class="form-control">
 	                                                                    <?php
