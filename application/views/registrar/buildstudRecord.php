@@ -439,51 +439,25 @@
                                             	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'):
                                             ?>
                                             		<label><?php echo $value; ?></label>
-                                            <?php
-                                                else:
-                                                    $style = '';
-                                                    if($value == 0.00 AND $remarks != 'NO GRADE')
-                                                    {
-                                                        $style = 'disabled';
-                                                    }
-                                            ?>
-                                            	<select class="form-control" name="edit_sub_grade" <?php echo $style; ?>>
+                                            <?php else: ?>
+                                            	<select class="form-control" name="edit_sub_grade" <?php echo ($value == 0.00 AND $remarks != 'NO GRADE') ? 'disabled' : '' ?>>
                                                     <?php
                                                         $all_grade = $this->grade->getAllGrade();
-                                                        foreach($all_grade as $ag)
-                                                        {
-                                                            if($ag['id'] == $semgrade){
-                                                                ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
-                                                                <?php
-                                                                    if($ag['value']  == 0.00){
-                                                                        echo $ag['description'];
-                                                                    }
-                                                                    else{
-                                                                        echo $ag['value'];
-                                                                    }
-                                                                ?>
-                                                                </option>
-                                                            <?php
-                                                            }
-                                                            else{
-                                                                ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                                <?php
-                                                                    if($ag['value']  == 0.00){
-                                                                        echo $ag['description'];
-                                                                    }
-                                                                    else{
-                                                                        echo $ag['value'];
-                                                                    }
-                                                                ?>
-                                                                </option>
-                                                            <?php
-                                                            }
 
+                                                        foreach ($all_grade as $ag) {
+                                                            ?>
+                                                            <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" <?php echo ($ag['id'] == $semgrade) ? 'selected' : '' ?>>
+                                                            <?php
+                                                                if ($ag['value']  == 0.00)
+                                                                    echo $ag['description'];
+                                                                else
+                                                                    echo $ag['value'];
+                                                            ?>
+                                                            </option>
+                                                        <?php
                                                         }
-                                                    ?>
-                                                    <?php endif ?>
+                                                endif;
+                                            ?>
                                                 </select>
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
@@ -500,39 +474,19 @@
                                                 <?php }
                                                     $all_grade = $this->grade->getAllGrade();
 
-                                                    foreach($all_grade as $ag)
-                                                    {
-                                                        if($ag['value'] != 0.00 OR ($ag['value'] == 0.00 AND $ag['description'] == 'NO GRADE'))
-                                                        {
-                                                            if($ag['id'] == $reexam_grade)
-                                                            {
+                                                    foreach ($all_grade as $ag) {
+
+                                                        if ($ag['value'] != 0.00 OR ($ag['value'] == 0.00 AND $ag['description'] == 'NO GRADE')) {
                                                     ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" selected>
-                                                                    <?php
-                                                                      if ($ag['value'] == 0.00) {
-                                                                        echo $ag['description'];
-                                                                      }
-                                                                      else{
-                                                                        echo $ag['value'];
-                                                                      }
-                                                                    ?>
-                                                                </option>
+                                                        <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>" <?php echo ($ag['id'] == $reexam_grade) ? 'selected' : '' ?>>
+                                                            <?php
+                                                              if ($ag['value'] == 0.00)
+                                                                echo $ag['description'];
+                                                              else
+                                                                echo $ag['value'];
+                                                            ?>
+                                                        </option>
                                                     <?php
-                                                            }
-                                                            else{
-                                                                ?>
-                                                                <option value="<?php echo 'stugrade-'.$sid.'_subj-'.$ag['id'].'_enroll-'.$enrolmentid; ?>">
-                                                                    <?php
-                                                                      if ($ag['value'] == 0.00) {
-                                                                        echo $ag['description'];
-                                                                      }
-                                                                      else{
-                                                                        echo $ag['value'];
-                                                                      }
-                                                                     ?>
-                                                                </option>
-                                                        <?php
-                                                            }
                                                         }
                                                     }
                                                 ?>
@@ -550,7 +504,6 @@
 
                                     <?php if ($position != 'C' or $position != 'B'): ?>
 	                                    <tr>
-
 	                                        <td colspan="6">
 	                                            <div class="modal fade" id="myModal<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	                                                <div class="modal-dialog modal-sm">
@@ -605,25 +558,23 @@
 	                                                </div>
 	                                            </div>
                                                 <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
-                                                                 <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                        <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
                                                 <?php endif ?>
-
 	                                           </td>
 	                                    </tr>
  							<?php endif ?>
                                 <?php endforeach ?>
-
                             </table>
                         <?php endforeach ?>
                         <br />
                         <?php }
-                            if(!is_array($result))
-                            {
+                            if (!is_array($result)) {
                                 $partyid = $id;
                             }
+
 	                        $getflag = $this->common->theflag($partyid);
                             $status = $this->log_student->getLatestTm($partyid);
-                        if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
+                            if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
 
                             ?>
                             <!-- <div class="pull-right"> -->
@@ -641,7 +592,7 @@
                                     <input type="submit" class="btn btn-primary" value="Return to Clerk">
                                 </form>
                             <!-- </div> -->
-                        <?php elseif($this->session->userdata('status') != 'S'): ?>
+                        <?php elseif ($this->session->userdata('status') != 'S'): ?>
                                   <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="flag_status" value="S"/>
@@ -656,15 +607,14 @@
             <!--</div>-->
             <!-- /div class panel -->
             <?php
-                if(!is_array($result))
-                {
+                if (!is_array($result)) {
                     $partyid = $id;
                 }
-                if($position != 'C' or $position != 'B')
-                {
+
+                if ($position != 'C' or $position != 'B') {
                     $status = $this->party->getStatus($partyid);
-                    if($status['status'] != 'E' AND $status['status'] != 'S')
-                    {
+                    
+                    if ($status['status'] != 'E' AND $status['status'] != 'S') {
                         $this->log_student->insert_not_exists($partyid,'O');
                     }
                 }
