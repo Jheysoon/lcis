@@ -11,46 +11,46 @@ class Registrar extends CI_Controller
 {
     function search_by_id($id)
     {
-        // clean the url since the request is a get method
-        $id = urldecode($id);
-
-        $data = array();
-
         $this->load->model('registrar/party');
-        $results_id = $this->party->searchId($id);
-        $stat = $this->session->userdata('status');
 
-        foreach ($results_id as $r)
-        {
+        // clean the url since the request is a get method
+        $id         = urldecode($id);
+        $data       = array();
+        $results_id = $this->party->searchId($id);
+        $stat       = $this->session->userdata('status');
+
+        foreach ($results_id as $r) {
             $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname']);
         }
+
         echo json_encode($data);
     }
-    function search_forpayment($id){
-        $id = urldecode($id);
-        $data = array();
+
+    function search_forpayment($id)
+    {
         $this->load->model('registrar/party');
+        $id         = urldecode($id);
+        $data       = array();
         $results_id = $this->party->search_pay($id);
 
-        foreach ($results_id as $r)
-        {
+        foreach ($results_id as $r) {
             $data[] = array('value' => $r['legacyid'], 'name' => $r['firstname'] . ' ' . $r['lastname']);
         }
-        echo json_encode($data);
 
+        echo json_encode($data);
     }
 
     ///
     function search_sub($txt)
     {
-        $txt = urldecode($txt);
-        $data = array();
+        $txt    = urldecode($txt);
+        $data   = array();
+        $r      = $this->db->query("SELECT name, descriptivetitle FROM tbl_subject WHERE code LIKE '%$txt%' OR descriptivetitle LIKE '%$txt%' ORDER BY code LIMIT 10 ")->result_array();
 
-        $r = $this->db->query("SELECT * FROM tbl_subject WHERE code LIKE '%$txt%' OR descriptivetitle LIKE '%$txt%' ORDER BY code LIMIT 10 ")->result_array();
-        foreach($r as $rr)
-        {
+        foreach ($r as $rr) {
             $data[] = array('value' =>  $rr['code'], 'name' => $rr['descriptivetitle']);
         }
+
         echo json_encode($data);
     }
 
@@ -84,21 +84,41 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    function permanentRecord($id)
+    {
+        $this->session->set_userdata('prec', 1);
+
+        $this->load->model(array(
+            'registrar/course', 'home/useroption',
+            'registrar/grade', 'registrar/common',
+            'registrar/subject', 'registrar/party',
+            'registrar/academicterm', 'registrar/log_student',
+            'registrar/enrollment','registrar/studentgrade',
+            'registrar/registration','registrar/curriculum',
+            'registrar/curriculumdetail'
+        ));
+
+        $this->api->userMenu();
+
+        $data['id'] = $id;
+        // $this->load->view('registrar/view_permanent_record', $data);
+        $this->load->view('registrar/buildstudRecord', $data);
+    }
+
     function search()
     {
         $this->load->model('registrar/party');
-        $id = $this->input->post('search');
-        $id1 = $this->party->existsID($id);
-        if ($id1 > 0)
-        {
+        $id     = $this->input->post('search');
+        $id1    = $this->party->existsID($id);
+
+        if ($id1 > 0) {
             redirect('/rgstr_build/' . $id);
-        }
-        else
-        {
+        } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger">Unable to find student id</div>');
             redirect($this->input->post('cur_url'));
         }
     }
+
     function save_grade()
     {
         $enrolmentid    = $this->input->post('enrolmentid');
@@ -125,11 +145,11 @@ class Registrar extends CI_Controller
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
         $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid")->num_rows();
-        if ($q < 1)
-        {
+
+        if ($q < 1) {
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
-            if (is_numeric($id))
-            {
+
+            if (is_numeric($id)) {
                 $data['subj']           = $subjid;
                 $data['grade_user']     = $grade;
                 $data['enrolmentid']    = $enrolmentid;
@@ -139,17 +159,10 @@ class Registrar extends CI_Controller
                 $this->log_student->insert_not_exists($p['student'],'E');
                 $data['sid']            = $this->studentgrade->save_grade_returnId($id, $grade, $enrolmentid);
                 $this->load->view('registrar/ajax/add_subject', $data);
-            }
-            else
-            {
+            } else
                 echo 'error';
-            }
-        }
-        else
-        {
+        } else
             echo 'Subject Already exists';
-        }
-
     }
 
     function insert_flag()
@@ -163,11 +176,11 @@ class Registrar extends CI_Controller
         $flag_status    = $this->input->post('flag_status');
 
         $curtm = $this->log_student->getLatestTm($partyid);
-        if($flag_status == 'C')
-        {
+
+        if ($flag_status == 'C') {
             $tm = $this->input->post('tm');
-            if ($tm == $curtm)
-            {
+
+            if ($tm == $curtm) {
                 $this->add_flag($partyid,$flag_status);
                 $data['user']       = $this->session->userdata('uid');
                 $data['dte']        = date('Y-m-d');
@@ -175,18 +188,14 @@ class Registrar extends CI_Controller
                 $data['status']     = $flag_status;
                 $data['tm']         = time();
                 $this->db->insert('log_student');
-            }
-            else
-            {
+            } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger">
                 <h4>A update has been occurred before you submit.
                     Please review again and then submit</h4>
             </div>');
                 redirect($url);
             }
-        }
-        else
-        {
+        } else {
             $this->log_student->ins_stat($partyid, $flag_status);
             $this->add_flag($partyid, $flag_status);
         }
@@ -208,11 +217,11 @@ class Registrar extends CI_Controller
             'registrar/log_student',
             'registrar/enrollment'
         ));
-        $val = $this->input->post('val');
-        $cat = explode('_', $val);
-        $i = 0;
-        foreach ($cat as $c)
-        {
+        $val    = $this->input->post('val');
+        $cat    = explode('_', $val);
+        $i      = 0;
+
+        foreach ($cat as $c) {
             $v = explode('-', $c);
             if ($i == 0)
                 $studgrade = $v[1];
@@ -222,20 +231,16 @@ class Registrar extends CI_Controller
                 $enroll = $v[1];
             $i++;
         }
-        $q = $this->enrollment->getID($enroll);
-        $pid = $q['student'];
 
-        $stat = $this->log_student->chkStatus($pid);
-        if($stat['status'] != 'S')
-        {
+        $q      = $this->enrollment->getID($enroll);
+        $pid    = $q['student'];
+        $stat   = $this->log_student->chkStatus($pid);
+
+        if ($stat['status'] != 'S') {
             $this->log_student->insert_not_exists($q['student'], 'E');
             $this->studentgrade->update_grade($studgrade, $grade_id);
-        }
-        else
-        {
+        } else
             echo 'This record is already submitted';
-        }
-
     }
 
     function delete_record()
@@ -245,11 +250,10 @@ class Registrar extends CI_Controller
             'registrar/enrollment'
         ));
 
-        $val = $this->input->post('value');
-
-        $cat = explode('-', $val);
-        $enrolid = $cat[0];
-        $studgrade = $cat[1];
+        $val        = $this->input->post('value');
+        $cat        = explode('-', $val);
+        $enrolid    = $cat[0];
+        $studgrade  = $cat[1];
         $this->studentgrade->delete_grade($studgrade);
         $this->enrollment->update_record($enrolid);
     }
@@ -782,6 +786,8 @@ class Registrar extends CI_Controller
                     $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
                     $this->db->insert('tbl_useraccess', $acc);
 
+                    // insert tbl_account, useroption
+
                     if ($this->db->trans_status() === FALSE)
                     {
                         $this->db->trans_rollback();
@@ -861,16 +867,14 @@ class Registrar extends CI_Controller
 
     function save_photo()
     {
-        $id = $this->input->post('id');
-        $image = $this->input->post('image');
-        $bin = base64_decode($image);
-
+        $id     = $this->input->post('id');
+        $image  = $this->input->post('image');
+        $bin    = base64_decode($image);
         $result = file_put_contents('./assets/images/profile/'.$id.'.jpg', $bin);
-        if(!$result)
-        {
+
+        if (!$result) {
             die('Could not save image! Check file permissions.');
-        }
-        else {
+        } else {
             $d['pic'] = $id.'.jpg';
             $this->db->where('id', $id);
             $this->db->update('tbl_party', $d);
@@ -893,8 +897,8 @@ class Registrar extends CI_Controller
         $this->db->where('student', $id);
         $this->db->where('status', 'E');
         $tt = $this->db->count_all_results('tbl_registration');
-        if($tt < 1)
-        {
+
+        if ($tt < 1) {
             $data['id'] = $id;
             $this->db->where('id', $id);
             $this->db->select('firstname,lastname,middlename,placeofbirth,dateofbirth,emailaddress,legacyid,sex');
@@ -932,8 +936,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('pob', 'Place of Birth', 'required');
         $this->form_validation->set_rules('mailadd', 'Mailing Address', 'required');
 
-        if($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $data['id']         = set_value('id');
             $data['fname']      = set_value('fname');
             $data['lname']      = set_value('lname');
@@ -948,9 +951,7 @@ class Registrar extends CI_Controller
             $data['major']      = set_value('major');
             $this->api->userMenu();
             $this->load->view('registrar/update_registration', $data);
-        }
-        else
-        {
+        } else {
             $this->load->model('registrar/registration');
             $t['firstname']     = ucwords($this->input->post('firstname'));
             $t['lastname']      = ucwords($this->input->post('lastname'));
@@ -995,13 +996,11 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
 
-        if($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             $d['course'] = $this->input->post('course');
             $d['major'] = $this->input->post('major');
             $this->load->view('registrar/shiftee', $d);
-        }
-        else {
+        } else {
             $this->db->where('course', $this->input->post('course'));
             $this->db->where('major', $this->input->post('major'));
             $this->db->select('id');
@@ -1025,13 +1024,13 @@ class Registrar extends CI_Controller
         $this->db->where('id', $tt1['currentacademicterm']);
         $this->db->select('systart');
         $tt = $this->db->get('tbl_academicterm')->row_array();
-        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();foreach($acamd as $acams)
-        {
+        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+
+        foreach ($acamd as $acams) {
             $c = $this->db->query("SELECT * FROM tbl_curriculum
                                     WHERE coursemajor = $coursemajor
                                     AND academicterm = {$acams['id']}");
-            if($c->num_rows() > 0)
-            {
+            if ($c->num_rows() > 0) {
                 $cur    = $c->row_array();
                 return $cur['id'];
             }
@@ -1140,7 +1139,8 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/error_message', $data);
     }
 
-    function print_fields($sid){
+    function print_fields($sid)
+    {
         $arr = array('sid' => $sid );
         $this->load->model('registrar/tor');
         $this->load->view('templates/header');
@@ -1195,18 +1195,18 @@ class Registrar extends CI_Controller
 
         $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
         $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
-        if($this->form_validation->run() === FALSE)
-        {
+
+        if ($this->form_validation->run() === FALSE) {
             $this->load->view('legacy_matching');
-        }
-        else {
+        } else {
             $legacy = $this->input->post('legacy');
-            foreach($legacy as $c)
-            {
+
+            foreach ($legacy as $c) {
                 $data['subject_id'] = $this->input->post('tbl_subject');
                 $this->db->where('grouping', $c);
                 $this->db->update('tbl_enrolment_legacy', $data);
             }
+
             $this->load->view('legacy_matching');
         }
 

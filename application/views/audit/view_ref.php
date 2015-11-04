@@ -2,6 +2,8 @@
   $enrolmentid = $this->account->getEnrolmentId($refid);
   $unit = $this->account->getTotalUnit($enrolmentid);
   $getBillDetail = $this->account->getBillDetail($refid);
+  $misc = $this->account->get_miscellaneous($refid);
+  $t_units= $this->account->get_sub_unit($enrolmentid);
   $total = 0;
   $counter = 0;
   $getStud = $this->account->getstudents($refid);
@@ -44,16 +46,31 @@
    <!-- Table for Payments -->
    <div class="table-responsive col-md-6" style="padding:0;">
        <table class="table table-bordered">
-         <tr ><td colspan="3" style="background-color:#2f5836"><h4>Bill Detail</h4></td></tr>
+         <tr ><td colspan="4" style="background-color:#2f5836"><h4>Bill Detail</h4></td></tr>
            <tr>
                <th class="tbl-header-main">Description</th>
-               <!-- <th class="tbl-header-main">Units</th> -->
+               <th class="tbl-header-main">Units</th>
                <th style="text-align:right" class="tbl-header-main">Rate</th>
                <th style="text-align:right" class="tbl-header-main">Total</th>
+           </tr>
+            <tr>
+              <td>MISCELLANEOUS</td>
+              <td></td>
+              <td style="text-align:right"><?php echo number_format($misc,2);
+                                                  $total += $misc; 
+                                                    $counter += 1;
+                                                  ?></td>
            </tr>
            <?php foreach ($getBillDetail as $x): ?>
              <tr>
                <td><?php echo $x['description']; ?></td>
+               <?php if ($x['description'] == 'TUITION' OR $x['description'] == 'MATRICULATION'): ?>
+                 <td>
+                    <?php echo $t_units ?>
+                 </td>
+               <?php else: ?>
+                <td></td>
+               <?php endif ?>
                <!-- <td><?php echo $unit; ?></td> -->
                <td style="text-align:right"><?php echo $x['rate']; ?></td>
                <td style="text-align:right"><?php echo number_format($x['amount'], 2); ?></td>
@@ -62,13 +79,15 @@
            $total += $x['amount'];
            $counter += 1;
          endforeach; ?>
+
+       
         <?php for ($i=$counter; $i < 5;  $i++) { ?>
               <tr>
                 <td colspan="4">&nbsp;</td>
               </tr>
         <?php  } ?>
            <tr>
-               <td colspan="2" style="background-color:#2f5836"><h4>Total</h4></td>
+               <td colspan="3" style="background-color:#2f5836"><h4>Total</h4></td>
                <td  style="text-align:right;background-color:#2f5836"><h4 style="padding:0"><strong><?php echo number_format($total, 2); ?><label>&nbsp;&nbsp;&nbsp;</label></strong></h4></td>
            </tr>
        </table>
