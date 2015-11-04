@@ -194,20 +194,11 @@
                                <option>Select</option>
                                 <?php
                                     $hs = $this->course->getAllSchool('secondary');
-                                    foreach($hs as $h)
-                                    {
-                                        if($h['firstname'] == $getSecondary['secondary'] or $h['id'] == $secondary)
-                                        {
-                                        ?>
-                                            <option value="<?php echo $h['id']; ?>" selected><?php echo $h['firstname']; ?></option>
-                                        <?php
-                                            }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $h['id']; ?>"><?php echo $h['firstname']; ?></option>
-                                        <?php
-                                            }
+
+                                    foreach ($hs as $h) {
+                                    ?>
+                                        <option value="<?php echo $h['id']; ?>" <?php echo ($h['firstname'] == $getSecondary['secondary'] OR $h['id'] == $secondary) ? 'selected' : '' ?>><?php echo $h['firstname']; ?></option>
+                                    <?php
                                     }
                                 ?>
                         </select>
