@@ -168,7 +168,13 @@
     }
     function getBillDetail($refid)
     {
-        return $this->db->query("SELECT b.rate, c.description, a.amount FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype GROUP BY c.description ORDER by c.id")->result_array();
+        return $this->db->query("SELECT b.rate, c.description, a.amount FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype AND c.miscellaneous = 0 GROUP BY c.description ORDER by c.id")->result_array();
+    }
+    function get_miscellaneous($refid)
+    {
+        $x = $this->db->query("SELECT sum(amount) as misc FROM tbl_billclassdetail a, tbl_fee b, tbl_feetype c WHERE bill = '$refid' AND b.id = a.fee and c.id = b.feetype AND c.miscellaneous = 1 ")->row_array();
+        return $x['misc'];
+
     }
     function getTotalUnit($enr)
     {
@@ -207,5 +213,15 @@
     function getUnit($enrolmentid)
     {
         return $this->db->query("SELECT totalunit, numberofsubject FROM tbl_enrolment WHERE id = '$enrolmentid'")->row_array();
+    }
+    function get_sub_unit($enid)
+    {
+        $x = $this->db->query("SELECT SUM(units)  as units
+                    FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+                    WHERE enrolment =  '$enid'
+                    AND b.id = a.classallocation
+                    AND c.id = b.subject
+                    AND c.nstp = 0")->row_array();
+        return $x['units'];
     }
 }
