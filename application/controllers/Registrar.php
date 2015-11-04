@@ -867,16 +867,14 @@ class Registrar extends CI_Controller
 
     function save_photo()
     {
-        $id = $this->input->post('id');
-        $image = $this->input->post('image');
-        $bin = base64_decode($image);
-
+        $id     = $this->input->post('id');
+        $image  = $this->input->post('image');
+        $bin    = base64_decode($image);
         $result = file_put_contents('./assets/images/profile/'.$id.'.jpg', $bin);
-        if(!$result)
-        {
+
+        if (!$result) {
             die('Could not save image! Check file permissions.');
-        }
-        else {
+        } else {
             $d['pic'] = $id.'.jpg';
             $this->db->where('id', $id);
             $this->db->update('tbl_party', $d);
@@ -899,8 +897,8 @@ class Registrar extends CI_Controller
         $this->db->where('student', $id);
         $this->db->where('status', 'E');
         $tt = $this->db->count_all_results('tbl_registration');
-        if($tt < 1)
-        {
+
+        if ($tt < 1) {
             $data['id'] = $id;
             $this->db->where('id', $id);
             $this->db->select('firstname,lastname,middlename,placeofbirth,dateofbirth,emailaddress,legacyid,sex');
@@ -938,8 +936,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('pob', 'Place of Birth', 'required');
         $this->form_validation->set_rules('mailadd', 'Mailing Address', 'required');
 
-        if($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $data['id']         = set_value('id');
             $data['fname']      = set_value('fname');
             $data['lname']      = set_value('lname');
@@ -954,9 +951,7 @@ class Registrar extends CI_Controller
             $data['major']      = set_value('major');
             $this->api->userMenu();
             $this->load->view('registrar/update_registration', $data);
-        }
-        else
-        {
+        } else {
             $this->load->model('registrar/registration');
             $t['firstname']     = ucwords($this->input->post('firstname'));
             $t['lastname']      = ucwords($this->input->post('lastname'));
@@ -1001,13 +996,11 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
 
-        if($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == FALSE) {
             $d['course'] = $this->input->post('course');
             $d['major'] = $this->input->post('major');
             $this->load->view('registrar/shiftee', $d);
-        }
-        else {
+        } else {
             $this->db->where('course', $this->input->post('course'));
             $this->db->where('major', $this->input->post('major'));
             $this->db->select('id');
@@ -1031,13 +1024,13 @@ class Registrar extends CI_Controller
         $this->db->where('id', $tt1['currentacademicterm']);
         $this->db->select('systart');
         $tt = $this->db->get('tbl_academicterm')->row_array();
-        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();foreach($acamd as $acams)
-        {
+        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
+
+        foreach ($acamd as $acams) {
             $c = $this->db->query("SELECT * FROM tbl_curriculum
                                     WHERE coursemajor = $coursemajor
                                     AND academicterm = {$acams['id']}");
-            if($c->num_rows() > 0)
-            {
+            if ($c->num_rows() > 0) {
                 $cur    = $c->row_array();
                 return $cur['id'];
             }
@@ -1201,18 +1194,18 @@ class Registrar extends CI_Controller
 
         $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
         $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
-        if($this->form_validation->run() === FALSE)
-        {
+
+        if ($this->form_validation->run() === FALSE) {
             $this->load->view('legacy_matching');
-        }
-        else {
+        } else {
             $legacy = $this->input->post('legacy');
-            foreach($legacy as $c)
-            {
+
+            foreach ($legacy as $c) {
                 $data['subject_id'] = $this->input->post('tbl_subject');
                 $this->db->where('grouping', $c);
                 $this->db->update('tbl_enrolment_legacy', $data);
             }
+
             $this->load->view('legacy_matching');
         }
 
