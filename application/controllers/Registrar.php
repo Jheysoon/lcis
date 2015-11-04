@@ -786,6 +786,8 @@ class Registrar extends CI_Controller
                     $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
                     $this->db->insert('tbl_useraccess', $acc);
 
+                    // insert tbl_account, useroption
+
                     if ($this->db->trans_status() === FALSE)
                     {
                         $this->db->trans_rollback();
