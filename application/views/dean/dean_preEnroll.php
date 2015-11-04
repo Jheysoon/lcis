@@ -1,4 +1,5 @@
 <?php
+	$office = $this->api->getUserOffice();
 	$res = $this->student->getStudInfo($id);
 	extract($res);
 	if ($major != 0) {
@@ -97,7 +98,9 @@
 			<div class="col-md-6">
 						<br/><br/>
                         <a class="btn btn-primary" href="/lc_curriculum/viewcurriculum/<?php echo $pid; ?>/<?php echo $dte; ?>/<?php echo $cid; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
-			            <a class="btn btn-primary" href="/registrar/permanentRecord/<?php echo $id; ?>" target="_blank" style="margin-right:10px">View Permanent Record</a>
+                        <?php if ($office == 3): ?>
+                        	<a class="btn btn-primary" href="/rgstr_build/<?php echo $id; ?>" target="_blank" style="margin-right:10px">View Permanent Record</a>
+			            <?php endif ?>
 			</div>
 			<div class="col-md-12">&nbsp;</div>
 		<div class="col-md-12" id="tbl-eval">
