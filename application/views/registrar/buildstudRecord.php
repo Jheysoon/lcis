@@ -234,40 +234,26 @@
                                 <select class="form-control" name="course">
                                 <?php
                                     $course = $this->course->allCourse();
-                                    foreach($course as $c)
-                                    {
-                                        if($c['courseid'] == $specific['courseid'])
-                                        {
+
+                                    foreach ($course as $c) {
+
+                                        if ($c['courseid'] == $specific['courseid']) {
                                             $course_id = $c['courseid'];
+                                        }
                                         ?>
-                                            <option value="<?php echo $c['courseid']; ?>" selected><?php echo $c['description']; ?></option>
+                                        <option value="<?php echo $c['courseid']; ?>" <?php echo ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
                                         <?php
-                                           }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
-                                        <?php
-                                            }
                                     }
-                                ?>
-                                 <?php
+
                                     $course = $this->course->allcoursm();
                                     foreach($course as $c)
                                     {
-                                        if($c['courseid'] == $specific['courseid'])
-                                        {
+                                        if ($c['courseid'] == $specific['courseid']) {
                                             $course_id = $c['courseid'];
+                                        }
                                         ?>
-                                            <option value="<?php echo $c['courseid']; ?>" selected><?php echo $c['description']; ?></option>
+                                            <option value="<?php echo $c['courseid']; ?>" <?php ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
                                         <?php
-                                           }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $c['courseid']; ?>"><?php echo $c['description']; ?></option>
-                                        <?php
-                                            }
                                     }
                                 ?>
                             </select>
