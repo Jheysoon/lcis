@@ -54,7 +54,7 @@ class Api
         if ($office) 
         	$office = $office['office'];
         else
-        	$office = 'waray';
+        	$office = '';
 
         return $office;
 	}

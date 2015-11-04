@@ -44,7 +44,7 @@
         }
         function search_pay($id){
              $party_id = $this->db->query("SELECT * FROM tbl_party
-                                              WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%'")->result_array();
+                                              WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%' GROUP BY legacyid")->result_array();
            /*  $p = $party_id->result_array();
             $this->db->where('student', $p['id']);
             $x = $this->db->get('tbl_enrolment');*//*

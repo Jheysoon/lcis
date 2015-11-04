@@ -247,8 +247,7 @@
                      </div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Course</strong>
-                        <?php   $specific = $this->course->specifics($partyid);
-                                   echo  $specific['courseid']; ?>
+                        <?php   $specific = $this->course->specifics($partyid);?>
                             <?php if ($position != 'C' or $position != 'B'): ?>
                                 <select class="form-control" name="course">
                                 <?php
@@ -659,7 +658,7 @@
                         if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
 
                             ?>
-                            <div class="pull-right">
+                            <!-- <div class="pull-right"> -->
                                 <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
@@ -667,13 +666,13 @@
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
                                     <input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Are you sure?')">
                                 </form>
-                                <span class="clearfix"></span>
-                                <form action="/registrar/insert_flag" method="POST" style="margin-top:5px;">
+                                <!-- <span class="clearfix"></span> -->
+                                <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="flag_status" value="R"/>
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
                                     <input type="submit" class="btn btn-primary" value="Return to Clerk">
                                 </form>
-                            </div>
+                            <!-- </div> -->
                         <?php elseif($this->session->userdata('status') != 'S'): ?>
                                   <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
