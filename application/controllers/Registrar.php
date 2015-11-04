@@ -1139,7 +1139,8 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/error_message', $data);
     }
 
-    function print_fields($sid){
+    function print_fields($sid)
+    {
         $arr = array('sid' => $sid );
         $this->load->model('registrar/tor');
         $this->load->view('templates/header');
