@@ -375,7 +375,7 @@
 														<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
 														<input type="hidden" name="academ" value="<?php echo $phT['phaseterm'] ?>">
 														<input type="hidden" name="student" value="<?php echo $student ?>">
-														<input type="hiddne" name="billid" value="<?php echo $billid  ?>">
+														<input type="hidden" name="billid" value="<?php echo $billid  ?>">
 														<input type="hidden" name="phase" value="<?php echo $phT['phase'] ?>">
 															<tr>
 																<th>

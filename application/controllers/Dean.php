@@ -568,6 +568,7 @@ class Dean extends CI_Controller
         $this->load->model('dean/student');
         $this->load->model('edp/edp_classallocation');
         $ctr = $this->input->post('count');
+        $course = $this->input->post('coursemajor');
         $ctr2 = 1;
         $unit = 0;
         $subCount = 0;
@@ -584,7 +585,7 @@ class Dean extends CI_Controller
                 $sub = $this->student->getSubject($this->input->post('rad-'.$ctr));
 
                 // check nstp if selected
-                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                if ($sub['subID'] == 298 || $sub['subID'] == 299) {
                     $nstp = TRUE;
                 }
                 $unit = $unit + $units;
@@ -605,7 +606,7 @@ class Dean extends CI_Controller
                 $sub = $this->student->getSubject($cid);
 
                 // check nstp if selected
-                if ($sub['subID'] == 198 || $sub['subID'] == 199) {
+                if ($sub['subID'] == 298 || $sub['subID'] == 299) {
                     $nstp = TRUE;
                 }
 
@@ -669,19 +670,21 @@ class Dean extends CI_Controller
             foreach ($individual as $key => $value) {
                 $p = explode(",", $value);
                 foreach ($compare as $key2 => $value2) {
-                    $p2 = explode(",", $value2);
-                    if ($key != $key2 && !in_array($value2, $dup)) {
-                        if ($p[1] == $p2[1]) {
-                            $t1 = explode("-", $p[2]);
-                            $t2 = explode("-", $p2[2]);
-                            $res = $this->api->intersectCheck($t1[0], $t2[0], $t1[1], $t2[1]);
-                            if($res == TRUE){
-                                $sub1 = $this->student->getSubs($p[0]);
-                                $sub2 = $this->student->getSubs($p2[0]);
-                                $message = $message.$sub1['code']." ".$p[1]." ".$p[2]."  -  ".$sub2['code']." ".$p2[1]." ".$p2[2]."<br/>";
+                    // if ($p[1] != 'TBA' OR $p2[1] != 'TBA') {
+                        $p2 = explode(",", $value2);
+                        if ($key != $key2 && !in_array($value2, $dup)) {
+                            if ($p[1] == $p2[1] AND ($p[1] != 'TBA' OR $p2[1] != 'TBA')) {
+                                $t1 = explode("-", $p[2]);
+                                $t2 = explode("-", $p2[2]);
+                                $res = $this->api->intersectCheck($t1[0], $t2[0], $t1[1], $t2[1]);
+                                if($res == TRUE){
+                                    $sub1 = $this->student->getSubs($p[0]);
+                                    $sub2 = $this->student->getSubs($p2[0]);
+                                    $message = $message.$sub1['code']." ".$p[1]." ".$p[2]."  -  ".$sub2['code']." ".$p2[1]." ".$p2[2]."<br/>";
+                                }
                             }
                         }
-                    }
+                    // }
                 }
 
                 /*
@@ -698,7 +701,7 @@ class Dean extends CI_Controller
             $sem     = $this->input->post('sem');
 
             // if nstp is not selected in evaluation
-            if ($nstp == FALSE) {
+            if ($nstp == FALSE AND $course != 6) {
                 $check = $this->student->checkNSTP($student, 298);
                 if ($sem == 1) {
                     if (!$check) {
