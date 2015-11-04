@@ -28,8 +28,14 @@
             {
                 ?>
                 <script src="/assets/js/typeahead.bundle.js"></script>
-                 <script src="/assets/js/handlebars-v3.0.1.js"></script>
+                <script src="/assets/js/handlebars-v3.0.1.js"></script>
+                <script src="/assets/js/select2.js"></script>
                 <script src="/assets/js/rgstr_build.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('select[name=add_subj]').select2();
+                    });
+                </script>
         <?php
             }
             if(in_array('registrar-student_list',$str1) OR in_array('registrar-update_student', $str1)
@@ -284,7 +290,7 @@
                     });
                   });
               </script>
-        <?php 
+        <?php
             if (uri_string() == 'menu/dean-assign_instructor') {
                 ?>
             <script type="text/javascript">

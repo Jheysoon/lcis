@@ -12,22 +12,20 @@
 				$phaseterm = $this->session->userdata('assign_sy');
 				$this->db->where('id', $phaseterm);
 				$sy = $this->db->get('tbl_academicterm')->row_array();
+				$owner 		= $this->api->getUserCollege();
 
 				if ($systemVal['classallocationstatus'] == 99) {
 			
             	$user 		= $this->session->userdata('uid');
             	if ($user != $systemVal['employeeid']) {
-            		$owner 		= $this->api->getUserCollege();
 					$this->db->where('id', $owner);
 					$col = $this->db->get('tbl_college')->row_array();
+				}
 
-					$this->db->select('id');
-					$inst 	= $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
-					$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
-					$data['instruc'] = array_merge($inst, $inst1);
-            	} else {
-            		$data['instruc'] = '';
-            	}
+				$this->db->select('id');
+				$inst 	= $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+				$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
+				$data['instruc'] = array_merge($inst, $inst1);
                 
 				if ($user == $systemVal['employeeid']) {
 					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor 
