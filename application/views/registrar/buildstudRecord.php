@@ -149,23 +149,18 @@
                         <strong class="strong">Elementary</strong>
                         <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="elementary">
-                               <option>Select</option>
+                                <option>Select</option>
                                 <?php
                                     $elementary = $this->course->getAllSchool('elementary');
-                                    foreach($elementary as $el)
-                                    {
-                                        if($el['firstname'] == $getElementary['elementary'] or $el['id'] == $elementaryss)
-                                        {
+
+                                    foreach ($elementary as $el) {
                                         ?>
-                                            <option value="<?php echo $el['id']; ?>" selected><?php echo $el['firstname']; ?></option>
+                                        <option value="<?php echo $el['id']; ?> "
+                                            <?php // what is $elementaryss doing ?? undefined variable or not ?? ?>
+                                            <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $elementaryss) ? 'selected' : '' ?>>
+                                            <?php echo $el['firstname']; ?>
+                                        </option>
                                         <?php
-                                            }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $el['id']; ?>"><?php echo $el['firstname']; ?></option>
-                                        <?php
-                                            }
                                     }
                                 ?>
                         </select>
