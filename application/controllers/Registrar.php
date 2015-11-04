@@ -40,6 +40,7 @@ class Registrar extends CI_Controller
 
     }
 
+    ///
     function search_sub($txt)
     {
         $txt = urldecode($txt);
@@ -115,10 +116,7 @@ class Registrar extends CI_Controller
             'registrar/enrollment'
         ));
 
-        $this->db->where('code', $subjid);
-        $r = $this->db->get('tbl_subject')->row_array();
-
-        $data['subject']        = $r['id'];
+        $data['subject']        = $subjid;
         $data['academicterm']   = $academicid;
         //$count = $this->classallocation->whereCount($data);
 
@@ -126,13 +124,13 @@ class Registrar extends CI_Controller
         // the studentgrade table will be a mess
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
-        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject={$r['id']}")->num_rows();
+        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid")->num_rows();
         if ($q < 1)
         {
-            $id = $this->classallocation->insert_ca_returnId($r['id'], $academicid);
+            $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
             if (is_numeric($id))
             {
-                $data['subj']           = $r['id'];
+                $data['subj']           = $subjid;
                 $data['grade_user']     = $grade;
                 $data['enrolmentid']    = $enrolmentid;
                 $data['academicterm']   = $academicid;

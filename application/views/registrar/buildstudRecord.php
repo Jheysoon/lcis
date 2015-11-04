@@ -45,13 +45,13 @@
 
 		</div>
 		<div class="panel-body">
-            <?php echo $this->session->flashdata('message'); ?>
             <?php
+                echo $this->session->flashdata('message');
+
                 if (isset($_SESSION['infos'])) {
                     print_r(extract($_SESSION['infos']));
                    unset($_SESSION['infos']);
                 }
-
              ?>
             <form action="/registrar/update_studinfo" method="POST">
                 <input type="hidden" name ="partyid" value="<?php echo $partyid; ?>">
@@ -73,17 +73,14 @@
                         <strong class="strong">Last Name</strong>
                         <input type="text" class="form-control" name="lastname" value="<?php echo $lastname ?>" required>
                     </div>
-
                     <div class="col-md-12 pad-bottom-10">
-                                <strong class="strong">Date of Birth</strong>
-                                <input  type="date" name="dob" class="form-control datepicker" value="<?php echo $dob; ?>">
+                        <strong class="strong">Date of Birth</strong>
+                        <input  type="date" name="dob" class="form-control datepicker" value="<?php echo $dob; ?>">
                     </div>
                      <div class="col-md-12 pad-bottom-10">
-                                <strong class="strong">Place of Birth</strong>
-                                <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
+                        <strong class="strong">Place of Birth</strong>
+                        <input type="text" name="pob" class="form-control" value="<?php echo $pob; ?>">
                     </div>
-
-
 
     				<!-- <div class="col-md-12 pad-bottom-10">
     					<strong class="strong">Year Level 		: </strong>
@@ -92,15 +89,12 @@
     				 -->
     			</div>
                 <div class="col-md-5">
-
                     <div class="col-md-12 pad-bottom-10">
-
-                                <strong class="strong">Address : </strong>
-                                <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
-                                <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
-
+                        <strong class="strong">Address : </strong>
+                        <input type="text" name="address1" class="form-control" value="<?php echo $address1; ?>">
+                        <input type="text" name="address2"class="form-control" value="<?php echo $address2; ?>">
                     </div>
-                      <div class="col-md-9 pad-bottom-10">
+                    <div class="col-md-9 pad-bottom-10">
                         <strong class="strong">Primary</strong>
                         <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="primary">
@@ -226,25 +220,27 @@
                         <?php echo $h['firstname']; ?>
                     <?php endif ?>
                     </div>
-                     <div class="col-md-3">
-                          <strong class="strong">Year</strong>
-                          <select class="form-control" name="highschoolyear">
-                              <option></option>
-                                  <?php
-                                  $x = date('Y');
-                                  $loop = 1950;
-                                   while ($loop < $x) { ?>
-                                   <?php if ($getSecondary['completionsecondary'] == $x or $x == $completionsecondary): ?>
-                                       <option selected><?php echo $x; ?></option>
-                                       <?php else: ?>
-                                        <option><?php echo $x; ?></option>
-                                   <?php endif ?>
+                    <div class="col-md-3">
+                        <strong class="strong">Year</strong>
+                        <select class="form-control" name="highschoolyear">
+                            <option></option>
+                            <?php
+                                $x = date('Y');
+                                $loop = 1950;
 
-                                 <?php
+                                while ($loop < $x) {
+                                    if ($getSecondary['completionsecondary'] == $x or $x == $completionsecondary):
+                            ?>
+                               <option selected><?php echo $x; ?></option>
+                               <?php else: ?>
+                                <option><?php echo $x; ?></option>
+                                <?php endif ?>
+
+                                <?php
                                   $x--;
-                                 } ?>
-                          </select>
-                     </div>
+                                } ?>
+                        </select>
+                    </div>
                     <div class="col-md-12 pad-bottom-10">
                         <strong class="strong">Course</strong>
                         <?php   $specific = $this->course->specifics($partyid);?>
@@ -306,23 +302,23 @@
                 </div>
 
                 <br />
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                  <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail" style="width: 170px; height: 150px;">
 <!--
                     <img src="assets/images/sample.jpg" alt="..."> -->
-                  </div>
-                  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
-                  <div>
-                    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                  </div>
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 170px; max-height: 150px;"></div>
+                    <div>
+                        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                    </div>
                 </div>
 
 
             </form>
 
 
-	      <div class="col-md-12"><hr class="hr-middle"></div>
+	    <div class="col-md-12"><hr class="hr-middle"></div>
 		<div class="col-md-12">
             <!-- div class panel -->
             <!--<div class="panel">-->
@@ -598,7 +594,14 @@
 	                                                                <input type="hidden" name="enrolmentid" value="<?php echo $enrolmentid; ?>"/>
 	                                                                <input type="hidden" name="schoolid" value="<?php echo $school; ?>"/>
 	                                                                <label>Subject</label><br/>
-                                                                    <input type="text" class="form-control" id="add_subj" style="width:250px;" name="add_subj" value="" placeholder="Type subject descriptive title or code">
+                                                                    <select class="form-control" name="add_subj">
+                                                                        <?php
+                                                                            $s = $this->db->get('tbl_subject')->result();
+                                                                            foreach ($s as $subject) {
+                                                                         ?>
+                                                                        <option value="<?php echo $subject->id ?>"><?php echo $subject->code.' | '.$subject->descriptivetitle ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
 	                                                                <br/>Grade<br/>
 	                                                                <select name="sub_grade" class="form-control">
 	                                                                    <?php
