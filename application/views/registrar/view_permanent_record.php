@@ -41,13 +41,13 @@ if ($details) {
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
-                        <td class="menu-heading head-td" rowspan="2" colspan="2">SUBJECTS<br/>(With Descriptive Title)</th>
-                        <td class="menu-heading head-td" colspan="2">GRADES</th>
-                        <td class="menu-heading head-td" rowspan="2">UNITS</th>
+                        <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;" rowspan="2" colspan="2">SUBJECTS<br/>(With Descriptive Title)</th>
+                        <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;" colspan="2">GRADES</th>
+                        <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;" rowspan="2">UNITS</th>
                     </tr>
                     <tr>
-                        <td class="menu-heading head-td">Final</th>
-                        <td class="menu-heading head-td">Re-Ex</th>
+                        <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;">Final</th>
+                        <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;">Re-Ex</th>
                     </tr>
                     <?php
                     $enrol = $this->tor->getEnrolment($id, 0);
