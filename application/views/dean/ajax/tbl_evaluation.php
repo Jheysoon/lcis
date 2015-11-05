@@ -51,7 +51,7 @@
 								$sub = $this->student->getSubDetail($aloccation['subject']);
 						?>
 								<tr>
-									<td class="tbl-header" colspan="2"><strong>Code: </strong><?php echo $sub['code'] .'-'. $aloccation['subject']; ?></td>
+									<td class="tbl-header" colspan="2"><strong>Code: </strong><?php echo $sub['code']; ?></td>
 									<td class="tbl-header" colspan="4"><strong>Subject: </strong><?php echo $sub['descriptivetitle']; ?></td>
 									<td class="tbl-header"><strong>Units: </strong><?php echo $sub['units']; ?></td>
 								</tr>

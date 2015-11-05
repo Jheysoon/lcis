@@ -242,7 +242,7 @@
 													   AND subject IN(
 													   SELECT subject FROM tbl_curriculumdetail
 													   WHERE curriculum = '$cur'
-													   AND yearlevel = '$lvl'
+													   AND yearlevel <= '$lvl'
 													   AND term = '$term')
 													   AND subject NOT IN(SELECT b.subject FROM
 													   tbl_studentgrade a, tbl_classallocation b, tbl_enrolment c, tbl_grade d

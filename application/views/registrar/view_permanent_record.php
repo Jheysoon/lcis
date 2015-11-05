@@ -24,34 +24,30 @@ if ($details) {
     </div>
     <div class="panel-body">
 
-            <!-- ================= Left header ================ -->
-            <div class="col-md-12">
-                <table>
-                    <tr>
-                        <td width="100px">Name :</td>
-                        <td class=""><strong><?php echo $name; ?></strong></td>
-                        <td>Sex :</td>
-                        <td class="center"><?php echo $sex; ?></td>
-                    </tr>
-                    <tr>
-                        <td>Permanent Address :</td>
-                        <td colspan="3" class=""><?php echo $address1 ?>   </td>
-                    </tr>
-                </table>
+            <div class="col-md-3 ">
+                <label class="lbl-data">STUDENT ID</label>
+                <input class="form-control" type="text" readonly value="<?php echo $legacyid; ?>">
             </div>
-            <!-- start of second row of tables for TOR -->
-
-            <!-- ======================= Left TOR Body ========================= -->
+            <div class="col-md-4 ">
+                <label class="lbl-data">STUDENT NAME</label>
+                <input class="form-control" type="text" readonly value="<?php echo $name ?>">
+            </div>
+            <div class="col-md-5 ">
+                <label class="lbl-data">COURSE</label>
+                <input class="form-control" type="text" readonly value="<?php echo $course ?>">
+            </div>
             <div class="col-md-12">
+            <br/>
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
-                        <td class="menu-heading" rowspan="2" colspan="2"><strong class="text-center">SUBJECTS<br/>(With Descriptive Title)</strong></th>
-                        <td class="menu-heading" colspan="2"><strong class="text-center">GRADES</strong></th>
-                        <td class="menu-heading" rowspan="2"><strong class="text-center">CREDITS</strong></th>
+                        <td class="menu-heading head-td" rowspan="2" colspan="2">SUBJECTS<br/>(With Descriptive Title)</th>
+                        <td class="menu-heading head-td" colspan="2">GRADES</th>
+                        <td class="menu-heading head-td" rowspan="2">UNITS</th>
                     </tr>
                     <tr>
-                        <td class="menu-heading"><strong class="text-center">Final</strong></th>
-                        <td class="menu-heading"><strong class="text-center">Re-Ex</strong></th>
+                        <td class="menu-heading head-td">Final</th>
+                        <td class="menu-heading head-td">Re-Ex</th>
                     </tr>
                     <?php
                     $enrol = $this->tor->getEnrolment($id, 0);
@@ -60,11 +56,11 @@ if ($details) {
                         // $group = $this->tor->getGroup($classallocation);
                         $acad = $systart."-".$syend." ".$shortname;
                         if ($school != $sch) {
-                            echo "<tr><th class='tbl-header' colspan='5'>".$school."</th></tr>";
+                            echo "<tr><th class='tbl-header tblCenter' colspan='5'><strong>".$school."</strong></th></tr>";
                             $sch = $school;
                         }
                         if ($aca != $acad) {
-                            echo "<tr><td class='tbl-header' colspan='5'>".$acad."</td></tr>";
+                            echo "<tr><td class='tbl-header tblCenter' colspan='5'><strong'>".$acad."</strong></td></tr>";
                             $aca = $acad;;
                         }
 
@@ -109,7 +105,8 @@ if ($details) {
                         </tr>
                     <?php } ?>
                 </table>
-             </div>
+            </div>
+            </div>
         </div>
 </div>
 </div>
