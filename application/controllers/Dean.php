@@ -1124,42 +1124,9 @@ class Dean extends CI_Controller
 
         $this->load->model(array('edp/edp_classallocation', 'dean/common_dean'));
 
-        $time = $this->edp_classallocation->getPeriod($cl_id);
-        $day  = $this->edp_classallocation->getDayShort($cl_id);
-
-        $all_cl     = $this->common_dean->getAllCl($instructor);
-        $subj_t     = explode(' / ', $time);
-        $subj_day   = explode(' / ', $day);
-
-        $isConflict = false;
-
-        foreach ($all_cl as $cl1) {
-            $dd = $this->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
-
-            // dont check if the day is TBA
-            if ( !in_array('TBA', $subj_day)) {
-               // checking for day
-               if (in_array($dd['shortname'], $subj_day)) {
-                   // instructor time
-                   $f       = $this->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
-                   $t       = $this->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
-                   $from    = $f['time'];
-                   $to      = $t['time'];
-
-                   // subject time looping
-                   foreach ($subj_t as $key) {
-                       $key1        = explode('-', $key);
-                       $isConflict =  $this->api->intersectCheck($from, $key1[0], $to, $key1[1]);
-
-                       if ($isConflict)
-                           break;
-                   }
-
-                   if ($isConflict)
-                       break;
-               }
-            }
-        }
+        $time           = $this->edp_classallocation->getPeriod($cl_id);
+        $day            = $this->edp_classallocation->getDayShort($cl_id);
+        $isConflict     = $this->api->checkConflict($instructor, $time, $day);
 
         if (!$isConflict) {
 

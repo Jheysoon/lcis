@@ -51,7 +51,7 @@ class Api
 
         $office = $this->CI->common_dean->getUserOffice($uid);
 
-        if ($office) 
+        if ($office)
         	$office = $office['office'];
         else
         	$office = '';
@@ -359,7 +359,8 @@ class Api
 	}
 
 	// function for counting no. of pages in tor
-	function countPage($sid){
+	function countPage($sid)
+	{
 		$this->CI->load->model('registrar/tor');
 
         $t = $this->CI->tor->countPage($sid);
@@ -369,6 +370,42 @@ class Api
         }
 
         return $page;
+	}
+
+	function checkConflict($instructor, $time, $day)
+	{
+		$this->CI->load->model('dean/common_dean');
+		$all_cl 	= $this->CI->common_dean->getAllCl($instructor);
+		$subj_t 	= explode(' / ', $time);
+		$subj_day 	= explode(' / ', $day);
+
+		foreach ($all_cl as $cl1) {
+			$dd = $this->CI->db->get_where('tbl_day', array('id' => $cl1['day']))->row_array();
+
+			// dont check if the subject day is TBA
+			if ( !in_array('TBA', $subj_day)) {
+
+				// checking for day
+				if (in_array($dd['shortname'], $subj_day)) {
+					// instructor time
+					$f      = $this->CI->db->get_where('tbl_time', array('id' => $cl1['from_time']))->row_array();
+					$t      = $this->CI->db->get_where('tbl_time', array('id' => $cl1['to_time']))->row_array();
+					$from   = $f['time'];
+					$to     = $t['time'];
+
+					// subject time looping
+					foreach ($subj_t as $key) {
+						$key1       = explode('-', $key);
+						$isConflict =  $this->intersectCheck($from, $key1[0], $to, $key1[1]);
+
+						if($isConflict == true)
+							return true;
+					}
+				}
+			}
+
+		}
+		return false;
 	}
 
 }
