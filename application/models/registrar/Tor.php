@@ -133,6 +133,12 @@ class Tor extends CI_Model
           $q = $this->db->query("SELECT hscard, tor FROM tbl_student WHERE id = $pid");
           return $q->row_array();
     }
+
+    function getMajor($major){
+      $this->db->where('id', $major);
+      $this->db->select('description');
+      return $this->db->get('tbl_major')->row_array();
+    }
 }
 
 

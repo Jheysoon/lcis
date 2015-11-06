@@ -6,7 +6,7 @@ if ($details) {
     $cm = '';
     $name = strtoupper($lastname).", ".ucwords(strtolower($firstname))." ".strtoupper($middlename);
     if ($major != 0) {
-        $major2 = $this->api->getMajor($major)->row_array();
+        $major2 = $this->tor->getMajor($major);
         $course = $description." (".$major2['description'].")";
         $cm = $major2['description'];
     }
@@ -130,7 +130,7 @@ if ($details) {
                     </tr>
                     <tr>
                         <td>Course :</td>
-                        <td colspan="3" class="underline"><?php echo $course; ?></td>
+                        <td colspan="3" class="underline"><?php echo $course." ".$major; ?></td>
                     </tr>
                 </table>
             </div>
@@ -479,17 +479,24 @@ if ($details) {
                         else{ $cr = explode('|', $credit[$a]) ?>
                             <tr>
                                 <td class="center no-line no-left">
-                                 <?php if ($cr[0] == 1) {
-                                     echo $cr[1];
-                                     $cr1 = $cr1 + $cr[1];
-                                     $total_cr = $total_cr + $cr1;
-                                 }
-                                 else{
-                                     echo "&nbsp;";
-                                 }
-                                 if (count($cr) == 3) {
-                                    echo $cr[2];
-                                } ?></td>
+                                <?php 
+                                    if ($for == 'Student') {
+                                        echo "&nbsp;";
+                                    }
+                                    else{
+                                        if ($cr[0] == 1) {
+                                            echo $cr[1];
+                                            $cr1 = $cr1 + $cr[1];
+                                            $total_cr = $total_cr + $cr1;
+                                        }
+                                        else{
+                                            echo "&nbsp;";
+                                        }
+                                    }
+                                    if (count($cr) == 3) {
+                                        echo $cr[2];
+                                    } 
+                                ?></td>
                                 <td class="center no-line"><?php if($for == 'Student'){ echo "&nbsp;"; } else{ if ($cr[0] == 2)  {echo $cr[1]; $cr2 = $cr2 + $cr[1];   $total_cr = $total_cr + $cr2;}  else{echo "&nbsp;";}} ?></td>
                                 <td class="center no-line"><?php if($for == 'Student'){ echo "&nbsp;"; } else{ if ($cr[0] == 3)  {echo $cr[1]; $cr3 = $cr3 + $cr[1];   $total_cr = $total_cr + $cr3;}  else{echo "&nbsp;";}} ?></td>
                                 <td class="center no-line"><?php if($for == 'Student'){ echo "&nbsp;"; } else{ if ($cr[0] == 4)  {echo $cr[1]; $cr4 = $cr4 + $cr[1];   $total_cr = $total_cr + $cr4;}  else{echo "&nbsp;";}} ?></td>
