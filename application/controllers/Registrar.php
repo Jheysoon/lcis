@@ -780,6 +780,8 @@ class Registrar extends CI_Controller
                     $this->db->insert('tbl_useraccess', $acc);
 
                     // insert tbl_account, useroption
+                    $name = $data['firstname'].' '.$data['lastname'];
+                    $this->insert_account($id, $name);
 
                     if ($this->db->trans_status() === FALSE)
                     {
