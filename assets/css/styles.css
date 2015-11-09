@@ -297,6 +297,12 @@ h3{
 	list-style: none;
 }
 
+.head-td{
+	color: #FFFF6F !important;
+	text-align: center !important;
+	background-color: #2F5836 !important;
+}
+
 h4{
 	color: #FFFF6F;
 }
