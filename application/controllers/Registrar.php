@@ -817,12 +817,13 @@ class Registrar extends CI_Controller
         $value  = $id;
         $this->db->where('legacyid', $value);
         $c      = $this->db->count_all_results('tbl_party');
-        while($c > 0)
-        {
+
+        while ($c > 0) {
             $value += 1;
             $this->db->where('legacyid', $value);
             $c = $this->db->count_all_results('tbl_party');
         }
+
         return $value;
     }
 
@@ -844,8 +845,7 @@ class Registrar extends CI_Controller
 
     function take_photo($id = '')
     {
-        if(!empty($id))
-        {
+        if ( ! empty($id) ) {
             $this->api->userMenu();
             $data['id'] = $id;
             $this->db->where('id', $id);
@@ -854,10 +854,8 @@ class Registrar extends CI_Controller
             $data['student_id'] = $r['legacyid'];
             $this->load->view('registrar/take_photo', $data);
             $this->load->view('templates/footer2');
-        }
-        else {
+        } elseif
             show_error('Did you type the url by yourself ?');
-        }
     }
 
     function save_photo()
@@ -1035,17 +1033,16 @@ class Registrar extends CI_Controller
 
     function shiftee($id = '')
     {
-        if (!empty($id))
-        {
+        if (!empty($id)) {
             $systemVal = $this->api->systemValue();
-            if($systemVal['phase'] == ENR)
-            {
+
+            if ($systemVal['phase'] == ENR) {
                 $this->load->helper('form');
                 $this->db->where('status', 'E');
                 $this->db->where('student', $id);
                 $rr = $this->db->count_all_results('tbl_registration');
-                if($rr < 1)
-                {
+
+                if ($rr < 1) {
                     $this->load->model('registrar/registration');
                     $this->db->where('id', $id);
                     $this->db->select('firstname,middlename,lastname,legacyid');
@@ -1067,19 +1064,13 @@ class Registrar extends CI_Controller
                     $this->api->userMenu();
                     $this->load->view('registrar/shiftee', $data);
                     $this->load->view('templates/footer');
-                }
-                else
-                {
+                } else {
                     $this->set_error('Cannot open status is pending','menu/registrar-shift_student');
                 }
-            }
-            else
-            {
+            } else {
                 show_error('Phase term is not enrollment');
             }
-        }
-        else
-        {
+        } else {
             show_error('Did you type the url by yourself ?');
         }
     }
@@ -1144,12 +1135,14 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    function set_print_for($sid, $for){
+    function set_print_for($sid, $for)
+    {
         $this->session->set_userdata('for', $for);
         redirect(base_url('registrar_tor/'.$sid));
     }
 
-    function updateFields(){
+    function updateFields()
+    {
         $this->load->model('registrar/tor');
 
         $f11 = $this->input->post('f-1-1');
