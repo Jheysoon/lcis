@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Test_dean extends CI_Controller
 {
@@ -81,7 +81,7 @@ class Test_dean extends CI_Controller
             }
             elseif ($legacy['COURSE'] == 'BSBA') {
                 // for temporary
-                $coursemajor = 25;
+                $coursemajor = 19;
             }
             elseif ($legacy['COURSE'] == 'BSCRIM') {
                 $coursemajor = 5;

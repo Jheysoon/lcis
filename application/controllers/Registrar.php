@@ -66,7 +66,6 @@ class Registrar extends CI_Controller
 
     function buildup($id)
     {
-        $this->session->set_userdata('prec', 0);
         $this->load->model(array(
             'registrar/course', 'home/useroption',
             'registrar/grade', 'registrar/common',
@@ -86,23 +85,16 @@ class Registrar extends CI_Controller
 
     function permanentRecord($id)
     {
-        $this->session->set_userdata('prec', 1);
 
         $this->load->model(array(
-            'registrar/course', 'home/useroption',
-            'registrar/grade', 'registrar/common',
-            'registrar/subject', 'registrar/party',
-            'registrar/academicterm', 'registrar/log_student',
-            'registrar/enrollment','registrar/studentgrade',
-            'registrar/registration','registrar/curriculum',
-            'registrar/curriculumdetail'
+            'registrar/tor'
         ));
 
         $this->api->userMenu();
 
         $data['id'] = $id;
-        // $this->load->view('registrar/view_permanent_record', $data);
-        $this->load->view('registrar/buildstudRecord', $data);
+        $this->load->view('registrar/view_permanent_record', $data);
+        $this->load->view('templates/footer');
     }
 
     function search()
@@ -782,6 +774,7 @@ class Registrar extends CI_Controller
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
+                    $acc['partyid']  = $id;
                     $acc['username'] = $this->input->post('username');
                     $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
                     $this->db->insert('tbl_useraccess', $acc);
