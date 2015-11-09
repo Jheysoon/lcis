@@ -1182,7 +1182,6 @@ class Registrar extends CI_Controller
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
-        $this->form_validation->set_rules('tbl_subject', 'Subject', 'required');
 
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('legacy_matching');
