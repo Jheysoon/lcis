@@ -774,6 +774,7 @@ class Registrar extends CI_Controller
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
+                    $acc['partyid']  = $id;
                     $acc['username'] = $this->input->post('username');
                     $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
                     $this->db->insert('tbl_useraccess', $acc);
