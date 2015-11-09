@@ -1211,4 +1211,9 @@ class Registrar extends CI_Controller
         }
 
     }
+    function insert_account($partyid, $name)
+    {
+        $data = array('party' => $partyid, 'accounttype' = 4, 'seq' => 0, 'ccy' => 1, 'description' => $name);
+        $this->db->insert('tbl_account', $data);
+    }
 }

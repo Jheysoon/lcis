@@ -226,8 +226,6 @@ class Billing extends CI_Controller
 							$the_rate = $rate;
 					}
 
-
-
 					if ($the_rate > 0)
 					{
 						$data = array('bill' => $billid, 'fee' => $fid, 'amount' => $the_rate);
@@ -267,11 +265,12 @@ class Billing extends CI_Controller
 						{
 							$netenrol += $amount;
 						}
+					
 					}
 
 					$netpr = $tui + $int + $boo + $comp;
 					$ens = $netenrol + $tui;
-					// echo $ens . "<br />";
+					echo $ens . "<br />";
 					$data = array('id' => $billid, 'enrolment' => $enid,
 												'netenrolment' => $ens, 'netprelim' => $netpr,
 												'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netpr);
@@ -292,14 +291,23 @@ class Billing extends CI_Controller
 
 
 
-		function get_all_enrolment()
-		{
-			// $this->billcalculation('38482');
-			$x = $this->db->query("SELECT * FROM out_enr")->result_array();
-			foreach ($x as $key => $value) {
-					$this->billcalculation($value['id']);
-			}
-		}
+
+
+
+
+
+
+
+
+
+
+		// function get_all_enrolment()
+		// {
+		// 	$x = $this->db->query("SELECT * FROM out_enr")->result_array();
+		// 	foreach ($x as $key => $value) {
+		// 			$this->billcalculation($value['id']);
+		// 	}
+		// }
 		// function delete_bills()
 		// {
 		// 	$x = $this->db->query("SELECT  tbl_billclass.id, tbl_billclass.enrolment, tbl_enrolment.coursemajor, tbl_enrolment.numberofsubject

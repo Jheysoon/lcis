@@ -6,9 +6,6 @@
 				extract($acadinfo);
 				$getcoursemajor = $this->api->getCourseMajor($coursemajor);
 				$getyear = $this->api->getYearLevel($student);
-				//$units = 0;
-
-
  ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
@@ -233,17 +230,6 @@
 
 										</table>
 									</div>
-									<!-- <div class="col-md-3 pull-right">
-												<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
-									</div>
-									<div class="col-md-3 pull-right">
-												<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-									</div> -->
-									<!-- <input type="hidden" name="fullpay" value="<?php echo $fullpay; ?>">
-									<input type="hidden" name="type" value="<?php echo $type ?>">
-									<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
-									<input type="hidden" name="total_due" value="<?php echo $ts ?>">
-									<input type="hidden" name="override" value="<?php echo $over ?>"> -->
 									<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>">
 									<div class="col-md-12">
 											<br />
@@ -342,17 +328,6 @@
 													</tr>
 											</table>
 											</div>
-											<!-- <div class="col-md-3 pull-right">
-														<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
-											</div>
-											<div class="col-md-3 pull-right">
-														<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-											</div> -->
-											<!-- <input type="hidden" name="type" value="<?php echo $type ?>">
-											<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
-											<input type="hidden" name="total_due" value="<?php echo $ts ?>">
-											<input type="hidden" name="override" value="<?php echo $over ?>">
-											<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>"> -->
 											<div class="col-md-12">
 													<br />
 												<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
@@ -448,36 +423,17 @@
 																</tr>
 													</table>
 												</div>
-												<!-- <div class="col-md-3 pull-right">
-															<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-															<br /><br />
-															<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
-		 														
-												</div> -->
-												<!-- <div class="col-md-3 pull-right">
-															<input type="text" class="col-md-4 form-control"  placeholder="Enter Amount" style="text-align:right;font-size:20px" name="amount_paid" required autocomplete="off">
-												</div>
-												<div class="col-md-3 pull-right">
-															<input type="text" class="col-md-4 form-control"  placeholder="Enter OR No." style="text-align:right;font-size:20px" name="or_no" required>
-												</div> -->
-												<!-- <input type="hidden" name="type" value="<?php echo $type ?>">
-												<input type="hidden" name="enrolid" value="<?php echo $enrolid ?>">
-												<input type="hidden" name="total_due" value="<?php echo $ts ?>">
-												<input type="hidden" name="override" value="<?php echo $over ?>">
-												<input type="hidden" name="legacyid" value="<?php echo $legacyid ?>"> -->
 												<div class="col-md-12">
 														<br />
 													<a class="pull-right btn btn-primary" href="#" style="margin-left:5px;">Cancel</a>
 													<input type="submit" class="pull-right btn btn-primary" href="#" style="margin-left:5px;" value="Save">
 													 <a href="/student-movement/view_movement/<?php echo $legacyid ?>" target="_blank" class="btn btn-success">View Movement</a>
 											</div>
-											<!-- <a href="/billing/endphase">End of Phase</a> -->
 										</form>
 
 											<?php endif ?>
 											<?php endif ?>
 				<?php else: ?>
-					<!-- <a href="/billing/endphase">End of Phase</a> -->
 						<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>All Back Accunts Paid</div>
 				<?php endif; ?>
 			</div>

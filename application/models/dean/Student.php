@@ -110,6 +110,9 @@
 							$this->db->where('bill', $data['bill']);
 							$this->db->where('fee', $data['fee']);
 							$x = $this->db->get('tbl_billclassdetail')->num_rows();
+							
+
+							echo $x;
 							if ($x > 0)
 							{
 								$this->db->where('bill', $data['bill']);
@@ -118,7 +121,7 @@
 							}
 							else
 							{
-								$this->db->insert('tbl_billclassdetail', $data);
+									$this->db->insert('tbl_billclassdetail', $data);
 							}
 			}
 			function enr_info($enid)
