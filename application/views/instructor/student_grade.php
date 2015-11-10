@@ -5,7 +5,7 @@
 			<h4>Student List for the Subject (<?php echo $subject['code'].' '.$subject['descriptivetitle'] ?>)</h4>
 		</div>
 		<div class="panel-body">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
                     <th style="width:75%;">Student Name</th>
                     <th colspan="2">Grade</th>
@@ -31,7 +31,7 @@
 	                            <td>
 	                                <select class="form-control" name="grade">
 										<?php foreach ($all_grade as $val) { ?>
-											<option value="<?php echo $val['id'] ?>" <?php echo ($val['id'] == $init_grade) ? 'selected':'' ?>><?php echo ($val['id'] == 44) ? $val['description']:$val['value'] ?></option>
+											<option value="<?php echo $val['id'] ?>" <?php echo ($val['id'] == $init_grade) ? 'selected':'' ?>><?php echo ($val['id'] == 44 OR $val['value'] == '0.00') ? $val['description']:$val['value'] ?></option>
 										<?php } ?>
 	                                </select>
 	                            </td>
