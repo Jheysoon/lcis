@@ -2,7 +2,12 @@
 <div class="col-md-9 body-container">
 	<div class="panel p-body">
 		<div class="panel-heading">
-			<h4>Class List</h4>
+			<?php
+				$systemVal 	= $this->api->systemValue();
+				$acam 		= $this->db->get_where('tbl_academicterm', array('id' => $systemVal['currentacademicterm']))->row();
+				$term 		= $this->db->get_where('tbl_term', array('id' => $acam->term))->row();
+			?>
+			<h4>Class List for <?php echo $acam->systart.' - '.$acam->syend.' Term : '.$term->shortname ?></h4>
 		</div>
 		<div class="panel-body">
             <table class="table">
@@ -16,7 +21,6 @@
                 </tr>
 
             <?php
-                $systemVal 	= $this->api->systemValue();
                 $where 		= array(
                             'academicterm'  => $systemVal['currentacademicterm'],
                             'instructor'    => $this->session->userdata('uid')
