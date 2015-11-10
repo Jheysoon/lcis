@@ -48,7 +48,7 @@
                     }
                  ?>
             </table>
-            <a href="#" class="btn btn-primary pull-right">Attest All</a>
+            <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
 </div>
