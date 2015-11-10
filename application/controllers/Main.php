@@ -148,7 +148,7 @@ class Main extends CI_Controller
                 $this->scholarship();
             elseif($load_model[0] == 'audit'):
                 $this->audit();
-            elseif($load_model[0] == 'instructor')
+            elseif($load_model[0] == 'instructor'):
                 $this->instructor();
             endif;
 
