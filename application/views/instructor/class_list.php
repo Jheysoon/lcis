@@ -9,6 +9,9 @@
                 <tr>
                     <th>Course</th>
                     <th>Subject</th>
+					<th>Room</th>
+					<th>Day</th>
+					<th>Time</th>
                     <th>Action</th>
                 </tr>
 
@@ -21,8 +24,8 @@
                 $this->db->where($where);
                 $this->db->select(array('id', 'instructor', 'coursemajor', 'subject'));
                 $r = $this->db->get('tbl_classallocation')->result_array();
-                foreach($r as $rr)
-                {
+
+                foreach ($r as $rr) {
                 ?>
                     <tr>
                         <td>
@@ -33,7 +36,7 @@
                                 echo $t['description'];
                              ?>
                         </td>
-                        <td>
+						<td>
                             <?php
                                 $this->db->where('id', $rr['subject']);
                                 $this->db->select('code,descriptivetitle');
@@ -41,6 +44,15 @@
                                 echo $s['code'].' | '.$s['descriptivetitle'];
                              ?>
                         </td>
+						<td>
+							<?php echo $this->edp_classallocation->getRooms($rr['id']) ?>
+						</td>
+						<td>
+							<?php echo $this->edp_classallocation->getDayShort($rr['id']) ?>
+						</td>
+						<td>
+							<?php echo $this->edp_classallocation->getPeriod($rr['id']) ?>
+						</td>
                         <td>
                             <a href="/add_grade/<?php echo $rr['id'] ?>" class="btn btn-primary btn-xs">Add grades</a>
                         </td>
