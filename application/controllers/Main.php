@@ -148,6 +148,8 @@ class Main extends CI_Controller
                 $this->scholarship();
             elseif($load_model[0] == 'audit'):
                 $this->audit();
+            elseif($load_model[0] == 'instructor')
+                $this->instructor();
             endif;
 
             $this->load->view($page,$data);
@@ -156,6 +158,11 @@ class Main extends CI_Controller
         else
             show_error('cannot find file');
 
+    }
+
+    function instructor()
+    {
+        $this->load->model(array('edp/edp_classallocation'));
     }
 
     function registrar()
