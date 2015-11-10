@@ -5,9 +5,10 @@
 			<h4>Student List for the Subject (<?php echo $subject['code'].' '.$subject['descriptivetitle'] ?>)</h4>
 		</div>
 		<div class="panel-body">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
-                    <th style="width:75%;">Student Name</th>
+					<th style="width:1px;"></th>
+                    <th style="width:70%;">Student Name</th>
                     <th colspan="2">Grade</th>
                 </tr>
                 <?php
@@ -24,14 +25,17 @@
 							$init_grade = $gg['semgrade'];
                         ?>
                         <tr>
+							<td>
+								<?php echo $count ?>
+							</td>
 							<form method="post" class="update_grade">
 								<input type="hidden" name="classallocation" value="<?php echo $id ?>">
 								<input type="hidden" name="studentgrade_id" value="<?php echo $grade['studentgrade_id'] ?>">
-								<td><?php echo $count.'.) '.$grade['lastname'].', '.$grade['firstname'].' '.$grade['middlename']; ?></td>
+								<td><?php echo $grade['lastname'].', '.$grade['firstname'].' '.$grade['middlename']; ?></td>
 	                            <td>
 	                                <select class="form-control" name="grade">
 										<?php foreach ($all_grade as $val) { ?>
-											<option value="<?php echo $val['id'] ?>" <?php echo ($val['id'] == $init_grade) ? 'selected':'' ?>><?php echo ($val['id'] == 44) ? $val['description']:$val['value'] ?></option>
+											<option value="<?php echo $val['id'] ?>" <?php echo ($val['id'] == $init_grade) ? 'selected':'' ?>><?php echo ($val['id'] == 44 OR $val['value'] == '0.00') ? $val['description']:$val['value'] ?></option>
 										<?php } ?>
 	                                </select>
 	                            </td>
@@ -44,7 +48,7 @@
                     }
                  ?>
             </table>
-            <a href="#" class="btn btn-primary pull-right">Attest All</a>
+            <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
 </div>
