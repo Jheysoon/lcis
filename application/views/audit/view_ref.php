@@ -56,6 +56,7 @@
             <tr>
               <td>MISCELLANEOUS</td>
               <td></td>
+              <td></td>
               <td style="text-align:right"><?php echo number_format($misc,2);
                                                   $total += $misc; 
                                                     $counter += 1;
@@ -143,13 +144,14 @@
 <?php
 
   $subj_unit = $this->account->getUnit($enrolmentid);
+  $get_units = $this->account->t_units($enrolmentid);
  ?>
    <div class="table-responsive col-md-12" style="padding:0;">
        <table class="table table-bordered">
          <tr >
            <td style="background-color:#2f5836"><h4>Subject</h4></td>
            <td  style="background-color:#2f5836"><h4>Number of Subject&nbsp;&nbsp;:&nbsp;&nbsp;<strong><?php echo $subj_unit['numberofsubject']; ?></strong></h4></td>
-           <td style="background-color:#2f5836"><h4>Total Unit&nbsp;&nbsp;:&nbsp;&nbsp;<strong><?php echo $subj_unit['totalunit']; ?></strong></h4></td>
+           <td style="background-color:#2f5836"><h4>Total Unit&nbsp;&nbsp;:&nbsp;&nbsp;<strong><?php echo $get_units; ?></strong></h4></td>
          </tr>
            <tr>
                <th class="tbl-header-main">Code</th>

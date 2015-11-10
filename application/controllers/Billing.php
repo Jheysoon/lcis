@@ -284,7 +284,7 @@ class Billing extends CI_Controller
 						{
 							$this->student->insert_billclass($data);
 						}
-			}
+	 		}
 		}
 
 
@@ -300,6 +300,30 @@ class Billing extends CI_Controller
 					$this->billcalculation($value['id']);
 			}
 		}
+
+
+
+		function add_justaccount()
+		{
+			$x = $this->db->query("SELECT * FROM `tbl_account` where currentbalance != 0")->result_array();
+			foreach ($x as $key => $value) {
+				$account = $value['id'];
+				$amount = $this->get_currentbalance($account);
+				$data['currentbalance'] = $amount;
+				$this->db->where('id', $account);
+				$this->db->update('tbl_account', $data);
+
+			}
+
+		}
+		function get_currentbalance($account)
+		{
+			$x = $this->db->query("SELECT sum(amount) as amt FROM `tbl_movement` WHERE account = '$account'")->row_array();
+			return $x['amt'];
+		}
+
+
+
 		// function delete_bills()
 		// {
 		// 	$x = $this->db->query("SELECT  tbl_billclass.id, tbl_billclass.enrolment, tbl_enrolment.coursemajor, tbl_enrolment.numberofsubject

@@ -224,4 +224,13 @@
                     AND c.nstp = 0")->row_array();
         return $x['units'];
     }
+    function t_units($id)
+    {
+        $x = $this->db->query("SELECT SUM(units)  as units
+                    FROM  `tbl_studentgrade` a, tbl_classallocation b, tbl_subject c
+                    WHERE enrolment =  '$id'
+                    AND b.id = a.classallocation
+                    AND c.id = b.subject")->row_array();
+        return $x['units'];
+    }
 }
