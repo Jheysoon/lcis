@@ -2,11 +2,11 @@
 	<div class="col-md-9">
 		<div class="panel p-body">
 			<div class="panel-heading search">
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<h4>New Student Registration</h4>
+				<div class="col-md-12">
+					<div class="col-md-6">
+						<h4>New Student Registration</h4>
+					</div>
 				</div>
-			</div>
 			</div>
 			<div class="panel-body">
 				<form class="form-horizontal add-user" method="post" action="/registration" role="form">
