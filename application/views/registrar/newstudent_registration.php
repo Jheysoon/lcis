@@ -227,39 +227,45 @@
 					</div>
 					<div class="form-group">
 						<div class="row">
-						<div class="col-sm-8 col-sm-offset-1">
-						  <div class="col-sm-6 col-md-4">
-						    <div class="thumbnail scan">
-						      <img src="images/sample.jpg" alt="...">
-						      <div class="caption">
-						        <h5>HS Card (Form 138-A)</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
-						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
-						      </div>
-						    </div>
-						  </div>
-						  <div class="col-sm-6 col-md-4">
-						    <div class="thumbnail scan">
-						      <img src="images/sample.jpg" alt="...">
-						      <div class="caption">
-						        <h5>Certificate of Good Moral Character</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
-						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
-						      </div>
-						    </div>
-						  </div>
-						  <div class="col-sm-6 col-md-4">
-						    <div class="thumbnail scan">
-						      <img src="images/sample.jpg" alt="...">
-						      <div class="caption">
-						        <h5>Certificate of Live Birth</h5>
-						        <p><a href="#" class="btn btn-success btn-sm" role="button">View</a>
-						        <a href="#" class="btn btn-warning btn-sm" role="button">Scan</a></p>
-						      </div>
-						    </div>
-						  </div>
+							<div class="col-sm-8 col-sm-offset-1">
+								<div class="col-sm-6 col-md-4">
+							    	<div class="thumbnail scan">
+							    		<img src="images/sample.jpg" alt="...">
+							    		<div class="caption">
+							        		<h5>HS Card (Form 138-A)</h5>
+							        		<p>
+												<a href="#" class="btn btn-success btn-sm" role="button">View</a>
+							        			<a href="#" class="btn btn-warning btn-sm" role="button">Scan</a>
+											</p>
+							    		</div>
+							    	</div>
+								</div>
+								<div class="col-sm-6 col-md-4">
+							    	<div class="thumbnail scan">
+							    		<img src="images/sample.jpg" alt="...">
+							    		<div class="caption">
+							        		<h5>Certificate of Good Moral Character</h5>
+							        		<p>
+												<a href="#" class="btn btn-success btn-sm" role="button">View</a>
+							        			<a href="#" class="btn btn-warning btn-sm" role="button">Scan</a>
+											</p>
+							    		</div>
+							    	</div>
+								</div>
+								<div class="col-sm-6 col-md-4">
+							    	<div class="thumbnail scan">
+							    		<img src="images/sample.jpg" alt="...">
+							    		<div class="caption">
+							        		<h5>Certificate of Live Birth</h5>
+							        		<p>
+												<a href="#" class="btn btn-success btn-sm" role="button">View</a>
+							        			<a href="#" class="btn btn-warning btn-sm" role="button">Scan</a>
+											</p>
+							    		</div>
+							    	</div>
+								</div>
+							</div>
 						</div>
-					</div>
 					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
