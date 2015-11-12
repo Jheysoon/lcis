@@ -183,7 +183,10 @@
 							<input class="form-control" type="email" name="emailadd" value="<?php echo set_value('emailadd'); ?>" placeholder="Email Address">
 						</div>
 					</div>
-					<br><h3 class="col-sm-offset-1">Guardian Information</h3><hr><br>
+					<br>
+					<h3 class="col-sm-offset-1">Guardian Information</h3>
+					<hr>
+					<br>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="father">Fathers Name <small class="required">(required)</small></label>
@@ -209,7 +212,10 @@
 						</div>
 					</div>
 
-					<br><h3 class="col-sm-offset-1">Credentials</h3><hr><br>
+					<br>
+					<h3 class="col-sm-offset-1">Credentials</h3>
+					<hr>
+					<br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="scholar">Scholarship <small class="optional">(optional)</small></label>
@@ -266,7 +272,10 @@
 								</div>
 							</div>
 						</div>
-					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
+					<br>
+					<h3 class="col-sm-offset-1">User Account Information</h3>
+					<hr>
+					<br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="username">Username <small class="required">(required)</small></label>
