@@ -781,7 +781,11 @@ class Registrar extends CI_Controller
 
 
                     // insert into tbl_student
-                    $stud['id'] = $id;
+                    $stud['id']                 = $id;
+                    $stud['fathername']         = $this->input->post('father');
+                    $stud['fatherproffesion']   = $this->input->post('occupation');
+                    $stud['mothername']         = $this->input->post('mother');
+                    $stud['motherproffesion']   = $this->input->post('moccupation');
                     $this->db->insert('tbl_student', $stud);
 
                     // insert tbl_account, useroption
