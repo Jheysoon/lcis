@@ -27,19 +27,12 @@
 							<select class="form-control" name='course' required>
 								<?php
 									$c = $this->db->get('tbl_course')->result_array();
-									foreach ($c as $val)
-									{
-										if($course != 0 AND $val['id'] == $course){
+
+									foreach ($c as $val) :
 								?>
-								<option value="<?php echo $val['id']; ?>" selected="selected"><?php echo $val['description']; ?></option>
+									<option value="<?php echo $val['id']; ?>" <?php echo ($course != 0 AND $val['id'] == $course) ? 'selected' : '' ?>><?php echo $val['description']; ?></option>
 								<?php
-										}
-										else {
-											?>
-								<option value="<?php echo $val['id']; ?>"><?php echo $val['description']; ?></option>
-								<?php
-										}
-									}
+									endforeach;
 								 ?>
 							</select>
 						</div>
@@ -48,18 +41,13 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
 							<select class="form-control" name='major'>
-								<?php
-									$m = $this->db->get('tbl_major')->result_array();
-								 ?>
+								<?php $m = $this->db->get('tbl_major')->result_array(); ?>
 								 <option value="0" <?php set_select('major', 0, TRUE); ?>>Select major</option>
-								 <?php
-									foreach($m as $major)
-									{
-								?>
-								<option value="<?php echo $major['id'] ?>" <?php echo set_select('major', $major['id']) ?>><?php echo $major['description'] ?></option>
-								<?php
-									}
-								  ?>
+
+								 <?php foreach ($m as $major) { ?>
+									 <option value="<?php echo $major['id'] ?>" <?php echo set_select('major', $major['id']) ?>><?php echo $major['description'] ?></option>
+								<?php } ?>
+
 							</select>
 						</div>
 					</div>
@@ -104,13 +92,12 @@
 							<select class="form-control" name='religion'>
 								<?php
 									$r = $this->db->get('tbl_religion')->result_array();
-									foreach ($r as $religion)
-									{
+
+									foreach ($r as $religion) {
 								?>
-								<option value="<?php echo $religion['id'] ?>" <?php echo set_select('religion', $religion['id']) ?>><?php echo $religion['description'] ?></option>
-								<?php
-									}
-								 ?>
+									<option value="<?php echo $religion['id'] ?>" <?php echo set_select('religion', $religion['id']) ?>><?php echo $religion['description'] ?></option>
+								<?php } ?>
+
 							</select>
 						</div>
 					</div>
@@ -136,7 +123,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" class="form-control" value="<?php echo set_value('pob'); ?>"></textarea>
+							<textarea name="pob" class="form-control"><?php echo set_value('pob'); ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -163,10 +150,9 @@
 							<select class="form-control" name='province'>
 								<?php
 									$p = $this->db->get('tbl_province')->result_array();
-									foreach ($p as $province)
-									{
+									foreach ($p as $province) {
 								?>
-								<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>><?php echo $province['description'] ?></option>
+									<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>><?php echo $province['description'] ?></option>
 								<?php
 									}
 								 ?>
