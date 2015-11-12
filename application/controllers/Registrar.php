@@ -779,6 +779,11 @@ class Registrar extends CI_Controller
                     $acc['password'] = password_hash($password, PASSWORD_BCRYPT);
                     $this->db->insert('tbl_useraccess', $acc);
 
+
+                    // insert into tbl_student
+                    $stud['id'] = $id;
+                    $this->db->insert('tbl_student', $stud);
+
                     // insert tbl_account, useroption
                     $name = $data['firstname'].' '.$data['lastname'];
                     $this->insert_account($id, $name);
