@@ -765,12 +765,18 @@ class Registrar extends CI_Controller
                     $sys['laststudentid'] = $lid[0].'-'.$inc;
                     $this->db->update('tbl_systemvalues', $sys);
 
+                    // get the coursemajor
+                    $this->db->where('course', $this->input->post('course'));
+                    $this->db->where('major', $this->input->post('major'));
+                    $course_m = $this->db->get('tbl_coursemajor')->row();
+
                     // get the latest curriculum for that student
-                    $reg['coursemajor']     = $this->input->post('course');
+                    $reg['coursemajor']     = $course_m->id;
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
+                    $reg['curriculum']      = $this->get_current_curriculum($course_m->id);
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
@@ -819,6 +825,33 @@ class Registrar extends CI_Controller
                 $this->error_reg($error);
             }
         }
+    }
+
+    function get_current_curriculum($coursemajor)
+    {
+        $cur1    = 0;
+
+        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
+
+        foreach($acamd as $acams)
+        {
+            $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE coursemajor = $coursemajor AND academicterm = {$acams['id']}");
+            if($c->num_rows() > 0)
+            {
+                $cur    = $c->row_array();
+                $cur1   = $cur['id'];
+                break;
+            }
+        }
+
+        if($cur1 == 0)
+        {
+            $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart DESC LIMIT 1 ")->row_array();
+            $cur1 = $cur['id'];
+        }
+
+        return $cur1;
+
     }
 
     function student_id($id)
