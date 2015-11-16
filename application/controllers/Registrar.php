@@ -776,7 +776,7 @@ class Registrar extends CI_Controller
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
-                    $reg['curriculum']      = $this->get_current_curriculum($course_m->id);
+                    $reg['curriculum']      = $this->get_current_curriculum($course_m->id, $systemVal['currentacademicterm']);
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
@@ -827,7 +827,7 @@ class Registrar extends CI_Controller
         }
     }
 
-    function get_current_curriculum($coursemajor)
+    function get_current_curriculum($coursemajor, $systart)
     {
         $cur1    = 0;
 
