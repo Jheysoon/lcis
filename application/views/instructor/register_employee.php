@@ -2,11 +2,11 @@
 	<div class="col-md-9">
 		<div class="panel p-body">
 			<div class="panel-heading search">
-			<div class="col-md-12">
-				<div class="col-md-6">
-					<h4>Employee Registration</h4>
+				<div class="col-md-12">
+					<div class="col-md-6">
+						<h4>Employee Registration</h4>
+					</div>
 				</div>
-			</div>
 			</div>
 			<div class="panel-body">
 				<form class="form-horizontal add-user" method="post" action="/registration" role="form">
@@ -24,27 +24,15 @@
 							<br>
 						</div>
 					</div>
-					<!-- <div class="form-group">
-						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="yearlevel">Year Level <small class="required">(required)</small></label>
-							<select class="form-control" name='yearlevel' required>
-								<option> First Year</option>
-								<option> Second Year</option>
-								<option> Third Year</option>
-								<option> Fourth Year</option>
-							</select>
-						</div>
-						<div class="col-sm-offset-1 col-sm-8"><hr class="hr-bottom"></div>
-					</div> -->
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="office">Office <small class="required">(required)</small></label>
 							<select class="form-control" name='office'>
 								<option value="0">Select Office</option>
 								<!-- temporary -->
-								<?php 
-								$res = $this->party->getOffices();
-								foreach ($res as $key => $value): ?>
+								<?php
+									$res = $this->party->getOffices();
+									foreach ($res as $key => $value): ?>
 									<option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
 								<?php endforeach ?>
 							</select>
@@ -56,9 +44,9 @@
 							<select class="form-control" name='position'>
 								<option value="0">Select Position</option>
 								<!-- temporary -->
-								<?php 
-								$res = $this->party->getPositions();
-								foreach ($res as $key => $value): ?>
+								<?php
+									$res = $this->party->getPositions();
+									foreach ($res as $key => $value): ?>
 									<option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
 								<?php endforeach ?>
 							</select>
@@ -92,13 +80,11 @@
 							<select class="form-control" name='religion'>
 								<?php
 									$r = $this->db->get('tbl_religion')->result_array();
-									foreach ($r as $religion)
-									{
+
+									foreach ($r as $religion) {
 								?>
 								<option value="<?php echo $religion['id'] ?>" <?php echo set_select('religion', $religion['id']) ?>><?php echo $religion['description'] ?></option>
-								<?php
-									}
-								 ?>
+								<?php } ?>
 							</select>
 						</div>
 					</div>
@@ -151,13 +137,11 @@
 							<select class="form-control" name='province'>
 								<?php
 									$p = $this->db->get('tbl_province')->result_array();
-									foreach ($p as $province)
-									{
+
+									foreach ($p as $province) {
 								?>
 								<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>><?php echo $province['description'] ?></option>
-								<?php
-									}
-								 ?>
+								<?php } ?>
 							</select>
 						</div>
 					</div>
@@ -185,7 +169,7 @@
 							<input class="form-control" type="email" name="emailadd" value="" placeholder="Email Address">
 						</div>
 					</div>
-					
+
 					<br><h3 class="col-sm-offset-1">User Account Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
