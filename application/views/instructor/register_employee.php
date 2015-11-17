@@ -14,11 +14,11 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="lastname" placeholder="Lastname" required>
+							<input class="form-control" type="text" name="lastname" placeholder="Lastname" required value="<?php echo set_value('lastname') ?>">
 							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="firstname" placeholder="First Name" required>
+							<input class="form-control" type="text" name="firstname" placeholder="First Name" required value="<?php echo set_value('firstname') ?>">
 							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-							<input class="form-control" type="text" name="middlename" placeholder="Middle Name" required>
+							<input class="form-control" type="text" name="middlename" placeholder="Middle Name" required value="<?php echo set_value('middlename') ?>">
 							<br>
 							<hr>
 							<br>
@@ -33,7 +33,7 @@
 								<?php
 									$res = $this->party->getOffices();
 									foreach ($res as $key => $value): ?>
-									<option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
+									<option value="<?php echo $value['id'] ?>" <?php echo set_select('office', $value['id']) ?>><?php echo $value['description'] ?></option>
 								<?php endforeach ?>
 							</select>
 						</div>
@@ -47,7 +47,7 @@
 								<?php
 									$res = $this->party->getPositions();
 									foreach ($res as $key => $value): ?>
-									<option value="<?php echo $value['id'] ?>"><?php echo $value['description'] ?></option>
+									<option value="<?php echo $value['id'] ?>" <?php echo set_value('position', $value['id']) ?>><?php echo $value['description'] ?></option>
 								<?php endforeach ?>
 							</select>
 						</div>
@@ -57,8 +57,8 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="gender">Gender <small class="required">(required)</small></label>
 							<select class="form-control" name='gender' required>
-								<option value="M"> MALE</option>
-								<option value="F"> FEMALE</option>
+								<option value="M" <?php echo set_select('gender', 'M', true) ?>> MALE</option>
+								<option value="F" <?php echo set_select('gender', 'F') ?>> FEMALE</option>
 							</select>
 						</div>
 					</div>
@@ -66,10 +66,10 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="maritalstatus">Marital Status <small class="optional">(optional)</small></label>
 							<select class="form-control" name='maritalstatus'>
-								<option value="0">SINGLE</option>
-								<option value="1">MARRIED</option>
-								<option value="2">SEPARATED</option>
-								<option value="3">WIDOWED</option>
+								<option value="0" <?php echo set_select('maritalstatus', 0, true) ?>>SINGLE</option>
+								<option value="1" <?php echo set_select('maritalstatus', 1) ?>>MARRIED</option>
+								<option value="2" <?php echo set_select('maritalstatus', 2) ?>>SEPARATED</option>
+								<option value="3" <?php echo set_select('maritalstatus', 3) ?>>WIDOWED</option>
 							</select>
 						</div>
 					</div>
@@ -104,19 +104,19 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="dob">Date of Birth <small class="required">(required)</small></label>
-							<input class="form-control" type="date" name="dob" value="" required>
+							<input class="form-control" type="date" name="dob" value="<?php echo set_value('dob') ?>" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" class="form-control" value=""></textarea>
+							<textarea name="pob" class="form-control"><?php echo set_value('pob') ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="mailadd">Mailing Address <small class="required">(required)</small></label>
-							<textarea class="form-control" name="mailadd" placeholder="Mailing Address." value=""></textarea>
+							<textarea class="form-control" name="mailadd" placeholder="Mailing Address."><?php echo set_value('mailadd') ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -160,13 +160,13 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="contact">Contact No. <small class="optional">(optional)</small></label>
-							<input class="form-control" type="tel" name="contact" value="" placeholder="Contact No.">
+							<input class="form-control" type="tel" name="contact" value="<?php echo set_value('contact') ?>" placeholder="Contact No.">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" name="emailadd" value="" placeholder="Email Address">
+							<input class="form-control" type="email" name="emailadd" value="<?php echo set_value('emailadd') ?>" placeholder="Email Address">
 						</div>
 					</div>
 
