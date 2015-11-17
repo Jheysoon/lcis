@@ -43,6 +43,13 @@ class Instructor extends CI_Controller
             show_404();
     }
 
+    function register_employee(){
+        $this->api->userMenu();
+        $this->load->model('instructor/party');
+        $this->load->view('instructor/register_employee');
+        $this->load->view('templates/footer');
+    }
+
     function update_grade()
     {
         $grade = $this->input->post('grade');

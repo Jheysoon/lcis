@@ -130,11 +130,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  |-----------------------------------------------------------
  */
 
-    $route['ungroup/(:num)']          = '/dean/ungroup/$1';
+    $route['ungroup/(:num)']            = '/dean/ungroup/$1';
     $route['registrar/(:num)']          = 'registrar/delete_school/$1';
     $route['dean_evaluation/(:any)']    = 'dean/evaluation/$1';
     $route['registrar_tor/(:any)']      = 'registrar/tor/$1';
     $route['enrolment_grouping']        = 'dean/enrolmentLegacyGrouping';
+    $route['register_employee']         = 'instructor/register_employee';
 
 
 
