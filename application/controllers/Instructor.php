@@ -43,7 +43,8 @@ class Instructor extends CI_Controller
             show_404();
     }
 
-    function register_employee(){
+    function register_employee()
+    {
         $this->api->userMenu();
         $this->load->model('instructor/party');
         $this->load->view('instructor/register_employee');
