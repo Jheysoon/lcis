@@ -46,6 +46,7 @@ class Instructor extends CI_Controller
     function register_employee()
     {
         $this->api->userMenu();
+        $this->load->helper('form');
         $this->load->model('instructor/party');
         $this->load->view('instructor/register_employee');
         $this->load->view('templates/footer');
