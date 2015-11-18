@@ -91,6 +91,8 @@ class Instructor extends CI_Controller
             $this->db->insert('tbl_party', $data);
             $id = $this->db->insert_id();
 
+            // insert into tbl_academic or tbl_administration
+
             // insert into tbl_useraccess
             $data['username']   = $this->createUsername($fname, $lname);
             $data['partyid']    = $id;
