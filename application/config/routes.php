@@ -178,14 +178,8 @@ $route['insert_override']                = 'audit/insert_override';
 
 
 /*
-/*
-
-
-/*
-
-
-
 $route['payments/(:any)/(:any)/(:any)'] = 'billing/view_bill/$1';
-$route['payments/(:any)'] = 'billing/view_bill/$1';/**//*
+$route['payments/(:any)'] = 'billing/view_bill/$1';
 $route['viewbilling/(:any)/(:any)'] = 'billing/view_studentbilling/$1/$2';
-$route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';*/
+$route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';
+*/
