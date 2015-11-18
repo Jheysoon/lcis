@@ -45,11 +45,95 @@ class Instructor extends CI_Controller
 
     function register_employee()
     {
-        $this->api->userMenu();
-        $this->load->helper('form');
         $this->load->model('instructor/party');
-        $this->load->view('instructor/register_employee');
-        $this->load->view('templates/footer');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $field = array(
+                    'lastname'      =>  'Lastname',
+                    'firstname'     =>  'Firstname',
+                    'middlename'    =>  'Middlename',
+                    'gender'        =>  'Gender',
+                    'religion'      =>  'Religion',
+                    'dob'           =>  'Date of Birth',
+                    'mailadd'       =>  'Mailing Address',
+                    'password'      =>  'Password',
+                    'rpass'         =>  'Repeat Password',
+                    'position'      =>  'Position',
+                    'office'        =>  'Office'
+                );
+
+        foreach($field as $key => $value)
+        {
+            $this->form_validation->set_rules($key, $value, 'required');
+        }
+
+        if ($this->form_validation->run() == false) {
+            $this->api->userMenu();
+            $data['error'] = '';
+            $this->load->view('instructor/register_employee', $data);
+            $this->load->view('templates/footer');
+
+        } elseif($this->input->post('password') != $this->input->post('rpass')) {
+            $this->api->userMenu();
+            $data['error'] = '<div class="alert alert-danger text-center">Please confirm your password</div>';
+            $this->load->view('instructor/register_employee', $data);
+            $this->load->view('templates/footer');
+
+        } else {
+            // insert into tbl_party
+            $fname              = strtolower($this->input->post('firstname'));
+            $lname              = strtolower($this->input->post('lastname'));
+            $data['firstname']  = ucwords($fname);
+            $data['lastname']   = ucwords($lname);
+            $data['middlename'] = ucwords($this->input->post('middlename'));
+            $data['religion']   = $this->input->post('religion');
+            $this->db->insert('tbl_party', $data);
+            $id = $this->db->insert_id();
+
+            // insert into tbl_useraccess
+            $data['username']   = $this->createUsername($fname, $lname);
+            $data['partyid']    = $id;
+            $data['password']   = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
+            $this->db->insert('tl_useraccess');
+
+            redirect('/register_employee');
+        }
+
+
+    }
+
+    // TODO: Api for this function
+
+    function createUsername($fname, $lname)
+    {
+        if(strlen($lname) >= 6)
+            $username = substr($lname, 0, 6);
+        else
+            $username = $lname;
+
+        $username = $username.substr($fname, 0, 2);
+
+        // check if the username already exists in database
+        $this->db->where('username', $username);
+        $count  = $this->db->count_all_results('tbl_useraccess');
+        $ctr    = 0;
+        $suffix = '00';
+
+        // find an alternative username
+        while ($count > 0)
+        {
+            $ctr++;
+            if($ctr < 10)
+                $suffix = '0'.$ctr;
+            else
+                $suffix = $ctr;
+
+            $username = $username.$suffix;
+            $this->db->where('username', $username);
+            $count  = $this->db->count_all_results('tbl_useraccess');
+        }
+        return $username;
     }
 
     function update_grade()

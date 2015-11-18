@@ -9,7 +9,8 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<form class="form-horizontal add-user" method="post" action="/registration" role="form">
+				<?php echo $error ?>
+				<form class="form-horizontal add-user" method="post" action="/register_employee" role="form">
 					<br><h3 class="col-sm-offset-1">Employee Information</h3><hr><br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
@@ -27,8 +28,8 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="office">Office <small class="required">(required)</small></label>
-							<select class="form-control" name='office'>
-								<option value="0">Select Office</option>
+							<select class="form-control" name='office' required>
+								<option value="">Select Office</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getOffices();
@@ -41,8 +42,8 @@
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="position">Position <small class="required">(required)</small></label>
-							<select class="form-control" name='position'>
-								<option value="0">Select Position</option>
+							<select class="form-control" name='position' required>
+								<option value="">Select Position</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getPositions();
@@ -110,13 +111,13 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="pob">Place of Birth <small class="required">(required)</small></label>
-							<textarea name="pob" class="form-control"><?php echo set_value('pob') ?></textarea>
+							<textarea name="pob" class="form-control" required><?php echo set_value('pob') ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="mailadd">Mailing Address <small class="required">(required)</small></label>
-							<textarea class="form-control" name="mailadd" placeholder="Mailing Address."><?php echo set_value('mailadd') ?></textarea>
+							<textarea class="form-control" required name="mailadd" placeholder="Mailing Address."><?php echo set_value('mailadd') ?></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -166,7 +167,7 @@
 					<div class="form-group">
 						<div class="col-sm-offset-1 col-sm-8">
 							<label class="label-control add-label" for="emailadd">Email Address <small class="optional">(optional)</small></label>
-							<input class="form-control" type="email" name="emailadd" value="<?php echo set_value('emailadd') ?>" placeholder="Email Address">
+							<input class="form-control" type="email" required name="emailadd" value="<?php echo set_value('emailadd') ?>" placeholder="Email Address">
 						</div>
 					</div>
 
