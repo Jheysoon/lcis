@@ -101,8 +101,6 @@ class Instructor extends CI_Controller
 
             redirect('/register_employee');
         }
-
-
     }
 
     // TODO: Api for this function
