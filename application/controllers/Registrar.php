@@ -1246,4 +1246,49 @@ class Registrar extends CI_Controller
         $data = array('party' => $partyid, 'accounttype' => 4, 'seq' => 0, 'ccy' => 1, 'description' => $name);
         $this->db->insert('tbl_account', $data);
     }
+    
+    function register()
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('firstname', 'Firstname', 'required');
+        $this->form_validation->set_rules('student_id', 'Student ID', 'required');
+        $this->form_validation->set_rules('lastname', 'Lastname', 'required');
+        $this->form_validation->set_rules('middlename', 'Middlename', 'required');
+        $this->form_validation->set_rules('course', 'Course', 'required');
+        $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
+        
+        if ($this->form_validation->run() === false) {
+            $this->api->userMenu();
+            $data['errror'] = '';
+            $this->load->view('registrar/register', $data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->db->where('legacyid', $this->input->post('student_id'));
+            $c = $this->db->count_all_results('tbl_party');
+            if ($c > 0) {
+                $this->api->userMenu();
+                $data['error'] = '<div class="alert alert-danger">Student ID Already Exists</div>';
+                $this->load->view('registrar/register', $data);
+                $this->load->view('templates/footer');
+            } else {
+                $this->db->where('course', $this->input->post('course'));
+                $this->db->where('major', $this->input->post('major'));
+                $course_m = $this->db->get('tbl_coursemajor')->row();
+                
+                $d['firstname']     = $this->input->post('firstname');
+                $d['lastname']      = $this->input->post('lastname');
+                $d['middlename']    = $this->input->post('middlename');
+                $this->db->insert('tbl_party', $d);
+                $id = $this->db->insert_id();
+                
+                $data['student'] = $id;
+                $data['coursemajor'] = $course_m->id;
+                $data['academicterm'] = $this->input->post('academicterm');
+                $data['curriculum'] = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
+                $this->db->insert('tbl_registration', $data);
+            }
+        }
+    }
 }
