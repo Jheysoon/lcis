@@ -1286,10 +1286,10 @@ class Registrar extends CI_Controller
                 $student['id'] = $id;
                 $this->db->insert('tbl_student', $student);
 
-                $data['student'] = $id;
-                $data['coursemajor'] = $course_m->id;
-                $data['academicterm'] = $this->input->post('academicterm');
-                $data['curriculum'] = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
+                $data['student']        = $id;
+                $data['coursemajor']    = $course_m->id;
+                $data['academicterm']   = $this->input->post('academicterm');
+                $data['curriculum']     = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
                 $this->db->insert('tbl_registration', $data);
             }
         }
