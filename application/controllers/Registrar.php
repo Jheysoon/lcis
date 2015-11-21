@@ -1240,25 +1240,25 @@ class Registrar extends CI_Controller
         }
 
     }
-    
+
     function insert_account($partyid, $name)
     {
         $data = array('party' => $partyid, 'accounttype' => 4, 'seq' => 0, 'ccy' => 1, 'description' => $name);
         $this->db->insert('tbl_account', $data);
     }
-    
+
     function register()
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
-        
+
         $this->form_validation->set_rules('firstname', 'Firstname', 'required');
         $this->form_validation->set_rules('student_id', 'Student ID', 'required');
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
-        
+
         if ($this->form_validation->run() === false) {
             $this->api->userMenu();
             $data['errror'] = '';
@@ -1276,13 +1276,16 @@ class Registrar extends CI_Controller
                 $this->db->where('course', $this->input->post('course'));
                 $this->db->where('major', $this->input->post('major'));
                 $course_m = $this->db->get('tbl_coursemajor')->row();
-                
+
                 $d['firstname']     = $this->input->post('firstname');
                 $d['lastname']      = $this->input->post('lastname');
                 $d['middlename']    = $this->input->post('middlename');
                 $this->db->insert('tbl_party', $d);
                 $id = $this->db->insert_id();
-                
+
+                $student['id'] = $id;
+                $this->db->insert('tbl_student', $student);
+
                 $data['student'] = $id;
                 $data['coursemajor'] = $course_m->id;
                 $data['academicterm'] = $this->input->post('academicterm');
