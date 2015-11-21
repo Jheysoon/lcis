@@ -896,7 +896,7 @@ class Registrar extends CI_Controller
             $data['student_id'] = $r['legacyid'];
             $this->load->view('registrar/take_photo', $data);
             $this->load->view('templates/footer2');
-        } elseif
+        } else
             show_error('Did you type the url by yourself ?');
     }
 
@@ -1240,9 +1240,10 @@ class Registrar extends CI_Controller
         }
 
     }
+    
     function insert_account($partyid, $name)
     {
-        $data = array('party' => $partyid, 'accounttype' = 4, 'seq' => 0, 'ccy' => 1, 'description' => $name);
+        $data = array('party' => $partyid, 'accounttype' => 4, 'seq' => 0, 'ccy' => 1, 'description' => $name);
         $this->db->insert('tbl_account', $data);
     }
 }
