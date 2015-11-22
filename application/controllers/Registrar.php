@@ -1267,6 +1267,7 @@ class Registrar extends CI_Controller
         } else {
             $this->db->where('legacyid', $this->input->post('student_id'));
             $c = $this->db->count_all_results('tbl_party');
+            
             if ($c > 0) {
                 $this->api->userMenu();
                 $data['error'] = '<div class="alert alert-danger">Student ID Already Exists</div>';
