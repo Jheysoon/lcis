@@ -1261,7 +1261,7 @@ class Registrar extends CI_Controller
 
         if ($this->form_validation->run() === false) {
             $this->api->userMenu();
-            $data['errror'] = '';
+            $data['error'] = '';
             $this->load->view('registrar/register', $data);
             $this->load->view('templates/footer');
         } else {
@@ -1291,6 +1291,8 @@ class Registrar extends CI_Controller
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['curriculum']     = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
                 $this->db->insert('tbl_registration', $data);
+
+                redirect('/register');
             }
         }
     }

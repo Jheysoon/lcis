@@ -9,6 +9,7 @@
             </div>
         </div>
         <div class="panel-body">
+            <?php echo $error ?>
             <form action="/register" method="post">
                 <br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
                 <div class="form-group">
@@ -56,14 +57,14 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">School Year (first enrolled) <small class="required">(required)</small></label>
 							<select class="form-control" name='academicterm' required>
-								<?php 
+								<?php
                                     $this->db->order_by('systart', 'ASC');
                                     $this->db->order_by('term', 'ASC');
-                                    $academicterms = $this->db->get('tbl_academicterm')->result_array(); 
+                                    $academicterms = $this->db->get('tbl_academicterm')->result_array();
                                 ?>
 
-								 <?php 
-                                    foreach ($academicterms as $academicterm) { 
+								 <?php
+                                    foreach ($academicterms as $academicterm) {
                                         if ($academicterm['term'] == 3)
                                             $term = 'Summer';
                                         else
