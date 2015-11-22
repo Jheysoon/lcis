@@ -1277,9 +1277,9 @@ class Registrar extends CI_Controller
                 $this->db->where('major', $this->input->post('major'));
                 $course_m = $this->db->get('tbl_coursemajor')->row();
 
-                $d['firstname']     = $this->input->post('firstname');
-                $d['lastname']      = $this->input->post('lastname');
-                $d['middlename']    = $this->input->post('middlename');
+                $d['firstname']     = strtoupper($this->input->post('firstname'));
+                $d['lastname']      = strtoupper($this->input->post('lastname'));
+                $d['middlename']    = strtoupper($this->input->post('middlename'));
                 $d['legacyid']      = $this->input->post('student_id');
                 $this->db->insert('tbl_party', $d);
                 $id = $this->db->insert_id();
