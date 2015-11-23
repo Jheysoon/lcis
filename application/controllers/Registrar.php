@@ -1032,8 +1032,8 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $d['course'] = $this->input->post('course');
-            $d['major'] = $this->input->post('major');
+            $d['course']    = $this->input->post('course');
+            $d['major']     = $this->input->post('major');
             $this->load->view('registrar/shiftee', $d);
         } else {
             $this->db->where('course', $this->input->post('course'));
@@ -1058,7 +1058,7 @@ class Registrar extends CI_Controller
         $tt1     = $this->api->systemValue();
         $this->db->where('id', $tt1['currentacademicterm']);
         $this->db->select('systart');
-        $tt = $this->db->get('tbl_academicterm')->row_array();
+        $tt     = $this->db->get('tbl_academicterm')->row_array();
         $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
 
         foreach ($acamd as $acams) {
@@ -1088,7 +1088,7 @@ class Registrar extends CI_Controller
                     $this->load->model('registrar/registration');
                     $this->db->where('id', $id);
                     $this->db->select('firstname,middlename,lastname,legacyid');
-                    $p = $this->db->get('tbl_party')->row_array();
+                    $p                  = $this->db->get('tbl_party')->row_array();
                     $data['firstname']  = $p['firstname'];
                     $data['lastname']   = $p['lastname'];
                     $data['middlename'] = $p['middlename'];
@@ -1126,7 +1126,7 @@ class Registrar extends CI_Controller
         $data['id'] = $id;
         $p = $this->registration->getLatestCM($id);
         $this->db->where('id', $p['student']);
-        $pp = $this->db->get('tbl_party')->row_array();
+        $pp                 = $this->db->get('tbl_party')->row_array();
         $data['fname']      = $pp['firstname'];
         $data['lname']      = $pp['lastname'];
         $data['mname']      = $pp['middlename'];
@@ -1161,8 +1161,8 @@ class Registrar extends CI_Controller
 
     function set_error($message, $back)
     {
-        $data['back'] = $back;
-        $data['message'] = $message;
+        $data['back']       = $back;
+        $data['message']    = $message;
         $this->api->userMenu();
         $this->load->view('registrar/error_message', $data);
     }
