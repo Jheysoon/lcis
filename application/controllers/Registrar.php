@@ -1030,18 +1030,15 @@ class Registrar extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $d['course']    = $this->input->post('course');
-            $d['major']     = $this->input->post('major');
             $this->load->view('registrar/shiftee', $d);
         } else {
-            $this->db->where('course', $this->input->post('course'));
-            $this->db->where('major', $this->input->post('major'));
-            $this->db->select('id');
+            
             $t                  = $this->db->get('tbl_coursemajor')->row_array();
             $r['student']       = $this->input->post('id');
-            $r['coursemajor']   = $t['id'];
+            $r['coursemajor']   = $this->input->post('course');
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
-            $r['curriculum']    = $this->getLatestCur($r['coursemajor']);
+            $r['curriculum']    = $this->getLatestCur($this->input->post('course'));
             $r['createdby']     = $this->session->userdata('uid');
             $r['datecreated']   = date('Y-m-d');
             $this->db->insert('tbl_registration', $r);
