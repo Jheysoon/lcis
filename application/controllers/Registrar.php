@@ -728,7 +728,6 @@ class Registrar extends CI_Controller
             $d['mname']     = set_value('middlename');
             $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
             $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-            $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
             $this->load->view('registrar/newstudent_registration', $d);
             $this->load->view('templates/footer2');
         }
@@ -766,17 +765,15 @@ class Registrar extends CI_Controller
                     $this->db->update('tbl_systemvalues', $sys);
 
                     // get the coursemajor
-                    $this->db->where('course', $this->input->post('course'));
-                    $this->db->where('major', $this->input->post('major'));
-                    $course_m = $this->db->get('tbl_coursemajor')->row();
+                    $course_m = $this->input->post('course');
 
                     // get the latest curriculum for that student
-                    $reg['coursemajor']     = $course_m->id;
+                    $reg['coursemajor']     = $course_m;
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
-                    $reg['curriculum']      = $this->get_current_curriculum($course_m->id, $systemVal['currentacademicterm']);
+                    $reg['curriculum']      = $this->get_current_curriculum($course_m, $systemVal['currentacademicterm']);
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
