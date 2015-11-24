@@ -1037,33 +1037,13 @@ class Registrar extends CI_Controller
             $r['coursemajor']   = $this->input->post('course');
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
-            $r['curriculum']    = $this->getLatestCur($this->input->post('course'));
+            $r['curriculum']    = $this->get_current_curriculum($this->input->post('course'), $systemVal['currentacademicterm']);
             $r['createdby']     = $this->session->userdata('uid');
             $r['datecreated']   = date('Y-m-d');
             $this->db->insert('tbl_registration', $r);
             $this->ch_stat_reg($this->db->insert_id());
             redirect('/menu/registrar-shift_student');
         }
-    }
-
-    function getLatestCur($coursemajor)
-    {
-        $tt1     = $this->api->systemValue();
-        $this->db->where('id', $tt1['currentacademicterm']);
-        $this->db->select('systart');
-        $tt     = $this->db->get('tbl_academicterm')->row_array();
-        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
-
-        foreach ($acamd as $acams) {
-            $c = $this->db->query("SELECT * FROM tbl_curriculum
-                                    WHERE coursemajor = $coursemajor
-                                    AND academicterm = {$acams['id']}");
-            if ($c->num_rows() > 0) {
-                $cur    = $c->row_array();
-                return $cur['id'];
-            }
-        }
-        return 0;
     }
 
     function shiftee($id = '')
