@@ -1264,6 +1264,7 @@ class Registrar extends CI_Controller
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
                 $data['curriculum']     = $this->get_current_curriculum($course_m, $this->input->post('academicterm'));
+                $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
 
                 redirect('/register');
