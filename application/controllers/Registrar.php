@@ -1258,10 +1258,13 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
+        
+        $courseMajor = $this->db->get('tbl_coursemajor')->result();
 
         if ($this->form_validation->run() === false) {
             $this->api->userMenu();
-            $data['error'] = '';
+            $data['error']          = '';
+            $data['coursemajors']   = $courseMajor;
             $this->load->view('registrar/register', $data);
             $this->load->view('templates/footer');
         } else {
@@ -1270,13 +1273,13 @@ class Registrar extends CI_Controller
             
             if ($c > 0) {
                 $this->api->userMenu();
-                $data['error'] = '<div class="alert alert-danger">Student ID Already Exists</div>';
+                $data['error']          = '<div class="alert alert-danger">Student ID Already Exists</div>';
+                $data['coursemajors']   = $courseMajor;
                 $this->load->view('registrar/register', $data);
                 $this->load->view('templates/footer');
             } else {
-                $this->db->where('course', $this->input->post('course'));
-                $this->db->where('major', $this->input->post('major'));
-                $course_m = $this->db->get('tbl_coursemajor')->row();
+                
+                $course_m = $this->input->post('course');
 
                 $d['firstname']     = strtoupper($this->input->post('firstname'));
                 $d['lastname']      = strtoupper($this->input->post('lastname'));
@@ -1289,10 +1292,10 @@ class Registrar extends CI_Controller
                 $this->db->insert('tbl_student', $student);
 
                 $data['student']        = $id;
-                $data['coursemajor']    = $course_m->id;
+                $data['coursemajor']    = $course_m;
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
-                $data['curriculum']     = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
+                $data['curriculum']     = $this->get_current_curriculum($course_m, $this->input->post('academicterm'));
                 $this->db->insert('tbl_registration', $data);
 
                 redirect('/register');
