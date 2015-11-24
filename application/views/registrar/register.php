@@ -25,7 +25,7 @@
                         <br>
                         <hr>
                         <br>
-                        <label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
+                        <label class="label-control add-label" for="course">Course with Major <small class="required">(required)</small></label>
 
                         <select class="form-control" name='course' required>
                             
