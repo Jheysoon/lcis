@@ -826,29 +826,25 @@ class Registrar extends CI_Controller
 
     function get_current_curriculum($coursemajor, $systart)
     {
-        $cur1    = 0;
+        $cur1       = 0;
+        $acamd      = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
 
-        $acamd  = $this->db->query("SELECT * FROM `tbl_academicterm` WHERE systart <= $systart ORDER BY systart DESC,term")->result_array();
-
-        foreach($acamd as $acams)
-        {
+        foreach ($acamd as $acams) {
             $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-            if($c->num_rows() > 0)
-            {
+            
+            if ($c->num_rows() > 0) {
                 $cur    = $c->row_array();
                 $cur1   = $cur['id'];
                 break;
             }
         }
 
-        if($cur1 == 0)
-        {
+        if ($cur1 == 0) {
             $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart DESC LIMIT 1 ")->row_array();
             $cur1 = $cur['id'];
         }
 
         return $cur1;
-
     }
 
     function student_id($id)
