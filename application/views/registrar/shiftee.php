@@ -25,43 +25,17 @@
                         <br>
 						<hr>
                         <br>
-                        <label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
+                        <label class="label-control add-label" for="course">Course With Major<small class="required">(required)</small></label>
                         <select class="form-control" name='course' required>
-                            <?php
-                                $c = $this->db->get('tbl_course')->result_array();
-                                foreach ($c as $val)
-                                {
-                                    if($course != 0 AND $val['id'] == $course){
+                            <?php 
+                                $coursemajors = $this->db->get('tbl_coursemajor')->result();
+                                
+                                foreach ($coursemajors as $coursemajor) {
                             ?>
-                            <option value="<?php echo $val['id']; ?>" selected="selected"><?php echo $val['description']; ?></option>
-                            <?php
-                                    }
-                                    else {
-                                        ?>
-                            <option value="<?php echo $val['id']; ?>"><?php echo $val['description']; ?></option>
-                            <?php
-                                    }
-                                }
-                             ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-1">
-                        <label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
-                        <select class="form-control" name='major'>
-                            <?php
-                                $m = $this->db->get('tbl_major')->result_array();
-                             ?>
-                             <option value="0" <?php set_select('major', 0, TRUE); ?>>Select major</option>
-                             <?php
-                                foreach($m as $major)
-                                {
-                            ?>
-                            <option value="<?php echo $major['id'] ?>" <?php echo set_select('major', $major['id']) ?>><?php echo $major['description'] ?></option>
-                            <?php
-                                }
-                              ?>
+                                <option value="<?php echo $coursemajor->id ?>" <?php echo ($course != 0 AND $coursemajor->id == $course) ? 'selected' : '' ?>>
+                                    <?php echo $this->api->getCourseMajor($coursemajor->id) ?>
+                                </option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>

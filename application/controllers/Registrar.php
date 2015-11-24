@@ -728,7 +728,6 @@ class Registrar extends CI_Controller
             $d['mname']     = set_value('middlename');
             $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
             $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-            $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
             $this->load->view('registrar/newstudent_registration', $d);
             $this->load->view('templates/footer2');
         }
@@ -766,17 +765,15 @@ class Registrar extends CI_Controller
                     $this->db->update('tbl_systemvalues', $sys);
 
                     // get the coursemajor
-                    $this->db->where('course', $this->input->post('course'));
-                    $this->db->where('major', $this->input->post('major'));
-                    $course_m = $this->db->get('tbl_coursemajor')->row();
+                    $course_m = $this->input->post('course');
 
                     // get the latest curriculum for that student
-                    $reg['coursemajor']     = $course_m->id;
+                    $reg['coursemajor']     = $course_m;
                     $reg['academicterm']    = $systemVal['currentacademicterm'];
                     $reg['datecreated']     = date('Y-m-d');
                     $reg['date']            = date('Y-m-d');
                     $reg['student']         = $id;
-                    $reg['curriculum']      = $this->get_current_curriculum($course_m->id, $systemVal['currentacademicterm']);
+                    $reg['curriculum']      = $this->get_current_curriculum($course_m, $systemVal['currentacademicterm']);
                     $reg['status']          = 'E';
                     $this->db->insert('tbl_registration', $reg);
 
@@ -879,7 +876,6 @@ class Registrar extends CI_Controller
                             // inline if statement
         $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
         $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-        $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
         $this->api->userMenu();
         $this->load->view('registrar/newstudent_registration', $d);
         $this->load->view('templates/footer2');
@@ -1033,44 +1029,21 @@ class Registrar extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $d['course']    = $this->input->post('course');
-            $d['major']     = $this->input->post('major');
             $this->load->view('registrar/shiftee', $d);
         } else {
-            $this->db->where('course', $this->input->post('course'));
-            $this->db->where('major', $this->input->post('major'));
-            $this->db->select('id');
+            
             $t                  = $this->db->get('tbl_coursemajor')->row_array();
             $r['student']       = $this->input->post('id');
-            $r['coursemajor']   = $t['id'];
+            $r['coursemajor']   = $this->input->post('course');
             $systemVal          = $this->api->systemValue();
             $r['academicterm']  = $systemVal['currentacademicterm'];
-            $r['curriculum']    = $this->getLatestCur($r['coursemajor']);
+            $r['curriculum']    = $this->get_current_curriculum($this->input->post('course'), $systemVal['currentacademicterm']);
             $r['createdby']     = $this->session->userdata('uid');
             $r['datecreated']   = date('Y-m-d');
             $this->db->insert('tbl_registration', $r);
             $this->ch_stat_reg($this->db->insert_id());
             redirect('/menu/registrar-shift_student');
         }
-    }
-
-    function getLatestCur($coursemajor)
-    {
-        $tt1     = $this->api->systemValue();
-        $this->db->where('id', $tt1['currentacademicterm']);
-        $this->db->select('systart');
-        $tt     = $this->db->get('tbl_academicterm')->row_array();
-        $acamd  = $this->db->query("SELECT term,id,systart,syend FROM `tbl_academicterm` where systart <= {$tt['systart']} order by systart ASC,term")->result_array();
-
-        foreach ($acamd as $acams) {
-            $c = $this->db->query("SELECT * FROM tbl_curriculum
-                                    WHERE coursemajor = $coursemajor
-                                    AND academicterm = {$acams['id']}");
-            if ($c->num_rows() > 0) {
-                $cur    = $c->row_array();
-                return $cur['id'];
-            }
-        }
-        return 0;
     }
 
     function shiftee($id = '')
@@ -1097,12 +1070,11 @@ class Registrar extends CI_Controller
                     $r = $this->registration->getLatestCM($id);
 
                     $this->db->where('id', $r['coursemajor']);
-                    $this->db->select('course,major');
+                    $this->db->select('course');
                     $c = $this->db->get('tbl_coursemajor')->row_array();
 
                     $data['id']     = $id;
                     $data['course'] = $c['course'];
-                    $data['major']  = $c['major'];
                     $this->api->userMenu();
                     $this->load->view('registrar/shiftee', $data);
                     $this->load->view('templates/footer');
@@ -1258,10 +1230,13 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('middlename', 'Middlename', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
+        
+        $courseMajor = $this->db->get('tbl_coursemajor')->result();
 
         if ($this->form_validation->run() === false) {
             $this->api->userMenu();
-            $data['error'] = '';
+            $data['error']          = '';
+            $data['coursemajors']   = $courseMajor;
             $this->load->view('registrar/register', $data);
             $this->load->view('templates/footer');
         } else {
@@ -1270,13 +1245,13 @@ class Registrar extends CI_Controller
             
             if ($c > 0) {
                 $this->api->userMenu();
-                $data['error'] = '<div class="alert alert-danger">Student ID Already Exists</div>';
+                $data['error']          = '<div class="alert alert-danger">Student ID Already Exists</div>';
+                $data['coursemajors']   = $courseMajor;
                 $this->load->view('registrar/register', $data);
                 $this->load->view('templates/footer');
             } else {
-                $this->db->where('course', $this->input->post('course'));
-                $this->db->where('major', $this->input->post('major'));
-                $course_m = $this->db->get('tbl_coursemajor')->row();
+                
+                $course_m = $this->input->post('course');
 
                 $d['firstname']     = strtoupper($this->input->post('firstname'));
                 $d['lastname']      = strtoupper($this->input->post('lastname'));
@@ -1289,10 +1264,10 @@ class Registrar extends CI_Controller
                 $this->db->insert('tbl_student', $student);
 
                 $data['student']        = $id;
-                $data['coursemajor']    = $course_m->id;
+                $data['coursemajor']    = $course_m;
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
-                $data['curriculum']     = $this->get_current_curriculum($course_m->id, $this->input->post('academicterm'));
+                $data['curriculum']     = $this->get_current_curriculum($course_m, $this->input->post('academicterm'));
                 $this->db->insert('tbl_registration', $data);
 
                 redirect('/register');

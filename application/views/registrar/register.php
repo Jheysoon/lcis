@@ -25,34 +25,16 @@
                         <br>
                         <hr>
                         <br>
-                        <label class="label-control add-label" for="course">Course <small class="required">(required)</small></label>
+                        <label class="label-control add-label" for="course">Course with Major <small class="required">(required)</small></label>
 
                         <select class="form-control" name='course' required>
-                            <?php
-                                $c = $this->db->get('tbl_course')->result_array();
-
-                                foreach ($c as $val) :
-                            ?>
-                                <option value="<?php echo $val['id']; ?>" <?php echo set_select('course', $val['id']) ?>><?php echo $val['description']; ?></option>
-                            <?php
-                                endforeach;
-                             ?>
+                            
+                            <?php foreach ($coursemajors as $coursemajor) { ?>
+                                <option value="<?php echo $coursemajor->id ?>" <?php echo set_select('course', $coursemajor->id) ?>><?php echo $this->api->getCourseMajor($coursemajor->id) ?></option>
+                            <?php } ?>
+                            
                         </select>
                     </div>
-                    <div class="form-group">
-						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="major">Major <small class="optional">(optional)</small></label>
-							<select class="form-control" name='major'>
-								<?php $m = $this->db->get('tbl_major')->result_array(); ?>
-								 <option value="0" <?php set_select('major', 0, TRUE); ?>>Select major</option>
-
-								 <?php foreach ($m as $major) { ?>
-									 <option value="<?php echo $major['id'] ?>" <?php echo set_select('major', $major['id']) ?>><?php echo $major['description'] ?></option>
-								<?php } ?>
-
-							</select>
-						</div>
-					</div>
                     <div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="major">School Year (first enrolled) <small class="required">(required)</small></label>
