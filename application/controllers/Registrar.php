@@ -1091,12 +1091,11 @@ class Registrar extends CI_Controller
                     $r = $this->registration->getLatestCM($id);
 
                     $this->db->where('id', $r['coursemajor']);
-                    $this->db->select('course,major');
+                    $this->db->select('course');
                     $c = $this->db->get('tbl_coursemajor')->row_array();
 
                     $data['id']     = $id;
                     $data['course'] = $c['course'];
-                    $data['major']  = $c['major'];
                     $this->api->userMenu();
                     $this->load->view('registrar/shiftee', $data);
                     $this->load->view('templates/footer');
