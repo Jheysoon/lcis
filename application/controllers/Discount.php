@@ -12,6 +12,7 @@ class Discount extends CI_Controller
 		$this->load->view('discount/discount_list');
 		$this->load->view('templates/footer');
 	}
+	
 	function view_discounts($legacyid)
 	{
 		$this->load->model('discount/discountmd');
@@ -21,6 +22,7 @@ class Discount extends CI_Controller
 		$this->load->view('templates/footer');
 
 	}
+	
 	function disc_submit()
 	{
 		redirect('/view_discount/'. $this->input->post('stats'));
