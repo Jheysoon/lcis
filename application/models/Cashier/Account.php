@@ -58,7 +58,7 @@
     function search_account($id)
     {
         $party_id = $this->db->query("SELECT *, student FROM tbl_party, tbl_enrolment
-                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%') AND tbl_party.id = student LIMIT 8")->result_array();
+                               WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%') AND tbl_party.id = student GROUP by tbl_enrolment.student LIMIT 8")->result_array();
                                return $party_id;
     }
     function acad()

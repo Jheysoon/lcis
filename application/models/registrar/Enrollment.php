@@ -120,7 +120,7 @@ class Enrollment extends CI_Model
         return $result->result_array();
     }
     function enrolled(){
-          $term = $this->api->systemValue();
+        $term = $this->api->systemValue();
         $t = $term['phaseterm'];
              return $this->db->query("SELECT * FROM tbl_enrolment WHERE academicterm = '$t'
                                     GROUP BY student")
