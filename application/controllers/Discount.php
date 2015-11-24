@@ -6,9 +6,11 @@ class Discount extends CI_Controller
 	{
 		$this->api->userMenu();
 		$this->load->library('pagination');
-		$this->load->model('registrar/enrollment');
-		$this->load->model('registrar/party');
-		$this->load->model('registrar/course');
+		$this->load->model(array(
+			'registrar/enrollment',
+			'registrar/party',
+			'registrar/course'
+		));
 		$this->load->view('discount/discount_list');
 		$this->load->view('templates/footer');
 	}
