@@ -840,8 +840,8 @@ class Registrar extends CI_Controller
         }
 
         if ($cur1 == 0) {
-            $cur = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart DESC LIMIT 1 ")->row_array();
-            $cur1 = $cur['id'];
+            $cur    = $this->db->query("SELECT * FROM tbl_curriculum a,tbl_academicterm b WHERE coursemajor = $coursemajor and b.id = a.academicterm ORDER BY b.systart DESC LIMIT 1 ")->row_array();
+            $cur1   = $cur['id'];
         }
 
         return $cur1;
