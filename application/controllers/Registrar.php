@@ -876,7 +876,6 @@ class Registrar extends CI_Controller
                             // inline if statement
         $d['legacyid']  = ($this->input->post('sid')    ? $this->input->post('sid') : 0);
         $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
-        $d['major']     = ($this->input->post('major')  ? $this->input->post('major') : 0);
         $this->api->userMenu();
         $this->load->view('registrar/newstudent_registration', $d);
         $this->load->view('templates/footer2');
