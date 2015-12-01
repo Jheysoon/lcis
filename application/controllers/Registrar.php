@@ -1223,7 +1223,6 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('firstname', 'Firstname', 'required');
         $this->form_validation->set_rules('student_id', 'Student ID', 'required');
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
-        $this->form_validation->set_rules('middlename', 'Middlename', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
         
