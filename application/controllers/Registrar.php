@@ -1245,6 +1245,7 @@ class Registrar extends CI_Controller
                 $this->load->view('registrar/register', $data);
                 $this->load->view('templates/footer');
             } else {
+                $this->db->trans_begin();
                 
                 $course_m = $this->input->post('course');
 
@@ -1270,7 +1271,13 @@ class Registrar extends CI_Controller
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
                 
-                $this->session->set_flashdata('message', '<div class="alert alert-success text-center">Successfully Registered</div>');
+                if ($thid->db->trans_status() === FALSE) {
+                     $this->db->trans_rollback();
+                     $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
+                } else {
+                    $this->db->trans_commit();
+                    $this->session->set_flashdata('message', '<div class="alert alert-success text-center">Successfully Registered</div>');
+                }
 
                 redirect('/register');
             }
