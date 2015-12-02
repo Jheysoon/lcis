@@ -1269,6 +1269,8 @@ class Registrar extends CI_Controller
                 $data['curriculum']     = $this->get_current_curriculum($course_m, $acam_id->systart);
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
+                
+                $this->session->set_flashdata('message', '<div class="alert alert-success text-center">Successfully Registered</div>');
 
                 redirect('/register');
             }

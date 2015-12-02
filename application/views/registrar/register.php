@@ -11,6 +11,7 @@
         <div class="panel-body">
             <?php echo $error ?>
             <form action="/register" method="post">
+                <?php $this->session->flashdata('message') ?>
                 <br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-1">
