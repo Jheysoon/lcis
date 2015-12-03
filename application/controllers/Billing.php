@@ -109,6 +109,7 @@ class Billing extends CI_Controller
 			$am = '-'.$amountpaid;
 			$counted = 0;
 			$this->assesment->paymentmovement($am, $paymentid, $billid, $counted);
+			$this->api->updateEnrolmentStatus($enrolid);
 		}
 		else
 		{
@@ -119,6 +120,7 @@ class Billing extends CI_Controller
 			$counted = 1;
 			echo $ful;
 			$this->assesment->paymentmovement($am, $paymentid, $billid, $counted);
+			$this->api->updateEnrolmentStatus($enrolid);
 		}
 		$leg = $this->assesment->getLeg($enrolid);
 		redirect("billing/view_studentbilling/".$leg);
