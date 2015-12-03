@@ -206,7 +206,7 @@ class Api
 	}
 
 	//function to determine the year level echo $this->api->yearLevel(172,4);
-	function yearLevel($partyid)
+	function yearLevel($partyid, $eval = true)
 	{
 		$systemVal 	= $this->systemValue();
 		$sy     	= $systemVal['nextacademicterm'];
@@ -300,12 +300,14 @@ class Api
 				}
 
 			}
-
-			$h['comment'] = 'OK';
-			$h['student'] = $partyid;
-			$h['student_units'] = $student_units;
-			$h['totalunits'] = $units;
-			$this->CI->db->insert('out_exception',$h);
+			
+			if ( ! $eval) {
+				$h['comment'] = 'OK';
+				$h['student'] = $partyid;
+				$h['student_units'] = $student_units;
+				$h['totalunits'] = $units;
+				$this->CI->db->insert('out_exception',$h);
+			}
 
 			for ($q=0; $q <= 3 ; $q++)
 			{
