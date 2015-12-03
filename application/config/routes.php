@@ -121,8 +121,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
 
     $route['change_sy']                     = 'dean/change_sy';
+    $route['register']                      = 'registrar/register';
 
-
+    $route['systemvalue']                   = 'systemvalue/index';
 
 /*-----------------------------------------------------------
  | Developers Routes
@@ -178,14 +179,14 @@ $route['insert_override']                = 'audit/insert_override';
 
 
 /*
-/*
-
-
-/*
-
-
-
 $route['payments/(:any)/(:any)/(:any)'] = 'billing/view_bill/$1';
-$route['payments/(:any)'] = 'billing/view_bill/$1';/**//*
+$route['payments/(:any)'] = 'billing/view_bill/$1';
 $route['viewbilling/(:any)/(:any)'] = 'billing/view_studentbilling/$1/$2';
-$route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';*/
+$route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';
+*/
+
+
+//Student Discount
+$route['student_discount']              = 'discount/student_list';
+$route['view_discount/(:any)']          = 'discount/view_discounts/$1';
+$route['disc_submit']                   = 'discount/disc_submit';
