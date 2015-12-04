@@ -1272,7 +1272,7 @@ class Registrar extends CI_Controller
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
                 
-                if ($thid->db->trans_status() === FALSE) {
+                if ($this->db->trans_status() === FALSE) {
                      $this->db->trans_rollback();
                      $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
                 } else {
