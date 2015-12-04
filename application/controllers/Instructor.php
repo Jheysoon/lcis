@@ -80,6 +80,8 @@ class Instructor extends CI_Controller
             $this->load->view('templates/footer');
 
         } else {
+            $this->db->trans_begin();
+            
             // insert into tbl_party
             $fname              = strtolower($this->input->post('firstname'));
             $lname              = strtolower($this->input->post('lastname'));
@@ -98,8 +100,14 @@ class Instructor extends CI_Controller
             $data['password']   = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             $this->db->insert('tbl_useraccess');
             
-            $this->session->set_flashdata('message', 
-                '<div class="alert alert-success text-center">Successfully registered <br/> Your Username is '.$data['username'].'</div>');
+            if ($thid->db->trans_status() === FALSE) {
+                 $this->db->trans_rollback();
+                 $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
+            } else {
+                $this->db->trans_commit();
+                $this->session->set_flashdata('message', 
+                    '<div class="alert alert-success text-center">Successfully registered <br/> Your Username is '.$data['username'].'</div>');
+            }
 
             redirect('/register_employee');
         }
