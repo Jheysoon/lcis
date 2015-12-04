@@ -101,8 +101,8 @@ class Instructor extends CI_Controller
             $this->db->insert('tbl_useraccess');
             
             if ($thid->db->trans_status() === FALSE) {
-                 $this->db->trans_rollback();
-                 $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
+                $this->db->trans_rollback();
+                $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
             } else {
                 $this->db->trans_commit();
                 $this->session->set_flashdata('message', 
