@@ -1253,6 +1253,7 @@ class Registrar extends CI_Controller
                 $d['lastname']      = strtoupper($this->input->post('lastname'));
                 $d['middlename']    = strtoupper($this->input->post('middlename'));
                 $d['legacyid']      = $this->input->post('student_id');
+                $d['partytype']     = 3;
                 $this->db->insert('tbl_party', $d);
                 $id = $this->db->insert_id();
 
@@ -1276,6 +1277,7 @@ class Registrar extends CI_Controller
                      $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
                 } else {
                     $this->db->trans_commit();
+                    $this->insert_account($id, $d['firstname'].' '.$d['lastname']);
                     $this->session->set_flashdata('message', '<div class="alert alert-success text-center">Successfully Registered</div>');
                 }
 

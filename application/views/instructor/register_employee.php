@@ -32,7 +32,7 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="office">Office <small class="required">(required)</small></label>
 							<select class="form-control" name='office' required>
-								<option value="">Select Office</option>
+								<option value="0">Select Office</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getOffices();
@@ -46,7 +46,7 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="position">Position <small class="required">(required if office is not selected)</small></label>
 							<select class="form-control" name='position'>
-								<option value="">Select Position</option>
+								<option value="0">Select Position</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getPositions();
