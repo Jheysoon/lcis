@@ -9,7 +9,7 @@
 	$sys = $this->api->systemValue();
 	$term = $sys['phaseterm'];
 	$sy = $this->student->getAcTerm($term);
-	$level = $this->api->yearLevel($pid);
+	$level = $this->api->yearLevel($pid, false);
 
 	// if ($level < 4 and $count != 0) {
 	// 	if ($count%2 != 1) {

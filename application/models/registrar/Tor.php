@@ -89,6 +89,18 @@ class Tor extends CI_Model
       return $q->result_array();
     }
 
+    // query getting enrolment
+    function getEnrolment2($pid, $limit){
+      $q = $this->db->query("SELECT a.*, b.firstname as school, d.subject, c.code, c.descriptivetitle, c.units, c.group
+                             FROM view_tor a, tbl_party b, tbl_subject c, tbl_classallocation d
+                             WHERE a.student = '$pid'
+                             AND a.classallocation = d.id
+                             AND d.subject = c.id
+                             AND b.id = a.school
+                             ORDER BY a.systart, a.syend, a.shortname, c.units DESC, c.code");
+      return $q->result_array();
+    }
+
     // query getting grade
     function getGrade($id){
       $q = $this->db->query("SELECT value, description
