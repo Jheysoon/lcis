@@ -157,7 +157,7 @@
                                         ?>
                                         <option value="<?php echo $el['id']; ?> "
                                             <?php // what is $elementaryss doing ?? undefined variable or not ?? ?>
-                                            <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $elementaryss) ? 'selected' : '' ?>>
+                                            <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $elementary) ? 'selected' : '' ?>>
                                             <?php echo $el['firstname']; ?>
                                         </option>
                                         <?php
