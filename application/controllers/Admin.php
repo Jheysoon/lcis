@@ -21,6 +21,7 @@ class Admin extends CI_Controller
 	function designation()
 	{
 		$this->head();
+		$this->load->model('admin/designation');
         $this->load->view('admin/designation');
 		$this->load->view('templates/footer');
 	}
