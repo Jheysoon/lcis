@@ -79,7 +79,19 @@ class Instructor extends CI_Controller
             $this->load->view('instructor/register_employee', $data);
             $this->load->view('templates/footer');
 
+        } elseif($this->input->post('office') == 0 AND $this->input->post('position') == 0) {
+            $this->api->userMenu();
+            $data['error'] = '<div class="alert alert-danger text-center">Please Select a Office / Position</div>';
+            $this->load->view('instructor/register_employee', $data);
+            $this->load->view('templates/footer');
         } else {
+            
+            if ($this->input->post('office') != 0) {
+                $partytype = 6;
+            } elseif($this->input->post('position') != 0) {
+                $partytype = 2;
+            }
+            
             $this->db->trans_begin();
             
             // insert into tbl_party
@@ -89,6 +101,7 @@ class Instructor extends CI_Controller
             $data['lastname']   = ucwords($lname);
             $data['middlename'] = ucwords($this->input->post('middlename'));
             $data['religion']   = $this->input->post('religion');
+            $data['partytype']  = $partytype;
             $this->db->insert('tbl_party', $data);
             $id = $this->db->insert_id();
 
