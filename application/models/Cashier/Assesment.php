@@ -580,4 +580,9 @@
 				$this->db->where('enrolment', $enrolid);
 				$this->db->update('tbl_paymentoverride', $data);
 			}
+			function get_enrolled($enrolid)
+			{
+				return $this->db->query("SELECT * FROM tbl_billclass WHERE enrolment = '$enrolid'")->num_rows();
+
+			}
 }

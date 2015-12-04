@@ -91,11 +91,13 @@
 				 	$fullpay = 1;
 			 }else{
 				$fullpay = $this->assesment->getThisBal($student);
+				$check_enrolled = $this->assesment->get_enrolled($enrolid);
 			}
  			?>
- <?php if ($fullpay != 0): ?>
+ <?php if ($fullpay != 0 OR $check_enrolled > 0): ?>
 		<?php if ($type == 'installment'): ?>
 			<?php
+			
 						$co = $this->assesment->checkExisting($enrolid);
 						if ($co > 0): ?>
 
@@ -120,7 +122,7 @@
 								</td>
 								<td style="text-align:right">
 										<?php
-
+										
 											$m  = $this->assesment->getDiscount($student);
 											echo	$this->assesment->getT($m, $enrolid) ;
 										?>
