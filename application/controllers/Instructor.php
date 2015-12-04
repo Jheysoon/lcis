@@ -96,7 +96,7 @@ class Instructor extends CI_Controller
             $data['username']   = $this->createUsername($fname, $lname);
             $data['partyid']    = $id;
             $data['password']   = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-            $this->db->insert('tl_useraccess');
+            $this->db->insert('tbl_useraccess');
 
             redirect('/register_employee');
         }
