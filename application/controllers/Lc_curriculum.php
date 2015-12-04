@@ -48,44 +48,38 @@ class Lc_curriculum extends CI_Controller
         $yearlevel 		= $this->input->post('yearlevel');
         $result 		= $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculum WHERE coursemajor = '$coursemajor' AND academicterm = '$accad_id'");
         $x 				= $result->row_array();
-        if($accad_id == 0)
-		{
+		
+        if ($accad_id == 0) {
            $this->session->set_flashdata('message', $alerts . 'Please Select Effectivity.</div>');
-        }
-		elseif($coursemajor == 0)
-		{
+        } elseif ($coursemajor == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Course.</div>');
-        }
-		elseif($yearlevel == 0)
-		{
+        } elseif ($yearlevel == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Year Level.</div>');
-        }
-		else
-		{
-            if ($x['totalcount'] == 0)
-			{
-	            $data = array(	'description' 	=> $remarks,
-	                			'coursemajor' 	=> $coursemajor,
-	                			'academicterm' 	=> $accad_id,
-	                			'yearlevel' 	=> $yearlevel);
+        } else {
+			
+            if ($x['totalcount'] == 0) {
+	            $data = array(	
+						'description' 	=> $remarks,
+	                	'coursemajor' 	=> $coursemajor,
+	                	'academicterm' 	=> $accad_id,
+	                	'yearlevel' 	=> $yearlevel
+					);
+				
 	            $this->db->insert('tbl_curriculum', $data);
 	            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Added.</div>');
-            }
-			elseif($remarks == '')
-			{
+            } elseif($remarks == '') {
                 $this->session->set_flashdata('message', $alerts . 'Please Input Remarks.</div>');
-            }
-			else
-			{
+            } else {
                  $this->session->set_flashdata('message', $alerts . 'Curriculum Already Exist.</div>');
             }
+			
         }
 
         $data3 = array('ac' => $accad_id,
             'cou' 			=> $coursemajor,
             'rem' 			=> $remarks,
             'lev' 			=> $yearlevel
-            );
+		);
         $_SESSION['curr'] = $data3;
        redirect('/menu/dean-add_curriculum');
     }
