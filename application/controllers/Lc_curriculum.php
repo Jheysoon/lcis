@@ -12,14 +12,18 @@
 */
 class Lc_curriculum extends CI_Controller
 {
-	function viewcurriculum($partyid, $date, $coursemajor)
+	function viewcurriculum($partyid)
 	{
 		$this->api->userMenu();
-		$this->load->model('registrar/common');
+		$this->load->model(array(
+					'registrar/common',
+					'registrar/registration',
+					'registrar/academicterm',
+					'registrar/course',
+					'registrar/subject'
+				));
 
         $data['partyid'] 		= $partyid;
-        $data['date'] 			= $date;
-        $data['coursemajor'] 	= $coursemajor;
 
         $this->load->view('curriculum/curriculum', $data);
 		$this->load->view('templates/footer');
