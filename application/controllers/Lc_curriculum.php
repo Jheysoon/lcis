@@ -66,6 +66,9 @@ class Lc_curriculum extends CI_Controller
 					);
 				
 	            $this->db->insert('tbl_curriculum', $data);
+				
+				$cur_id = $this->db->insert_id();
+				$this->update_year_units($cur_id);
 	            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Added.</div>');
             } elseif($remarks == '') {
                 $this->session->set_flashdata('message', $alerts . 'Please Input Remarks.</div>');
@@ -158,11 +161,11 @@ class Lc_curriculum extends CI_Controller
         redirect('/lc_curriculum/addsubcur/' . $url);
     }
 
-	function update_year_units($cur_id, $yearlevel)
+	function update_year_units($cur_id, $yearlevel = 0)
 	{
 		$this->db->where('curriculum', $cur_id);
 		$c = $this->db->count_all_results('tbl_year_units');
-		if ($c > 0) {
+		if ($c > 0 AND $yearlevel != 0) {
 			$r 		= $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail a,tbl_subject b
 									WHERE a.subject = b.id AND a.curriculum = $cur_id AND a.yearlevel = $yearlevel")->row_array();
 			$unit['totalunits'] = $r['unit'];
