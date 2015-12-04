@@ -41,8 +41,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="position">Position <small class="required">(required)</small></label>
-							<select class="form-control" name='position' required>
+							<label class="label-control add-label" for="position">Position <small class="required">(required if office is not selected)</small></label>
+							<select class="form-control" name='position'>
 								<option value="">Select Position</option>
 								<!-- temporary -->
 								<?php

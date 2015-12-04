@@ -59,7 +59,6 @@ class Instructor extends CI_Controller
                     'mailadd'       =>  'Mailing Address',
                     'password'      =>  'Password',
                     'rpass'         =>  'Repeat Password',
-                    'position'      =>  'Position',
                     'office'        =>  'Office'
                 );
 
