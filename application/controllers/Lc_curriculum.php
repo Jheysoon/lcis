@@ -170,9 +170,10 @@ class Lc_curriculum extends CI_Controller
 			$this->db->where('yearlevel', $yearlevel);
 			$this->db->update('tbl_year_units', $unit);
 		} else {
-			$w = $this->db->query("SELECT curriculum,yearlevel,SUM(units) as unit
+			$w = $this->db->query("SELECT curriculum, yearlevel, SUM(units) AS unit
 							FROM tbl_curriculumdetail,tbl_subject WHERE
 							curriculum = $cur_id AND subject = tbl_subject.id GROUP BY yearlevel ORDER BY yearlevel")->result_array();
+			
 			foreach ($w as $year_units) {
 				$data['curriculum'] = $year_units['curriculum'];
 				$data['yearlevel'] 	= $year_units['yearlevel'];
@@ -180,7 +181,6 @@ class Lc_curriculum extends CI_Controller
 				$this->db->insert('tbl_year_units', $data);
 			}
 		}
-
 
 	}
     function copycurr()
