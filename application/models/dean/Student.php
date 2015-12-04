@@ -54,7 +54,7 @@
 						        						 AND tbl_coursemajor.course = tbl_course.id
 														 	 	 AND tbl_course.college = tbl_college.id
 						        						 AND tbl_party.id = tbl_registration.student
-						        						 AND legacyid = '$id'");
+						        						 AND legacyid = '$id' ORDER BY tbl_registration.academicterm DESC LIMIT 1");
 	        return $q->row_array();
 	      }
 		function getStudent($search, $col)

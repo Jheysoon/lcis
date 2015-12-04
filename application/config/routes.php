@@ -137,6 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['registrar_tor/(:any)']      = 'registrar/tor/$1';
     $route['enrolment_grouping']        = 'dean/enrolmentLegacyGrouping';
     $route['register_employee']         = 'instructor/register_employee';
+    $route['designation']               = 'admin/designation';
 
 
 
@@ -170,7 +171,8 @@ $route['movement_add']                   = 'movement/add_movement';
 //Audit Payment Override
 
 $route['payment_override']               = 'audit/payment_override';
-$route['list_billing']                   = 'audit/list_billing';
+$route['list_billing']            = 'audit/list_billing';
+$route['list_billing/(:any)']            = 'audit/list_billing/$1';
 $route['view_std/(:any)/(:any)']         = 'audit/view_std/$1/$2';
 $route['view_std/(:any)']                = 'audit/view_std/$1';
 $route['view_over/(:any)/(:any)']        = 'audit/view_override/$1/$2';
