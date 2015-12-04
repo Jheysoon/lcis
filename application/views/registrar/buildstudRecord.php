@@ -263,12 +263,12 @@
                     </div>
                      <div class="col-md-12 pad-bottom-10">
                                 <strong class="strong">Date of Registration</strong>
-                                <input  type="date" name="dor" class="form-control datepicker" value="<?php echo $date; ?>">
-                                <input type="hidden" name="dateregistered" value="<?php echo $date; ?>" />
+                                <input  type="date" name="dor" class="form-control datepicker" value="<?php echo (isset($date) ? $date : ''); ?>">
+                                <input type="hidden" name="dateregistered" value="<?php echo (isset($date) ? $date : ''); ?>" />
                     </div>
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
-                        <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
+                        <!-- <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" target="_blank" style="margin-right:10px">View Curriculum</a> -->
 
                 <?php endif ?>
                 </div>
