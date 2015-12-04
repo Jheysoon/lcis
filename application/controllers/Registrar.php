@@ -1223,7 +1223,6 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('firstname', 'Firstname', 'required');
         $this->form_validation->set_rules('student_id', 'Student ID', 'required');
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
-        $this->form_validation->set_rules('middlename', 'Middlename', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
         
@@ -1246,6 +1245,7 @@ class Registrar extends CI_Controller
                 $this->load->view('registrar/register', $data);
                 $this->load->view('templates/footer');
             } else {
+                $this->db->trans_begin();
                 
                 $course_m = $this->input->post('course');
 
@@ -1253,6 +1253,7 @@ class Registrar extends CI_Controller
                 $d['lastname']      = strtoupper($this->input->post('lastname'));
                 $d['middlename']    = strtoupper($this->input->post('middlename'));
                 $d['legacyid']      = $this->input->post('student_id');
+                $d['partytype']     = 3;
                 $this->db->insert('tbl_party', $d);
                 $id = $this->db->insert_id();
 
@@ -1263,8 +1264,22 @@ class Registrar extends CI_Controller
                 $data['coursemajor']    = $course_m;
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
-                $data['curriculum']     = $this->get_current_curriculum($course_m, $this->input->post('academicterm'));
+                
+                $this->db->where('id', $this->input->post('academicterm'));
+                $acam_id = $this->db->get('tbl_academicterm')->row();
+                
+                $data['curriculum']     = $this->get_current_curriculum($course_m, $acam_id->systart);
+                $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
+                
+                if ($this->db->trans_status() === FALSE) {
+                     $this->db->trans_rollback();
+                     $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
+                } else {
+                    $this->db->trans_commit();
+                    $this->insert_account($id, $d['firstname'].' '.$d['lastname']);
+                    $this->session->set_flashdata('message', '<div class="alert alert-success text-center">Successfully Registered</div>');
+                }
 
                 redirect('/register');
             }

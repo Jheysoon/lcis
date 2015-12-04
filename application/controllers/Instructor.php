@@ -59,7 +59,6 @@ class Instructor extends CI_Controller
                     'mailadd'       =>  'Mailing Address',
                     'password'      =>  'Password',
                     'rpass'         =>  'Repeat Password',
-                    'position'      =>  'Position',
                     'office'        =>  'Office'
                 );
 
@@ -80,7 +79,21 @@ class Instructor extends CI_Controller
             $this->load->view('instructor/register_employee', $data);
             $this->load->view('templates/footer');
 
+        } elseif($this->input->post('office') == 0 AND $this->input->post('position') == 0) {
+            $this->api->userMenu();
+            $data['error'] = '<div class="alert alert-danger text-center">Please Select a Office / Position</div>';
+            $this->load->view('instructor/register_employee', $data);
+            $this->load->view('templates/footer');
         } else {
+            
+            if ($this->input->post('office') != 0) {
+                $partytype = 6;
+            } elseif($this->input->post('position') != 0) {
+                $partytype = 2;
+            }
+            
+            $this->db->trans_begin();
+            
             // insert into tbl_party
             $fname              = strtolower($this->input->post('firstname'));
             $lname              = strtolower($this->input->post('lastname'));
@@ -88,6 +101,7 @@ class Instructor extends CI_Controller
             $data['lastname']   = ucwords($lname);
             $data['middlename'] = ucwords($this->input->post('middlename'));
             $data['religion']   = $this->input->post('religion');
+            $data['partytype']  = $partytype;
             $this->db->insert('tbl_party', $data);
             $id = $this->db->insert_id();
 
@@ -97,7 +111,16 @@ class Instructor extends CI_Controller
             $data['username']   = $this->createUsername($fname, $lname);
             $data['partyid']    = $id;
             $data['password']   = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-            $this->db->insert('tl_useraccess');
+            $this->db->insert('tbl_useraccess');
+            
+            if ($thid->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
+            } else {
+                $this->db->trans_commit();
+                $this->session->set_flashdata('message', 
+                    '<div class="alert alert-success text-center">Successfully registered <br/> Your Username is '.$data['username'].'</div>');
+            }
 
             redirect('/register_employee');
         }

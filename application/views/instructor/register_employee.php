@@ -9,7 +9,10 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<?php echo $error ?>
+				<?php 
+					echo $error;
+					echo $this->session->flashdata('message');
+				?>
 				<form class="form-horizontal add-user" method="post" action="/register_employee" role="form">
 					<br><h3 class="col-sm-offset-1">Employee Information</h3><hr><br>
 					<div class="form-group">
@@ -29,7 +32,7 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="office">Office <small class="required">(required)</small></label>
 							<select class="form-control" name='office' required>
-								<option value="">Select Office</option>
+								<option value="0">Select Office</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getOffices();
@@ -41,9 +44,9 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label" for="position">Position <small class="required">(required)</small></label>
-							<select class="form-control" name='position' required>
-								<option value="">Select Position</option>
+							<label class="label-control add-label" for="position">Position <small class="required">(required if office is not selected)</small></label>
+							<select class="form-control" name='position'>
+								<option value="0">Select Position</option>
 								<!-- temporary -->
 								<?php
 									$res = $this->party->getPositions();

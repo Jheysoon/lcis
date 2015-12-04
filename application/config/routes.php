@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['change_sy']                     = 'dean/change_sy';
     $route['register']                      = 'registrar/register';
 
-
+    $route['systemvalue']                   = 'systemvalue/index';
 
 /*-----------------------------------------------------------
  | Developers Routes

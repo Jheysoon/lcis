@@ -11,6 +11,7 @@
         <div class="panel-body">
             <?php echo $error ?>
             <form action="/register" method="post">
+                <?php $this->session->flashdata('message') ?>
                 <br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-1">
@@ -20,8 +21,8 @@
                         <input class="form-control" type="text" value="<?php echo set_value('lastname') ?>" name="lastname" placeholder="Lastname" required>
                         <label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
                         <input class="form-control" type="text" value="<?php echo set_value('firstname') ?>" name="firstname" placeholder="First Name" required>
-                        <label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
-                        <input class="form-control" type="text" value="<?php echo set_value('middlename') ?>" name="middlename" placeholder="Middle Name" required>
+                        <label class="label-control add-label2" for="middlename">Middle Name</label>
+                        <input class="form-control" type="text" value="<?php echo set_value('middlename') ?>" name="middlename" placeholder="Middle Name">
                         <br>
                         <hr>
                         <br>
