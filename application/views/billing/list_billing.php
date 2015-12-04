@@ -11,7 +11,7 @@
 		<div class="panel-body">
          <div class="col-md-6">
                         <?php
-                            $config['base_url'] = base_url().'index.php/menu/student_list';
+                            $config['base_url'] = base_url().'index.php/list_billing';
                             $config['total_rows'] = $this->enrollment->enrolled();
                             $config['per_page'] = 15;
                             $config['num_links'] = 2;
@@ -71,7 +71,7 @@
                         <th colspan="2">Action</th>
                     </tr>
                     <?php
-                      $result = $this->enrollment->getStudents();
+                      $result = $this->enrollment->getStudents($limit);
                       foreach($result as $info)
                         {
                             extract($info);

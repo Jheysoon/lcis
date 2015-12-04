@@ -14,11 +14,22 @@
             $status = $this->session->userdata('status');
             if($status == 'N'){
                 $party_id = $this->db->query("SELECT * FROM tbl_party
-                                              WHERE legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%'");
+                                              WHERE legacyid LIKE '%$id%'
+													 OR CONCAT(lastname, ' ', firstname) LIKE '%$id%'
+													 OR CONCAT(firstname, ' ', lastname) LIKE '%$id%'
+													 OR CONCAT(lastname, ', ', firstname) LIKE '%$id%'
+													 OR CONCAT(firstname, ', ', lastname) LIKE '%$id%'
+												 ");
             }
             else{
                 $party_id = $this->db->query("SELECT * FROM tbl_party
-                                              WHERE (legacyid LIKE '$id%' OR CONCAT(firstname, ' ',  lastname) LIKE '%$id%')
+                                              WHERE (
+													 legacyid LIKE '%$id%'
+													 OR CONCAT(lastname, ' ', firstname) LIKE '%$id%'
+													 OR CONCAT(firstname, ' ', lastname) LIKE '%$id%'
+													 OR CONCAT(lastname, ', ', firstname) LIKE '%$id%'
+													 OR CONCAT(firstname, ', ', lastname) LIKE '%$id%'
+												 )
                                               AND status = '$status'");
             }
             $p = $party_id->result_array();

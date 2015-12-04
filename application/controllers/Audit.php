@@ -45,7 +45,7 @@ class Audit extends CI_Controller {
         $this->load->view('templates/footer');
 
     }
-    function list_billing()
+    function list_billing($id = 0)
     {
         $this->api->userMenu();
         $this->load->library('pagination');
@@ -54,6 +54,7 @@ class Audit extends CI_Controller {
         $this->load->model('registrar/course');
         $this->session->set_userdata('audit', 0);
         $data['headertitle'] = 'List of Billing';
+        $data['limit'] = $id;
         $this->load->view('billing/list_billing', $data);
         $this->load->view('templates/footer');
     }
