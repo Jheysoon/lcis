@@ -97,6 +97,9 @@ class Instructor extends CI_Controller
             $data['partyid']    = $id;
             $data['password']   = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
             $this->db->insert('tbl_useraccess');
+            
+            $this->session->set_flashdata('message', 
+                '<div class="alert alert-success text-center">Successfully registered <br/> Your Username is '.$data['username'].'</div>');
 
             redirect('/register_employee');
         }

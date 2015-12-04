@@ -9,7 +9,10 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<?php echo $error ?>
+				<?php 
+					echo $error;
+					echo $this->session->flashdata('message');
+				?>
 				<form class="form-horizontal add-user" method="post" action="/register_employee" role="form">
 					<br><h3 class="col-sm-offset-1">Employee Information</h3><hr><br>
 					<div class="form-group">
