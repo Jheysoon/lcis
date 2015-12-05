@@ -422,7 +422,7 @@ class Registrar extends CI_Controller
         $url            = $this->input->post('url');
         $course         = $this->input->post('course');
         $dateregistered = $this->input->post('dateregistered');
-        echo $dor       = $this->input->post('dor');
+        $dor            = $this->input->post('dor');
         $dat = date('Y');
 
         $start = new DateTime($dob);
