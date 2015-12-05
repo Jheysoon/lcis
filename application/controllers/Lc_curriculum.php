@@ -12,7 +12,7 @@
 */
 class Lc_curriculum extends CI_Controller
 {
-	function viewcurriculum($partyid)
+	function viewcurriculum($partyid, $param = '', $param1 = '')
 	{
 		$this->api->userMenu();
 		$this->load->model(array(
