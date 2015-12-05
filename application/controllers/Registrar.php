@@ -425,43 +425,34 @@ class Registrar extends CI_Controller
         $dor            = $this->input->post('dor');
         $dat = date('Y');
 
-        $start = new DateTime($dob);
-        $end  = new DateTime(date('Y-m-d'));
-        $dDiff = $start->diff($end);
-        $dif = $dDiff->format('%Y');
+        $start  = new DateTime($dob);
+        $end    = new DateTime(date('Y-m-d'));
+        $dDiff  = $start->diff($end);
+        $dif    = $dDiff->format('%Y');
         $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-        $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+        $suc    = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
 
         if ($dif < 10) {
-          $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
-        }
-        elseif($pob == ''){
+            $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
+        } elseif ($pob == '') {
             $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
-        }
-        elseif($address1 == ''){
+        } elseif ($address1 == '') {
             $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
-        }
-        elseif ($elementary == '' OR $elementary == 'Select') {
+        } elseif ($elementary == '' OR $elementary == 'Select') {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
-        }
-        elseif ($primary == '' OR $primary == 'Select') {
+        } elseif ($primary == '' OR $primary == 'Select') {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
-        }
-        elseif ($highschool == '' OR $highschool == 'Select') {
+        } elseif ($highschool == '' OR $highschool == 'Select') {
             $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
-        }
-        elseif ($primaryyear == '' OR $primaryyear > $dat) {
+        } elseif ($primaryyear == '' OR $primaryyear > $dat) {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
-        }
-        elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
+        } elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
             $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');
-        }
-        elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
+        } elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
             $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
-        }
-        else{
+        } else {
 
-           $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
             $data = array(
                 'firstname'     => $firstname,
                 'middlename'    => $middlename,
@@ -495,10 +486,10 @@ class Registrar extends CI_Controller
             $this->db->update('tbl_registration', $data3);
 
         }
-         $x = array(
-             'firstname'            => $firstname,
-             'middlename'           => $middlename,
-             'lastname'             => $lastname,
+        $x = array(
+            'firstname'             => $firstname,
+            'middlename'            => $middlename,
+            'lastname'              => $lastname,
             'dob'                   => $dob,
             'pob'                   => $pob,
             'address1'              => $address1,
@@ -565,11 +556,10 @@ class Registrar extends CI_Controller
             );
 
 
-            if($this->input->post('action') == 'add'){
+            if ($this->input->post('action') == 'add') {
                 $this->db->insert('tbl_party', $data1);
                 $id = $this->db->insert_id();
-            }
-            else{
+            } else {
                 $this->db->where('id', $this->input->post('id'));
                 $this->db->update('tbl_party', $data1);
             }
@@ -640,7 +630,8 @@ class Registrar extends CI_Controller
 
     }
 
-    function delete_school($id){
+    function delete_school($id)
+    {
         $this->load->model('registrar/common');
         $query = $this->common->check_school($id);
 
@@ -683,7 +674,8 @@ class Registrar extends CI_Controller
         echo json_encode($data);
     }
 
-    function tor($sid = ''){
+    function tor($sid = '')
+    {
         $sid = array('sid' => $sid);
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
