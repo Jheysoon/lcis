@@ -136,7 +136,9 @@ class Registrar extends CI_Controller
         // the studentgrade table will be a mess
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
-        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid")->num_rows();
+        $this->db->where('enrolment', $enrolmentid);
+        $this->db->where('subject', $subjid);
+        $q = $this->db->count_all_results('views_studentgrade');
 
         if ($q < 1) {
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
@@ -831,7 +833,7 @@ class Registrar extends CI_Controller
 
         foreach ($acamd as $acams) {
             $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-            
+
             if ($c->num_rows() > 0) {
                 $cur    = $c->row_array();
                 $cur1   = $cur['id'];
@@ -1027,7 +1029,7 @@ class Registrar extends CI_Controller
             $d['course']    = $this->input->post('course');
             $this->load->view('registrar/shiftee', $d);
         } else {
-            
+
             $t                  = $this->db->get('tbl_coursemajor')->row_array();
             $r['student']       = $this->input->post('id');
             $r['coursemajor']   = $this->input->post('course');
@@ -1225,7 +1227,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
-        
+
         $courseMajor = $this->db->get('tbl_coursemajor')->result();
 
         if ($this->form_validation->run() === false) {
@@ -1237,7 +1239,7 @@ class Registrar extends CI_Controller
         } else {
             $this->db->where('legacyid', $this->input->post('student_id'));
             $c = $this->db->count_all_results('tbl_party');
-            
+
             if ($c > 0) {
                 $this->api->userMenu();
                 $data['error']          = '<div class="alert alert-danger">Student ID Already Exists</div>';
@@ -1246,7 +1248,7 @@ class Registrar extends CI_Controller
                 $this->load->view('templates/footer');
             } else {
                 $this->db->trans_begin();
-                
+
                 $course_m = $this->input->post('course');
 
                 $d['firstname']     = strtoupper($this->input->post('firstname'));
@@ -1264,14 +1266,14 @@ class Registrar extends CI_Controller
                 $data['coursemajor']    = $course_m;
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
-                
+
                 $this->db->where('id', $this->input->post('academicterm'));
                 $acam_id = $this->db->get('tbl_academicterm')->row();
-                
+
                 $data['curriculum']     = $this->get_current_curriculum($course_m, $acam_id->systart);
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
-                
+
                 if ($this->db->trans_status() === FALSE) {
                      $this->db->trans_rollback();
                      $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
