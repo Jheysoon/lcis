@@ -50,7 +50,7 @@ if ($details) {
                         <td style="color: #FFFF6F; text-align: center; background-color: #2F5836;">Re-Ex</th>
                     </tr>
                     <?php
-                    $enrol = $this->tor->getEnrolment($id, 0);
+                    $enrol = $this->tor->getEnrolment2($id, 0);
                     foreach ($enrol as $key => $val) {
                         extract($val);
                         // $group = $this->tor->getGroup($classallocation);

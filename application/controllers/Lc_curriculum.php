@@ -48,44 +48,41 @@ class Lc_curriculum extends CI_Controller
         $yearlevel 		= $this->input->post('yearlevel');
         $result 		= $this->db->query("SELECT COUNT(*) as totalcount FROM tbl_curriculum WHERE coursemajor = '$coursemajor' AND academicterm = '$accad_id'");
         $x 				= $result->row_array();
-        if($accad_id == 0)
-		{
+		
+        if ($accad_id == 0) {
            $this->session->set_flashdata('message', $alerts . 'Please Select Effectivity.</div>');
-        }
-		elseif($coursemajor == 0)
-		{
+        } elseif ($coursemajor == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Course.</div>');
-        }
-		elseif($yearlevel == 0)
-		{
+        } elseif ($yearlevel == 0) {
             $this->session->set_flashdata('message', $alerts . 'Please Select Year Level.</div>');
-        }
-		else
-		{
-            if ($x['totalcount'] == 0)
-			{
-	            $data = array(	'description' 	=> $remarks,
-	                			'coursemajor' 	=> $coursemajor,
-	                			'academicterm' 	=> $accad_id,
-	                			'yearlevel' 	=> $yearlevel);
+        } else {
+			
+            if ($x['totalcount'] == 0) {
+	            $data = array(	
+						'description' 	=> $remarks,
+	                	'coursemajor' 	=> $coursemajor,
+	                	'academicterm' 	=> $accad_id,
+	                	'yearlevel' 	=> $yearlevel
+					);
+				
 	            $this->db->insert('tbl_curriculum', $data);
+				
+				$cur_id = $this->db->insert_id();
+				$this->update_year_units($cur_id);
 	            $this->session->set_flashdata('message', '<div class="alert alert-success">' . $suc .  'Curriculum Added.</div>');
-            }
-			elseif($remarks == '')
-			{
+            } elseif($remarks == '') {
                 $this->session->set_flashdata('message', $alerts . 'Please Input Remarks.</div>');
-            }
-			else
-			{
+            } else {
                  $this->session->set_flashdata('message', $alerts . 'Curriculum Already Exist.</div>');
             }
+			
         }
 
         $data3 = array('ac' => $accad_id,
             'cou' 			=> $coursemajor,
             'rem' 			=> $remarks,
             'lev' 			=> $yearlevel
-            );
+		);
         $_SESSION['curr'] = $data3;
        redirect('/menu/dean-add_curriculum');
     }
@@ -164,11 +161,11 @@ class Lc_curriculum extends CI_Controller
         redirect('/lc_curriculum/addsubcur/' . $url);
     }
 
-	function update_year_units($cur_id, $yearlevel)
+	function update_year_units($cur_id, $yearlevel = 0)
 	{
 		$this->db->where('curriculum', $cur_id);
 		$c = $this->db->count_all_results('tbl_year_units');
-		if ($c > 0) {
+		if ($c > 0 AND $yearlevel != 0) {
 			$r 		= $this->db->query("SELECT SUM(units) as unit FROM tbl_curriculumdetail a,tbl_subject b
 									WHERE a.subject = b.id AND a.curriculum = $cur_id AND a.yearlevel = $yearlevel")->row_array();
 			$unit['totalunits'] = $r['unit'];
@@ -176,9 +173,10 @@ class Lc_curriculum extends CI_Controller
 			$this->db->where('yearlevel', $yearlevel);
 			$this->db->update('tbl_year_units', $unit);
 		} else {
-			$w = $this->db->query("SELECT curriculum,yearlevel,SUM(units) as unit
+			$w = $this->db->query("SELECT curriculum, yearlevel, SUM(units) AS unit
 							FROM tbl_curriculumdetail,tbl_subject WHERE
 							curriculum = $cur_id AND subject = tbl_subject.id GROUP BY yearlevel ORDER BY yearlevel")->result_array();
+			
 			foreach ($w as $year_units) {
 				$data['curriculum'] = $year_units['curriculum'];
 				$data['yearlevel'] 	= $year_units['yearlevel'];
@@ -186,7 +184,6 @@ class Lc_curriculum extends CI_Controller
 				$this->db->insert('tbl_year_units', $data);
 			}
 		}
-
 
 	}
     function copycurr()
