@@ -113,7 +113,7 @@
 		}
 		function getDiscount($student)
 		{
-				$disc = 	$this->db->query("SELECT discount FROM tbl_billdiscount WHERE student = '$student'")->row_array();
+				$disc = $this->db->query("SELECT discount FROM tbl_billdiscount WHERE student = '$student'")->row_array();
 				$di = $disc['discount'];
 				$r = $this->db->query("SELECT * FROM tbl_discount WHERE id = '$di'")->row_array();
 				return $r['percent'] / 100;
@@ -137,16 +137,23 @@
 				}else{
 					$disc = $taeka['am'] * $m;	
 					$totaldisc = $l['netenrolment'] - $disc;
+					if ($l['status'] == 0) {
+						
+						//UPDATE BILLCLASS FOR POSTING
+						$divideddiscount = $disc / 5;
+						$netpr = $l['netenrolment'] - $divideddiscount;
+						$arr = array('netprelim' => $netpr, 'netmidterm' => $netpr, 'netsemi' => $netpr, 'netfinal' => $netfinal, 'status' => 1);
+						$this->db->where('enrolment', $enrolid);
+						$this->db->update('tbl_billclass', $arr);
+						
+					}
+
+
+
 				}
-				
-
-
-
-
-
+		
 				$misc = ($l['netprelim'] * 4) + $totaldisc;
-
-					return  + $misc;
+				return $misc;
 
 				// return $tui = $this->get_tuition($enrolid);
 				
