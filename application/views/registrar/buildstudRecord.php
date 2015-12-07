@@ -313,7 +313,7 @@
                                     School
                                     <select name="school_id" class="form-control">
                                         <?php
-                                            $sch = $this->party->getSchool();
+                                            $sch = $this->party->college_school();
                                             foreach($sch as $s)
                                             {
                                                 ?>
