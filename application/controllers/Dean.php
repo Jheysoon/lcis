@@ -109,6 +109,7 @@ class Dean extends CI_Controller
             ->where('descriptivetitle', $data['descriptivetitle'])
             ->where('units', $data['units']);
             $c = $this->db->count_all_results('tbl_subject');
+            
             if($c < 1)
             {
                 $this->subject->insert($data);
@@ -169,6 +170,7 @@ class Dean extends CI_Controller
         $this->form_validation->set_rules($rules);
 
         $q = $this->subject->whereCode($data['code']);
+        
         if($this->form_validation->run() === FALSE)
         {
             $this->load->view('templates/header');
@@ -179,6 +181,7 @@ class Dean extends CI_Controller
         elseif($q > 0)
         {
             $q = $this->subject->count($data['code']);
+            
             if($q['id'] == $id)
             {
                 $this->subject->update($id,$data);
@@ -212,12 +215,14 @@ class Dean extends CI_Controller
         }
 
     }
+    
     function delete_subject()
     {
         $id = $this->input->post('value');
         $this->db->where('id',$id);
         $this->db->delete('tbl_subject');
     }
+    
     function search_subject($sid)
     {
         $this->load->model(array(
@@ -236,6 +241,7 @@ class Dean extends CI_Controller
         }
         echo json_encode($data);
     }
+    
     function search()
     {
         $code   = $this->input->post('search');
@@ -243,6 +249,7 @@ class Dean extends CI_Controller
         $q      = $this->subject->whereCode($code);
 
         $this->load->model('dean/subject');
+        
         if($q > 0)
         {
             $sid = $this->subject->count($code);
@@ -257,6 +264,7 @@ class Dean extends CI_Controller
             redirect($url);
         }
     }
+    
     function load_sub()
     {
         $sid                = $this->input->post('value');
@@ -572,7 +580,8 @@ class Dean extends CI_Controller
 // function for saving evaluation
 //-------------------------------------------------------------------------
 
-    function saveEvaluation(){
+    function saveEvaluation()
+    {
         $this->load->model('dean/student');
         $this->load->model('edp/edp_classallocation');
         $ctr = $this->input->post('count');
@@ -990,7 +999,8 @@ class Dean extends CI_Controller
  |-------------------------------------------------------------------------
 */
 
-    function ajaxSched(){
+    function ajaxSched()
+    {
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
         $this->load->helper('form');
@@ -1013,7 +1023,8 @@ class Dean extends CI_Controller
  |-------------------------------------------------------------------------
 */
 
-    function appendSubject(){
+    function appendSubject()
+    {
         $this->load->model('edp/edp_classallocation');
         $this->load->model('dean/student');
         $this->load->helper('form');
@@ -1047,6 +1058,7 @@ class Dean extends CI_Controller
             echo $append;
         }
     }
+    
     // function to delete classallocation
     function delete_classalloc($id)
     {
@@ -1081,6 +1093,7 @@ class Dean extends CI_Controller
             $this->db->where('stage', $stage);
             $this->db->where('completedby', $uid);
             $r = $this->db->get('tbl_completion');
+            
             if($r->num_rows() < 1)
             {
                 $this->db->insert('tbl_completion', $data);
@@ -1352,7 +1365,8 @@ class Dean extends CI_Controller
  |---------------------------------------------------------------
 */
 
-    function group(){
+    function group()
+    {
 
         $subcode = $this->api->get_subcode();
 
@@ -1390,7 +1404,8 @@ class Dean extends CI_Controller
         redirect(base_url('enrolment_grouping'));
     }
 
-    function ungroup($gr){
+    function ungroup($gr)
+    {
         $this->load->model('dean/group');
         $data['grouping'] = 0;
         $this->group->ungroup($gr, $data);
