@@ -124,7 +124,7 @@
 										<?php
 										
 											$m  = $this->assesment->getDiscount($student);
-											echo	$this->assesment->getT($m, $enrolid) ;
+											echo $this->assesment->getT($m, $enrolid) ;
 										?>
 								</td>
 							</tr>
