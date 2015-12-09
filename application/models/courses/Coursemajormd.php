@@ -28,10 +28,10 @@
 		}
 		function get_colleges($id)
 		{
-			$this->db->query("SELECT a.id, a.shortname, a.description dsc, c.id col, b.id 
+			return $this->db->query("SELECT a.id, a.shortname, a.description dsc, c.id col, b.id sch
 									 FROM `tbl_course` a, tbl_party b, tbl_college c 
 									 WHERE c.id = a.college 
-									 AND b.id = a.own AND a.id = $id")->row_array();
+									 AND b.id = a.own AND a.id = '$id'")->row_array();
 		}
 		
 	}

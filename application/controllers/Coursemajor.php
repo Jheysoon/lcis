@@ -21,26 +21,37 @@
 			$shortname = $this->input->post('shortname');
 			$college = $this->input->post('college');
 			$school = $this->input->post('school');
+			$cids = $this->input->post('cid');
+			$data = array('description' => strtoupper($desc), 'shortname' => strtoupper($shortname), 'college' => $college, 'own' => $school);
 
-			if ($college == 0 ) 
+
+			if ($this->input->post('cid') == 0) 
 			{
-				$this->api->set_session_message('danger','Please Select College', 'messages');
-				$this->add_course();
-			}
-			elseif ($school == 0)
-			{
-				$this->api->set_session_message('danger','Please Select School', 'messages');
-				$this->add_course();
+				if ($college == 0 ) 
+				{
+					$this->api->set_session_message('danger','Please Select College', 'messages');
+					$this->add_course();
+				}
+				elseif ($school == 0)
+				{
+					$this->api->set_session_message('danger','Please Select School', 'messages');
+					$this->add_course();
+				}
+				else
+				{
+					$this->db->insert('tbl_course', $data);
+					$this->api->set_session_message('success','Succesfuly Added', 'messages');
+					redirect('/add_course');
+				}
 			}
 			else
 			{
-				$data = array('description' => strtoupper($desc), 'shortname' => strtoupper($shortname), 'college' => $college, 'own' => $school);
-
-				// print_r($data);
-				$this->db->insert('tbl_course', $data);
-				$this->api->set_session_message('success','Succesfuly Added', 'messages');
+				$this->api->set_session_message('success','Succesfuly Updated', 'messages');
+				$this->db->where('id', $cids);
+				$this->db->update('tbl_course', $data);
 				redirect('/add_course');
 			}
+			
 		
 		}
 		function delete_course($id)
