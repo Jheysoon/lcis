@@ -93,11 +93,13 @@
             }
             return $q->row_array();
         }
+		
         function existsID($id)
         {
             $this->db->where('legacyid',$id);
             return $this->db->count_all_results('tbl_party');
         }
+		
         function getSchool()
         {
             $this->db->where('partytype',1);
@@ -105,12 +107,14 @@
             $q = $this->db->get('tbl_party');
             return $q->result_array();
         }
+		
         function getSchoolById($id)
         {
             $this->db->where('id',$id);
             $q = $this->db->get('tbl_party');
             return $q->row_array();
         }
+		
         function getStatus($id)
         {
             $this->db->where('id',$id);
@@ -123,4 +127,9 @@
             $q = $this->db->query("SELECT legacyid,id,dateofbirth as dob,firstname,lastname,middlename,placeofbirth as pob,address1,address2 FROM tbl_party WHERE legacyid='$id'");
             return $q->row_array();
         }
+		
+		function college_school()
+		{
+			return $this->db->query("SELECT tbl_party.id as id, firstname FROM tbl_school, tbl_party WHERE tertiary = 1 AND tbl_party.id = tbl_school.id")->result_array();
+		}
 	}
