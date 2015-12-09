@@ -35,7 +35,7 @@ class UserOption extends CI_Controller
                 $data['desc'] = $option;
                 
                 $this->db->insert('tbl_option', $data);
-                $this->api->set_session_message('success', 'Option already exists');
+                $this->api->set_session_message('success', 'Successfully Inserted');
             }
         }
     }
