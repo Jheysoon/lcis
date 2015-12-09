@@ -124,7 +124,7 @@
                                 echo $pr['firstname'];
                             endif ?>
     				</div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="padding:0">
                           <strong class="strong">Year</strong>
                           <select class="form-control" name="primaryyear">
                               <option></option>
@@ -168,7 +168,7 @@
                         <?php echo $el['firstname']; ?>
                     <?php endif ?>
                     </div>
-                     <div class="col-md-3">
+                     <div class="col-md-3" style="padding:0">
                           <strong class="strong">Year</strong>
                           <select class="form-control" name = "elementaryyear">
                               <option></option>
@@ -187,7 +187,7 @@
                                  } ?>
                           </select>
                      </div>
-                    <div class="col-md-9 pad-bottom-10">
+                    <div class="col-md-9 pad-bottom-10" >
                         <strong class="strong">High School</strong>
                        <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="highschool" id="">
@@ -206,7 +206,7 @@
                         <?php echo $h['firstname']; ?>
                     <?php endif ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3"  style="padding:0">
                         <strong class="strong">Year</strong>
                         <select class="form-control" name="highschoolyear">
                             <option></option>
@@ -268,7 +268,7 @@
                     </div>
                 <?php if (($position != 'E' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                     <input type="submit" class="btn btn-primary pull-right" value="   Save"/> <br />
-                        <!-- <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>/<?php echo $date; ?>/<?php echo $coursemajor; ?>" target="_blank" style="margin-right:10px">View Curriculum</a> -->
+                        <a class="btn btn-primary pull-right" href="/lc_curriculum/viewcurriculum/<?php echo $partyid ?>" target="_blank" style="margin-right:10px">View Curriculum</a>
 
                 <?php endif ?>
                 </div>
@@ -313,7 +313,7 @@
                                     School
                                     <select name="school_id" class="form-control">
                                         <?php
-                                            $sch = $this->party->getSchool();
+                                            $sch = $this->party->college_school();
                                             foreach($sch as $s)
                                             {
                                                 ?>

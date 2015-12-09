@@ -8,49 +8,50 @@
         <div class="panel-body">
             <table class="table table-bordered no-space">
                 <?php
-                     $getCurinfo = $this->common->getCurin($partyid, $date, $coursemajor);
-                     $getCuYear = $this->common->getYearTerm($partyid, $date, $coursemajor);
+                    $getCurinfo = $this->registration->getLatestCM($partyid);
+                    
+                    $this->db->where('id', $getCurinfo['curriculum']);
+                    $curriculum = $this->db->get('tbl_curriculum')->row();
+                    
+                    $academicterm = $this->academicterm->findById($curriculum->academicterm);
+                    
                 ?>
                     <tr>
                         <th>Course</th>
-                        <th><strong><?php echo $getCurinfo['coursedescription']; ?></strong></td>
+                        <th><strong><?php echo $this->course->getCourse($getCurinfo['coursemajor']); ?></strong></td>
                         <th>Effectivity</th>
-                        <th><strong><?php echo $getCurinfo['effectivity']; ?></strong></td>
+                        <th><strong><?php echo $academicterm['systart'].'-'.$academicterm['syend'] ?></strong></td>
                     </tr>
-
-                    <?php foreach ($getCuYear as $m => $va): 
-                            extract($va)
-                    ?>
-
+                    
+                <?php 
+                    $cur = $this->db->query("SELECT * FROM `tbl_curriculumdetail` WHERE curriculum = $curriculum->id GROUP BY yearlevel, term ORDER BY yearlevel, term")->result();
+                    
+                    foreach ($cur as $cur_detail) {
+                        ?>
                         <tr>  
-                            <td class="tbl-header-main" colspan="4">Year Level : <?php echo $yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $term; ?></td>
-                           
-                        <!-- <td>Year Level</td> -->
+                            <td class="tbl-header-main" colspan="4">Year Level : <?php echo $cur_detail->yearlevel; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Term : <?php echo $cur_detail->term; ?></td>
                         </tr>
                         <tr>
-                            <!-- <th>Curriculum ID</th>
-                            <th>Academicterm</th>
-                            <th>Curriculum</th>
-                            <th>Academicterm</th> -->
                             <td class="tbl-header">Code</td>
                             <td class="tbl-header">Descriptive Title</td>
                             <td class="tbl-header" colspan="2">Units</th>
-                            <!-- <td>Year Level</td> -->
                         </tr>
-                                
                         <?php 
-                            $curr = $this->common->selectCurr($partyid, $date, $coursemajor, $term, $yearlevel);
-                            foreach ($curr as $key => $val): 
-                            extract($val)
+                            $this->db->where('yearlevel', $cur_detail->yearlevel)->where('term', $cur_detail->term)->where('curriculum', $curriculum->id);
+                            $details = $this->db->get('tbl_curriculumdetail')->result();
+                            
+                            foreach ($details as $detail) {
+                                $subject = $this->subject->findById($detail->subject);
                         ?>
-                                    <tr>
-                                        <td><?php echo $code ?></td>
-                                        <td><?php echo $descriptivetitle; ?></td>
-                                        <td colspan="2"><?php echo $units ?></td> 
-                                    </tr>
-                             <?php endforeach ?>
-            
-                    <?php endforeach ?>
+                        <tr>
+                            <td><?php echo $subject['code'] ?></td>
+                            <td><?php echo $subject['descriptivetitle']; ?></td>
+                            <td colspan="2"><?php echo $subject['units'] ?></td> 
+                        </tr>
+                        <?php
+                            }
+                    }
+                 ?>
             </table>
         </div>
     </div>

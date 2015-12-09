@@ -136,7 +136,9 @@ class Registrar extends CI_Controller
         // the studentgrade table will be a mess
         // cause we will not create a new record in tbl_classallocation
         // just fetch the first record that is found
-        $q = $this->db->query("SELECT * FROM views_studentgrade WHERE enrolment=$enrolmentid AND subject=$subjid")->num_rows();
+        $this->db->where('enrolment', $enrolmentid);
+        $this->db->where('subject', $subjid);
+        $q = $this->db->count_all_results('views_studentgrade');
 
         if ($q < 1) {
             $id = $this->classallocation->insert_ca_returnId($subjid, $academicid);
@@ -420,46 +422,37 @@ class Registrar extends CI_Controller
         $url            = $this->input->post('url');
         $course         = $this->input->post('course');
         $dateregistered = $this->input->post('dateregistered');
-        echo $dor       = $this->input->post('dor');
+        $dor            = $this->input->post('dor');
         $dat = date('Y');
 
-        $start = new DateTime($dob);
-        $end  = new DateTime(date('Y-m-d'));
-        $dDiff = $start->diff($end);
-        $dif = $dDiff->format('%Y');
+        $start  = new DateTime($dob);
+        $end    = new DateTime(date('Y-m-d'));
+        $dDiff  = $start->diff($end);
+        $dif    = $dDiff->format('%Y');
         $alerts = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
-        $suc = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
+        $suc    = '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="color:red"><span aria-hidden="true">&times;</span></button>';
 
         if ($dif < 10) {
-          $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
-        }
-        elseif($pob == ''){
+            $this->session->set_flashdata('message', $alerts . 'Invalid Date of Birth.</div>');
+        } elseif ($pob == '') {
             $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Place of Birth</div>');
-        }
-        elseif($address1 == ''){
+        } elseif ($address1 == '') {
             $this->session->set_flashdata('message',  $alerts . 'Please Fill-up Address</div>');
-        }
-        elseif ($elementary == '' OR $elementary == 'Select') {
+        } elseif ($elementary == '' OR $elementary == 'Select') {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Elementary School</div>');
-        }
-        elseif ($primary == '' OR $primary == 'Select') {
+        } elseif ($primary == '' OR $primary == 'Select') {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Primary School</div>');
-        }
-        elseif ($highschool == '' OR $highschool == 'Select') {
+        } elseif ($highschool == '' OR $highschool == 'Select') {
             $this->session->set_flashdata('message', $alerts . 'Please Select First High School</div>');
-        }
-        elseif ($primaryyear == '' OR $primaryyear > $dat) {
+        } elseif ($primaryyear == '' OR $primaryyear > $dat) {
             $this->session->set_flashdata('message',  $alerts . 'Please Select First Year of Completion in Primary School</div>');
-        }
-        elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
+        } elseif ($elementaryyear == '' OR $elementaryyear > $dat) {
             $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in Elementary School</div>');
-        }
-        elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
+        } elseif ($highschoolyear == '' OR $highschoolyear > $dat) {
             $this->session->set_flashdata('message', $alerts . 'Please Select First Year of Completion in High School</div>');
-        }
-        else{
+        } else {
 
-           $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-success">'. $suc . 'Information Successfuly Saved.</div>');
             $data = array(
                 'firstname'     => $firstname,
                 'middlename'    => $middlename,
@@ -493,10 +486,10 @@ class Registrar extends CI_Controller
             $this->db->update('tbl_registration', $data3);
 
         }
-         $x = array(
-             'firstname'            => $firstname,
-             'middlename'           => $middlename,
-             'lastname'             => $lastname,
+        $x = array(
+            'firstname'             => $firstname,
+            'middlename'            => $middlename,
+            'lastname'              => $lastname,
             'dob'                   => $dob,
             'pob'                   => $pob,
             'address1'              => $address1,
@@ -563,11 +556,10 @@ class Registrar extends CI_Controller
             );
 
 
-            if($this->input->post('action') == 'add'){
+            if ($this->input->post('action') == 'add') {
                 $this->db->insert('tbl_party', $data1);
                 $id = $this->db->insert_id();
-            }
-            else{
+            } else {
                 $this->db->where('id', $this->input->post('id'));
                 $this->db->update('tbl_party', $data1);
             }
@@ -638,7 +630,8 @@ class Registrar extends CI_Controller
 
     }
 
-    function delete_school($id){
+    function delete_school($id)
+    {
         $this->load->model('registrar/common');
         $query = $this->common->check_school($id);
 
@@ -681,7 +674,8 @@ class Registrar extends CI_Controller
         echo json_encode($data);
     }
 
-    function tor($sid = ''){
+    function tor($sid = '')
+    {
         $sid = array('sid' => $sid);
         $this->load->model('registrar/tor');
         $this->load->view('registrar/tor_preview', $sid);
@@ -831,7 +825,7 @@ class Registrar extends CI_Controller
 
         foreach ($acamd as $acams) {
             $c = $this->db->query("SELECT id FROM tbl_curriculum WHERE coursemajor = $coursemajor AND academicterm = {$acams['id']}");
-            
+
             if ($c->num_rows() > 0) {
                 $cur    = $c->row_array();
                 $cur1   = $cur['id'];
@@ -1027,7 +1021,7 @@ class Registrar extends CI_Controller
             $d['course']    = $this->input->post('course');
             $this->load->view('registrar/shiftee', $d);
         } else {
-            
+
             $t                  = $this->db->get('tbl_coursemajor')->row_array();
             $r['student']       = $this->input->post('id');
             $r['coursemajor']   = $this->input->post('course');
@@ -1225,7 +1219,7 @@ class Registrar extends CI_Controller
         $this->form_validation->set_rules('lastname', 'Lastname', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
         $this->form_validation->set_rules('academicterm', 'Academicterm', 'required');
-        
+
         $courseMajor = $this->db->get('tbl_coursemajor')->result();
 
         if ($this->form_validation->run() === false) {
@@ -1237,7 +1231,7 @@ class Registrar extends CI_Controller
         } else {
             $this->db->where('legacyid', $this->input->post('student_id'));
             $c = $this->db->count_all_results('tbl_party');
-            
+
             if ($c > 0) {
                 $this->api->userMenu();
                 $data['error']          = '<div class="alert alert-danger">Student ID Already Exists</div>';
@@ -1246,7 +1240,7 @@ class Registrar extends CI_Controller
                 $this->load->view('templates/footer');
             } else {
                 $this->db->trans_begin();
-                
+
                 $course_m = $this->input->post('course');
 
                 $d['firstname']     = strtoupper($this->input->post('firstname'));
@@ -1264,14 +1258,14 @@ class Registrar extends CI_Controller
                 $data['coursemajor']    = $course_m;
                 $data['academicterm']   = $this->input->post('academicterm');
                 $data['date']           = date('Y-m-d');
-                
+
                 $this->db->where('id', $this->input->post('academicterm'));
                 $acam_id = $this->db->get('tbl_academicterm')->row();
-                
+
                 $data['curriculum']     = $this->get_current_curriculum($course_m, $acam_id->systart);
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
-                
+
                 if ($this->db->trans_status() === FALSE) {
                      $this->db->trans_rollback();
                      $this->session->set_flashdata('message', '<div class="alert alert-danger text-center">Something Went Wrong</div>');
