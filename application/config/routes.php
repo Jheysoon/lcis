@@ -198,3 +198,4 @@ $route['disc_submit']                   = 'discount/disc_submit';
 
 //Add Course Major
 $route['add_course']                    = 'coursemajor/add_course';
+$route['insert_course']                 = 'coursemajor/insert_course';
