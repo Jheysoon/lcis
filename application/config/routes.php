@@ -124,6 +124,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['register']                      = 'registrar/register';
 
     $route['systemvalue']                   = 'systemvalue/index';
+    
+    $route['user_option/(:num)']            = 'useroption/index/$1';
 
 /*-----------------------------------------------------------
  | Developers Routes
