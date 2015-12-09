@@ -124,6 +124,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['register']                      = 'registrar/register';
 
     $route['systemvalue']                   = 'systemvalue/index';
+    
+    $route['user_option/(:num)']            = 'useroption/index/$1';
 
 /*-----------------------------------------------------------
  | Developers Routes
@@ -199,3 +201,4 @@ $route['disc_submit']                   = 'discount/disc_submit';
 
 //Add Course Major
 $route['add_course']                    = 'coursemajor/add_course';
+$route['insert_course']                 = 'coursemajor/insert_course';
