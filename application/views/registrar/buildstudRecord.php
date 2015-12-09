@@ -124,7 +124,7 @@
                                 echo $pr['firstname'];
                             endif ?>
     				</div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="padding:0">
                           <strong class="strong">Year</strong>
                           <select class="form-control" name="primaryyear">
                               <option></option>
@@ -168,7 +168,7 @@
                         <?php echo $el['firstname']; ?>
                     <?php endif ?>
                     </div>
-                     <div class="col-md-3">
+                     <div class="col-md-3" style="padding:0">
                           <strong class="strong">Year</strong>
                           <select class="form-control" name = "elementaryyear">
                               <option></option>
@@ -187,7 +187,7 @@
                                  } ?>
                           </select>
                      </div>
-                    <div class="col-md-9 pad-bottom-10">
+                    <div class="col-md-9 pad-bottom-10" >
                         <strong class="strong">High School</strong>
                        <?php if ($position != 'C' or $position != 'B'): ?>
                             <select class="form-control" name="highschool" id="">
@@ -206,7 +206,7 @@
                         <?php echo $h['firstname']; ?>
                     <?php endif ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3"  style="padding:0">
                         <strong class="strong">Year</strong>
                         <select class="form-control" name="highschoolyear">
                             <option></option>

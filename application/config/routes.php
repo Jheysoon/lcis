@@ -192,3 +192,8 @@ $route['viewbilling/(:any)'] = 'billing/view_studentbilling/$1/$2';
 $route['student_discount']              = 'discount/student_list';
 $route['view_discount/(:any)']          = 'discount/view_discounts/$1';
 $route['disc_submit']                   = 'discount/disc_submit';
+
+
+
+//Add Course Major
+$route['add_course']                    = 'coursemajor/add_course';
