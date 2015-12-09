@@ -138,6 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['enrolment_grouping']        = 'dean/enrolmentLegacyGrouping';
     $route['register_employee']         = 'instructor/register_employee';
     $route['designation']               = 'admin/designation';
+    $route['update_designation/(:num)'] = 'admin/update_designation/$1';
 
 
 

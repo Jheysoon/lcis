@@ -33,7 +33,7 @@ class Admin extends CI_Controller
 
 		$res 	= $this->designation->getSpecificDesig($id);
 		$val 	= $res['description'];
-		$data 	= array('id' => $id, 'val' => $val);
+		$data 	= array('id' => $id, 'val', $val);
 
         $this->load->view('admin/designation', $data);
 		$this->load->view('templates/footer');
@@ -41,19 +41,15 @@ class Admin extends CI_Controller
 
 	function addDesignation()
 	{
-		$this->load->model('admin/designation');
-		$desig = strtoupper($this->input->post('designation'));
-		$this->designation->addDesignation($desig);
-		redirect('/designation');
+		$desig = $this->input->post('designation');
+		echo $desig;
 	}
 
 	function updateDesignation()
-	{	
-		$this->load->model('admin/designation');
-		$desig 	= strtoupper($this->input->post('designation'));
+	{
+		$desig 	= $this->input->post('designation');
 		$id 	= $this->input->post('id');
-		$this->designation->updateDesignation($id, $desig);
-		redirect('/designation');
+		echo $desig." - ".$id;
 	}
 }
 
