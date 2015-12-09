@@ -1,4 +1,8 @@
 	<div class="col-md-3"></div>
+	<?php 
+		$college_id = $this->coursemajormd->get_colleges($cid);
+
+	 ?>
 	<div class="col-md-9">
 		<div class="panel p-body">
 			<div class="panel-heading search">
@@ -16,7 +20,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Description</label>
 								<div class="col-sm-9">
-									<input type="text" name="desc" required class="form-control" placeholder="Description" value="<?php echo set_value('desc') ?>"/>
+									<input type="text" name="desc" required class="form-control" placeholder="Description" value="<?php echo set_value('desc') . $college_id['description'] ?>"/>
 								</div>
 							</div>
 							<div class="form-group">

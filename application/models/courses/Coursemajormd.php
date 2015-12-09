@@ -26,5 +26,12 @@
 									 WHERE c.id = a.college 
 									 AND b.id = a.own")->result_array();
 		}
+		function get_colleges($id)
+		{
+			$this->db->query("SELECT a.id, a.shortname, a.description dsc, c.id col, b.id 
+									 FROM `tbl_course` a, tbl_party b, tbl_college c 
+									 WHERE c.id = a.college 
+									 AND b.id = a.own AND a.id = $id")->row_array();
+		}
 		
 	}

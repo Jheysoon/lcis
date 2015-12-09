@@ -7,12 +7,12 @@
 	{
 		function add_course()
 		{
-
+			$data['cid'] = 0;
 			$this->load->helper('form');
 			$this->load->model('courses/coursemajormd');
 			$this->load->view('templates/header');
 			$this->api->userMenu();
-			$this->load->view('course/coursemajor');
+			$this->load->view('course/coursemajor', $data);
 			$this->load->view('templates/footer');
 		}
 		function insert_course()
@@ -49,5 +49,15 @@
 			$this->db->where('id', $id);
 			$this->db->delete('tbl_course');
 			redirect('/add_course');
+		}
+		function update_course($id)
+		{
+			$data['cid'] = $id;
+			$this->load->helper('form');
+			$this->load->model('courses/coursemajormd');
+			$this->load->view('templates/header');
+			$this->api->userMenu();
+			$this->load->view('course/coursemajor', $data);
+			$this->load->view('templates/footer');
 		}
 	}
