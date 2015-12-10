@@ -1,4 +1,4 @@
-
+<?php $office = $this->api->getUserOffice() ?>
 <div class="col-md-3"></div>
     <div class="col-md-9 body-container">
 
@@ -47,7 +47,9 @@
                     </div>
 
                     <div class="col-md-6">
-
+                        
+                        <?php if ($office != 3) { ?>
+                            
                         <div class="form-group col-md-6">
                             <label for="title">Major</label>
                             <div class="radio">
@@ -153,6 +155,13 @@
                                 </label>
                             </div>
                         </div>
+                        
+                        <?php } else { ?>
+                            <div class="col-sm-12">
+                                
+                            </div>
+                        <?php } ?>
+                        
                     </div>
                     
                     <div class="col-md-12">
