@@ -40,7 +40,8 @@ class Api
 		return $course.' '.$m;
 	}
 
-	function getUserOffice(){
+	function getUserOffice()
+	{
 		$this->CI->load->model('dean/common_dean');
 
 		if(! $this->CI->session->has_userdata('uid'))
@@ -341,7 +342,8 @@ class Api
 		////////////////////////////////////////////////////////////////////////////
 	}
 	// end for yearLevel function
-	function get_subcode(){
+	function get_subcode()
+	{
 		$col = $this->getUserCollege();
 		if ($col == 1) {
 			return "(SUBSTRING(SUBCODE, 1, 2) = 'GE' OR SUBSTRING(SUBCODE, 1, 2) = 'AB')";
