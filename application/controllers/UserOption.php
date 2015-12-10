@@ -72,4 +72,24 @@ class UserOption extends CI_Controller
             
         }
     }
+    
+    public function delete($id)
+    {
+        $this->db->where('optionid', $id);
+        $p = $this->db->count_all_results('tbl_useroption');
+        
+        if ($p > 0) {
+            $this->api->set_session_message('danger', 'Option is in Used');
+            
+            redirect('/menu/admin-option');
+        } else {
+            $this->db->where('id', $id);
+            $this->db->delete('tbl_option');
+            
+            $this->api->set_session_message('success', 'Option Deleted');
+            
+            redirect('/menu/admin-option');
+        }
+        
+    }
 }
