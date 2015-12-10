@@ -43,9 +43,10 @@ class Subject extends CI_Model
 			LIKE '%$sid%') AND owner = $owner OR owner = 0 LIMIT 6");
 		return $q->result_array();
 	}
-	function count($code)
+	function count($code, $sch = 1)
 	{
-		$this->db->where('code',$code);
+		$this->db->where('code', $code);
+		$this->db->where('own', $sch);
 		$q = $this->db->get('tbl_subject');
 		return $q->row_array();
 	}
