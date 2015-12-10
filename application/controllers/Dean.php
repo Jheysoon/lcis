@@ -38,6 +38,7 @@ class Dean extends CI_Controller
             ));
 
             $this->api->userMenu();
+            $office                     = $this->api->getUserOffice();
 
             $sub                        = $this->subject->find($sid);
             extract($sub);
@@ -45,17 +46,22 @@ class Dean extends CI_Controller
             $data['descriptivetitle']   = $descriptivetitle;
             $data['units']              = $units;
             $data['shortname']          = $shortname;
-            $data['majorsubject']       = $majorsubject;
-            $data['hours']              = $hours;
-            $data['bookletcharge']      = $bookletcharge;
-            $data['sid']                = $sid;
-            $data['owner']              = $owner;
-            $data['comp']               = $computersubject;
-            $data['ge']                 = $gesubject;
-            $data['academic']           = $nonacademic;
-            $data['error']              = '';
-            $data['param']              = $param;
-
+            
+            if ($office != 3) {
+                $data['hours']              = $hours;
+                $data['majorsubject']       = $majorsubject;
+                $data['bookletcharge']      = $bookletcharge;
+                $data['sid']                = $sid;
+                $data['owner']              = $owner;
+                $data['comp']               = $computersubject;
+                $data['ge']                 = $gesubject;
+                $data['academic']           = $nonacademic;
+                $data['error']              = '';
+                $data['param']              = $param;
+            } else {
+                $data['school']             = $own;
+            }
+            
             $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
         }
@@ -179,19 +185,25 @@ class Dean extends CI_Controller
         }
         elseif($q > 0)
         {
+            $office                     = $this->api->getUserOffice();
             $data['code']               = strtoupper($this->input->post('code'));
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
             $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
             $data['hours']              = $this->input->post('hours');
-            $data['bookletcharge']      = $this->input->post('booklet');
-            $data['majorsubject']       = $this->input->post('major');
-            $data['group']              = $this->input->post('group');
-            $data['owner']              = $this->input->post('owner');
-            $data['nonacademic']        = $this->input->post('academic');
-            $data['gesubject']          = $this->input->post('ge');
-            $data['computersubject']    = $this->input->post('comp');
-            $id                         = $this->input->post('sid');
+            $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
+            
+            if ($office != 3) {
+                $data['bookletcharge']      = $this->input->post('booklet');
+                $data['majorsubject']       = $this->input->post('major');
+                $data['group']              = $this->input->post('group');
+                $data['owner']              = $this->input->post('owner');
+                $data['nonacademic']        = $this->input->post('academic');
+                $data['gesubject']          = $this->input->post('ge');
+                $data['computersubject']    = $this->input->post('comp');
+            }
+            
+            $id = $this->input->post('sid');
             
             $q = $this->subject->count($data['code']);
             
