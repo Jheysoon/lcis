@@ -64,25 +64,8 @@
 				</div>
 			</div>
 		<?php
-			$uid = $this->session->userdata('uid');
-			$col = $this->common_dean->countAcam();
-			
-			if ($col > 0) {
-				$owner = $this->common_dean->getColAcam($uid);
-				$data['college'] = $owner['college'];
-			} else {
-				$c = $this->common_dean->countAdmin($uid);
-				
-				if ($c > 0) {
-					$owner 	= $this->common_dean->getColAdmin($uid);
-					$o 		= $owner['office'];
-					$of 	= $this->common_dean->getOffice($o);
-					$data['college'] = $of['college'];
-				} else {
-					$data['college'] = 0;
-				}
-				
-			}
+			$uid 				= $this->session->userdata('uid');
+			$data['college'] 	= $this->api->getUserCollege();
 		?>
 			<div class="table-responsive" id="subject_wrapper">
 				<?php  $this->load->view('dean/ajax/tbl_subject',$data);  ?>
