@@ -169,7 +169,7 @@
                                         
                                         foreach ($s as $school) {
                                     ?>
-                                        <option value="<?php echo $school->id ?>"><?php echo $school->firstname ?></option>
+                                        <option value="<?php echo $school->id ?>" <?php echo set_select('school', $school->id) ?>><?php echo $school->firstname ?></option>
                                     <?php } ?>
                                  </select>
                             </div>
