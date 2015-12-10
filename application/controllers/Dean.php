@@ -261,13 +261,10 @@ class Dean extends CI_Controller
 
         $this->load->model('dean/subject');
         
-        if($q > 0)
-        {
+        if ($q > 0) {
             $sid = $this->subject->count($code);
             redirect(base_url('edit_subject/'.$sid['id']));
-        }
-        else
-        {
+        } else {
             $this->session->set_flashdata('message',
                 '<div class="alert alert-danger" style="margin:20px;">
                     Subject Not Found
