@@ -1,4 +1,4 @@
-
+<?php $office = $this->api->getUserOffice(); ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 
@@ -54,6 +54,8 @@
             </div>
 
             <div class="col-md-6">
+				
+				<?php if ($office != 3) { ?>
 
               <div class="form-group col-md-6">
                 <label for="title">Major</label>
@@ -257,6 +259,23 @@
                 </div>
                 <?php } ?>
               </div>
+			  
+				<?php } else { ?>
+					<label>School</label>
+					<select class="form-control" name="school">
+						<?php 
+							$s = $this->db->query("SELECT a.id AS id, firstname 
+									FROM tbl_party a, tbl_school b 
+									WHERE a.id = b.id 
+									AND b.tertiary = 1 
+									AND a.id != 1")->result();
+							
+							foreach ($s as $school) {
+						?>
+							<option value="<?php echo $school->id ?>" <?php echo ($school->id == $sch) ? 'selected' : '' ?>><?php echo $school->firstname ?></option>
+						<?php } ?>
+					 </select>
+				 <?php } ?>
 
             </div>
             <div class="col-md-12">
