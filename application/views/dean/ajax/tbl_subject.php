@@ -7,7 +7,13 @@
 		<th>Action</th>
 	</tr>
 	<?php
-		$subj = $this->subject->subjectWhere($college);
+		$office     = $this->api->getUserOffice();
+		
+		if ($office == 3) {
+			$subj = $this->db->get_where('tbl_subject', array('own !=', 1))->result_array();
+		} else {
+			$subj = $this->subject->subjectWhere($college);
+		}
 		
 		foreach ($subj as $sub) {
 	?>
@@ -28,7 +34,7 @@
 		 ?>
 		</td>
 		<td>
-		<?php if ($col == 0 OR $col == $college) { ?>
+		<?php if ($col == 0 OR $col == $college OR $office == 3) { ?>
 			<a class="btn btn-success btn-xs btn-block" href="/edit_subject/<?php echo $sub['id']; ?>">
 				Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span>
 			</a>
