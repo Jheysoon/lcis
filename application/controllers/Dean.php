@@ -225,20 +225,31 @@ class Dean extends CI_Controller
     
     function search_subject($sid)
     {
-        $this->load->model(array(
-            'dean/subject',
-            'dean/common_dean'
-        ));
-
         $sid        = urldecode($sid);
-        $college    = $this->api->getUserCollege();
-        $s          = $this->subject->search($sid,$college);
         $data       = array();
-
-        foreach ($s as $r)
-        {
+        $office     = $this->api->getUserOffice();
+        
+        if ($office == 3) {
+            
+            $s = $this->db->query("SELECT code, descriptivetitle
+    			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%') 
+                AND own != 1 OR own = 0 LIMIT 6")->result_array();
+        } else {
+            
+            $this->load->model(array(
+                'dean/subject',
+                'dean/common_dean'
+            ));
+            
+            $college    = $this->api->getUserCollege();
+            $s          = $this->subject->search($sid, $college);    
+            
+        }
+        
+        foreach ($s as $r) {
             $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle']);
         }
+        
         echo json_encode($data);
     }
     
