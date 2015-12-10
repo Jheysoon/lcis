@@ -158,7 +158,20 @@
                         
                         <?php } else { ?>
                             <div class="col-sm-12">
-                                
+                                <label>School</label>
+                                <select class="form-control" name="school">
+                                    <?php 
+                                        $s = $this->db->query("SELECT a.id AS id, firstname 
+                                                FROM tbl_party a, tbl_school b 
+                                                WHERE a.id = b.id 
+                                                AND b.tertiary = 1 
+                                                AND a.id != 1")->result();
+                                        
+                                        foreach ($s as $school) {
+                                    ?>
+                                        <option value="<?php echo $school->id ?>"><?php echo $school->firstname ?></option>
+                                    <?php } ?>
+                                 </select>
                             </div>
                         <?php } ?>
                         
