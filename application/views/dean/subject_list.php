@@ -64,36 +64,27 @@
 				</div>
 			</div>
 		<?php 
-
-					$col = $this->common_dean->countAcam($this->session->userdata('uid'));
-					if($col > 0)
-					{
-						
-						$owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
-						$data['college'] = $owner['college'];
-					}
-					else
-					{
-						$c = $this->common_dean->countAdmin($this->session->userdata('uid'));
-						if($c > 0)
-						{
-							$owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
-							$o = $owner['office'];
-							$of = $this->common_dean->getOffice($o);
-							$data['college'] = $of['college'];
-						}
-						else
-						{
-							$data['college'] = 0;
-						}
-					}
-			 ?>
+			$col = $this->common_dean->countAcam($this->session->userdata('uid'));
 			
+			if ($col > 0) {
+				$owner = $this->common_dean->getColAcam($this->session->userdata('uid'));
+				$data['college'] = $owner['college'];
+			} else {
+				$c = $this->common_dean->countAdmin($this->session->userdata('uid'));
+				
+				if ($c > 0) {
+					$owner = $this->common_dean->getColAdmin($this->session->userdata('uid'));
+					$o = $owner['office'];
+					$of = $this->common_dean->getOffice($o);
+					$data['college'] = $of['college'];
+				} else {
+					$data['college'] = 0;
+				}
+				
+			}
+		?>
 			<div class="table-responsive" id="subject_wrapper">
-				<?php 
-					
-					$this->load->view('dean/ajax/tbl_subject',$data); 
-				?>
+				<?php  $this->load->view('dean/ajax/tbl_subject',$data);  ?>
 			</div>
 		</div>
 		</div>
