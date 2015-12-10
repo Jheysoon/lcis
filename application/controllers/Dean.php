@@ -149,21 +149,6 @@ class Dean extends CI_Controller
 
     function save_subject()
     {
-
-        $data['code']               = strtoupper($this->input->post('code'));
-        $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-        $data['shortname']          = trim($this->input->post('shortname'));
-        $data['units']              = $this->input->post('units');
-        $data['hours']              = $this->input->post('hours');
-        $data['bookletcharge']      = $this->input->post('booklet');
-        $data['majorsubject']       = $this->input->post('major');
-        $data['group']              = $this->input->post('group');
-        $data['owner']              = $this->input->post('owner');
-        $data['nonacademic']        = $this->input->post('academic');
-        $data['gesubject']          = $this->input->post('ge');
-        $data['computersubject']    = $this->input->post('comp');
-        $id                         = $this->input->post('sid');
-
         $this->load->model(array(
             'home/option',
             'home/option_header',
@@ -194,6 +179,20 @@ class Dean extends CI_Controller
         }
         elseif($q > 0)
         {
+            $data['code']               = strtoupper($this->input->post('code'));
+            $data['descriptivetitle']   = strtoupper($this->input->post('title'));
+            $data['shortname']          = trim($this->input->post('shortname'));
+            $data['units']              = $this->input->post('units');
+            $data['hours']              = $this->input->post('hours');
+            $data['bookletcharge']      = $this->input->post('booklet');
+            $data['majorsubject']       = $this->input->post('major');
+            $data['group']              = $this->input->post('group');
+            $data['owner']              = $this->input->post('owner');
+            $data['nonacademic']        = $this->input->post('academic');
+            $data['gesubject']          = $this->input->post('ge');
+            $data['computersubject']    = $this->input->post('comp');
+            $id                         = $this->input->post('sid');
+            
             $q = $this->subject->count($data['code']);
             
             if($q['id'] == $id)
