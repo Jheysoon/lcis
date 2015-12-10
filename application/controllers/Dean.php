@@ -67,6 +67,8 @@ class Dean extends CI_Controller
 
     function add_subject()
     {
+        $office = $this->api->getUserOffice();
+        
         $this->load->model(array(
             'dean/subject',
             'dean/group',
@@ -95,20 +97,32 @@ class Dean extends CI_Controller
             $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
             $data['hours']              = $this->input->post('hours');
-            $data['bookletcharge']      = $this->input->post('booklet');
-            $data['majorsubject']       = $this->input->post('major');
-            $data['group']              = $this->input->post('group');
-            $data['owner']              = $this->input->post('owner');
-            $data['nonacademic']        = $this->input->post('academic');
-            $data['gesubject']          = $this->input->post('ge');
-            $data['computersubject']    = $this->input->post('comp');
-
-            // check if the subject code already exists
-
-            $this->db->where('code', $data['code'])
-            ->where('descriptivetitle', $data['descriptivetitle'])
-            ->where('units', $data['units']);
-            $c = $this->db->count_all_results('tbl_subject');
+            $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
+            
+            if ($office != 3) {
+                $data['bookletcharge']      = $this->input->post('booklet');
+                $data['majorsubject']       = $this->input->post('major');
+                $data['group']              = $this->input->post('group');
+                $data['owner']              = $this->input->post('owner');
+                $data['nonacademic']        = $this->input->post('academic');
+                $data['gesubject']          = $this->input->post('ge');
+                $data['computersubject']    = $this->input->post('comp');
+                
+                // check if the subject code already exists
+    
+                $this->db->where('code', $data['code'])
+                    ->where('descriptivetitle', $data['descriptivetitle'])
+                    ->where('units', $data['units']);
+                    
+                $c = $this->db->count_all_results('tbl_subject');
+            } else {
+                $this->db->where('code', $data['code'])
+                    ->where('descriptivetitle', $data['descriptivetitle'])
+                    ->where('units', $data['units'])
+                    ->where('school', $data['own']);
+                    
+                $c = $this->db->count_all_results('tbl_subject');
+            }
             
             if($c < 1)
             {
