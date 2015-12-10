@@ -141,7 +141,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['register_employee']         = 'instructor/register_employee';
     $route['designation']               = 'admin/designation';
     $route['update_designation/(:num)'] = 'admin/update_designation/$1';
-
+    $route['college']                   = 'colleges/college';
+    $route['update_college/(:num)']     = 'colleges/update_college/$1';
 
 
 /*-----------------------------------------------------------
@@ -200,3 +201,5 @@ $route['disc_submit']                   = 'discount/disc_submit';
 
 //Add Course Major
 $route['add_course']                    = 'coursemajor/add_course';
+$route['insert_course']                 = 'coursemajor/insert_course';
+$route['update_course/(:any)']          = 'coursemajor/update_course/$1';
