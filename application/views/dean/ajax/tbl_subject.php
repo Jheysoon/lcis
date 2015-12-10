@@ -1,13 +1,16 @@
 <table class="table table-striped table-bordered table-hover">
+	<?php $office     = $this->api->getUserOffice(); ?>
 	<tr>
 		<th>Subject Code</th>
 		<th>Descriptive Title</th>
 		<th>Units</th>
-		<th>College</th>
+		<?php if ($office != 3) { ?>
+			<th>College</th>
+		<?php } ?>
 		<th>Action</th>
 	</tr>
 	<?php
-		$office     = $this->api->getUserOffice();
+		
 		
 		if ($office == 3) {
 			$subj = $this->db->get_where('tbl_subject', array('own !=' => 1))->result_array();
@@ -21,18 +24,27 @@
 		<td><?php echo $sub['code']; ?></td>
 		<td><?php echo $sub['descriptivetitle']; ?></td>
 		<td><?php echo $sub['units']; ?></td>
-		<td>
-		<?php
-			$col = $this->common_dean->getCollege($sub['id']);
-			
-			if ($col == 0) {
-				echo 'Not Been Assigned';
+		
+		<?php if ($office != 3) { ?>
+			<td>
+			<?php
+				$col = $this->common_dean->getCollege($sub['id']);
+				
+				if ($col == 0) {
+					echo 'Not Been Assigned';
+				} else {
+					$t = $this->common_dean->getColName($col);
+					echo $t;
+				}
+			 ?>
+			</td>
+		<?php 
 			} else {
-				$t = $this->common_dean->getColName($col);
-				echo $t;
+				$col 		= 0;
+				$college 	= 0;
 			}
-		 ?>
-		</td>
+		?>
+		
 		<td>
 		<?php if ($col == 0 OR $col == $college OR $office == 3) { ?>
 			<a class="btn btn-success btn-xs btn-block" href="/edit_subject/<?php echo $sub['id']; ?>">
