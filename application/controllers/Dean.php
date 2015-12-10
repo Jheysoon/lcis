@@ -233,7 +233,7 @@ class Dean extends CI_Controller
             
             $s = $this->db->query("SELECT code, descriptivetitle
     			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%') 
-                AND own != 1 OR own = 0 LIMIT 6")->result_array();
+                AND (own != 1 OR own = 0) LIMIT 6")->result_array();
         } else {
             
             $this->load->model(array(
