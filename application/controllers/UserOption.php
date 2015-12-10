@@ -39,4 +39,37 @@ class UserOption extends CI_Controller
             }
         }
     }
+    
+    public function update_option()
+    {
+        $id     = $this->input->post('id');
+        $path   = $this->input->post('form_path');
+        $desc   = $this->input->post('form_desc');
+        
+        $this->db->where('link', $path);
+        $pp = $this->db->count_all_results('tbl_option');
+        
+        if ($pp > 0) {
+            $this->api->set_session_message('danger', 'Path already exists');
+            
+            redirect('/menu/admin-option');
+        } else {
+            
+            $this->db->where('desc', $desc);
+            $d = $this->db->count_all_results('tbl_option');
+            
+            if ($d > 0) {
+                $this->api->set_session_message('danger', 'Description already exists');
+                
+                redirect('/menu/admin-option');
+            } else {
+                $data = array('link' => $path, 'desc' => $desc);
+                $this->db->where('id', $id);
+                $this->db->update('tbl_option', $data);
+                
+                redirect('/menu/admin-option');
+            }
+            
+        }
+    }
 }
