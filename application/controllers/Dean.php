@@ -29,7 +29,7 @@ class Dean extends CI_Controller
 
     function edit_subject($sid, $param = '')
     {
-        if(!empty($sid) AND is_numeric($sid))
+        if(is_numeric($sid))
         {
             $this->load->model(array(
                 'dean/subject',
@@ -46,20 +46,20 @@ class Dean extends CI_Controller
             $data['descriptivetitle']   = $descriptivetitle;
             $data['units']              = $units;
             $data['shortname']          = $shortname;
+            $data['sid']                = $sid;
+            $data['param']              = $param;
+            $data['hours']              = $hours;
+            $data['error']              = '';
             
             if ($office != 3) {
-                $data['hours']              = $hours;
                 $data['majorsubject']       = $majorsubject;
                 $data['bookletcharge']      = $bookletcharge;
-                $data['sid']                = $sid;
                 $data['owner']              = $owner;
                 $data['comp']               = $computersubject;
                 $data['ge']                 = $gesubject;
                 $data['academic']           = $nonacademic;
-                $data['error']              = '';
-                $data['param']              = $param;
             } else {
-                $data['school']             = $own;
+                $data['sch']                = $own;
             }
             
             $this->load->view('dean/subjects', $data);
@@ -173,20 +173,20 @@ class Dean extends CI_Controller
                 );
 
         $this->form_validation->set_rules($rules);
-
-        $q = $this->subject->whereCode($data['code']);
+        $data['code']   = strtoupper($this->input->post('code'));
+        $q              = $this->subject->whereCode($data['code']);
+        $id = $this->input->post('sid');
         
         if($this->form_validation->run() === FALSE)
         {
             $this->load->view('templates/header');
             $this->load->view('templates/header_title2');
-            $this->load->view('dean/ed_subj');
+            $this->load->view('dean/ed_subj', $data);
             $this->load->view('templates/footer');
         }
         elseif($q > 0)
         {
             $office                     = $this->api->getUserOffice();
-            $data['code']               = strtoupper($this->input->post('code'));
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
             $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
@@ -203,9 +203,9 @@ class Dean extends CI_Controller
                 $data['computersubject']    = $this->input->post('comp');
             }
             
-            $id = $this->input->post('sid');
             
-            $q = $this->subject->count($data['code']);
+            
+            $q = $this->subject->count($data['code'], $data['own']);
             
             if($q['id'] == $id)
             {
