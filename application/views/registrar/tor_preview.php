@@ -4,6 +4,9 @@ if ($details) {
     extract($details);
     $course = $description;
     $cm = '';
+    if($pic == ''){
+        $pic = '/assets/images/sample.jpg';
+    }
     $name = strtoupper($lastname).", ".ucwords(strtolower($firstname))." ".strtoupper($middlename);
     if ($major != 0) {
         $major2 = $this->tor->getMajor($major);
@@ -99,38 +102,49 @@ if ($details) {
                             <img class="lc-logo" src="<?php echo base_url('/assets/images/LC Logo.jpg'); ?>" alt="" />
                         </td>
                         <td class="center">
-                            <strong><label >LEYTE COLLEGES</label></strong><br/>
-                            <strong><label >Tacloban City</label></strong><br/>
-                            <strong><label >OFFICE OF THE REGISTRAR</label></strong><br/>
-                            <label >Official Transcript of Record</label>
+                            <strong><label class="main" >LEYTE COLLEGES</label></strong><br/>
+                            <strong><label class="fontTimes">Tacloban City</label></strong><br/>
+                            <strong><label class="fontTimes" style="font-size: 11px;">OFFICE OF THE REGISTRAR</label></strong><br/>
+                            <label class="fontBrush" style="font-size: 11px;">Official Transcript of Record</label>
                         </td>
-                        <td width="132px">
-                            <img class="lc-img" src="<?php echo base_url('/assets/images/sample.jpg'); ?>" alt="" />
-                        </td>
+                        <?php if ($ctr2 == 1): ?> 
+                            <td width="100px">   
+                                <img class="lc-img" src="<?php echo $pic; ?>" alt="" />
+                            </td>    
+                        <?php endif ?>
+                        
                     </tr>
                 </table>
+                <?php if ($ctr2 != 1): ?>
+                    <br/>
+                <?php endif ?>
+                <br/>
                 <table>
                     <tr>
                         <td width="100px">Name :</td>
-                        <td class="underline"><strong><?php echo $name; ?></strong></td>
+                        <td class="underline" style="font-size: 14px;"> &nbsp;<strong><?php echo $name; ?></strong></td>
                         <td width="25px">Sex :</td>
-                        <td width="50px" class="center underline"><?php echo $sex; ?></td>
+                        <td width="50px" class="center underline"> &nbsp;<strong><?php echo $sex; ?></strong></td>
+                    </tr>
+                    <tr>
+                        <td>Student No. :</td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $legacyid ?>   </strong></td>
                     </tr>
                     <tr>
                         <td>Permanent Address :</td>
-                        <td colspan="3" class="underline"><?php echo $address1 ?>   </td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $address1 ?>   </strong></td>
                     </tr>
                     <tr>
                         <td>Date of Entrance :</td>
-                        <td colspan="3" class="underline"><?php echo $dte; ?></td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $dte; ?></strong></td>
                     </tr>
                     <tr>
                         <td>Source of Entrance :</td>
-                        <td colspan="3" class="underline"><?php echo $source; ?></td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $source; ?></strong></td>
                     </tr>
                     <tr>
                         <td>Course :</td>
-                        <td colspan="3" class="underline"><?php echo $course." ".$major; ?></td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $course." ".$cm; ?></strong></td>
                     </tr>
                 </table>
             </div>
@@ -140,8 +154,8 @@ if ($details) {
                 <table>
                     <tr>
                         <td colspan="3" class="center">
-                            <strong><label >LEYTE COLLEGES</label></strong><br/>
-                            <strong><label >Tacloban City</label></strong><br/>
+                            <strong><label class="fontTimes">LEYTE COLLEGES</label></strong><br/>
+                            <strong><label class="fontTimes" >Tacloban City</label></strong><br/>
                             <strong><label >RECORD OF CANDIDATE FOR GRADUATION</label></strong>
                         </td>
                     </tr>
@@ -150,44 +164,42 @@ if ($details) {
                     </tr>
                     <tr>
                         <td width="50">College of :</td>
-                        <td colspan="2" class="underline">
-                            <?php echo $college; ?>
-                        </td>
+                        <td colspan="2" class="center underline"><strong><?php echo $college; ?></strong></td>
                     </tr>
                     </table><table>
                         <tr>
                             <td>Candidate for Title/Degree :</td>
                         </tr>
                         <tr>
-                            <td class="center underline"><?php echo $description; ?></td>
+                            <td class="center underline"><strong><?php echo $description; ?></strong></td>
                         </tr>
                     </table><table>
                         <tr>
                             <td width="50">Major in :</td>
-                            <td class="underline"><?php echo $cm; ?></td>
+                            <td class="center underline"><strong><?php echo $cm; ?></strong></td>
                         </tr>
                     </table><table>
                         <tr>
                             <td width="85">Date of Graduation :</td>
-                            <td class="underline"><?php echo "" ?></td>
+                            <td class="center underline"><strong><?php echo "" ?></strong></td>
                         </tr>
                 </table>
                 <br/>
                 <table>
                     <tr>
                         <td colspan="3" class="center">
-                            <strong><label >PRELIMINARY EDUCATION</label></strong><br/>
+                            <strong><label >PRELIMINARY EDUCATION</label></strong>
                         </td>
                     </tr>
                     <tr>
                         <td class="center" width="50px">
-                            <label>COMPLETED</label>
+                            <label><strong>COMPLETED</label></strong>
                         </td>
                         <td class="center">
-                            <label>NAME OF SCHOOL</label>
+                            <label><strong>NAME OF SCHOOL</label></strong>
                         </td>
                         <td class="center">
-                            <label>YEAR</label>
+                            <label><strong>YEAR</label></strong>
                         </td>
                     </tr>
                     <tr>
@@ -241,7 +253,13 @@ if ($details) {
                     </tr>
                     <?php
                     $page_limiter = 0;
-                    $enrol = $this->tor->getEnrolment($pid, $limit);
+                    if ($ctr2 != 1) {
+                        $plimit = 29;
+                    }
+                    else{
+                        $plimit = 20;
+                    }
+                    $enrol = $this->tor->getEnrolment($pid, $limit, $plimit);
                     foreach ($enrol as $key => $val) {
                         extract($val);
                         // $group = $this->tor->getGroup($classallocation);
@@ -249,7 +267,7 @@ if ($details) {
                         if ($school != $sch) {
 
                             // do not show school if its on the last row then break the loop
-                            if ($page_limiter == 19) {
+                            if ($page_limiter == $plimit) {
                                 break;
                             }
                             echo "<tr><td class='center no-right' colspan='5'>".$school."</td></tr>";
@@ -258,7 +276,7 @@ if ($details) {
                         if ($aca != $acad) {
 
                             // do not show academicterm if its on the last row then break the loop
-                            if ($page_limiter == 19) {
+                            if ($page_limiter == $plimit) {
                                 break;
                             }
                             echo "<tr><td class='center no-right' colspan='5'>".$acad."</td></tr>";
@@ -353,7 +371,7 @@ if ($details) {
                     <?php
                         $limit++;
                         $page_limiter++;
-                        if ($page_limiter == 20) {
+                        if ($page_limiter == $plimit) {
                             break;
                         }
                     }
@@ -370,6 +388,7 @@ if ($details) {
                 <!-- end of tor table -->
 
                 <!-- ======================= left footer & Assignatories ===================== -->
+                <?php if ($ctr2 == 1): ?>
                 <table>
                     <tr>
                         <td>
@@ -390,6 +409,9 @@ if ($details) {
                         </td>
                     </tr>
                 </table>
+                <?php else: ?>
+                    <br/>
+                <?php endif ?>
                 <table>
                     <tr>
                         <td width="160px"><strong>TITLE OR DEGREE CONFERRED :</td>
@@ -447,7 +469,7 @@ if ($details) {
                             <label ><?php echo $f42; ?></label>
                         </td>
                     </tr>
-                </table><br/>
+                </table><br/><br/>
             </div>
             <!-- end of left footer and assignatories -->
 

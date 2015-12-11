@@ -31,9 +31,9 @@ table{
 .table1{
     float: left;
     width: 64%;
-    border-right: 1px solid;
     padding-bottom: 10px;
     padding-right: 0px;
+    border-right: 1px solid;
 }
 
 .table2{
@@ -65,8 +65,8 @@ th{
 }
 
 .lc-img{
-    width: 132px;
-    height: 170px;
+    width: 100px;
+    height: 130px;
     float: right;
     border: 1px solid;
 }
@@ -83,12 +83,14 @@ th{
 
 .tbl-bordered tr td{
     border: 1px solid;
+    font-weight: bold;
 }
 
 .tbl-bordered tr .no-line{
     border-top: 0px solid;
     border-bottom: 0px solid;
-    padding: 2px;
+    padding: 1px 2px 1px 2px;
+    font-size: 12px;
 }
 
 .p-small{
@@ -131,6 +133,19 @@ h2, .legacy {
     font-size: 12px;
     text-decoration: none;
     border: 1px solid
+}
+
+.main{
+    font-size: 18px;
+    font-family: Times New Roman;
+}
+
+.fontTimes{
+    font-family: Times New Roman;
+}
+
+.fontBrush{
+    font-family: Brush Script Std;
 }
 
 @media print{

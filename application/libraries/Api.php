@@ -366,8 +366,8 @@ class Api
 		$this->CI->load->model('registrar/tor');
 
         $t = $this->CI->tor->countPage($sid);
-        $page = $t/20;
-        if ($t%20 != 0) {
+        $page = $t/26;
+        if ($t%26 != 0) {
             $page = intval($page) + 1;
         }
 
