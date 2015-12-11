@@ -40,13 +40,17 @@ class Common extends CI_Model
 	}
 	function select_schoolyear($partyid, $school)
 	{
-		$this->db->select('academicterm');
-		$this->db->where('student', $partyid);
-		$this->db->where('school', $school);
-		$this->db->group_by('academicterm');
-		$this->db->order_by('systart');
-		$result = $this->db->get('tbl_enrolment');
-		return $result->result_array();
+		return $this->db->query("SELECT * FROM `tbl_enrolment`, tbl_academicterm 
+								 WHERE student = '$part' AND school = '$school' 
+								 AND tbl_academicterm.id= tbl_enrolment.academicterm 
+								 order by tbl_academicterm.systart, tbl_academicterm.term")->result_array();
+		// $this->db->select('academicterm');
+		// $this->db->where('student', $partyid);
+		// $this->db->where('school', $school);
+		// $this->db->group_by('academicterm');
+		// $this->db->order_by('academicterm');
+		// $result = $this->db->get('tbl_enrolment');
+		// return $result->result_array();
 	}
 	function select_academicterm($academicterm)
 	{
