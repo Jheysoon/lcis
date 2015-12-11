@@ -18,10 +18,10 @@ class Colleges extends CI_Controller
         $this->load->view('templates/header_title2');
     }
 
-	function designation()
+	function college()
 	{
 		$this->head();
-		$this->load->model('admin/designation');
+		$this->load->model('admin/college');
         $this->load->view('admin/college');
 		$this->load->view('templates/footer');
 	}

@@ -18,7 +18,7 @@ class Common extends CI_Model
 	}
 	function selectElem($elementary, $p)
 	{
-		$result = $this->db->query("SELECT firstname as elementary, (SELECT completionelementary FROM tbl_student WHERE `elementary` = '$elementary' AND id = '$p') as completionelementary FROM tbl_party WHERE tbl_party.id = '$elementary'");
+		$result = $this->db->query("SELECT firstname as elementary, id, (SELECT completionelementary FROM tbl_student WHERE `elementary` = '$elementary' AND id = '$p') as completionelementary FROM tbl_party WHERE tbl_party.id = '$elementary'");
 		return $result->row_array();
 	}
 	function selectSec($secondary, $p)

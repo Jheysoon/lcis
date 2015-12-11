@@ -52,7 +52,7 @@ class Tor extends CI_Model
 
     // query for getting specific student details
     function getStudDetails($sid){
-      $q = $this->db->query("SELECT d.*, d.id as pid, a.datecreated as dte, b.major as major,  c.description as description, e.*, f.description as college
+      $q = $this->db->query("SELECT d.*, d.id as pid, a.date as dte, b.major as major,  c.description as description, e.*, f.description as college
                              FROM tbl_registration a, tbl_coursemajor b, tbl_course c, tbl_party d, tbl_student e, tbl_college f
                              WHERE a.coursemajor = b.id
                              AND b.course = c.id
@@ -77,7 +77,7 @@ class Tor extends CI_Model
     }
 
     // query getting enrolment
-    function getEnrolment($pid, $limit){
+    function getEnrolment($pid, $limit, $plimit){
       $q = $this->db->query("SELECT a.*, b.firstname as school, d.subject, c.code, c.descriptivetitle, c.units, c.group
                              FROM view_tor a, tbl_party b, tbl_subject c, tbl_classallocation d
                              WHERE a.student = '$pid'
@@ -85,7 +85,7 @@ class Tor extends CI_Model
                              AND d.subject = c.id
                              AND b.id = a.school
                              ORDER BY a.systart, a.syend, a.shortname, c.units DESC, c.code
-                             LIMIT $limit, 20");
+                             LIMIT $limit, $plimit");
       return $q->result_array();
     }
 
