@@ -15,7 +15,7 @@
 			<div class="panel-body">
 				<div class="col-md-12">
 				<?php echo $this->session->flashdata('messages') ?>
-					<form class="form-horizontal" method="post" action="insert_course">
+					<form class="form-horizontal" method="post" action="/insert_course">
 						<input type="hidden" value="<?php echo $cid ?>" name="cid">
 						<div class="col-md-6" style="padding:0">
 							<div class="form-group">

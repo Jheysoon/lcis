@@ -44,7 +44,7 @@ class Common extends CI_Model
 		$this->db->where('student', $partyid);
 		$this->db->where('school', $school);
 		$this->db->group_by('academicterm');
-		$this->db->order_by('academicterm');
+		$this->db->order_by('systart');
 		$result = $this->db->get('tbl_enrolment');
 		return $result->result_array();
 	}
