@@ -33,5 +33,12 @@
 									 WHERE c.id = a.college 
 									 AND b.id = a.own AND a.id = '$id'")->row_array();
 		}
-		
+		function get_major()
+		{
+			return $this->db->query("SELECT * FROM tbl_major")->result_array();
+		}
+		function get_mid($id)
+		{
+			return $this->db->query("SELECT * FROM tbl_major WHERE id = $id")->row_array();
+		}
 	}

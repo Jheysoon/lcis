@@ -40,6 +40,8 @@
 				else
 				{
 					$this->db->insert('tbl_course', $data);
+					$courseid = $this->db->insert_id();
+					$this->db->insert('tbl_coursemajor', array('course' => $courseid));
 					$this->api->set_session_message('success','Succesfuly Added', 'messages');
 					redirect('/add_course');
 				}
@@ -78,4 +80,15 @@
 			$this->load->view('course/coursemajor', $data);
 			$this->load->view('templates/footer');
 		}
+		function add_major()
+		{
+			$data['mid'] = 0;
+			$this->load->helper('form');
+			$this->load->model('courses/coursemajormd');
+			$this->load->view('templates/header');
+			$this->api->userMenu();
+			$this->load->view('course/major', $data);
+			$this->load->view('templates/footer');
+		}
 	}
+
