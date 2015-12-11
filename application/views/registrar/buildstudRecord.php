@@ -341,8 +341,8 @@
                                     <select name="sy_id" class="form-control">
                                         <?php
                                             $sy = $this->academicterm->all();
-                                            foreach($sy as $sy1)
-                                            {
+                                            
+                                            foreach ($sy as $sy1) {
                                                 if($sy1['term'] == '1')
                                                     $sem = 'FIRST SEMESTER';
                                                 elseif($sy1['term'] == '2')
@@ -351,9 +351,7 @@
                                                     $sem = 'SUMMER CLASS';
                                                 ?>
                                                 <option value="<?php echo $sy1['id']; ?>"><?php echo $sy1['systart'].'-'.$sy1['syend'].' '.$sem; ?></option>
-                                        <?php
-                                            }
-                                        ?>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="modal-footer">
