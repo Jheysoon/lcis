@@ -33,7 +33,7 @@
                 <script src="/assets/js/rgstr_build.js"></script>
                 <script type="text/javascript">
                     $(document).ready(function(){
-                        $('select[name=add_subj]').select2();
+                        $('select[name=add_subj], select[name=course_id]').select2();
                     });
                 </script>
         <?php
