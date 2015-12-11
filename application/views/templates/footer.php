@@ -303,7 +303,24 @@
             </script>
         <?php
             }
-
+            if (uri_string() == 'menu/admin-option') {
+                ?>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('.myModal').click(function(e) {
+                            $id     = $(this).data('param');
+                            $path   = $(this).data('param1');
+                            $desc   = $(this).data('param2');
+                            $('input[name=id]').val($id);
+                            $('input[name=form_path]').val($path);
+                            $('input[name=form_desc]').val($desc);
+                            $('#myModal').modal();
+                            e.preventDefault();
+                        });
+                    });
+                </script>
+        <?php
+            }
          ?>
   </body>
 </html>
