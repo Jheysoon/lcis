@@ -56,9 +56,16 @@
 		}
 		function delete_course($id)
 		{
-			$this->api->set_session_message('success','Succesfuly Deleted', 'messages');
-			$this->db->where('id', $id);
-			$this->db->delete('tbl_course');
+			$x = $this->db->query("SELECT course FROM tbl_coursemajor WHERE course = $id")->num_rows();
+			
+			if ($x > 0) {
+				$this->api->set_session_message('danger','This course is in use. It cannot be deleted.', 'messages');
+			}else{
+				$this->api->set_session_message('success','Succesfuly Deleted', 'messages');
+				$this->db->where('id', $id);
+				$this->db->delete('tbl_course');
+			}
+			
 			redirect('/add_course');
 		}
 		function update_course($id)
