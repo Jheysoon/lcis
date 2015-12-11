@@ -1,90 +1,89 @@
-
+<?php $office = $this->api->getUserOffice(); ?>
 <div class="col-md-3"></div>
 	<div class="col-md-9 body-container">
 
-  		<div class="panel p-body">
+		<div class="panel p-body">
     		<div class="panel-heading search">
-          <h4>Subject</h4>
+        	<h4>Subject</h4>
         </div>
         <div class="panel-body">
 
-          <form class="form" method="post" action="/dean/save_subject" role="form">
-          <input type="hidden" name="sid" value="<?php echo $sid; ?>">
-            <div class="col-md-12">
-            <?php echo $this->session->flashdata('message'); ?>
-              <h3>Subject Form</h3>
-              <hr/>
-            </div>
+        	<form class="form" method="post" action="/dean/save_subject" role="form">
+        		<input type="hidden" name="sid" value="<?php echo $sid; ?>">
+            	<div class="col-md-12">
+	            	<?php echo $this->session->flashdata('message'); ?>
+	            	<h3>Subject Form</h3>
+	            	<hr/>
+            	</div>
 
-            <div class="col-md-6">
+            	<div class="col-md-6">
 
-              <div class="form-group col-md-12">
-                <label for="subname">Code</label>
-                <?php 
-                    $style = '';
-                    if($param == 'view'){ 
-                        $style = 'disabled';
-                    }
-                ?>
-                <input type="text" class="form-control" required value="<?php echo $code; ?>" name="code" placeholder="Code" <?php echo $style; ?>>
-              </div>
+            		<div class="form-group col-md-12">
+                		<label for="subname">Code</label>
+	                	<?php 
+		                    $style = '';
+		                    if($param == 'view'){ 
+		                        $style = 'disabled';
+		                    }
+	                	?>
+                		<input type="text" class="form-control" required value="<?php echo $code; ?>" name="code" placeholder="Code" <?php echo $style; ?>>
+            		</div>
 
-              <div class="form-group col-md-12">
-                <label for="title">Descriptive Title</label>
-                <input type="text" class="form-control" required name="title" value="<?php echo $descriptivetitle; ?>" placeholder="Descriptive Title" <?php echo $style; ?>>
-              </div>
+            		<div class="form-group col-md-12">
+                		<label for="title">Descriptive Title</label>
+                		<input type="text" class="form-control" required name="title" value="<?php echo $descriptivetitle; ?>" placeholder="Descriptive Title" <?php echo $style; ?>>
+            		</div>
 
-              <div class="form-group col-md-7">
-                <label for="shortname">Short Name</label>
-                <input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname" <?php echo $style; ?>>
-              </div>
+            		<div class="form-group col-md-7">
+                		<label for="shortname">Short Name</label>
+                		<input type="text" class="form-control" value="<?php echo $shortname; ?>" name="shortname" placeholder="Shortname" <?php echo $style; ?>>
+            		</div>
 
-              <div class="form-group col-md-5">
-                <label for="units">Units</label>
-                <input type="number" min="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units" <?php echo $style; ?>>
-              </div>
+            		<div class="form-group col-md-5">
+                		<label for="units">Units</label>
+                		<input type="number" min="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units" <?php echo $style; ?>>
+            		</div>
 
-              <div class="form-group col-md-6">
-                <label for="hours">Hours</label>
-                <input type="number" min="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours" <?php echo $style; ?>>
-              </div>
+            		<div class="form-group col-md-6">
+                		<label for="hours">Hours</label>
+                		<input type="number" min="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours" <?php echo $style; ?>>
+            		</div>
+            	</div>
 
-              
+            	<div class="col-md-6">
+				
+					<?php if ($office != 3) { ?>
 
-            </div>
-
-            <div class="col-md-6">
-
-              <div class="form-group col-md-6">
-                <label for="title">Major</label>
-                <?php if($academic == 0) { ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="major" value="1" <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="major" value="0" checked <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php }else{ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="major" value="1" checked <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="major" value="0" <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php } ?>
-              </div>
+            		<div class="form-group col-md-6">
+                		<label for="title">Major</label>
+                		<?php if($academic == 0) { ?>
+                		<div class="radio">
+                			<label>
+                    		<input type="radio" name="major" value="1" <?php echo $style; ?>>
+                    		Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+	                    		<input type="radio" name="major" value="0" checked <?php echo $style; ?>>
+	                    		No
+                			</label>
+                		</div>
+                		<?php } else { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="major" value="1" checked <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="major" value="0" <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } ?>
+            		</div>
 
               <div class="form-group col-md-6">
                 <label for="booklet">Booklet Charge</label>
@@ -257,6 +256,23 @@
                 </div>
                 <?php } ?>
               </div>
+			  
+				<?php } else { ?>
+					<label>School</label>
+					<select class="form-control" name="school">
+						<?php 
+							$s = $this->db->query("SELECT a.id AS id, firstname 
+									FROM tbl_party a, tbl_school b 
+									WHERE a.id = b.id 
+									AND b.tertiary = 1 
+									AND a.id != 1")->result();
+							
+							foreach ($s as $school) {
+						?>
+							<option value="<?php echo $school->id ?>" <?php echo ($school->id == $sch) ? 'selected' : '' ?>><?php echo $school->firstname ?></option>
+						<?php } ?>
+					 </select>
+				 <?php } ?>
 
             </div>
             <div class="col-md-12">

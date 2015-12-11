@@ -518,6 +518,7 @@
 	                                                                <label>Subject</label><br/>
                                                                     <select class="form-control" name="add_subj">
                                                                         <?php
+                                                                            $this->db->where('own', $school);
                                                                             $s = $this->db->get('tbl_subject')->result();
                                                                             foreach ($s as $subject) {
                                                                          ?>
