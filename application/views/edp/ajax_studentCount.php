@@ -26,6 +26,7 @@
 		<td>Number of Student</td>
 	</tr>
 	<?php
+		$this->db->where('own', 1);
 		$curs = $this->db->get('tbl_course')->result_array();
 		foreach($curs as $cu)
 		{
