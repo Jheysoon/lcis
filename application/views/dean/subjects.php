@@ -4,8 +4,8 @@
 
 		<div class="panel p-body">
     		<div class="panel-heading search">
-        	<h4>Subject</h4>
-        </div>
+        		<h4>Subject</h4>
+        	</div>
         <div class="panel-body">
 
         	<form class="form" method="post" action="/dean/save_subject" role="form">
@@ -20,9 +20,9 @@
 
             		<div class="form-group col-md-12">
                 		<label for="subname">Code</label>
-	                	<?php 
+	                	<?php
 		                    $style = '';
-		                    if($param == 'view'){ 
+		                    if ($param == 'view') {
 		                        $style = 'disabled';
 		                    }
 	                	?>
@@ -51,12 +51,12 @@
             	</div>
 
             	<div class="col-md-6">
-				
+
 					<?php if ($office != 3) { ?>
 
             		<div class="form-group col-md-6">
                 		<label for="title">Major</label>
-                		<?php if($academic == 0) { ?>
+                		<?php if ($academic == 0) { ?>
                 		<div class="radio">
                 			<label>
                     		<input type="radio" name="major" value="1" <?php echo $style; ?>>
@@ -85,188 +85,177 @@
                 		<?php } ?>
             		</div>
 
-              <div class="form-group col-md-6">
-                <label for="booklet">Booklet Charge</label>
-                <?php if($bookletcharge == 0) { ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="booklet" value="1" <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="booklet" value="0" checked <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php }else{ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="booklet" value="1" checked <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="booklet" value="0" <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php } ?>
-              </div>
+            		<div class="form-group col-md-6">
+                		<label for="booklet">Booklet Charge</label>
+                		<?php if($bookletcharge == 0) { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="booklet" value="1" <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="booklet" value="0" checked <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } else { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="booklet" value="1" checked <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="booklet" value="0" <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } ?>
+            		</div>
 
-              <div class="form-group col-md-12">
-                <label for="major">College</label>
-                <?php if($param != 'view'){ ?>
-                <select class="form-control" name="owner" <?php echo $style; ?>>
-                    <?php 
-                        $col = $this->college->all();
-                        foreach($col as $college)
-                        {
-                            if($owner == $college['id'])
-                            {
-                    ?>
-                    <option value="<?php echo $college['id']; ?>" selected><?php echo $college['description']; ?></option>
-                    <?php
-                            }
-                            else
-                            {
-                        
-                    ?>
-                    <option value="<?php echo $college['id']; ?>"><?php echo $college['description']; ?></option>
-                    <?php
-                            }
-                        }
-                    ?>
-                </select>
-                <?php }else{ ?>
-                    <input type="text" disabled class="form-control" value="Not yet assigned">
-                <?php } ?>
-              </div>
+              		<div class="form-group col-md-12">
+                		<label for="major">College</label>
+                		<?php if ($param != 'view') { ?>
+                		<select class="form-control" name="owner" <?php echo $style; ?>>
+                    	<?php
+                        	$col = $this->college->all();
 
-              <div class="form-group col-md-12">
-                <label for="group">Group</label>
-                <?php if($param != 'view'){ ?>
-                <select class="form-control" name="group" <?php echo $style; ?>>
-                  <?php 
-                        $gr = $this->group->all();
-                        foreach($gr as $g)
-                        {
-                    ?>
-                    <option value="<?php echo $g['id']; ?>"><?php echo $g['description']; ?></option>
-                    <?php
-                        }
-                   ?>
-                </select>
-                <?php }else{ ?>
-                    <input type="text" disabled class="form-control" value="Not yet assigned">
-                <?php } ?>
-              </div>
+                        	foreach ($col as $college) {
+                    	?>
+                    	<option value="<?php echo $college['id']; ?>" <?php echo ($owner == $college['id']) ? 'selected' : '' ?>>
+							<?php echo $college['description']; ?>
+						</option>
+                    	<?php } ?>
 
-              <div class="form-group col-md-4">
-                <label for="title">Non Academic</label>
-                <?php if($academic == 0) { ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="academic" value="1" <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="academic" value="0" checked <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php }else{ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="academic" value="1" checked <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="academic" value="0" <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php } ?>
-              </div>
+                		</select>
+                		<?php } else { ?>
+                    		<input type="text" disabled class="form-control" value="Not yet assigned">
+                		<?php } ?>
+            		</div>
 
-              <div class="form-group col-md-4">
-                <label for="title">GE Subject</label>
-                <?php if($ge == 0){ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="ge" value="1" <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="ge" value="0" checked <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php }else{ ?>
-                    <div class="radio">
-                  <label>
-                    <input type="radio" name="ge" value="1" checked <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="ge" value="0" <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php } ?>
-              </div>
+            		<div class="form-group col-md-12">
+                		<label for="group">Group</label>
+                		<?php if ($param != 'view') { ?>
+                		<select class="form-control" name="group" <?php echo $style; ?>>
+                		<?php
+                        	$gr = $this->group->all();
 
-              <div class="form-group col-md-4">
-                <label for="title">Computer Subject</label>
-                <?php if($comp == 0){ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="comp" value="1" <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="comp" value="0" checked <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php }else{ ?>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="comp" value="1" checked <?php echo $style; ?>>
-                    Yes
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="comp" value="0" <?php echo $style; ?>>
-                    No
-                  </label>
-                </div>
-                <?php } ?>
-              </div>
-			  
+                        	foreach ($gr as $g) {
+                    	?>
+                    		<option value="<?php echo $g['id']; ?>"><?php echo $g['description']; ?></option>
+                    	<?php } ?>
+                		</select>
+	                	<?php } else { ?>
+	                    	<input type="text" disabled class="form-control" value="Not yet assigned">
+	                	<?php } ?>
+            		</div>
+
+            		<div class="form-group col-md-4">
+                		<label for="title">Non Academic</label>
+                		<?php if ($academic == 0) { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="academic" value="1" <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="academic" value="0" checked <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } else { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="academic" value="1" checked <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="academic" value="0" <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } ?>
+            		</div>
+
+            		<div class="form-group col-md-4">
+                		<label for="title">GE Subject</label>
+                		<?php if ($ge == 0) { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="ge" value="1" <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="ge" value="0" checked <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } else { ?>
+                    	<div class="radio">
+                			<label>
+                    			<input type="radio" name="ge" value="1" checked <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="ge" value="0" <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } ?>
+            		</div>
+
+            		<div class="form-group col-md-4">
+                		<label for="title">Computer Subject</label>
+                		<?php if ($comp == 0) { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="comp" value="1" <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="comp" value="0" checked <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } else { ?>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="comp" value="1" checked <?php echo $style; ?>>
+                    			Yes
+                			</label>
+                		</div>
+                		<div class="radio">
+                			<label>
+                    			<input type="radio" name="comp" value="0" <?php echo $style; ?>>
+                    			No
+                			</label>
+                		</div>
+                		<?php } ?>
+            		</div>
+
 				<?php } else { ?>
 					<label>School</label>
 					<select class="form-control" name="school">
-						<?php 
-							$s = $this->db->query("SELECT a.id AS id, firstname 
-									FROM tbl_party a, tbl_school b 
-									WHERE a.id = b.id 
-									AND b.tertiary = 1 
+						<?php
+							$s = $this->db->query("SELECT a.id AS id, firstname
+									FROM tbl_party a, tbl_school b
+									WHERE a.id = b.id
+									AND b.tertiary = 1
 									AND a.id != 1")->result();
-							
+
 							foreach ($s as $school) {
 						?>
 							<option value="<?php echo $school->id ?>" <?php echo ($school->id == $sch) ? 'selected' : '' ?>><?php echo $school->firstname ?></option>
@@ -274,17 +263,17 @@
 					 </select>
 				 <?php } ?>
 
-            </div>
-            <div class="col-md-12">
-              <hr/>
-              <div class="col-md-12">
-              <?php if($param != 'view'){ ?>
-                <button class="btn btn-primary pull-right" type="submit">Save</button>
-                <?php } ?>
-              </div>
-            </div>
+	            </div>
+	            <div class="col-md-12">
+	            	<hr/>
+	            	<div class="col-md-12">
+	            	<?php if ($param != 'view') { ?>
+	                	<button class="btn btn-primary pull-right" type="submit">Save</button>
+	                	<?php } ?>
+	            	</div>
+	            </div>
 
-          </form>
+        	</form>
         </div>
       </div>
   </div>
