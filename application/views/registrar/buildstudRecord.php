@@ -341,7 +341,7 @@
                                     <select name="sy_id" class="form-control">
                                         <?php
                                             $sy = $this->academicterm->all();
-                                            
+
                                             foreach ($sy as $sy1) {
                                                 if($sy1['term'] == '1')
                                                     $sem = 'FIRST SEMESTER';
@@ -372,8 +372,7 @@
 
 
                 <div class="table-responsive" id="academic_wrapper">
-                <?php if(is_array($result)){ ?>
-                    <?php
+                <?php if(is_array($result)){
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):
                             extract($val);
@@ -609,7 +608,7 @@
 
                 if ($position != 'C' or $position != 'B') {
                     $status = $this->party->getStatus($partyid);
-                    
+
                     if ($status['status'] != 'E' AND $status['status'] != 'S') {
                         $this->log_student->insert_not_exists($partyid,'O');
                     }
