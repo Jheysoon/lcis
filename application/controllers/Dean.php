@@ -1152,8 +1152,9 @@ class Dean extends CI_Controller
     {
         $this->db->where('stage', $stage);
         $q = $this->db->count_all_results('tbl_completion');
-        if($q == COLLEGE_COUNT)
-        {
+
+        // COLLEGE_COUNT is a constant variable @application/config/constants.php
+        if ($q == COLLEGE_COUNT) {
             // then change the classallocation status in tbl_systemvalue
             $r = $this->db->get('tbl_systemvalues')->row_array();
             $d['classallocationstatus'] = $r['classallocationstatus'] + 1;
