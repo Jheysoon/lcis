@@ -311,31 +311,27 @@
                                     <select name="school_id" class="form-control">
                                         <?php
                                             $sch = $this->party->college_school();
-                                            foreach($sch as $s)
-                                            {
-                                                ?>
-                                                <option value="<?php echo $s['id']; ?>"><?php echo $s['firstname']; ?></option>
-                                        <?php
-                                            }
+
+                                            foreach ($sch as $s) {
                                         ?>
+                                                <option value="<?php echo $s['id']; ?>"><?php echo $s['firstname']; ?></option>
+                                        <?php } ?>
                                     </select>
                                     Course
                                     <select name="course_id" class="form-control">
                                         <?php
                                             $courses = $this->course->getAllCourse();
-                                            foreach($courses as $c)
-                                            {
-                                                ?>
-                                                <option value="<?php echo $c['id']; ?>">
-                                                    <?php
-                                                        $cour = $this->course->getCourse($c['id']);
-                                                        $major = $this->course->getMajor($c['major']);
-                                                        echo $cour.' '.$major;
-                                                    ?>
-                                                </option>
-                                            <?php
-                                            }
+
+                                            foreach ($courses as $c) {
                                         ?>
+                                            <option value="<?php echo $c['id']; ?>">
+                                                <?php
+                                                    $cour = $this->course->getCourse($c['id']);
+                                                    $major = $this->course->getMajor($c['major']);
+                                                    echo $cour.' '.$major;
+                                                ?>
+                                            </option>
+                                        <?php } ?>
                                     </select>
                                     School Year
                                     <select name="sy_id" class="form-control">
@@ -343,14 +339,15 @@
                                             $sy = $this->academicterm->all();
 
                                             foreach ($sy as $sy1) {
+
                                                 if($sy1['term'] == '1')
                                                     $sem = 'FIRST SEMESTER';
                                                 elseif($sy1['term'] == '2')
                                                     $sem = 'SECOND SEMESTER';
                                                 else
                                                     $sem = 'SUMMER CLASS';
-                                                ?>
-                                                <option value="<?php echo $sy1['id']; ?>"><?php echo $sy1['systart'].'-'.$sy1['syend'].' '.$sem; ?></option>
+                                        ?>
+                                            <option value="<?php echo $sy1['id']; ?>"><?php echo $sy1['systart'].'-'.$sy1['syend'].' '.$sem; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -372,12 +369,13 @@
 
 
                 <div class="table-responsive" id="academic_wrapper">
-                <?php if (is_array($result)) {
+                <?php
+                    if (is_array($result)) {
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):
                             extract($val);
                             $get_terms = $this->common->select_schoolyear($partyid, $school);
-                    ?>
+                ?>
                         <table class="table table-bordered no-space">
                             <tr>
                                 <td class="tbl-header-main" style="width: 50%;"><label>SCHOOL: <?php echo $sch; ?></label></td>
