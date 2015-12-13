@@ -372,7 +372,7 @@
 
 
                 <div class="table-responsive" id="academic_wrapper">
-                <?php if(is_array($result)){
+                <?php if (is_array($result)) {
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):
                             extract($val);
@@ -456,12 +456,11 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php
-                                                if($value == 0.00 AND $remarks != 'NO GRADE')
-                                                {
+                                                if ($value == 0.00 AND $remarks != 'NO GRADE') {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
                                             <select class="form-control rexam" name="re-exam">
-                                                <?php if($reexam_grade == 0.00){ ?>
+                                                <?php if ($reexam_grade == 0.00) { ?>
                                                 <option value="1" selected>
                                                     Select
                                                 </option>
@@ -531,10 +530,9 @@
 	                                                                            ?>
 	                                                                            <option value="<?php echo $gg['id']; ?>">
                                                                                     <?php
-                                                                                        if($gg['value']  == 0.00){
+                                                                                        if ($gg['value']  == 0.00) {
                                                                                             echo $gg['description'];
-                                                                                        }
-                                                                                        else{
+                                                                                        } else {
                                                                                             echo $gg['value'];
                                                                                         }
                                                                                     ?>
