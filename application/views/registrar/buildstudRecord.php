@@ -502,6 +502,7 @@
                                                     $data['partyid']        = $partyid;
                                                     $data['enrolmentid']    = $enrolmentid;
                                                     
+                                                    // adding subject modal
                                                     $this->load->view('registrar/form_permanent_record/add_subject', $data);
                                                     
                                                     if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): 
