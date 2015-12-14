@@ -13,19 +13,13 @@
 			</div>
 			<div class="panel-body">
 				<?php echo $this->session->flashdata('messages') ?>
-					<form class="col-lg-offset-6 col-lg-6" role="form" method="post" action="/insert_course">
-						<input type="hidden" value="<?php echo $mid ?>" name="cid">
-							<!-- <div class="form-group">
-								<label class="col-sm-3 control-label">Description</label>
-								<div class="col-sm-9">
-									<input type="text" name="desc" required class="form-control" placeholder="Description" value="<?php echo $mid == 0 ? set_value('desc') : $major_id['description'] ?>"/>
-								</div>
-							</div> -->
+					<form class="col-lg-offset-6 col-lg-6" role="form" method="post" action="/insert_major">
+						<input type="hidden" value="<?php echo $mid ?>" name="mid">
 							<div class="input-group">
-		                      <input type="text" class="form-control" required name="major" value="<?php echo $mid == 0 ? set_value('desc') : $major_id['description'] ?>" placeholder="Add Major">
+		                      <input type="text" class="form-control" required name="major" value="<?php echo $mid == 0 ? set_value('major') : $major_id['description'] ?>" placeholder="Add Major">
 		                      <span class="input-group-btn">
 		                        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-save" ></span> Save</button>
-		                            <a class="btn btn-danger" href="/designation">Cancel</a>
+		                            <a class="btn btn-danger" href="/add_major">Cancel</a>
 		                       
 		                      </span>
 		                    </div>
@@ -47,7 +41,7 @@
 									<td><?php echo $value['description'] ?></td>
 									<td>
 										<a href="/update_major/<?php echo $value['id']; ?>" class="a-table label label-info">Edit &nbsp;<span class="glyphicon glyphicon-pencil"></span></a>
-										<a class="a-table label label-danger" onclick="return confirm('Are you sure you want to delete selected Course?')" href="/coursemajor/delete_major/<?php echo $value['id']; ?>">Delete <span class="glyphicon glyphicon-trash"></span></a>
+										<a class="a-table label label-danger" onclick="return confirm('Are you sure you want to delete selected Major?')" href="/coursemajor/delete_major/<?php echo $value['id']; ?>">Delete <span class="glyphicon glyphicon-trash"></span></a>
 									</td>
 								</tr>
 							<?php endforeach ?>
