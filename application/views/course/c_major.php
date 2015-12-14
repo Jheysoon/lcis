@@ -60,6 +60,7 @@
 											<?php else: ?>
 												<option value="<?php echo $value['id'] ?>"  <?php echo set_select('school', $value['id']) ?>><?php echo $value['firstname'] ?></option>
 											<?php endif ?>
+											
 										<?php endforeach ?>
 									</select>
 								</div>
