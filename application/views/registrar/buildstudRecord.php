@@ -529,7 +529,6 @@
                             if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
 
                             ?>
-                            <!-- <div class="pull-right"> -->
                                 <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
                                     <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
@@ -537,13 +536,13 @@
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
                                     <input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Are you sure?')">
                                 </form>
-                                <!-- <span class="clearfix"></span> -->
+                                
                                 <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="flag_status" value="R"/>
                                     <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
                                     <input type="submit" class="btn btn-primary" value="Return to Clerk">
                                 </form>
-                            <!-- </div> -->
+                                
                         <?php elseif ($this->session->userdata('status') != 'S'): ?>
                                   <form action="/registrar/insert_flag" method="POST">
                                     <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
