@@ -152,26 +152,16 @@
                                 <?php
                                     $prim = $this->course->getAllSchool('primary');
 
-                                    foreach($prim as $pr)
-                                    {
-                                        if($pr['firstname'] == $getCollege['primary'] or $pr['id'] == $primary)
-                                        {
-                                        ?>
-                                            <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
-                                        <?php
-                                            }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
-                                        <?php
-                                            }
-                                    }
+                                    foreach ($prim as $pr) {
                                 ?>
+                                    <option value="<?php echo $pr['id']; ?>" <?php echo ($pr['firstname'] == $getCollege['primary'] OR $pr['id'] == $primary) ? 'selected' : ''; ?>><?php echo $pr['firstname']; ?></option>
+                                <?php } ?>
                             </select>
-                        <?php else:
+                        <?php 
+                            else:
                                 echo $pr['firstname'];
-                        endif ?>
+                            endif; 
+                        ?>
     				</div>
                     <div class="form-group col-md-4">
                           <label class="control-label">Year <small class="required">( required )</small></label>
