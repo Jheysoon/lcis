@@ -188,14 +188,12 @@
                                     $elementary = $this->course->getAllSchool('elementary');
 
                                     foreach ($elementary as $el) {
-                                        ?>
-                                        <option value="<?php echo $el['id']; ?> "
-                                            <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
-                                            <?php echo $el['firstname']; ?>
-                                        </option>
-                                        <?php
-                                    }
                                 ?>
+                                    <option value="<?php echo $el['id']; ?> "
+                                        <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
+                                        <?php echo $el['firstname']; ?>
+                                    </option>
+                                <?php } ?>
                         </select>
                     <?php else: ?>
                         <?php echo $el['firstname']; ?>
@@ -220,17 +218,15 @@
                     <div class="form-group col-md-8" >
                         <label class="control-label">High School <small class="required">( required )</small></label>
                        <?php if ($position != 'C' or $position != 'B'): ?>
-                            <select class="form-control" name="highschool" id="">
-                               <option>Select</option>
-                                <?php
-                                    $hs = $this->course->getAllSchool('secondary');
+                        <select class="form-control" name="highschool" id="">
+                            <option>Select</option>
+                            <?php
+                                $hs = $this->course->getAllSchool('secondary');
 
-                                    foreach ($hs as $h) {
-                                    ?>
-                                        <option value="<?php echo $h['id']; ?>" <?php echo ($h['firstname'] == $getSecondary['secondary'] OR $h['id'] == $secondary) ? 'selected' : '' ?>><?php echo $h['firstname']; ?></option>
-                                    <?php
-                                    }
-                                ?>
+                                foreach ($hs as $h) {
+                            ?>
+                                <option value="<?php echo $h['id']; ?>" <?php echo ($h['firstname'] == $getSecondary['secondary'] OR $h['id'] == $secondary) ? 'selected' : '' ?>><?php echo $h['firstname']; ?></option>
+                            <?php } ?>
                         </select>
                     <?php else: ?>
                         <?php echo $h['firstname']; ?>
