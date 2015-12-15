@@ -395,13 +395,13 @@
                                         <label>Term: <?php echo $description; ?> </label>
                                         <?php
                                             // get enrollment id
-                                            $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
-                                         ?>
-                                         <?php if ($position == 'C'): ?>
-                                            <?php elseif($position == 'B' OR $this->session->userdata('status') == 'S'): ?>
-                                            <?php else: ?>
-                                                    <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
-                                             <?php endif ?>
+                                            $eid = $this->enrollment->getEnrollId($academicterm, $partyid);
+                                            if ($position == 'C'): 
+                                            elseif ($position == 'B' OR $this->session->userdata('status') == 'S'):
+                                            else:
+                                        ?>
+                                            <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                         <?php endif ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -427,9 +427,7 @@
                                             <td><?php echo $code; ?></td>
                                             <td><?php echo $descriptivetitle; ?></td>
                                             <td class="text-right">
-                                            <?php
-                                            	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'):
-                                            ?>
+                                            <?php if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'): ?>
                                             		<label><?php echo $value; ?></label>
                                             <?php else: ?>
                                             	<select class="form-control" name="edit_sub_grade" <?php echo ($value == 0.00 AND $remarks != 'NO GRADE') ? 'disabled' : '' ?>>
