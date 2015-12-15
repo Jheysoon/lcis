@@ -164,24 +164,21 @@
                         ?>
     				</div>
                     <div class="form-group col-md-4">
-                          <label class="control-label">Year <small class="required">( required )</small></label>
-                          <select class="form-control" name="primaryyear">
-                              <option></option>
-                                  <?php
-                                  $x = date('Y');
-                                  $loop = 1950;
-                                   while ($loop < $x) { ?>
-
-                                   <?php if ($getCollege['completionprimary'] == $x or $x == $completionprimary): ?>
-                                       <option selected><?php echo $x; ?></option>
-                                   <?php else: ?>
-                                        <option ><?php echo $x; ?></option>
-                                   <?php endif ?>
-                                 <?php
-                                  $x--;
-                                 } ?>
-                          </select>
-                     </div>
+                        <label class="control-label">Year <small class="required">( required )</small></label>
+                        <select class="form-control" name="primaryyear">
+                            <option></option>
+                            <?php
+                                $x      = date('Y');
+                                $loop   = 1950;
+                                while ($loop < $x) {
+                            ?>
+                                <option <?php echo ($getCollege['completionprimary'] == $x OR $x == $completionprimary) ? 'selected' : '' ?>><?php echo $x; ?></option>
+                            <?php
+                                $x--;
+                                }
+                            ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-8">
                         <label class="control-label">Elementary <small class="required">( required )</small></label>
                         <?php if ($position != 'C' or $position != 'B'): ?>
