@@ -201,25 +201,22 @@
                         <?php echo $el['firstname']; ?>
                     <?php endif ?>
                     </div>
-                     <div class="form-group col-md-4">
-                          <label class="control-label">Year <small class="required">( required )</small></label>
-                          <select class="form-control" name = "elementaryyear">
-                              <option></option>
-                                  <?php
-                                  $x = date('Y');
-                                  $loop = 1950;
-                                   while ($loop < $x) { ?>
-                                   <?php if ($getElementary['completionelementary'] == $x or $x == $completionelementary): ?>
-                                       <option selected><?php echo $x; ?></option>
-                                   <?php else: ?>
-                                        <option><?php echo $x; ?></option>
-                                   <?php endif ?>
-
-                                 <?php
-                                  $x--;
-                                 } ?>
-                          </select>
-                     </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Year <small class="required">( required )</small></label>
+                        <select class="form-control" name = "elementaryyear">
+                            <option></option>
+                            <?php
+                                $x      = date('Y');
+                                $loop   = 1950;
+                                while ($loop < $x) { 
+                            ?> 
+                                <option <?php echo ($getElementary['completionelementary'] == $x OR $x == $completionelementary) ? 'selected' : '' ?>><?php echo $x; ?></option>
+                            <?php
+                                $x--;
+                                } 
+                            ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-8" >
                         <label class="control-label">High School <small class="required">( required )</small></label>
                        <?php if ($position != 'C' or $position != 'B'): ?>
