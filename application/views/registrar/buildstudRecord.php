@@ -485,7 +485,7 @@
                                             </select>
                                             <?php } ?>
                                             </td>
-                                            <td class="tblNum"><?php echo (($value == 0.00 OR $value > 3.00) AND $reexam_grade == 0.00) ? '0' : $units; ?></td>
+                                            <td class="tblNum" style="text-align:center;"><?php echo (($value == 0.00 OR $value > 3.00) AND $reexam_grade == 0.00) ? '0' : $units; ?></td>
                                             <?php if (($position != 'C' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>
                                             <?php endif ?>
