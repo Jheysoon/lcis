@@ -406,7 +406,7 @@
                                 </tr>
                                 <tr>
                                     <td>Code</td>
-                                    <td>Subject</td>
+                                    <td>Descriptivetitle</td>
                                     <td>Final Grades</td>
                                     <td>Re-Exam</td>
                                     <td>Credit</td>
@@ -501,14 +501,14 @@
                                                     $data['school']         = $school;
                                                     $data['partyid']        = $partyid;
                                                     $data['enrolmentid']    = $enrolmentid;
-                                                    
+
                                                     // adding subject modal
                                                     $this->load->view('registrar/form_permanent_record/add_subject', $data);
-                                                    
-                                                    if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): 
+
+                                                    if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')):
                                                 ?>
                                                         <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade">
-                                                            <span class="glyphicon glyphicon-plus"></span> 
+                                                            <span class="glyphicon glyphicon-plus"></span>
                                                             Add Subject
                                                         </a>
                                                 <?php endif ?>
@@ -519,17 +519,17 @@
                             </table>
                         <?php endforeach ?>
                         <br />
-                        <?php 
+                        <?php
                     }
                             if (!is_array($result)) {
                                 $partyid = $id;
                             }
-	                        
+
                             $status             = $this->log_student->getLatestTm($partyid);
                             $param['status']    = $status;
                             $param['partyid']   = $partyid;
                             $param['position']  = $position;
-                            
+
                             // insert flag form
                             $this->load->view('registrar/form_permanent_record/insert_flag', $param);
                         ?>
