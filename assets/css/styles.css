@@ -28,6 +28,16 @@
 
 /*------------------------------------------------------------------------------------------------*/
 
+.search_link {
+	display: block;
+	text-decoration: none;
+	color: #000 !important;
+}
+
+.search_link:hover {
+	text-decoration: none;
+}
+
 
 .header{
 	/*background: linear-gradient( #8D3646, #8D3646 ,#8D3646 ,#CA4C62);*/
@@ -802,5 +812,3 @@ td.tbl-header-main{
     width: 100%;
   }
 }
-
-

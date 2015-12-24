@@ -21,8 +21,8 @@ $(document).ready(function(){
             name: 'student_list',
             displayKey: 'value',
             templates:{
-                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                '<span>{{name}}</span>'),
+                suggestion: Handlebars.compile('<a href="/rgstr_build/{{value}}" class="search_link"><p style="padding: 0;">{{value}}</p>' +
+                '<span>{{name}}</span></a>'),
                 empty:['<div class="alert alert-danger">Unable to find student</div>']
             },
             source: student_list.ttAdapter()
