@@ -203,7 +203,6 @@
                                     foreach ($elementary as $el) {
                                         ?>
                                         <option value="<?php echo $el['id']; ?> "
-                                            <?php // what is $elementaryss doing ?? undefined variable or not ?? ?>
                                             <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
                                             <?php echo $el['firstname']; ?>
                                         </option>
