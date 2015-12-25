@@ -83,6 +83,19 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function insert_subject()
+    {
+        $data['code']               = $this->input->post('code');
+        $data['descriptivetitle']   = $this->input->post('descriptivetitle');
+        $data['units']              = $this->input->post('units');
+        $data['own']                = $this->input->post('school_id');
+
+        $this->db->insert('tbl_subject', $data);
+        $this->api->set_session_message('success', 'Successfully Inserted');
+
+        redirect('/rgstr_build/'.$this->input->post('legacyid').'#academic_wrapper');
+    }
+
     function permanentRecord($id)
     {
 
