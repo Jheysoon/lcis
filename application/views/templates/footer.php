@@ -120,9 +120,6 @@
                 </script>
         <?php
             }
-        ?>
-
-        <?php
             if(in_array('dean-studentlist', $str1))
             {
                 ?>
