@@ -296,7 +296,7 @@
                 <!-- modal add academicterm -->
                 <?php
                     echo $this->session->flashdata('message');
-                    
+
                     if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'):
 
                         // add academicterm modal
@@ -315,6 +315,7 @@
 
                 <?php
                     $this->load->view('registrar/form_permanent_record/add_other_subjects', array('id' => $stud));
+                    $this->load->view('registrar/form_permanent_record/add_school', array('id' => $stud));
                  ?>
 
 
