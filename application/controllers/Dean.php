@@ -280,11 +280,11 @@ class Dean extends CI_Controller
 
     function search()
     {
+        $this->load->model('dean/subject');
+
         $code   = $this->input->post('search');
         $url    = $this->input->post('url');
         $q      = $this->subject->whereCode($code);
-
-        $this->load->model('dean/subject');
 
         if ($q > 0) {
             $sid = $this->subject->count($code);
