@@ -85,8 +85,8 @@ class Registrar extends CI_Controller
 
     public function insert_subject()
     {
-        $data['code']               = $this->input->post('code');
-        $data['descriptivetitle']   = $this->input->post('descriptivetitle');
+        $data['code']               = strtoupper($this->input->post('code'));
+        $data['descriptivetitle']   = strtoupper($this->input->post('descriptivetitle'));
         $data['units']              = $this->input->post('units');
         $data['own']                = $this->input->post('school_id');
 
