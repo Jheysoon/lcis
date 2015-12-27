@@ -256,7 +256,7 @@ class Dean extends CI_Controller
 
         if ($office == 3) {
 
-            $s = $this->db->query("SELECT code, descriptivetitle
+            $s = $this->db->query("SELECT code, descriptivetitle, id
     			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%')
                 AND (own != 1 OR own = 0) LIMIT 6")->result_array();
         } else {
@@ -272,7 +272,7 @@ class Dean extends CI_Controller
         }
 
         foreach ($s as $r) {
-            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle']);
+            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle'], 'id' => $r['id']);
         }
 
         echo json_encode($data);
