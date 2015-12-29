@@ -17,7 +17,34 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Option Header</th>
+                                <th style="width:25%;">Action</th>
+                            </tr>
+                            <?php
+                                $headers = $this->db->get('tbl_option_header')->result();
+
+                                foreach ($headers as $header) {
+                                    ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $header->name ?>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-sm">Update</a>
+                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php
+                                }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
