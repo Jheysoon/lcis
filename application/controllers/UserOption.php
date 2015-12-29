@@ -109,7 +109,32 @@ class UserOption extends CI_Controller
 
             $this->api->set_session_message('success', 'Successfully Inserted');
         }
-        
+
+        redirect('/menu/admin-header');
+    }
+
+    public function delete_header($id)
+    {
+        $this->db->where('header', $id);
+        $c = $this->db->count_all_results('tbl_useroption');
+
+        if ($c > 0) {
+            $this->api->set_session_message('danger', 'Option Header In Use', 'message2');
+
+        } else {
+
+            // check first if the header id exists in table
+            $this->db->where('id', $id);
+            $c = $this->db->count_all_results('tbl_option_header');
+
+            if ($c > 0) {
+                $this->db->where('id', $id);
+                $this->db->delete('tbl_option_header');
+            }
+
+            $this->api->set_session_message('success', 'Successfully Deleted', 'message2');
+        }
+
         redirect('/menu/admin-header');
     }
 }

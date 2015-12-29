@@ -22,6 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
+                        <?php echo $this->session->flashdata('message2') ?>
                         <table class="table table-bordered">
                             <tr>
                                 <th>Option Header</th>
@@ -38,12 +39,10 @@
                                     </td>
                                     <td>
                                         <a href="#" class="btn btn-primary btn-sm">Update</a>
-                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="/useroption/delete_header/<?php echo $header->id ?>" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
-                            <?php
-                                }
-                            ?>
+                            <?php } ?>
                         </table>
                     </div>
                 </div>
