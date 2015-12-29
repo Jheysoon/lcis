@@ -8,7 +8,7 @@
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="card">
                         <div class="card-header">
-                            Add Option
+                            <h3 class="card-title">Add Option</h3>
                         </div>
                         <div class="card-block">
                             <?php echo $this->session->flashdata('message') ?>
@@ -32,9 +32,9 @@
                             <th>Option</th>
                             <th>Action</th>
                         </tr>
-                        <?php 
+                        <?php
                             $p = $this->db->get('tbl_option')->result();
-                            
+
                             foreach ($p as $value) {
                         ?>
                         <tr>
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -76,6 +76,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
