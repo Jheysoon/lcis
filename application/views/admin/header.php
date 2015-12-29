@@ -11,9 +11,12 @@
                             Add Option Header
                         </div>
                         <div class="card-block">
-                            <input type="text" class="form-control" name="name" value="">
-                            <input type="submit" class="btn btn-primary pull-right top-sign" name="name" value="Add">
-                            <span class="clearfix"></span>
+                            <?php echo $this->session->flashdata('message') ?>
+                            <form action="/useroption/add_option_header" method="post">
+                                <input type="text" class="form-control" name="header">
+                                <input type="submit" class="btn btn-primary pull-right top-sign" name="name" value="Add">
+                                <span class="clearfix"></span>
+                            </form>
                         </div>
                     </div>
                 </div>
