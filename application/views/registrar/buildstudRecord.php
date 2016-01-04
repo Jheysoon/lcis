@@ -193,13 +193,6 @@
                                             <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
                                             <?php echo $el['firstname']; ?>
                                         </option>
-                                        <?php
-                                    }
-                                ?>
-                                    <option value="<?php echo $el['id']; ?> "
-                                        <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
-                                        <?php echo $el['firstname']; ?>
-                                    </option>
                                 <?php } ?>
                         </select>
                     <?php else: ?>
