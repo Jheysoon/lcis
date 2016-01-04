@@ -310,7 +310,8 @@ class Dean extends CI_Controller
 // Function for evaluation process.
 //----------------------------------------------------------------------
 
-    function evaluation($id){
+    function evaluation($id)
+    {
         $this->head();
         $data['id'] = $id;
 
@@ -367,12 +368,10 @@ class Dean extends CI_Controller
             extract($id1);
             if ($office == 3) {
                 redirect('/dean_evaluation/' . $id);
-            }
-            else{
+            } else {
                 if ($cid == $col) {
                     redirect('/dean_evaluation/' . $id);
-                }
-                else{
+                } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
                     redirect($this->input->post('cur_url'));
                 }
