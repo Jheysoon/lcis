@@ -82,7 +82,7 @@
                     <li class="list-group-item hidden-print">
                         <a class="menu" style="cursor: pointer;" id="change_sy_sem">
                             <span class="glyphicon glyphicon-cog"></span>&nbsp;
-                            Change School Year & Sem
+                            Change School Year &amp; Sem
                         </a>
                     </li>
                 </div>
@@ -137,7 +137,7 @@
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 class="modal-title">School Year & Sem Settings</h3>
+                        <h3 class="modal-title">School Year &amp; Sem Settings</h3>
                     </div>
                     <div class="modal-body">
                         <p>
