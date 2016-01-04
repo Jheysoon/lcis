@@ -151,26 +151,26 @@
 
                             <div class="form-group center-block" style="width: 150px;">
                                 <label style="margin: 5px -10px;">Semester</label>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="semester" value="1" checked>
-                                            First Semester
-                                        </label>
-                                    </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="semester" value="1" checked>
+                                        First Semester
+                                    </label>
+                                </div>
 
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="semester" value="2">
-                                            Second Semester
-                                        </label>
-                                    </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="semester" value="2">
+                                        Second Semester
+                                    </label>
+                                </div>
 
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="semester" value="3">
-                                            Summer
-                                        </label>
-                                    </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="semester" value="3">
+                                        Summer
+                                    </label>
+                                </div>
                             </div>
                         </p>
                         <span class="clearfix"></span>
