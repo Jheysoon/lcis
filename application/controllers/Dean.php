@@ -45,13 +45,13 @@ class Dean extends CI_Controller
             $data['code']               = $code;
             $data['descriptivetitle']   = $descriptivetitle;
             $data['units']              = $units;
-            $data['shortname']          = $shortname;
             $data['sid']                = $sid;
             $data['param']              = $param;
-            $data['hours']              = $hours;
             $data['error']              = '';
 
             if ($office != 3) {
+                $data['shortname']          = $shortname;
+                $data['hours']              = $hours;
                 $data['majorsubject']       = $majorsubject;
                 $data['bookletcharge']      = $bookletcharge;
                 $data['owner']              = $owner;
@@ -100,12 +100,12 @@ class Dean extends CI_Controller
         {
             $data['code']               = strtoupper($this->input->post('code'));
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-            $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
-            $data['hours']              = $this->input->post('hours');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
 
             if ($office != 3) {
+                $data['shortname']          = trim($this->input->post('shortname'));
+                $data['hours']              = $this->input->post('hours');
                 $data['bookletcharge']      = $this->input->post('booklet');
                 $data['majorsubject']       = $this->input->post('major');
                 $data['group']              = $this->input->post('group');
@@ -188,12 +188,12 @@ class Dean extends CI_Controller
         {
             $office                     = $this->api->getUserOffice();
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-            $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
-            $data['hours']              = $this->input->post('hours');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
 
             if ($office != 3) {
+                $data['shortname']          = trim($this->input->post('shortname'));
+                $data['hours']              = $this->input->post('hours');
                 $data['bookletcharge']      = $this->input->post('booklet');
                 $data['majorsubject']       = $this->input->post('major');
                 $data['group']              = $this->input->post('group');
@@ -256,7 +256,7 @@ class Dean extends CI_Controller
 
         if ($office == 3) {
 
-            $s = $this->db->query("SELECT code, descriptivetitle
+            $s = $this->db->query("SELECT code, descriptivetitle, id
     			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%')
                 AND (own != 1 OR own = 0) LIMIT 6")->result_array();
         } else {
@@ -272,7 +272,7 @@ class Dean extends CI_Controller
         }
 
         foreach ($s as $r) {
-            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle']);
+            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle'], 'id' => $r['id']);
         }
 
         echo json_encode($data);
@@ -280,11 +280,11 @@ class Dean extends CI_Controller
 
     function search()
     {
+        $this->load->model('dean/subject');
+
         $code   = $this->input->post('search');
         $url    = $this->input->post('url');
         $q      = $this->subject->whereCode($code);
-
-        $this->load->model('dean/subject');
 
         if ($q > 0) {
             $sid = $this->subject->count($code);

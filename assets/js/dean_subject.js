@@ -9,7 +9,7 @@ $(document).ready(function(){
 			});
 			$(this).parent().parent().hide(800);
 		}
-		
+
 		e.preventDefault();
 	});
 
@@ -31,8 +31,8 @@ $(document).ready(function(){
             name: 'subject_list',
             displayKey: 'value',
             templates:{
-                suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                '<span>{{name}}</span>'),
+                suggestion: Handlebars.compile('<a href="/edit_subject/{{id}}" class="search_link"><p style="padding: 0;">{{value}}</p>' +
+                '<span>{{name}}</span></a>'),
                 empty:['<div class="alert alert-danger">Unable to find subject</div>']
             },
             source: subject_list.ttAdapter()
