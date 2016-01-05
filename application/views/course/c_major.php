@@ -1,8 +1,7 @@
 	<div class="col-md-3"></div>
 	<?php 
 		$college_id = $this->coursemajormd->get_colleges($cid);
-
-	 ?>
+	 ?>	
 	<div class="col-md-9">
 		<div class="panel p-body">
 			<div class="panel-heading search">

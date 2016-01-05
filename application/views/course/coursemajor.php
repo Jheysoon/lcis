@@ -30,7 +30,6 @@
 									<input type="text" name="shortname" required class="form-control" placeholder="Description" value="<?php echo $cid == 0 ? set_value('shortname') : $college_id['shortname'] ?>"/>
 								</div>
 							</div>
-													
 						</div>
 						<div class="col-md-6" style="padding:0">
 							<div class="form-group">
@@ -100,5 +99,4 @@
 			</div>
 		</div>
 	</div>
-
 </div>
