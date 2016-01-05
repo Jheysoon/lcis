@@ -69,7 +69,7 @@
                             <li class="li-sub-menu">
                                 <a class="menu" href="<?php echo base_url($str); ?>">
                                     <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;
-                                    &nbsp; <?php echo $option['desc']; ?>
+                                    &nbsp; <?php echo $option['desc1']; ?>
                                 </a>
                             </li>
                         </ul>
