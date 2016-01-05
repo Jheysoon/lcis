@@ -530,6 +530,12 @@ class Registrar extends CI_Controller
 
     function add_school()
     {
+        if ($this->input->post('ajax')) {
+            $msg = 'message1';
+        }
+        else{
+            $msg = 'message';
+        }
         $sch    = strtoupper($this->input->post('school'));
         $add    = strtoupper($this->input->post('address'));
         $short  = strtoupper($this->input->post('short'));
@@ -599,14 +605,20 @@ class Registrar extends CI_Controller
 
                 $this->db->insert('tbl_school', $data2);
 
-                $this->session->set_flashdata('message', '
+                $this->session->set_flashdata($msg, '
                     <div class="alert alert-success alert-dismissible" role="alert">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       <strong>Success! </strong> School successfully added!.
                     </div>
 
                 ');
-                redirect('/menu/registrar-sys_param/');
+
+                if ($this->input->post('ajax')) {
+                    redirect('/rgstr_build/'.$this->input->post('student').'#academic_wrapper');
+                }
+                else{
+                    redirect('/menu/registrar-sys_param/');
+                }
             }
             else{
 
@@ -620,7 +632,7 @@ class Registrar extends CI_Controller
                 $this->db->where('id', $this->input->post('id'));
                 $this->db->update('tbl_school', $data3);
 
-                $this->session->set_flashdata('message', '
+                $this->session->set_flashdata($msg, '
                     <div class="alert alert-success alert-dismissible" role="alert">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       <strong>Success! </strong> School successfully updated!.
@@ -634,7 +646,7 @@ class Registrar extends CI_Controller
 
         }
         else{
-            $this->session->set_flashdata('message', '
+            $this->session->set_flashdata($msg, '
                 <div class="alert alert-danger alert-dismissible" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <strong>Stop! </strong> School name already exist.
@@ -642,8 +654,13 @@ class Registrar extends CI_Controller
 
             ');
             $_SESSION['data'] = $data;
-            if ($this->input->post('id' == 'add')) {
-                redirect('/menu/registrar-sys_param/');
+            if ($this->input->post('action') == 'add') {
+                if ($this->input->post('ajax')) {
+                    redirect('/rgstr_build/'.$this->input->post('student').'#academic_wrapper');
+                }
+                else{
+                    redirect('/menu/registrar-sys_param/');
+                }
             }
             else{
                 redirect('/menu/registrar-sys_param/'.$this->input->post('id'));

@@ -7,15 +7,17 @@
                     <h3 class="modal-title" id="myModalLabel">Add Schools</h3>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="legacyid" value="<?php echo $id ?>">
+                    <input type="hidden" name="student" value="<?php echo $id ?>">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="ajax" value="1">
                     <label>School Name</label>
-                    <input type="text" class="form-control" name="name" required>
+                    <input type="text" class="form-control" name="school" required>
                     <label>Shortname</label>
-                    <input type="text" class="form-control" name="short_name" required>
+                    <input type="text" class="form-control" name="short" required>
                     <label>Address</label>
                     <input type="text" class="form-control" name="address" required>
                     <label>Registrars Name</label>
-                    <input type="text" class="form-control" name="registrar_name" required>
+                    <input type="text" class="form-control" name="name" required>
 
                     <fieldset>
                         <label style="border-bottom:1px solid #e5e5e5;width:100%;">School Level/s</label>
@@ -64,7 +66,7 @@
                     </fieldset>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </form>
