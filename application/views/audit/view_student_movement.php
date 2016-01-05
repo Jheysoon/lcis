@@ -33,10 +33,13 @@
 
               </div>
                 <div class="table-responsive" style="padding: 20px;">
+                <?php if ($ident == 0): ?>
                   <div class="col-md-12" style="padding:0">
                         <a href="/student-movement/up_mo/<?php echo $param; ?>" class="btn btn-info pull-right" data-toggle="modal">Edit</a>
                         <br /><br />
                   </div>
+                <?php endif ?>
+                  
                     <table class="table table-bordered">
                         <tr>
                             <th class="tbl-header-main">Date</th>

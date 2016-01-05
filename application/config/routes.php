@@ -205,4 +205,10 @@ $route['insert_course']                 = 'coursemajor/insert_course';
 $route['update_course/(:any)']          = 'coursemajor/update_course/$1';
 $route['add_major']                     = 'coursemajor/add_major';
 $route['insert_major']                  = 'coursemajor/insert_major';
-$route['update_major/(:any)']          = 'coursemajor/update_major/$1';
+$route['update_major/(:any)']           = 'coursemajor/update_major/$1';
+
+
+
+//STUDENT view
+$route['view_grades']                   = 'viewing/view_grades';
+$route['view_bills']                    = 'viewing/view_bills';

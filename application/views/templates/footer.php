@@ -264,8 +264,8 @@
                                        name: 'student_list',
                                        displayKey: 'value',
                                        templates:{
-                                           suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                                           '<span>{{name}}</span>'),
+                                           suggestion: Handlebars.compile('<div style="padding: 5px 20px"><p style="padding: 0;">{{value}}</p>' +
+                                           '<span>{{name}}</span></div'),
                                            empty:['<div class="alert alert-danger">Unable to find student</div>']
                                        },
                                        source: student_list.ttAdapter()

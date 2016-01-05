@@ -29,6 +29,7 @@ class Movement extends CI_Controller
       $this->head();
       $this->load->model('cashier/account');
       $data['param'] = $param;
+      $data['ident'] = 0;
       $this->load->view('audit/view_student_movement', $data);
       $this->load->view('templates/footer');
     }
