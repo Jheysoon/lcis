@@ -26,9 +26,10 @@
 		<td>Number of Student</td>
 	</tr>
 	<?php
+		$this->db->where('own', 1);
 		$curs = $this->db->get('tbl_course')->result_array();
-		foreach($curs as $cu)
-		{
+		
+		foreach ($curs as $cu) {
 			$yearL 	= array(0 => 0,1 => 0,2 => 0,3 => 0);
 			$course = $cu['id'];
 
@@ -36,56 +37,51 @@
 			$count 	= 0;
 
 			// check if the term is summer
-			if ($term == 3)
-			{
+			if ($term == 3) {
 				// if term is summer . get the students enrolled in last 2nd sem.
 				$acam 	= $current_academicterm - 1;
 				$e 		= $this->edp_classallocation->getStudEnrol($cid, $acam);
-			}
-			else
-			{
+			} else {
 				// if not get the students in enrolled in current academicterm
 				$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
 			}
-			foreach ($e as $stud)
-			{
+			
+			foreach ($e as $stud) {
 				$yearlevel = $this->api->yearLevel($stud['student']);
 
 				// API return curriculum not found if the course does not have a curriculum
-				if ($yearlevel != CUR_NOT_FOUND)
-				{
-					if($yearlevel > 1)
-					{
+				if ($yearlevel != CUR_NOT_FOUND) {
+					
+					if ($yearlevel > 1) {
+						
 						if($yearlevel > 4)
 							$yearL[3] += 1;
 						else
 							$yearL[$yearlevel - 1] += 1;
+							
 					}
 				}
 			}
 
-			if($term == 3)
-			{
+			if ($term == 3) {
 				$acam = $current_academicterm - 2;
 				$e = $this->edp_classallocation->getStudEnrol($cid, $acam);
-			}
-			else {
+			} else {
 				$e = $this->edp_classallocation->getStudEnrol($cid, $current_academicterm);
 			}
-			foreach ($e as $stud)
-			{
+			
+			foreach ($e as $stud) {
 				$yearlevel = $this->api->yearLevel($stud['student']);
 
 				// API return curriculum not found if the course does not have a curriculum
-				if ($yearlevel != CUR_NOT_FOUND)
-				{
+				if ($yearlevel != CUR_NOT_FOUND) {
+					
 					if ($yearlevel == 1)
 						$yearL[0] += 1;
 				}
 			}
 
-			for ($i=1; $i <= 4 ; $i++)
-			{
+			for ($i=1; $i <= 4 ; $i++) {
 		?>
 				<tr>
 					<input type="hidden" name="coursemajor[]" value="<?php echo $cu['id']; ?>">
@@ -98,16 +94,13 @@
 		<?php
 			}
 		}
-	}
-	else
-	{
+		
+	} else {
 		?>
 		<div class="alert alert-danger">
 			Not applicable for summer term
 		</div>
-<?php
-	}
- ?>
+<?php } ?>
 </table>
 <button type="submit" class="btn btn-success pull-right">Save</button>
 </form>

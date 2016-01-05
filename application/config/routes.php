@@ -203,3 +203,6 @@ $route['disc_submit']                   = 'discount/disc_submit';
 $route['add_course']                    = 'coursemajor/add_course';
 $route['insert_course']                 = 'coursemajor/insert_course';
 $route['update_course/(:any)']          = 'coursemajor/update_course/$1';
+$route['add_major']                     = 'coursemajor/add_major';
+$route['insert_major']                  = 'coursemajor/insert_major';
+$route['update_major/(:any)']          = 'coursemajor/update_major/$1';

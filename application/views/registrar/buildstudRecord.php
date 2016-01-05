@@ -102,8 +102,10 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="control-label">Course <small class="required">( required )</small></label>
-                        <?php   $specific = $this->course->specifics($partyid);?>
-                            <?php if ($position != 'C' or $position != 'B'): ?>
+                        <?php 
+                            $specific = $this->course->specifics($partyid);
+                            if ($position != 'C' or $position != 'B'): 
+                        ?>
                                 <select class="form-control" name="course">
                                 <?php
                                     $course = $this->course->allCourse();
@@ -113,22 +115,20 @@
                                         if ($c['courseid'] == $specific['courseid']) {
                                             $course_id = $c['courseid'];
                                         }
-                                        ?>
-                                        <option value="<?php echo $c['courseid']; ?>" <?php echo ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
-                                        <?php
+                                ?>
+                                    <option value="<?php echo $c['courseid']; ?>" <?php echo ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
+                                <?php
                                     }
 
                                     $course = $this->course->allcoursm();
-                                    foreach($course as $c)
-                                    {
+                                    
+                                    foreach ($course as $c) {
                                         if ($c['courseid'] == $specific['courseid']) {
                                             $course_id = $c['courseid'];
                                         }
                                         ?>
-                                            <option value="<?php echo $c['courseid']; ?>" <?php ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
-                                        <?php
-                                    }
-                                ?>
+                                        <option value="<?php echo $c['courseid']; ?>" <?php ($c['courseid'] == $specific['courseid']) ? 'selected' : '' ?>><?php echo $c['description']; ?></option>
+                                <?php } ?>
                             </select>
                         <?php else: ?>
                                 <?php echo $description; ?>
@@ -152,46 +152,33 @@
                                 <?php
                                     $prim = $this->course->getAllSchool('primary');
 
-                                    foreach($prim as $pr)
-                                    {
-                                        if($pr['firstname'] == $getCollege['primary'] or $pr['id'] == $primary)
-                                        {
-                                        ?>
-                                            <option value="<?php echo $pr['id']; ?>" selected><?php echo $pr['firstname']; ?></option>
-                                        <?php
-                                            }
-                                            else
-                                            {
-                                            ?>
-                                                <option value="<?php echo $pr['id']; ?>"><?php echo $pr['firstname']; ?></option>
-                                        <?php
-                                            }
-                                    }
+                                    foreach ($prim as $pr) {
                                 ?>
+                                    <option value="<?php echo $pr['id']; ?>" <?php echo ($pr['firstname'] == $getCollege['primary'] OR $pr['id'] == $primary) ? 'selected' : ''; ?>><?php echo $pr['firstname']; ?></option>
+                                <?php } ?>
                             </select>
-                        <?php else:
+                        <?php 
+                            else:
                                 echo $pr['firstname'];
-                        endif ?>
+                            endif; 
+                        ?>
     				</div>
                     <div class="form-group col-md-4">
-                          <label class="control-label">Year <small class="required">( required )</small></label>
-                          <select class="form-control" name="primaryyear">
-                              <option></option>
-                                  <?php
-                                  $x = date('Y');
-                                  $loop = 1950;
-                                   while ($loop < $x) { ?>
-
-                                   <?php if ($getCollege['completionprimary'] == $x or $x == $completionprimary): ?>
-                                       <option selected><?php echo $x; ?></option>
-                                   <?php else: ?>
-                                        <option ><?php echo $x; ?></option>
-                                   <?php endif ?>
-                                 <?php
-                                  $x--;
-                                 } ?>
-                          </select>
-                     </div>
+                        <label class="control-label">Year <small class="required">( required )</small></label>
+                        <select class="form-control" name="primaryyear">
+                            <option></option>
+                            <?php
+                                $x      = date('Y');
+                                $loop   = 1950;
+                                while ($loop < $x) {
+                            ?>
+                                <option <?php echo ($getCollege['completionprimary'] == $x OR $x == $completionprimary) ? 'selected' : '' ?>><?php echo $x; ?></option>
+                            <?php
+                                $x--;
+                                }
+                            ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-8">
                         <label class="control-label">Elementary <small class="required">( required )</small></label>
                         <?php if ($position != 'C' or $position != 'B'): ?>
@@ -203,51 +190,43 @@
                                     foreach ($elementary as $el) {
                                         ?>
                                         <option value="<?php echo $el['id']; ?> "
-                                            <?php // what is $elementaryss doing ?? undefined variable or not ?? ?>
                                             <?php echo ($el['firstname'] == $getElementary['elementary'] or $el['id'] == $getElementary['id']) ? 'selected' : '' ?>>
                                             <?php echo $el['firstname']; ?>
                                         </option>
-                                        <?php
-                                    }
-                                ?>
+                                <?php } ?>
                         </select>
                     <?php else: ?>
                         <?php echo $el['firstname']; ?>
                     <?php endif ?>
                     </div>
-                     <div class="form-group col-md-4">
-                          <label class="control-label">Year <small class="required">( required )</small></label>
-                          <select class="form-control" name = "elementaryyear">
-                              <option></option>
-                                  <?php
-                                  $x = date('Y');
-                                  $loop = 1950;
-                                   while ($loop < $x) { ?>
-                                   <?php if ($getElementary['completionelementary'] == $x or $x == $completionelementary): ?>
-                                       <option selected><?php echo $x; ?></option>
-                                   <?php else: ?>
-                                        <option><?php echo $x; ?></option>
-                                   <?php endif ?>
-
-                                 <?php
-                                  $x--;
-                                 } ?>
-                          </select>
-                     </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Year <small class="required">( required )</small></label>
+                        <select class="form-control" name = "elementaryyear">
+                            <option></option>
+                            <?php
+                                $x      = date('Y');
+                                $loop   = 1950;
+                                while ($loop < $x) { 
+                            ?> 
+                                <option <?php echo ($getElementary['completionelementary'] == $x OR $x == $completionelementary) ? 'selected' : '' ?>><?php echo $x; ?></option>
+                            <?php
+                                $x--;
+                                } 
+                            ?>
+                        </select>
+                    </div>
                     <div class="form-group col-md-8" >
                         <label class="control-label">High School <small class="required">( required )</small></label>
                        <?php if ($position != 'C' or $position != 'B'): ?>
-                            <select class="form-control" name="highschool" id="">
-                               <option>Select</option>
-                                <?php
-                                    $hs = $this->course->getAllSchool('secondary');
+                        <select class="form-control" name="highschool" id="">
+                            <option>Select</option>
+                            <?php
+                                $hs = $this->course->getAllSchool('secondary');
 
-                                    foreach ($hs as $h) {
-                                    ?>
-                                        <option value="<?php echo $h['id']; ?>" <?php echo ($h['firstname'] == $getSecondary['secondary'] OR $h['id'] == $secondary) ? 'selected' : '' ?>><?php echo $h['firstname']; ?></option>
-                                    <?php
-                                    }
-                                ?>
+                                foreach ($hs as $h) {
+                            ?>
+                                <option value="<?php echo $h['id']; ?>" <?php echo ($h['firstname'] == $getSecondary['secondary'] OR $h['id'] == $secondary) ? 'selected' : '' ?>><?php echo $h['firstname']; ?></option>
+                            <?php } ?>
                         </select>
                     <?php else: ?>
                         <?php echo $h['firstname']; ?>
@@ -295,92 +274,40 @@
                 <!-- div class table-responsive -->
 
                 <!-- modal add academicterm -->
-                <?php if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'): ?>
+                <?php
+                    echo $this->session->flashdata('message');
 
-                <div class="modal fade" id="modal_academicterm">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <form id="frm_add_academicterm">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h3 class="modal-title">Add Academic Term</h3>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>"/>
-                                    School
-                                    <select name="school_id" class="form-control">
-                                        <?php
-                                            $sch = $this->party->college_school();
-                                            foreach($sch as $s)
-                                            {
-                                                ?>
-                                                <option value="<?php echo $s['id']; ?>"><?php echo $s['firstname']; ?></option>
-                                        <?php
-                                            }
-                                        ?>
-                                    </select>
-                                    Course
-                                    <select name="course_id" class="form-control">
-                                        <?php
-                                            $courses = $this->course->getAllCourse();
-                                            foreach($courses as $c)
-                                            {
-                                                ?>
-                                                <option value="<?php echo $c['id']; ?>">
-                                                    <?php
-                                                        $cour = $this->course->getCourse($c['id']);
-                                                        $major = $this->course->getMajor($c['major']);
-                                                        echo $cour.' '.$major;
-                                                    ?>
-                                                </option>
-                                            <?php
-                                            }
-                                        ?>
-                                    </select>
-                                    School Year
-                                    <select name="sy_id" class="form-control">
-                                        <?php
-                                            $sy = $this->academicterm->all();
-                                            foreach($sy as $sy1)
-                                            {
-                                                if($sy1['term'] == '1')
-                                                    $sem = 'FIRST SEMESTER';
-                                                elseif($sy1['term'] == '2')
-                                                    $sem = 'SECOND SEMESTER';
-                                                else
-                                                    $sem = 'SUMMER CLASS';
-                                                ?>
-                                                <option value="<?php echo $sy1['id']; ?>"><?php echo $sy1['systart'].'-'.$sy1['syend'].' '.$sem; ?></option>
-                                        <?php
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </form>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
-                <?php endif ?>
-                <?php if($this->session->userdata('datamanagement') =='E' AND $this->session->userdata('status') != 'S'){ ?>
-                      <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
-                <span class="clearfix"></span>
+                    if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'):
+
+                        // add academicterm modal
+                        $this->load->view('registrar/form_permanent_record/add_academicterm', array('partyid' => $partyid));
+                    endif;
+
+                    if ($this->session->userdata('datamanagement') =='E' AND $this->session->userdata('status') != 'S') {
+                ?>
+                    <input type="button" data-toggle="modal" data-target="#modal_add_schools" value="Add Schools" class="btn btn-primary">
+                    <input type="button" data-toggle="modal" data-target="#modal_add_subjects" value="Add Other School Subjects" class="btn btn-primary">
+                    <input type="button" id="add_academicterm" class="btn btn-primary pull-right" value="Add Academicterm"/>
+                    <span class="clearfix"></span>
                 <?php } ?>
                 <br/>
 
 
+                <?php
+                    $this->load->view('registrar/form_permanent_record/add_other_subjects', array('id' => $stud));
+                    $this->load->view('registrar/form_permanent_record/add_school', array('id' => $stud));
+                 ?>
+
+
 
                 <div class="table-responsive" id="academic_wrapper">
-                <?php if(is_array($result)){ ?>
-                    <?php
+                <?php
+                    if (is_array($result)) {
                         $result = $this->common->get_school($partyid);
                         foreach ($result as $key => $val):
                             extract($val);
                             $get_terms = $this->common->select_schoolyear($partyid, $school);
-                    ?>
+                ?>
                         <table class="table table-bordered no-space">
                             <tr>
                                 <td class="tbl-header-main" style="width: 50%;"><label>SCHOOL: <?php echo $sch; ?></label></td>
@@ -400,18 +327,18 @@
                                         <label>Term: <?php echo $description; ?> </label>
                                         <?php
                                             // get enrollment id
-                                            $eid = $this->enrollment->getEnrollId($academicterm,$partyid);
-                                         ?>
-                                         <?php if ($position == 'C'): ?>
-                                            <?php elseif($position == 'B' OR $this->session->userdata('status') == 'S'): ?>
-                                            <?php else: ?>
-                                                    <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
-                                             <?php endif ?>
+                                            $eid = $this->enrollment->getEnrollId($academicterm, $partyid);
+                                            if ($position == 'C'): 
+                                            elseif ($position == 'B' OR $this->session->userdata('status') == 'S'):
+                                            else:
+                                        ?>
+                                            <a href="<?php echo $eid; ?>" params="<?php echo $systart . " - " . $syend.' '.$description; ?>" param="tbl_<?php echo 'ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-danger btn-xs pull-right delete_acam">Delete Academicterm</a>
+                                         <?php endif ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Code</td>
-                                    <td>Subject</td>
+                                    <td>Descriptivetitle</td>
                                     <td>Final Grades</td>
                                     <td>Re-Exam</td>
                                     <td>Credit</td>
@@ -432,9 +359,7 @@
                                             <td><?php echo $code; ?></td>
                                             <td><?php echo $descriptivetitle; ?></td>
                                             <td class="text-right">
-                                            <?php
-                                            	if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'):
-                                            ?>
+                                            <?php if (($position == 'C' or $position == 'B') OR $this->session->userdata('status') == 'S'): ?>
                                             		<label><?php echo $value; ?></label>
                                             <?php else: ?>
                                             	<select class="form-control" name="edit_sub_grade" <?php echo ($value == 0.00 AND $remarks != 'NO GRADE') ? 'disabled' : '' ?>>
@@ -459,12 +384,12 @@
                                             </td>
                                             <td id="stugrade-<?php echo $sid; ?>">
                                             <?php
-                                                if($value == 0.00 AND $remarks != 'NO GRADE')
-                                                {
+                                                $reexam_grade = '';
+                                                if ($value == 0.00 AND $remarks != 'NO GRADE') {
                                                     $reexam_grade = $this->studentgrade->get_reexam($sid);
                                             ?>
                                             <select class="form-control rexam" name="re-exam">
-                                                <?php if($reexam_grade == 0.00){ ?>
+                                                <?php if ($reexam_grade == 0.00) { ?>
                                                 <option value="1" selected>
                                                     Select
                                                 </option>
@@ -490,7 +415,7 @@
                                             </select>
                                             <?php } ?>
                                             </td>
-                                            <td class="tblNum"><?php echo $units; ?></td>
+                                            <td class="tblNum" style="text-align:center;"><?php echo (($value == 0.00 OR $value > 3.00) AND $reexam_grade == 0.00) ? '0' : $units; ?></td>
                                             <?php if (($position != 'C' or $position != 'B') AND $this->session->userdata('status') != 'S'): ?>
                                             	<td><a href="<?php echo $enrolmentid.'-'.$sid; ?>" class="btn btn-link del_sub" param="<?php echo $code; ?>">Delete</a></td>
                                             <?php endif ?>
@@ -502,104 +427,44 @@
                                     <?php if ($position != 'C' or $position != 'B'): ?>
 	                                    <tr>
 	                                        <td colspan="6">
-	                                            <div class="modal fade" id="myModal<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	                                                <div class="modal-dialog modal-sm">
-	                                                    <div class="modal-content">
-	                                                        <form class="frm-add-subj">
-	                                                            <div class="modal-header">
-	                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                                                                <h3 class="modal-title" id="myModalLabel">Add Subject</h3>
-	                                                            </div>
-	                                                            <div class="modal-body">
-	                                                                <input type="hidden" name="partyid" value="<?php echo $partyid; ?>"/>
-	                                                                <input type="hidden" name="academictermid" value="<?php echo $academicterm; ?>"/>
-	                                                                <input type="hidden" name="enrolmentid" value="<?php echo $enrolmentid; ?>"/>
-	                                                                <input type="hidden" name="schoolid" value="<?php echo $school; ?>"/>
-	                                                                <label>Subject</label><br/>
-                                                                    <select class="form-control" name="add_subj">
-                                                                        <?php
-                                                                            $this->db->where('own', $school);
-                                                                            $s = $this->db->get('tbl_subject')->result();
-                                                                            foreach ($s as $subject) {
-                                                                         ?>
-                                                                        <option value="<?php echo $subject->id ?>"><?php echo $subject->code.' | '.$subject->descriptivetitle ?></option>
-                                                                        <?php } ?>
-                                                                    </select>
-	                                                                <br/>Grade<br/>
-	                                                                <select name="sub_grade" class="form-control">
-	                                                                    <?php
-	                                                                        $g = $this->grade->getAllGrade();
-	                                                                        foreach($g as $gg)
-	                                                                        {
-	                                                                            ?>
-	                                                                            <option value="<?php echo $gg['id']; ?>">
-                                                                                    <?php
-                                                                                        if($gg['value']  == 0.00){
-                                                                                            echo $gg['description'];
-                                                                                        }
-                                                                                        else{
-                                                                                            echo $gg['value'];
-                                                                                        }
-                                                                                    ?>
-                                                                                </option>
-	                                                                        <?php
-	                                                                        }
-	                                                                    ?>
-	                                                                </select>
-	                                                            </div>
-	                                                            <div class="modal-footer">
-	                                                                <button type="submit" class="btn btn-primary">Save</button>
-	                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	                                                            </div>
-	                                                        </form>
-	                                                    </div>
-	                                                </div>
-	                                            </div>
-                                                <?php if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')): ?>
-                                                        <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade"><span class="glyphicon glyphicon-plus"></span> Add Subject</a>
+                                                <?php
+                                                    $data['academicterm']   = $academicterm;
+                                                    $data['school']         = $school;
+                                                    $data['partyid']        = $partyid;
+                                                    $data['enrolmentid']    = $enrolmentid;
+
+                                                    // adding subject modal
+                                                    $this->load->view('registrar/form_permanent_record/add_subject', $data);
+
+                                                    if ($this->session->userdata('status') != 'S' AND ($position != 'C' or $position != 'B')):
+                                                ?>
+                                                        <a href="<?php echo '_ac-'.$academicterm.'_sch-'.$school; ?>" class="btn btn-primary pull-right modal-add-subj-grade">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                            Add Subject
+                                                        </a>
                                                 <?php endif ?>
 	                                           </td>
 	                                    </tr>
- 							<?php endif ?>
+							<?php endif ?>
                                 <?php endforeach ?>
                             </table>
                         <?php endforeach ?>
                         <br />
-                        <?php }
+                        <?php
+                    }
                             if (!is_array($result)) {
                                 $partyid = $id;
                             }
 
-	                        $getflag = $this->common->theflag($partyid);
-                            $status = $this->log_student->getLatestTm($partyid);
-                            if ($getflag < 1 AND ($position == 'C' or $position == 'B')):
+                            $status             = $this->log_student->getLatestTm($partyid);
+                            $param['status']    = $status;
+                            $param['partyid']   = $partyid;
+                            $param['position']  = $position;
 
-                            ?>
-                            <!-- <div class="pull-right"> -->
-                                <form action="/registrar/insert_flag" method="POST">
-                                    <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
-                                    <input type="hidden" name="tm" value="<?php echo $status; ?>"/>
-                                    <input type="hidden" name="flag_status" value="C"/>
-                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-                                    <input type="submit" class="btn btn-primary pull-right" value="Confirm" onclick="return confirm('Are you sure?')">
-                                </form>
-                                <!-- <span class="clearfix"></span> -->
-                                <form action="/registrar/insert_flag" method="POST">
-                                    <input type="hidden" name="flag_status" value="R"/>
-                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-                                    <input type="submit" class="btn btn-primary" value="Return to Clerk">
-                                </form>
-                            <!-- </div> -->
-                        <?php elseif ($this->session->userdata('status') != 'S'): ?>
-                                  <form action="/registrar/insert_flag" method="POST">
-                                    <input type="hidden" name="url" value="<?php echo current_url(); ?>"/>
-                                    <input type="hidden" name="flag_status" value="S"/>
-                                    <input type="hidden" name="partyid" value="<?php echo $partyid; ?>">
-                                    <input type="submit" class="btn btn-primary pull-right" value="Submit" onclick="return confirm('Are you sure?')">
-                                </form>
-                        <?php endif ?>
-
-              	  </div>
+                            // insert flag form
+                            $this->load->view('registrar/form_permanent_record/insert_flag', $param);
+                        ?>
+            	  </div>
                 <!-- /div class table-responsive -->
 
             <!--</div>-->
@@ -611,7 +476,7 @@
 
                 if ($position != 'C' or $position != 'B') {
                     $status = $this->party->getStatus($partyid);
-                    
+
                     if ($status['status'] != 'E' AND $status['status'] != 'S') {
                         $this->log_student->insert_not_exists($partyid,'O');
                     }

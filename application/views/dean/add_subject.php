@@ -30,26 +30,34 @@
                             <input type="text" class="form-control" required name="title" value="<?php echo set_value('title'); ?>" placeholder="Descriptive Title">
                         </div>
 
+                        <?php if ($office != 3) { ?>
+
                         <div class="form-group col-md-7">
                             <label for="shortname">Short Name</label>
                             <input type="text" class="form-control" value="<?php echo set_value('shortname'); ?>" name="shortname" placeholder="Shortname">
                         </div>
+
+                        <?php } ?>
 
                         <div class="form-group col-md-5">
                             <label for="units">Units</label>
                             <input type="number" min="1" required value="<?php echo set_value('units'); ?>" class="form-control" name="units" placeholder="Units">
                         </div>
 
+                        <?php if ($office != 3) { ?>
+
                         <div class="form-group col-md-6">
                             <label for="hours">Hours</label>
                             <input type="number" min="1" required class="form-control" value="<?php echo set_value('hours'); ?>" name="hours" placeholder="Hours">
                         </div>
+
+                        <?php } ?>
                     </div>
 
                     <div class="col-md-6">
-                        
+
                         <?php if ($office != 3) { ?>
-                            
+
                         <div class="form-group col-md-6">
                             <label for="title">Major</label>
                             <div class="radio">
@@ -87,7 +95,7 @@
                             <select class="form-control" name="owner">
                                 <?php
                                     $col = $this->college->all();
-                                    
+
                                     foreach ($col as $college) {
                                 ?>
                                 <option value="<?php echo $college['id']; ?>" <?php echo set_select('owner',$college['id']); ?>><?php echo $college['description']; ?></option>
@@ -100,7 +108,7 @@
                             <select class="form-control" name="group">
                                 <?php
                                     $gr = $this->group->all();
-                                    
+
                                     foreach ($gr as $g) {
                                 ?>
                                 <option value="<?php echo $g['id']; ?>" <?php echo set_select('group',$g['id']); ?>><?php echo $g['description']; ?></option>
@@ -155,18 +163,18 @@
                                 </label>
                             </div>
                         </div>
-                        
+
                         <?php } else { ?>
                             <div class="col-sm-12">
                                 <label>School</label>
                                 <select class="form-control" name="school">
-                                    <?php 
-                                        $s = $this->db->query("SELECT a.id AS id, firstname 
-                                                FROM tbl_party a, tbl_school b 
-                                                WHERE a.id = b.id 
-                                                AND b.tertiary = 1 
+                                    <?php
+                                        $s = $this->db->query("SELECT a.id AS id, firstname
+                                                FROM tbl_party a, tbl_school b
+                                                WHERE a.id = b.id
+                                                AND b.tertiary = 1
                                                 AND a.id != 1")->result();
-                                        
+
                                         foreach ($s as $school) {
                                     ?>
                                         <option value="<?php echo $school->id ?>" <?php echo set_select('school', $school->id) ?>><?php echo $school->firstname ?></option>
@@ -174,9 +182,9 @@
                                  </select>
                             </div>
                         <?php } ?>
-                        
+
                     </div>
-                    
+
                     <div class="col-md-12">
                         <hr/>
                         <div class="col-md-12">

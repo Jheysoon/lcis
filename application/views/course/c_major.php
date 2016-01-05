@@ -1,8 +1,7 @@
 	<div class="col-md-3"></div>
 	<?php 
 		$college_id = $this->coursemajormd->get_colleges($cid);
-
-	 ?>
+	 ?>	
 	<div class="col-md-9">
 		<div class="panel p-body">
 			<div class="panel-heading search">
@@ -30,6 +29,7 @@
 									<input type="text" name="shortname" required class="form-control" placeholder="Description" value="<?php echo $cid == 0 ? set_value('shortname') : $college_id['shortname'] ?>"/>
 								</div>
 							</div>
+													
 						</div>
 						<div class="col-md-6" style="padding:0">
 							<div class="form-group">
@@ -59,6 +59,7 @@
 											<?php else: ?>
 												<option value="<?php echo $value['id'] ?>"  <?php echo set_select('school', $value['id']) ?>><?php echo $value['firstname'] ?></option>
 											<?php endif ?>
+											
 										<?php endforeach ?>
 									</select>
 								</div>
@@ -99,4 +100,5 @@
 			</div>
 		</div>
 	</div>
+
 </div>
