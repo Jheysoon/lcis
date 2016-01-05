@@ -53,11 +53,7 @@
                             &nbsp; <?php echo $this->option_header->getHeaderName($option_h['header']); ?>
                         </a>
                 <?php
-                    $menu = $this->db->query("SELECT * FROM tbl_option
-                                    WHERE tbl_useroption.optionid = tbl_option.id
-                                    AND tbl_useroption.userid = 130
-                                    AND tbl_option.header = {$option_h['header']} 
-                                    ORDER BY id");
+                    $menu = $this->useroption->getUserMenu($option_h['header']);
 
                     foreach ($menu as $option) {
                         $str1         = explode('/', $option['link']);

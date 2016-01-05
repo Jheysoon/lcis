@@ -23,10 +23,12 @@ class Useroption extends CI_Model
 
     function getUserMenu($header)
     {
-        $id = $this->session->userdata('uid');
-        $this->db->where('userid', $id);
-        $this->db->where('header', $header);
-        $q = $this->db->get('tbl_useroption');
-        return $q->result_array();
+        $user = $this->session->userdata('uid');
+        return $this->db->query("SELECT * FROM tbl_option
+            WHERE tbl_useroption.optionid = tbl_option.id
+            AND tbl_useroption.userid = $user
+            AND tbl_option.header = $header
+            ORDER BY id")->result_array();
+        
     }
 }
