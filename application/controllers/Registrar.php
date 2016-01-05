@@ -96,10 +96,10 @@ class Registrar extends CI_Controller
         $count = $this->db->count_all_results('tbl_subject');
 
         if ($count > 0) {
-            $this->api->set_session_message('danger', 'Duplicate Subject Code Or Descriptivetitle');
+            $this->api->set_session_message('danger', 'Duplicate Subject Code Or Descriptivetitle', 'message1');
         } else {
             $this->db->insert('tbl_subject', $data);
-            $this->api->set_session_message('success', 'Successfully Inserted');
+            $this->api->set_session_message('success', 'Successfully Inserted', 'message1');
         }
 
         redirect('/rgstr_build/'.$this->input->post('legacyid').'#academic_wrapper');
