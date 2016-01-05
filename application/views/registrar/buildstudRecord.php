@@ -275,7 +275,7 @@
 
                 <!-- modal add academicterm -->
                 <?php
-                    echo $this->session->flashdata('message');
+                    echo $this->session->flashdata('message1');
 
                     if (($position != 'C' OR $position != 'B') OR $this->session->userdata('status') != 'S'):
 
