@@ -28,6 +28,18 @@
 
 /*------------------------------------------------------------------------------------------------*/
 
+.search_link {
+	display: block;
+	text-decoration: none;
+	color: #000;
+	padding: 5px 20px;
+}
+
+.search_link:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
 
 .header{
 	/*background: linear-gradient( #8D3646, #8D3646 ,#8D3646 ,#CA4C62);*/
@@ -528,7 +540,6 @@ td.tbl-header-main{
     background-color: #0097cf;
 }
 .tt-suggestion {
-    padding: 5px 20px;
     font-size: 14px;
     line-height: 15px;
     border-bottom: 1px solid;
@@ -802,5 +813,3 @@ td.tbl-header-main{
     width: 100%;
   }
 }
-
-

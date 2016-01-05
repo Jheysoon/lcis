@@ -83,6 +83,28 @@ class Registrar extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function insert_subject()
+    {
+        $data['code']               = strtoupper($this->input->post('code'));
+        $data['descriptivetitle']   = strtoupper($this->input->post('descriptivetitle'));
+        $data['units']              = $this->input->post('units');
+        $data['own']                = $this->input->post('school_id');
+
+        $where = "(code = {$data['code']} OR descriptivetitle = {$data['descriptivetitle']}) AND own = {$data['own']}";
+
+        $this->db->where($where);
+        $count = $this->db->count_all_results('tbl_subject');
+
+        if ($count > 0) {
+            $this->api->set_session_message('danger', 'Duplicate Subject Code Or Descriptivetitle');
+        } else {
+            $this->db->insert('tbl_subject', $data);
+            $this->api->set_session_message('success', 'Successfully Inserted');
+        }
+
+        redirect('/rgstr_build/'.$this->input->post('legacyid').'#academic_wrapper');
+    }
+
     function permanentRecord($id)
     {
 

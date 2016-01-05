@@ -45,13 +45,13 @@ class Dean extends CI_Controller
             $data['code']               = $code;
             $data['descriptivetitle']   = $descriptivetitle;
             $data['units']              = $units;
-            $data['shortname']          = $shortname;
             $data['sid']                = $sid;
             $data['param']              = $param;
-            $data['hours']              = $hours;
             $data['error']              = '';
-            
+
             if ($office != 3) {
+                $data['shortname']          = $shortname;
+                $data['hours']              = $hours;
                 $data['majorsubject']       = $majorsubject;
                 $data['bookletcharge']      = $bookletcharge;
                 $data['owner']              = $owner;
@@ -61,7 +61,7 @@ class Dean extends CI_Controller
             } else {
                 $data['sch']                = $own;
             }
-            
+
             $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
         }
@@ -74,7 +74,7 @@ class Dean extends CI_Controller
     function add_subject()
     {
         $office = $this->api->getUserOffice();
-        
+
         $this->load->model(array(
             'dean/subject',
             'dean/group',
@@ -100,12 +100,12 @@ class Dean extends CI_Controller
         {
             $data['code']               = strtoupper($this->input->post('code'));
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-            $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
-            $data['hours']              = $this->input->post('hours');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
-            
+
             if ($office != 3) {
+                $data['shortname']          = trim($this->input->post('shortname'));
+                $data['hours']              = $this->input->post('hours');
                 $data['bookletcharge']      = $this->input->post('booklet');
                 $data['majorsubject']       = $this->input->post('major');
                 $data['group']              = $this->input->post('group');
@@ -113,23 +113,23 @@ class Dean extends CI_Controller
                 $data['nonacademic']        = $this->input->post('academic');
                 $data['gesubject']          = $this->input->post('ge');
                 $data['computersubject']    = $this->input->post('comp');
-                
+
                 // check if the subject code already exists
-    
+
                 $this->db->where('code', $data['code'])
                     ->where('descriptivetitle', $data['descriptivetitle'])
                     ->where('units', $data['units']);
-                    
+
                 $c = $this->db->count_all_results('tbl_subject');
             } else {
                 $this->db->where('code', $data['code'])
                     ->where('descriptivetitle', $data['descriptivetitle'])
                     ->where('units', $data['units'])
                     ->where('school', $data['own']);
-                    
+
                 $c = $this->db->count_all_results('tbl_subject');
             }
-            
+
             if($c < 1)
             {
                 $this->subject->insert($data);
@@ -176,7 +176,7 @@ class Dean extends CI_Controller
         $data['code']   = strtoupper($this->input->post('code'));
         $q              = $this->subject->whereCode($data['code']);
         $id = $this->input->post('sid');
-        
+
         if($this->form_validation->run() === FALSE)
         {
             $this->load->view('templates/header');
@@ -188,12 +188,12 @@ class Dean extends CI_Controller
         {
             $office                     = $this->api->getUserOffice();
             $data['descriptivetitle']   = strtoupper($this->input->post('title'));
-            $data['shortname']          = trim($this->input->post('shortname'));
             $data['units']              = $this->input->post('units');
-            $data['hours']              = $this->input->post('hours');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
-            
+
             if ($office != 3) {
+                $data['shortname']          = trim($this->input->post('shortname'));
+                $data['hours']              = $this->input->post('hours');
                 $data['bookletcharge']      = $this->input->post('booklet');
                 $data['majorsubject']       = $this->input->post('major');
                 $data['group']              = $this->input->post('group');
@@ -202,11 +202,11 @@ class Dean extends CI_Controller
                 $data['gesubject']          = $this->input->post('ge');
                 $data['computersubject']    = $this->input->post('comp');
             }
-            
-            
-            
+
+
+
             $q = $this->subject->count($data['code'], $data['own']);
-            
+
             if($q['id'] == $id)
             {
                 $this->subject->update($id,$data);
@@ -240,52 +240,52 @@ class Dean extends CI_Controller
         }
 
     }
-    
+
     function delete_subject()
     {
         $id = $this->input->post('value');
         $this->db->where('id',$id);
         $this->db->delete('tbl_subject');
     }
-    
+
     function search_subject($sid)
     {
         $sid        = urldecode($sid);
         $data       = array();
         $office     = $this->api->getUserOffice();
-        
+
         if ($office == 3) {
-            
-            $s = $this->db->query("SELECT code, descriptivetitle
-    			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%') 
+
+            $s = $this->db->query("SELECT code, descriptivetitle, id
+    			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%')
                 AND (own != 1 OR own = 0) LIMIT 6")->result_array();
         } else {
-            
+
             $this->load->model(array(
                 'dean/subject',
                 'dean/common_dean'
             ));
-            
+
             $college    = $this->api->getUserCollege();
-            $s          = $this->subject->search($sid, $college);    
-            
+            $s          = $this->subject->search($sid, $college);
+
         }
-        
+
         foreach ($s as $r) {
-            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle']);
+            $data[] = array('value' => $r['code'], 'name' => $r['descriptivetitle'], 'id' => $r['id']);
         }
-        
+
         echo json_encode($data);
     }
-    
+
     function search()
     {
+        $this->load->model('dean/subject');
+
         $code   = $this->input->post('search');
         $url    = $this->input->post('url');
         $q      = $this->subject->whereCode($code);
 
-        $this->load->model('dean/subject');
-        
         if ($q > 0) {
             $sid = $this->subject->count($code);
             redirect(base_url('edit_subject/'.$sid['id']));
@@ -297,7 +297,7 @@ class Dean extends CI_Controller
             redirect($url);
         }
     }
-    
+
     function load_sub()
     {
         $sid                = $this->input->post('value');
@@ -310,7 +310,8 @@ class Dean extends CI_Controller
 // Function for evaluation process.
 //----------------------------------------------------------------------
 
-    function evaluation($id){
+    function evaluation($id)
+    {
         $this->head();
         $data['id'] = $id;
 
@@ -367,12 +368,10 @@ class Dean extends CI_Controller
             extract($id1);
             if ($office == 3) {
                 redirect('/dean_evaluation/' . $id);
-            }
-            else{
+            } else {
                 if ($cid == $col) {
                     redirect('/dean_evaluation/' . $id);
-                }
-                else{
+                } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-warning">Unable to evaluate! Student belong to <strong>'.$description.'</strong>.</div>');
                     redirect($this->input->post('cur_url'));
                 }
@@ -1091,7 +1090,7 @@ class Dean extends CI_Controller
             echo $append;
         }
     }
-    
+
     // function to delete classallocation
     function delete_classalloc($id)
     {
@@ -1126,7 +1125,7 @@ class Dean extends CI_Controller
             $this->db->where('stage', $stage);
             $this->db->where('completedby', $uid);
             $r = $this->db->get('tbl_completion');
-            
+
             if($r->num_rows() < 1)
             {
                 $this->db->insert('tbl_completion', $data);
@@ -1152,8 +1151,9 @@ class Dean extends CI_Controller
     {
         $this->db->where('stage', $stage);
         $q = $this->db->count_all_results('tbl_completion');
-        if($q == COLLEGE_COUNT)
-        {
+
+        // COLLEGE_COUNT is a constant variable @application/config/constants.php
+        if ($q == COLLEGE_COUNT) {
             // then change the classallocation status in tbl_systemvalue
             $r = $this->db->get('tbl_systemvalues')->row_array();
             $d['classallocationstatus'] = $r['classallocationstatus'] + 1;
@@ -1466,13 +1466,13 @@ class Dean extends CI_Controller
 
         if ($response == 'ok') {
             // redirect to assign another instructor
-            $this->session->flashdata('message', '<div class="alert alert-success">Successfully Assigned</div>');
+            $this->api->set_session_message('success', 'Successfully Assigned');
         } elseif ($response == 'conflict') {
             // redirect and show a error message
-            $this->session->flashdata('message', '<div class="alert alert-danger">Conflict Schedule</div>');
+            $this->api->set_session_message('danger', 'Conflict Schedule');
         } else {
             // redirect
-            $this->session->flashdata('message', '<div class="alert alert-danger">Please choose a instructor</div>');
+            $this->api->set_session_message('danger', 'Please choose a instructor');
         }
 
         redirect('/menu/dean-assign_instructor');
