@@ -53,24 +53,27 @@
                             &nbsp; <?php echo $this->option_header->getHeaderName($option_h['header']); ?>
                         </a>
                 <?php
-                    $menu = $this->useroption->getUserMenu($option_h['header']);
+                    $menu = $this->db->query("SELECT * FROM tbl_option
+                                    WHERE tbl_useroption.optionid = tbl_option.id
+                                    AND tbl_useroption.userid = 130
+                                    AND tbl_option.header = {$option_h['header']} 
+                                    ORDER BY id");
 
                     foreach ($menu as $option) {
-                        $menu_option  = $this->option->getOption($option['optionid']);
-                        $str1         = explode('/', $menu_option['link']);
+                        $str1         = explode('/', $option['link']);
 
                         if (count($str1) > 1) {
-                            $str          = str_replace('/', '-', $menu_option['link']);
+                            $str          = str_replace('/', '-', $option['link']);
                             $str = 'menu/'.$str;
                         } else
-                            $str = $menu_option['link'];
+                            $str = $option['link'];
                   
                 ?>
                         <ul class="sub-menu">
                             <li class="li-sub-menu">
                                 <a class="menu" href="<?php echo base_url($str); ?>">
                                     <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;
-                                    &nbsp; <?php echo $menu_option['desc']; ?>
+                                    &nbsp; <?php echo $option['desc']; ?>
                                 </a>
                             </li>
                         </ul>
