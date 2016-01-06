@@ -26,10 +26,12 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th>Option Header</th>
+                                <th>Priority Number</th>
                                 <th style="width:25%;">Action</th>
                             </tr>
                             <?php
                                 $this->db->order_by('priors');
+                                $this->db->order_by('name');
                                 $headers = $this->db->get('tbl_option_header')->result();
 
                                 foreach ($headers as $header) {
@@ -37,6 +39,9 @@
                                 <tr>
                                     <td>
                                         <?php echo $header->name ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $header->priors ?>
                                     </td>
                                     <td>
                                         <a href="#" class="btn btn-primary btn-sm">Update</a>

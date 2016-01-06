@@ -17,7 +17,7 @@ class Useroption extends CI_Model
                                 FROM tbl_useroption a, tbl_option b, tbl_option_header c
                                 WHERE userid = $user_id AND a.optionid = b.id AND b.header = c.id
                                 GROUP BY header
-                                ORDER by c.priors, b.id");
+                                ORDER by c.priors, b.id, c.name");
         return $q->result_array();
     }
 
