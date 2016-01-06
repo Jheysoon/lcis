@@ -63,7 +63,7 @@
                                  ?>
                             </td>
                             <td>
-                                <a href="#" data-param="<?php echo $value->id ?>" data-param1="<?php echo $value->link ?>" data-param2="<?php echo $value->desc ?>" class="btn btn-primary btn-sm myModal">Update</a>
+                                <a href="#" data-param="<?php echo $value->id ?>" data-param1="<?php echo $value->link ?>" data-param2="<?php echo $value->desc ?>" data-param3="<?php echo $value->header ?>" class="btn btn-primary btn-sm myModal">Update</a>
                                 <a href="/useroption/delete/<?php echo $value->id ?>" class="btn btn-danger btn-sm">Delete</a>
                             </td>
                         </tr>
@@ -87,6 +87,16 @@
                             <input type="text" class="form-control" name="form_path" value="">
                             <label>Description</label>
                             <input type="text" class="form-control" name="form_desc" value="">
+                            <label>Header</label>
+                            <select class="form-control" id="update_header" name="header">
+                                <?php 
+                                    $headers = $this->db->get('tbl_option_header')->result();
+                                    
+                                    foreach ($headers as $header) {
+                                ?>
+                                <option id="header_up<?php echo $header->id ?>" value="<?php echo $header->id ?>"><?php echo $header->name ?></option>
+                                <?php } ?>
+                            </select>
                             <input type="submit" class="btn btn-primary pull-right top-sign" name="name" value="Update">
                             <span class="clearfix"></span>
                         </form>

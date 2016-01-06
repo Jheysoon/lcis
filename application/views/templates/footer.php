@@ -308,9 +308,11 @@
                             $id     = $(this).data('param');
                             $path   = $(this).data('param1');
                             $desc   = $(this).data('param2');
+                            $header = $(this).data('param3');
                             $('input[name=id]').val($id);
                             $('input[name=form_path]').val($path);
                             $('input[name=form_desc]').val($desc);
+                            $('#header_up'+$header).attr('selected', 'selected');
                             $('#myModal').modal();
                             e.preventDefault();
                         });

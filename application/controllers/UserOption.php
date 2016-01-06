@@ -47,6 +47,7 @@ class UserOption extends CI_Controller
         $id     = $this->input->post('id');
         $path   = $this->input->post('form_path');
         $desc   = $this->input->post('form_desc');
+        $header = $this->input->post('header');
 
         $this->db->where('link', $path);
         $pp = $this->db->count_all_results('tbl_option');
@@ -65,7 +66,7 @@ class UserOption extends CI_Controller
 
                 redirect('/menu/admin-option');
             } else {
-                $data = array('link' => $path, 'desc' => $desc);
+                $data = array('link' => $path, 'desc' => $desc, 'header' => $header);
                 $this->db->where('id', $id);
                 $this->db->update('tbl_option', $data);
 
