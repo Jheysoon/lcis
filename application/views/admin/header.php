@@ -37,12 +37,8 @@
                                 foreach ($headers as $header) {
                                     ?>
                                 <tr>
-                                    <td>
-                                        <?php echo $header->name ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $header->priors ?>
-                                    </td>
+                                    <td><?php echo $header->name ?></td>
+                                    <td><?php echo $header->priors ?></td>
                                     <td>
                                         <a href="#" class="btn btn-primary btn-sm">Update</a>
                                         <a href="/useroption/delete_header/<?php echo $header->id ?>" class="btn btn-danger btn-sm">Delete</a>
