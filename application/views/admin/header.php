@@ -75,7 +75,7 @@
                                     <input type="hidden" name="id" value="">
                                     <label>Header</label>
                                     <input type="text" class="form-control" name="form_header" value="">
-                                    <label>Header</label>
+                                    <label>Priority</label>
                                     <select class="form-control" id="update_header" name="header">
                                         <?php 
                                             for ($i = 0; $i <= $max ; $i++) { 
