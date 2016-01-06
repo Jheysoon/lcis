@@ -55,7 +55,6 @@
                             <td>
                                 <a href="#" data-param="<?php echo $value->id ?>" data-param1="<?php echo $value->link ?>" data-param2="<?php echo $value->desc ?>" class="btn btn-primary btn-sm myModal">Update</a>
                                 <a href="/useroption/delete/<?php echo $value->id ?>" class="btn btn-danger btn-sm">Delete</a>
-                                <a href="/useroption/update_assigned/<?php echo $value->id ?>" class="btn btn-warning btn-sm pull-right">Update/Assign Header</a>
                             </td>
                         </tr>
                         <?php } ?>
