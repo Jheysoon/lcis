@@ -26,13 +26,15 @@ class UserOption extends CI_Controller
                 $this->api->set_session_message('danger', 'Option already exists');
                 $data['option'] = set_value('option');
                 $data['path']   = set_value('path');
+                $data['header'] = set_value('header');
 
                 $this->api->userMenu();
                 $this->load->view('admin/option');
                 $this->load->view('templates/footer');
             } else {
-                $data['link'] = $path;
-                $data['desc'] = $option;
+                $data['link']   = $path;
+                $data['desc']   = $option;
+                $data['header'] = $this->input->post('header');
 
                 $this->db->insert('tbl_option', $data);
                 $this->api->set_session_message('success', 'Successfully Inserted');

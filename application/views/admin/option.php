@@ -18,6 +18,16 @@
                                 <input type="text" class="form-control" name="path" value="<?php echo isset($path) ? $path : '' ?>" required autofocus>
                                 <label>Description</label>
                                 <input type="text" class="form-control" name="option" value="<?php echo isset($option) ? $option : '' ?>" required>
+                                <label>Header</label>
+                                <select class="form-control" name="header">
+                                    <?php 
+                                        $headers = $this->db->get('tbl_option_header')->result();
+                                        
+                                        foreach ($headers as $header) {
+                                    ?>
+                                    <option value="<?php echo $header->id ?>" <?php echo (isset($header) AND $header == $header->id) ? 'selected' : '' ?>><?php echo $header->name ?></option>
+                                    <?php } ?>
+                                </select>
                                 <input type="submit" class="btn btn-primary pull-right top-sign" name="name" value="Add">
                                 <span class="clearfix"></span>
                             </form>
