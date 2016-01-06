@@ -29,6 +29,7 @@
                                 <th style="width:25%;">Action</th>
                             </tr>
                             <?php
+                                $this->db->order_by('priors');
                                 $headers = $this->db->get('tbl_option_header')->result();
 
                                 foreach ($headers as $header) {
