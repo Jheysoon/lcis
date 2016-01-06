@@ -2,7 +2,7 @@
     <div class="col-md-9 body-container">
         <div class="panel p-body">
             <div class="panel-heading search">
-              <h4>Option Header</h4>
+                <h4>Option Header</h4>
             </div>
             <div class="panel-body">
                 <div class="col-sm-6 col-sm-offset-3">
