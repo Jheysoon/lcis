@@ -30,6 +30,7 @@
                         <tr>
                             <th>Path</th>
                             <th>Option</th>
+                            <th style="text-align:center;">Header</th>
                             <th>Action</th>
                         </tr>
                         <?php
@@ -40,9 +41,21 @@
                         <tr>
                             <td><?php echo $value->link; ?></td>
                             <td><?php echo $value->desc ?></td>
+                            <td style="text-align:center;">
+                                <?php 
+                                    if ($value->header == 0) {
+                                        echo '<b>Not Assign</b>';
+                                    } else {
+                                        $this->db->where('id', $value->header);
+                                        $h = $this->db->get('tbl_option_header')->row();
+                                        echo $h->name;
+                                    }
+                                 ?>
+                            </td>
                             <td>
                                 <a href="#" data-param="<?php echo $value->id ?>" data-param1="<?php echo $value->link ?>" data-param2="<?php echo $value->desc ?>" class="btn btn-primary btn-sm myModal">Update</a>
                                 <a href="/useroption/delete/<?php echo $value->id ?>" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="/useroption/update_assigned/<?php echo $value->id ?>" class="btn btn-warning btn-sm pull-right">Update/Assign Header</a>
                             </td>
                         </tr>
                         <?php } ?>
