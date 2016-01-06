@@ -120,7 +120,6 @@ class UserOption extends CI_Controller
 
         if ($c > 0) {
             $this->api->set_session_message('danger', 'Option Header In Use', 'message2');
-
         } else {
 
             // check first if the header id exists in table
