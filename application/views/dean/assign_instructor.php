@@ -9,45 +9,45 @@
 		<div class="panel-body">
 			<?php
 				$systemVal 	= $this->api->systemValue();
-				$phaseterm = $this->session->userdata('assign_sy');
+				$phaseterm 	= $this->session->userdata('assign_sy');
 				$this->db->where('id', $phaseterm);
-				$sy = $this->db->get('tbl_academicterm')->row_array();
+				$sy 		= $this->db->get('tbl_academicterm')->row_array();
 				$owner 		= $this->api->getUserCollege();
 
 				if ($systemVal['classallocationstatus'] == 99) {
+	            	$user 		= $this->session->userdata('uid');
+					
+	            	if ($user != $systemVal['employeeid']) {
+						$this->db->where('id', $owner);
+						$col = $this->db->get('tbl_college')->row_array();
+					}
 
-            	$user 		= $this->session->userdata('uid');
-            	if ($user != $systemVal['employeeid']) {
-					$this->db->where('id', $owner);
-					$col = $this->db->get('tbl_college')->row_array();
-				}
+					$this->db->select('id');
+					$inst 	= $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
+					$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
+					$data['instruc'] = array_merge($inst, $inst1);
 
-				$this->db->select('id');
-				$inst 	= $this->db->get_where('tbl_academic', array('college' => $owner))->result_array();
-				$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
-				$data['instruc'] = array_merge($inst, $inst1);
-
-				if ($user == $systemVal['employeeid']) {
-					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-						FROM tbl_classallocation a,tbl_subject b
-	                    WHERE a.subject = b.id
-	                    AND (b.computersubject = 1 OR b.nstp = 1)
-	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
-				} elseif($owner == 1) {
-					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-						FROM tbl_classallocation a,tbl_subject b
-	                    WHERE a.subject = b.id
-	                    AND (b.owner = $owner OR b.gesubject = 1)
-	                    AND b.computersubject = 0 AND b.nstp = 0
-	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
-				} else {
-					$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-						FROM tbl_classallocation a,tbl_subject b
-	                    WHERE a.subject = b.id
-	                    AND b.owner = $owner AND b.gesubject = 0
-	                    AND b.computersubject = 0 AND b.nstp = 0
-	                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
-				}
+					if ($user == $systemVal['employeeid']) {
+						$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+							FROM tbl_classallocation a,tbl_subject b
+		                    WHERE a.subject = b.id
+		                    AND (b.computersubject = 1 OR b.nstp = 1)
+		                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+					} elseif($owner == 1) {
+						$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+							FROM tbl_classallocation a,tbl_subject b
+		                    WHERE a.subject = b.id
+		                    AND (b.owner = $owner OR b.gesubject = 1)
+		                    AND b.computersubject = 0 AND b.nstp = 0
+		                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+					} else {
+						$data['cl'] 		= $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+							FROM tbl_classallocation a,tbl_subject b
+		                    WHERE a.subject = b.id
+		                    AND b.owner = $owner AND b.gesubject = 0
+		                    AND b.computersubject = 0 AND b.nstp = 0
+		                    AND academicterm = $phaseterm ORDER BY title ASC")->result_array();
+					}
 
              ?>
 			 <div class="col-md-6">
