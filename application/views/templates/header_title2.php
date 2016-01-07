@@ -94,8 +94,12 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="panel">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove-circle close-modal"></span></button>
-                    <div class="panel-heading"><h4>Add Year and Semester</h4></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-remove-circle close-modal"></span>
+                    </button>
+                    <div class="panel-heading">
+                        <h4>Add Year and Semester</h4>
+                    </div>
                     <div class="panel-body">
                         <form role="form" method="post" action="index.php?page=addSem">
                             <div class="form-group">
