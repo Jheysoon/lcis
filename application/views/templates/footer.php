@@ -308,16 +308,31 @@
                             $id     = $(this).data('param');
                             $path   = $(this).data('param1');
                             $desc   = $(this).data('param2');
+                            $header = $(this).data('param3');
                             $('input[name=id]').val($id);
                             $('input[name=form_path]').val($path);
                             $('input[name=form_desc]').val($desc);
+                            $('#header_up'+$header).attr('selected', 'selected');
                             $('#myModal').modal();
                             e.preventDefault();
                         });
                     });
                 </script>
-        <?php
-            }
-         ?>
+        <?php } elseif (uri_string() == 'menu/admin-header') { ?>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('.header_modal').click(function(e) {
+                        $id     = $(this).data('id');
+                        $name   = $(this).data('name');
+                        $priors = $(this).data('priors');
+                        $('input[name=id]').val($id);
+                        $('input[name=form_header]').val($name);
+                        $('#header_up'+$priors).attr('selected', 'selected');
+                        $('#myModal').modal();
+                        e.preventDefault();
+                    });
+                });
+            </script>
+        <?php } ?>
   </body>
 </html>
