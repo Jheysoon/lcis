@@ -1,6 +1,8 @@
 <table class="table">
     <tr>
-      <td class="tbl-header" style="text-align: center;" colspan="8"><strong>Subject that does not have instructor</strong></td>
+        <td class="tbl-header" style="text-align: center;" colspan="8">
+            <strong>Subject that does not have instructor</strong>
+        </td>
     </tr>
     <tr>
         <th>Subject</th>
@@ -13,18 +15,18 @@
         <th>Action</th>
     </tr>
     <?php
-       foreach($cl as $class)
-       {
-           if($class['instructor'] != 0)
-           {
+       foreach ($cl as $class) {
+
+           if ($class['instructor'] != 0) {
                continue;
            }
+
            $room = $this->edp_classallocation->getRooms($class['cl_id']);
            $time = $this->edp_classallocation->getPeriod($class['cl_id']);
            $day  = $this->edp_classallocation->getDayShort($class['cl_id']);
+
            // this checking will be not be used in testing
-           if(!empty($room) AND !empty($time))
-           {
+           if ( ! empty($room) AND ! empty($time)) {
            ?>
            <form class="save_instructor" method="post" data-alloc="<?php echo $class['cl_id'] ?>">
                <tr>
@@ -50,14 +52,13 @@
                            <?php if($class['instructor'] == 0) { ?>
                                <option value="">No Instructor</option>
                            <?php
-                           }
-                           else {
+                           } else {
                                ?>
                                <option value="<?php echo $class['instructor'] ?>" selected><?php echo $this->common_dean->getParty($class['instructor']) ?></option>
                            <?php
                            }
-                           // auto check if the instructor is available for that day/period
 
+                           // auto check if the instructor is available for that day/period
                            foreach ($instruc as $i) {
                                $isConflict = $this->api->checkConflict($i['id'], $time, $day);
 
@@ -77,7 +78,9 @@
                            ?>
                        </select>
                    </td>
-                   <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary btn-sm cl_id_other">Choose</a></td>
+                   <td>
+                       <a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary btn-sm cl_id_other">Choose</a>
+                   </td>
                    <td>
                        <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                    </td>

@@ -74,7 +74,7 @@
 			<?php } ?>
 			<div id="table-body">
              <?php
-             	echo $this->session->flashdata('message');
+			 	echo $this->session->flashdata('message');
 				$this->load->view('dean/ajax/assigned_ins', $data);
 				$this->load->view('dean/ajax/not_ass_ins', $data);
 			?>
