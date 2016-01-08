@@ -29,7 +29,7 @@
 
            // this checking will be not be used in testing
            if ( ! empty($room) AND ! empty($time)) {
-               
+
                if ($subj != $class['subj_id'] AND $subj != '') {
            ?>
                <tr>
