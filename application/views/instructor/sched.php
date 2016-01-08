@@ -25,7 +25,7 @@
 					 </strong>
 				 </caption>
 				<tr>
-					<th style="text-align:center">Time \ Day</th>
+					<th style="text-align:center;width: 120px;">Time \ Day</th>
 					<th style="text-align:center">Monday</th>
 					<th style="text-align:center">Tuesday</th>
 					<th style="text-align:center">Wednesday</th>
