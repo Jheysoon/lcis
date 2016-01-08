@@ -35,20 +35,20 @@ class Edp_classallocation extends CI_Model
 		$user = $this->session->userdata('uid');
 		
 		if ($user == $systemVal['employeeid']) {
-			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+			return  $this->db->query("SELECT b.code as code,b.id as subj_id, b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.computersubject = 1 OR b.nstp = 1)
 				AND academicterm = $phaseterm ORDER BY title, instructor ASC")->result_array();
 		} elseif($owner == 1) {
-			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+			return  $this->db->query("SELECT b.code as code,b.id as subj_id, b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.owner = $owner OR b.gesubject = 1)
 				AND b.computersubject = 0 AND b.nstp = 0
 				AND academicterm = $phaseterm ORDER BY title, instructor ASC")->result_array();
 		} else {
-			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
+			return  $this->db->query("SELECT b.code as code,b.id as subj_id, b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND b.owner = $owner AND b.gesubject = 0
