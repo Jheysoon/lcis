@@ -15,10 +15,20 @@
         <th>Action</th>
     </tr>
     <?php
+        $subj = '';
+
        foreach ($cl as $class) {
 
            if ($class['instructor'] != 0) {
                continue;
+           }
+
+           if ($subj != $class['code'] AND $subj != '') {
+    ?>
+           <tr>
+               <td colspan="8" class="success">&nbsp;</td>
+           </tr>
+    <?php
            }
 
            $room = $this->edp_classallocation->getRooms($class['cl_id']);
@@ -27,6 +37,7 @@
 
            // this checking will be not be used in testing
            if ( ! empty($room) AND ! empty($time)) {
+               $subj = $class['code'];
            ?>
            <form class="save_instructor" method="post" data-alloc="<?php echo $class['cl_id'] ?>">
                <tr>
