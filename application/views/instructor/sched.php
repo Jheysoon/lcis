@@ -39,13 +39,11 @@
 				$time 	= array();
 				$day 	= array();
 
-				foreach($time1 as $t)
-				{
+				foreach ($time1 as $t) {
 					$time[] = $t['time'];
 				}
 
-				foreach($day1 as $d)
-				{
+				foreach ($day1 as $d) {
 					if($d['id'] != 8)
 						$day[] = $d['id'];
 				}
@@ -74,7 +72,7 @@
 
 					foreach ($dd as $dd1) {
 
-						if($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
+						if ($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
 							continue;
 
 						$from 	= $dd1['from_time'];
