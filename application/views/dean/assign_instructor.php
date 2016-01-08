@@ -85,9 +85,7 @@
 					<div class="alert alert-danger">
 						Cannot run program. Class allocation status is not valid
 					</div>
-			<?php
-				}
-			?>
+			<?php } ?>
 			 <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
