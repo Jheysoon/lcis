@@ -27,7 +27,7 @@
 					$inst1 	= $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college = $owner")->result_array();
 					$data['instruc'] = array_merge($inst, $inst1);
 
-					$data['cl'] = $this->edp_classallocation->getAllocs($systemVal, $owner);
+					$data['cl'] = $this->edp_classallocation->getAllocs($systemVal, $owner, $phaseterm);
 			?>
 			 <div class="col-md-6">
 				<h3 style="text-align: center; font-weight: bold"><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?></h3>

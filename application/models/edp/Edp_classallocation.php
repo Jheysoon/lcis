@@ -30,7 +30,7 @@ class Edp_classallocation extends CI_Model
 		return $this->db->count_all_results('tbl_dayperiod');
 	}
 	
-	function getAllocs($systemVal, $owner)
+	function getAllocs($systemVal, $owner, $phaseterm)
 	{
 		$user = $this->session->userdata('uid');
 		
@@ -39,21 +39,21 @@ class Edp_classallocation extends CI_Model
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.computersubject = 1 OR b.nstp = 1)
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
+				AND academicterm = $phaseterm ORDER BY title, instructor ASC")->result_array();
 		} elseif($owner == 1) {
 			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.owner = $owner OR b.gesubject = 1)
 				AND b.computersubject = 0 AND b.nstp = 0
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
+				AND academicterm = $phaseterm ORDER BY title, instructor ASC")->result_array();
 		} else {
 			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND b.owner = $owner AND b.gesubject = 0
 				AND b.computersubject = 0 AND b.nstp = 0
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
+				AND academicterm = $phaseterm ORDER BY title, instructor ASC")->result_array();
 		}
 	}
 	
