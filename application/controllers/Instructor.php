@@ -62,8 +62,7 @@ class Instructor extends CI_Controller
                     'office'        =>  'Office'
                 );
 
-        foreach($field as $key => $value)
-        {
+        foreach ($field as $key => $value) {
             $this->form_validation->set_rules($key, $value, 'required');
         }
 
@@ -73,13 +72,13 @@ class Instructor extends CI_Controller
             $this->load->view('instructor/register_employee', $data);
             $this->load->view('templates/footer');
 
-        } elseif($this->input->post('password') != $this->input->post('rpass')) {
+        } elseif ($this->input->post('password') != $this->input->post('rpass')) {
             $this->api->userMenu();
             $data['error'] = '<div class="alert alert-danger text-center">Please confirm your password</div>';
             $this->load->view('instructor/register_employee', $data);
             $this->load->view('templates/footer');
 
-        } elseif($this->input->post('office') == 0 AND $this->input->post('position') == 0) {
+        } elseif ($this->input->post('office') == 0 AND $this->input->post('position') == 0) {
             $this->api->userMenu();
             $data['error'] = '<div class="alert alert-danger text-center">Please Select a Office / Position</div>';
             $this->load->view('instructor/register_employee', $data);
@@ -195,8 +194,7 @@ class Instructor extends CI_Controller
 
     function instruc_sched($id = '')
     {
-        if(!empty($id))
-        {
+        if (!empty($id)) {
             $this->api->userMenu();
 
             $data['owner']          = $this->api->getUserCollege();
@@ -217,8 +215,7 @@ class Instructor extends CI_Controller
             $data['day1']   = $this->db->get('tbl_day')->result_array();
 
             $this->load->view('instructor/sched', $data);
-        }
-        else
+        } else
             show_error('Did you type the url by yourself ?');
     }
 

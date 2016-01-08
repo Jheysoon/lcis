@@ -29,8 +29,7 @@ class Dean extends CI_Controller
 
     function edit_subject($sid, $param = '')
     {
-        if(is_numeric($sid))
-        {
+        if (is_numeric($sid)) {
             $this->load->model(array(
                 'dean/subject',
                 'dean/group',
@@ -64,9 +63,7 @@ class Dean extends CI_Controller
 
             $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
-        }
-        else
-        {
+        } else {
             show_error('Did you type the url by yourself ?');
         }
     }
