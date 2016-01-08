@@ -16,6 +16,7 @@
 			$term = $this->db->get('tbl_term')->row_array();
 		 ?>
 		<div class="panel-body">
+			<a href="/tabular_sched/<?php echo $id ?>" class="btn btn-primary pull-left">View in Tabular Form</a>
 			<a href="/instructor_sched" class="btn btn-success pull-right">Back</a>
 			<table class="table table-bordered">
 				 <caption>
