@@ -33,24 +33,24 @@ class Edp_classallocation extends CI_Model
 		
 		if ($user == $systemVal['employeeid']) {
 			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-				FROM tbl_classallocation a,tbl_subject b
+				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.computersubject = 1 OR b.nstp = 1)
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title ASC")->result_array();
+				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
 		} elseif($owner == 1) {
 			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-				FROM tbl_classallocation a,tbl_subject b
+				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND (b.owner = $owner OR b.gesubject = 1)
 				AND b.computersubject = 0 AND b.nstp = 0
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title ASC")->result_array();
+				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
 		} else {
 			return  $this->db->query("SELECT b.code as code,b.descriptivetitle as title,a.id as cl_id,coursemajor,instructor
-				FROM tbl_classallocation a,tbl_subject b
+				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id
 				AND b.owner = $owner AND b.gesubject = 0
 				AND b.computersubject = 0 AND b.nstp = 0
-				AND academicterm = {$systemVal['phaseterm']} ORDER BY title ASC")->result_array();
+				AND academicterm = {$systemVal['phaseterm']} ORDER BY title, instructor ASC")->result_array();
 		}
 	}
 	
@@ -60,24 +60,19 @@ class Edp_classallocation extends CI_Model
 		$systemVal 	= $this->api->systemValue();
 		$owner 		= $this->api->getUserCollege();
 
-		if($user == $systemVal['employeeid'])
-		{
+		if ($user == $systemVal['employeeid']) {
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id AND academicterm = $acam
 				AND (computersubject = 1 OR nstp = 1)
 				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
-		}
-		elseif ($owner == 1)
-		{
+		} elseif ($owner == 1) {
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id AND academicterm = $acam
 				AND (owner = 1 OR gesubject = 1) AND computersubject = 0 AND nstp = 0
 				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
-		}
-		else
-		{
+		} else {
 			return $this->db->query("SELECT a.id as cid, coursemajor, descriptivetitle, code
 				FROM tbl_classallocation a, tbl_subject b
 				WHERE a.subject = b.id AND academicterm = $acam
@@ -85,7 +80,6 @@ class Edp_classallocation extends CI_Model
 				AND owner = $owner AND nstp = 0
 				ORDER BY b.code ASC, coursemajor ASC, a.id ASC")->result_array();
 		}
-
 	}
 
 	function getAlloc1($acam,$owner)
