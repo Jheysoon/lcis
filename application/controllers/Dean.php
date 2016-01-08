@@ -1441,12 +1441,13 @@ class Dean extends CI_Controller
         $this->group->ungroup($gr, $data);
 
         $this->session->set_flashdata('message',
-        '<div class="alert alert-success">
-            <strong>Subject ungrouped!</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>');
+            '<div class="alert alert-success">
+                <strong>Subject ungrouped!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>'
+        );
 
         redirect(base_url('enrolment_grouping'));
     }
@@ -1473,8 +1474,6 @@ class Dean extends CI_Controller
         }
 
         redirect('/menu/dean-assign_instructor');
-        //echo $this->input->post('cl_id');
-
     }
 
 }
