@@ -180,6 +180,7 @@
             elseif(uri_string() == 'menu/dean-assign_instructor')
             {
                 ?>
+                <script src="/assets/js/select2.js"></script>
             <script>
                 $(document).ready(function(){
                     $('.save_instructor').submit(function(e){
@@ -194,6 +195,7 @@
                         });
                         e.preventDefault();
                     });
+                    $('select[name=instructor]').select2();
                     $('#sorting').change(function(){
                         v = $(this).val();
                         $.post('/dean/sorts',{sort:v},function(data){
