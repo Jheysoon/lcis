@@ -8,7 +8,7 @@
 			$this->db->where('id', $owner);
 			$col = $this->db->get('tbl_college')->row_array();
 
-			$this->db->where('id', $systemVal['phaseterm']);
+			$this->db->where('id', $acam);
 			$sy = $this->db->get('tbl_academicterm')->row_array();
 
 			$this->db->where('id', $sy['term']);

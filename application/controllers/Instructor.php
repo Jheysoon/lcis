@@ -213,6 +213,7 @@ class Instructor extends CI_Controller
             $data['class']  = $this->db->get('tbl_classallocation')->result_array();
             $data['time1']  = $this->db->get('tbl_time')->result_array();
             $data['day1']   = $this->db->get('tbl_day')->result_array();
+            $data['acam']   = $acam;
 
             $this->load->view('instructor/sched', $data);
         } else
