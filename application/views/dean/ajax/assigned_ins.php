@@ -26,7 +26,7 @@
             if ($insts != $class['instructor'] AND $insts != 0) {
                 ?>
                 <tr>
-                    <td colspan="8" class="success"></td>
+                    <td colspan="8" class="success">&nbsp;</td>
                 </tr>
                 <?php
             }
