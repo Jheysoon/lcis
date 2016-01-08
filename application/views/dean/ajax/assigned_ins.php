@@ -15,18 +15,28 @@
         <th>Action</th>
     </tr>
     <?php
+        $insts = 0;
+
         foreach($cl as $class)
         {
-            if($class['instructor'] == 0)
-            {
+            if ($class['instructor'] == 0) {
                 continue;
             }
+
+            if ($insts != $class['instructor'] AND $insts != 0) {
+                ?>
+                <tr>
+                    <td colspan="8" class="success"></td>
+                </tr>
+                <?php
+            }
+
             $room = $this->edp_classallocation->getRooms($class['cl_id']);
             $time = $this->edp_classallocation->getPeriod($class['cl_id']);
             $day  = $this->edp_classallocation->getDayShort($class['cl_id']);
+
             // this checking will be not be used in testing
-            if(!empty($room) AND !empty($time))
-            {
+            if (!empty($room) AND !empty($time)) {
             ?>
             <form class="save_instructor" method="post" data-alloc = "<?php echo $class['cl_id'] ?>">
                 <tr>
@@ -52,10 +62,9 @@
                             <?php if($class['instructor'] == 0) { ?>
                                 <option value="">No Instructor</option>
                             <?php
-                            }
-                            else {
+                            } else {
                                 ?>
-                                <option value="<?php echo $class['instructor'] ?>" selected>
+                                <option value="<?php echo $insts = $class['instructor'] ?>" selected>
                                     <?php
                                         $this->db->where('id', $class['instructor']);
                                         $this->db->select('firstname,lastname,middlename');
@@ -65,8 +74,8 @@
                                 </option>
                             <?php
                             }
-                           // auto check if the instructor is available for that day/period
 
+                           // auto check if the instructor is available for that day/period
                             foreach ($instruc as $i) {
                                 $isConflict = $this->api->checkConflict($i['id'], $time, $day);
 
