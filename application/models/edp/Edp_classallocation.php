@@ -9,17 +9,20 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('academicterm',$nxt);
 		return $this->db->get('tbl_classallocation')->result_array();
 	}
+
 	function getDayPeriod($cid,$rid)
 	{
 		$this->db->where('classallocation',$cid);
 		$this->db->where('classroom',$rid);
 		return $this->db->get('tbl_dayperiod')->result_array();
 	}
+
 	function getDayPeriod1($cid)
 	{
 		$this->db->where('classallocation',$cid);
 		return $this->db->get('tbl_dayperiod')->result_array();
 	}
+
 	function countDayPer($cid,$rid)
 	{
 		$this->db->where('classallocation',$cid);
@@ -110,12 +113,13 @@ class Edp_classallocation extends CI_Model
 		$this->db->order_by('day ASC');
 		$this->db->where('classallocation',$cid);
 		$s = $this->db->get('tbl_dayperiod')->result_array();
-		foreach($s as $ss)
-		{
+
+		foreach ($s as $ss) {
 			$this->db->where('id',$ss['day']);
 			$a = $this->db->get('tbl_day')->row_array();
 			$d[] = $a['shortname'];
 		}
+
 		return implode(' / ', $d);
 	}
 
@@ -131,14 +135,15 @@ class Edp_classallocation extends CI_Model
 		$this->db->order_by('day ASC');
 		$this->db->where('classallocation',$cid);
 		$d = $this->db->get('tbl_dayperiod')->result_array();
-		foreach($d as $dd1)
-		{
-			$start = $this->db->get_where('tbl_time',array('id'=>$dd1['from_time']))->row_array();
-			$st = $start['time'];
-			$end = $this->db->get_where('tbl_time',array('id'=>$dd1['to_time']))->row_array();
-			$en = $end['time'];
-			$array[] = $st.'-'.$en;
+
+		foreach ($d as $dd1) {
+			$start 		= $this->db->get_where('tbl_time',array('id'=>$dd1['from_time']))->row_array();
+			$st 		= $start['time'];
+			$end 		= $this->db->get_where('tbl_time',array('id'=>$dd1['to_time']))->row_array();
+			$en 		= $end['time'];
+			$array[] 	= $st.'-'.$en;
 		}
+
 		return implode(' / ', $array);
 	}
 
@@ -148,21 +153,22 @@ class Edp_classallocation extends CI_Model
 		$this->db->order_by('day ASC');
 		$this->db->where('classallocation',$cid);
 		$d = $this->db->get('tbl_dayperiod')->result_array();
-		foreach($d as $dd1)
-		{
-			$room  = $this->db->get_where('tbl_classroom',array('id'=>$dd1['classroom']))->row_array();
-			$rname = $room['legacycode'];
-			$lid   = $room['location'];
-			$location = $this->db->get_where('tbl_location',array('id'=>$lid))->row_array();
-			$location = $location['description'];
-			$array1[] = $rname;
-			$array2[] = $location;
+
+		foreach ($d as $dd1) {
+			$room  		= $this->db->get_where('tbl_classroom',array('id'=>$dd1['classroom']))->row_array();
+			$rname 		= $room['legacycode'];
+			$lid   		= $room['location'];
+			$location 	= $this->db->get_where('tbl_location',array('id'=>$lid))->row_array();
+			$location 	= $location['description'];
+			$array1[] 	= $rname;
+			$array2[] 	= $location;
 		}
+
 		$room = implode(' / ', $array1);
+
 		if ($location) {
 			$location = implode(' / ', $array2);
-		}
-		else{
+		} else{
 			$location = '';
 		}
 
@@ -180,11 +186,12 @@ class Edp_classallocation extends CI_Model
 		$this->db->order_by('day ASC');
 		$this->db->where('classallocation', $cid);
 		$d = $this->db->get('tbl_dayperiod')->result_array();
-		foreach ($d as $dd)
-		{
-			$room  = $this->db->get_where('tbl_classroom', array('id' =>$dd['classroom']))->row_array();
-			$array[] = $room['legacycode'];
+
+		foreach ($d as $dd) {
+			$room  		= $this->db->get_where('tbl_classroom', array('id' =>$dd['classroom']))->row_array();
+			$array[] 	= $room['legacycode'];
 		}
+
 		return implode(' / ', $array);
 	}
 
@@ -207,29 +214,35 @@ class Edp_classallocation extends CI_Model
 		$nxt 		= $systemVal['phaseterm'];
 		$this->db->where('academicterm',$nxt);
 		$this->db->where('classroom',$rid);
+
 		return $this->db->count_all_results('tbl_classallocation');
 	}
+
 	function getClid($rid)
 	{
 		$systemVal 	= $this->api->systemValue();
 		$nxt 		= $systemVal['phasterm'];
 		$this->db->where('academicterm',$nxt);
 		$this->db->where('classroom',$rid);
+
 		return  $this->db->get('tbl_classallocation')->result_array();
 	}
+
 	function getDP($cid)
 	{
 		$this->db->where('classallocation',$cid);
 		$this->db->select('day,from_time,to_time');
+
 		return $this->db->get('tbl_dayperiod')->result_array();
 	}
+
 	function getPer($cid)
 	{
 		$this->db->where('classallocation',$cid);
-		$q = $this->db->get('tbl_dayperiod')->result_array();
+		$q 	= $this->db->get('tbl_dayperiod')->result_array();
 		$ar = array();
-		foreach($q as $qq)
-		{
+
+		foreach ($q as $qq) {
 			$this->db->where('id',$qq['period']);
 			$w 		= $this->db->get('tbl_period')->row_array();
 			$this->db->where('id',$w['from_time']);
@@ -240,6 +253,7 @@ class Edp_classallocation extends CI_Model
 			$end 	= $en['time'];
 			$ar[]	= $start.'-'.$end;
 		}
+
 		return implode(',', $ar);
 	}
 
@@ -259,25 +273,30 @@ class Edp_classallocation extends CI_Model
 		$tt = $t['time'];
 		return $ff.' - '.$tt;
 	}
+
 	function getAllRoom()
 	{
 		return $this->db->get('tbl_classroom')->result_array();
 	}
+
 	function updateClassroom($room,$dpId)
 	{
 		$data['classroom']  = $room;
         $this->db->where('id',$dpId);
         $this->db->update('tbl_dayperiod',$data);
 	}
+
 	function getCourseShort($cid)
 	{
 		$q = $this->db->query("SELECT shortname FROM tbl_course WHERE id = (SELECT course FROM tbl_coursemajor WHERE id = $cid)")->row_array();
 		return $q['shortname'];
 	}
+
 	function getAllCollege()
 	{
 		return $this->db->get('tbl_college')->result_array();
 	}
+
 	function count_complete($partyid,$stage)
 	{
 		$systemVal = $this->api->systemValue();
@@ -286,6 +305,7 @@ class Edp_classallocation extends CI_Model
 		$this->db->where('completedby', $partyid);
 		return $this->db->count_all_results('tbl_completion');
 	}
+
 	function get_status($partyid,$stage)
 	{
 		$systemVal = $this->api->systemValue();
