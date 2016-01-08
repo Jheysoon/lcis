@@ -8,7 +8,7 @@
 			$this->db->where('id', $owner);
 			$col = $this->db->get('tbl_college')->row_array();
 
-			$this->db->where('id', $systemVal['phaseterm']);
+			$this->db->where('id', $acam);
 			$sy = $this->db->get('tbl_academicterm')->row_array();
 
 			$this->db->where('id', $sy['term']);
@@ -16,6 +16,7 @@
 			$term = $this->db->get('tbl_term')->row_array();
 		 ?>
 		<div class="panel-body">
+			<a href="/tabular_sched/<?php echo $id ?>" class="btn btn-primary pull-left">View in Tabular Form</a>
 			<a href="/instructor_sched" class="btn btn-success pull-right">Back</a>
 			<table class="table table-bordered">
 				 <caption>
@@ -25,7 +26,7 @@
 					 </strong>
 				 </caption>
 				<tr>
-					<th style="text-align:center">Time \ Day</th>
+					<th style="text-align:center;width: 120px;">Time \ Day</th>
 					<th style="text-align:center">Monday</th>
 					<th style="text-align:center">Tuesday</th>
 					<th style="text-align:center">Wednesday</th>
@@ -39,13 +40,11 @@
 				$time 	= array();
 				$day 	= array();
 
-				foreach($time1 as $t)
-				{
+				foreach ($time1 as $t) {
 					$time[] = $t['time'];
 				}
 
-				foreach($day1 as $d)
-				{
+				foreach ($day1 as $d) {
 					if($d['id'] != 8)
 						$day[] = $d['id'];
 				}
@@ -74,7 +73,7 @@
 
 					foreach ($dd as $dd1) {
 
-						if($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
+						if ($dd1['day'] == 8 OR $dd1['from_time'] == 0 OR $dd1['to_time'] == 0)
 							continue;
 
 						$from 	= $dd1['from_time'];
@@ -260,9 +259,7 @@
 				 ?>
 
 			</tr>
-			<?php
-				}
-			 ?>
+			<?php } ?>
 		 	</table>
 		</div>
 	</div>

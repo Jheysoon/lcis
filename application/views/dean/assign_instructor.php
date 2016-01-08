@@ -28,8 +28,7 @@
 					$data['instruc'] = array_merge($inst, $inst1);
 
 					$data['cl'] = $this->edp_classallocation->getAllocs($systemVal, $owner);
-
-             ?>
+			?>
 			 <div class="col-md-6">
 				<h3 style="text-align: center; font-weight: bold"><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?></h3>
 				<h5 style="text-align: center; font-weight: bold">School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?></h5>
@@ -72,9 +71,10 @@
 				</div>
 			</div>
 			<?php } ?>
+					<span class="clearfix"></span>
 			<div id="table-body">
              <?php
-             	echo $this->session->flashdata('message');
+			 	echo $this->session->flashdata('message');
 				$this->load->view('dean/ajax/assigned_ins', $data);
 				$this->load->view('dean/ajax/not_ass_ins', $data);
 			?>
@@ -85,9 +85,7 @@
 					<div class="alert alert-danger">
 						Cannot run program. Class allocation status is not valid
 					</div>
-			<?php
-				}
-			?>
+			<?php } ?>
 			 <!-- <a href="#" class="btn btn-primary pull-right">Attest All</a> -->
 		</div>
 	</div>
@@ -116,9 +114,11 @@
 			        				$p = $this->db->get_where('tbl_party', array('id' => $i['id']));
 
 			        				if ($p->num_rows() > 0) {
-			        					$pp = $p->row_array();
+			        					$pp = $p->row();
 		        				?>
-		        			<option value="<?php echo $pp['id'] ?>"><?php echo $pp['firstname'].' '.$pp['lastname'] ?></option>
+		        			<option value="<?php echo $pp->id ?>">
+								<?php echo $pp->lastname.' , '.$pp->firstname ?>
+							</option>
 		        		<?php
 			        				}
 			        			}
