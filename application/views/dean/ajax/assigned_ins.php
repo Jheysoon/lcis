@@ -9,8 +9,8 @@
         <th>Course</th>
         <th>Room</th>
         <th>Day</th>
-        <th>Period</th>
-        <th style="width:200px;">Instructor</th>
+        <th style="text-align: center">Period</th>
+        <th style="width:200px;text-align: center">Instructor</th>
         <th>Other Instructors</th>
         <th>Action</th>
     </tr>
@@ -56,7 +56,7 @@
                     </td>
                     <td><?php echo $room ?></td>
                     <td><?php echo $day ?></td>
-                    <td><?php echo $time ?></td>
+                    <td style="text-align: center"><?php echo $time ?></td>
                     <td>
                         <select class="form-control" name="instructor" required>
                             <?php if($class['instructor'] == 0) { ?>
@@ -95,7 +95,7 @@
                             ?>
                         </select>
                     </td>
-                    <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary btn-sm cl_id_other">Choose</a></td>
+                    <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary btn-sm pull-right cl_id_other">Choose</a></td>
                     <td>
                         <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                     </td>
