@@ -72,6 +72,7 @@
 				</div>
 			</div>
 			<?php } ?>
+					<span class="clearfix"></span>
 			<div id="table-body">
              <?php
 			 	echo $this->session->flashdata('message');
@@ -114,9 +115,11 @@
 			        				$p = $this->db->get_where('tbl_party', array('id' => $i['id']));
 
 			        				if ($p->num_rows() > 0) {
-			        					$pp = $p->row_array();
+			        					$pp = $p->row();
 		        				?>
-		        			<option value="<?php echo $pp['id'] ?>"><?php echo $pp['firstname'].' '.$pp['lastname'] ?></option>
+		        			<option value="<?php echo $pp->id ?>">
+								<?php echo $pp->lastname.' , '.$pp->firstname ?>
+							</option>
 		        		<?php
 			        				}
 			        			}
