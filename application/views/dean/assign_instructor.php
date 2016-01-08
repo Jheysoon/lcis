@@ -28,8 +28,7 @@
 					$data['instruc'] = array_merge($inst, $inst1);
 
 					$data['cl'] = $this->edp_classallocation->getAllocs($systemVal, $owner);
-
-             ?>
+			?>
 			 <div class="col-md-6">
 				<h3 style="text-align: center; font-weight: bold"><?php echo $user == $systemVal['employeeid'] ? '': $col['description'] ?></h3>
 				<h5 style="text-align: center; font-weight: bold">School Year: <?php echo $sy['systart'].'-'.$sy['syend'] ?> Term: <?php echo $sy['term'] ?></h5>
