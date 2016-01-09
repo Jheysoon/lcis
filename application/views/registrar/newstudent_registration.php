@@ -150,11 +150,9 @@
 						<div class="col-sm-8 col-sm-offset-1">
 							<label class="label-control add-label" for="zcode">Zip Code <small class="required">(required)</small></label>
 							<select class="form-control" name='zcode'>
-								<option>6500</option>
-								<option>6501</option>
-								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
-								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
-								<option> Zip Code xxxxxxxxxxxxxxxxxxxxx</option>
+								<?php for($x = 6500; $x <= 6550; $x++) { ?>
+									<option value="<?php echo $x ?>"><?php echo $x ?></option>
+								<?php } ?>
 							</select>
 						</div>
 					</div>
