@@ -10,7 +10,7 @@
 
 
 	<form action="/lc_curriculum/insertsubj" method="POST" />
-	<?php $url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m; ?>
+		<?php $url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m; ?>
 		<div class="panel-body">
 			<div class="col-md-6 col-md-offset-3">
 				<input type="hidden" name="currid" value="<?php echo $currid; ?>" />
