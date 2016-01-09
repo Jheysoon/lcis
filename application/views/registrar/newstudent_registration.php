@@ -219,7 +219,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="row">
+						<!--<div class="row">
 							<div class="col-sm-8 col-sm-offset-1">
 								<div class="col-sm-6 col-md-4">
 							    	<div class="thumbnail scan">
@@ -258,7 +258,7 @@
 							    	</div>
 								</div>
 							</div>
-						</div>
+						</div>-->
 					<br>
 					<h3 class="col-sm-offset-1">User Account Information</h3>
 					<hr>
