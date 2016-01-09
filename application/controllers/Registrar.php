@@ -720,7 +720,8 @@ class Registrar extends CI_Controller
         $this->load->view('registrar/tor_preview', $sid);
     }
 
-    function tor_preview(){
+    function tor_preview()
+    {
         redirect('/registrar_tor/'.$this->input->post('search'));
     }
 
@@ -745,16 +746,14 @@ class Registrar extends CI_Controller
                     'emailadd'      =>'Email Address'
                 );
 
-        foreach($field as $key => $value)
-        {
+        foreach ($field as $key => $value) {
             $this->form_validation->set_rules($key, $value, 'required');
         }
         // nationality not found in tbl_party
         //$this->form_validation->set_rules('nationality', 'Nationality','required');
         $d['error'] = '';
 
-        if($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $this->api->userMenu();
             $d['fname']     = set_value('firstname');
             $d['lname']     = set_value('lastname');
@@ -763,17 +762,14 @@ class Registrar extends CI_Controller
             $d['course']    = ($this->input->post('course') ? $this->input->post('course') : 0);
             $this->load->view('registrar/newstudent_registration', $d);
             $this->load->view('templates/footer2');
-        }
-        else
-        {
+        } else {
             $email = $this->input->post('emailadd');
             //check if the email add is valid
-            if (filter_var($email, FILTER_VALIDATE_EMAIL))
-            {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $password = $this->input->post('password');
+
                 // check if the password and repeat password is equal
-                if($password == $this->input->post('rpass'))
-                {
+                if ($password == $this->input->post('rpass')) {
                     $this->db->trans_begin();
                     $systemVal              = $this->api->systemValue();
                     $data['firstname']      = ucwords($this->input->post('firstname'));
@@ -828,26 +824,29 @@ class Registrar extends CI_Controller
                     $name = $data['firstname'].' '.$data['lastname'];
                     $this->insert_account($id, $name);
 
-                    if ($this->db->trans_status() === FALSE)
-                    {
+                    $menu = array(
+                        'optionid'  => STUD_MENU_GRADES,
+                        'optionid'  => STUD_MENU_BILL,
+                        'userid'    => $id,
+                        'userid'    => $id
+                    );
+
+                    $this->db->insert('tbl_useroption', $menu);
+
+                    if ($this->db->trans_status() === FALSE) {
                         $this->db->trans_rollback();
-                    }
-                    else
-                    {
+                    } else {
                         $this->db->trans_commit();
                     }
+
                     redirect(base_url('take_photo/'.$id));
-                }
-                else
-                {
+                } else {
                     $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
                                     Password and Re-peat password did not match
                                 </div>';
                     $this->error_reg($error);
                 }
-            }
-            else
-            {
+            } else {
                 // send a invalid email error
                 $error = '<div class="alert alert-danger center-block" style="max-width:400px;">
                                 Invalid email address
@@ -1304,6 +1303,15 @@ class Registrar extends CI_Controller
                 $data['curriculum']     = $this->get_current_curriculum($course_m, $acam_id->systart);
                 $data['status']         = 'A';
                 $this->db->insert('tbl_registration', $data);
+
+                $menu = array(
+                    'optionid'  => STUD_MENU_GRADES,
+                    'optionid'  => STUD_MENU_BILL,
+                    'userid'    => $id,
+                    'userid'    => $id
+                );
+
+                $this->db->insert('tbl_useroption', $menu);
 
                 if ($this->db->trans_status() === FALSE) {
                      $this->db->trans_rollback();
