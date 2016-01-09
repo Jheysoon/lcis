@@ -10,20 +10,34 @@
 			</div>
 			<div class="panel-body">
 				<form class="form-horizontal add-user" method="post" action="/registration" role="form">
-					<br><h3 class="col-sm-offset-1">Student Information</h3><hr><br>
+					<br>
+					<h3 class="col-sm-offset-1">Student Information</h3>
+					<hr>
+					<br>
 					<div class="form-group">
 						<div class="col-sm-8 col-sm-offset-1">
-							<label class="label-control add-label2" for="lastname">Last Name <small class="required">(required)</small></label>
+							<label class="label-control add-label2" for="lastname">
+								Last Name
+								<small class="required">(required)</small>
+							</label>
 							<input class="form-control" type="text" value="<?php echo $lname ?>" name="lastname" placeholder="Lastname" required>
-							<label class="label-control add-label2" for="firstname">First Name <small class="required">(required)</small></label>
+							<label class="label-control add-label2" for="firstname">
+								First Name
+								<small class="required">(required)</small>
+							</label>
 							<input class="form-control" type="text" value="<?php echo $fname ?>" name="firstname" placeholder="First Name" required>
-							<label class="label-control add-label2" for="middlename">Middle Name <small class="required">(required)</small></label>
+							<label class="label-control add-label2" for="middlename">
+								Middle Name
+								<small class="required">(required)</small>
+							</label>
 							<input class="form-control" type="text" value="<?php echo $mname ?>" name="middlename" placeholder="Middle Name" required>
 							<br>
 							<hr>
 							<br>
-							<label class="label-control add-label" for="course">Course with Major <small class="required">(required)</small></label>
-
+							<label class="label-control add-label" for="course">
+								Course with Major
+								<small class="required">(required)</small>
+							</label>
 							<select class="form-control" name='course' required>
 								<?php 
 									$coursemajors = $this->db->get('tbl_coursemajor')->result();
@@ -139,10 +153,10 @@
 									$p = $this->db->get('tbl_province')->result_array();
 									foreach ($p as $province) {
 								?>
-									<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>><?php echo $province['description'] ?></option>
-								<?php
-									}
-								 ?>
+									<option value="<?php echo $province['id'] ?>" <?php echo set_select('province', $province['id']) ?>>
+										<?php echo $province['description'] ?>
+									</option>
+								<?php } ?>
 							</select>
 						</div>
 					</div>
