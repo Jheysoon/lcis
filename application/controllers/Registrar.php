@@ -50,7 +50,10 @@ class Registrar extends CI_Controller
     {
         $txt    = urldecode($txt);
         $data   = array();
-        $r      = $this->db->query("SELECT name, descriptivetitle FROM tbl_subject WHERE code LIKE '%$txt%' OR descriptivetitle LIKE '%$txt%' ORDER BY code LIMIT 10 ")->result_array();
+        $r      = $this->db->query("SELECT name, descriptivetitle FROM tbl_subject
+                    WHERE code LIKE '%$txt%'
+                    OR descriptivetitle LIKE '%$txt%'
+                    ORDER BY code LIMIT 10 ")->result_array();
 
         foreach ($r as $rr) {
             $data[] = array('value' =>  $rr['code'], 'name' => $rr['descriptivetitle']);
