@@ -7,7 +7,7 @@ $(document).ready(function(){
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit:8,
-        remote: '/registrar/search_by_id/%QUERY'
+        remote: '/search/search_by_id/%QUERY'
     });
     student_list.initialize();
     //student_list.clearRemoteCache();
@@ -29,8 +29,8 @@ $(document).ready(function(){
         }
     );
     $('#status').change(function(){
-        val = $(this).val();
-        param1 = $('input[name="param"]').val();
+        var val = $(this).val();
+        var param1 = $('input[name="param"]').val();
         $.post('/registrar/add_session',{value:val,param:param1},function(data){
             $('#studlist_wrapper').html(data);
         });

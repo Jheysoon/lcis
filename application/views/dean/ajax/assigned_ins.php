@@ -1,30 +1,42 @@
 <table class="table">
     <tr>
-        <td class="tbl-header" style="text-align: center;" colspan="8"><strong>Assigned Subjects</strong></td>
+        <td class="tbl-header" style="text-align: center;" colspan="8">
+            <strong>Assigned Subjects</strong>
+        </td>
     </tr>
     <tr>
         <th>Subject</th>
         <th>Course</th>
         <th>Room</th>
         <th>Day</th>
-        <th>Period</th>
-        <th style="width:200px;">Instructor</th>
+        <th style="text-align: center">Period</th>
+        <th style="width:200px;text-align: center">Instructor</th>
         <th>Other Instructors</th>
         <th>Action</th>
     </tr>
     <?php
+        $insts = 0;
+
         foreach($cl as $class)
         {
-            if($class['instructor'] == 0)
-            {
+            if ($class['instructor'] == 0) {
                 continue;
             }
+
+            if ($insts != $class['instructor'] AND $insts != 0) {
+                ?>
+                <tr>
+                    <td colspan="8" class="success">&nbsp;</td>
+                </tr>
+                <?php
+            }
+
             $room = $this->edp_classallocation->getRooms($class['cl_id']);
             $time = $this->edp_classallocation->getPeriod($class['cl_id']);
             $day  = $this->edp_classallocation->getDayShort($class['cl_id']);
+
             // this checking will be not be used in testing
-            if(!empty($room) AND !empty($time))
-            {
+            if (!empty($room) AND !empty($time)) {
             ?>
             <form class="save_instructor" method="post" data-alloc = "<?php echo $class['cl_id'] ?>">
                 <tr>
@@ -44,16 +56,15 @@
                     </td>
                     <td><?php echo $room ?></td>
                     <td><?php echo $day ?></td>
-                    <td><?php echo $time ?></td>
+                    <td style="text-align: center"><?php echo $time ?></td>
                     <td>
                         <select class="form-control" name="instructor" required>
                             <?php if($class['instructor'] == 0) { ?>
                                 <option value="">No Instructor</option>
                             <?php
-                            }
-                            else {
+                            } else {
                                 ?>
-                                <option value="<?php echo $class['instructor'] ?>" selected>
+                                <option value="<?php echo $insts = $class['instructor'] ?>" selected>
                                     <?php
                                         $this->db->where('id', $class['instructor']);
                                         $this->db->select('firstname,lastname,middlename');
@@ -63,8 +74,8 @@
                                 </option>
                             <?php
                             }
-                           // auto check if the instructor is available for that day/period
 
+                           // auto check if the instructor is available for that day/period
                             foreach ($instruc as $i) {
                                 $isConflict = $this->api->checkConflict($i['id'], $time, $day);
 
@@ -84,7 +95,7 @@
                             ?>
                         </select>
                     </td>
-                    <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary cl_id_other">Choose</a></td>
+                    <td><a href="#" data-param="<?php echo $class['cl_id'] ?>" data-toggle="modal" data-target="#myModalIns" class="btn btn-primary btn-sm pull-right cl_id_other">Choose</a></td>
                     <td>
                         <button type="submit" class="btn btn-primary btn-sm" name="button">Save</button>
                     </td>

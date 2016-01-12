@@ -84,6 +84,12 @@ th{
 .tbl-bordered tr td{
     border: 1px solid;
     font-weight: bold;
+    font-family: cambria;
+}
+
+.tbl-bordered tr th{
+    font-weight: bold;
+    font-family: cambria;
 }
 
 .tbl-bordered tr .no-line{

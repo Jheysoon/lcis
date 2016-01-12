@@ -119,6 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['match_subject']                 = 'instructor/match_subject';
     $route['combine_subject']               = 'instructor/combine_subject';
     $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
+    $route['tabular_sched/(:num)']          = 'instructor/tabular_sched/$1';
 
     $route['change_sy']                     = 'dean/change_sy';
     $route['register']                      = 'registrar/register';

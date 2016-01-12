@@ -58,6 +58,16 @@ if ($details) {
     else{
         $source = '';
     }
+
+    if ($sex == 'M') {
+        $sex = 'Male';
+    }
+    else if ($sex == 'F') {
+        $sex = 'Female';
+    }
+    else{
+        $sex = '';
+    }
  ?>
 <!DOCTYPE html>
 <html>
@@ -123,12 +133,14 @@ if ($details) {
                     <tr>
                         <td width="100px">Name :</td>
                         <td class="underline" style="font-size: 14px;"> &nbsp;<strong><?php echo $name; ?></strong></td>
-                        <td width="25px">Sex :</td>
+                        <td width="50px">Gender :</td>
                         <td width="50px" class="center underline"> &nbsp;<strong><?php echo $sex; ?></strong></td>
                     </tr>
                     <tr>
                         <td>Student No. :</td>
-                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $legacyid ?>   </strong></td>
+                        <td class="underline"> &nbsp;<strong><?php echo $legacyid ?>   </strong></td>
+                        <td width="80px">Date of Birth :</td>
+                        <td width="80px" class="center underline"> &nbsp;<strong><?php echo $dateofbirth; ?></strong></td>
                     </tr>
                     <tr>
                         <td>Permanent Address :</td>
@@ -144,7 +156,7 @@ if ($details) {
                     </tr>
                     <tr>
                         <td>Course :</td>
-                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $course." ".$cm; ?></strong></td>
+                        <td colspan="3" class="underline"> &nbsp;<strong><?php echo $course; ?></strong></td>
                     </tr>
                 </table>
             </div>
@@ -262,7 +274,6 @@ if ($details) {
                     $enrol = $this->tor->getEnrolment($pid, $limit, $plimit);
                     foreach ($enrol as $key => $val) {
                         extract($val);
-                        // $group = $this->tor->getGroup($classallocation);
                         $acad = $systart."-".$syend." ".$shortname;
                         if ($school != $sch) {
 
@@ -410,6 +421,7 @@ if ($details) {
                     </tr>
                 </table>
                 <?php else: ?>
+
                     <br/>
                 <?php endif ?>
                 <table>

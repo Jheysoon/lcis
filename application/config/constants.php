@@ -95,3 +95,6 @@ define('COLLEGE_COUNT', 6);
 // ERRORS CONSTANT
 define('CUR_NOT_FOUND', 'Curriculum Not Found');
 define('NOT_FAILED_GRADE', 21);
+
+define('STUD_MENU_GRADES', 36);
+define('STUD_MENU_BILL', 37);
