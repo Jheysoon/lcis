@@ -44,7 +44,8 @@ class Registrar extends CI_Controller
         echo json_encode($data);
     }
 
-    ///
+    // @deprecated move this function to Search class
+    // retain only for backward compatibility
     function search_sub($txt)
     {
         $txt    = urldecode($txt);
