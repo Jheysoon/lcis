@@ -29,8 +29,8 @@ $(document).ready(function(){
         }
     );
     $('#status').change(function(){
-        val = $(this).val();
-        param1 = $('input[name="param"]').val();
+        var val = $(this).val();
+        var param1 = $('input[name="param"]').val();
         $.post('/registrar/add_session',{value:val,param:param1},function(data){
             $('#studlist_wrapper').html(data);
         });
