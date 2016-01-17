@@ -202,6 +202,7 @@ class Main extends CI_Controller
     {
         $this->dean();
     }
+
     function createUsername($fname, $lname)
     {
         if(strlen($lname) >= 6)
@@ -218,9 +219,9 @@ class Main extends CI_Controller
         $suffix = '00';
 
         // find an alternative username
-        while ($count > 0)
-        {
+        while ($count > 0) {
             $ctr++;
+
             if($ctr < 10)
                 $suffix = '0'.$ctr;
             else
@@ -230,6 +231,7 @@ class Main extends CI_Controller
             $this->db->where('username', $username);
             $count  = $this->db->count_all_results('tbl_useraccess');
         }
+
         return $username;
     }
 
@@ -242,12 +244,12 @@ class Main extends CI_Controller
             $c = $this->db->count_all_results('tbl_useraccess');
             if ($c < 1) {
                 $this->db->where('id', $user['instructor']);
-                $party = $this->db->get('tbl_party')->row_array();
-                $username = $this->createUsername($party['firstname'], $party['lastname']);
-                $password = password_hash('welcome', PASSWORD_BCRYPT);
-                $data['username'] = strtolower($username);
-                $data['password'] = $password;
-                $data['partyid'] = $user['instructor'];
+                $party              = $this->db->get('tbl_party')->row_array();
+                $username           = $this->createUsername($party['firstname'], $party['lastname']);
+                $password           = password_hash('welcome', PASSWORD_BCRYPT);
+                $data['username']   = strtolower($username);
+                $data['password']   = $password;
+                $data['partyid']    = $user['instructor'];
                 $this->db->insert('tbl_useraccess', $data);
             }
         }
@@ -258,14 +260,13 @@ class Main extends CI_Controller
         $sy     = $this->input->post('sy');
         $sem    = $this->input->post('sem');
 
-        if(is_numeric($sy) AND is_numeric($sem) AND $sy > 0 AND $sem > 0 AND $sem < 4 )
-        {
+        if (is_numeric($sy) AND is_numeric($sem) AND $sy > 0 AND $sem > 0 AND $sem < 4 ) {
             $this->load->model('home/academicterm');
             $val = $this->academicterm->getSY_id($sy,$sem);
 
-            if($val['term'] == '1')
+            if ($val['term'] == '1')
                 $sem = '1st Semester';
-            elseif($val['term'] == '2')
+            elseif ($val['term'] == '2')
                 $sem = '2nd Semester';
             else
                 $sem = 'Summer';
@@ -285,7 +286,8 @@ class Main extends CI_Controller
 
         redirect(base_url());
     }
-    function audit(){
+    function audit()
+    {
       $this->load->library('pagination');
       $this->load->model(array('cashier/account'));
     }
