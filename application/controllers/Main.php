@@ -88,15 +88,8 @@ class Main extends CI_Controller
 
     function home()
     {
-        $this->load->model(array(
-            'home/option',
-            'home/option_header',
-            'home/useroption',
-            'home/party'
-        ));
-
-        $this->load->view('templates/header');
-        $this->load->view('templates/header_title2');
+        $this->api->userMenu();
+        $this->load->model(array('home/party'));
 
         $this->load->view('home');
         $this->load->view('templates/footer',array('orig_page'=>''));
