@@ -110,7 +110,6 @@ class Main extends CI_Controller
     function menu($page,$param = '')
     {
         // redirect if the session has expired
-        //@todo verify if the user has really the right to that menu
         if(!$this->session->has_userdata('uid'))
             redirect(base_url());
 
@@ -123,9 +122,6 @@ class Main extends CI_Controller
 
         if(file_exists('./application/views/'.$page.'.php'))
         {
-
-            //@todo double check if the user really has the access
-
             $load_model = explode('/',$page);
 
             $data['param'] = $param;
