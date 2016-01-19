@@ -7,6 +7,9 @@ if ($details) {
     if($pic == ''){
         $pic = '/assets/images/sample.jpg';
     }
+    else{
+        $pic = '/assets/images/profile/'.$pic;
+    }
     $name = strtoupper($lastname).", ".ucwords(strtolower($firstname))." ".strtoupper($middlename);
     if ($major != 0) {
         $major2 = $this->tor->getMajor($major);
@@ -281,7 +284,17 @@ if ($details) {
                             if ($page_limiter == $plimit) {
                                 break;
                             }
-                            echo "<tr><td class='center no-right' colspan='5'>".$school."</td></tr>";
+                            // echo "<tr><td class='center no-line no-right' colspan='5'>".$school."</td></tr>";
+                            ?>
+                            <tr>
+                                <td class="no-line"></td>
+                                <td class="center no-line"><u><?php echo $school; ?></u></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line no-right"></td>
+                            </tr>
+                            <?php
+
                             $sch = $school; $page_limiter++;$ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
                         }
                         if ($aca != $acad) {
@@ -290,7 +303,16 @@ if ($details) {
                             if ($page_limiter == $plimit) {
                                 break;
                             }
-                            echo "<tr><td class='center no-right' colspan='5'>".$acad."</td></tr>";
+                            // echo "<tr><td class='center no-line no-right' colspan='5'>".$acad."</td></tr>";
+                            ?>
+                            <tr>
+                                <td class="no-line"></td>
+                                <td class="center no-line"><u><?php echo $acad; ?></u></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line no-right"></td>
+                            </tr>
+                            <?php
                             $aca = $acad; $page_limiter++;$ctr3+=1; $ctr4+=1; $arr[] = $ctr3;
                         }
 
@@ -327,10 +349,10 @@ if ($details) {
                         }
 
                         // check for long descriptive titles for splitting and add new row
-                        if (strlen($descriptivetitle) > 40) {
+                        if (strlen($descriptivetitle) > 35) {
                             $title = explode(' ', $descriptivetitle);
                             $count = count($title);
-                            $f = intval($count/2 + 1);
+                            $f = intval($count/2);
                             $fword = '';
                             $sword = '';
                             for ($i=0; $i < $f; $i++) {
@@ -373,8 +395,8 @@ if ($details) {
                         }
                         ?>
                         <tr>
-                            <td class="no-line"><?php echo $code; ?></td>
-                            <td class="no-line"><?php echo $descriptivetitle; ?></td>
+                            <td class="no-line" width="80px"><?php echo $code; ?></td>
+                            <td class="no-line"><?php echo ucwords(strtolower($descriptivetitle)); ?></td>
                             <td class="center no-line"><?php echo $gr1; ?></td>
                             <td class="center no-line"><?php echo $gr2; ?></td>
                             <td class="center no-line no-right"><?php echo $units; ?></td>
@@ -508,7 +530,18 @@ if ($details) {
                     $a = 1;
                     while ($a <= $ctr3) {
                         if (in_array($a, $arr)) {
-                            echo '<tr><td colspan = "10" class="no-left">&nbsp;</td></tr>';
+                            echo '<tr>
+                                <td class="center no-line no-left">&nbsp;</td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                                <td class="center no-line"></td>
+                            </tr>';
                         }
                         else{ $cr = explode('|', $credit[$a]) ?>
                             <tr>

@@ -52,7 +52,7 @@ class Tor extends CI_Model
 
     // query for getting specific student details
     function getStudDetails($sid){
-      $q = $this->db->query("SELECT d.*, d.id as pid, a.date as dte, b.major as major,  c.description as description, e.*, f.description as college
+      $q = $this->db->query("SELECT d.*, d.id as pid, a.date as dte, b.major as major,  c.description as description, e.*, f.description as college, d.pic as pic
                              FROM tbl_registration a, tbl_coursemajor b, tbl_course c, tbl_party d, tbl_student e, tbl_college f
                              WHERE a.coursemajor = b.id
                              AND b.course = c.id
