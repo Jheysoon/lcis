@@ -234,7 +234,7 @@
                     </div>
                     <div class="from-group col-md-4">
                         <label class="control-label">Year <small class="required">( required )</small></label>
-                        <select class="form-control" name="highschoolyear">
+                        <select class="form-control" name="highschoolyear" id="academic_wrapper">
                             <option></option>
                             <?php
                                 $x = date('Y');
@@ -261,8 +261,6 @@
                     </div>
                 <?php endif ?>
                 </div>
-
-
             </form>
 
 
@@ -300,7 +298,7 @@
 
 
 
-                <div class="table-responsive" id="academic_wrapper">
+                <div class="table-responsive">
                 <?php
                     if (is_array($result)) {
                         $result = $this->common->get_school($partyid);
