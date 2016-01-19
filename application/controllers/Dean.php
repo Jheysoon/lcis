@@ -29,8 +29,7 @@ class Dean extends CI_Controller
 
     function edit_subject($sid, $param = '')
     {
-        if(is_numeric($sid))
-        {
+        if (is_numeric($sid)) {
             $this->load->model(array(
                 'dean/subject',
                 'dean/group',
@@ -64,9 +63,7 @@ class Dean extends CI_Controller
 
             $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
-        }
-        else
-        {
+        } else {
             show_error('Did you type the url by yourself ?');
         }
     }
@@ -1444,12 +1441,13 @@ class Dean extends CI_Controller
         $this->group->ungroup($gr, $data);
 
         $this->session->set_flashdata('message',
-        '<div class="alert alert-success">
-            <strong>Subject ungrouped!</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>');
+            '<div class="alert alert-success">
+                <strong>Subject ungrouped!</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>'
+        );
 
         redirect(base_url('enrolment_grouping'));
     }
@@ -1476,8 +1474,6 @@ class Dean extends CI_Controller
         }
 
         redirect('/menu/dean-assign_instructor');
-        //echo $this->input->post('cl_id');
-
     }
 
 }

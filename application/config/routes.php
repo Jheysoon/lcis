@@ -119,6 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['match_subject']                 = 'instructor/match_subject';
     $route['combine_subject']               = 'instructor/combine_subject';
     $route['undo_subject/(:num)']           = 'instructor/undo_subject/$1';
+    $route['tabular_sched/(:num)']          = 'instructor/tabular_sched/$1';
 
     $route['change_sy']                     = 'dean/change_sy';
     $route['register']                      = 'registrar/register';
@@ -205,4 +206,10 @@ $route['insert_course']                 = 'coursemajor/insert_course';
 $route['update_course/(:any)']          = 'coursemajor/update_course/$1';
 $route['add_major']                     = 'coursemajor/add_major';
 $route['insert_major']                  = 'coursemajor/insert_major';
-$route['update_major/(:any)']          = 'coursemajor/update_major/$1';
+$route['update_major/(:any)']           = 'coursemajor/update_major/$1';
+
+
+
+//STUDENT view
+$route['view_grades']                   = 'viewing/view_grades';
+$route['view_bills']                    = 'viewing/view_bills';

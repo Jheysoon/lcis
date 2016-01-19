@@ -180,6 +180,7 @@
             elseif(uri_string() == 'menu/dean-assign_instructor')
             {
                 ?>
+                <script src="/assets/js/select2.js"></script>
             <script>
                 $(document).ready(function(){
                     $('.save_instructor').submit(function(e){
@@ -194,6 +195,7 @@
                         });
                         e.preventDefault();
                     });
+                    $('select[name=instructor]').select2();
                     $('#sorting').change(function(){
                         v = $(this).val();
                         $.post('/dean/sorts',{sort:v},function(data){
@@ -264,8 +266,8 @@
                                        name: 'student_list',
                                        displayKey: 'value',
                                        templates:{
-                                           suggestion: Handlebars.compile('<p style="padding: 0;">{{value}}</p>' +
-                                           '<span>{{name}}</span>'),
+                                           suggestion: Handlebars.compile('<div style="padding: 5px 20px"><p style="padding: 0;">{{value}}</p>' +
+                                           '<span>{{name}}</span></div'),
                                            empty:['<div class="alert alert-danger">Unable to find student</div>']
                                        },
                                        source: student_list.ttAdapter()
@@ -308,16 +310,31 @@
                             $id     = $(this).data('param');
                             $path   = $(this).data('param1');
                             $desc   = $(this).data('param2');
+                            $header = $(this).data('param3');
                             $('input[name=id]').val($id);
                             $('input[name=form_path]').val($path);
                             $('input[name=form_desc]').val($desc);
+                            $('#header_up'+$header).attr('selected', 'selected');
                             $('#myModal').modal();
                             e.preventDefault();
                         });
                     });
                 </script>
-        <?php
-            }
-         ?>
+        <?php } elseif (uri_string() == 'menu/admin-header') { ?>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('.header_modal').click(function(e) {
+                        $id     = $(this).data('id');
+                        $name   = $(this).data('name');
+                        $priors = $(this).data('priors');
+                        $('input[name=id]').val($id);
+                        $('input[name=form_header]').val($name);
+                        $('#header_up'+$priors).attr('selected', 'selected');
+                        $('#myModal').modal();
+                        e.preventDefault();
+                    });
+                });
+            </script>
+        <?php } ?>
   </body>
 </html>

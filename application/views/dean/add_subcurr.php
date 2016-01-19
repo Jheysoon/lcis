@@ -10,83 +10,75 @@
 
 
 	<form action="/lc_curriculum/insertsubj" method="POST" />
-	<?php
-		$url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m;
-	?>
+		<?php $url = $yearlevel . '/' . $coursemajor . '/' . $academicterm . '/' . $currid . '/' . $m; ?>
 		<div class="panel-body">
-		<div class="col-md-6">
-		<input type="hidden" name="currid" value="<?php echo $currid; ?>" />
-		<input type="hidden" name="url" value="<?php echo $url; ?>" />
+			<div class="col-md-6 col-md-offset-3">
+				<input type="hidden" name="currid" value="<?php echo $currid; ?>" />
+				<input type="hidden" name="url" value="<?php echo $url; ?>" />
 
-			<?php
-				echo $this->session->flashdata('message');
-				$getSub = $this->common->getsub($currid);
-				if (isset($_SESSION['params'])) {
-					extract($_SESSION['params']);
-					unset($_SESSION['params']);
-				}else{
-					$year = '';
-					$ter = '';
-					$sub = '';
-				}
-			?>
+				<?php
+					echo $this->session->flashdata('message');
+					$getSub = $this->common->getsub($currid);
+					if (isset($_SESSION['params'])) {
+						extract($_SESSION['params']);
+						unset($_SESSION['params']);
+					}else{
+						$year = '';
+						$ter = '';
+						$sub = '';
+					}
+				?>
 				<div class="col-md-12 ">
-					<label class="lbl-data">Subject</label>
-					<select class="form-control" name="subid">
-						<option value="0">Select Subject</option>
-						<?php
-							foreach ($getSub as $key => $value):
-							extract($value);
-						?>
-						<?php if ($id == $sub): ?>
-							<option value="<?php echo $id; ?>" selected><?php echo $code ." - " . $descriptivetitle?></option>
-						<?php else: ?>
-							<option value="<?php echo $id; ?>"><?php echo $code ." - " . $descriptivetitle?></option>
-						<?php endif ?>
+					<div class="card">
+						<div class="card-block">
+							<label class="lbl-data">Subject</label>
+							<select class="form-control" name="subid">
+								<option value="0">Select Subject</option>
+								<?php
+								foreach ($getSub as $key => $value):
+									extract($value);
+									?>
+									<?php if ($id == $sub): ?>
+									<option value="<?php echo $id; ?>" selected><?php echo $code ." - " . $descriptivetitle?></option>
+								<?php else: ?>
+									<option value="<?php echo $id; ?>"><?php echo $code ." - " . $descriptivetitle?></option>
+								<?php endif ?>
 
-						<?php endforeach ?>
-					</select>
+								<?php endforeach ?>
+							</select>
+
+							<label class="lbl-data">Year Level</label>
+							<select class="form-control" name = "yearlevel">
+								<option value="0">Select Year Level</option>
+								<?php
+								$x = 1;
+								while ($x <= $yearlevel) { ?>
+									<?php if ($x == $year): ?>
+										<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
+									<?php else: ?>
+										<option value="<?php echo $x; ?>"><?php echo $x ?></option>
+									<?php endif ?>
+
+									<?php $x += 1;	} ?>
+							</select>
+
+							<label class="lbl-data">Term</label>
+							<select class="form-control" name = "term">
+								<option value="0" selected>Select Term</option>
+								<?php for ($i=1; $i < 3; $i++) { ?>
+									<?php if ($ter == $i): ?>
+										<option value="<?php echo $i; ?>" selected><?php echo $i ?></option>
+									<?php else: ?>
+										<option value="<?php echo $i; ?>"><?php echo $i ?></option>
+									<?php endif ?>
+
+								<?php } ?>
+							</select>
+							<br>
+							<button type="submit" class="btn btn-primary pull-right" style="width:50px">Save</button>
+						</div>
+					</div>
 				</div>
-
-				<div class="col-md-12 ">
-					<label class="lbl-data">Year Level</label>
-					<select class="form-control" name = "yearlevel">
-					<option value="0">Select Year Level</option>
-					<?php
-					$x = 1;
-					 while ($x <= $yearlevel) { ?>
-					 <?php if ($x == $year): ?>
-						<option value="<?php echo $x; ?>" selected><?php echo $x ?></option>
-					 <?php else: ?>
-						<option value="<?php echo $x; ?>"><?php echo $x ?></option>
-					 <?php endif ?>
-
-					<?php $x += 1;	} ?>
-
-					</select>
-				</div>
-
-				<div class="col-md-12 ">
-					<label class="lbl-data">Term</label>
-					<select class="form-control" name = "term">
-					<option value="0" selected>Select Term</option>
-						<?php for ($i=1; $i < 3; $i++) { ?>
-						<?php if ($ter == $i): ?>
-							<option value="<?php echo $i; ?>" selected><?php echo $i ?></option>
-						<?php else: ?>
-							<option value="<?php echo $i; ?>"><?php echo $i ?></option>
-						<?php endif ?>
-
-						<?php } ?>
-					</select>
-				</div>
-
-
-
-				<div class="col-md-12">
-					</br />
-				  <button type="submit" class="btn btn-primary pull-right" style="width:50px">Save</button>
-				 </div>
 			</div>
 		</div>
 	</form>

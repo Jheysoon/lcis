@@ -26,13 +26,15 @@ class UserOption extends CI_Controller
                 $this->api->set_session_message('danger', 'Option already exists');
                 $data['option'] = set_value('option');
                 $data['path']   = set_value('path');
+                $data['header'] = set_value('header');
 
                 $this->api->userMenu();
                 $this->load->view('admin/option');
                 $this->load->view('templates/footer');
             } else {
-                $data['link'] = $path;
-                $data['desc'] = $option;
+                $data['link']   = $path;
+                $data['desc']   = $option;
+                $data['header'] = $this->input->post('header');
 
                 $this->db->insert('tbl_option', $data);
                 $this->api->set_session_message('success', 'Successfully Inserted');
@@ -45,6 +47,7 @@ class UserOption extends CI_Controller
         $id     = $this->input->post('id');
         $path   = $this->input->post('form_path');
         $desc   = $this->input->post('form_desc');
+        $header = $this->input->post('header');
 
         $this->db->where('link', $path);
         $pp = $this->db->count_all_results('tbl_option');
@@ -63,7 +66,7 @@ class UserOption extends CI_Controller
 
                 redirect('/menu/admin-option');
             } else {
-                $data = array('link' => $path, 'desc' => $desc);
+                $data = array('link' => $path, 'desc' => $desc, 'header' => $header);
                 $this->db->where('id', $id);
                 $this->db->update('tbl_option', $data);
 
@@ -96,6 +99,7 @@ class UserOption extends CI_Controller
     public function add_option_header()
     {
         $header = ucwords($this->input->post('header'));
+        $priors = $this->input->post('priors');
 
         // check for duplicate
         $this->db->where('name', $header);
@@ -104,7 +108,8 @@ class UserOption extends CI_Controller
         if ($c > 0) {
             $this->api->set_session_message('danger', 'Option Header Already Exists');
         } else {
-            $data['name'] = $header;
+            $data['name']   = $header;
+            $data['priors'] = $priors;
             $this->db->insert('tbl_option_header', $data);
 
             $this->api->set_session_message('success', 'Successfully Inserted');
@@ -120,7 +125,6 @@ class UserOption extends CI_Controller
 
         if ($c > 0) {
             $this->api->set_session_message('danger', 'Option Header In Use', 'message2');
-
         } else {
 
             // check first if the header id exists in table
@@ -135,6 +139,24 @@ class UserOption extends CI_Controller
             $this->api->set_session_message('success', 'Successfully Deleted', 'message2');
         }
 
+        redirect('/menu/admin-header');
+    }
+    
+    public function update_header()
+    {
+        $header = $this->input->post('form_header');
+        $priors = $this->input->post('header');
+        
+        $this->db->where('name', $header);
+        $c = $this->db->count_all_results('tbl_option_header');
+        
+        if ($c > 0) {
+            $this->api->set_session_message('danger', 'Duplicate Header Name');
+        } else {
+            $this->db->where('id', $this->input->post('id'));
+            $this->db->update('tbl_option_header', array('name' => $header, 'priors' => $priors));
+        }
+        
         redirect('/menu/admin-header');
     }
 }
