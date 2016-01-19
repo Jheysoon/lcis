@@ -159,4 +159,20 @@ class UserOption extends CI_Controller
         
         redirect('/menu/admin-header');
     }
+
+    public function add_menu_user()
+    {
+        $user       = $this->input->post('user');
+        $options    = $this->input->post('options');
+
+        // delete first the previous options of the user
+        $this->db->where('userid', $user);
+        $this->db->delete('tbl_useroption');
+
+        foreach ($options as $option) {
+            $this->db->insert('tbl_useroption', array('userid' => $user, 'optionid' => $option));
+        }
+
+        redirect('/useroption/'.$user);
+    }
 }

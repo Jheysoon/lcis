@@ -115,6 +115,16 @@ class Admin extends CI_Controller
 		}
 		redirect('/designation');
 	}
-}
 
-?>
+    public function add_user_option($id)
+    {
+        $this->api->userMenu();
+        $user                   = $this->db->get_where('tbl_party', array('id' => $id))->row();
+        $this->db->select('optionid');
+        $option                 = $this->db->get_where('tbl_useroption', array('userid' => $user->id))->result_array();
+        $data['user']           = $user;
+        $data['user_options']   = $option;
+        $data['options']        = $this->db->get('tbl_option')->result_array();
+        $this->load->view('admin/view_user_option', $data);
+    }
+}
