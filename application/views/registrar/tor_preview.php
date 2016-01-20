@@ -269,7 +269,7 @@ if ($details) {
                     <?php
                     $page_limiter = 0;
                     if ($ctr2 != 1) {
-                        $plimit = 29;
+                        $plimit = 29;   
                     }
                     else{
                         $plimit = 20;
