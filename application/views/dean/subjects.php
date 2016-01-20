@@ -44,6 +44,19 @@
                 		<input type="number" min="1" required value="<?php echo $units; ?>" class="form-control" name="units" placeholder="Units" <?php echo $style; ?>>
             		</div>
 
+                    <div class="form-group col-md-12">
+                        <label>School</label>
+                        <select class="form-control" name="school">
+                            <?php
+                                $s = $this->party->college_school();
+
+                                foreach ($s as $school) {
+                                ?>
+                                <option value="<?php echo $school['id'] ?>" <?php echo ($school['id'] == $sch) ? 'selected' : '' ?>><?php echo $school['firstname'] ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
             		<div class="form-group col-md-6">
                 		<label for="hours">Hours</label>
                 		<input type="number" min="1" required class="form-control" value="<?php echo $hours; ?>" name="hours" placeholder="Hours" <?php echo $style; ?>>
@@ -51,8 +64,6 @@
             	</div>
 
             	<div class="col-md-6">
-
-					<?php if ($office != 3) { ?>
 
             		<div class="form-group col-md-6">
                 		<label for="title">Major</label>
@@ -245,23 +256,6 @@
                 		</div>
                 		<?php } ?>
             		</div>
-
-				<?php } else { ?>
-					<label>School</label>
-					<select class="form-control" name="school">
-						<?php
-							$s = $this->db->query("SELECT a.id AS id, firstname
-									FROM tbl_party a, tbl_school b
-									WHERE a.id = b.id
-									AND b.tertiary = 1
-									AND a.id != 1")->result();
-
-							foreach ($s as $school) {
-						?>
-							<option value="<?php echo $school->id ?>" <?php echo ($school->id == $sch) ? 'selected' : '' ?>><?php echo $school->firstname ?></option>
-						<?php } ?>
-					 </select>
-				 <?php } ?>
 
 	            </div>
 	            <div class="col-md-12">

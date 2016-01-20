@@ -13,7 +13,7 @@
 		
 		
 		if ($office == 3) {
-			$subj = $this->db->get_where('tbl_subject', array('own !=' => 1))->result_array();
+			$subj = $this->db->get_where('tbl_subject')->result_array();
 		} else {
 			$subj = $this->subject->subjectWhere($college);
 		}

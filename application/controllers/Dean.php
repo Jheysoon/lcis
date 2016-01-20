@@ -33,7 +33,8 @@ class Dean extends CI_Controller
             $this->load->model(array(
                 'dean/subject',
                 'dean/group',
-                'dean/college'
+                'dean/college',
+                'registrar/party'
             ));
 
             $this->api->userMenu();
@@ -47,19 +48,15 @@ class Dean extends CI_Controller
             $data['sid']                = $sid;
             $data['param']              = $param;
             $data['error']              = '';
-
-            if ($office != 3) {
-                $data['shortname']          = $shortname;
-                $data['hours']              = $hours;
-                $data['majorsubject']       = $majorsubject;
-                $data['bookletcharge']      = $bookletcharge;
-                $data['owner']              = $owner;
-                $data['comp']               = $computersubject;
-                $data['ge']                 = $gesubject;
-                $data['academic']           = $nonacademic;
-            } else {
-                $data['sch']                = $own;
-            }
+            $data['shortname']          = $shortname;
+            $data['hours']              = $hours;
+            $data['majorsubject']       = $majorsubject;
+            $data['bookletcharge']      = $bookletcharge;
+            $data['owner']              = $owner;
+            $data['comp']               = $computersubject;
+            $data['ge']                 = $gesubject;
+            $data['academic']           = $nonacademic;
+            $data['sch']                = $own;
 
             $this->load->view('dean/subjects', $data);
             $this->load->view('templates/footer');
@@ -95,37 +92,28 @@ class Dean extends CI_Controller
         }
         else
         {
-            $data['code']               = strtoupper($this->input->post('code'));
-            $data['descriptivetitle']   = strtoupper($this->input->post('title'));
+            $data['code']               = $this->input->post('code');
+            $data['descriptivetitle']   = $this->input->post('title');
             $data['units']              = $this->input->post('units');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
+            $data['shortname']          = trim($this->input->post('shortname'));
+            $data['hours']              = $this->input->post('hours');
+            $data['bookletcharge']      = $this->input->post('booklet');
+            $data['majorsubject']       = $this->input->post('major');
+            $data['group']              = $this->input->post('group');
+            $data['owner']              = $this->input->post('owner');
+            $data['nonacademic']        = $this->input->post('academic');
+            $data['gesubject']          = $this->input->post('ge');
+            $data['computersubject']    = $this->input->post('comp');
 
-            if ($office != 3) {
-                $data['shortname']          = trim($this->input->post('shortname'));
-                $data['hours']              = $this->input->post('hours');
-                $data['bookletcharge']      = $this->input->post('booklet');
-                $data['majorsubject']       = $this->input->post('major');
-                $data['group']              = $this->input->post('group');
-                $data['owner']              = $this->input->post('owner');
-                $data['nonacademic']        = $this->input->post('academic');
-                $data['gesubject']          = $this->input->post('ge');
-                $data['computersubject']    = $this->input->post('comp');
+            // check if the subject code already exist
+            $this->db->where('code', $data['code'])
+                ->where('descriptivetitle', $data['descriptivetitle'])
+                ->where('units', $data['units'])
+                ->where('school', $data['own']);
 
-                // check if the subject code already exists
+            $c = $this->db->count_all_results('tbl_subject');
 
-                $this->db->where('code', $data['code'])
-                    ->where('descriptivetitle', $data['descriptivetitle'])
-                    ->where('units', $data['units']);
-
-                $c = $this->db->count_all_results('tbl_subject');
-            } else {
-                $this->db->where('code', $data['code'])
-                    ->where('descriptivetitle', $data['descriptivetitle'])
-                    ->where('units', $data['units'])
-                    ->where('school', $data['own']);
-
-                $c = $this->db->count_all_results('tbl_subject');
-            }
 
             if($c < 1)
             {
@@ -170,7 +158,7 @@ class Dean extends CI_Controller
                 );
 
         $this->form_validation->set_rules($rules);
-        $data['code']   = strtoupper($this->input->post('code'));
+        $data['code']   = $this->input->post('code');
         $q              = $this->subject->whereCode($data['code']);
         $id = $this->input->post('sid');
 
@@ -184,21 +172,19 @@ class Dean extends CI_Controller
         elseif($q > 0)
         {
             $office                     = $this->api->getUserOffice();
-            $data['descriptivetitle']   = strtoupper($this->input->post('title'));
+            $data['descriptivetitle']   = $this->input->post('title');
             $data['units']              = $this->input->post('units');
             $data['own']                = ($office == 3) ? $this->input->post('school') : '1';
+            $data['shortname']          = trim($this->input->post('shortname'));
+            $data['hours']              = $this->input->post('hours');
+            $data['bookletcharge']      = $this->input->post('booklet');
+            $data['majorsubject']       = $this->input->post('major');
+            $data['group']              = $this->input->post('group');
+            $data['owner']              = $this->input->post('owner');
+            $data['nonacademic']        = $this->input->post('academic');
+            $data['gesubject']          = $this->input->post('ge');
+            $data['computersubject']    = $this->input->post('comp');
 
-            if ($office != 3) {
-                $data['shortname']          = trim($this->input->post('shortname'));
-                $data['hours']              = $this->input->post('hours');
-                $data['bookletcharge']      = $this->input->post('booklet');
-                $data['majorsubject']       = $this->input->post('major');
-                $data['group']              = $this->input->post('group');
-                $data['owner']              = $this->input->post('owner');
-                $data['nonacademic']        = $this->input->post('academic');
-                $data['gesubject']          = $this->input->post('ge');
-                $data['computersubject']    = $this->input->post('comp');
-            }
 
 
 
@@ -254,8 +240,7 @@ class Dean extends CI_Controller
         if ($office == 3) {
 
             $s = $this->db->query("SELECT code, descriptivetitle, id
-    			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%')
-                AND (own != 1 OR own = 0) LIMIT 6")->result_array();
+    			FROM tbl_subject WHERE (code LIKE '%$sid%' OR descriptivetitle LIKE '%$sid%') LIMIT 6")->result_array();
         } else {
 
             $this->load->model(array(
