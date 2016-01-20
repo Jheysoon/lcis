@@ -3,63 +3,63 @@
 class College extends CI_Model
 {
 	
-	function getDesignations()
+	function getColleges()
 	{
 		$this->db->order_by('description');
-		return $this->db->get('tbl_designation')->result_array();
+		$this->db->where('a.dean = b.id');
+		$this->db->select('a.*, b.lastname, b.firstname');
+		return $this->db->get('tbl_college a, tbl_party b')->result_array();
 	}
 
-	function addDesignation($desig){
-		$arr = array('description' => $desig);
-		$this->db->insert('tbl_designation', $arr);
+	function getDeans(){
+		$this->db->order_by('b.lastname, b.firstname');
+		$this->db->where('a.id = b.id AND a.designation = d.id AND d.description = "DEAN"');
+		$this->db->select('b.id, b.lastname, b.firstname');
+		return $this->db->get('tbl_academic a, tbl_party b, tbl_designation d')->result_array();
 	}
 
-	function updateDesignation($id, $desig){
-		$arr = array('description' => $desig);
+	function addCollege($arr){
+		$this->db->insert('tbl_college', $arr);
+	}
+
+	function updateCollege($id, $arr){
 		$this->db->where('id', $id);
-		$this->db->update('tbl_designation', $arr);
+		$this->db->update('tbl_college', $arr);
 	}
 
-	function getSpecificDesig($id){
+	function getSpecificCollege($id){
 		$this->db->where('id', $id);
-		return $this->db->get('tbl_designation')->row_array();
+		return $this->db->get('tbl_college')->row_array();
 	}
 
 	function checkExistinse($id){
-		$this->db->where('designation', $id);
-		$res = $this->db->get('tbl_administration')->num_rows();
+		$this->db->where('college', $id);
+		$res = $this->db->get('tbl_course')->num_rows();
 
 		if ($res == 0) {
-			$this->db->where('designation', $id);
-			$res = $this->db->get('tbl_academic')->num_rows();
-			if ($res == 0) {
-				return false;
-			}
-			else{
-				return true;
-			}
+			return false;
 		}
 		else{
 			return true;
 		}
 	}
 
-	function checkDesignation($desig){
+	function checkCollege($desig){
 		$this->db->where('description', $desig);
-		$res = $this->db->get('tbl_designation')->num_rows();
+		$res = $this->db->get('tbl_college')->num_rows();
 		return $res;
 	}
 
-	function checkDesignation2($id, $desig){
+	function checkCollege2($id, $desig){
 		$this->db->where('id !='.$id);
 		$this->db->where('description', $desig);
-		$res = $this->db->get('tbl_designation')->num_rows();
+		$res = $this->db->get('tbl_college')->num_rows();
 		return $res;
 	}
 
-	function deleteDesignation($id){
+	function deleteCollege($id){
 		$this->db->where('id', $id);
-		$this->db->delete('tbl_designation');
+		$this->db->delete('tbl_college');
 	}
 }
 
