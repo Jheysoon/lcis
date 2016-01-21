@@ -106,7 +106,7 @@
 	    				<?php
 	    					if ($systemVal['classallocationstatus'] == 99) {
 			        			$this->db->select('id');
-			        			$inst = $this->db->get_where('tbl_academic', array('college !=' => '' ,'college !=', $owner))->result_array();
+			        			$inst = $this->db->get_where('tbl_academic', array('college !=' => '' ,'college !=' => $owner))->result_array();
 			        			$inst1 = $this->db->query("SELECT a.id as id FROM tbl_administration a,tbl_office b WHERE a.office = b.id AND b.college != '' ")->result_array();
 			        			$ins12 	= array_merge($inst, $inst1);
 
