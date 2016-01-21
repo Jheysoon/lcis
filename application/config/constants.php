@@ -98,3 +98,4 @@ define('NOT_FAILED_GRADE', 21);
 
 define('STUD_MENU_GRADES', 36);
 define('STUD_MENU_BILL', 37);
+define('INSTRUCTOR', 18);

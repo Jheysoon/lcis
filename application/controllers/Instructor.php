@@ -106,6 +106,17 @@ class Instructor extends CI_Controller
 
             // insert into tbl_academic or tbl_administration
 
+            if ($partytype == 6) {
+                $acam['id']             = $id;
+                $acam['designation']    = INSTRUCTOR;
+                $acam['college']        = $this->input->post('office');
+                $this->db->insert('tbl_academic', $acam);
+            } else {
+                $admin['id']        = $id;
+                $admin['office']    = $this->input->post('position');
+                $this->db->insert('tbl_administration', $admin);
+            }
+
             // insert into tbl_useraccess
             $data['username']   = $this->createUsername($fname, $lname);
             $data['partyid']    = $id;
