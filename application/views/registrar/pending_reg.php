@@ -7,7 +7,7 @@
 		<div class="panel-body">
             <div class="col-md-3"></div>
             <div class="col-md-6	">
-				<!-- loop throught the tbl_registration of the student where status = E -->
+				<!-- loop thought the tbl_registration of the student where status = E -->
 				<label>Student ID</label>
                 <label class="form-control"><?php echo $legacyid; ?></label>
                 <label>Firstname</label>
