@@ -4,7 +4,7 @@
 
 		<div class="panel-heading search">
 			<div class="col-md-6">						
-			<h4>Fullfill INC Grades</h4>						
+			<h4>Fulfill INC Grades</h4>						
 			</div>
 		</div>
 

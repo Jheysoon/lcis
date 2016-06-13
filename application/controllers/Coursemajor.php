@@ -42,13 +42,13 @@
 					$this->db->insert('tbl_course', $data);
 					$courseid = $this->db->insert_id();
 					$this->db->insert('tbl_coursemajor', array('course' => $courseid));
-					$this->api->set_session_message('success','Succesfuly Added', 'messages');
+					$this->api->set_session_message('success','Successfully Added', 'messages');
 					redirect('/add_course');
 				}
 			}
 			else
 			{
-				$this->api->set_session_message('success','Succesfuly Updated', 'messages');
+				$this->api->set_session_message('success','Successfully Updated', 'messages');
 				$this->db->where('id', $cids);
 				$this->db->update('tbl_course', $data);
 				redirect('/add_course');
@@ -63,7 +63,7 @@
 			if ($x > 0) {
 				$this->api->set_session_message('danger','This course is in use. It cannot be deleted.', 'messages');
 			}else{
-				$this->api->set_session_message('success','Succesfuly Deleted', 'messages');
+				$this->api->set_session_message('success','Successfully Deleted', 'messages');
 				$this->db->where('id', $id);
 				$this->db->delete('tbl_course');
 			}
